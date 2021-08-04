@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('Document') {
       when {
-        branch 'release' 
+        branch 'main' 
       }
       steps {
         sh 'dotnet tool restore'
