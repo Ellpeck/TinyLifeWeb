@@ -3,8 +3,6 @@
 
 var target = Argument("target", "Document");
 Task("Document").Does(() => {
-    var path = "docfx.json";
-    DocFxMetadata(path);
-    DocFxBuild(path);
+    DocFxBuild("docfx.json");
 });
 RunTarget(target);
