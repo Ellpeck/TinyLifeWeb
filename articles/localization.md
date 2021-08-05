@@ -1,4 +1,4 @@
-# Contributing to Tiny Life's Localization
+# Contributing Localizations
 
 If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the community of people who play the game in the language you work on!
 
