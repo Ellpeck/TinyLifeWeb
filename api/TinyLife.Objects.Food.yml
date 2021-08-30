@@ -9,7 +9,6 @@ items:
   - TinyLife.Objects.Food.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,System.Single,System.Boolean)
   - TinyLife.Objects.Food.FoodLeft
   - TinyLife.Objects.Food.GetHoverInfo
-  - TinyLife.Objects.Food.Quality
   langs:
   - csharp
   - vb
@@ -21,10 +20,10 @@ items:
     remote:
       path: TinyLife/Objects/Food.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Food
     path: Objects/Food.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -48,13 +47,13 @@ items:
   - TinyLife.Objects.IUpdatingObject
   inheritedMembers:
   - TinyLife.Objects.FoodTypedItem.FoodType
-  - TinyLife.Objects.FoodTypedItem.Creator
   - TinyLife.Objects.FoodTypedItem.ExpirationTime
   - TinyLife.Objects.FoodTypedItem.ServingSize
   - TinyLife.Objects.FoodTypedItem.Expired
   - TinyLife.Objects.FoodTypedItem.Validate
   - TinyLife.Objects.FoodTypedItem.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   - TinyLife.Objects.Furniture.Random
+  - TinyLife.Objects.Furniture.OnGetDescription
   - TinyLife.Objects.Furniture.Type
   - TinyLife.Objects.Furniture.Rotation
   - TinyLife.Objects.Furniture.ParentFurniture
@@ -66,8 +65,11 @@ items:
   - TinyLife.Objects.Furniture.DevaluedThroughUse
   - TinyLife.Objects.Furniture.AreUtilitiesDisabled
   - TinyLife.Objects.Furniture.IsStatic
+  - TinyLife.Objects.Furniture.Creator
+  - TinyLife.Objects.Furniture.Quality
   - TinyLife.Objects.Furniture.CanBeDirty
   - TinyLife.Objects.Furniture.Dirty
+  - TinyLife.Objects.Furniture.CustomPrice
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
   - TinyLife.Objects.Furniture.GetCategories(TinyLife.Objects.Person)
@@ -89,13 +91,17 @@ items:
   - TinyLife.Objects.Furniture.GetActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ActionSpot,MLEM.Misc.Direction2)
   - TinyLife.Objects.Furniture.GetFreeObjectSpot(TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.SetParent(TinyLife.Objects.Furniture,TinyLife.Objects.ObjectSpot)
+  - TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  - TinyLife.Objects.Furniture.RemoveAndUnlink
   - TinyLife.Objects.Furniture.GetChildren``1
   - TinyLife.Objects.Furniture.RemoveChildren``1(System.Predicate{{T}})
+  - TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.AddChild``1(TinyLife.Objects.FurnitureType,MLEM.Misc.Direction2,System.Int32[],System.Nullable{System.Guid},System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,MLEM.Misc.Direction2,System.Int32[],System.Nullable{System.Guid})
   - TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Misc.Direction2)
   - TinyLife.Objects.Furniture.NotifyNeighbors
+  - TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   - TinyLife.Objects.MapObject.PersonRotationOrder
   - TinyLife.Objects.MapObject.OnCreated
   - TinyLife.Objects.MapObject.OnValidated
@@ -110,7 +116,7 @@ items:
   - TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Misc.Direction2,MLEM.Misc.Direction2)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
-  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
   - MLEM.Misc.GenericDataHolder.GetData``1(System.String)
@@ -147,10 +153,10 @@ items:
     remote:
       path: TinyLife/Objects/Food.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FoodLeft
     path: Objects/Food.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -175,49 +181,6 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.Food.Quality
-  commentId: F:TinyLife.Objects.Food.Quality
-  id: Quality
-  parent: TinyLife.Objects.Food
-  langs:
-  - csharp
-  - vb
-  name: Quality
-  nameWithType: Food.Quality
-  fullName: TinyLife.Objects.Food.Quality
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/Food.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Quality
-    path: Objects/Food.cs
-    startLine: 25
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: "\nThe <xref href=\"TinyLife.Objects.Food.Quality\" data-throw-if-not-resolved=\"false\"></xref> of this food item, defaults to <xref href=\"TinyLife.Skills.Quality.Average\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that, by default, this property only differs if <xref href=\"TinyLife.Objects.FoodTypedItem.Creator\" data-throw-if-not-resolved=\"false\"></xref> is set.\n"
-  example: []
-  syntax:
-    content: >-
-      [DataMember]
-
-      public Quality Quality
-    return:
-      type: TinyLife.Skills.Quality
-    content.vb: >-
-      <DataMember>
-
-      Public Quality As Quality
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Objects.Food.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Objects.Food.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)'
@@ -233,10 +196,10 @@ items:
     remote:
       path: TinyLife/Objects/Food.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
     path: Objects/Food.cs
-    startLine: 28
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -284,10 +247,10 @@ items:
     remote:
       path: TinyLife/Objects/Food.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Draw
     path: Objects/Food.cs
-    startLine: 33
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -362,10 +325,10 @@ items:
     remote:
       path: TinyLife/Objects/Food.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetHoverInfo
     path: Objects/Food.cs
-    startLine: 45
+    startLine: 40
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -448,12 +411,6 @@ references:
   name: FoodType
   nameWithType: FoodTypedItem.FoodType
   fullName: TinyLife.Objects.FoodTypedItem.FoodType
-- uid: TinyLife.Objects.FoodTypedItem.Creator
-  commentId: F:TinyLife.Objects.FoodTypedItem.Creator
-  parent: TinyLife.Objects.FoodTypedItem
-  name: Creator
-  nameWithType: FoodTypedItem.Creator
-  fullName: TinyLife.Objects.FoodTypedItem.Creator
 - uid: TinyLife.Objects.FoodTypedItem.ExpirationTime
   commentId: F:TinyLife.Objects.FoodTypedItem.ExpirationTime
   parent: TinyLife.Objects.FoodTypedItem
@@ -575,6 +532,12 @@ references:
   name: Random
   nameWithType: Furniture.Random
   fullName: TinyLife.Objects.Furniture.Random
+- uid: TinyLife.Objects.Furniture.OnGetDescription
+  commentId: E:TinyLife.Objects.Furniture.OnGetDescription
+  parent: TinyLife.Objects.Furniture
+  name: OnGetDescription
+  nameWithType: Furniture.OnGetDescription
+  fullName: TinyLife.Objects.Furniture.OnGetDescription
 - uid: TinyLife.Objects.Furniture.Type
   commentId: F:TinyLife.Objects.Furniture.Type
   parent: TinyLife.Objects.Furniture
@@ -641,6 +604,18 @@ references:
   name: IsStatic
   nameWithType: Furniture.IsStatic
   fullName: TinyLife.Objects.Furniture.IsStatic
+- uid: TinyLife.Objects.Furniture.Creator
+  commentId: F:TinyLife.Objects.Furniture.Creator
+  parent: TinyLife.Objects.Furniture
+  name: Creator
+  nameWithType: Furniture.Creator
+  fullName: TinyLife.Objects.Furniture.Creator
+- uid: TinyLife.Objects.Furniture.Quality
+  commentId: F:TinyLife.Objects.Furniture.Quality
+  parent: TinyLife.Objects.Furniture
+  name: Quality
+  nameWithType: Furniture.Quality
+  fullName: TinyLife.Objects.Furniture.Quality
 - uid: TinyLife.Objects.Furniture.CanBeDirty
   commentId: P:TinyLife.Objects.Furniture.CanBeDirty
   parent: TinyLife.Objects.Furniture
@@ -653,6 +628,12 @@ references:
   name: Dirty
   nameWithType: Furniture.Dirty
   fullName: TinyLife.Objects.Furniture.Dirty
+- uid: TinyLife.Objects.Furniture.CustomPrice
+  commentId: F:TinyLife.Objects.Furniture.CustomPrice
+  parent: TinyLife.Objects.Furniture
+  name: CustomPrice
+  nameWithType: Furniture.CustomPrice
+  fullName: TinyLife.Objects.Furniture.CustomPrice
 - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   commentId: M:TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   parent: TinyLife.Objects.Furniture
@@ -1764,6 +1745,62 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  commentId: M:TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  parent: TinyLife.Objects.Furniture
+  name: UnlinkParentsAndChildren()
+  nameWithType: Furniture.UnlinkParentsAndChildren()
+  fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    nameWithType: Furniture.UnlinkParentsAndChildren
+    fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    nameWithType: Furniture.UnlinkParentsAndChildren
+    fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.RemoveAndUnlink
+  commentId: M:TinyLife.Objects.Furniture.RemoveAndUnlink
+  parent: TinyLife.Objects.Furniture
+  name: RemoveAndUnlink()
+  nameWithType: Furniture.RemoveAndUnlink()
+  fullName: TinyLife.Objects.Furniture.RemoveAndUnlink()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.RemoveAndUnlink
+    name: RemoveAndUnlink
+    nameWithType: Furniture.RemoveAndUnlink
+    fullName: TinyLife.Objects.Furniture.RemoveAndUnlink
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.RemoveAndUnlink
+    name: RemoveAndUnlink
+    nameWithType: Furniture.RemoveAndUnlink
+    fullName: TinyLife.Objects.Furniture.RemoveAndUnlink
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Objects.Furniture.GetChildren``1
   commentId: M:TinyLife.Objects.Furniture.GetChildren``1
   parent: TinyLife.Objects.Furniture
@@ -1852,6 +1889,42 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
+  parent: TinyLife.Objects.Furniture
+  name: RemoveChild(Furniture)
+  nameWithType: Furniture.RemoveChild(Furniture)
+  fullName: TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
+    name: RemoveChild
+    nameWithType: Furniture.RemoveChild
+    fullName: TinyLife.Objects.Furniture.RemoveChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
+    name: RemoveChild
+    nameWithType: Furniture.RemoveChild
+    fullName: TinyLife.Objects.Furniture.RemoveChild
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
   - name: )
     nameWithType: )
     fullName: )
@@ -2328,6 +2401,68 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  commentId: M:TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  name: SetNewId(IEnumerable<Furniture>)
+  nameWithType: Furniture.SetNewId(IEnumerable<Furniture>)
+  fullName: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
+  nameWithType.vb: Furniture.SetNewId(IEnumerable(Of Furniture))
+  fullName.vb: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
+  name.vb: SetNewId(IEnumerable(Of Furniture))
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+    name: SetNewId
+    nameWithType: Furniture.SetNewId
+    fullName: TinyLife.Objects.Furniture.SetNewId
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+    name: SetNewId
+    nameWithType: Furniture.SetNewId
+    fullName: TinyLife.Objects.Furniture.SetNewId
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Objects.MapObject.PersonRotationOrder
   commentId: F:TinyLife.Objects.MapObject.PersonRotationOrder
   parent: TinyLife.Objects.MapObject
@@ -2535,15 +2670,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
   parent: TinyLife.Objects.MapObject
   isExternal: true
-  name: DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, Furniture, AbstractSpot, Direction2, Single, Boolean, Boolean, Boolean, Boolean, Boolean)
-  nameWithType: MapObject.DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, Furniture, AbstractSpot, Direction2, Single, Boolean, Boolean, Boolean, Boolean, Boolean)
-  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, System.Single, Microsoft.Xna.Framework.Point, System.Boolean, TinyLife.Objects.Furniture, TinyLife.Objects.AbstractSpot, MLEM.Misc.Direction2, System.Single, System.Boolean, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
+  name: DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, Furniture, AbstractSpot, Direction2, Single, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean)
+  nameWithType: MapObject.DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, Furniture, AbstractSpot, Direction2, Single, Boolean, Boolean, Boolean, Boolean, Boolean, Boolean)
+  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, System.Single, Microsoft.Xna.Framework.Point, System.Boolean, TinyLife.Objects.Furniture, TinyLife.Objects.AbstractSpot, MLEM.Misc.Direction2, System.Single, System.Boolean, System.Boolean, System.Boolean, System.Boolean, System.Boolean, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
     nameWithType: MapObject.DrawColumns
     fullName: TinyLife.Objects.MapObject.DrawColumns
@@ -2647,6 +2782,14 @@ references:
     name: Single
     nameWithType: Single
     fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -2692,7 +2835,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
     nameWithType: MapObject.DrawColumns
     fullName: TinyLife.Objects.MapObject.DrawColumns
@@ -2796,6 +2939,14 @@ references:
     name: Single
     nameWithType: Single
     fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -3673,23 +3824,6 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
-- uid: TinyLife.Objects.Food.Quality
-  commentId: F:TinyLife.Objects.Food.Quality
-  isExternal: true
-- uid: TinyLife.Skills.Quality.Average
-  commentId: F:TinyLife.Skills.Quality.Average
-  isExternal: true
-- uid: TinyLife.Skills.Quality
-  commentId: T:TinyLife.Skills.Quality
-  parent: TinyLife.Skills
-  name: Quality
-  nameWithType: Quality
-  fullName: TinyLife.Skills.Quality
-- uid: TinyLife.Skills
-  commentId: N:TinyLife.Skills
-  name: TinyLife.Skills
-  nameWithType: TinyLife.Skills
-  fullName: TinyLife.Skills
 - uid: TinyLife.Objects.Food.#ctor*
   commentId: Overload:TinyLife.Objects.Food.#ctor
   name: Food

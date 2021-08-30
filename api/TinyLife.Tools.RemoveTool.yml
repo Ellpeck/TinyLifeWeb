@@ -13,6 +13,7 @@ items:
   - TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof)
   - TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
   - TinyLife.Tools.RemoveTool.ShouldHighlightSelectedObject
+  - TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
   - TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
   langs:
   - csharp
@@ -25,7 +26,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RemoveTool
     path: Tools/RemoveTool.cs
     startLine: 15
@@ -60,7 +61,6 @@ items:
   - TinyLife.Tools.Tool.Closed
   - TinyLife.Tools.Tool.ForceWallsUp
   - TinyLife.Tools.Tool.CanSaveOrSwitchModes
-  - TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
   - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32})
   - TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String})
@@ -94,7 +94,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
     path: Tools/RemoveTool.cs
     startLine: 22
@@ -125,7 +125,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Update
     path: Tools/RemoveTool.cs
     startLine: 26
@@ -164,7 +164,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Draw
     path: Tools/RemoveTool.cs
     startLine: 48
@@ -206,7 +206,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetMouseCursor
     path: Tools/RemoveTool.cs
     startLine: 56
@@ -244,7 +244,7 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: ShouldHighlightSelectedObject
     path: Tools/RemoveTool.cs
     startLine: 61
@@ -282,10 +282,10 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RemoveRoof
     path: Tools/RemoveTool.cs
-    startLine: 146
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -320,10 +320,10 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RemoveWall
     path: Tools/RemoveTool.cs
-    startLine: 160
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -358,23 +358,67 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RemoveFurniture
     path: Tools/RemoveTool.cs
-    startLine: 178
+    startLine: 181
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
-  summary: "\nRemoves the given furniture from the world, additionally removing all of its <xref href=\"TinyLife.Objects.Furniture.GetChildren%60%601\" data-throw-if-not-resolved=\"false\"></xref> and adding the required amount of <xref href=\"TinyLife.Tools.Tool.Money\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nRemoves the given furniture from the world, additionally removing all of its <xref href=\"TinyLife.Objects.Furniture.GetChildren%60%601\" data-throw-if-not-resolved=\"false\"></xref> and adding the required amount of <xref href=\"TinyLife.Tools.Tool.Money\" data-throw-if-not-resolved=\"false\"></xref>\nNote that the furniture&apos;s parent-child relationships are not edited or removed, so <xref href=\"TinyLife.Objects.Furniture.UnlinkParentsAndChildren\" data-throw-if-not-resolved=\"false\"></xref> should be called if the furniture is added into a household storage or similar.\n"
   example: []
   syntax:
-    content: public static void RemoveFurniture(Furniture furniture)
+    content: public static bool RemoveFurniture(Furniture furniture)
     parameters:
     - id: furniture
       type: TinyLife.Objects.Furniture
       description: The furniture item to remove
-    content.vb: Public Shared Sub RemoveFurniture(furniture As Furniture)
+    return:
+      type: System.Boolean
+      description: Whether the removal was a success, which is only false if the passed <code data-dev-comment-type="paramref" class="paramref">furniture</code> has the <xref href="TinyLife.Objects.ObjectCategory.NonSellable" data-throw-if-not-resolved="false"></xref> category
+    content.vb: Public Shared Function RemoveFurniture(furniture As Furniture) As Boolean
   overload: TinyLife.Tools.RemoveTool.RemoveFurniture*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+  id: StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+  parent: TinyLife.Tools.RemoveTool
+  langs:
+  - csharp
+  - vb
+  name: StoreOrRemoveFurniture(Furniture)
+  nameWithType: RemoveTool.StoreOrRemoveFurniture(Furniture)
+  fullName: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Tools/RemoveTool.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: StoreOrRemoveFurniture
+    path: Tools/RemoveTool.cs
+    startLine: 201
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nStores the passed <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> into the current household&apos;s <xref href=\"TinyLife.World.Household.FurnitureStorage\" data-throw-if-not-resolved=\"false\"></xref>, or, if there is no current household, removes the object using <xref href=\"TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)\" data-throw-if-not-resolved=\"false\"></xref> instead.\nIf the passed furniture is in the world and has children, the children are also stored (or removed) recursively.\n"
+  example: []
+  syntax:
+    content: public static bool StoreOrRemoveFurniture(Furniture furniture)
+    parameters:
+    - id: furniture
+      type: TinyLife.Objects.Furniture
+      description: The furniture to store (or remove)
+    return:
+      type: System.Boolean
+      description: Whether the storage or removal was a success, which is only false if there is no current household and the passed <code data-dev-comment-type="paramref" class="paramref">furniture</code> has the <xref href="TinyLife.Objects.ObjectCategory.NonSellable" data-throw-if-not-resolved="false"></xref> category
+    content.vb: Public Shared Function StoreOrRemoveFurniture(furniture As Furniture) As Boolean
+  overload: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture*
   modifiers.csharp:
   - public
   - static
@@ -396,10 +440,10 @@ items:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: PlayDestroySound
     path: Tools/RemoveTool.cs
-    startLine: 195
+    startLine: 217
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -670,45 +714,6 @@ references:
   - name: (
     nameWithType: (
     fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
-  parent: TinyLife.Tools.Tool
-  isExternal: true
-  name: GetClosestWallDirection(Point)
-  nameWithType: Tool.GetClosestWallDirection(Point)
-  fullName: TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
-  spec.csharp:
-  - uid: TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
-    name: GetClosestWallDirection
-    nameWithType: Tool.GetClosestWallDirection
-    fullName: TinyLife.Tools.Tool.GetClosestWallDirection
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Tools.Tool.GetClosestWallDirection(Microsoft.Xna.Framework.Point)
-    name: GetClosestWallDirection
-    nameWithType: Tool.GetClosestWallDirection
-    fullName: TinyLife.Tools.Tool.GetClosestWallDirection
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
-    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -1642,11 +1647,53 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  commentId: M:TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  parent: TinyLife.Objects.Furniture
+  name: UnlinkParentsAndChildren()
+  nameWithType: Furniture.UnlinkParentsAndChildren()
+  fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    nameWithType: Furniture.UnlinkParentsAndChildren
+    fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    nameWithType: Furniture.UnlinkParentsAndChildren
+    fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.ObjectCategory.NonSellable
+  commentId: F:TinyLife.Objects.ObjectCategory.NonSellable
+  isExternal: true
 - uid: TinyLife.Tools.RemoveTool.RemoveFurniture*
   commentId: Overload:TinyLife.Tools.RemoveTool.RemoveFurniture
   name: RemoveFurniture
   nameWithType: RemoveTool.RemoveFurniture
   fullName: TinyLife.Tools.RemoveTool.RemoveFurniture
+- uid: TinyLife.World.Household.FurnitureStorage
+  commentId: F:TinyLife.World.Household.FurnitureStorage
+  isExternal: true
+- uid: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
+  isExternal: true
+- uid: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture*
+  commentId: Overload:TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture
+  name: StoreOrRemoveFurniture
+  nameWithType: RemoveTool.StoreOrRemoveFurniture
+  fullName: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture
 - uid: TinyLife.Tools.RemoveTool.PlayDestroySound*
   commentId: Overload:TinyLife.Tools.RemoveTool.PlayDestroySound
   name: PlayDestroySound

@@ -1,3 +1,56 @@
+# 0.16.0
+This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/289260/0160-woodlands-and-visitors) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2949282742498975401).
+
+Additions
+- Added the Woodlands Set with art by [faellynna](https://www.instagram.com/faellynna/), which includes a Woodworking skill and a large variety of new build mode items:
+  - 34 new furniture items, including the woodworking table and new types of decorative items
+  - 4 flooring tiles
+  - 5 wallpapers
+  - 2 roof styles
+  - 8 character creator items
+- Added a large new forested area with dirt footpaths to the eastern part of town, along with some new houses and empty lots
+- Added emotion sting sound effects by the lovely [Jamal Green](https://jamalgreenmusic.com)
+- Added a regular visitors system that allows for people from exported households to visit and interact with the town without living there
+- Added a few households that are exported by default to populate the visitors system
+- Added the ability for furniture to get dirty and having to be cleaned
+- Added an "Invite into Household" interaction
+- Added a way to scrap other people's crafts on public lots
+- Added italian translation ([SchiavoAnto](https://twitter.com/schiavoanto))
+
+Improvements
+- Improved the chatting interaction on the computer, now allowing people to chat with specific people
+- Added more in-game hints for various build mode tools
+- Added a configurable keybind for increasing and decreasing game speed
+- Cleaned up the localization of money and always display money amounts with decimals
+- Allow easily deleting items in the move tool by pressing the Del key when hovering over them
+- Split the Import menu into custom and default content and improved the household import menu
+- Move invalidly placed objects into the furniture storage instead of selling them
+- Made people leave the room on their own if they see someone being inappropriate
+- Rebalanced bills slightly
+- Made people tell others to leave the room when they start fooling around
+- Disallow trees from being placed below roofs
+- Made trees have a minimum distance from walls
+- More gracefully handle Steam cloud sync exceptions
+- Color lots on the map based on whether people live there
+- Added the ability to clone roofing, openings, wallpapers and tiles in build mode
+
+Fixes
+- Fixed paintings being placed on easels incorrectly at fast game speeds
+- Fixed a crash when hovering over people with lot employments whose personality is known
+- Fixed 3D sounds breaking on camera rotation
+- Fixed depth calculations being incorrect for larger and oddly-shaped objects
+- Fixed the ability to hack yourself
+- Fixed roofing having incorrect display names
+- Fixed a crash when exiting the move tool with an item from storage selected
+- Fixed hidden (out of town) people still spawning particles and emotes
+- Fixed the ability to ask lot employment people to leave not working
+- Fixed furniture with parents sometimes not being imported correctly
+- Fixed people turning around visually for a single frame when starting social actions while sitting
+- Fixed roofs having incorrect depth calculations in some camera rotations
+- Fixed people not leaving occasionally when being asked to leave
+- Fixed money not being subtracted when importing new households
+- Fixed practice speech and jokes actions going on forever if done automatically
+
 # 0.15.0
 This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/277913/0150-barbecue-trash-cleaning) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2968419780808932932).
 
