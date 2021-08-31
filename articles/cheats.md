@@ -17,9 +17,11 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `Emotion [modifier name] [level] [seconds]` adds an emotion modifier to the current person
 - `Friendship [name without spaces] [percentage <= 1]` sets the friendship level between the named partner and the current person
 - `Romance [name without spaces] [percentage <= 1]` sets the romance level between the named partner and the current person
+- `Forget [name without spaces]` deletes any active relationships between the named partner and the current person
 - `EditCurrentActionSpot` turns on action spot edit mode, which allows you to easily edit the properties of the selected person's current action spot
   - The person's animation stops, but they are drawn on all surrounding objects of the same type instead, which makes it easier to ensure that the offset looks correct in multiple rotations and positions
   - Pressing the up, down, left and right keys moves the current action spot's position and holding shift moves the spot's visual position instead
   - Pressing the page up and page down keys moves the spot's y offset
   - The resulting values are printed to the console every time a modification is made, so you can copy them and paste them into your action spot code
-- `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life directory (which can be accessed through the options menu) as `_Packed.png` (0.16.0+)
+- `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life directory (which can be accessed through the options menu) as `_Packed.png`
+- `FreeLots` makes creating and importing households onto lots free
