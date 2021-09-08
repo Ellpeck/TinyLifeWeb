@@ -1,4 +1,4 @@
-<img src="banner.png" width="50%">
+<img src="media/banner.png" width="50%">
 
 Welcome to the source code for the Tiny Life documentation site! On the site, you can find the full modding API documentation, a bunch of modding tutorials, as well as an online version of the game's changelog.
 
