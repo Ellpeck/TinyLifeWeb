@@ -73,7 +73,7 @@ items:
   - TinyLife.Actions.ActionType.IsDislikedOrMean(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.IsEmptyHanded(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.IsFunctional(TinyLife.Actions.ActionInfo,System.Boolean)
-  - TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Predicate{TinyLife.Objects.Furniture},System.Boolean)
+  - TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean,System.Boolean)
   - TinyLife.Actions.ActionType.IsNotEmbarrassed(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.IsNotExpired(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.IsNotUncomfortable(TinyLife.Actions.ActionInfo,System.Boolean)
@@ -5196,16 +5196,16 @@ items:
   - Public
   - Shared
   - ReadOnly
-- uid: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Predicate{TinyLife.Objects.Furniture},System.Boolean)
-  commentId: M:TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Predicate{TinyLife.Objects.Furniture},System.Boolean)
-  id: IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Predicate{TinyLife.Objects.Furniture},System.Boolean)
+- uid: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean,System.Boolean)
+  id: IsHoldingOrValidParent(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean,System.Boolean)
   parent: TinyLife.Actions.ActionType
   langs:
   - csharp
   - vb
-  name: IsHoldingOrValidParent(ActionInfo, ObjectCategory, Predicate<Furniture>, Boolean)
-  nameWithType: ActionType.IsHoldingOrValidParent(ActionInfo, ObjectCategory, Predicate<Furniture>, Boolean)
-  fullName: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, System.Predicate<TinyLife.Objects.Furniture>, System.Boolean)
+  name: IsHoldingOrValidParent(ActionInfo, ObjectCategory, Func<Furniture, Boolean>, Boolean, Boolean)
+  nameWithType: ActionType.IsHoldingOrValidParent(ActionInfo, ObjectCategory, Func<Furniture, Boolean>, Boolean, Boolean)
+  fullName: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, System.Func<TinyLife.Objects.Furniture, System.Boolean>, System.Boolean, System.Boolean)
   type: Method
   source:
     remote:
@@ -5214,14 +5214,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsHoldingOrValidParent
     path: Actions/ActionType.Utilities.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nA helper method intended to be used with <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref> that returns <xref href=\"TinyLife.Actions.ActionType.CanExecuteResult.Valid\" data-throw-if-not-resolved=\"false\"></xref> in the following cases:\n<ul><li></li><li></li></ul>\nThis helper method is useful in cases like <xref href=\"TinyLife.Actions.ActionType.Eat\" data-throw-if-not-resolved=\"false\"></xref>, where the action should be allowed if the person is holding a food plate and clicking a chair, or if a person is clicking the food plate itself.\n"
   example: []
   syntax:
-    content: public static ActionType.CanExecuteResult IsHoldingOrValidParent(ActionInfo info, ObjectCategory goalParent, Predicate<Furniture> isAllowed, bool parentHasToExist = false)
+    content: public static ActionType.CanExecuteResult IsHoldingOrValidParent(ActionInfo info, ObjectCategory goalParent, Func<Furniture, bool> isAllowed, bool parentHasToExist = false, bool allowAnyInvolved = false)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
@@ -5230,25 +5230,28 @@ items:
       type: TinyLife.Objects.ObjectCategory
       description: The object that the required item should be a child of
     - id: isAllowed
-      type: System.Predicate{TinyLife.Objects.Furniture}
+      type: System.Func{TinyLife.Objects.Furniture,System.Boolean}
       description: A predicate that checks if the given item is the one searched for
     - id: parentHasToExist
       type: System.Boolean
       description: Whether the parent furniture has to be visible somewhere, even if the action object is being held. This is checked using <xref href="TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person%2cTinyLife.Objects.ObjectCategory%2cTinyLife.Objects.FurnitureType%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+    - id: allowAnyInvolved
+      type: System.Boolean
+      description: Whether any <xref href="TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> should be passed to <code data-dev-comment-type="paramref" class="paramref">isAllowed</code>, instead of just the action object
     return:
       type: TinyLife.Actions.ActionType.CanExecuteResult
       description: A result that represents the validity of the action
-    content.vb: Public Shared Function IsHoldingOrValidParent(info As ActionInfo, goalParent As ObjectCategory, isAllowed As Predicate(Of Furniture), parentHasToExist As Boolean = False) As ActionType.CanExecuteResult
+    content.vb: Public Shared Function IsHoldingOrValidParent(info As ActionInfo, goalParent As ObjectCategory, isAllowed As Func(Of Furniture, Boolean), parentHasToExist As Boolean = False, allowAnyInvolved As Boolean = False) As ActionType.CanExecuteResult
   overload: TinyLife.Actions.ActionType.IsHoldingOrValidParent*
-  nameWithType.vb: ActionType.IsHoldingOrValidParent(ActionInfo, ObjectCategory, Predicate(Of Furniture), Boolean)
+  nameWithType.vb: ActionType.IsHoldingOrValidParent(ActionInfo, ObjectCategory, Func(Of Furniture, Boolean), Boolean, Boolean)
   modifiers.csharp:
   - public
   - static
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, System.Predicate(Of TinyLife.Objects.Furniture), System.Boolean)
-  name.vb: IsHoldingOrValidParent(ActionInfo, ObjectCategory, Predicate(Of Furniture), Boolean)
+  fullName.vb: TinyLife.Actions.ActionType.IsHoldingOrValidParent(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, System.Func(Of TinyLife.Objects.Furniture, System.Boolean), System.Boolean, System.Boolean)
+  name.vb: IsHoldingOrValidParent(ActionInfo, ObjectCategory, Func(Of Furniture, Boolean), Boolean, Boolean)
 - uid: TinyLife.Actions.ActionType.CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
   commentId: M:TinyLife.Actions.ActionType.CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
   id: CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
@@ -5267,7 +5270,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanPlaceHeldItem
     path: Actions/ActionType.Utilities.cs
-    startLine: 54
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5311,7 +5314,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: HasChairOrIsStandingDesk
     path: Actions/ActionType.Utilities.cs
-    startLine: 75
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5355,7 +5358,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsDislikedOrMean
     path: Actions/ActionType.Utilities.cs
-    startLine: 91
+    startLine: 92
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5399,7 +5402,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsReadyForRomance
     path: Actions/ActionType.Utilities.cs
-    startLine: 109
+    startLine: 110
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5443,7 +5446,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsComfortable
     path: Actions/ActionType.Utilities.cs
-    startLine: 133
+    startLine: 134
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5487,7 +5490,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsNotUncomfortable
     path: Actions/ActionType.Utilities.cs
-    startLine: 144
+    startLine: 145
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5531,7 +5534,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsNotEmbarrassed
     path: Actions/ActionType.Utilities.cs
-    startLine: 154
+    startLine: 155
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5575,7 +5578,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsEmptyHanded
     path: Actions/ActionType.Utilities.cs
-    startLine: 164
+    startLine: 165
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5619,7 +5622,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsFunctional
     path: Actions/ActionType.Utilities.cs
-    startLine: 174
+    startLine: 175
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5663,7 +5666,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanWorkAtDeskObject
     path: Actions/ActionType.Utilities.cs
-    startLine: 191
+    startLine: 192
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5707,7 +5710,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsNotExpired
     path: Actions/ActionType.Utilities.cs
-    startLine: 201
+    startLine: 202
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5751,7 +5754,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanDoImportantAction
     path: Actions/ActionType.Utilities.cs
-    startLine: 213
+    startLine: 214
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5795,7 +5798,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AreDating
     path: Actions/ActionType.Utilities.cs
-    startLine: 223
+    startLine: 224
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5839,7 +5842,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanExecuteAll
     path: Actions/ActionType.Utilities.cs
-    startLine: 240
+    startLine: 241
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5889,7 +5892,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanBeSexual
     path: Actions/ActionType.Utilities.cs
-    startLine: 256
+    startLine: 257
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5933,7 +5936,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetSkillPriorityMod
     path: Actions/ActionType.Utilities.cs
-    startLine: 268
+    startLine: 269
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6973,6 +6976,9 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Actions.ActionInfo.GetInvolvedObjects``1(TinyLife.Objects.ObjectCategory,System.Boolean)
+  commentId: M:TinyLife.Actions.ActionInfo.GetInvolvedObjects``1(TinyLife.Objects.ObjectCategory,System.Boolean)
+  isExternal: true
 - uid: TinyLife.Actions.ActionType.IsHoldingOrValidParent*
   commentId: Overload:TinyLife.Actions.ActionType.IsHoldingOrValidParent
   name: IsHoldingOrValidParent
@@ -6984,21 +6990,21 @@ references:
   name: ObjectCategory
   nameWithType: ObjectCategory
   fullName: TinyLife.Objects.ObjectCategory
-- uid: System.Predicate{TinyLife.Objects.Furniture}
-  commentId: T:System.Predicate{TinyLife.Objects.Furniture}
+- uid: System.Func{TinyLife.Objects.Furniture,System.Boolean}
+  commentId: T:System.Func{TinyLife.Objects.Furniture,System.Boolean}
   parent: System
-  definition: System.Predicate`1
-  name: Predicate<Furniture>
-  nameWithType: Predicate<Furniture>
-  fullName: System.Predicate<TinyLife.Objects.Furniture>
-  nameWithType.vb: Predicate(Of Furniture)
-  fullName.vb: System.Predicate(Of TinyLife.Objects.Furniture)
-  name.vb: Predicate(Of Furniture)
+  definition: System.Func`2
+  name: Func<Furniture, Boolean>
+  nameWithType: Func<Furniture, Boolean>
+  fullName: System.Func<TinyLife.Objects.Furniture, System.Boolean>
+  nameWithType.vb: Func(Of Furniture, Boolean)
+  fullName.vb: System.Func(Of TinyLife.Objects.Furniture, System.Boolean)
+  name.vb: Func(Of Furniture, Boolean)
   spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
     isExternal: true
   - name: <
     nameWithType: <
@@ -7007,14 +7013,22 @@ references:
     name: Furniture
     nameWithType: Furniture
     fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -7023,6 +7037,14 @@ references:
     name: Furniture
     nameWithType: Furniture
     fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -7031,20 +7053,20 @@ references:
   name: TinyLife.Objects
   nameWithType: TinyLife.Objects
   fullName: TinyLife.Objects
-- uid: System.Predicate`1
-  commentId: T:System.Predicate`1
+- uid: System.Func`2
+  commentId: T:System.Func`2
   isExternal: true
-  name: Predicate<T>
-  nameWithType: Predicate<T>
-  fullName: System.Predicate<T>
-  nameWithType.vb: Predicate(Of T)
-  fullName.vb: System.Predicate(Of T)
-  name.vb: Predicate(Of T)
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
   spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
     isExternal: true
   - name: <
     nameWithType: <
@@ -7052,14 +7074,20 @@ references:
   - name: T
     nameWithType: T
     fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
   - name: '>'
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -7067,6 +7095,12 @@ references:
   - name: T
     nameWithType: T
     fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
   - name: )
     nameWithType: )
     fullName: )

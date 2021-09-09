@@ -1,3 +1,25 @@
+# 0.16.1
+Additions
+- Added "[Give Feedback or Report Bug](https://ell.lt/tlfeedback)" buttons to the in-game and main menus
+- Added [a cheat](https://docs.tinylifegame.com/articles/cheats.html) to take a full-size screenshot of the map
+- Added a Distant Relative genealogy
+- Added a tooltip for when buttons are grayed out due to lot requirements being incomplete in build mode
+- Added dutch translation ([Alexander Stekelenburg](https://twitter.com/superaxander))
+
+Improvements
+- Made reporting non-crashing exceptions easier by pre-filling the form automatically
+- Allow pressing Escape to open and close menus
+- Allow scrapping objects by clicking their parents (the woodworking table or the easel) too
+- Allow removing the last person from the household in the character creator to delete it
+- Improved depth calculations of roof-attached objects
+- Moved wisteria to the Outside tab in the furniture tool
+- Improved the visuals of the cheat ui
+- Renamed "Disable Hints" to "Skip Hints" in the options
+
+Fixes
+- Fixed color selector not updating when cloning wallpaper, openings, tiles or roofs
+- Fixed some table and desk positions causing chairs to be seen as invalid or unavailable
+
 # 0.16.0
 This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/289260/0160-woodlands-and-visitors) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2949282742498975401).
 

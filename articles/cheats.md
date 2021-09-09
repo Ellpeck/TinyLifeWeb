@@ -25,3 +25,4 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
   - The resulting values are printed to the console every time a modification is made, so you can copy them and paste them into your action spot code
 - `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life directory (which can be accessed through the options menu) as `_Packed.png`
 - `FreeLots` makes creating and importing households onto lots free
+- `BigScreenshot` to take a full-size screenshot of the entire map (which takes a few seconds)
