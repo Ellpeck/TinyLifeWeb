@@ -6,14 +6,25 @@ items:
   parent: TinyLife.Goals
   children:
   - TinyLife.Goals.JobType.#ctor(System.String,System.Single,MonoGame.Extended.Range{System.Int32},System.DayOfWeek[])
-  - TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person)
+  - TinyLife.Goals.JobType.CanQuitOrBeFired
+  - TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
+  - TinyLife.Goals.JobType.DailyTaskImportance
+  - TinyLife.Goals.JobType.DailyTasks
   - TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
-  - TinyLife.Goals.JobType.GetRequiredPromotionSkills(System.Int32)
+  - TinyLife.Goals.JobType.GetRequiredPromotionSkills(TinyLife.Goals.Job)
+  - TinyLife.Goals.JobType.HasSpecialLocalization
   - TinyLife.Goals.JobType.HourlyPay
   - TinyLife.Goals.JobType.IsTimeToWork(System.Nullable{System.TimeSpan})
+  - TinyLife.Goals.JobType.MaxLevel
   - TinyLife.Goals.JobType.Name
   - TinyLife.Goals.JobType.OffWorkDays
+  - TinyLife.Goals.JobType.OnLevelChanged(TinyLife.Goals.Job,System.Int32)
+  - TinyLife.Goals.JobType.OnWorkFinished(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  - TinyLife.Goals.JobType.OnWorkHoursOver(TinyLife.Goals.Job)
+  - TinyLife.Goals.JobType.OnWorkStarted(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  - TinyLife.Goals.JobType.OnWorkStartsInAnHour(TinyLife.Goals.Job)
   - TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
+  - TinyLife.Goals.JobType.RequiredAges
   - TinyLife.Goals.JobType.RequiredPromotionSkills
   - TinyLife.Goals.JobType.ToScheduleString
   - TinyLife.Goals.JobType.Types
@@ -27,12 +38,12 @@ items:
   type: Class
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: JobType
-    path: Goals/Job.cs
-    startLine: 177
+    path: Goals/JobType.cs
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -52,6 +63,8 @@ items:
   inheritance:
   - System.Object
   - MLEM.Misc.GenericDataHolder
+  derivedClasses:
+  - TinyLife.Goals.StudentJobType
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
@@ -88,12 +101,12 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Types
-    path: Goals/Job.cs
-    startLine: 185
+    path: Goals/JobType.cs
+    startLine: 31
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -125,12 +138,12 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Name
-    path: Goals/Job.cs
-    startLine: 211
+    path: Goals/JobType.cs
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -160,16 +173,16 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: HourlyPay
-    path: Goals/Job.cs
-    startLine: 216
+    path: Goals/JobType.cs
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe amount of dollars that being at the job for an hour pays.\nIn <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref>, this is automatically added to the household funds.\n"
+  summary: "\nThe amount of tiny bucks that being at the job for an hour pays.\nIn <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref>, this is automatically added to the household funds.\n"
   example: []
   syntax:
     content: public readonly float HourlyPay
@@ -195,12 +208,12 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: WorkHours
-    path: Goals/Job.cs
-    startLine: 221
+    path: Goals/JobType.cs
+    startLine: 77
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -230,12 +243,12 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OffWorkDays
-    path: Goals/Job.cs
-    startLine: 226
+    path: Goals/JobType.cs
+    startLine: 82
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -265,12 +278,12 @@ items:
   type: Property
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RequiredPromotionSkills
-    path: Goals/Job.cs
-    startLine: 231
+    path: Goals/JobType.cs
+    startLine: 87
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -283,6 +296,228 @@ items:
       type: System.ValueTuple{TinyLife.Skills.SkillType,System.Single}[]
     content.vb: Public Property RequiredPromotionSkills As(Type As SkillType, LevelCurve As Single)(Of SkillType , Single)()
   overload: TinyLife.Goals.JobType.RequiredPromotionSkills*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.MaxLevel
+  commentId: P:TinyLife.Goals.JobType.MaxLevel
+  id: MaxLevel
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: MaxLevel
+  nameWithType: JobType.MaxLevel
+  fullName: TinyLife.Goals.JobType.MaxLevel
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: MaxLevel
+    path: Goals/JobType.cs
+    startLine: 91
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nThe maximum level of this job, which defaults to 9\n"
+  example: []
+  syntax:
+    content: public int MaxLevel { get; set; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Public Property MaxLevel As Integer
+  overload: TinyLife.Goals.JobType.MaxLevel*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.HasSpecialLocalization
+  commentId: P:TinyLife.Goals.JobType.HasSpecialLocalization
+  id: HasSpecialLocalization
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: HasSpecialLocalization
+  nameWithType: JobType.HasSpecialLocalization
+  fullName: TinyLife.Goals.JobType.HasSpecialLocalization
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: HasSpecialLocalization
+    path: Goals/JobType.cs
+    startLine: 96
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nWhether this job has special localization info for promotion, demotion, going to work and getting home from work.\nThis value defaults to false.\n"
+  example: []
+  syntax:
+    content: public bool HasSpecialLocalization { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property HasSpecialLocalization As Boolean
+  overload: TinyLife.Goals.JobType.HasSpecialLocalization*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.RequiredAges
+  commentId: P:TinyLife.Goals.JobType.RequiredAges
+  id: RequiredAges
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: RequiredAges
+  nameWithType: JobType.RequiredAges
+  fullName: TinyLife.Goals.JobType.RequiredAges
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: RequiredAges
+    path: Goals/JobType.cs
+    startLine: 101
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nThe set of ages that a person can have to be able to do this job.\nThis value defaults to ~Child, which is all age groups except for <xref href=\"TinyLife.Objects.AgeGroup.Child\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public AgeGroup RequiredAges { get; set; }
+    parameters: []
+    return:
+      type: TinyLife.Objects.AgeGroup
+    content.vb: Public Property RequiredAges As AgeGroup
+  overload: TinyLife.Goals.JobType.RequiredAges*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.CanQuitOrBeFired
+  commentId: P:TinyLife.Goals.JobType.CanQuitOrBeFired
+  id: CanQuitOrBeFired
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: CanQuitOrBeFired
+  nameWithType: JobType.CanQuitOrBeFired
+  fullName: TinyLife.Goals.JobType.CanQuitOrBeFired
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: CanQuitOrBeFired
+    path: Goals/JobType.cs
+    startLine: 106
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nWhether a person can quit this job or be fired from it.\nThis value defaults to true.\n"
+  example: []
+  syntax:
+    content: public bool CanQuitOrBeFired { get; set; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Property CanQuitOrBeFired As Boolean
+  overload: TinyLife.Goals.JobType.CanQuitOrBeFired*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.DailyTasks
+  commentId: P:TinyLife.Goals.JobType.DailyTasks
+  id: DailyTasks
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: DailyTasks
+  nameWithType: JobType.DailyTasks
+  fullName: TinyLife.Goals.JobType.DailyTasks
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: DailyTasks
+    path: Goals/JobType.cs
+    startLine: 111
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA <xref href=\"TinyLife.Goals.GoalSetInfo\" data-throw-if-not-resolved=\"false\"></xref> that determines the daily tasks for this job type.\nThis value defaults to null, meaning the job will have no daily tasks.\n"
+  example: []
+  syntax:
+    content: public GoalSetInfo DailyTasks { get; set; }
+    parameters: []
+    return:
+      type: TinyLife.Goals.GoalSetInfo
+    content.vb: Public Property DailyTasks As GoalSetInfo
+  overload: TinyLife.Goals.JobType.DailyTasks*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Goals.JobType.DailyTaskImportance
+  commentId: P:TinyLife.Goals.JobType.DailyTaskImportance
+  id: DailyTaskImportance
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: DailyTaskImportance
+  nameWithType: JobType.DailyTaskImportance
+  fullName: TinyLife.Goals.JobType.DailyTaskImportance
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: DailyTaskImportance
+    path: Goals/JobType.cs
+    startLine: 116
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nThe importance of the <xref href=\"TinyLife.Goals.JobType.DailyTasks\" data-throw-if-not-resolved=\"false\"></xref> for job progress.\nThis value defaults to 0.35, meaning the completion of this job&apos;s daily tasks make up 35% of the performance gained the next day.\n"
+  example: []
+  syntax:
+    content: public float DailyTaskImportance { get; set; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public Property DailyTaskImportance As Single
+  overload: TinyLife.Goals.JobType.DailyTaskImportance*
   modifiers.csharp:
   - public
   - get
@@ -302,12 +537,12 @@ items:
   type: Constructor
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
-    path: Goals/Job.cs
-    startLine: 240
+    path: Goals/JobType.cs
+    startLine: 125
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -337,40 +572,43 @@ items:
   - Public
   fullName.vb: TinyLife.Goals.JobType.JobType(System.String, System.Single, MonoGame.Extended.Range(Of System.Int32), System.DayOfWeek())
   name.vb: JobType(String, Single, Range(Of Int32), DayOfWeek())
-- uid: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person)
-  id: Construct(TinyLife.Objects.Person)
+- uid: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
+  commentId: M:TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
+  id: Construct(TinyLife.Objects.Person,System.Int32)
   parent: TinyLife.Goals.JobType
   langs:
   - csharp
   - vb
-  name: Construct(Person)
-  nameWithType: JobType.Construct(Person)
-  fullName: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person)
+  name: Construct(Person, Int32)
+  nameWithType: JobType.Construct(Person, Int32)
+  fullName: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person, System.Int32)
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Construct
-    path: Goals/Job.cs
-    startLine: 252
+    path: Goals/JobType.cs
+    startLine: 138
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nCreates a new <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> from this type&apos;s information\n"
   example: []
   syntax:
-    content: public Job Construct(Person person)
+    content: public Job Construct(Person person, int level = 0)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
       description: The person that should have the job
+    - id: level
+      type: System.Int32
+      description: The level to start this job with, defaults to 0
     return:
       type: TinyLife.Goals.Job
       description: A new job instance
-    content.vb: Public Function Construct(person As Person) As Job
+    content.vb: Public Function Construct(person As Person, level As Integer = 0) As Job
   overload: TinyLife.Goals.JobType.Construct*
   modifiers.csharp:
   - public
@@ -389,19 +627,19 @@ items:
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsTimeToWork
-    path: Goals/Job.cs
-    startLine: 262
+    path: Goals/JobType.cs
+    startLine: 148
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nReturns whether the given time (or the game&apos;s current time) is in the bounds of <xref href=\"TinyLife.Goals.JobType.WorkHours\" data-throw-if-not-resolved=\"false\"></xref> and outside of the bounds of <xref href=\"TinyLife.Goals.JobType.OffWorkDays\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this method returns true, <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref> can be started.\n"
   example: []
   syntax:
-    content: public bool IsTimeToWork(TimeSpan? time = null)
+    content: public virtual bool IsTimeToWork(TimeSpan? time = null)
     parameters:
     - id: time
       type: System.Nullable{System.TimeSpan}
@@ -409,13 +647,15 @@ items:
     return:
       type: System.Boolean
       description: true if it is time to work, false otherwise
-    content.vb: Public Function IsTimeToWork(time As TimeSpan? = Nothing) As Boolean
+    content.vb: Public Overridable Function IsTimeToWork(time As TimeSpan? = Nothing) As Boolean
   overload: TinyLife.Goals.JobType.IsTimeToWork*
   nameWithType.vb: JobType.IsTimeToWork(Nullable(Of TimeSpan))
   modifiers.csharp:
   - public
+  - virtual
   modifiers.vb:
   - Public
+  - Overridable
   fullName.vb: TinyLife.Goals.JobType.IsTimeToWork(System.Nullable(Of System.TimeSpan))
   name.vb: IsTimeToWork(Nullable(Of TimeSpan))
 - uid: TinyLife.Goals.JobType.ToScheduleString
@@ -431,28 +671,30 @@ items:
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: ToScheduleString
-    path: Goals/Job.cs
-    startLine: 272
+    path: Goals/JobType.cs
+    startLine: 158
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nReturns a string representation of the schedule.\nThe string includes a line that states the <xref href=\"TinyLife.Goals.JobType.WorkHours\" data-throw-if-not-resolved=\"false\"></xref> and a line that states the <xref href=\"TinyLife.Goals.JobType.OffWorkDays\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public string ToScheduleString()
+    content: public virtual string ToScheduleString()
     return:
       type: System.String
       description: A string representation of this job&apos;s schedule
-    content.vb: Public Function ToScheduleString As String
+    content.vb: Public Overridable Function ToScheduleString As String
   overload: TinyLife.Goals.JobType.ToScheduleString*
   modifiers.csharp:
   - public
+  - virtual
   modifiers.vb:
   - Public
+  - Overridable
 - uid: TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
   commentId: M:TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
   id: GetDisplayName(System.Nullable{System.Int32})
@@ -466,19 +708,19 @@ items:
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetDisplayName
-    path: Goals/Job.cs
-    startLine: 286
+    path: Goals/JobType.cs
+    startLine: 172
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nReturns the display name of this <xref href=\"TinyLife.Goals.JobType\" data-throw-if-not-resolved=\"false\"></xref>, based on the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">level</code>.\nIf no level is given, the job&apos;s regular name, without the level-based suffix, is returned.\n"
   example: []
   syntax:
-    content: public string GetDisplayName(int? level = null)
+    content: public virtual string GetDisplayName(int? level = null)
     parameters:
     - id: level
       type: System.Nullable{System.Int32}
@@ -486,54 +728,257 @@ items:
     return:
       type: System.String
       description: A localized string representing this job&apos;s name
-    content.vb: Public Function GetDisplayName(level As Integer? = Nothing) As String
+    content.vb: Public Overridable Function GetDisplayName(level As Integer? = Nothing) As String
   overload: TinyLife.Goals.JobType.GetDisplayName*
   nameWithType.vb: JobType.GetDisplayName(Nullable(Of Int32))
   modifiers.csharp:
   - public
+  - virtual
   modifiers.vb:
   - Public
+  - Overridable
   fullName.vb: TinyLife.Goals.JobType.GetDisplayName(System.Nullable(Of System.Int32))
   name.vb: GetDisplayName(Nullable(Of Int32))
-- uid: TinyLife.Goals.JobType.GetRequiredPromotionSkills(System.Int32)
-  commentId: M:TinyLife.Goals.JobType.GetRequiredPromotionSkills(System.Int32)
-  id: GetRequiredPromotionSkills(System.Int32)
+- uid: TinyLife.Goals.JobType.GetRequiredPromotionSkills(TinyLife.Goals.Job)
+  commentId: M:TinyLife.Goals.JobType.GetRequiredPromotionSkills(TinyLife.Goals.Job)
+  id: GetRequiredPromotionSkills(TinyLife.Goals.Job)
   parent: TinyLife.Goals.JobType
   langs:
   - csharp
   - vb
-  name: GetRequiredPromotionSkills(Int32)
-  nameWithType: JobType.GetRequiredPromotionSkills(Int32)
-  fullName: TinyLife.Goals.JobType.GetRequiredPromotionSkills(System.Int32)
+  name: GetRequiredPromotionSkills(Job)
+  nameWithType: JobType.GetRequiredPromotionSkills(Job)
+  fullName: TinyLife.Goals.JobType.GetRequiredPromotionSkills(TinyLife.Goals.Job)
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetRequiredPromotionSkills
-    path: Goals/Job.cs
-    startLine: 298
+    path: Goals/JobType.cs
+    startLine: 184
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nReturns the set of skills and levels that are required to promote from the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">jobLevel</code> to the next level\n"
+  summary: "\nReturns the set of skills and levels that are required to promote from the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">job</code>&apos;s <xref href=\"TinyLife.Goals.Job.Level\" data-throw-if-not-resolved=\"false\"></xref> to the next level\n"
   example: []
   syntax:
-    content: public IEnumerable<(SkillType Type, int Level)> GetRequiredPromotionSkills(int jobLevel)
+    content: public virtual IEnumerable<(SkillType Type, int Level)> GetRequiredPromotionSkills(Job job)
     parameters:
-    - id: jobLevel
-      type: System.Int32
-      description: The current job level
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The current job
     return:
       type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}}
       description: A set of skill types and their required levels for promotion
-    content.vb: Public Function GetRequiredPromotionSkills(jobLevel As Integer) As IEnumerable(Of(Type As SkillType, Level As Integer)(Of SkillType , Integer))
+    content.vb: Public Overridable Function GetRequiredPromotionSkills(job As Job) As IEnumerable(Of(Type As SkillType, Level As Integer)(Of SkillType , Integer))
   overload: TinyLife.Goals.JobType.GetRequiredPromotionSkills*
   modifiers.csharp:
   - public
+  - virtual
   modifiers.vb:
   - Public
+  - Overridable
+- uid: TinyLife.Goals.JobType.OnWorkStartsInAnHour(TinyLife.Goals.Job)
+  commentId: M:TinyLife.Goals.JobType.OnWorkStartsInAnHour(TinyLife.Goals.Job)
+  id: OnWorkStartsInAnHour(TinyLife.Goals.Job)
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: OnWorkStartsInAnHour(Job)
+  nameWithType: JobType.OnWorkStartsInAnHour(Job)
+  fullName: TinyLife.Goals.JobType.OnWorkStartsInAnHour(TinyLife.Goals.Job)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: OnWorkStartsInAnHour
+    path: Goals/JobType.cs
+    startLine: 199
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method that is called when the given <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> instance starts work in an hour for this job.\nBy default, a notification is displayed that instructs the person to head to work soon.\n"
+  example: []
+  syntax:
+    content: public virtual void OnWorkStartsInAnHour(Job job)
+    parameters:
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The job instance
+    content.vb: Public Overridable Sub OnWorkStartsInAnHour(job As Job)
+  overload: TinyLife.Goals.JobType.OnWorkStartsInAnHour*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.Goals.JobType.OnWorkHoursOver(TinyLife.Goals.Job)
+  commentId: M:TinyLife.Goals.JobType.OnWorkHoursOver(TinyLife.Goals.Job)
+  id: OnWorkHoursOver(TinyLife.Goals.Job)
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: OnWorkHoursOver(Job)
+  nameWithType: JobType.OnWorkHoursOver(Job)
+  fullName: TinyLife.Goals.JobType.OnWorkHoursOver(TinyLife.Goals.Job)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: OnWorkHoursOver
+    path: Goals/JobType.cs
+    startLine: 210
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method that is called when the work hours for the given <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> instance are over for this job.\nNote that this method is also called if the person didn&apos;t go to work, or left early.\nBy default, the <xref href=\"TinyLife.Goals.JobType.DailyTasks\" data-throw-if-not-resolved=\"false\"></xref> are reset.\n"
+  example: []
+  syntax:
+    content: public virtual void OnWorkHoursOver(Job job)
+    parameters:
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The job instance
+    content.vb: Public Overridable Sub OnWorkHoursOver(job As Job)
+  overload: TinyLife.Goals.JobType.OnWorkHoursOver*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.Goals.JobType.OnWorkFinished(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  commentId: M:TinyLife.Goals.JobType.OnWorkFinished(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  id: OnWorkFinished(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: OnWorkFinished(Job, WorkAction)
+  nameWithType: JobType.OnWorkFinished(Job, WorkAction)
+  fullName: TinyLife.Goals.JobType.OnWorkFinished(TinyLife.Goals.Job, TinyLife.Actions.WorkAction)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: OnWorkFinished
+    path: Goals/JobType.cs
+    startLine: 220
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method that is called when a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> finishes a <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref> for this job.\nBy default, some emotion modifiers are randomly applied.\n"
+  example: []
+  syntax:
+    content: public virtual void OnWorkFinished(Job job, WorkAction action)
+    parameters:
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The job instance
+    - id: action
+      type: TinyLife.Actions.WorkAction
+      description: The work action that was completed
+    content.vb: Public Overridable Sub OnWorkFinished(job As Job, action As WorkAction)
+  overload: TinyLife.Goals.JobType.OnWorkFinished*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.Goals.JobType.OnWorkStarted(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  commentId: M:TinyLife.Goals.JobType.OnWorkStarted(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  id: OnWorkStarted(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: OnWorkStarted(Job, WorkAction)
+  nameWithType: JobType.OnWorkStarted(Job, WorkAction)
+  fullName: TinyLife.Goals.JobType.OnWorkStarted(TinyLife.Goals.Job, TinyLife.Actions.WorkAction)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: OnWorkStarted
+    path: Goals/JobType.cs
+    startLine: 231
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method that is called when a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> starts a <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref> for this job.\nBy default, this method does nothing.\n"
+  example: []
+  syntax:
+    content: public virtual void OnWorkStarted(Job job, WorkAction action)
+    parameters:
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The job instance
+    - id: action
+      type: TinyLife.Actions.WorkAction
+      description: The work action that was started
+    content.vb: Public Overridable Sub OnWorkStarted(job As Job, action As WorkAction)
+  overload: TinyLife.Goals.JobType.OnWorkStarted*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.Goals.JobType.OnLevelChanged(TinyLife.Goals.Job,System.Int32)
+  commentId: M:TinyLife.Goals.JobType.OnLevelChanged(TinyLife.Goals.Job,System.Int32)
+  id: OnLevelChanged(TinyLife.Goals.Job,System.Int32)
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: OnLevelChanged(Job, Int32)
+  nameWithType: JobType.OnLevelChanged(Job, Int32)
+  fullName: TinyLife.Goals.JobType.OnLevelChanged(TinyLife.Goals.Job, System.Int32)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/JobType.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: OnLevelChanged
+    path: Goals/JobType.cs
+    startLine: 240
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method that is called when a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> is promoted or demoted for this job.\nBy default, some emotion modifiers are applied.\n"
+  example: []
+  syntax:
+    content: public virtual void OnLevelChanged(Job job, int levelDifference)
+    parameters:
+    - id: job
+      type: TinyLife.Goals.Job
+      description: The job instance
+    - id: levelDifference
+      type: System.Int32
+      description: The level difference that was applied. If the person was demoted, this value is -1, else it is 1.
+    content.vb: Public Overridable Sub OnLevelChanged(job As Job, levelDifference As Integer)
+  overload: TinyLife.Goals.JobType.OnLevelChanged*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
 - uid: TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
   commentId: M:TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
   id: Register(TinyLife.Goals.JobType)
@@ -547,24 +992,26 @@ items:
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Job.cs
+      path: TinyLife/Goals/JobType.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Register
-    path: Goals/Job.cs
-    startLine: 312
+    path: Goals/JobType.cs
+    startLine: 253
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nRegisters the given job type to the <xref href=\"TinyLife.Goals.JobType.Types\" data-throw-if-not-resolved=\"false\"></xref> registry\n"
   example: []
   syntax:
-    content: public static void Register(JobType type)
+    content: public static JobType Register(JobType type)
     parameters:
     - id: type
       type: TinyLife.Goals.JobType
       description: The type to register
-    content.vb: Public Shared Sub Register(type As JobType)
+    return:
+      type: TinyLife.Goals.JobType
+    content.vb: Public Shared Function Register(type As JobType) As JobType
   overload: TinyLife.Goals.JobType.Register*
   modifiers.csharp:
   - public
@@ -581,7 +1028,40 @@ references:
   fullName: TinyLife.Goals.Job
 - uid: TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
   commentId: M:TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: Register(JobType)
+  nameWithType: JobType.Register(JobType)
+  fullName: TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
+  spec.csharp:
+  - uid: TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
+    name: Register
+    nameWithType: JobType.Register
+    fullName: TinyLife.Goals.JobType.Register
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Goals.JobType
+    name: JobType
+    nameWithType: JobType
+    fullName: TinyLife.Goals.JobType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Goals.JobType.Register(TinyLife.Goals.JobType)
+    name: Register
+    nameWithType: JobType.Register
+    fullName: TinyLife.Goals.JobType.Register
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Goals.JobType
+    name: JobType
+    nameWithType: JobType
+    fullName: TinyLife.Goals.JobType
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Goals
   commentId: N:TinyLife.Goals
   name: TinyLife.Goals
@@ -1145,6 +1625,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Goals.JobType
+  commentId: T:TinyLife.Goals.JobType
+  parent: TinyLife.Goals
+  name: JobType
+  nameWithType: JobType
+  fullName: TinyLife.Goals.JobType
 - uid: System
   commentId: N:System
   isExternal: true
@@ -1328,12 +1814,6 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Goals.JobType
-  commentId: T:TinyLife.Goals.JobType
-  parent: TinyLife.Goals
-  name: JobType
-  nameWithType: JobType
-  fullName: TinyLife.Goals.JobType
 - uid: System.Collections.Generic.IDictionary{System.String,TinyLife.Goals.JobType}
   commentId: T:System.Collections.Generic.IDictionary{System.String,TinyLife.Goals.JobType}
   parent: System.Collections.Generic
@@ -1458,7 +1938,10 @@ references:
   fullName: System.String
 - uid: TinyLife.Actions.WorkAction
   commentId: T:TinyLife.Actions.WorkAction
-  isExternal: true
+  parent: TinyLife.Actions
+  name: WorkAction
+  nameWithType: WorkAction
+  fullName: TinyLife.Actions.WorkAction
 - uid: System.Single
   commentId: T:System.Single
   parent: System
@@ -1466,6 +1949,11 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
 - uid: System.Range
   commentId: T:System.Range
   isExternal: true
@@ -1576,7 +2064,10 @@ references:
   isExternal: true
 - uid: TinyLife.Goals.JobType.WorkHours
   commentId: F:TinyLife.Goals.JobType.WorkHours
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: WorkHours
+  nameWithType: JobType.WorkHours
+  fullName: TinyLife.Goals.JobType.WorkHours
 - uid: System.DayOfWeek[]
   isExternal: true
   name: DayOfWeek[]
@@ -1673,6 +2164,76 @@ references:
   - name: ()
     nameWithType: ()
     fullName: ()
+- uid: TinyLife.Goals.JobType.MaxLevel*
+  commentId: Overload:TinyLife.Goals.JobType.MaxLevel
+  name: MaxLevel
+  nameWithType: JobType.MaxLevel
+  fullName: TinyLife.Goals.JobType.MaxLevel
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TinyLife.Goals.JobType.HasSpecialLocalization*
+  commentId: Overload:TinyLife.Goals.JobType.HasSpecialLocalization
+  name: HasSpecialLocalization
+  nameWithType: JobType.HasSpecialLocalization
+  fullName: TinyLife.Goals.JobType.HasSpecialLocalization
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TinyLife.Objects.AgeGroup.Child
+  commentId: F:TinyLife.Objects.AgeGroup.Child
+  isExternal: true
+- uid: TinyLife.Goals.JobType.RequiredAges*
+  commentId: Overload:TinyLife.Goals.JobType.RequiredAges
+  name: RequiredAges
+  nameWithType: JobType.RequiredAges
+  fullName: TinyLife.Goals.JobType.RequiredAges
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+- uid: TinyLife.Goals.JobType.CanQuitOrBeFired*
+  commentId: Overload:TinyLife.Goals.JobType.CanQuitOrBeFired
+  name: CanQuitOrBeFired
+  nameWithType: JobType.CanQuitOrBeFired
+  fullName: TinyLife.Goals.JobType.CanQuitOrBeFired
+- uid: TinyLife.Goals.GoalSetInfo
+  commentId: T:TinyLife.Goals.GoalSetInfo
+  parent: TinyLife.Goals
+  name: GoalSetInfo
+  nameWithType: GoalSetInfo
+  fullName: TinyLife.Goals.GoalSetInfo
+- uid: TinyLife.Goals.JobType.DailyTasks*
+  commentId: Overload:TinyLife.Goals.JobType.DailyTasks
+  name: DailyTasks
+  nameWithType: JobType.DailyTasks
+  fullName: TinyLife.Goals.JobType.DailyTasks
+- uid: TinyLife.Goals.JobType.DailyTasks
+  commentId: P:TinyLife.Goals.JobType.DailyTasks
+  parent: TinyLife.Goals.JobType
+  name: DailyTasks
+  nameWithType: JobType.DailyTasks
+  fullName: TinyLife.Goals.JobType.DailyTasks
+- uid: TinyLife.Goals.JobType.DailyTaskImportance*
+  commentId: Overload:TinyLife.Goals.JobType.DailyTaskImportance
+  name: DailyTaskImportance
+  nameWithType: JobType.DailyTaskImportance
+  fullName: TinyLife.Goals.JobType.DailyTaskImportance
 - uid: TinyLife.Goals.JobType.#ctor*
   commentId: Overload:TinyLife.Goals.JobType.#ctor
   name: JobType
@@ -1689,14 +2250,12 @@ references:
   name: Person
   nameWithType: Person
   fullName: TinyLife.Objects.Person
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
 - uid: TinyLife.Goals.JobType.OffWorkDays
   commentId: F:TinyLife.Goals.JobType.OffWorkDays
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: OffWorkDays
+  nameWithType: JobType.OffWorkDays
+  fullName: TinyLife.Goals.JobType.OffWorkDays
 - uid: TinyLife.GameImpl.CurrentTime
   commentId: F:TinyLife.GameImpl.CurrentTime
   isExternal: true
@@ -1749,13 +2308,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
   isExternal: true
@@ -1854,13 +2406,6 @@ references:
   name: GetRequiredPromotionSkills
   nameWithType: JobType.GetRequiredPromotionSkills
   fullName: TinyLife.Goals.JobType.GetRequiredPromotionSkills
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}}
   commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}}
   parent: System.Collections.Generic
@@ -1980,9 +2525,37 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Goals.JobType.OnWorkStartsInAnHour*
+  commentId: Overload:TinyLife.Goals.JobType.OnWorkStartsInAnHour
+  name: OnWorkStartsInAnHour
+  nameWithType: JobType.OnWorkStartsInAnHour
+  fullName: TinyLife.Goals.JobType.OnWorkStartsInAnHour
+- uid: TinyLife.Goals.JobType.OnWorkHoursOver*
+  commentId: Overload:TinyLife.Goals.JobType.OnWorkHoursOver
+  name: OnWorkHoursOver
+  nameWithType: JobType.OnWorkHoursOver
+  fullName: TinyLife.Goals.JobType.OnWorkHoursOver
+- uid: TinyLife.Goals.JobType.OnWorkFinished*
+  commentId: Overload:TinyLife.Goals.JobType.OnWorkFinished
+  name: OnWorkFinished
+  nameWithType: JobType.OnWorkFinished
+  fullName: TinyLife.Goals.JobType.OnWorkFinished
+- uid: TinyLife.Goals.JobType.OnWorkStarted*
+  commentId: Overload:TinyLife.Goals.JobType.OnWorkStarted
+  name: OnWorkStarted
+  nameWithType: JobType.OnWorkStarted
+  fullName: TinyLife.Goals.JobType.OnWorkStarted
+- uid: TinyLife.Goals.JobType.OnLevelChanged*
+  commentId: Overload:TinyLife.Goals.JobType.OnLevelChanged
+  name: OnLevelChanged
+  nameWithType: JobType.OnLevelChanged
+  fullName: TinyLife.Goals.JobType.OnLevelChanged
 - uid: TinyLife.Goals.JobType.Types
   commentId: F:TinyLife.Goals.JobType.Types
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: Types
+  nameWithType: JobType.Types
+  fullName: TinyLife.Goals.JobType.Types
 - uid: TinyLife.Goals.JobType.Register*
   commentId: Overload:TinyLife.Goals.JobType.Register
   name: Register

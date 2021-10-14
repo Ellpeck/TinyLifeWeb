@@ -8,21 +8,18 @@ items:
   - TinyLife.Actions.MultiAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.MultiAction.AndThenInitialize
   - TinyLife.Actions.MultiAction.AndThenIsCompleted
-  - TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.Action.CompletionType)
+  - TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   - TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
   - TinyLife.Actions.MultiAction.CreateFirstActions
-  - TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  - TinyLife.Actions.MultiAction.FirstActions
   - TinyLife.Actions.MultiAction.GetInProgressTime
   - TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+  - TinyLife.Actions.MultiAction.Handler
   - TinyLife.Actions.MultiAction.Initialize
   - TinyLife.Actions.MultiAction.IsCompleted
   - TinyLife.Actions.MultiAction.MainElapsedTime
-  - TinyLife.Actions.MultiAction.NextActions
-  - TinyLife.Actions.MultiAction.OnBetweenActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed,TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
-  - TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
+  - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.MultiAction.PreInitialize
   - TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
   langs:
@@ -39,7 +36,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: MultiAction
     path: Actions/MultiAction.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -54,11 +51,14 @@ items:
   inheritance:
   - System.Object
   - MLEM.Misc.GenericDataHolder
+  - TinyLife.Actions.Typeless.TypelessAction
   - TinyLife.Actions.Action
   derivedClasses:
   - TinyLife.Actions.GetAndSitDownAction
   - TinyLife.Actions.GoHereAction
   - TinyLife.Actions.OutOfTownAction
+  - TinyLife.Actions.PickUpOrSpawnAction
+  - TinyLife.Actions.PutAwayAction
   - TinyLife.Actions.SellAction
   - TinyLife.Actions.SinkAction
   - TinyLife.Actions.SitAction
@@ -67,42 +67,43 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
-  - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.Type
-  - TinyLife.Actions.Action.Info
-  - TinyLife.Actions.Action.StartedAutomatically
-  - TinyLife.Actions.Action.IsUnderlying
-  - TinyLife.Actions.Action.Map
-  - TinyLife.Actions.Action.Person
-  - TinyLife.Actions.Action.ElapsedTime
-  - TinyLife.Actions.Action.PlayerPromptOpen
-  - TinyLife.Actions.Action.ForceFail
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-  - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
+  - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
   - TinyLife.Actions.Action.GetDisplayName
   - TinyLife.Actions.Action.TryForceFail(TinyLife.Actions.ActionType.CanExecuteResult)
-  - TinyLife.Actions.Action.IsFullyInProgress
   - TinyLife.Actions.Action.ApplyVariety(TinyLife.Actions.ActionVariety)
   - TinyLife.Actions.Action.CanEnqueueConversation(TinyLife.Objects.Person,TinyLife.Actions.ActionType)
-  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.Action.CompletionType)
-  - TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  - TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  - TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  - TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  - TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  - TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action)
-  - TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule)
-  - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
-  - TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
-  - TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  - TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
-  - TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  - TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  - TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
-  - TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
+  - TinyLife.Actions.Typeless.TypelessAction.Random
+  - TinyLife.Actions.Typeless.TypelessAction.Info
+  - TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+  - TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
+  - TinyLife.Actions.Typeless.TypelessAction.Map
+  - TinyLife.Actions.Typeless.TypelessAction.Person
+  - TinyLife.Actions.Typeless.TypelessAction.ElapsedTime
+  - TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+  - TinyLife.Actions.Typeless.TypelessAction.ForceFail
+  - TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+  - TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  - TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+  - TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  - TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  - TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
+  - TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+  - TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
+  - TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
+  - TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
   - MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
   - MLEM.Misc.GenericDataHolder.GetData``1(System.String)
   - MLEM.Misc.GenericDataHolder.GetDataKeys
@@ -125,53 +126,6 @@ items:
   - Public
   - MustInherit
   - Class
-- uid: TinyLife.Actions.MultiAction.FirstActions
-  commentId: P:TinyLife.Actions.MultiAction.FirstActions
-  id: FirstActions
-  parent: TinyLife.Actions.MultiAction
-  langs:
-  - csharp
-  - vb
-  name: FirstActions
-  nameWithType: MultiAction.FirstActions
-  fullName: TinyLife.Actions.MultiAction.FirstActions
-  type: Property
-  source:
-    remote:
-      path: TinyLife/Actions/MultiAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: FirstActions
-    path: Actions/MultiAction.cs
-    startLine: 16
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nThe actions that should be executed beore this action\n"
-  example: []
-  syntax:
-    content: >-
-      [DataMember]
-
-      public Queue<Action> FirstActions { get; }
-    parameters: []
-    return:
-      type: System.Collections.Generic.Queue{TinyLife.Actions.Action}
-    content.vb: >-
-      <DataMember>
-
-      Public ReadOnly Property FirstActions As Queue(Of Action)
-  overload: TinyLife.Actions.MultiAction.FirstActions*
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Actions.MultiAction.MainElapsedTime
   commentId: P:TinyLife.Actions.MultiAction.MainElapsedTime
   id: MainElapsedTime
@@ -190,11 +144,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: MainElapsedTime
     path: Actions/MultiAction.cs
-    startLine: 21
+    startLine: 17
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThe amount of time that has elapsed of this action, excluding the time that <xref href=\"TinyLife.Actions.MultiAction.FirstActions\" data-throw-if-not-resolved=\"false\"></xref> took.\n"
+  summary: "\nThe amount of time that has elapsed of this action, excluding the time that <xref href=\"TinyLife.Actions.MultiAction.Handler\" data-throw-if-not-resolved=\"false\"></xref> took.\n"
   example: []
   syntax:
     content: >-
@@ -221,52 +175,50 @@ items:
   - Public
   - Get
   - Protected Set
-- uid: TinyLife.Actions.MultiAction.NextActions
-  commentId: P:TinyLife.Actions.MultiAction.NextActions
-  id: NextActions
+- uid: TinyLife.Actions.MultiAction.Handler
+  commentId: F:TinyLife.Actions.MultiAction.Handler
+  id: Handler
   parent: TinyLife.Actions.MultiAction
   langs:
   - csharp
   - vb
-  name: NextActions
-  nameWithType: MultiAction.NextActions
-  fullName: TinyLife.Actions.MultiAction.NextActions
-  type: Property
+  name: Handler
+  nameWithType: MultiAction.Handler
+  fullName: TinyLife.Actions.MultiAction.Handler
+  type: Field
   source:
     remote:
       path: TinyLife/Actions/MultiAction.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: NextActions
+    id: Handler
     path: Actions/MultiAction.cs
-    startLine: 27
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThe actions that should be executed after this action\n"
+  summary: "\nThe <xref href=\"TinyLife.Actions.MultiActionHandler\" data-throw-if-not-resolved=\"false\"></xref> that handles the actions created in <xref href=\"TinyLife.Actions.MultiAction.CreateFirstActions\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: >-
       [DataMember]
 
-      protected Queue<Action> NextActions { get; }
-    parameters: []
+      public readonly MultiActionHandler Handler
     return:
-      type: System.Collections.Generic.Queue{TinyLife.Actions.Action}
+      type: TinyLife.Actions.MultiActionHandler
     content.vb: >-
       <DataMember>
 
-      Protected ReadOnly Property NextActions As Queue(Of Action)
-  overload: TinyLife.Actions.MultiAction.NextActions*
+      Public ReadOnly Handler As MultiActionHandler
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
   modifiers.csharp:
-  - protected
-  - get
+  - public
+  - readonly
   modifiers.vb:
-  - Protected
+  - Public
   - ReadOnly
 - uid: TinyLife.Actions.MultiAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   commentId: M:TinyLife.Actions.MultiAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
@@ -286,7 +238,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
     path: Actions/MultiAction.cs
-    startLine: 34
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -325,18 +277,18 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CreateFirstActions
     path: Actions/MultiAction.cs
-    startLine: 44
+    startLine: 37
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nReturn a set of actions that should be executed before this action.\nEven if the yield statement is used, all actions will be collected into a list at the start of this action&apos;s invocation.\nIf no action gets returned in this function, this action fails.\nIf a null action is returned as the first item, no first actions will be executed.\n"
   example: []
   syntax:
-    content: protected abstract IEnumerable<Action> CreateFirstActions()
+    content: protected abstract IEnumerable<TypelessAction> CreateFirstActions()
     return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Typeless.TypelessAction}
       description: A set of actions that sohuld run before this action
-    content.vb: Protected MustOverride Function CreateFirstActions As IEnumerable(Of Action)
+    content.vb: Protected MustOverride Function CreateFirstActions As IEnumerable(Of TypelessAction)
   overload: TinyLife.Actions.MultiAction.CreateFirstActions*
   modifiers.csharp:
   - protected
@@ -362,11 +314,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AndThenInitialize
     path: Actions/MultiAction.cs
-    startLine: 50
+    startLine: 43
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nInitializes the main action.\nThis method is called after <xref href=\"TinyLife.Actions.MultiAction.FirstActions\" data-throw-if-not-resolved=\"false\"></xref> have all completed.\n"
+  summary: "\nInitializes the main action.\nThis method is called after <xref href=\"TinyLife.Actions.MultiAction.Handler\" data-throw-if-not-resolved=\"false\"></xref> has all completed.\n"
   example: []
   syntax:
     content: protected abstract void AndThenInitialize()
@@ -396,18 +348,18 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AndThenIsCompleted
     path: Actions/MultiAction.cs
-    startLine: 57
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nMultiAction version of <xref href=\"TinyLife.Actions.MultiAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method returns whether or not the main action is completed.\n"
   example: []
   syntax:
-    content: protected abstract Action.CompletionType AndThenIsCompleted()
+    content: protected abstract CompletionType AndThenIsCompleted()
     return:
-      type: TinyLife.Actions.Action.CompletionType
+      type: TinyLife.Actions.CompletionType
       description: Whether the main action is completed
-    content.vb: Protected MustOverride Function AndThenIsCompleted As Action.CompletionType
+    content.vb: Protected MustOverride Function AndThenIsCompleted As CompletionType
   overload: TinyLife.Actions.MultiAction.AndThenIsCompleted*
   modifiers.csharp:
   - protected
@@ -433,7 +385,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AndThenUpdate
     path: Actions/MultiAction.cs
-    startLine: 67
+    startLine: 60
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -459,57 +411,16 @@ items:
   modifiers.vb:
   - Protected
   - Overridable
-- uid: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  id: CreateNextActions(TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  id: AndThenOnCompleted(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.MultiAction
   langs:
   - csharp
   - vb
-  name: CreateNextActions(Action.CompletionType)
-  nameWithType: MultiAction.CreateNextActions(Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/MultiAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: CreateNextActions
-    path: Actions/MultiAction.cs
-    startLine: 77
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nReturn a set of actions that should be executed after this action.\nCan be empty.\n"
-  example: []
-  syntax:
-    content: protected virtual IEnumerable<Action> CreateNextActions(Action.CompletionType type)
-    parameters:
-    - id: type
-      type: TinyLife.Actions.Action.CompletionType
-      description: The completion of the main action
-    return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-      description: A set of actions after this action
-    content.vb: Protected Overridable Function CreateNextActions(type As Action.CompletionType) As IEnumerable(Of Action)
-  overload: TinyLife.Actions.MultiAction.CreateNextActions*
-  modifiers.csharp:
-  - protected
-  - virtual
-  modifiers.vb:
-  - Protected
-  - Overridable
-- uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.Action.CompletionType)
-  id: AndThenOnCompleted(TinyLife.Actions.Action.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  langs:
-  - csharp
-  - vb
-  name: AndThenOnCompleted(Action.CompletionType)
-  nameWithType: MultiAction.AndThenOnCompleted(Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.Action.CompletionType)
+  name: AndThenOnCompleted(CompletionType)
+  nameWithType: MultiAction.AndThenOnCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   type: Method
   source:
     remote:
@@ -518,19 +429,19 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AndThenOnCompleted
     path: Actions/MultiAction.cs
-    startLine: 87
+    startLine: 69
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nMultiAction version of <xref href=\"TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method gets called when the main action completes.\nThis is also called before <xref href=\"TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
+  summary: "\nMultiAction version of <xref href=\"TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method gets called when the main action completes.\n"
   example: []
   syntax:
-    content: protected virtual void AndThenOnCompleted(Action.CompletionType type)
+    content: protected virtual void AndThenOnCompleted(CompletionType type)
     parameters:
     - id: type
-      type: TinyLife.Actions.Action.CompletionType
+      type: TinyLife.Actions.CompletionType
       description: The completion of the main action
-    content.vb: Protected Overridable Sub AndThenOnCompleted(type As Action.CompletionType)
+    content.vb: Protected Overridable Sub AndThenOnCompleted(type As CompletionType)
   overload: TinyLife.Actions.MultiAction.AndThenOnCompleted*
   modifiers.csharp:
   - protected
@@ -538,140 +449,40 @@ items:
   modifiers.vb:
   - Protected
   - Overridable
-- uid: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  id: ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.MultiAction.PreInitialize
+  commentId: M:TinyLife.Actions.MultiAction.PreInitialize
+  id: PreInitialize
   parent: TinyLife.Actions.MultiAction
   langs:
   - csharp
   - vb
-  name: ShouldFail(Action, Action.CompletionType)
-  nameWithType: MultiAction.ShouldFail(Action, Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action, TinyLife.Actions.Action.CompletionType)
+  name: PreInitialize()
+  nameWithType: MultiAction.PreInitialize()
+  fullName: TinyLife.Actions.MultiAction.PreInitialize()
   type: Method
   source:
     remote:
       path: TinyLife/Actions/MultiAction.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: ShouldFail
+    id: PreInitialize
     path: Actions/MultiAction.cs
-    startLine: 97
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA method that returns whether or not this main action should fail if the previous or next <code data-dev-comment-type=\"paramref\" class=\"paramref\">completedAction</code> completed with the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">completion</code>.\nBy default, this method returns true only if <code data-dev-comment-type=\"paramref\" class=\"paramref\">completion</code> is not <xref href=\"TinyLife.Actions.Action.CompletionType.Completed\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThis method is called in <xref href=\"TinyLife.Actions.MultiAction.Initialize\" data-throw-if-not-resolved=\"false\"></xref> before <xref href=\"TinyLife.Actions.MultiAction.CreateFirstActions\" data-throw-if-not-resolved=\"false\"></xref> is called.\nBy default, it does nothing.\n"
   example: []
   syntax:
-    content: protected virtual bool ShouldFail(Action completedAction, Action.CompletionType completion)
-    parameters:
-    - id: completedAction
-      type: TinyLife.Actions.Action
-      description: The action that has completed
-    - id: completion
-      type: TinyLife.Actions.Action.CompletionType
-      description: The completion type of the action
-    return:
-      type: System.Boolean
-      description: true if we should fail due to this completion
-    content.vb: Protected Overridable Function ShouldFail(completedAction As Action, completion As Action.CompletionType) As Boolean
-  overload: TinyLife.Actions.MultiAction.ShouldFail*
+    content: protected virtual void PreInitialize()
+    content.vb: Protected Overridable Sub PreInitialize
+  overload: TinyLife.Actions.MultiAction.PreInitialize*
   modifiers.csharp:
   - protected
   - virtual
   modifiers.vb:
   - Protected
   - Overridable
-- uid: TinyLife.Actions.MultiAction.OnBetweenActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed,TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.OnBetweenActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed,TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  id: OnBetweenActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed,TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  langs:
-  - csharp
-  - vb
-  name: OnBetweenActions(GameTime, TimeSpan, GameSpeed, Action, Action.CompletionType)
-  nameWithType: MultiAction.OnBetweenActions(GameTime, TimeSpan, GameSpeed, Action, Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.OnBetweenActions(Microsoft.Xna.Framework.GameTime, System.TimeSpan, TinyLife.GameSpeed, TinyLife.Actions.Action, TinyLife.Actions.Action.CompletionType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/MultiAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: OnBetweenActions
-    path: Actions/MultiAction.cs
-    startLine: 111
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nA method that is called after <xref href=\"TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action%2cTinyLife.Actions.Action.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> returns false and before the next action is started.\nIf this method returns true, the next action is not started yet, meaning that this action can fulfil tasks inbetween sub-actions.\n"
-  example: []
-  syntax:
-    content: protected virtual bool OnBetweenActions(GameTime time, TimeSpan passedInGame, GameSpeed speed, Action completedAction, Action.CompletionType completion)
-    parameters:
-    - id: time
-      type: Microsoft.Xna.Framework.GameTime
-      description: The current game time
-    - id: passedInGame
-      type: System.TimeSpan
-      description: The amount of time that has passed, in game time
-    - id: speed
-      type: TinyLife.GameSpeed
-      description: The game&apos;s current speed setting
-    - id: completedAction
-      type: TinyLife.Actions.Action
-      description: The action that has completed
-    - id: completion
-      type: TinyLife.Actions.Action.CompletionType
-      description: The completion type of the action that has completed
-    return:
-      type: System.Boolean
-      description: false to start the next sub-action (or the main action), true to wait
-    content.vb: Protected Overridable Function OnBetweenActions(time As GameTime, passedInGame As TimeSpan, speed As GameSpeed, completedAction As Action, completion As Action.CompletionType) As Boolean
-  overload: TinyLife.Actions.MultiAction.OnBetweenActions*
-  modifiers.csharp:
-  - protected
-  - virtual
-  modifiers.vb:
-  - Protected
-  - Overridable
-- uid: TinyLife.Actions.MultiAction.Initialize
-  commentId: M:TinyLife.Actions.MultiAction.Initialize
-  id: Initialize
-  parent: TinyLife.Actions.MultiAction
-  langs:
-  - csharp
-  - vb
-  name: Initialize()
-  nameWithType: MultiAction.Initialize()
-  fullName: TinyLife.Actions.MultiAction.Initialize()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/MultiAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: Initialize
-    path: Actions/MultiAction.cs
-    startLine: 116
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nThis method is called when the action is first started by a <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that it is not called when the action gets added to the <xref href=\"TinyLife.Objects.Person.ActionQueue\" data-throw-if-not-resolved=\"false\"></xref>, but when it is moved to <xref href=\"TinyLife.Objects.Person.CurrentActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: public sealed override void Initialize()
-    content.vb: Public NotOverridable Overrides Sub Initialize
-  overridden: TinyLife.Actions.Action.Initialize
-  overload: TinyLife.Actions.MultiAction.Initialize*
-  modifiers.csharp:
-  - public
-  - sealed
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  - NotOverridable
 - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
@@ -690,11 +501,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Update
     path: Actions/MultiAction.cs
-    startLine: 140
+    startLine: 80
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThis method is called every update frame if this action is currently active.\nBy default, only the <xref href=\"TinyLife.Actions.Action.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is modified in this method and <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cTinyLife.GameSpeed%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
+  summary: "\nThis method is called every update frame if this action is currently active.\nBy default, only the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is modified in this method and <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cTinyLife.GameSpeed%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
   example: []
   syntax:
     content: public sealed override void Update(GameTime time, TimeSpan passedInGame, GameSpeed speed)
@@ -711,6 +522,43 @@ items:
     content.vb: Public NotOverridable Overrides Sub Update(time As GameTime, passedInGame As TimeSpan, speed As GameSpeed)
   overridden: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   overload: TinyLife.Actions.MultiAction.Update*
+  modifiers.csharp:
+  - public
+  - sealed
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+  - NotOverridable
+- uid: TinyLife.Actions.MultiAction.Initialize
+  commentId: M:TinyLife.Actions.MultiAction.Initialize
+  id: Initialize
+  parent: TinyLife.Actions.MultiAction
+  langs:
+  - csharp
+  - vb
+  name: Initialize()
+  nameWithType: MultiAction.Initialize()
+  fullName: TinyLife.Actions.MultiAction.Initialize()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/MultiAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: Initialize
+    path: Actions/MultiAction.cs
+    startLine: 95
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nThis method is called when the action is first started by a <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that it is not called when the action gets added to the <xref href=\"TinyLife.Objects.Person.ActionQueue\" data-throw-if-not-resolved=\"false\"></xref>, but when it is moved to <xref href=\"TinyLife.Objects.Person.CurrentActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public sealed override void Initialize()
+    content.vb: Public NotOverridable Overrides Sub Initialize
+  overridden: TinyLife.Actions.Typeless.TypelessAction.Initialize
+  overload: TinyLife.Actions.MultiAction.Initialize*
   modifiers.csharp:
   - public
   - sealed
@@ -737,19 +585,19 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsCompleted
     path: Actions/MultiAction.cs
-    startLine: 175
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThis method is called every update frame by a <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> if this action is currently active to check if it should be stopped.\nIf this returns a result other than <xref href=\"TinyLife.Actions.Action.CompletionType.Completed\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> will be called and the action is stopped.\nBy default, only <xref href=\"TinyLife.Actions.Action.ForceFail\" data-throw-if-not-resolved=\"false\"></xref> modifies the completion type, otherwise <xref href=\"TinyLife.Actions.Action.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
+  summary: "\nThis method is called every update frame by a <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> if this action is currently active to check if it should be stopped.\nIf this returns a result other than <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> will be called and the action is stopped.\nBy default, only <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ForceFail\" data-throw-if-not-resolved=\"false\"></xref> modifies the completion type, otherwise <xref href=\"TinyLife.Actions.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
-    content: public sealed override Action.CompletionType IsCompleted()
+    content: public sealed override CompletionType IsCompleted()
     return:
-      type: TinyLife.Actions.Action.CompletionType
+      type: TinyLife.Actions.CompletionType
       description: The current completion type of this action
-    content.vb: Public NotOverridable Overrides Function IsCompleted As Action.CompletionType
-  overridden: TinyLife.Actions.Action.IsCompleted
+    content.vb: Public NotOverridable Overrides Function IsCompleted As CompletionType
+  overridden: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
   overload: TinyLife.Actions.MultiAction.IsCompleted*
   modifiers.csharp:
   - public
@@ -759,16 +607,16 @@ items:
   - Public
   - Overrides
   - NotOverridable
-- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
-  id: OnCompleted(TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  id: OnCompleted(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.MultiAction
   langs:
   - csharp
   - vb
-  name: OnCompleted(Action.CompletionType)
-  nameWithType: MultiAction.OnCompleted(Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  name: OnCompleted(CompletionType)
+  nameWithType: MultiAction.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
   type: Method
   source:
     remote:
@@ -777,20 +625,20 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OnCompleted
     path: Actions/MultiAction.cs
-    startLine: 201
+    startLine: 112
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThis method is called when this action <xref href=\"TinyLife.Actions.Action.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, or if it is canceled from an outside source.\nNote that, if this method is called as a result of <xref href=\"TinyLife.Actions.Action.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"TinyLife.Actions.Action.CompletionType\" data-throw-if-not-resolved=\"false\"></xref> passed will be the same.\n"
+  summary: "\nThis method is called when this action <xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, or if it is canceled from an outside source.\nNote that, if this method is called as a result of <xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"TinyLife.Actions.CompletionType\" data-throw-if-not-resolved=\"false\"></xref> passed will be the same.\n"
   example: []
   syntax:
-    content: public sealed override void OnCompleted(Action.CompletionType type)
+    content: public sealed override void OnCompleted(CompletionType type)
     parameters:
     - id: type
-      type: TinyLife.Actions.Action.CompletionType
+      type: TinyLife.Actions.CompletionType
       description: The type that this action completed with
-    content.vb: Public NotOverridable Overrides Sub OnCompleted(type As Action.CompletionType)
-  overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
+    content.vb: Public NotOverridable Overrides Sub OnCompleted(type As CompletionType)
+  overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.MultiAction.OnCompleted*
   modifiers.csharp:
   - public
@@ -818,11 +666,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Validate
     path: Actions/MultiAction.cs
-    startLine: 214
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nValidates this action&apos;s data.\nThis is called when a map is loaded from disk.\nWhen returning false on this method, the action is removed from the <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nValidates this action&apos;s data.\nThis is called when a map is loaded from disk.\nWhen returning false on this method, the action is removed from the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override bool Validate(Person person)
@@ -860,7 +708,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanCancel
     path: Actions/MultiAction.cs
-    startLine: 234
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -902,11 +750,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetInProgressTime
     path: Actions/MultiAction.cs
-    startLine: 240
+    startLine: 130
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns the amount of time that this action has &quot;properly&quot; been in progress for.\nThis is used by <xref href=\"TinyLife.Actions.MultiAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.SocialAction\" data-throw-if-not-resolved=\"false\"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.\nBy default, <xref href=\"TinyLife.Actions.Action.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
+  summary: "\nReturns the amount of time that this action has &quot;properly&quot; been in progress for.\nThis is used by <xref href=\"TinyLife.Actions.MultiAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.SocialAction\" data-throw-if-not-resolved=\"false\"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.\nBy default, <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
     content: public override TimeSpan GetInProgressTime()
@@ -914,7 +762,7 @@ items:
       type: System.TimeSpan
       description: The amount of time that this action has properly been in progress for
     content.vb: Public Overrides Function GetInProgressTime As TimeSpan
-  overridden: TinyLife.Actions.Action.GetInProgressTime
+  overridden: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
   overload: TinyLife.Actions.MultiAction.GetInProgressTime*
   modifiers.csharp:
   - public
@@ -940,7 +788,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GoToActionLocation
     path: Actions/MultiAction.cs
-    startLine: 249
+    startLine: 139
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -987,6 +835,12 @@ references:
   name: GenericDataHolder
   nameWithType: GenericDataHolder
   fullName: MLEM.Misc.GenericDataHolder
+- uid: TinyLife.Actions.Typeless.TypelessAction
+  commentId: T:TinyLife.Actions.Typeless.TypelessAction
+  parent: TinyLife.Actions.Typeless
+  name: TypelessAction
+  nameWithType: TypelessAction
+  fullName: TinyLife.Actions.Typeless.TypelessAction
 - uid: TinyLife.Actions.Action
   commentId: T:TinyLife.Actions.Action
   parent: TinyLife.Actions
@@ -1000,66 +854,12 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
-- uid: TinyLife.Actions.Action.Random
-  commentId: F:TinyLife.Actions.Action.Random
-  parent: TinyLife.Actions.Action
-  name: Random
-  nameWithType: Action.Random
-  fullName: TinyLife.Actions.Action.Random
 - uid: TinyLife.Actions.Action.Type
   commentId: F:TinyLife.Actions.Action.Type
   parent: TinyLife.Actions.Action
   name: Type
   nameWithType: Action.Type
   fullName: TinyLife.Actions.Action.Type
-- uid: TinyLife.Actions.Action.Info
-  commentId: F:TinyLife.Actions.Action.Info
-  parent: TinyLife.Actions.Action
-  name: Info
-  nameWithType: Action.Info
-  fullName: TinyLife.Actions.Action.Info
-- uid: TinyLife.Actions.Action.StartedAutomatically
-  commentId: P:TinyLife.Actions.Action.StartedAutomatically
-  parent: TinyLife.Actions.Action
-  name: StartedAutomatically
-  nameWithType: Action.StartedAutomatically
-  fullName: TinyLife.Actions.Action.StartedAutomatically
-- uid: TinyLife.Actions.Action.IsUnderlying
-  commentId: P:TinyLife.Actions.Action.IsUnderlying
-  parent: TinyLife.Actions.Action
-  name: IsUnderlying
-  nameWithType: Action.IsUnderlying
-  fullName: TinyLife.Actions.Action.IsUnderlying
-- uid: TinyLife.Actions.Action.Map
-  commentId: P:TinyLife.Actions.Action.Map
-  parent: TinyLife.Actions.Action
-  name: Map
-  nameWithType: Action.Map
-  fullName: TinyLife.Actions.Action.Map
-- uid: TinyLife.Actions.Action.Person
-  commentId: P:TinyLife.Actions.Action.Person
-  parent: TinyLife.Actions.Action
-  name: Person
-  nameWithType: Action.Person
-  fullName: TinyLife.Actions.Action.Person
-- uid: TinyLife.Actions.Action.ElapsedTime
-  commentId: P:TinyLife.Actions.Action.ElapsedTime
-  parent: TinyLife.Actions.Action
-  name: ElapsedTime
-  nameWithType: Action.ElapsedTime
-  fullName: TinyLife.Actions.Action.ElapsedTime
-- uid: TinyLife.Actions.Action.PlayerPromptOpen
-  commentId: P:TinyLife.Actions.Action.PlayerPromptOpen
-  parent: TinyLife.Actions.Action
-  name: PlayerPromptOpen
-  nameWithType: Action.PlayerPromptOpen
-  fullName: TinyLife.Actions.Action.PlayerPromptOpen
-- uid: TinyLife.Actions.Action.ForceFail
-  commentId: F:TinyLife.Actions.Action.ForceFail
-  parent: TinyLife.Actions.Action
-  name: ForceFail
-  nameWithType: Action.ForceFail
-  fullName: TinyLife.Actions.Action.ForceFail
 - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -1096,39 +896,39 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.Action
-  name: GetNextAction(Action.CompletionType)
-  nameWithType: Action.GetNextAction(Action.CompletionType)
-  fullName: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
+  name: GetNextAction(CompletionType)
+  nameWithType: Action.GetNextAction(CompletionType)
+  fullName: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
     name: GetNextAction
     nameWithType: Action.GetNextAction
     fullName: TinyLife.Actions.Action.GetNextAction
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
     name: GetNextAction
     nameWithType: Action.GetNextAction
     fullName: TinyLife.Actions.Action.GetNextAction
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
@@ -1252,34 +1052,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.IsFullyInProgress
-  commentId: M:TinyLife.Actions.Action.IsFullyInProgress
-  parent: TinyLife.Actions.Action
-  name: IsFullyInProgress()
-  nameWithType: Action.IsFullyInProgress()
-  fullName: TinyLife.Actions.Action.IsFullyInProgress()
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.IsFullyInProgress
-    name: IsFullyInProgress
-    nameWithType: Action.IsFullyInProgress
-    fullName: TinyLife.Actions.Action.IsFullyInProgress
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.IsFullyInProgress
-    name: IsFullyInProgress
-    nameWithType: Action.IsFullyInProgress
-    fullName: TinyLife.Actions.Action.IsFullyInProgress
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.Action.ApplyVariety(TinyLife.Actions.ActionVariety)
   commentId: M:TinyLife.Actions.Action.ApplyVariety(TinyLife.Actions.ActionVariety)
   parent: TinyLife.Actions.Action
@@ -1366,1564 +1138,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.Action.CompletionType)
-  parent: TinyLife.Actions.Action
-  name: CompleteIfNeedFull(NeedType, Action.CompletionType)
-  nameWithType: Action.CompleteIfNeedFull(NeedType, Action.CompletionType)
-  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType, TinyLife.Actions.Action.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.Action.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.Action.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  commentId: M:TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  parent: TinyLife.Actions.Action
-  name: PutDownOrGoTo(ObjectCategory, FurnitureType[])
-  nameWithType: Action.PutDownOrGoTo(ObjectCategory, FurnitureType[])
-  fullName: TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType[])
-  nameWithType.vb: Action.PutDownOrGoTo(ObjectCategory, FurnitureType())
-  fullName.vb: TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType())
-  name.vb: PutDownOrGoTo(ObjectCategory, FurnitureType())
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-    name: PutDownOrGoTo
-    nameWithType: Action.PutDownOrGoTo
-    fullName: TinyLife.Actions.Action.PutDownOrGoTo
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-    name: PutDownOrGoTo
-    nameWithType: Action.PutDownOrGoTo
-    fullName: TinyLife.Actions.Action.PutDownOrGoTo
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  commentId: M:TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  parent: TinyLife.Actions.Action
-  name: GetPlaceDirection(FurnitureType)
-  nameWithType: Action.GetPlaceDirection(FurnitureType)
-  fullName: TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-    name: GetPlaceDirection
-    nameWithType: Action.GetPlaceDirection
-    fullName: TinyLife.Actions.Action.GetPlaceDirection
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-    name: GetPlaceDirection
-    nameWithType: Action.GetPlaceDirection
-    fullName: TinyLife.Actions.Action.GetPlaceDirection
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  commentId: M:TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  parent: TinyLife.Actions.Action
-  name: Sit(Furniture, GameSpeed, ActionSpot)
-  nameWithType: Action.Sit(Furniture, GameSpeed, ActionSpot)
-  fullName: TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-    name: Sit
-    nameWithType: Action.Sit
-    fullName: TinyLife.Actions.Action.Sit
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Furniture
-    name: Furniture
-    nameWithType: Furniture
-    fullName: TinyLife.Objects.Furniture
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.GameSpeed
-    name: GameSpeed
-    nameWithType: GameSpeed
-    fullName: TinyLife.GameSpeed
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ActionSpot
-    name: ActionSpot
-    nameWithType: ActionSpot
-    fullName: TinyLife.Objects.ActionSpot
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-    name: Sit
-    nameWithType: Action.Sit
-    fullName: TinyLife.Actions.Action.Sit
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Furniture
-    name: Furniture
-    nameWithType: Furniture
-    fullName: TinyLife.Objects.Furniture
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.GameSpeed
-    name: GameSpeed
-    nameWithType: GameSpeed
-    fullName: TinyLife.GameSpeed
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ActionSpot
-    name: ActionSpot
-    nameWithType: ActionSpot
-    fullName: TinyLife.Objects.ActionSpot
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  nameWithType: Action.CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  fullName: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Skills.SkillType
-    name: SkillType
-    nameWithType: SkillType
-    fullName: TinyLife.Skills.SkillType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Skills.SkillType
-    name: SkillType
-    nameWithType: SkillType
-    fullName: TinyLife.Skills.SkillType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  commentId: M:TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  nameWithType: Action.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  fullName: TinyLife.Actions.Action.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, MLEM.Ui.Elements.Element[])
-  nameWithType.vb: Action.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
-  fullName.vb: TinyLife.Actions.Action.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, MLEM.Ui.Elements.Element())
-  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-    name: OpenPlayerPrompt
-    nameWithType: Action.OpenPlayerPrompt
-    fullName: TinyLife.Actions.Action.OpenPlayerPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    nameWithType: Element
-    fullName: MLEM.Ui.Elements.Element
-    isExternal: true
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-    name: OpenPlayerPrompt
-    nameWithType: Action.OpenPlayerPrompt
-    fullName: TinyLife.Actions.Action.OpenPlayerPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    nameWithType: Element
-    fullName: MLEM.Ui.Elements.Element
-    isExternal: true
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action)
-  commentId: M:TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: OpenYesNoPrompt(String, Action, Action)
-  nameWithType: Action.OpenYesNoPrompt(String, Action, Action)
-  fullName: TinyLife.Actions.Action.OpenYesNoPrompt(System.String, System.Action, System.Action)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action)
-    name: OpenYesNoPrompt
-    nameWithType: Action.OpenYesNoPrompt
-    fullName: TinyLife.Actions.Action.OpenYesNoPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action)
-    name: OpenYesNoPrompt
-    nameWithType: Action.OpenYesNoPrompt
-    fullName: TinyLife.Actions.Action.OpenYesNoPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule)
-  commentId: M:TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule)
-  nameWithType: Action.OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule)
-  fullName: TinyLife.Actions.Action.OpenTextPrompt(System.String, System.Action<System.String>, System.Predicate<System.String>, MLEM.Ui.Elements.TextField.Rule)
-  nameWithType.vb: Action.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule)
-  fullName.vb: TinyLife.Actions.Action.OpenTextPrompt(System.String, System.Action(Of System.String), System.Predicate(Of System.String), MLEM.Ui.Elements.TextField.Rule)
-  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule)
-    name: OpenTextPrompt
-    nameWithType: Action.OpenTextPrompt
-    fullName: TinyLife.Actions.Action.OpenTextPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: MLEM.Ui.Elements.TextField.Rule
-    name: TextField.Rule
-    nameWithType: TextField.Rule
-    fullName: MLEM.Ui.Elements.TextField.Rule
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule)
-    name: OpenTextPrompt
-    nameWithType: Action.OpenTextPrompt
-    fullName: TinyLife.Actions.Action.OpenTextPrompt
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: MLEM.Ui.Elements.TextField.Rule
-    name: TextField.Rule
-    nameWithType: TextField.Rule
-    fullName: MLEM.Ui.Elements.TextField.Rule
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
-  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: SpeakAlone(GameTime, GameSpeed, EmoteCategory, SpeakStyle, Int32)
-  nameWithType: Action.SpeakAlone(GameTime, GameSpeed, EmoteCategory, SpeakStyle, Int32)
-  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, TinyLife.GameSpeed, TinyLife.Actions.EmoteCategory, TinyLife.Objects.SpeakStyle, System.Int32)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
-    name: SpeakAlone
-    nameWithType: Action.SpeakAlone
-    fullName: TinyLife.Actions.Action.SpeakAlone
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.GameSpeed
-    name: GameSpeed
-    nameWithType: GameSpeed
-    fullName: TinyLife.GameSpeed
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.EmoteCategory
-    name: EmoteCategory
-    nameWithType: EmoteCategory
-    fullName: TinyLife.Actions.EmoteCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.SpeakStyle
-    name: SpeakStyle
-    nameWithType: SpeakStyle
-    fullName: TinyLife.Objects.SpeakStyle
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
-    name: SpeakAlone
-    nameWithType: Action.SpeakAlone
-    fullName: TinyLife.Actions.Action.SpeakAlone
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.GameSpeed
-    name: GameSpeed
-    nameWithType: GameSpeed
-    fullName: TinyLife.GameSpeed
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.EmoteCategory
-    name: EmoteCategory
-    nameWithType: EmoteCategory
-    fullName: TinyLife.Actions.EmoteCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.SpeakStyle
-    name: SpeakStyle
-    nameWithType: SpeakStyle
-    fullName: TinyLife.Objects.SpeakStyle
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
-  commentId: M:TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
-  parent: TinyLife.Actions.Action
-  name: GetFreeChair(Person, Furniture)
-  nameWithType: Action.GetFreeChair(Person, Furniture)
-  fullName: TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person, TinyLife.Objects.Furniture)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
-    name: GetFreeChair
-    nameWithType: Action.GetFreeChair
-    fullName: TinyLife.Actions.Action.GetFreeChair
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.Furniture
-    name: Furniture
-    nameWithType: Furniture
-    fullName: TinyLife.Objects.Furniture
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
-    name: GetFreeChair
-    nameWithType: Action.GetFreeChair
-    fullName: TinyLife.Actions.Action.GetFreeChair
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.Furniture
-    name: Furniture
-    nameWithType: Furniture
-    fullName: TinyLife.Objects.Furniture
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  commentId: M:TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  nameWithType: Action.FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  fullName: TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
-  nameWithType.vb: Action.FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  fullName.vb: TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
-  name.vb: FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreePeople
-    nameWithType: Action.FindAllFreePeople
-    fullName: TinyLife.Actions.Action.FindAllFreePeople
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreePeople
-    nameWithType: Action.FindAllFreePeople
-    fullName: TinyLife.Actions.Action.FindAllFreePeople
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable<Vector2>, Nullable<Single>, Boolean, Boolean)
-  nameWithType: Action.FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable<Vector2>, Nullable<Single>, Boolean, Boolean)
-  fullName: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Boolean, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean, System.Boolean)
-  nameWithType.vb: Action.FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable(Of Vector2), Nullable(Of Single), Boolean, Boolean)
-  fullName.vb: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Boolean, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean, System.Boolean)
-  name.vb: FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable(Of Vector2), Nullable(Of Single), Boolean, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
-    name: FindAllFreeFurniture
-    nameWithType: Action.FindAllFreeFurniture
-    fullName: TinyLife.Actions.Action.FindAllFreeFurniture
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
-    name: FindAllFreeFurniture
-    nameWithType: Action.FindAllFreeFurniture
-    fullName: TinyLife.Actions.Action.FindAllFreeFurniture
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  commentId: M:TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: FindAllFreeWalls(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  nameWithType: Action.FindAllFreeWalls(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  fullName: TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
-  nameWithType.vb: Action.FindAllFreeWalls(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  fullName.vb: TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
-  name.vb: FindAllFreeWalls(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreeWalls
-    nameWithType: Action.FindAllFreeWalls
-    fullName: TinyLife.Actions.Action.FindAllFreeWalls
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreeWalls
-    nameWithType: Action.FindAllFreeWalls
-    fullName: TinyLife.Actions.Action.FindAllFreeWalls
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  commentId: M:TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: FindAllFreeGround(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  nameWithType: Action.FindAllFreeGround(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  fullName: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
-  nameWithType.vb: Action.FindAllFreeGround(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  fullName.vb: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
-  name.vb: FindAllFreeGround(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreeGround
-    nameWithType: Action.FindAllFreeGround
-    fullName: TinyLife.Actions.Action.FindAllFreeGround
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-    name: FindAllFreeGround
-    nameWithType: Action.FindAllFreeGround
-    fullName: TinyLife.Actions.Action.FindAllFreeGround
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable<Vector2>, Boolean, Boolean)
-  nameWithType: Action.FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable<Vector2>, Boolean, Boolean)
-  fullName: TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Boolean, System.Boolean)
-  nameWithType.vb: Action.FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable(Of Vector2), Boolean, Boolean)
-  fullName.vb: TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Boolean, System.Boolean)
-  name.vb: FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable(Of Vector2), Boolean, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
-    name: FindFreeFurniture
-    nameWithType: Action.FindFreeFurniture
-    fullName: TinyLife.Actions.Action.FindFreeFurniture
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
-    name: FindFreeFurniture
-    nameWithType: Action.FindFreeFurniture
-    fullName: TinyLife.Actions.Action.FindFreeFurniture
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.ObjectCategory
-    name: ObjectCategory
-    nameWithType: ObjectCategory
-    fullName: TinyLife.Objects.ObjectCategory
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -2974,17 +1188,1781 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
-  commentId: M:TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
-  parent: TinyLife.Actions.Action
-  name: GetTableSpot(Furniture, ActionSpot)
-  nameWithType: Action.GetTableSpot(Furniture, ActionSpot)
-  fullName: TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture, TinyLife.Objects.ActionSpot)
+- uid: TinyLife.Actions.Typeless.TypelessAction.Random
+  commentId: F:TinyLife.Actions.Typeless.TypelessAction.Random
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Random
+  nameWithType: TypelessAction.Random
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Random
+- uid: TinyLife.Actions.Typeless.TypelessAction.Info
+  commentId: F:TinyLife.Actions.Typeless.TypelessAction.Info
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Info
+  nameWithType: TypelessAction.Info
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Info
+- uid: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: StartedAutomatically
+  nameWithType: TypelessAction.StartedAutomatically
+  fullName: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+- uid: TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: IsUnderlying
+  nameWithType: TypelessAction.IsUnderlying
+  fullName: TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
+- uid: TinyLife.Actions.Typeless.TypelessAction.Map
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.Map
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Map
+  nameWithType: TypelessAction.Map
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Map
+- uid: TinyLife.Actions.Typeless.TypelessAction.Person
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.Person
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Person
+  nameWithType: TypelessAction.Person
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Person
+- uid: TinyLife.Actions.Typeless.TypelessAction.ElapsedTime
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.ElapsedTime
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: ElapsedTime
+  nameWithType: TypelessAction.ElapsedTime
+  fullName: TinyLife.Actions.Typeless.TypelessAction.ElapsedTime
+- uid: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: PlayerPromptOpen
+  nameWithType: TypelessAction.PlayerPromptOpen
+  fullName: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+- uid: TinyLife.Actions.Typeless.TypelessAction.ForceFail
+  commentId: F:TinyLife.Actions.Typeless.TypelessAction.ForceFail
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: ForceFail
+  nameWithType: TypelessAction.ForceFail
+  fullName: TinyLife.Actions.Typeless.TypelessAction.ForceFail
+- uid: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: IsFullyInProgress()
+  nameWithType: TypelessAction.IsFullyInProgress()
+  fullName: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress()
   spec.csharp:
-  - uid: TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+    name: IsFullyInProgress
+    nameWithType: TypelessAction.IsFullyInProgress
+    fullName: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+    name: IsFullyInProgress
+    nameWithType: TypelessAction.IsFullyInProgress
+    fullName: TinyLife.Actions.Typeless.TypelessAction.IsFullyInProgress
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: CompleteIfNeedFull(NeedType, CompletionType)
+  nameWithType: TypelessAction.CompleteIfNeedFull(NeedType, CompletionType)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType, TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+    name: CompleteIfNeedFull
+    nameWithType: TypelessAction.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+    name: CompleteIfNeedFull
+    nameWithType: TypelessAction.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: PutDownOrGoTo(ObjectCategory, FurnitureType[])
+  nameWithType: TypelessAction.PutDownOrGoTo(ObjectCategory, FurnitureType[])
+  fullName: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType[])
+  nameWithType.vb: TypelessAction.PutDownOrGoTo(ObjectCategory, FurnitureType())
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType())
+  name.vb: PutDownOrGoTo(ObjectCategory, FurnitureType())
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+    name: PutDownOrGoTo
+    nameWithType: TypelessAction.PutDownOrGoTo
+    fullName: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+    name: PutDownOrGoTo
+    nameWithType: TypelessAction.PutDownOrGoTo
+    fullName: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: GetPlaceDirection(FurnitureType)
+  nameWithType: TypelessAction.GetPlaceDirection(FurnitureType)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+    name: GetPlaceDirection
+    nameWithType: TypelessAction.GetPlaceDirection
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+    name: GetPlaceDirection
+    nameWithType: TypelessAction.GetPlaceDirection
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Sit(Furniture, GameSpeed, ActionSpot)
+  nameWithType: TypelessAction.Sit(Furniture, GameSpeed, ActionSpot)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+    name: Sit
+    nameWithType: TypelessAction.Sit
+    fullName: TinyLife.Actions.Typeless.TypelessAction.Sit
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.GameSpeed
+    name: GameSpeed
+    nameWithType: GameSpeed
+    fullName: TinyLife.GameSpeed
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ActionSpot
+    name: ActionSpot
+    nameWithType: ActionSpot
+    fullName: TinyLife.Objects.ActionSpot
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+    name: Sit
+    nameWithType: TypelessAction.Sit
+    fullName: TinyLife.Actions.Typeless.TypelessAction.Sit
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.GameSpeed
+    name: GameSpeed
+    nameWithType: GameSpeed
+    fullName: TinyLife.GameSpeed
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ActionSpot
+    name: ActionSpot
+    nameWithType: ActionSpot
+    fullName: TinyLife.Objects.ActionSpot
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
+  nameWithType: TypelessAction.CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteInTime
+    nameWithType: TypelessAction.CompleteInTime
+    fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    nameWithType: SkillType
+    fullName: TinyLife.Skills.SkillType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteInTime
+    nameWithType: TypelessAction.CompleteInTime
+    fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    nameWithType: SkillType
+    fullName: TinyLife.Skills.SkillType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
+  nameWithType: TypelessAction.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, MLEM.Ui.Elements.Element[])
+  nameWithType.vb: TypelessAction.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, MLEM.Ui.Elements.Element())
+  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+    name: OpenPlayerPrompt
+    nameWithType: TypelessAction.OpenPlayerPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    nameWithType: Element
+    fullName: MLEM.Ui.Elements.Element
+    isExternal: true
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+    name: OpenPlayerPrompt
+    nameWithType: TypelessAction.OpenPlayerPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    nameWithType: Element
+    fullName: MLEM.Ui.Elements.Element
+    isExternal: true
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: OpenYesNoPrompt(String, Action, Action)
+  nameWithType: TypelessAction.OpenYesNoPrompt(String, Action, Action)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String, System.Action, System.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
+    name: OpenYesNoPrompt
+    nameWithType: TypelessAction.OpenYesNoPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
+    name: OpenYesNoPrompt
+    nameWithType: TypelessAction.OpenYesNoPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String)
+  nameWithType: TypelessAction.OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action<System.String>, System.Predicate<System.String>, MLEM.Ui.Elements.TextField.Rule, System.String)
+  nameWithType.vb: TypelessAction.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action(Of System.String), System.Predicate(Of System.String), MLEM.Ui.Elements.TextField.Rule, System.String)
+  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+    name: OpenTextPrompt
+    nameWithType: TypelessAction.OpenTextPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.TextField.Rule
+    name: TextField.Rule
+    nameWithType: TextField.Rule
+    fullName: MLEM.Ui.Elements.TextField.Rule
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+    name: OpenTextPrompt
+    nameWithType: TypelessAction.OpenTextPrompt
+    fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.TextField.Rule
+    name: TextField.Rule
+    nameWithType: TextField.Rule
+    fullName: MLEM.Ui.Elements.TextField.Rule
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: SpeakAlone(GameTime, GameSpeed, EmoteCategory, SpeakStyle, Int32)
+  nameWithType: TypelessAction.SpeakAlone(GameTime, GameSpeed, EmoteCategory, SpeakStyle, Int32)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime, TinyLife.GameSpeed, TinyLife.Actions.EmoteCategory, TinyLife.Objects.SpeakStyle, System.Int32)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
+    name: SpeakAlone
+    nameWithType: TypelessAction.SpeakAlone
+    fullName: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.GameSpeed
+    name: GameSpeed
+    nameWithType: GameSpeed
+    fullName: TinyLife.GameSpeed
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.EmoteCategory
+    name: EmoteCategory
+    nameWithType: EmoteCategory
+    fullName: TinyLife.Actions.EmoteCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.SpeakStyle
+    name: SpeakStyle
+    nameWithType: SpeakStyle
+    fullName: TinyLife.Objects.SpeakStyle
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
+    name: SpeakAlone
+    nameWithType: TypelessAction.SpeakAlone
+    fullName: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.GameSpeed
+    name: GameSpeed
+    nameWithType: GameSpeed
+    fullName: TinyLife.GameSpeed
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.EmoteCategory
+    name: EmoteCategory
+    nameWithType: EmoteCategory
+    fullName: TinyLife.Actions.EmoteCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.SpeakStyle
+    name: SpeakStyle
+    nameWithType: SpeakStyle
+    fullName: TinyLife.Objects.SpeakStyle
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: GetFreeChair(Person, Furniture)
+  nameWithType: TypelessAction.GetFreeChair(Person, Furniture)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person, TinyLife.Objects.Furniture)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
+    name: GetFreeChair
+    nameWithType: TypelessAction.GetFreeChair
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
+    name: GetFreeChair
+    nameWithType: TypelessAction.GetFreeChair
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: GetFreeChairs(Person, Furniture, Func<Direction2, Boolean>)
+  nameWithType: TypelessAction.GetFreeChairs(Person, Furniture, Func<Direction2, Boolean>)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person, TinyLife.Objects.Furniture, System.Func<MLEM.Misc.Direction2, System.Boolean>)
+  nameWithType.vb: TypelessAction.GetFreeChairs(Person, Furniture, Func(Of Direction2, Boolean))
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person, TinyLife.Objects.Furniture, System.Func(Of MLEM.Misc.Direction2, System.Boolean))
+  name.vb: GetFreeChairs(Person, Furniture, Func(Of Direction2, Boolean))
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
+    name: GetFreeChairs
+    nameWithType: TypelessAction.GetFreeChairs
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    nameWithType: Direction2
+    fullName: MLEM.Misc.Direction2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
+    name: GetFreeChairs
+    nameWithType: TypelessAction.GetFreeChairs
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    nameWithType: Direction2
+    fullName: MLEM.Misc.Direction2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  nameWithType: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
+  name.vb: FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreePeople
+    nameWithType: TypelessAction.FindAllFreePeople
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreePeople
+    nameWithType: TypelessAction.FindAllFreePeople
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable<Vector2>, Nullable<Single>, Boolean, Boolean)
+  nameWithType: TypelessAction.FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable<Vector2>, Nullable<Single>, Boolean, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Boolean, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable(Of Vector2), Nullable(Of Single), Boolean, Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Boolean, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean, System.Boolean)
+  name.vb: FindAllFreeFurniture(Person, ObjectCategory, FurnitureType, Boolean, Nullable(Of Vector2), Nullable(Of Single), Boolean, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
+    name: FindAllFreeFurniture
+    nameWithType: TypelessAction.FindAllFreeFurniture
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
+    name: FindAllFreeFurniture
+    nameWithType: TypelessAction.FindAllFreeFurniture
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: FindAllFreeWalls(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  nameWithType: TypelessAction.FindAllFreeWalls(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreeWalls(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
+  name.vb: FindAllFreeWalls(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreeWalls
+    nameWithType: TypelessAction.FindAllFreeWalls
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreeWalls
+    nameWithType: TypelessAction.FindAllFreeWalls
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: FindAllFreeGround(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  nameWithType: TypelessAction.FindAllFreeGround(Person, Nullable<Vector2>, Nullable<Single>, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreeGround(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
+  name.vb: FindAllFreeGround(Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreeGround
+    nameWithType: TypelessAction.FindAllFreeGround
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+    name: FindAllFreeGround
+    nameWithType: TypelessAction.FindAllFreeGround
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  isExternal: true
+  name: FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable<Vector2>, Boolean, Boolean)
+  nameWithType: TypelessAction.FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable<Vector2>, Boolean, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Boolean, System.Boolean)
+  nameWithType.vb: TypelessAction.FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable(Of Vector2), Boolean, Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Boolean, System.Boolean)
+  name.vb: FindFreeFurniture(Person, ObjectCategory, FurnitureType, Nullable(Of Vector2), Boolean, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
+    name: FindFreeFurniture
+    nameWithType: TypelessAction.FindFreeFurniture
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Boolean,System.Boolean)
+    name: FindFreeFurniture
+    nameWithType: TypelessAction.FindFreeFurniture
+    fullName: TinyLife.Actions.Typeless.TypelessAction.FindFreeFurniture
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: GetTableSpot(Furniture, ActionSpot)
+  nameWithType: TypelessAction.GetTableSpot(Furniture, ActionSpot)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture, TinyLife.Objects.ActionSpot)
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
     name: GetTableSpot
-    nameWithType: Action.GetTableSpot
-    fullName: TinyLife.Actions.Action.GetTableSpot
+    nameWithType: TypelessAction.GetTableSpot
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot
   - name: (
     nameWithType: (
     fullName: (
@@ -3003,10 +2981,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
     name: GetTableSpot
-    nameWithType: Action.GetTableSpot
-    fullName: TinyLife.Actions.Action.GetTableSpot
+    nameWithType: TypelessAction.GetTableSpot
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetTableSpot
   - name: (
     nameWithType: (
     fullName: (
@@ -3578,6 +3556,11 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: TinyLife.Actions.Typeless
+  commentId: N:TinyLife.Actions.Typeless
+  name: TinyLife.Actions.Typeless
+  nameWithType: TinyLife.Actions.Typeless
+  fullName: TinyLife.Actions.Typeless
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -3749,104 +3732,12 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Actions.MultiAction.FirstActions*
-  commentId: Overload:TinyLife.Actions.MultiAction.FirstActions
-  name: FirstActions
-  nameWithType: MultiAction.FirstActions
-  fullName: TinyLife.Actions.MultiAction.FirstActions
-- uid: System.Collections.Generic.Queue{TinyLife.Actions.Action}
-  commentId: T:System.Collections.Generic.Queue{TinyLife.Actions.Action}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Queue`1
-  name: Queue<Action>
-  nameWithType: Queue<Action>
-  fullName: System.Collections.Generic.Queue<TinyLife.Actions.Action>
-  nameWithType.vb: Queue(Of Action)
-  fullName.vb: System.Collections.Generic.Queue(Of TinyLife.Actions.Action)
-  name.vb: Queue(Of Action)
-  spec.csharp:
-  - uid: System.Collections.Generic.Queue`1
-    name: Queue
-    nameWithType: Queue
-    fullName: System.Collections.Generic.Queue
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Queue`1
-    name: Queue
-    nameWithType: Queue
-    fullName: System.Collections.Generic.Queue
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic.Queue`1
-  commentId: T:System.Collections.Generic.Queue`1
-  isExternal: true
-  name: Queue<T>
-  nameWithType: Queue<T>
-  fullName: System.Collections.Generic.Queue<T>
-  nameWithType.vb: Queue(Of T)
-  fullName.vb: System.Collections.Generic.Queue(Of T)
-  name.vb: Queue(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.Queue`1
-    name: Queue
-    nameWithType: Queue
-    fullName: System.Collections.Generic.Queue
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Queue`1
-    name: Queue
-    nameWithType: Queue
-    fullName: System.Collections.Generic.Queue
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-- uid: TinyLife.Actions.MultiAction.FirstActions
-  commentId: P:TinyLife.Actions.MultiAction.FirstActions
+- uid: TinyLife.Actions.MultiAction.Handler
+  commentId: F:TinyLife.Actions.MultiAction.Handler
   parent: TinyLife.Actions.MultiAction
-  name: FirstActions
-  nameWithType: MultiAction.FirstActions
-  fullName: TinyLife.Actions.MultiAction.FirstActions
+  name: Handler
+  nameWithType: MultiAction.Handler
+  fullName: TinyLife.Actions.MultiAction.Handler
 - uid: TinyLife.Actions.MultiAction.MainElapsedTime*
   commentId: Overload:TinyLife.Actions.MultiAction.MainElapsedTime
   name: MainElapsedTime
@@ -3865,11 +3756,40 @@ references:
   name: MultiAction
   nameWithType: MultiAction
   fullName: TinyLife.Actions.MultiAction
-- uid: TinyLife.Actions.MultiAction.NextActions*
-  commentId: Overload:TinyLife.Actions.MultiAction.NextActions
-  name: NextActions
-  nameWithType: MultiAction.NextActions
-  fullName: TinyLife.Actions.MultiAction.NextActions
+- uid: TinyLife.Actions.MultiActionHandler
+  commentId: T:TinyLife.Actions.MultiActionHandler
+  parent: TinyLife.Actions
+  name: MultiActionHandler
+  nameWithType: MultiActionHandler
+  fullName: TinyLife.Actions.MultiActionHandler
+- uid: TinyLife.Actions.MultiAction.CreateFirstActions
+  commentId: M:TinyLife.Actions.MultiAction.CreateFirstActions
+  parent: TinyLife.Actions.MultiAction
+  name: CreateFirstActions()
+  nameWithType: MultiAction.CreateFirstActions()
+  fullName: TinyLife.Actions.MultiAction.CreateFirstActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
+    name: CreateFirstActions
+    nameWithType: MultiAction.CreateFirstActions
+    fullName: TinyLife.Actions.MultiAction.CreateFirstActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
+    name: CreateFirstActions
+    nameWithType: MultiAction.CreateFirstActions
+    fullName: TinyLife.Actions.MultiAction.CreateFirstActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Actions.MultiAction.#ctor*
   commentId: Overload:TinyLife.Actions.MultiAction.#ctor
   name: MultiAction
@@ -3892,16 +3812,16 @@ references:
   name: CreateFirstActions
   nameWithType: MultiAction.CreateFirstActions
   fullName: TinyLife.Actions.MultiAction.CreateFirstActions
-- uid: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+- uid: System.Collections.Generic.IEnumerable{TinyLife.Actions.Typeless.TypelessAction}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.Typeless.TypelessAction}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<Action>
-  nameWithType: IEnumerable<Action>
-  fullName: System.Collections.Generic.IEnumerable<TinyLife.Actions.Action>
-  nameWithType.vb: IEnumerable(Of Action)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Actions.Action)
-  name.vb: IEnumerable(Of Action)
+  name: IEnumerable<TypelessAction>
+  nameWithType: IEnumerable<TypelessAction>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.Actions.Typeless.TypelessAction>
+  nameWithType.vb: IEnumerable(Of TypelessAction)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Actions.Typeless.TypelessAction)
+  name.vb: IEnumerable(Of TypelessAction)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
@@ -3911,10 +3831,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
+  - uid: TinyLife.Actions.Typeless.TypelessAction
+    name: TypelessAction
+    nameWithType: TypelessAction
+    fullName: TinyLife.Actions.Typeless.TypelessAction
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -3927,10 +3847,10 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
+  - uid: TinyLife.Actions.Typeless.TypelessAction
+    name: TypelessAction
+    nameWithType: TypelessAction
+    fullName: TinyLife.Actions.Typeless.TypelessAction
   - name: )
     nameWithType: )
     fullName: )
@@ -3973,6 +3893,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: TinyLife.Actions.MultiAction.AndThenInitialize*
   commentId: Overload:TinyLife.Actions.MultiAction.AndThenInitialize
   name: AndThenInitialize
@@ -4011,12 +3937,12 @@ references:
   name: AndThenIsCompleted
   nameWithType: MultiAction.AndThenIsCompleted
   fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted
-- uid: TinyLife.Actions.Action.CompletionType
-  commentId: T:TinyLife.Actions.Action.CompletionType
+- uid: TinyLife.Actions.CompletionType
+  commentId: T:TinyLife.Actions.CompletionType
   parent: TinyLife.Actions
-  name: Action.CompletionType
-  nameWithType: Action.CompletionType
-  fullName: TinyLife.Actions.Action.CompletionType
+  name: CompletionType
+  nameWithType: CompletionType
+  fullName: TinyLife.Actions.CompletionType
 - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   parent: TinyLife.Actions.MultiAction
@@ -4121,80 +4047,39 @@ references:
   name: TinyLife
   nameWithType: TinyLife
   fullName: TinyLife
-- uid: TinyLife.Actions.MultiAction.CreateNextActions*
-  commentId: Overload:TinyLife.Actions.MultiAction.CreateNextActions
-  name: CreateNextActions
-  nameWithType: MultiAction.CreateNextActions
-  fullName: TinyLife.Actions.MultiAction.CreateNextActions
-- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.MultiAction
-  name: OnCompleted(Action.CompletionType)
-  nameWithType: MultiAction.OnCompleted(Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  name: OnCompleted(CompletionType)
+  nameWithType: MultiAction.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
   spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
     name: OnCompleted
     nameWithType: MultiAction.OnCompleted
     fullName: TinyLife.Actions.MultiAction.OnCompleted
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
     name: OnCompleted
     nameWithType: MultiAction.OnCompleted
     fullName: TinyLife.Actions.MultiAction.OnCompleted
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  name: CreateNextActions(Action.CompletionType)
-  nameWithType: MultiAction.CreateNextActions(Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-    name: CreateNextActions
-    nameWithType: MultiAction.CreateNextActions
-    fullName: TinyLife.Actions.MultiAction.CreateNextActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CreateNextActions(TinyLife.Actions.Action.CompletionType)
-    name: CreateNextActions
-    nameWithType: MultiAction.CreateNextActions
-    fullName: TinyLife.Actions.MultiAction.CreateNextActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
@@ -4203,87 +4088,17 @@ references:
   name: AndThenOnCompleted
   nameWithType: MultiAction.AndThenOnCompleted
   fullName: TinyLife.Actions.MultiAction.AndThenOnCompleted
-- uid: TinyLife.Actions.Action.CompletionType.Completed
-  commentId: F:TinyLife.Actions.Action.CompletionType.Completed
-  isExternal: true
-- uid: TinyLife.Actions.MultiAction.ShouldFail*
-  commentId: Overload:TinyLife.Actions.MultiAction.ShouldFail
-  name: ShouldFail
-  nameWithType: MultiAction.ShouldFail
-  fullName: TinyLife.Actions.MultiAction.ShouldFail
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
-- uid: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.MultiAction.Initialize
+  commentId: M:TinyLife.Actions.MultiAction.Initialize
   parent: TinyLife.Actions.MultiAction
-  name: ShouldFail(Action, Action.CompletionType)
-  nameWithType: MultiAction.ShouldFail(Action, Action.CompletionType)
-  fullName: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action, TinyLife.Actions.Action.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-    name: ShouldFail
-    nameWithType: MultiAction.ShouldFail
-    fullName: TinyLife.Actions.MultiAction.ShouldFail
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.ShouldFail(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType)
-    name: ShouldFail
-    nameWithType: MultiAction.ShouldFail
-    fullName: TinyLife.Actions.MultiAction.ShouldFail
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.MultiAction.OnBetweenActions*
-  commentId: Overload:TinyLife.Actions.MultiAction.OnBetweenActions
-  name: OnBetweenActions
-  nameWithType: MultiAction.OnBetweenActions
-  fullName: TinyLife.Actions.MultiAction.OnBetweenActions
-- uid: TinyLife.Actions.Action.Initialize
-  commentId: M:TinyLife.Actions.Action.Initialize
-  parent: TinyLife.Actions.Action
   name: Initialize()
-  nameWithType: Action.Initialize()
-  fullName: TinyLife.Actions.Action.Initialize()
+  nameWithType: MultiAction.Initialize()
+  fullName: TinyLife.Actions.MultiAction.Initialize()
   spec.csharp:
-  - uid: TinyLife.Actions.Action.Initialize
+  - uid: TinyLife.Actions.MultiAction.Initialize
     name: Initialize
-    nameWithType: Action.Initialize
-    fullName: TinyLife.Actions.Action.Initialize
+    nameWithType: MultiAction.Initialize
+    fullName: TinyLife.Actions.MultiAction.Initialize
   - name: (
     nameWithType: (
     fullName: (
@@ -4291,21 +4106,21 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.Initialize
+  - uid: TinyLife.Actions.MultiAction.Initialize
     name: Initialize
-    nameWithType: Action.Initialize
-    fullName: TinyLife.Actions.Action.Initialize
+    nameWithType: MultiAction.Initialize
+    fullName: TinyLife.Actions.MultiAction.Initialize
   - name: (
     nameWithType: (
     fullName: (
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.MultiAction.Initialize*
-  commentId: Overload:TinyLife.Actions.MultiAction.Initialize
-  name: Initialize
-  nameWithType: MultiAction.Initialize
-  fullName: TinyLife.Actions.MultiAction.Initialize
+- uid: TinyLife.Actions.MultiAction.PreInitialize*
+  commentId: Overload:TinyLife.Actions.MultiAction.PreInitialize
+  name: PreInitialize
+  nameWithType: MultiAction.PreInitialize
+  fullName: TinyLife.Actions.MultiAction.PreInitialize
 - uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   commentId: M:TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   parent: TinyLife.Actions.Action
@@ -4380,17 +4195,17 @@ references:
   name: Update
   nameWithType: MultiAction.Update
   fullName: TinyLife.Actions.MultiAction.Update
-- uid: TinyLife.Actions.Action.IsCompleted
-  commentId: M:TinyLife.Actions.Action.IsCompleted
-  parent: TinyLife.Actions.Action
-  name: IsCompleted()
-  nameWithType: Action.IsCompleted()
-  fullName: TinyLife.Actions.Action.IsCompleted()
+- uid: TinyLife.Actions.Typeless.TypelessAction.Initialize
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Initialize
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: Initialize()
+  nameWithType: TypelessAction.Initialize()
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Initialize()
   spec.csharp:
-  - uid: TinyLife.Actions.Action.IsCompleted
-    name: IsCompleted
-    nameWithType: Action.IsCompleted
-    fullName: TinyLife.Actions.Action.IsCompleted
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Initialize
+    name: Initialize
+    nameWithType: TypelessAction.Initialize
+    fullName: TinyLife.Actions.Typeless.TypelessAction.Initialize
   - name: (
     nameWithType: (
     fullName: (
@@ -4398,10 +4213,43 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.IsCompleted
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Initialize
+    name: Initialize
+    nameWithType: TypelessAction.Initialize
+    fullName: TinyLife.Actions.Typeless.TypelessAction.Initialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.Initialize*
+  commentId: Overload:TinyLife.Actions.MultiAction.Initialize
+  name: Initialize
+  nameWithType: MultiAction.Initialize
+  fullName: TinyLife.Actions.MultiAction.Initialize
+- uid: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.IsCompleted
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: IsCompleted()
+  nameWithType: TypelessAction.IsCompleted()
+  fullName: TinyLife.Actions.Typeless.TypelessAction.IsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
     name: IsCompleted
-    nameWithType: Action.IsCompleted
-    fullName: TinyLife.Actions.Action.IsCompleted
+    nameWithType: TypelessAction.IsCompleted
+    fullName: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
+    name: IsCompleted
+    nameWithType: TypelessAction.IsCompleted
+    fullName: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
   - name: (
     nameWithType: (
     fullName: (
@@ -4413,39 +4261,39 @@ references:
   name: IsCompleted
   nameWithType: MultiAction.IsCompleted
   fullName: TinyLife.Actions.MultiAction.IsCompleted
-- uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
-  commentId: M:TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
+- uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.Action
-  name: OnCompleted(Action.CompletionType)
-  nameWithType: Action.OnCompleted(Action.CompletionType)
-  fullName: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  name: OnCompleted(CompletionType)
+  nameWithType: Action.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
     name: OnCompleted
     nameWithType: Action.OnCompleted
     fullName: TinyLife.Actions.Action.OnCompleted
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.Action.CompletionType)
+  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
     name: OnCompleted
     nameWithType: Action.OnCompleted
     fullName: TinyLife.Actions.Action.OnCompleted
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
@@ -4495,6 +4343,13 @@ references:
   name: Validate
   nameWithType: MultiAction.Validate
   fullName: TinyLife.Actions.MultiAction.Validate
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -4536,17 +4391,17 @@ references:
   name: CanCancel
   nameWithType: MultiAction.CanCancel
   fullName: TinyLife.Actions.MultiAction.CanCancel
-- uid: TinyLife.Actions.Action.GetInProgressTime
-  commentId: M:TinyLife.Actions.Action.GetInProgressTime
-  parent: TinyLife.Actions.Action
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
+  parent: TinyLife.Actions.Typeless.TypelessAction
   name: GetInProgressTime()
-  nameWithType: Action.GetInProgressTime()
-  fullName: TinyLife.Actions.Action.GetInProgressTime()
+  nameWithType: TypelessAction.GetInProgressTime()
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime()
   spec.csharp:
-  - uid: TinyLife.Actions.Action.GetInProgressTime
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
     name: GetInProgressTime
-    nameWithType: Action.GetInProgressTime
-    fullName: TinyLife.Actions.Action.GetInProgressTime
+    nameWithType: TypelessAction.GetInProgressTime
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
   - name: (
     nameWithType: (
     fullName: (
@@ -4554,10 +4409,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.GetInProgressTime
+  - uid: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
     name: GetInProgressTime
-    nameWithType: Action.GetInProgressTime
-    fullName: TinyLife.Actions.Action.GetInProgressTime
+    nameWithType: TypelessAction.GetInProgressTime
+    fullName: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
   - name: (
     nameWithType: (
     fullName: (
@@ -4569,34 +4424,6 @@ references:
   name: GetInProgressTime
   nameWithType: MultiAction.GetInProgressTime
   fullName: TinyLife.Actions.MultiAction.GetInProgressTime
-- uid: TinyLife.Actions.MultiAction.CreateFirstActions
-  commentId: M:TinyLife.Actions.MultiAction.CreateFirstActions
-  parent: TinyLife.Actions.MultiAction
-  name: CreateFirstActions()
-  nameWithType: MultiAction.CreateFirstActions()
-  fullName: TinyLife.Actions.MultiAction.CreateFirstActions()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
-    name: CreateFirstActions
-    nameWithType: MultiAction.CreateFirstActions
-    fullName: TinyLife.Actions.MultiAction.CreateFirstActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
-    name: CreateFirstActions
-    nameWithType: MultiAction.CreateFirstActions
-    fullName: TinyLife.Actions.MultiAction.CreateFirstActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.ActionType.GoHere
   commentId: F:TinyLife.Actions.ActionType.GoHere
   isExternal: true
@@ -4617,3 +4444,45 @@ references:
   name: ObjectCategory
   nameWithType: ObjectCategory
   fullName: TinyLife.Objects.ObjectCategory
+- uid: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  name: IEnumerable<Action>
+  nameWithType: IEnumerable<Action>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.Actions.Action>
+  nameWithType.vb: IEnumerable(Of Action)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Actions.Action)
+  name.vb: IEnumerable(Of Action)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: )
+    nameWithType: )
+    fullName: )

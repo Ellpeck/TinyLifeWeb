@@ -5,6 +5,7 @@ items:
   id: TalkAction.TalkSettings
   parent: TinyLife.Actions
   children:
+  - TinyLife.Actions.TalkAction.TalkSettings.CanDoRandomly
   - TinyLife.Actions.TalkAction.TalkSettings.CanExecute
   - TinyLife.Actions.TalkAction.TalkSettings.CheckCanExecute(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.TalkAction.TalkSettings.EmoteCategory
@@ -20,11 +21,14 @@ items:
   - TinyLife.Actions.TalkAction.TalkSettings.OnSuccess
   - TinyLife.Actions.TalkAction.TalkSettings.PartnerEmoteCategory
   - TinyLife.Actions.TalkAction.TalkSettings.PartnerSpeakStyle
+  - TinyLife.Actions.TalkAction.TalkSettings.RequiredAges
   - TinyLife.Actions.TalkAction.TalkSettings.RequiredEmotion
+  - TinyLife.Actions.TalkAction.TalkSettings.RequiredPartnerAges
   - TinyLife.Actions.TalkAction.TalkSettings.RequiredPersonality
   - TinyLife.Actions.TalkAction.TalkSettings.RequiredSkill
   - TinyLife.Actions.TalkAction.TalkSettings.RestoredNeed
   - TinyLife.Actions.TalkAction.TalkSettings.SpeakStyle
+  - TinyLife.Actions.TalkAction.TalkSettings.SuccessEmotion
   - TinyLife.Actions.TalkAction.TalkSettings.TalkMinutes
   langs:
   - csharp
@@ -40,7 +44,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: TalkSettings
     path: Actions/TalkAction.cs
-    startLine: 103
+    startLine: 104
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -96,7 +100,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FriendshipGain
     path: Actions/TalkAction.cs
-    startLine: 109
+    startLine: 110
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -129,7 +133,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GoBadlyChance
     path: Actions/TalkAction.cs
-    startLine: 114
+    startLine: 115
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -162,7 +166,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: TalkMinutes
     path: Actions/TalkAction.cs
-    startLine: 118
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -195,7 +199,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: EmoteCategory
     path: Actions/TalkAction.cs
-    startLine: 122
+    startLine: 123
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -228,7 +232,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: SpeakStyle
     path: Actions/TalkAction.cs
-    startLine: 126
+    startLine: 127
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -261,7 +265,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: PartnerEmoteCategory
     path: Actions/TalkAction.cs
-    startLine: 131
+    startLine: 132
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -294,7 +298,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: PartnerSpeakStyle
     path: Actions/TalkAction.cs
-    startLine: 136
+    startLine: 137
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -327,7 +331,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GainedSkill
     path: Actions/TalkAction.cs
-    startLine: 140
+    startLine: 141
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -360,7 +364,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GainSkillOnFailure
     path: Actions/TalkAction.cs
-    startLine: 145
+    startLine: 146
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -393,11 +397,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RestoredNeed
     path: Actions/TalkAction.cs
-    startLine: 149
+    startLine: 151
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThe need (alongside <xref href=\"TinyLife.NeedType.Social\" data-throw-if-not-resolved=\"false\"></xref>) that is restored during the conversation\n"
+  summary: "\nThe need (alongside <xref href=\"TinyLife.NeedType.Social\" data-throw-if-not-resolved=\"false\"></xref>) that is restored during the conversation.\nNote that, if the amount is set to 0, the action&apos;s <xref href=\"TinyLife.Actions.ActionType.AiSettings.SolvedNeeds\" data-throw-if-not-resolved=\"false\"></xref> will still be set.\n"
   example: []
   syntax:
     content: public (NeedType Type, int Amount) RestoredNeed
@@ -426,7 +430,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RequiredEmotion
     path: Actions/TalkAction.cs
-    startLine: 154
+    startLine: 156
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -459,7 +463,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RequiredPersonality
     path: Actions/TalkAction.cs
-    startLine: 159
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -492,7 +496,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: RequiredSkill
     path: Actions/TalkAction.cs
-    startLine: 165
+    startLine: 167
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -503,6 +507,72 @@ items:
     return:
       type: System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}
     content.vb: Public RequiredSkill As(Type As SkillType, Level As Integer)(Of SkillType , Integer)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.TalkAction.TalkSettings.RequiredAges
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.RequiredAges
+  id: RequiredAges
+  parent: TinyLife.Actions.TalkAction.TalkSettings
+  langs:
+  - csharp
+  - vb
+  name: RequiredAges
+  nameWithType: TalkAction.TalkSettings.RequiredAges
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.RequiredAges
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/TalkAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: RequiredAges
+    path: Actions/TalkAction.cs
+    startLine: 172
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nThe <xref href=\"TinyLife.Objects.AgeGroup\" data-throw-if-not-resolved=\"false\"></xref> values that a person can have for this action to become available to them.\nBy default, this value is 0, meaning all ages are allowed.\n"
+  example: []
+  syntax:
+    content: public AgeGroup RequiredAges
+    return:
+      type: TinyLife.Objects.AgeGroup
+    content.vb: Public RequiredAges As AgeGroup
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.TalkAction.TalkSettings.RequiredPartnerAges
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.RequiredPartnerAges
+  id: RequiredPartnerAges
+  parent: TinyLife.Actions.TalkAction.TalkSettings
+  langs:
+  - csharp
+  - vb
+  name: RequiredPartnerAges
+  nameWithType: TalkAction.TalkSettings.RequiredPartnerAges
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.RequiredPartnerAges
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/TalkAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: RequiredPartnerAges
+    path: Actions/TalkAction.cs
+    startLine: 177
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nThe <xref href=\"TinyLife.Objects.AgeGroup\" data-throw-if-not-resolved=\"false\"></xref> values that an action partner can have for this action to become available to a person.\nBy default, this value is 0, meaning all ages are allowed.\n"
+  example: []
+  syntax:
+    content: public AgeGroup RequiredPartnerAges
+    return:
+      type: TinyLife.Objects.AgeGroup
+    content.vb: Public RequiredPartnerAges As AgeGroup
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -525,7 +595,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CanExecute
     path: Actions/TalkAction.cs
-    startLine: 170
+    startLine: 182
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -558,17 +628,50 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FailEmotion
     path: Actions/TalkAction.cs
-    startLine: 175
+    startLine: 187
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA <xref href=\"TinyLife.Emotions.EmotionModifier\" data-throw-if-not-resolved=\"false\"></xref> that is added to the person if this talk action fails.\nThe talk actions fails if the <xref href=\"TinyLife.Actions.TalkAction.TalkSettings.GoBadlyChance\" data-throw-if-not-resolved=\"false\"></xref> has been randomly reached.\n"
+  summary: "\nA <xref href=\"TinyLife.Emotions.EmotionModifier\" data-throw-if-not-resolved=\"false\"></xref> that is added to the <xref href=\"TinyLife.Actions.SocialAction.IsMain\" data-throw-if-not-resolved=\"false\"></xref> person if this talk action fails.\nThe talk actions fails if the <xref href=\"TinyLife.Actions.TalkAction.TalkSettings.GoBadlyChance\" data-throw-if-not-resolved=\"false\"></xref> has been randomly reached.\n"
   example: []
   syntax:
-    content: public EmotionModifier FailEmotion
+    content: public (EmotionModifier Modifier, int Amount, TimeSpan Time) FailEmotion
     return:
-      type: TinyLife.Emotions.EmotionModifier
-    content.vb: Public FailEmotion As EmotionModifier
+      type: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan}
+    content.vb: Public FailEmotion As(Modifier As EmotionModifier, Amount As Integer, Time As TimeSpan)(Of EmotionModifier , Integer, TimeSpan)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.TalkAction.TalkSettings.SuccessEmotion
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.SuccessEmotion
+  id: SuccessEmotion
+  parent: TinyLife.Actions.TalkAction.TalkSettings
+  langs:
+  - csharp
+  - vb
+  name: SuccessEmotion
+  nameWithType: TalkAction.TalkSettings.SuccessEmotion
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.SuccessEmotion
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/TalkAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: SuccessEmotion
+    path: Actions/TalkAction.cs
+    startLine: 191
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nA <xref href=\"TinyLife.Emotions.EmotionModifier\" data-throw-if-not-resolved=\"false\"></xref> that is added to the <xref href=\"TinyLife.Actions.SocialAction.IsMain\" data-throw-if-not-resolved=\"false\"></xref> person if this talk action succeeds\n"
+  example: []
+  syntax:
+    content: public (EmotionModifier Modifier, int Amount, TimeSpan Time) SuccessEmotion
+    return:
+      type: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan}
+    content.vb: Public SuccessEmotion As(Modifier As EmotionModifier, Amount As Integer, Time As TimeSpan)(Of EmotionModifier , Integer, TimeSpan)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -591,7 +694,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GainRomancePercentage
     path: Actions/TalkAction.cs
-    startLine: 181
+    startLine: 197
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -624,7 +727,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: LoweredEmotion
     path: Actions/TalkAction.cs
-    startLine: 186
+    startLine: 202
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -657,7 +760,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OnSuccess
     path: Actions/TalkAction.cs
-    startLine: 190
+    startLine: 206
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -690,7 +793,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OnFailure
     path: Actions/TalkAction.cs
-    startLine: 194
+    startLine: 210
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -701,6 +804,39 @@ items:
     return:
       type: System.Action{TinyLife.Actions.SocialAction}
     content.vb: Public OnFailure As Action(Of SocialAction)
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.TalkAction.TalkSettings.CanDoRandomly
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.CanDoRandomly
+  id: CanDoRandomly
+  parent: TinyLife.Actions.TalkAction.TalkSettings
+  langs:
+  - csharp
+  - vb
+  name: CanDoRandomly
+  nameWithType: TalkAction.TalkSettings.CanDoRandomly
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.CanDoRandomly
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/TalkAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: CanDoRandomly
+    path: Actions/TalkAction.cs
+    startLine: 215
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nWhether this action can be done randomly or not.\nThis value is passed to <xref href=\"TinyLife.Actions.ActionType.AiSettings.CanDoRandomly\" data-throw-if-not-resolved=\"false\"></xref>, and it defaults to true.\n"
+  example: []
+  syntax:
+    content: public bool CanDoRandomly
+    return:
+      type: System.Boolean
+    content.vb: Public CanDoRandomly As Boolean
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -723,7 +859,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CheckCanExecute
     path: Actions/TalkAction.cs
-    startLine: 203
+    startLine: 224
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -765,7 +901,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Evaluate
     path: Actions/TalkAction.cs
-    startLine: 213
+    startLine: 237
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1985,6 +2121,9 @@ references:
 - uid: TinyLife.NeedType.Social
   commentId: F:TinyLife.NeedType.Social
   isExternal: true
+- uid: TinyLife.Actions.ActionType.AiSettings.SolvedNeeds
+  commentId: F:TinyLife.Actions.ActionType.AiSettings.SolvedNeeds
+  isExternal: true
 - uid: System.ValueTuple{TinyLife.NeedType,System.Int32}
   commentId: T:System.ValueTuple{TinyLife.NeedType,System.Int32}
   parent: System
@@ -2085,6 +2224,12 @@ references:
   name: TinyLife.Skills
   nameWithType: TinyLife.Skills
   fullName: TinyLife.Skills
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
 - uid: TinyLife.Actions.TalkAction.TalkSettings.CheckCanExecute(TinyLife.Actions.ActionInfo,System.Boolean)
   commentId: M:TinyLife.Actions.TalkAction.TalkSettings.CheckCanExecute(TinyLife.Actions.ActionInfo,System.Boolean)
   isExternal: true
@@ -2100,6 +2245,155 @@ references:
   name: EmotionModifier
   nameWithType: EmotionModifier
   fullName: TinyLife.Emotions.EmotionModifier
+- uid: TinyLife.Actions.SocialAction.IsMain
+  commentId: P:TinyLife.Actions.SocialAction.IsMain
+  parent: TinyLife.Actions.SocialAction
+  name: IsMain
+  nameWithType: SocialAction.IsMain
+  fullName: TinyLife.Actions.SocialAction.IsMain
+- uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan}
+  commentId: T:System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan}
+  parent: System
+  definition: System.ValueTuple`3
+  name: (T1, T2, T3)<EmotionModifier, Int32, TimeSpan>
+  nameWithType: (T1, T2, T3)<EmotionModifier, Int32, TimeSpan>
+  fullName: System.ValueTuple<TinyLife.Emotions.EmotionModifier, System.Int32, System.TimeSpan>
+  nameWithType.vb: (T1, T2, T3)(Of EmotionModifier, Int32, TimeSpan)
+  fullName.vb: System.ValueTuple(Of TinyLife.Emotions.EmotionModifier, System.Int32, System.TimeSpan)
+  name.vb: (T1, T2, T3)(Of EmotionModifier, Int32, TimeSpan)
+  spec.csharp:
+  - uid: System.ValueTuple`3
+    name: (T1, T2, T3)
+    nameWithType: (T1, T2, T3)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    nameWithType: EmotionModifier
+    fullName: TinyLife.Emotions.EmotionModifier
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.ValueTuple`3
+    name: (T1, T2, T3)
+    nameWithType: (T1, T2, T3)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    nameWithType: EmotionModifier
+    fullName: TinyLife.Emotions.EmotionModifier
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Int32
+    name: Int32
+    nameWithType: Int32
+    fullName: System.Int32
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.SocialAction
+  commentId: T:TinyLife.Actions.SocialAction
+  parent: TinyLife.Actions
+  name: SocialAction
+  nameWithType: SocialAction
+  fullName: TinyLife.Actions.SocialAction
+- uid: System.ValueTuple`3
+  commentId: T:System.ValueTuple`3
+  isExternal: true
+  name: (T1, T2, T3)<T1, T2, T3>
+  nameWithType: (T1, T2, T3)<T1, T2, T3>
+  fullName: System.ValueTuple<T1, T2, T3>
+  nameWithType.vb: (T1, T2, T3)(Of T1, T2, T3)
+  fullName.vb: System.ValueTuple(Of T1, T2, T3)
+  name.vb: (T1, T2, T3)(Of T1, T2, T3)
+  spec.csharp:
+  - uid: System.ValueTuple`3
+    name: (T1, T2, T3)
+    nameWithType: (T1, T2, T3)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T3
+    nameWithType: T3
+    fullName: T3
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.ValueTuple`3
+    name: (T1, T2, T3)
+    nameWithType: (T1, T2, T3)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T1
+    nameWithType: T1
+    fullName: T1
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T2
+    nameWithType: T2
+    fullName: T2
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T3
+    nameWithType: T3
+    fullName: T3
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Actions.TalkAction.TalkSettings.FriendshipGain
   commentId: F:TinyLife.Actions.TalkAction.TalkSettings.FriendshipGain
   isExternal: true
@@ -2170,12 +2464,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.SocialAction.IsMain
-  commentId: P:TinyLife.Actions.SocialAction.IsMain
-  parent: TinyLife.Actions.SocialAction
-  name: IsMain
-  nameWithType: SocialAction.IsMain
-  fullName: TinyLife.Actions.SocialAction.IsMain
 - uid: System.Action{TinyLife.Actions.SocialAction}
   commentId: T:System.Action{TinyLife.Actions.SocialAction}
   parent: System
@@ -2218,12 +2506,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.SocialAction
-  commentId: T:TinyLife.Actions.SocialAction
-  parent: TinyLife.Actions
-  name: SocialAction
-  nameWithType: SocialAction
-  fullName: TinyLife.Actions.SocialAction
 - uid: System.Action`1
   commentId: T:System.Action`1
   isExternal: true
@@ -2263,6 +2545,9 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Actions.ActionType.AiSettings.CanDoRandomly
+  commentId: F:TinyLife.Actions.ActionType.AiSettings.CanDoRandomly
+  isExternal: true
 - uid: TinyLife.Actions.TalkAction.TalkSettings
   commentId: T:TinyLife.Actions.TalkAction.TalkSettings
   parent: TinyLife.Actions

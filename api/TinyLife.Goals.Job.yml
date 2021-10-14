@@ -5,13 +5,13 @@ items:
   id: Job
   parent: TinyLife.Goals
   children:
-  - TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person)
+  - TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)
   - TinyLife.Goals.Job.AddLevel(System.Int32)
   - TinyLife.Goals.Job.AddPerformance(System.Single)
   - TinyLife.Goals.Job.CurrentHourlyPay
+  - TinyLife.Goals.Job.DailyTasks
   - TinyLife.Goals.Job.HasRequiredPromotionSkills
   - TinyLife.Goals.Job.Level
-  - TinyLife.Goals.Job.MaxLevel
   - TinyLife.Goals.Job.Performance
   - TinyLife.Goals.Job.Person
   - TinyLife.Goals.Job.Type
@@ -31,7 +31,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Job
     path: Goals/Job.cs
-    startLine: 26
+    startLine: 17
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -78,41 +78,6 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: TinyLife.Goals.Job.MaxLevel
-  commentId: F:TinyLife.Goals.Job.MaxLevel
-  id: MaxLevel
-  parent: TinyLife.Goals.Job
-  langs:
-  - csharp
-  - vb
-  name: MaxLevel
-  nameWithType: Job.MaxLevel
-  fullName: TinyLife.Goals.Job.MaxLevel
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Goals/Job.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
-    id: MaxLevel
-    path: Goals/Job.cs
-    startLine: 33
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Goals
-  summary: "\nThe maximum level that a <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> can have.\nA job&apos;s level goes from 0 to this value, inclusively.\n"
-  example: []
-  syntax:
-    content: public const int MaxLevel = 9
-    return:
-      type: System.Int32
-    content.vb: Public Const MaxLevel As Integer = 9
-  modifiers.csharp:
-  - public
-  - const
-  modifiers.vb:
-  - Public
-  - Const
 - uid: TinyLife.Goals.Job.Type
   commentId: F:TinyLife.Goals.Job.Type
   id: Type
@@ -131,7 +96,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Type
     path: Goals/Job.cs
-    startLine: 39
+    startLine: 24
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -176,7 +141,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Person
     path: Goals/Job.cs
-    startLine: 43
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -213,7 +178,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Performance
     path: Goals/Job.cs
-    startLine: 48
+    startLine: 33
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -260,11 +225,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Level
     path: Goals/Job.cs
-    startLine: 54
+    startLine: 39
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe current level that this job is at.\nNote that the default level is 0, and the level goes up to a maximum of <xref href=\"TinyLife.Goals.Job.MaxLevel\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe current level that this job is at.\nNote that the default level is 0, and the level goes up to a maximum of <xref href=\"TinyLife.Goals.JobType.MaxLevel\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
@@ -279,6 +244,53 @@ items:
 
       Public ReadOnly Property Level As Integer
   overload: TinyLife.Goals.Job.Level*
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Goals.Job.DailyTasks
+  commentId: P:TinyLife.Goals.Job.DailyTasks
+  id: DailyTasks
+  parent: TinyLife.Goals.Job
+  langs:
+  - csharp
+  - vb
+  name: DailyTasks
+  nameWithType: Job.DailyTasks
+  fullName: TinyLife.Goals.Job.DailyTasks
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/Job.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: DailyTasks
+    path: Goals/Job.cs
+    startLine: 44
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA goal set that represents the daily tasks for this job\n"
+  example: []
+  syntax:
+    content: >-
+      [DataMember]
+
+      public GoalSet DailyTasks { get; }
+    parameters: []
+    return:
+      type: TinyLife.Goals.GoalSet
+    content.vb: >-
+      <DataMember>
+
+      Public ReadOnly Property DailyTasks As GoalSet
+  overload: TinyLife.Goals.Job.DailyTasks*
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -307,7 +319,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CurrentHourlyPay
     path: Goals/Job.cs
-    startLine: 59
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -326,16 +338,16 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person)
-  commentId: M:TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person)
-  id: '#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person)'
+- uid: TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)
+  commentId: M:TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)
+  id: '#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)'
   parent: TinyLife.Goals.Job
   langs:
   - csharp
   - vb
-  name: Job(JobType, Person)
-  nameWithType: Job.Job(JobType, Person)
-  fullName: TinyLife.Goals.Job.Job(TinyLife.Goals.JobType, TinyLife.Objects.Person)
+  name: Job(JobType, Person, Int32)
+  nameWithType: Job.Job(JobType, Person, Int32)
+  fullName: TinyLife.Goals.Job.Job(TinyLife.Goals.JobType, TinyLife.Objects.Person, System.Int32)
   type: Constructor
   source:
     remote:
@@ -344,14 +356,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
     path: Goals/Job.cs
-    startLine: 66
+    startLine: 57
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nCreates a new job from the given settings\n"
   example: []
   syntax:
-    content: public Job(JobType type, Person person)
+    content: public Job(JobType type, Person person, int level)
     parameters:
     - id: type
       type: TinyLife.Goals.JobType
@@ -359,7 +371,10 @@ items:
     - id: person
       type: TinyLife.Objects.Person
       description: The person that should have this job
-    content.vb: Public Sub New(type As JobType, person As Person)
+    - id: level
+      type: System.Int32
+      description: The level to start out with this job at
+    content.vb: Public Sub New(type As JobType, person As Person, level As Integer)
   overload: TinyLife.Goals.Job.#ctor*
   modifiers.csharp:
   - public
@@ -383,7 +398,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Update
     path: Goals/Job.cs
-    startLine: 76
+    startLine: 70
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -419,7 +434,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AddPerformance
     path: Goals/Job.cs
-    startLine: 105
+    startLine: 101
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -455,11 +470,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: AddLevel
     path: Goals/Job.cs
-    startLine: 123
+    startLine: 120
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nAdds (or removes) the given amount of levels to this job&apos;s <xref href=\"TinyLife.Goals.Job.Level\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that the level value is automatically clamped between 0 and <xref href=\"TinyLife.Goals.Job.MaxLevel\" data-throw-if-not-resolved=\"false\"></xref>, inclusively.\n"
+  summary: "\nAdds (or removes) the given amount of levels to this job&apos;s <xref href=\"TinyLife.Goals.Job.Level\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public void AddLevel(int level)
@@ -491,7 +506,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: HasRequiredPromotionSkills
     path: Goals/Job.cs
-    startLine: 154
+    startLine: 159
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -526,7 +541,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Validate
     path: Goals/Job.cs
-    startLine: 166
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -1305,19 +1320,6 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Goals.Job
-  commentId: T:TinyLife.Goals.Job
-  parent: TinyLife.Goals
-  name: Job
-  nameWithType: Job
-  fullName: TinyLife.Goals.Job
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: TinyLife.Goals.Job.Person*
   commentId: Overload:TinyLife.Goals.Job.Person
   name: Person
@@ -1346,17 +1348,41 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
-- uid: TinyLife.Goals.Job.MaxLevel
-  commentId: F:TinyLife.Goals.Job.MaxLevel
-  isExternal: true
+- uid: TinyLife.Goals.JobType.MaxLevel
+  commentId: P:TinyLife.Goals.JobType.MaxLevel
+  parent: TinyLife.Goals.JobType
+  name: MaxLevel
+  nameWithType: JobType.MaxLevel
+  fullName: TinyLife.Goals.JobType.MaxLevel
 - uid: TinyLife.Goals.Job.Level*
   commentId: Overload:TinyLife.Goals.Job.Level
   name: Level
   nameWithType: Job.Level
   fullName: TinyLife.Goals.Job.Level
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: TinyLife.Goals.Job.DailyTasks*
+  commentId: Overload:TinyLife.Goals.Job.DailyTasks
+  name: DailyTasks
+  nameWithType: Job.DailyTasks
+  fullName: TinyLife.Goals.Job.DailyTasks
+- uid: TinyLife.Goals.GoalSet
+  commentId: T:TinyLife.Goals.GoalSet
+  parent: TinyLife.Goals
+  name: GoalSet
+  nameWithType: GoalSet
+  fullName: TinyLife.Goals.GoalSet
 - uid: TinyLife.Goals.JobType.HourlyPay
   commentId: F:TinyLife.Goals.JobType.HourlyPay
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: HourlyPay
+  nameWithType: JobType.HourlyPay
+  fullName: TinyLife.Goals.JobType.HourlyPay
 - uid: TinyLife.Goals.Job.Level
   commentId: P:TinyLife.Goals.Job.Level
   isExternal: true
@@ -1403,7 +1429,10 @@ references:
   fullName: TinyLife.Goals.Job.AddLevel
 - uid: TinyLife.Goals.JobType.RequiredPromotionSkills
   commentId: P:TinyLife.Goals.JobType.RequiredPromotionSkills
-  isExternal: true
+  parent: TinyLife.Goals.JobType
+  name: RequiredPromotionSkills
+  nameWithType: JobType.RequiredPromotionSkills
+  fullName: TinyLife.Goals.JobType.RequiredPromotionSkills
 - uid: TinyLife.Goals.Job.HasRequiredPromotionSkills*
   commentId: Overload:TinyLife.Goals.Job.HasRequiredPromotionSkills
   name: HasRequiredPromotionSkills

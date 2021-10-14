@@ -1,3 +1,34 @@
+# 0.17.0
+This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
+
+Additions
+- Added Life Goals
+- Added 5 new personality types that can be obtained by completing life goals
+- Added a Daily Task system to some jobs
+- Added Dutch translation ([Alexander Stekelenburg](https://twitter.com/superaxander))
+
+Improvements
+- Added an in-game hint that explains out of town actions
+- Made pivot points pixel-perfect for people to avoid visual alignment inconsistencies
+- Added Twitter button to main menu
+- Improved GPU memory usage for tiles
+- Improved the visual layout of the credits menu
+- Added a minor personality types system and moved asexuality and aromance from separate properties to minor personalities
+- Renamed Lazy personality to Laid-Back
+- Automatically fill empty lot employments and only bring up the menu if there are no available exported people
+- Made the language menu display the completion of localizations
+
+Fixes
+- Fixed newly placed tiles looking weird sometimes
+- Fixed an action exception when someone is fired while at work
+- Fixed character creator crashing when someone is bald
+- Fixed the scrap action being shown as unavailable on all objects if a person is holding an item
+- Fixed scrapping an object failing if the item is held
+- Fixed three-seater sofas not actually having three seats
+- Fixed food items missing creator information in their tooltip
+- Fixed concurrency issues when saving occasionally
+- Fixed people displaying particles when hidden
+ 
 # 0.16.1
 Additions
 - Added "[Give Feedback or Report Bug](https://ell.lt/tlfeedback)" buttons to the in-game and main menus

@@ -54,6 +54,9 @@ items:
   - TinyLife.Objects.FoodTypedItem.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
   - TinyLife.Objects.Furniture.Random
   - TinyLife.Objects.Furniture.OnGetDescription
+  - TinyLife.Objects.Furniture.OnSetCreator
+  - TinyLife.Objects.Furniture.OnGetDirty
+  - TinyLife.Objects.Furniture.OnDirty
   - TinyLife.Objects.Furniture.Type
   - TinyLife.Objects.Furniture.Rotation
   - TinyLife.Objects.Furniture.ParentFurniture
@@ -65,11 +68,12 @@ items:
   - TinyLife.Objects.Furniture.DevaluedThroughUse
   - TinyLife.Objects.Furniture.AreUtilitiesDisabled
   - TinyLife.Objects.Furniture.IsStatic
-  - TinyLife.Objects.Furniture.Creator
+  - TinyLife.Objects.Furniture.CreatorId
   - TinyLife.Objects.Furniture.Quality
   - TinyLife.Objects.Furniture.CanBeDirty
   - TinyLife.Objects.Furniture.Dirty
   - TinyLife.Objects.Furniture.CustomPrice
+  - TinyLife.Objects.Furniture.Creator
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
   - TinyLife.Objects.Furniture.GetCategories(TinyLife.Objects.Person)
@@ -77,12 +81,13 @@ items:
   - TinyLife.Objects.Furniture.OnRemoved
   - TinyLife.Objects.Furniture.GetAiPriority(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Furniture.GetVisibility
-  - TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType,System.Boolean)
+  - TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   - TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed,System.Boolean)
   - TinyLife.Objects.Furniture.GetPrice
   - TinyLife.Objects.Furniture.GetDescription
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(System.TimeSpan)
+  - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetFreeActionSpots(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -116,6 +121,7 @@ items:
   - TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Misc.Direction2,MLEM.Misc.Direction2)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
+  - TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,MLEM.Misc.Direction2,System.Single,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
@@ -538,6 +544,24 @@ references:
   name: OnGetDescription
   nameWithType: Furniture.OnGetDescription
   fullName: TinyLife.Objects.Furniture.OnGetDescription
+- uid: TinyLife.Objects.Furniture.OnSetCreator
+  commentId: E:TinyLife.Objects.Furniture.OnSetCreator
+  parent: TinyLife.Objects.Furniture
+  name: OnSetCreator
+  nameWithType: Furniture.OnSetCreator
+  fullName: TinyLife.Objects.Furniture.OnSetCreator
+- uid: TinyLife.Objects.Furniture.OnGetDirty
+  commentId: E:TinyLife.Objects.Furniture.OnGetDirty
+  parent: TinyLife.Objects.Furniture
+  name: OnGetDirty
+  nameWithType: Furniture.OnGetDirty
+  fullName: TinyLife.Objects.Furniture.OnGetDirty
+- uid: TinyLife.Objects.Furniture.OnDirty
+  commentId: E:TinyLife.Objects.Furniture.OnDirty
+  parent: TinyLife.Objects.Furniture
+  name: OnDirty
+  nameWithType: Furniture.OnDirty
+  fullName: TinyLife.Objects.Furniture.OnDirty
 - uid: TinyLife.Objects.Furniture.Type
   commentId: F:TinyLife.Objects.Furniture.Type
   parent: TinyLife.Objects.Furniture
@@ -604,12 +628,12 @@ references:
   name: IsStatic
   nameWithType: Furniture.IsStatic
   fullName: TinyLife.Objects.Furniture.IsStatic
-- uid: TinyLife.Objects.Furniture.Creator
-  commentId: F:TinyLife.Objects.Furniture.Creator
+- uid: TinyLife.Objects.Furniture.CreatorId
+  commentId: P:TinyLife.Objects.Furniture.CreatorId
   parent: TinyLife.Objects.Furniture
-  name: Creator
-  nameWithType: Furniture.Creator
-  fullName: TinyLife.Objects.Furniture.Creator
+  name: CreatorId
+  nameWithType: Furniture.CreatorId
+  fullName: TinyLife.Objects.Furniture.CreatorId
 - uid: TinyLife.Objects.Furniture.Quality
   commentId: F:TinyLife.Objects.Furniture.Quality
   parent: TinyLife.Objects.Furniture
@@ -634,6 +658,12 @@ references:
   name: CustomPrice
   nameWithType: Furniture.CustomPrice
   fullName: TinyLife.Objects.Furniture.CustomPrice
+- uid: TinyLife.Objects.Furniture.Creator
+  commentId: P:TinyLife.Objects.Furniture.Creator
+  parent: TinyLife.Objects.Furniture
+  name: Creator
+  nameWithType: Furniture.Creator
+  fullName: TinyLife.Objects.Furniture.Creator
 - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   commentId: M:TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   parent: TinyLife.Objects.Furniture
@@ -955,15 +985,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  commentId: M:TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  name: OnActionCompleted(Action, Action.CompletionType, Boolean)
-  nameWithType: Furniture.OnActionCompleted(Action, Action.CompletionType, Boolean)
-  fullName: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action, TinyLife.Actions.Action.CompletionType, System.Boolean)
+  name: OnActionCompleted(Action, CompletionType, Boolean)
+  nameWithType: Furniture.OnActionCompleted(Action, CompletionType, Boolean)
+  fullName: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action, TinyLife.Actions.CompletionType, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
     name: OnActionCompleted
     nameWithType: Furniture.OnActionCompleted
     fullName: TinyLife.Objects.Furniture.OnActionCompleted
@@ -977,10 +1007,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -993,7 +1023,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.Action.CompletionType,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
     name: OnActionCompleted
     nameWithType: Furniture.OnActionCompleted
     fullName: TinyLife.Objects.Furniture.OnActionCompleted
@@ -1007,10 +1037,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: TinyLife.Actions.Action.CompletionType
-    name: Action.CompletionType
-    nameWithType: Action.CompletionType
-    fullName: TinyLife.Actions.Action.CompletionType
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -1248,6 +1278,59 @@ references:
     name: TimeSpan
     nameWithType: TimeSpan
     fullName: System.TimeSpan
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+  commentId: M:TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  name: SetCreator(Person, Boolean)
+  nameWithType: Furniture.SetCreator(Person, Boolean)
+  fullName: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person, System.Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+    name: SetCreator
+    nameWithType: Furniture.SetCreator
+    fullName: TinyLife.Objects.Furniture.SetCreator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+    name: SetCreator
+    nameWithType: Furniture.SetCreator
+    fullName: TinyLife.Objects.Furniture.SetCreator
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
     isExternal: true
   - name: )
     nameWithType: )
@@ -2667,6 +2750,103 @@ references:
     name: ObjectCategory
     nameWithType: ObjectCategory
     fullName: TinyLife.Objects.ObjectCategory
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
+  commentId: M:TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: GetEfficiencyModifier(Person, ActionInfo, Boolean, SkillType, Single)
+  nameWithType: MapObject.GetEfficiencyModifier(Person, ActionInfo, Boolean, SkillType, Single)
+  fullName: TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, System.Boolean, TinyLife.Skills.SkillType, System.Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
+    name: GetEfficiencyModifier
+    nameWithType: MapObject.GetEfficiencyModifier
+    fullName: TinyLife.Objects.MapObject.GetEfficiencyModifier
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    nameWithType: ActionInfo
+    fullName: TinyLife.Actions.ActionInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    nameWithType: SkillType
+    fullName: TinyLife.Skills.SkillType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
+    name: GetEfficiencyModifier
+    nameWithType: MapObject.GetEfficiencyModifier
+    fullName: TinyLife.Objects.MapObject.GetEfficiencyModifier
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    nameWithType: ActionInfo
+    fullName: TinyLife.Actions.ActionInfo
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    nameWithType: SkillType
+    fullName: TinyLife.Skills.SkillType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
