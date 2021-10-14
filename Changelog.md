@@ -1,3 +1,6 @@
+# 0.17.1
+- Fixed an exception when putting away books
+
 # 0.17.0
 This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
 
