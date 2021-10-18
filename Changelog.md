@@ -1,4 +1,10 @@
+# 0.17.2
+Improvements
+- Turned the mac build into an app bundle
+- Improved video ram usage of outside tiles
+
 # 0.17.1
+Fixes
 - Fixed an exception when putting away books
 
 # 0.17.0
@@ -31,7 +37,7 @@ Fixes
 - Fixed food items missing creator information in their tooltip
 - Fixed concurrency issues when saving occasionally
 - Fixed people displaying particles when hidden
- 
+
 # 0.16.1
 Additions
 - Added "[Give Feedback or Report Bug](https://ell.lt/tlfeedback)" buttons to the in-game and main menus
