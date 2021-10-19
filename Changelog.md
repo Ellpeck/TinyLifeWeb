@@ -1,11 +1,16 @@
-# 0.17.2
-Improvements
-- Turned the mac build into an app bundle
-- Improved video ram usage of outside tiles
+# 0.17.3
+Apologies for the many hotfix updates recently. If you encounter any more bugs, don't hesitate to let us know using the [report form](https://tinylifegame.com/bugreport).
 
-# 0.17.1
+Improvements
+- Default names of lots on the map are now localized when creating a new save
+- Added an option to disable camera rounding, which helps with visual fragments on some screen sizes
+- Turned the mac build into an app bundle (0.17.2)
+- Improved video ram usage of outside tiles (0.17.2)
+
 Fixes
-- Fixed an exception when putting away books
+- Fixed a crash when rotating the camera on some machines
+- Fixed visual fragments on the terrain on some screen sizes
+- Fixed an exception when putting away books (0.17.1)
 
 # 0.17.0
 This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
