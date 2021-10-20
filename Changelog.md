@@ -1,15 +1,16 @@
-# 0.17.4
+# 0.17.5
 Apologies for the many hotfix updates recently. If you encounter any more bugs, don't hesitate to let us know using the [report form](https://tinylifegame.com/bugreport).
 
 Improvements
-- Move natural objects to household storage when new room is built
+- Move natural objects to household storage when new room is built (0.17.4)
 - Default names of lots on the map are now localized when creating a new save (0.17.3)
 - Added an option to disable camera rounding, which helps with visual fragments on some screen sizes (0.17.3)
 - Turned the mac build into an app bundle (0.17.2)
 - Improved video ram usage of outside tiles (0.17.2)
 
 Fixes
-- Fixed inside tiles being hidden for newly built rooms until the game is restarted
+- Fixed mods crashing the game on startup
+- Fixed inside tiles being hidden for newly built rooms until the game is restarted (0.17.4)
 - Fixed a crash when rotating the camera on some machines (0.17.3)
 - Fixed visual fragments on the terrain on some screen sizes (0.17.3)
 - Fixed an exception when putting away books (0.17.1)
