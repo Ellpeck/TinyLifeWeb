@@ -4,7 +4,7 @@ This page sums up a few of the basics that you'll need to know if you want to ma
 ## Creating mods
 To create a mod, all you have to do is create a repository [from this template](https://github.com/Ellpeck/TinyLifeExampleMod/generate) and open the project contained in it using Visual Studio, Rider or any other kind of C# IDE. The code that is already there contains some examples. Once you're done checking them out, you can just delete them and start fresh.
 
-The template repository also contains a little `Run` script for [windows](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.bat) and [linux and mac](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.sh) that automatically builds your mod, copies it into the `Mods` directory of your Tiny Life instance and runs the game. Note that the script will only work correctly if you've previously launched Tiny Life manually.
+The template repository also contains a little `Run` script for [windows](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.bat) and [linux and mac](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.sh) that automatically builds your mod, copies it into the `Mods` directory of your Tiny Life instance and runs the game. Note that the script will only work correctly if you've launched Tiny Life manually at least once before.
 
 The game's API is **fully documented**. The documentation is easily accessible by opening any of the API's files in your IDE. The most updated version can be found on this site as well.
 
