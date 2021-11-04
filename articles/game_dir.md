@@ -1,5 +1,12 @@
-﻿# Finding Tiny Life's Data Folder
-Tiny Life's data folder contains the save files, the log files and the folders that you can put custom lots, households and mods into. There are several ways of locating it, and its location differs based on the operating system you're using.
+﻿# Tiny Life's Data Folder
+Tiny Life's data folder contains several useful folders and files:
+- `Custom Lots`, `Custom Households` and `Mods` are the folders that you can put [custom content](getting.md) into.
+- `Logs` is the folder where the game's log files are stored. When you experience an issue like a crash, the information about it is stored in the most recently modified log file. If you restart the game, a new log file is created, so the one that contains the information about the issue becomes the second most recently modified file, and so on.
+- `Saves` is the folder where your save files are located. If you want to share a save file with a friend, or back it up manually, you can do so from there.
+- `Screenshots` is the folder where the game's screenshots (captured using `F12` by default) are stored.
+- There are several files that are also stored in the data folder, like the game's options and installation information.
+
+There are several ways of locating this folder, and its location differs based on the operating system you're using.
 
 ## From within the game
 You can open the data folder easily from within the game by going to the options menu and opening the rightmost tab ("Custom Content"). The tab contains a button to quickly open the data folder.
@@ -17,7 +24,7 @@ On Linux, you have to navigate to your home directory (also known as `~`) first.
 
 Since `.local` is usually a hidden folder, you might have to configure your file explorer to display hidden files as well.
 
-You can also use a commandline to navigate to the folder directly using the following command:
+You can also use a command line to navigate to the folder directly using the following command:
 ```
 cd ~/.local/share/Tiny Life
 ```
@@ -27,7 +34,7 @@ On Mac, you have to navigate to your home directory (also known as `~`) first. T
 
 Since `.local` is usually a hidden folder, you might have to configure your finder to display hidden files by pressing `Cmd + Shift + .` together.
 
-You can also use a commandline to navigate to the folder directly using the following command:
+You can also use a command line to navigate to the folder directly using the following command:
 ```
 cd ~/.local/share/Tiny Life
 ```
