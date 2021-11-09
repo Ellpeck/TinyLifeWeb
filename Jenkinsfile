@@ -6,8 +6,7 @@ pipeline {
         branch 'main' 
       }
       steps {
-        sh 'dotnet tool restore'
-        sh 'dotnet cake'
+        sh 'docfx.exe'
         sh 'cp _site/** /var/www/tinylifedocs/ -r'   
       }
     }
