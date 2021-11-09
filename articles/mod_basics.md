@@ -11,7 +11,7 @@ The game's API is **fully documented**. The documentation is easily accessible b
 If you have any questions, don't hesitate to [ask on the Discord](https://ellpeck.de/discord) or [start a discussion](https://github.com/Ellpeck/TinyLifeExampleMod/discussions) about it.
 
 ## Distributing mods
-To distribute your mod to other people, all you have to do is go into the `bin/Debug/net5.0` folder after building and copy your mod's `dll` and the `Content` directory. You can either send them to your friends directly or pack them into an archive first. If you want other players to try out your mod, you can also post it to [the community](https://itch.io/board/1032686/mods).
+To distribute your mod to other people, you can use the `Publish` script for [windows](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Publish.bat) and [linux and mac](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Publish.sh) which can also be found in the template repository. This script will automatically create a `zip` archive that you can share. If you want other players to try out your mod, you can also post it to [the community](https://itch.io/board/1032686/mods).
 
 ## Updating mods
 To change the version of Tiny Life that your mod is compiled against, simply go into [the project file](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/ExampleMod.csproj) and change the `TinyLifeApi` version. Note that some other dependencies might also have been updated, which needs to be [taken into account](https://github.com/Ellpeck/TinyLifeExampleMod#dependency-version-history).
