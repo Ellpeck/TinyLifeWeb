@@ -6,7 +6,7 @@ items:
   parent: TinyLife.Actions.Typeless
   children:
   - TinyLife.Actions.Typeless.TypelessAction.#ctor(TinyLife.Actions.ActionInfo)
-  - TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.ElapsedTime
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
@@ -18,7 +18,7 @@ items:
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
   - TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
-  - TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
+  - TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.Person,TinyLife.Objects.FurnitureType)
   - TinyLife.Actions.Typeless.TypelessAction.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
   - TinyLife.Actions.Typeless.TypelessAction.Info
   - TinyLife.Actions.Typeless.TypelessAction.Initialize
@@ -27,14 +27,14 @@ items:
   - TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
   - TinyLife.Actions.Typeless.TypelessAction.Map
   - TinyLife.Actions.Typeless.TypelessAction.OnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  - TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
   - TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
   - TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
   - TinyLife.Actions.Typeless.TypelessAction.Person
   - TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
-  - TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  - TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
   - TinyLife.Actions.Typeless.TypelessAction.Random
-  - TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  - TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
   - TinyLife.Actions.Typeless.TypelessAction.SpeakAlone(Microsoft.Xna.Framework.GameTime,TinyLife.GameSpeed,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
   - TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
   - TinyLife.Actions.Typeless.TypelessAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,TinyLife.GameSpeed)
@@ -50,10 +50,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: TypelessAction
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -63,16 +63,16 @@ items:
     content: >-
       [DataContract]
 
-      public abstract class TypelessAction : GenericDataHolder, IGenericDataHolder
+      public abstract class TypelessAction : JsonTypeSafeGenericDataHolder, IGenericDataHolder
     content.vb: >-
       <DataContract>
 
       Public MustInherit Class TypelessAction
-          Inherits GenericDataHolder
+          Inherits JsonTypeSafeGenericDataHolder
           Implements IGenericDataHolder
   inheritance:
   - System.Object
-  - MLEM.Misc.GenericDataHolder
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   derivedClasses:
   - TinyLife.Actions.Action
   - TinyLife.Actions.Typeless.SpawnItemInHandAction
@@ -80,9 +80,9 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
-  - MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
-  - MLEM.Misc.GenericDataHolder.GetData``1(System.String)
-  - MLEM.Misc.GenericDataHolder.GetDataKeys
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -92,8 +92,6 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Actions.Typeless.TypelessAction.TinyLife.Utilities.Extensions.JsonCopy``1
-  - MLEM.Misc.IGenericDataHolder.TinyLife.Utilities.Extensions.GetTimeSpan(System.String)
-  - MLEM.Misc.IGenericDataHolder.TinyLife.Utilities.Extensions.SetTimeSpan(System.String,System.TimeSpan)
   attributes:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
@@ -121,10 +119,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Random
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 32
+    startLine: 33
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -158,10 +156,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Info
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 38
+    startLine: 39
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -203,10 +201,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: StartedAutomatically
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 43
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -250,14 +248,14 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsUnderlying
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 48
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
-  summary: "\nStores whether this action is an underlying action of either a <xref href=\"TinyLife.Actions.MultiAction\" data-throw-if-not-resolved=\"false\"></xref> or a <xref href=\"TinyLife.Actions.UnderlyingActionHandler\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nStores whether this action is an underlying action of either a <xref href=\"TinyLife.Actions.MultiActionHandler\" data-throw-if-not-resolved=\"false\"></xref> or a <xref href=\"TinyLife.Actions.UnderlyingActionHandler\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public bool IsUnderlying { get; }
@@ -287,10 +285,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Map
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 52
+    startLine: 53
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -324,10 +322,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Person
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 56
+    startLine: 57
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -361,10 +359,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: ElapsedTime
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 60
+    startLine: 61
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -410,14 +408,14 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: PlayerPromptOpen
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 66
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
-  summary: "\nA property that stores whether a player prompt is currently open. A prompt can be opened using <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String%2cSystem.Predicate%7bMLEM.Ui.Elements.Panel%7d%2cSystem.Action%7bMLEM.Ui.Elements.Panel%7d%2cSystem.Boolean%2cMLEM.Ui.Elements.Element%5b%5d)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis property can be used to ensure that an action is not paused or canceled while a player prompt is open, as, based on the implementation of the action, there might be certain update frames that still occur while the prompt is open.\n"
+  summary: "\nA property that stores whether a player prompt is currently open. A prompt can be opened using <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String%2cSystem.Predicate%7bMLEM.Ui.Elements.Panel%7d%2cSystem.Action%7bMLEM.Ui.Elements.Panel%7d%2cSystem.Boolean%2cSystem.Func%7bTinyLife.Uis.CoveringGroup%2cSystem.Collections.Generic.IEnumerable%7bMLEM.Ui.Elements.Element%7d%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis property can be used to ensure that an action is not paused or canceled while a player prompt is open, as, based on the implementation of the action, there might be certain update frames that still occur while the prompt is open.\n"
   example: []
   syntax:
     content: public bool PlayerPromptOpen { get; }
@@ -447,10 +445,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: ForceFail
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 72
+    startLine: 73
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -480,10 +478,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: .ctor
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 81
+    startLine: 82
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -516,10 +514,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Initialize
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -550,10 +548,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Update
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 98
+    startLine: 99
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -594,10 +592,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsCompleted
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 108
+    startLine: 109
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -631,10 +629,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OnCompleted
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 117
+    startLine: 118
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -669,10 +667,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: Validate
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 127
+    startLine: 128
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -710,10 +708,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: IsFullyInProgress
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 138
+    startLine: 139
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -747,10 +745,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetInProgressTime
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 148
+    startLine: 149
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -769,177 +767,6 @@ items:
   modifiers.vb:
   - Public
   - Overridable
-- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  id: CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  langs:
-  - csharp
-  - vb
-  name: CompleteIfNeedFull(NeedType, CompletionType)
-  nameWithType: TypelessAction.CompleteIfNeedFull(NeedType, CompletionType)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.NeedType, TinyLife.Actions.CompletionType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/Typeless/TypelessAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CompleteIfNeedFull
-    path: Actions/Typeless/TypelessAction.cs
-    startLine: 158
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions.Typeless
-  summary: "\nA helper method that returns <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <xref href=\"TinyLife.Need\" data-throw-if-not-resolved=\"false\"></xref>&apos;s value is at <xref href=\"TinyLife.Need.Max\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: protected CompletionType CompleteIfNeedFull(NeedType type, CompletionType els = CompletionType.Active)
-    parameters:
-    - id: type
-      type: TinyLife.NeedType
-      description: The need that should be completed
-    - id: els
-      type: TinyLife.Actions.CompletionType
-      description: The action type that is returned if the need is not completed. <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> by default.
-    return:
-      type: TinyLife.Actions.CompletionType
-      description: The appropriate completion type
-    content.vb: Protected Function CompleteIfNeedFull(type As NeedType, els As CompletionType = CompletionType.Active) As CompletionType
-  overload: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull*
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
-- uid: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  id: PutDownOrGoTo(TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  langs:
-  - csharp
-  - vb
-  name: PutDownOrGoTo(ObjectCategory, FurnitureType[])
-  nameWithType: TypelessAction.PutDownOrGoTo(ObjectCategory, FurnitureType[])
-  fullName: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType[])
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/Typeless/TypelessAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: PutDownOrGoTo
-    path: Actions/Typeless/TypelessAction.cs
-    startLine: 169
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions.Typeless
-  summary: "\nA helper method used by <xref href=\"TinyLife.Actions.PrepareFoodAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.CookFoodAction\" data-throw-if-not-resolved=\"false\"></xref> that causes the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> to walk to a valid surface with the action item on it, plcae the action item down on a valid surface or move the action object from its current location to a valid surface.\nThe validity of the surface is determined by <code data-dev-comment-type=\"paramref\" class=\"paramref\">parentToPutOn</code>, and the item to find is any of <code data-dev-comment-type=\"paramref\" class=\"paramref\">items</code>.\n"
-  example: []
-  syntax:
-    content: protected IEnumerable<Action> PutDownOrGoTo(ObjectCategory parentToPutOn, params FurnitureType[] items)
-    parameters:
-    - id: parentToPutOn
-      type: TinyLife.Objects.ObjectCategory
-      description: An object category that the object&apos;s surface should have
-    - id: items
-      type: TinyLife.Objects.FurnitureType[]
-      description: The items that should be found on the surface
-    return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-      description: A set of actions that cause the person to set the action object up correctly
-    content.vb: Protected Function PutDownOrGoTo(parentToPutOn As ObjectCategory, ParamArray items As FurnitureType()) As IEnumerable(Of Action)
-  overload: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo*
-  nameWithType.vb: TypelessAction.PutDownOrGoTo(ObjectCategory, FurnitureType())
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType())
-  name.vb: PutDownOrGoTo(ObjectCategory, FurnitureType())
-- uid: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  id: GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  langs:
-  - csharp
-  - vb
-  name: GetPlaceDirection(FurnitureType)
-  nameWithType: TypelessAction.GetPlaceDirection(FurnitureType)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.FurnitureType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/Typeless/TypelessAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetPlaceDirection
-    path: Actions/Typeless/TypelessAction.cs
-    startLine: 196
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions.Typeless
-  summary: "\nReturns a <xref href=\"MLEM.Misc.Direction2\" data-throw-if-not-resolved=\"false\"></xref> that represents the facing that the given <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref> should be placed with.\nThe direction is determined by the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>&apos;s current rotation.\n"
-  example: []
-  syntax:
-    content: protected Direction2 GetPlaceDirection(FurnitureType item = null)
-    parameters:
-    - id: item
-      type: TinyLife.Objects.FurnitureType
-      description: The item to place
-    return:
-      type: MLEM.Misc.Direction2
-      description: The facing the item should be placed with
-    content.vb: Protected Function GetPlaceDirection(item As FurnitureType = Nothing) As Direction2
-  overload: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection*
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
-- uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  id: Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  langs:
-  - csharp
-  - vb
-  name: Sit(Furniture, GameSpeed, ActionSpot)
-  nameWithType: TypelessAction.Sit(Furniture, GameSpeed, ActionSpot)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/Typeless/TypelessAction.cs
-      branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Sit
-    path: Actions/Typeless/TypelessAction.cs
-    startLine: 212
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions.Typeless
-  summary: "\nA helper method that causes the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> to sit on the given object.\nThis method causes the action spot to be occupied and the person&apos;s <xref href=\"TinyLife.Objects.Person.CurrentPose\" data-throw-if-not-resolved=\"false\"></xref> to be changed to <xref href=\"TinyLife.Objects.Person.Pose.Sitting\" data-throw-if-not-resolved=\"false\"></xref>.\nAdditionally, the <xref href=\"TinyLife.NeedType.Energy\" data-throw-if-not-resolved=\"false\"></xref> need is restored a little bit.\nNote that this method has to be called every <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cTinyLife.GameSpeed)\" data-throw-if-not-resolved=\"false\"></xref> frame for the person to stay sat down.\n"
-  example: []
-  syntax:
-    content: protected bool Sit(Furniture chair, GameSpeed speed, ActionSpot spot = null)
-    parameters:
-    - id: chair
-      type: TinyLife.Objects.Furniture
-      description: The chair to sit on
-    - id: speed
-      type: TinyLife.GameSpeed
-      description: The current game speed
-    - id: spot
-      type: TinyLife.Objects.ActionSpot
-      description: The action spot to sit on, or null to select one automatically
-    return:
-      type: System.Boolean
-      description: Whether or not the chair can be sat on
-    content.vb: Protected Function Sit(chair As Furniture, speed As GameSpeed, spot As ActionSpot = Nothing) As Boolean
-  overload: TinyLife.Actions.Typeless.TypelessAction.Sit*
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
 - uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   commentId: M:TinyLife.Actions.Typeless.TypelessAction.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   id: CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
@@ -955,10 +782,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: CompleteInTime
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 232
+    startLine: 163
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -991,32 +818,32 @@ items:
   - protected
   modifiers.vb:
   - Protected
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  id: OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
+  id: OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
   parent: TinyLife.Actions.Typeless.TypelessAction
   langs:
   - csharp
   - vb
-  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  nameWithType: TypelessAction.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, MLEM.Ui.Elements.Element[])
+  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Func<CoveringGroup, IEnumerable<Element>>)
+  nameWithType: TypelessAction.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Func<CoveringGroup, IEnumerable<Element>>)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, System.Func<TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable<MLEM.Ui.Elements.Element>>)
   type: Method
   source:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OpenPlayerPrompt
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 251
+    startLine: 182
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nOpens a prompt for the player with the given elements, also pausing the game.\nThis behavior is used for things like the <xref href=\"TinyLife.Actions.ActionType.QuitJob\" data-throw-if-not-resolved=\"false\"></xref> action, where a confirmation panel pops up.\nTo check whether a player prompt is currently opened, see <xref href=\"TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: protected Group OpenPlayerPrompt(string title, Predicate<Panel> canFinish, Action<Panel> onFinished, bool canExit, params Element[] children)
+    content: protected CoveringGroup OpenPlayerPrompt(string title, Predicate<Panel> canFinish, Action<Panel> onFinished, bool canExit, Func<CoveringGroup, IEnumerable<Element>> children)
     parameters:
     - id: title
       type: System.String
@@ -1031,23 +858,23 @@ items:
       type: System.Boolean
       description: Whether the user can exit the window without making a decision by clicking the background
     - id: children
-      type: MLEM.Ui.Elements.Element[]
+      type: System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}}
       description: The elements that should be displayed in this prompt, along with the title and possibly the Okay button if <code data-dev-comment-type="paramref" class="paramref">canFinish</code> is used
     return:
-      type: MLEM.Ui.Elements.Group
-    content.vb: Protected Function OpenPlayerPrompt(title As String, canFinish As Predicate(Of Panel), onFinished As Action(Of Panel), canExit As Boolean, ParamArray children As Element()) As Group
+      type: TinyLife.Uis.CoveringGroup
+    content.vb: Protected Function OpenPlayerPrompt(title As String, canFinish As Predicate(Of Panel), onFinished As Action(Of Panel), canExit As Boolean, children As Func(Of CoveringGroup, IEnumerable(Of Element))) As CoveringGroup
   overload: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt*
   exceptions:
   - type: System.InvalidOperationException
     commentId: T:System.InvalidOperationException
     description: Thrown if this action was <xref href="TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically" data-throw-if-not-resolved="false"></xref>
-  nameWithType.vb: TypelessAction.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
+  nameWithType.vb: TypelessAction.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Func(Of CoveringGroup, IEnumerable(Of Element)))
   modifiers.csharp:
   - protected
   modifiers.vb:
   - Protected
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, MLEM.Ui.Elements.Element())
-  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, System.Func(Of TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable(Of MLEM.Ui.Elements.Element)))
+  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Func(Of CoveringGroup, IEnumerable(Of Element)))
 - uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
   commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt(System.String,System.Action,System.Action)
   id: OpenYesNoPrompt(System.String,System.Action,System.Action)
@@ -1063,10 +890,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OpenYesNoPrompt
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 287
+    startLine: 217
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -1105,10 +932,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: OpenTextPrompt
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 314
+    startLine: 244
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -1156,10 +983,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: SpeakAlone
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 332
+    startLine: 262
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -1192,6 +1019,197 @@ items:
   - protected
   modifiers.vb:
   - Protected
+- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  id: CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  langs:
+  - csharp
+  - vb
+  name: CompleteIfNeedFull(Person, NeedType, CompletionType)
+  nameWithType: TypelessAction.CompleteIfNeedFull(Person, NeedType, CompletionType)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull(TinyLife.Objects.Person, TinyLife.NeedType, TinyLife.Actions.CompletionType)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Typeless/TypelessAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: CompleteIfNeedFull
+    path: Actions/Typeless/TypelessAction.cs
+    startLine: 298
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Typeless
+  summary: "\nA helper method that returns <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <xref href=\"TinyLife.Need\" data-throw-if-not-resolved=\"false\"></xref>&apos;s value is at <xref href=\"TinyLife.Need.Max\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public static CompletionType CompleteIfNeedFull(Person person, NeedType type, CompletionType els = CompletionType.Active)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person whose needs should be queried
+    - id: type
+      type: TinyLife.NeedType
+      description: The need that should be completed
+    - id: els
+      type: TinyLife.Actions.CompletionType
+      description: The action type that is returned if the need is not completed. <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> by default.
+    return:
+      type: TinyLife.Actions.CompletionType
+      description: The appropriate completion type
+    content.vb: Public Shared Function CompleteIfNeedFull(person As Person, type As NeedType, els As CompletionType = CompletionType.Active) As CompletionType
+  overload: TinyLife.Actions.Typeless.TypelessAction.CompleteIfNeedFull*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  id: PutDownOrGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType[])
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  langs:
+  - csharp
+  - vb
+  name: PutDownOrGoTo(ActionInfo, ObjectCategory, FurnitureType[])
+  nameWithType: TypelessAction.PutDownOrGoTo(ActionInfo, ObjectCategory, FurnitureType[])
+  fullName: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType[])
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Typeless/TypelessAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: PutDownOrGoTo
+    path: Actions/Typeless/TypelessAction.cs
+    startLine: 310
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Typeless
+  summary: "\nA helper method used by <xref href=\"TinyLife.Actions.PrepareFoodAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.CookFoodAction\" data-throw-if-not-resolved=\"false\"></xref> that causes the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> to walk to a valid surface with the action item on it, plcae the action item down on a valid surface or move the action object from its current location to a valid surface.\nThe validity of the surface is determined by <code data-dev-comment-type=\"paramref\" class=\"paramref\">parentToPutOn</code>, and the item to find is any of <code data-dev-comment-type=\"paramref\" class=\"paramref\">items</code>.\n"
+  example: []
+  syntax:
+    content: public static IEnumerable<Action> PutDownOrGoTo(ActionInfo info, ObjectCategory parentToPutOn, params FurnitureType[] items)
+    parameters:
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The action&apos;s action information
+    - id: parentToPutOn
+      type: TinyLife.Objects.ObjectCategory
+      description: An object category that the object&apos;s surface should have
+    - id: items
+      type: TinyLife.Objects.FurnitureType[]
+      description: The items that should be found on the surface
+    return:
+      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+      description: A set of actions that cause the person to set the action object up correctly
+    content.vb: Public Shared Function PutDownOrGoTo(info As ActionInfo, parentToPutOn As ObjectCategory, ParamArray items As FurnitureType()) As IEnumerable(Of Action)
+  overload: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo*
+  nameWithType.vb: TypelessAction.PutDownOrGoTo(ActionInfo, ObjectCategory, FurnitureType())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.PutDownOrGoTo(TinyLife.Actions.ActionInfo, TinyLife.Objects.ObjectCategory, TinyLife.Objects.FurnitureType())
+  name.vb: PutDownOrGoTo(ActionInfo, ObjectCategory, FurnitureType())
+- uid: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.Person,TinyLife.Objects.FurnitureType)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.Person,TinyLife.Objects.FurnitureType)
+  id: GetPlaceDirection(TinyLife.Objects.Person,TinyLife.Objects.FurnitureType)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  langs:
+  - csharp
+  - vb
+  name: GetPlaceDirection(Person, FurnitureType)
+  nameWithType: TypelessAction.GetPlaceDirection(Person, FurnitureType)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection(TinyLife.Objects.Person, TinyLife.Objects.FurnitureType)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Typeless/TypelessAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: GetPlaceDirection
+    path: Actions/Typeless/TypelessAction.cs
+    startLine: 338
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Typeless
+  summary: "\nReturns a <xref href=\"MLEM.Misc.Direction2\" data-throw-if-not-resolved=\"false\"></xref> that represents the facing that the given <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref> should be placed with.\nThe direction is determined by the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>&apos;s current rotation.\n"
+  example: []
+  syntax:
+    content: public static Direction2 GetPlaceDirection(Person person, FurnitureType item = null)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person placing the object
+    - id: item
+      type: TinyLife.Objects.FurnitureType
+      description: The item to place
+    return:
+      type: MLEM.Misc.Direction2
+      description: The facing the item should be placed with
+    content.vb: Public Shared Function GetPlaceDirection(person As Person, item As FurnitureType = Nothing) As Direction2
+  overload: TinyLife.Actions.Typeless.TypelessAction.GetPlaceDirection*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  id: Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  langs:
+  - csharp
+  - vb
+  name: Sit(Person, Furniture, GameSpeed, ActionSpot)
+  nameWithType: TypelessAction.Sit(Person, Furniture, GameSpeed, ActionSpot)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person, TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Typeless/TypelessAction.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
+    id: Sit
+    path: Actions/Typeless/TypelessAction.cs
+    startLine: 355
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Typeless
+  summary: "\nA helper method that causes the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> to sit on the given object.\nThis method causes the action spot to be occupied and the person&apos;s <xref href=\"TinyLife.Objects.Person.CurrentPose\" data-throw-if-not-resolved=\"false\"></xref> to be changed to <xref href=\"TinyLife.Objects.Person.Pose.Sitting\" data-throw-if-not-resolved=\"false\"></xref>.\nAdditionally, the <xref href=\"TinyLife.NeedType.Energy\" data-throw-if-not-resolved=\"false\"></xref> need is restored a little bit.\nNote that this method has to be called every <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cTinyLife.GameSpeed)\" data-throw-if-not-resolved=\"false\"></xref> frame for the person to stay sat down.\n"
+  example: []
+  syntax:
+    content: public static bool Sit(Person person, Furniture chair, GameSpeed speed, ActionSpot spot = null)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person that should sit down
+    - id: chair
+      type: TinyLife.Objects.Furniture
+      description: The chair to sit on
+    - id: speed
+      type: TinyLife.GameSpeed
+      description: The current game speed
+    - id: spot
+      type: TinyLife.Objects.ActionSpot
+      description: The action spot to sit on, or null to select one automatically
+    return:
+      type: System.Boolean
+      description: Whether or not the chair can be sat on
+    content.vb: Public Shared Function Sit(person As Person, chair As Furniture, speed As GameSpeed, spot As ActionSpot = Nothing) As Boolean
+  overload: TinyLife.Actions.Typeless.TypelessAction.Sit*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
   id: GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
@@ -1207,14 +1225,14 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetFreeChair
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 369
+    startLine: 373
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
-  summary: "\nA helper method that returns an <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> for a <xref href=\"TinyLife.Objects.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref> on a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"TinyLife.Objects.ObjectCategory.Chair\" data-throw-if-not-resolved=\"false\"></xref> category that is closest to the given object which is on a desk or table.\nThe furniture returned is the one that the person should <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture%2cTinyLife.GameSpeed%2cTinyLife.Objects.ActionSpot)\" data-throw-if-not-resolved=\"false\"></xref> on when interacting with the passed <code data-dev-comment-type=\"paramref\" class=\"paramref\">deskObject</code>.\nThis method will return the <code data-dev-comment-type=\"paramref\" class=\"paramref\">deskObject</code>&apos;s parent itself if it is a picnic-style table that has benches directly attached to it.\n"
+  summary: "\nA helper method that returns an <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> for a <xref href=\"TinyLife.Objects.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref> on a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"TinyLife.Objects.ObjectCategory.Chair\" data-throw-if-not-resolved=\"false\"></xref> category that is closest to the given object which is on a desk or table.\nThe furniture returned is the one that the person should <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person%2cTinyLife.Objects.Furniture%2cTinyLife.GameSpeed%2cTinyLife.Objects.ActionSpot)\" data-throw-if-not-resolved=\"false\"></xref> on when interacting with the passed <code data-dev-comment-type=\"paramref\" class=\"paramref\">deskObject</code>.\nThis method will return the <code data-dev-comment-type=\"paramref\" class=\"paramref\">deskObject</code>&apos;s parent itself if it is a picnic-style table that has benches directly attached to it.\n"
   example: []
   syntax:
     content: public static (Furniture Chair, ActionSpot Spot, Direction2 Direction) GetFreeChair(Person person, Furniture deskObject)
@@ -1251,10 +1269,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetFreeChairs
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 386
+    startLine: 390
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -1301,17 +1319,17 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FindAllFreePeople
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 412
+    startLine: 416
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nA helper method to find a set of all <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> instances that are currently valid for interaction with the passed <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public static IEnumerable<Person> FindAllFreePeople(ActionType type, Person person, Vector2? position = default(Vector2? ), float? radius = default(float? ), bool ignoreVisibility = false)
+    content: public static IEnumerable<Person> FindAllFreePeople(ActionType type, Person person, Vector2? position = null, float? radius = null, bool ignoreVisibility = false)
     parameters:
     - id: type
       type: TinyLife.Actions.ActionType
@@ -1357,17 +1375,17 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FindAllFreeFurniture
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 437
+    startLine: 441
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nA helper method to find a set of all <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> instances that are currently valid for interaction with the passed <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public static IEnumerable<Furniture> FindAllFreeFurniture(Person person, ObjectCategory categories = null, FurnitureType objectSpotType = null, bool needsFreeActionSpot = true, Vector2? position = default(Vector2? ), float? radius = default(float? ), bool allowBroken = false, bool ignoreVisibility = false)
+    content: public static IEnumerable<Furniture> FindAllFreeFurniture(Person person, ObjectCategory categories = null, FurnitureType objectSpotType = null, bool needsFreeActionSpot = true, Vector2? position = null, float? radius = null, bool allowBroken = false, bool ignoreVisibility = false)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
@@ -1422,17 +1440,17 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FindAllFreeWalls
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 455
+    startLine: 459
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nA helper method to find a set of all <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref> instances that are currently valid for interaction with the passed <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public static IEnumerable<Wall> FindAllFreeWalls(Person person, Vector2? position = default(Vector2? ), float? radius = default(float? ), bool ignoreVisibility = false)
+    content: public static IEnumerable<Wall> FindAllFreeWalls(Person person, Vector2? position = null, float? radius = null, bool ignoreVisibility = false)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
@@ -1475,17 +1493,17 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FindAllFreeGround
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 470
+    startLine: 474
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nA helper method to find a set of all positions on the ground that are currently valid for interaction\n"
   example: []
   syntax:
-    content: public static IEnumerable<Point> FindAllFreeGround(Person person, Vector2? position = default(Vector2? ), float? radius = default(float? ), bool ignoreVisibility = false)
+    content: public static IEnumerable<Point> FindAllFreeGround(Person person, Vector2? position = null, float? radius = null, bool ignoreVisibility = false)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
@@ -1528,17 +1546,17 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: FindFreeFurniture
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 488
+    startLine: 492
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
   summary: "\nA helper method to find the best <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> instance to interact with based on the given data.\nNote that this method always returns a <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> related to the first result from <xref href=\"TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person%2cTinyLife.Objects.ObjectCategory%2cTinyLife.Objects.FurnitureType%2cSystem.Boolean%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d%2cSystem.Nullable%7bSystem.Single%7d%2cSystem.Boolean%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public static ActionInfo FindFreeFurniture(Person person, ObjectCategory categories, FurnitureType objectSpotType = null, Vector2? position = default(Vector2? ), bool allowBroken = false, bool ignoreVisibility = false)
+    content: public static ActionInfo FindFreeFurniture(Person person, ObjectCategory categories, FurnitureType objectSpotType = null, Vector2? position = null, bool allowBroken = false, bool ignoreVisibility = false)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
@@ -1587,10 +1605,10 @@ items:
     remote:
       path: TinyLife/Actions/Typeless/TypelessAction.cs
       branch: master
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife.git
     id: GetTableSpot
     path: Actions/Typeless/TypelessAction.cs
-    startLine: 500
+    startLine: 504
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Typeless
@@ -1652,13 +1670,13 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: MLEM.Misc.GenericDataHolder
-  commentId: T:MLEM.Misc.GenericDataHolder
-  parent: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  commentId: T:MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  parent: MLEM.Data.Json
   isExternal: true
-  name: GenericDataHolder
-  nameWithType: GenericDataHolder
-  fullName: MLEM.Misc.GenericDataHolder
+  name: JsonTypeSafeGenericDataHolder
+  nameWithType: JsonTypeSafeGenericDataHolder
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -1666,18 +1684,18 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
-- uid: MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
-  commentId: M:MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
-  parent: MLEM.Misc.GenericDataHolder
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   isExternal: true
   name: SetData(String, Object)
-  nameWithType: GenericDataHolder.SetData(String, Object)
-  fullName: MLEM.Misc.GenericDataHolder.SetData(System.String, System.Object)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData(String, Object)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String, System.Object)
   spec.csharp:
-  - uid: MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
     name: SetData
-    nameWithType: GenericDataHolder.SetData
-    fullName: MLEM.Misc.GenericDataHolder.SetData
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData
     isExternal: true
   - name: (
     nameWithType: (
@@ -1699,10 +1717,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: MLEM.Misc.GenericDataHolder.SetData(System.String,System.Object)
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
     name: SetData
-    nameWithType: GenericDataHolder.SetData
-    fullName: MLEM.Misc.GenericDataHolder.SetData
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData
     isExternal: true
   - name: (
     nameWithType: (
@@ -1723,21 +1741,21 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
-  commentId: M:MLEM.Misc.GenericDataHolder.GetData``1(System.String)
-  parent: MLEM.Misc.GenericDataHolder
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   isExternal: true
   name: GetData<T>(String)
-  nameWithType: GenericDataHolder.GetData<T>(String)
-  fullName: MLEM.Misc.GenericDataHolder.GetData<T>(System.String)
-  nameWithType.vb: GenericDataHolder.GetData(Of T)(String)
-  fullName.vb: MLEM.Misc.GenericDataHolder.GetData(Of T)(System.String)
+  nameWithType: JsonTypeSafeGenericDataHolder.GetData<T>(String)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData<T>(System.String)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.GetData(Of T)(String)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData(Of T)(System.String)
   name.vb: GetData(Of T)(String)
   spec.csharp:
-  - uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
     name: GetData<T>
-    nameWithType: GenericDataHolder.GetData<T>
-    fullName: MLEM.Misc.GenericDataHolder.GetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.GetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData<T>
     isExternal: true
   - name: (
     nameWithType: (
@@ -1751,10 +1769,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
     name: GetData(Of T)
-    nameWithType: GenericDataHolder.GetData(Of T)
-    fullName: MLEM.Misc.GenericDataHolder.GetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.GetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData(Of T)
     isExternal: true
   - name: (
     nameWithType: (
@@ -1767,18 +1785,18 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: MLEM.Misc.GenericDataHolder.GetDataKeys
-  commentId: M:MLEM.Misc.GenericDataHolder.GetDataKeys
-  parent: MLEM.Misc.GenericDataHolder
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   isExternal: true
   name: GetDataKeys()
-  nameWithType: GenericDataHolder.GetDataKeys()
-  fullName: MLEM.Misc.GenericDataHolder.GetDataKeys()
+  nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys()
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys()
   spec.csharp:
-  - uid: MLEM.Misc.GenericDataHolder.GetDataKeys
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
     name: GetDataKeys
-    nameWithType: GenericDataHolder.GetDataKeys
-    fullName: MLEM.Misc.GenericDataHolder.GetDataKeys
+    nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
     isExternal: true
   - name: (
     nameWithType: (
@@ -1787,10 +1805,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: MLEM.Misc.GenericDataHolder.GetDataKeys
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
     name: GetDataKeys
-    nameWithType: GenericDataHolder.GetDataKeys
-    fullName: MLEM.Misc.GenericDataHolder.GetDataKeys
+    nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
     isExternal: true
   - name: (
     nameWithType: (
@@ -2109,100 +2127,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: MLEM.Misc.IGenericDataHolder.TinyLife.Utilities.Extensions.GetTimeSpan(System.String)
-  commentId: M:TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-  parent: TinyLife.Utilities.Extensions
-  definition: TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-  name: GetTimeSpan(String)
-  nameWithType: Extensions.GetTimeSpan(String)
-  fullName: TinyLife.Utilities.Extensions.GetTimeSpan(System.String)
-  spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.GetTimeSpan(System.String)
-    name: GetTimeSpan
-    nameWithType: Extensions.GetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.GetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Utilities.Extensions.GetTimeSpan(System.String)
-    name: GetTimeSpan
-    nameWithType: Extensions.GetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.GetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: MLEM.Misc.IGenericDataHolder.TinyLife.Utilities.Extensions.SetTimeSpan(System.String,System.TimeSpan)
-  commentId: M:TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-  parent: TinyLife.Utilities.Extensions
-  definition: TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-  name: SetTimeSpan(String, TimeSpan)
-  nameWithType: Extensions.SetTimeSpan(String, TimeSpan)
-  fullName: TinyLife.Utilities.Extensions.SetTimeSpan(System.String, System.TimeSpan)
-  spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.SetTimeSpan(System.String,System.TimeSpan)
-    name: SetTimeSpan
-    nameWithType: Extensions.SetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.SetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Utilities.Extensions.SetTimeSpan(System.String,System.TimeSpan)
-    name: SetTimeSpan
-    nameWithType: Extensions.SetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.SetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   name: TinyLife.Actions
@@ -2214,6 +2138,12 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: MLEM.Data.Json
+  commentId: N:MLEM.Data.Json
+  isExternal: true
+  name: MLEM.Data.Json
+  nameWithType: MLEM.Data.Json
+  fullName: MLEM.Data.Json
 - uid: MLEM.Misc
   commentId: N:MLEM.Misc
   isExternal: true
@@ -2262,130 +2192,6 @@ references:
   name: Extensions
   nameWithType: Extensions
   fullName: TinyLife.Utilities.Extensions
-- uid: TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-  commentId: M:TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-  isExternal: true
-  name: GetTimeSpan(IGenericDataHolder, String)
-  nameWithType: Extensions.GetTimeSpan(IGenericDataHolder, String)
-  fullName: TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder, System.String)
-  spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-    name: GetTimeSpan
-    nameWithType: Extensions.GetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.GetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: MLEM.Misc.IGenericDataHolder
-    name: IGenericDataHolder
-    nameWithType: IGenericDataHolder
-    fullName: MLEM.Misc.IGenericDataHolder
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Utilities.Extensions.GetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String)
-    name: GetTimeSpan
-    nameWithType: Extensions.GetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.GetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: MLEM.Misc.IGenericDataHolder
-    name: IGenericDataHolder
-    nameWithType: IGenericDataHolder
-    fullName: MLEM.Misc.IGenericDataHolder
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-  commentId: M:TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-  isExternal: true
-  name: SetTimeSpan(IGenericDataHolder, String, TimeSpan)
-  nameWithType: Extensions.SetTimeSpan(IGenericDataHolder, String, TimeSpan)
-  fullName: TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder, System.String, System.TimeSpan)
-  spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-    name: SetTimeSpan
-    nameWithType: Extensions.SetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.SetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: MLEM.Misc.IGenericDataHolder
-    name: IGenericDataHolder
-    nameWithType: IGenericDataHolder
-    fullName: MLEM.Misc.IGenericDataHolder
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Utilities.Extensions.SetTimeSpan(MLEM.Misc.IGenericDataHolder,System.String,System.TimeSpan)
-    name: SetTimeSpan
-    nameWithType: Extensions.SetTimeSpan
-    fullName: TinyLife.Utilities.Extensions.SetTimeSpan
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: MLEM.Misc.IGenericDataHolder
-    name: IGenericDataHolder
-    nameWithType: IGenericDataHolder
-    fullName: MLEM.Misc.IGenericDataHolder
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Utilities
   commentId: N:TinyLife.Utilities
   name: TinyLife.Utilities
@@ -2433,12 +2239,6 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: TinyLife.Actions.MultiAction
-  commentId: T:TinyLife.Actions.MultiAction
-  parent: TinyLife.Actions
-  name: MultiAction
-  nameWithType: MultiAction
-  fullName: TinyLife.Actions.MultiAction
 - uid: TinyLife.Actions.Typeless.TypelessAction.IsUnderlying*
   commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.IsUnderlying
   name: IsUnderlying
@@ -2500,18 +2300,18 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
   parent: TinyLife.Actions.Typeless.TypelessAction
   isExternal: true
-  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  nameWithType: TypelessAction.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Element[])
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, MLEM.Ui.Elements.Element[])
-  nameWithType.vb: TypelessAction.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, MLEM.Ui.Elements.Element())
-  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Element())
+  name: OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Func<CoveringGroup, IEnumerable<Element>>)
+  nameWithType: TypelessAction.OpenPlayerPrompt(String, Predicate<Panel>, Action<Panel>, Boolean, Func<CoveringGroup, IEnumerable<Element>>)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate<MLEM.Ui.Elements.Panel>, System.Action<MLEM.Ui.Elements.Panel>, System.Boolean, System.Func<TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable<MLEM.Ui.Elements.Element>>)
+  nameWithType.vb: TypelessAction.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Func(Of CoveringGroup, IEnumerable(Of Element)))
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), System.Boolean, System.Func(Of TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable(Of MLEM.Ui.Elements.Element)))
+  name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Func(Of CoveringGroup, IEnumerable(Of Element)))
   spec.csharp:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
     name: OpenPlayerPrompt
     nameWithType: TypelessAction.OpenPlayerPrompt
     fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
@@ -2572,19 +2372,45 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    nameWithType: CoveringGroup
+    fullName: TinyLife.Uis.CoveringGroup
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
   - uid: MLEM.Ui.Elements.Element
     name: Element
     nameWithType: Element
     fullName: MLEM.Ui.Elements.Element
     isExternal: true
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,MLEM.Ui.Elements.Element[])
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}})
     name: OpenPlayerPrompt
     nameWithType: TypelessAction.OpenPlayerPrompt
     fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
@@ -2645,14 +2471,40 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    nameWithType: CoveringGroup
+    fullName: TinyLife.Uis.CoveringGroup
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
   - uid: MLEM.Ui.Elements.Element
     name: Element
     nameWithType: Element
     fullName: MLEM.Ui.Elements.Element
     isExternal: true
-  - name: ()
-    nameWithType: ()
-    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
   - name: )
     nameWithType: )
     fullName: )
@@ -2986,6 +2838,12 @@ references:
   name: Validate
   nameWithType: TypelessAction.Validate
   fullName: TinyLife.Actions.Typeless.TypelessAction.Validate
+- uid: TinyLife.Actions.MultiAction
+  commentId: T:TinyLife.Actions.MultiAction
+  parent: TinyLife.Actions
+  name: MultiAction
+  nameWithType: MultiAction
+  fullName: TinyLife.Actions.MultiAction
 - uid: TinyLife.Actions.SocialAction
   commentId: T:TinyLife.Actions.SocialAction
   parent: TinyLife.Actions
@@ -3033,6 +2891,524 @@ references:
   name: GetInProgressTime
   nameWithType: TypelessAction.GetInProgressTime
   fullName: TinyLife.Actions.Typeless.TypelessAction.GetInProgressTime
+- uid: TinyLife.Objects.Person.GetEfficiencyModifier(TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
+  commentId: M:TinyLife.Objects.Person.GetEfficiencyModifier(TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
+  isExternal: true
+- uid: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: StartedAutomatically
+  nameWithType: TypelessAction.StartedAutomatically
+  fullName: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
+- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime*
+  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
+  name: CompleteInTime
+  nameWithType: TypelessAction.CompleteInTime
+  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
+- uid: TinyLife.Skills.SkillType
+  commentId: T:TinyLife.Skills.SkillType
+  parent: TinyLife.Skills
+  name: SkillType
+  nameWithType: SkillType
+  fullName: TinyLife.Skills.SkillType
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: TinyLife.Skills
+  commentId: N:TinyLife.Skills
+  name: TinyLife.Skills
+  nameWithType: TinyLife.Skills
+  fullName: TinyLife.Skills
+- uid: TinyLife.Actions.ActionType.QuitJob
+  commentId: F:TinyLife.Actions.ActionType.QuitJob
+  isExternal: true
+- uid: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+  commentId: P:TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+  parent: TinyLife.Actions.Typeless.TypelessAction
+  name: PlayerPromptOpen
+  nameWithType: TypelessAction.PlayerPromptOpen
+  fullName: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
+- uid: System.InvalidOperationException
+  commentId: T:System.InvalidOperationException
+  isExternal: true
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt*
+  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
+  name: OpenPlayerPrompt
+  nameWithType: TypelessAction.OpenPlayerPrompt
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
+- uid: System.Predicate{MLEM.Ui.Elements.Panel}
+  commentId: T:System.Predicate{MLEM.Ui.Elements.Panel}
+  parent: System
+  definition: System.Predicate`1
+  name: Predicate<Panel>
+  nameWithType: Predicate<Panel>
+  fullName: System.Predicate<MLEM.Ui.Elements.Panel>
+  nameWithType.vb: Predicate(Of Panel)
+  fullName.vb: System.Predicate(Of MLEM.Ui.Elements.Panel)
+  name.vb: Predicate(Of Panel)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action{MLEM.Ui.Elements.Panel}
+  commentId: T:System.Action{MLEM.Ui.Elements.Panel}
+  parent: System
+  definition: System.Action`1
+  name: Action<Panel>
+  nameWithType: Action<Panel>
+  fullName: System.Action<MLEM.Ui.Elements.Panel>
+  nameWithType.vb: Action(Of Panel)
+  fullName.vb: System.Action(Of MLEM.Ui.Elements.Panel)
+  name.vb: Action(Of Panel)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    nameWithType: Panel
+    fullName: MLEM.Ui.Elements.Panel
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}}
+  commentId: T:System.Func{TinyLife.Uis.CoveringGroup,System.Collections.Generic.IEnumerable{MLEM.Ui.Elements.Element}}
+  parent: System
+  definition: System.Func`2
+  name: Func<CoveringGroup, IEnumerable<Element>>
+  nameWithType: Func<CoveringGroup, IEnumerable<Element>>
+  fullName: System.Func<TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable<MLEM.Ui.Elements.Element>>
+  nameWithType.vb: Func(Of CoveringGroup, IEnumerable(Of Element))
+  fullName.vb: System.Func(Of TinyLife.Uis.CoveringGroup, System.Collections.Generic.IEnumerable(Of MLEM.Ui.Elements.Element))
+  name.vb: Func(Of CoveringGroup, IEnumerable(Of Element))
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    nameWithType: CoveringGroup
+    fullName: TinyLife.Uis.CoveringGroup
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    nameWithType: Element
+    fullName: MLEM.Ui.Elements.Element
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    nameWithType: CoveringGroup
+    fullName: TinyLife.Uis.CoveringGroup
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    nameWithType: Element
+    fullName: MLEM.Ui.Elements.Element
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Uis.CoveringGroup
+  commentId: T:TinyLife.Uis.CoveringGroup
+  parent: TinyLife.Uis
+  name: CoveringGroup
+  nameWithType: CoveringGroup
+  fullName: TinyLife.Uis.CoveringGroup
+- uid: System.Predicate`1
+  commentId: T:System.Predicate`1
+  isExternal: true
+  name: Predicate<T>
+  nameWithType: Predicate<T>
+  fullName: System.Predicate<T>
+  nameWithType.vb: Predicate(Of T)
+  fullName.vb: System.Predicate(Of T)
+  name.vb: Predicate(Of T)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Uis
+  commentId: N:TinyLife.Uis
+  name: TinyLife.Uis
+  nameWithType: TinyLife.Uis
+  fullName: TinyLife.Uis
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt*
+  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
+  name: OpenYesNoPrompt
+  nameWithType: TypelessAction.OpenYesNoPrompt
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
+- uid: MLEM.Ui.Elements.TextField
+  commentId: T:MLEM.Ui.Elements.TextField
+  isExternal: true
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt*
+  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
+  name: OpenTextPrompt
+  nameWithType: TypelessAction.OpenTextPrompt
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
+- uid: System.Action{System.String}
+  commentId: T:System.Action{System.String}
+  parent: System
+  definition: System.Action`1
+  name: Action<String>
+  nameWithType: Action<String>
+  fullName: System.Action<System.String>
+  nameWithType.vb: Action(Of String)
+  fullName.vb: System.Action(Of System.String)
+  name.vb: Action(Of String)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Predicate{System.String}
+  commentId: T:System.Predicate{System.String}
+  parent: System
+  definition: System.Predicate`1
+  name: Predicate<String>
+  nameWithType: Predicate<String>
+  fullName: System.Predicate<System.String>
+  nameWithType.vb: Predicate(Of String)
+  fullName.vb: System.Predicate(Of System.String)
+  name.vb: Predicate(Of String)
+  spec.csharp:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Predicate`1
+    name: Predicate
+    nameWithType: Predicate
+    fullName: System.Predicate
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Ui.Elements.TextField.Rule
+  commentId: T:MLEM.Ui.Elements.TextField.Rule
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: TextField.Rule
+  nameWithType: TextField.Rule
+  fullName: MLEM.Ui.Elements.TextField.Rule
+- uid: MLEM.Ui.Elements
+  commentId: N:MLEM.Ui.Elements
+  isExternal: true
+  name: MLEM.Ui.Elements
+  nameWithType: MLEM.Ui.Elements
+  fullName: MLEM.Ui.Elements
+- uid: TinyLife.Actions.ActionType.PracticeJokes
+  commentId: F:TinyLife.Actions.ActionType.PracticeJokes
+  isExternal: true
+- uid: TinyLife.Actions.ActionType.PracticeSpeech
+  commentId: F:TinyLife.Actions.ActionType.PracticeSpeech
+  isExternal: true
+- uid: System.Int32.MaxValue
+  commentId: F:System.Int32.MaxValue
+  isExternal: true
+- uid: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone*
+  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
+  name: SpeakAlone
+  nameWithType: TypelessAction.SpeakAlone
+  fullName: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
+- uid: TinyLife.Actions.EmoteCategory
+  commentId: T:TinyLife.Actions.EmoteCategory
+  parent: TinyLife.Actions
+  name: EmoteCategory
+  nameWithType: EmoteCategory
+  fullName: TinyLife.Actions.EmoteCategory
+- uid: TinyLife.Objects.SpeakStyle
+  commentId: T:TinyLife.Objects.SpeakStyle
+  parent: TinyLife.Objects
+  name: SpeakStyle
+  nameWithType: SpeakStyle
+  fullName: TinyLife.Objects.SpeakStyle
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: TinyLife.Need
   commentId: T:TinyLife.Need
   name: Need
@@ -3224,432 +3600,30 @@ references:
   name: ActionSpot
   nameWithType: ActionSpot
   fullName: TinyLife.Objects.ActionSpot
-- uid: TinyLife.Objects.Person.GetEfficiencyModifier(TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
-  commentId: M:TinyLife.Objects.Person.GetEfficiencyModifier(TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
-  isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
-  commentId: P:TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  name: StartedAutomatically
-  nameWithType: TypelessAction.StartedAutomatically
-  fullName: TinyLife.Actions.Typeless.TypelessAction.StartedAutomatically
-- uid: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime*
-  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
-  name: CompleteInTime
-  nameWithType: TypelessAction.CompleteInTime
-  fullName: TinyLife.Actions.Typeless.TypelessAction.CompleteInTime
-- uid: TinyLife.Skills.SkillType
-  commentId: T:TinyLife.Skills.SkillType
-  parent: TinyLife.Skills
-  name: SkillType
-  nameWithType: SkillType
-  fullName: TinyLife.Skills.SkillType
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
-  isExternal: true
-  name: Single
-  nameWithType: Single
-  fullName: System.Single
-- uid: TinyLife.Skills
-  commentId: N:TinyLife.Skills
-  name: TinyLife.Skills
-  nameWithType: TinyLife.Skills
-  fullName: TinyLife.Skills
-- uid: TinyLife.Actions.ActionType.QuitJob
-  commentId: F:TinyLife.Actions.ActionType.QuitJob
-  isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
-  commentId: P:TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
-  parent: TinyLife.Actions.Typeless.TypelessAction
-  name: PlayerPromptOpen
-  nameWithType: TypelessAction.PlayerPromptOpen
-  fullName: TinyLife.Actions.Typeless.TypelessAction.PlayerPromptOpen
-- uid: System.InvalidOperationException
-  commentId: T:System.InvalidOperationException
-  isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt*
-  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
-  name: OpenPlayerPrompt
-  nameWithType: TypelessAction.OpenPlayerPrompt
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenPlayerPrompt
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
-- uid: System.Predicate{MLEM.Ui.Elements.Panel}
-  commentId: T:System.Predicate{MLEM.Ui.Elements.Panel}
-  parent: System
-  definition: System.Predicate`1
-  name: Predicate<Panel>
-  nameWithType: Predicate<Panel>
-  fullName: System.Predicate<MLEM.Ui.Elements.Panel>
-  nameWithType.vb: Predicate(Of Panel)
-  fullName.vb: System.Predicate(Of MLEM.Ui.Elements.Panel)
-  name.vb: Predicate(Of Panel)
-  spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Action{MLEM.Ui.Elements.Panel}
-  commentId: T:System.Action{MLEM.Ui.Elements.Panel}
-  parent: System
-  definition: System.Action`1
-  name: Action<Panel>
-  nameWithType: Action<Panel>
-  fullName: System.Action<MLEM.Ui.Elements.Panel>
-  nameWithType.vb: Action(Of Panel)
-  fullName.vb: System.Action(Of MLEM.Ui.Elements.Panel)
-  name.vb: Action(Of Panel)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    nameWithType: Panel
-    fullName: MLEM.Ui.Elements.Panel
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: MLEM.Ui.Elements.Element[]
-  isExternal: true
-  name: Element[]
-  nameWithType: Element[]
-  fullName: MLEM.Ui.Elements.Element[]
-  nameWithType.vb: Element()
-  fullName.vb: MLEM.Ui.Elements.Element()
-  name.vb: Element()
-  spec.csharp:
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    nameWithType: Element
-    fullName: MLEM.Ui.Elements.Element
-    isExternal: true
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  spec.vb:
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    nameWithType: Element
-    fullName: MLEM.Ui.Elements.Element
-    isExternal: true
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-- uid: MLEM.Ui.Elements.Group
-  commentId: T:MLEM.Ui.Elements.Group
-  parent: MLEM.Ui.Elements
-  isExternal: true
-  name: Group
-  nameWithType: Group
-  fullName: MLEM.Ui.Elements.Group
-- uid: System.Predicate`1
-  commentId: T:System.Predicate`1
-  isExternal: true
-  name: Predicate<T>
-  nameWithType: Predicate<T>
-  fullName: System.Predicate<T>
-  nameWithType.vb: Predicate(Of T)
-  fullName.vb: System.Predicate(Of T)
-  name.vb: Predicate(Of T)
-  spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Action`1
-  commentId: T:System.Action`1
-  isExternal: true
-  name: Action<T>
-  nameWithType: Action<T>
-  fullName: System.Action<T>
-  nameWithType.vb: Action(Of T)
-  fullName.vb: System.Action(Of T)
-  name.vb: Action(Of T)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: MLEM.Ui.Elements
-  commentId: N:MLEM.Ui.Elements
-  isExternal: true
-  name: MLEM.Ui.Elements
-  nameWithType: MLEM.Ui.Elements
-  fullName: MLEM.Ui.Elements
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt*
-  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
-  name: OpenYesNoPrompt
-  nameWithType: TypelessAction.OpenYesNoPrompt
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenYesNoPrompt
-- uid: System.Action
-  commentId: T:System.Action
-  parent: System
-  isExternal: true
-  name: Action
-  nameWithType: Action
-  fullName: System.Action
-- uid: MLEM.Ui.Elements.TextField
-  commentId: T:MLEM.Ui.Elements.TextField
-  isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt*
-  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
-  name: OpenTextPrompt
-  nameWithType: TypelessAction.OpenTextPrompt
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
-- uid: System.Action{System.String}
-  commentId: T:System.Action{System.String}
-  parent: System
-  definition: System.Action`1
-  name: Action<String>
-  nameWithType: Action<String>
-  fullName: System.Action<System.String>
-  nameWithType.vb: Action(Of String)
-  fullName.vb: System.Action(Of System.String)
-  name.vb: Action(Of String)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    nameWithType: Action
-    fullName: System.Action
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Predicate{System.String}
-  commentId: T:System.Predicate{System.String}
-  parent: System
-  definition: System.Predicate`1
-  name: Predicate<String>
-  nameWithType: Predicate<String>
-  fullName: System.Predicate<System.String>
-  nameWithType.vb: Predicate(Of String)
-  fullName.vb: System.Predicate(Of System.String)
-  name.vb: Predicate(Of String)
-  spec.csharp:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Predicate`1
-    name: Predicate
-    nameWithType: Predicate
-    fullName: System.Predicate
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: MLEM.Ui.Elements.TextField.Rule
-  commentId: T:MLEM.Ui.Elements.TextField.Rule
-  parent: MLEM.Ui.Elements
-  isExternal: true
-  name: TextField.Rule
-  nameWithType: TextField.Rule
-  fullName: MLEM.Ui.Elements.TextField.Rule
-- uid: TinyLife.Actions.ActionType.PracticeJokes
-  commentId: F:TinyLife.Actions.ActionType.PracticeJokes
-  isExternal: true
-- uid: TinyLife.Actions.ActionType.PracticeSpeech
-  commentId: F:TinyLife.Actions.ActionType.PracticeSpeech
-  isExternal: true
-- uid: System.Int32.MaxValue
-  commentId: F:System.Int32.MaxValue
-  isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone*
-  commentId: Overload:TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
-  name: SpeakAlone
-  nameWithType: TypelessAction.SpeakAlone
-  fullName: TinyLife.Actions.Typeless.TypelessAction.SpeakAlone
-- uid: TinyLife.Actions.EmoteCategory
-  commentId: T:TinyLife.Actions.EmoteCategory
-  parent: TinyLife.Actions
-  name: EmoteCategory
-  nameWithType: EmoteCategory
-  fullName: TinyLife.Actions.EmoteCategory
-- uid: TinyLife.Objects.SpeakStyle
-  commentId: T:TinyLife.Objects.SpeakStyle
-  parent: TinyLife.Objects
-  name: SpeakStyle
-  nameWithType: SpeakStyle
-  fullName: TinyLife.Objects.SpeakStyle
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
 - uid: TinyLife.Objects.ObjectCategory.Chair
   commentId: F:TinyLife.Objects.ObjectCategory.Chair
   isExternal: true
-- uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+- uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
   parent: TinyLife.Actions.Typeless.TypelessAction
-  name: Sit(Furniture, GameSpeed, ActionSpot)
-  nameWithType: TypelessAction.Sit(Furniture, GameSpeed, ActionSpot)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
+  name: Sit(Person, Furniture, GameSpeed, ActionSpot)
+  nameWithType: TypelessAction.Sit(Person, Furniture, GameSpeed, ActionSpot)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person, TinyLife.Objects.Furniture, TinyLife.GameSpeed, TinyLife.Objects.ActionSpot)
   spec.csharp:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
     name: Sit
     nameWithType: TypelessAction.Sit
     fullName: TinyLife.Actions.Typeless.TypelessAction.Sit
   - name: (
     nameWithType: (
     fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Objects.Furniture
     name: Furniture
     nameWithType: Furniture
@@ -3672,13 +3646,20 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,TinyLife.GameSpeed,TinyLife.Objects.ActionSpot)
     name: Sit
     nameWithType: TypelessAction.Sit
     fullName: TinyLife.Actions.Typeless.TypelessAction.Sit
   - name: (
     nameWithType: (
     fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Objects.Furniture
     name: Furniture
     nameWithType: Furniture
@@ -4046,57 +4027,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Func`2
-  commentId: T:System.Func`2
-  isExternal: true
-  name: Func<T, TResult>
-  nameWithType: Func<T, TResult>
-  fullName: System.Func<T, TResult>
-  nameWithType.vb: Func(Of T, TResult)
-  fullName.vb: System.Func(Of T, TResult)
-  name.vb: Func(Of T, TResult)
-  spec.csharp:
-  - uid: System.Func`2
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TResult
-    nameWithType: TResult
-    fullName: TResult
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Func`2
-    name: Func
-    nameWithType: Func
-    fullName: System.Func
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: TResult
-    nameWithType: TResult
-    fullName: TResult
   - name: )
     nameWithType: )
     fullName: )

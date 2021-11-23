@@ -1,3 +1,41 @@
+# 0.18.0
+This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/317472/0180-animations-food-and-sources) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3111419849470831533). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
+
+Additions
+- Added emotion sources that display when hovering over an emotion modifier
+- Added cool UI animations
+- Added a hint history menu to the options
+- Added a tab to the character creator which allows writing custom descriptions for people and households
+- Added a scientist job
+- Added keybinds for zooming in and out
+- Added a button to delete a household entirely
+- Added some more emotion modifiers that trigger in social situations
+- Added some more breakfast foods
+- Added a lovely flowery grass tile
+- Added a cute scarf
+
+Improvements
+- Made skill building activities fun if the skill level is high enough
+- Improved memory usage in various cases
+- Improved the way relationships between imported people are handled 
+- Dispose raw versions of packed textures, which reduces VRAM usage
+- Limit the length of the notification history to 1024 entries
+- Added the website's scrolling background to the main menu
+- Replace all natural tiles with concrete when creating a room (not just grass)
+- Replace alpha-based particles with scale-based particles to avoid rendering issues
+- Also allow AI skill building when a person's job requires it
+- Rebalanced job payouts and bills slightly
+- Allow loading mods from a zip archive
+- Made sounds in hidden rooms quieter
+- Improved the look of the mouse cursor
+
+Fixes
+- Fixed daily job tasks not working correctly in some cases
+- Fixed introverts being happy about being at home when they're not actually at home
+- Fixed interaction menus displaying partly off-screen when opened sometimes
+- Fixed chatting with people displaying the friendship particle constantly
+- Fixed particles being lit from the outside despite being inside in some cases
+
 # 0.17.5
 Apologies for the many hotfix updates recently. If you encounter any more bugs, don't hesitate to let us know using the [report form](https://tinylifegame.com/bugreport).
 
