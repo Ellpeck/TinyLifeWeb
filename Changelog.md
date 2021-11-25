@@ -1,5 +1,9 @@
 # 0.18.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/317472/0180-animations-food-and-sources) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3111419849470831533). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
+![](media/changelog/0.18.0.png)
+
+> Animations, Food and Sources
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/317472/0180-animations-food-and-sources) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3111419849470831533).
 
 Additions
 - Added emotion sources that display when hovering over an emotion modifier
@@ -54,7 +58,11 @@ Fixes
 - Fixed an exception when putting away books (0.17.1)
 
 # 0.17.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379). Tiny Life now has a [Twitter](https://twitter.com/TinyLifeGame) for news and sneak peeks, as well!
+![](media/changelog/0.17.0.png)
+
+> Life Goals, Reward Personalities and Daily Tasks
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379).
 
 Additions
 - Added Life Goals
@@ -107,7 +115,11 @@ Fixes
 - Fixed some table and desk positions causing chairs to be seen as invalid or unavailable
 
 # 0.16.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/289260/0160-woodlands-and-visitors) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2949282742498975401).
+![](media/changelog/0.16.0.png)
+
+> Woodlands and Visitors
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/289260/0160-woodlands-and-visitors) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2949282742498975401).
 
 Additions
 - Added the Woodlands Set with art by [faellynna](https://www.instagram.com/faellynna/), which includes a Woodworking skill and a large variety of new build mode items:
@@ -160,7 +172,9 @@ Fixes
 - Fixed practice speech and jokes actions going on forever if done automatically
 
 # 0.15.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/277913/0150-barbecue-trash-cleaning) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2968419780808932932).
+> Barbecue Trash Cleaning
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/277913/0150-barbecue-trash-cleaning) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2968419780808932932).
 
 Additions
 - Added a barbecue and some grillable food items
@@ -192,7 +206,9 @@ Fixes
 - Fixed cars being spawned erroneously when the map is loaded
 
 # 0.14.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/274082/0140-lamps-lot-movement-speech-sounds) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4430963222678444595).
+> Lamps, Lot Movement, Speech Sounds!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/274082/0140-lamps-lot-movement-speech-sounds) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4430963222678444595).
 
 Additions
 - Added dynamic lighting and two lamps, a ceiling and a floor one
@@ -222,6 +238,8 @@ Fixes
 - Fixed a wall rendering inconsistency in some camera rotations
 
 # 0.13.1
+> It's the little things
+
 Additions
 - Added the ability to ask people about their personalities
 
@@ -236,7 +254,9 @@ Fixes
 - Fixed an action exception if a chair becomes occupied
 
 # 0.13.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/271199/0130-camera-rotation-and-a-larger-map) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2967291343236374275).
+> Camera Rotation and a Larger Map!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/271199/0130-camera-rotation-and-a-larger-map) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2967291343236374275).
 
 Additions
 - Added camera rotation, which can be used using the C key or the rotation buttons in the top right
@@ -300,7 +320,9 @@ Fixes
 - Updated German localization
 
 # 0.12.0
-This update has [a trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) as well as a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/264773/0120-the-fitness-set) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2990934608186477339).
+> The Fitness Set
+
+Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/264773/0120-the-fitness-set) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2990934608186477339).
 
 Additions
 - Added the Fitness Set, with art by [Tector](https://www.instagram.com/tector_pixel/), which includes a fitness skill and several new furniture and clothing items:
@@ -329,7 +351,9 @@ Fixes
 - Fixed people going to weird locations when visiting non-residential lots
 
 # 0.11.0
-This update has a devlog post, which you can view [on itch](https://ellpeck.itch.io/tiny-life/devlog/260838/0110-more-actions-more-skills-more-personalities-more-pride) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3028088035178415265).
+> More Actions, More Skills, More Personalities, More Pride!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/260838/0110-more-actions-more-skills-more-personalities-more-pride) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3028088035178415265).
 
 Additions
 - Added a lot more social actions in various categories
@@ -362,7 +386,9 @@ Fixes
 - Fixed multiple invalid game states which could cause crashes
 
 # 0.10.1
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/256150/0101-in-depth-writing-skill-and-more-ai-depth).
+> In-depth writing skill and more AI depth!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/256150/0101-in-depth-writing-skill-and-more-ai-depth).
 
 Additions
 - Added an option that causes people in unplayed households to do skill building activities automatically (if their personality or existing skills allow it)
@@ -381,7 +407,9 @@ Fixes
 - Updated German localization
 
 # 0.10.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/254608/0100-new-colors-clothes-and-many-fixes).
+> New colors, clothes and many fixes!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/254608/0100-new-colors-clothes-and-many-fixes).
 
 Additions
 - Added two new tops, four new bottoms, and four new hairstyles
@@ -407,7 +435,9 @@ API
 - Added various events for people and actions
 
 # 0.9.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/248431/090-kick-out-your-annoying-aunt-and-sofas).
+> Kick Out Your Annoying Aunt and Sofas
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/248431/090-kick-out-your-annoying-aunt-and-sofas).
 
 Additions
 - Added new furniture: A sofa, a coffee table, and a bathroom sink
@@ -441,7 +471,9 @@ Fixes
 - Fixed a crash with the skills menu on certain window sizes
 
 # 0.8.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/236301/080-mail-carriers-bills-and-new-screenshots).
+> Mail Carriers, Bills and New Screenshots
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/236301/080-mail-carriers-bills-and-new-screenshots).
 
 Additions
 - Added a mail carrier that delivers mails daily
@@ -462,7 +494,9 @@ Fixes
 - Fixed camera scaling being incorrect when launching in fullscreen
 
 # 0.7.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/223659/070-breaking-furniture-programming-and-many-improvements).
+> Breaking Furniture, Programming, and Many Improvements!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/223659/070-breaking-furniture-programming-and-many-improvements).
 
 Additions
 - Added food quality, which is influenced by the cooking skill
@@ -508,7 +542,9 @@ API
 - Allow clothes to have multiple texture layers
 
 # 0.6.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/216521/060-romance-sounds-and-a-lot-more).
+> Romance, Sounds and a Lot More!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/216521/060-romance-sounds-and-a-lot-more).
 
 Additions
 - Added romance, romantic interactions and the Frisky emotion
@@ -549,7 +585,9 @@ Improvements
 - Improved the Person AI to drastically decrease the chance of people passing out and dying from low needs
 
 # 0.5.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/212031/050-emotions).
+> Emotions!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/212031/050-emotions).
 
 Additions
 - Added emotions
@@ -575,7 +613,9 @@ Fixes
 - Fixed phantom cars when starting a new game
 
 # 0.4.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/210682/040-consequences-death).
+> Consequences! Death!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/210682/040-consequences-death).
 
 Additions
 - Added low need consequences:
@@ -593,7 +633,11 @@ Improvements
 - Changed the game's currency to "Tiny Bucks"
 
 # 0.3.1
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed). Additions
+> Jobs! Hyperspeed!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed). 
+
+Additions
 - Added jobs: You can get a job at the computer and earn money by going to work
 - Added negative relationships
 - Added an extreme speed setting that can be used when everyone is sleeping or working
@@ -607,7 +651,9 @@ API
 - Texture packing introduces a breaking change
 
 # 0.3.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/203072/030-more-skills-more-stuff-to-do).
+> More skills, more stuff to do!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/203072/030-more-skills-more-stuff-to-do).
 
 Additions
 - New skills: Painting, charisma and humor
@@ -620,7 +666,9 @@ Improvements
 - Back up the save file before loading
 
 # 0.2.3
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/201694/023-personality-types).
+> Personality Types!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/201694/023-personality-types).
 
 Additions
 - Added painting and selling paintings
@@ -638,7 +686,9 @@ API
 - More documentation
 
 # 0.2.2
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/199801/022-nicer-menus-more-mod-abilities).
+> Nicer menus, more mod abilities!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/199801/022-nicer-menus-more-mod-abilities).
 
 Additions
 - Added mod list and "Open Game Folder" button to Options menu
@@ -656,7 +706,9 @@ Fixes
 - Fixed a launch crash that was affecting some people
 
 # 0.2.0
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/198831/020-custom-mods).
+> Custom Mods!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/198831/020-custom-mods).
 
 Additions
 - Added the ability to create mods!
@@ -685,7 +737,7 @@ Fixes
 - Fixed being able to cheat money by deleting rooms
 
 # 0.1.1
-This update has a [devlog post](https://ellpeck.itch.io/tiny-life/devlog/193425/version-011).
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/193425/version-011).
 
 Additions
 - Added gridless placement by holding the alt key
