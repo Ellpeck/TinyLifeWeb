@@ -1,3 +1,15 @@
+# 0.18.1
+> Changelog Images, News Panel for Main Menu
+
+Improvements
+- Added images to the changelog that also display in-game
+- Added a news panel to the bottom left corner of the main menu, which will be used for game-related announcements and updates
+- Added a cheat to display a list of all cheats (`Help`, `Cheats` or `List`)
+
+API
+- Replaced most GameSpeed usage with a speed multiplier float
+- Turned some Action methods into properties
+
 # 0.18.0
 ![](media/changelog/0.18.0.png)
 
