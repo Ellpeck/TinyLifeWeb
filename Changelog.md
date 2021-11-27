@@ -4,7 +4,7 @@
 Improvements
 - Added images to the changelog that also display in-game
 - Added a news panel to the bottom left corner of the main menu, which will be used for game-related announcements and updates
-- Added a cheat to display a list of all cheats (`Help`, `Cheats` or `List`)
+- Added a cheat to display a list of all cheats (Help, Cheats or List)
 
 API
 - Replaced most GameSpeed usage with a speed multiplier float
@@ -33,7 +33,7 @@ Additions
 Improvements
 - Made skill building activities fun if the skill level is high enough
 - Improved memory usage in various cases
-- Improved the way relationships between imported people are handled 
+- Improved the way relationships between imported people are handled
 - Dispose raw versions of packed textures, which reduces VRAM usage
 - Limit the length of the notification history to 1024 entries
 - Added the website's scrolling background to the main menu
@@ -647,7 +647,7 @@ Improvements
 # 0.3.1
 > Jobs! Hyperspeed!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed). 
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed).
 
 Additions
 - Added jobs: You can get a job at the computer and earn money by going to work
