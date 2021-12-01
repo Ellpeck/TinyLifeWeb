@@ -1,14 +1,23 @@
 pipeline {
   agent any
   stages {
-    stage('Document') {
+    stage('Site') {
+      when {
+        branch 'main'
+      }
+      steps {
+        sh 'rm -rf /var/www/tinylifegame/*'
+        sh 'cp web/** /var/www/tinylifegame/ -r'
+      }
+    }
+    stage('Docs') {
       when {
         branch 'main' 
       }
       steps {
-        sh 'docfx.exe'
+        sh 'cd docs; docfx.exe'
         sh 'rm -rf /var/www/tinylifedocs/*'
-        sh 'cp _site/** /var/www/tinylifedocs/ -r'   
+        sh 'cp docs/_site/** /var/www/tinylifedocs/ -r'   
       }
     }
   }
