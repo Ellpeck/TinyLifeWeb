@@ -11,7 +11,7 @@ API
 - Turned some Action methods into properties
 
 # 0.18.0
-![](media/changelog/0.18.0.png)
+![](docs/media/changelog/0.18.0.png)
 
 > Animations, Food and Sources
 
@@ -70,7 +70,7 @@ Fixes
 - Fixed an exception when putting away books (0.17.1)
 
 # 0.17.0
-![](media/changelog/0.17.0.png)
+![](docs/media/changelog/0.17.0.png)
 
 > Life Goals, Reward Personalities and Daily Tasks
 
@@ -127,7 +127,7 @@ Fixes
 - Fixed some table and desk positions causing chairs to be seen as invalid or unavailable
 
 # 0.16.0
-![](media/changelog/0.16.0.png)
+![](docs/media/changelog/0.16.0.png)
 
 > Woodlands and Visitors
 
