@@ -7,7 +7,7 @@ pipeline {
       }
       steps {
         sh 'rm -rf /var/www/tinylifegame/*'
-        sh 'cp web/** /var/www/tinylifegame/ -r'
+        sh 'cp web/. /var/www/tinylifegame/ -r'
       }
     }
     stage('Docs') {
@@ -17,7 +17,7 @@ pipeline {
       steps {
         sh 'cd docs; docfx.exe'
         sh 'rm -rf /var/www/tinylifedocs/*'
-        sh 'cp docs/_site/** /var/www/tinylifedocs/ -r'   
+        sh 'cp docs/_site/. /var/www/tinylifedocs/ -r'   
       }
     }
   }
