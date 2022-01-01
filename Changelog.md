@@ -1,3 +1,36 @@
+# 0.19.0
+![](media/changelog/0.19.0.png)
+
+> Ui, Sound and Improvements Abound
+
+Happy new year! Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/330680/0190-ui-sound-and-improvements-abound) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3109171219652255208).
+
+Additions
+- Added carpet and puzzle piece floorings
+- Added a cloud wallpaper
+- Added UI transitions when switching between game modes
+- Added ambient sounds which play based on where the camera is
+- Added sounds for fireplaces as well as lamp, trash can and woodworking interactions
+- Added additional colors for skin, eyes, as well as pastel and modern furniture and clothes
+- Added a "Store in Household Storage" action to paintings
+- Added a splash screen at the start of the game
+
+Improvements
+- Changed all cases of "person" and "people" in the game's text to "Tiny" and "Tinies", respectively
+- Display a fade animation when a person dies
+- Allow setting desired occasions for each outfit manually
+- Made natural tiles (dirt, path, grass) connect to grass smoothly
+- Only spawn particles if they'll be visible on screen
+- A lot of performance improvements in various areas of the game
+
+Fixes
+- Fixed unfinished woodwork items escaping the action preview area
+- Fixed additional VRAM being used the more tiles are edited during a single play session
+- Fixed the high bun hairstyle not having the workout set icon
+- Fixed colors overflowing out of the character creator screen for complex clothing items
+- Fixed an exception when trying to fool around in occupied beds
+- Fixed some actions throwing an exception when their action object is removed before the action starts
+
 # 0.18.1
 > Changelog Images, News Panel for Main Menu
 

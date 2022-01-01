@@ -10,6 +10,7 @@ items:
   - TinyLife.Objects.Fireplace.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,System.Single,System.Boolean)
   - TinyLife.Objects.Fireplace.IsElectrical
   - TinyLife.Objects.Fireplace.LightSize
+  - TinyLife.Objects.Fireplace.OnRemoved
   - TinyLife.Objects.Fireplace.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   langs:
   - csharp
@@ -25,7 +26,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Fireplace
     path: Objects/Fireplace.cs
-    startLine: 16
+    startLine: 18
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -35,7 +36,9 @@ items:
     content: 'public class Fireplace : LightFurniture, IGenericDataHolder, IPricedObject, IUpdatingObject'
     content.vb: >-
       Public Class Fireplace
+
           Inherits LightFurniture
+
           Implements IGenericDataHolder, IPricedObject, IUpdatingObject
   inheritance:
   - System.Object
@@ -51,7 +54,6 @@ items:
   - TinyLife.Objects.LightFurniture.Lights
   - TinyLife.Objects.LightFurniture.IsDisabled
   - TinyLife.Objects.LightFurniture.OnAdded
-  - TinyLife.Objects.LightFurniture.OnRemoved
   - TinyLife.Objects.LightFurniture.Validate
   - TinyLife.Objects.Furniture.Random
   - TinyLife.Objects.Furniture.OnGetDescription
@@ -160,11 +162,10 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsElectrical
     path: Objects/Fireplace.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nWhether this furniture is electrical.\nIf this is true, <xref href=\"TinyLife.Objects.Furniture.AreUtilitiesDisabled\" data-throw-if-not-resolved=\"false\"></xref> will cause this object&apos;s lights to be disabled.\n"
   example: []
   syntax:
     content: public override bool IsElectrical { get; }
@@ -200,7 +201,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LightSize
     path: Objects/Fireplace.cs
-    startLine: 24
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -239,30 +240,24 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: Objects/Fireplace.cs
-    startLine: 30
+    startLine: 34
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nCreates a new furniture instance.\nBy default, this is done using <xref href=\"TinyLife.Objects.FurnitureType.Construct(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bSystem.Guid%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public Fireplace(Guid id, FurnitureType type, int[] colors, Map map, Vector2 pos)
     parameters:
     - id: id
       type: System.Guid
-      description: The id to apply to the created furniture instance
     - id: type
       type: TinyLife.Objects.FurnitureType
-      description: The type to create an instance of
     - id: colors
       type: System.Int32[]
-      description: The colors to apply to the furniture
     - id: map
       type: TinyLife.World.Map
-      description: The map to create the furniture on
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
-      description: The position that the furniture should have
     content.vb: Public Sub New(id As Guid, type As FurnitureType, colors As Integer(), map As Map, pos As Vector2)
   overload: TinyLife.Objects.Fireplace.#ctor*
   nameWithType.vb: Fireplace.Fireplace(Guid, FurnitureType, Int32(), Map, Vector2)
@@ -290,54 +285,40 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: Objects/Fireplace.cs
-    startLine: 40
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nDraws this furniture in the world with the given settings.\nThis is a more generalized version of <xref href=\"TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime%2cMicrosoft.Xna.Framework.Graphics.SpriteBatch%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Color%7d)\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public override void Draw(GameTime time, SpriteBatch batch, Vector2 pos, Vector2 drawPos, Color? overrideColor, Direction2 rotation, int[] colors, float drawScale, bool pivot, Furniture parent, AbstractSpot parentSpot, float depthOffset, bool held)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
-      description: The game time
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
-      description: The sprite batch to draw with
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
-      description: The position, in world space, that the furniture is at
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
-      description: The position, in draw space, to draw the furniture at
     - id: overrideColor
       type: System.Nullable{Microsoft.Xna.Framework.Color}
-      description: An optional color to override the default colors of the furniture
     - id: rotation
       type: MLEM.Misc.Direction2
-      description: The rotation of the furniture
     - id: colors
       type: System.Int32[]
-      description: The colors to draw the furniture with
     - id: drawScale
       type: System.Single
-      description: The scale to draw the furniture with
     - id: pivot
       type: System.Boolean
-      description: Whether or not to move the furniture by its texture&apos;s pivot point
     - id: parent
       type: TinyLife.Objects.Furniture
-      description: The object that this furniture is latched on to, or null if there is none
     - id: parentSpot
       type: TinyLife.Objects.AbstractSpot
-      description: The object spot that this furntiture is in, or null if there is none
     - id: depthOffset
       type: System.Single
-      description: A value that is added onto the calculated depth of the object
     - id: held
       type: System.Boolean
-      description: Whether or not this item is currently being held by a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, pos As Vector2, drawPos As Vector2, overrideColor As Color?, rotation As Direction2, colors As Integer(), drawScale As Single, pivot As Boolean, parent As Furniture, parentSpot As AbstractSpot, depthOffset As Single, held As Boolean)
   overridden: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,System.Single,System.Boolean)
   overload: TinyLife.Objects.Fireplace.Draw*
@@ -368,24 +349,20 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: Objects/Fireplace.cs
-    startLine: 50
+    startLine: 54
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe update method, which is called every update frame by the underlying <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
-      description: The game&apos;s time
     - id: passedInGame
       type: System.TimeSpan
-      description: The amount of time that has passed since the last call
     - id: speedMultiplier
       type: System.Single
-      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
   overridden: TinyLife.Objects.LightFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   overload: TinyLife.Objects.Fireplace.Update*
@@ -413,17 +390,15 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateLights
     path: Objects/Fireplace.cs
-    startLine: 62
+    startLine: 71
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThis method is called when this furniture&apos;s lights should get initialized.\nBy default, this method calls <xref href=\"TinyLife.Objects.FurnitureType.TypeSettings.CreateLights\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: protected override IEnumerable<Light> CreateLights()
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Light}
-      description: The lights that this object should have
     content.vb: Protected Overrides Function CreateLights As IEnumerable(Of Light)
   overridden: TinyLife.Objects.LightFurniture.CreateLights
   overload: TinyLife.Objects.Fireplace.CreateLights*
@@ -432,6 +407,40 @@ items:
   - override
   modifiers.vb:
   - Protected
+  - Overrides
+- uid: TinyLife.Objects.Fireplace.OnRemoved
+  commentId: M:TinyLife.Objects.Fireplace.OnRemoved
+  id: OnRemoved
+  parent: TinyLife.Objects.Fireplace
+  langs:
+  - csharp
+  - vb
+  name: OnRemoved()
+  nameWithType: Fireplace.OnRemoved()
+  fullName: TinyLife.Objects.Fireplace.OnRemoved()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Fireplace.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnRemoved
+    path: Objects/Fireplace.cs
+    startLine: 76
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: public override void OnRemoved()
+    content.vb: Public Overrides Sub OnRemoved
+  overridden: TinyLife.Objects.LightFurniture.OnRemoved
+  overload: TinyLife.Objects.Fireplace.OnRemoved*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
   - Overrides
 references:
 - uid: TinyLife.Objects.LightFurniture
@@ -533,34 +542,6 @@ references:
     name: OnAdded
     nameWithType: LightFurniture.OnAdded
     fullName: TinyLife.Objects.LightFurniture.OnAdded
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Objects.LightFurniture.OnRemoved
-  commentId: M:TinyLife.Objects.LightFurniture.OnRemoved
-  parent: TinyLife.Objects.LightFurniture
-  name: OnRemoved()
-  nameWithType: LightFurniture.OnRemoved()
-  fullName: TinyLife.Objects.LightFurniture.OnRemoved()
-  spec.csharp:
-  - uid: TinyLife.Objects.LightFurniture.OnRemoved
-    name: OnRemoved
-    nameWithType: LightFurniture.OnRemoved
-    fullName: TinyLife.Objects.LightFurniture.OnRemoved
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Objects.LightFurniture.OnRemoved
-    name: OnRemoved
-    nameWithType: LightFurniture.OnRemoved
-    fullName: TinyLife.Objects.LightFurniture.OnRemoved
   - name: (
     nameWithType: (
     fullName: (
@@ -4497,3 +4478,36 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
+- uid: TinyLife.Objects.LightFurniture.OnRemoved
+  commentId: M:TinyLife.Objects.LightFurniture.OnRemoved
+  parent: TinyLife.Objects.LightFurniture
+  name: OnRemoved()
+  nameWithType: LightFurniture.OnRemoved()
+  fullName: TinyLife.Objects.LightFurniture.OnRemoved()
+  spec.csharp:
+  - uid: TinyLife.Objects.LightFurniture.OnRemoved
+    name: OnRemoved
+    nameWithType: LightFurniture.OnRemoved
+    fullName: TinyLife.Objects.LightFurniture.OnRemoved
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.LightFurniture.OnRemoved
+    name: OnRemoved
+    nameWithType: LightFurniture.OnRemoved
+    fullName: TinyLife.Objects.LightFurniture.OnRemoved
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Fireplace.OnRemoved*
+  commentId: Overload:TinyLife.Objects.Fireplace.OnRemoved
+  name: OnRemoved
+  nameWithType: Fireplace.OnRemoved
+  fullName: TinyLife.Objects.Fireplace.OnRemoved

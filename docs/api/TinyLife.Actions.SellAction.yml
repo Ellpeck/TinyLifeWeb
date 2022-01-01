@@ -5,11 +5,11 @@ items:
   id: SellAction
   parent: TinyLife.Actions
   children:
-  - TinyLife.Actions.SellAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.SellAction.AndThenInitialize
   - TinyLife.Actions.SellAction.AndThenIsCompleted
   - TinyLife.Actions.SellAction.CreateFirstActions
   - TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
+  - TinyLife.Actions.SellAction.Items
   langs:
   - csharp
   - vb
@@ -24,17 +24,19 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SellAction
     path: Actions/SellAction.cs
-    startLine: 11
+    startLine: 14
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA sell action is an action where an item that can be picked up gets sold at a mailbox.\nSince this action can be invoked by clicking on the sold object, or by clicking on a mailbox while holding the sold object, <xref href=\"TinyLife.Actions.SellAction.GetSoldObject%60%601(TinyLife.Actions.ActionInfo)\" data-throw-if-not-resolved=\"false\"></xref> should be used to return the correct object in both circumstances.\n"
+  summary: "\nThe <xref href=\"TinyLife.Actions.ActionType.Sell\" data-throw-if-not-resolved=\"false\"></xref> action is an action that includes <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> of the action picking up the item (if they&apos;re not already holding it), and then carrying it to a mailbox and selling it there.\nTo add new sellable items for this action type to support, you can add them to the <xref href=\"TinyLife.Actions.SellAction.Items\" data-throw-if-not-resolved=\"false\"></xref> collection.\n"
   example: []
   syntax:
     content: 'public class SellAction : MultiAction, IGenericDataHolder'
     content.vb: >-
       Public Class SellAction
+
           Inherits MultiAction
+
           Implements IGenericDataHolder
   inheritance:
   - System.Object
@@ -113,45 +115,43 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: TinyLife.Actions.SellAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Actions.SellAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
-  id: '#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)'
+- uid: TinyLife.Actions.SellAction.Items
+  commentId: F:TinyLife.Actions.SellAction.Items
+  id: Items
   parent: TinyLife.Actions.SellAction
   langs:
   - csharp
   - vb
-  name: SellAction(ActionType, ActionInfo)
-  nameWithType: SellAction.SellAction(ActionType, ActionInfo)
-  fullName: TinyLife.Actions.SellAction.SellAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
-  type: Constructor
+  name: Items
+  nameWithType: SellAction.Items
+  fullName: TinyLife.Actions.SellAction.Items
+  type: Field
   source:
     remote:
       path: TinyLife/Actions/SellAction.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: .ctor
+    id: Items
     path: Actions/SellAction.cs
-    startLine: 14
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nCreates a new action from the given <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nA dictionary that maps <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref> instances to a condition that allows them to be sold.\nWhen the furniture item or a mailbox is clicked on, and the <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref> matches, the item can be sold using the <xref href=\"TinyLife.Actions.ActionType.Sell\" data-throw-if-not-resolved=\"false\"></xref> action.\nNote that, to receive the item that is to be sold, <xref href=\"TinyLife.Actions.SellAction.GetSoldObject%60%601(TinyLife.Actions.ActionInfo)\" data-throw-if-not-resolved=\"false\"></xref> should be used.\n"
   example: []
   syntax:
-    content: public SellAction(ActionType type, ActionInfo info)
-    parameters:
-    - id: type
-      type: TinyLife.Actions.ActionType
-      description: The type to create this action from
-    - id: info
-      type: TinyLife.Actions.ActionInfo
-      description: The information for this action
-    content.vb: Public Sub New(type As ActionType, info As ActionInfo)
-  overload: TinyLife.Actions.SellAction.#ctor*
+    content: public static readonly Dictionary<FurnitureType, ActionType.CanExecuteDelegate> Items
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
+    content.vb: Public Shared ReadOnly Items As Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
   modifiers.csharp:
   - public
+  - static
+  - readonly
   modifiers.vb:
   - Public
+  - Shared
+  - ReadOnly
 - uid: TinyLife.Actions.SellAction.CreateFirstActions
   commentId: M:TinyLife.Actions.SellAction.CreateFirstActions
   id: CreateFirstActions
@@ -170,17 +170,15 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateFirstActions
     path: Actions/SellAction.cs
-    startLine: 18
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturn a set of actions that should be executed before this action.\nEven if the yield statement is used, all actions will be collected into a list at the start of this action&apos;s invocation.\nIf no action gets returned in this function, this action fails.\nIf a null action is returned as the first item, no first actions will be executed.\n"
   example: []
   syntax:
     content: protected override IEnumerable<Action> CreateFirstActions()
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-      description: A set of actions that sohuld run before this action
     content.vb: Protected Overrides Function CreateFirstActions As IEnumerable(Of Action)
   overridden: TinyLife.Actions.MultiAction.CreateFirstActions
   overload: TinyLife.Actions.SellAction.CreateFirstActions*
@@ -208,11 +206,10 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AndThenInitialize
     path: Actions/SellAction.cs
-    startLine: 34
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nInitializes the main action.\nThis method is called after <xref href=\"TinyLife.Actions.MultiAction.Handler\" data-throw-if-not-resolved=\"false\"></xref> has all completed.\n"
   example: []
   syntax:
     content: protected override void AndThenInitialize()
@@ -243,17 +240,15 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AndThenIsCompleted
     path: Actions/SellAction.cs
-    startLine: 45
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nMultiAction version of <xref href=\"TinyLife.Actions.MultiAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method returns whether or not the main action is completed.\n"
   example: []
   syntax:
     content: protected override CompletionType AndThenIsCompleted()
     return:
       type: TinyLife.Actions.CompletionType
-      description: Whether the main action is completed
     content.vb: Protected Overrides Function AndThenIsCompleted As CompletionType
   overridden: TinyLife.Actions.MultiAction.AndThenIsCompleted
   overload: TinyLife.Actions.SellAction.AndThenIsCompleted*
@@ -281,7 +276,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSoldObject
     path: Actions/SellAction.cs
-    startLine: 56
+    startLine: 66
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -290,6 +285,7 @@ items:
   syntax:
     content: >-
       public static T GetSoldObject<T>(ActionInfo info)
+
           where T : Furniture
     parameters:
     - id: info
@@ -313,8 +309,17 @@ items:
   fullName.vb: TinyLife.Actions.SellAction.GetSoldObject(Of T)(TinyLife.Actions.ActionInfo)
   name.vb: GetSoldObject(Of T)(ActionInfo)
 references:
-- uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
+- uid: TinyLife.Actions.ActionType.Sell
+  commentId: F:TinyLife.Actions.ActionType.Sell
+  isExternal: true
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
+- uid: TinyLife.Actions.SellAction.Items
+  commentId: F:TinyLife.Actions.SellAction.Items
   isExternal: true
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
@@ -3466,6 +3471,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
 - uid: System
   commentId: N:System
   isExternal: true
@@ -3536,23 +3546,134 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Actions.SellAction.#ctor*
-  commentId: Overload:TinyLife.Actions.SellAction.#ctor
-  name: SellAction
-  nameWithType: SellAction.SellAction
-  fullName: TinyLife.Actions.SellAction.SellAction
-- uid: TinyLife.Actions.ActionType
-  commentId: T:TinyLife.Actions.ActionType
+- uid: TinyLife.Objects.FurnitureType
+  commentId: T:TinyLife.Objects.FurnitureType
+  parent: TinyLife.Objects
+  name: FurnitureType
+  nameWithType: FurnitureType
+  fullName: TinyLife.Objects.FurnitureType
+- uid: TinyLife.Actions.ActionType.CanExecuteDelegate
+  commentId: T:TinyLife.Actions.ActionType.CanExecuteDelegate
   parent: TinyLife.Actions
-  name: ActionType
-  nameWithType: ActionType
-  fullName: TinyLife.Actions.ActionType
-- uid: TinyLife.Actions.ActionInfo
-  commentId: T:TinyLife.Actions.ActionInfo
-  parent: TinyLife.Actions
-  name: ActionInfo
-  nameWithType: ActionInfo
-  fullName: TinyLife.Actions.ActionInfo
+  name: ActionType.CanExecuteDelegate
+  nameWithType: ActionType.CanExecuteDelegate
+  fullName: TinyLife.Actions.ActionType.CanExecuteDelegate
+- uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
+  isExternal: true
+- uid: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  name: Dictionary<FurnitureType, ActionType.CanExecuteDelegate>
+  nameWithType: Dictionary<FurnitureType, ActionType.CanExecuteDelegate>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Objects.FurnitureType, TinyLife.Actions.ActionType.CanExecuteDelegate>
+  nameWithType.vb: Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Objects.FurnitureType, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
+    name: ActionType.CanExecuteDelegate
+    nameWithType: ActionType.CanExecuteDelegate
+    fullName: TinyLife.Actions.ActionType.CanExecuteDelegate
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+    nameWithType: FurnitureType
+    fullName: TinyLife.Objects.FurnitureType
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
+    name: ActionType.CanExecuteDelegate
+    nameWithType: ActionType.CanExecuteDelegate
+    fullName: TinyLife.Actions.ActionType.CanExecuteDelegate
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    nameWithType: Dictionary
+    fullName: System.Collections.Generic.Dictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: TinyLife.Actions.MultiAction.CreateFirstActions
   commentId: M:TinyLife.Actions.MultiAction.CreateFirstActions
   parent: TinyLife.Actions.MultiAction
@@ -3667,12 +3788,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
 - uid: TinyLife.Actions.MultiAction.AndThenInitialize
   commentId: M:TinyLife.Actions.MultiAction.AndThenInitialize
   parent: TinyLife.Actions.MultiAction
@@ -3750,6 +3865,12 @@ references:
   name: GetSoldObject
   nameWithType: SellAction.GetSoldObject
   fullName: TinyLife.Actions.SellAction.GetSoldObject
+- uid: TinyLife.Actions.ActionInfo
+  commentId: T:TinyLife.Actions.ActionInfo
+  parent: TinyLife.Actions
+  name: ActionInfo
+  nameWithType: ActionInfo
+  fullName: TinyLife.Actions.ActionInfo
 - uid: '{T}'
   commentId: '!:T'
   definition: T
