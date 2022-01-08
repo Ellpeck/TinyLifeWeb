@@ -1,4 +1,4 @@
-# 0.19.1
+# 0.19.2
 ![](media/changelog/0.19.1.png)
 
 > Better Hints, Better Food, Better Names
@@ -17,6 +17,7 @@ Improvements
 - Always auto-save, even when lot or character creator conditions are unmet
 
 Fixes
+- Fixed a crash when opening the woodworking menu (0.19.2)
 - Fixed a rare crash when changelog images fail to download
 - Fixed being able to pick up food plates that other Tinies are currently eating
 - Fixed ambient sounds not fading properly between day and night
