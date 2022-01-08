@@ -28,6 +28,7 @@ items:
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDescription
   - TinyLife.Objects.Furniture.GetDirty(System.TimeSpan)
+  - TinyLife.Objects.Furniture.GetDisplayName
   - TinyLife.Objects.Furniture.GetFreeActionSpot(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Furniture.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Furniture.GetFreeActionSpots(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -87,9 +88,7 @@ items:
     content: 'public class Furniture : MapObject, IGenericDataHolder, IPricedObject'
     content.vb: >-
       Public Class Furniture
-
           Inherits MapObject
-
           Implements IGenericDataHolder, IPricedObject
   inheritance:
   - System.Object
@@ -1100,18 +1099,23 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nDraws this object on the current <xref href=\"TinyLife.Objects.MapObject.Map\" data-throw-if-not-resolved=\"false\"></xref>, at the current <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public sealed override void Draw(GameTime time, SpriteBatch batch, Vector2 drawPos, Color? overrideColor)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current time
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position, in draw space, to draw this furniture at
     - id: overrideColor
       type: System.Nullable{Microsoft.Xna.Framework.Color}
+      description: The color that should be used instead of this object&apos;s actual color. If null, the object&apos;s regular color should be used.
     content.vb: Public NotOverridable Overrides Sub Draw(time As GameTime, batch As SpriteBatch, drawPos As Vector2, overrideColor As Color?)
   overridden: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   overload: TinyLife.Objects.Furniture.Draw*
@@ -1148,11 +1152,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when this object is loaded from disk.\nReturning false on this method causes the object to be removed from the map.\nBy default, this method invokes <xref href=\"TinyLife.Objects.MapObject.OnValidated\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.MapObject.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override bool Validate()
     return:
       type: System.Boolean
+      description: false if the object is not valid, true otherwise
     content.vb: Public Overrides Function Validate As Boolean
   overridden: TinyLife.Objects.MapObject.Validate
   overload: TinyLife.Objects.Furniture.Validate*
@@ -1184,14 +1190,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns whether this map object intersects with the given rectangle.\nThis is used for <xref href=\"TinyLife.World.Map.GetObjects%60%601(MLEM.Misc.RectangleF)\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public override bool Intersects(RectangleF rectangle)
     parameters:
     - id: rectangle
       type: MLEM.Misc.RectangleF
+      description: The area that should be checked for
     return:
       type: System.Boolean
+      description: true if this object intersects with the given rectangle
     content.vb: Public Overrides Function Intersects(rectangle As RectangleF) As Boolean
   overridden: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
   overload: TinyLife.Objects.Furniture.Intersects*
@@ -1223,14 +1232,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns a set of <xref href=\"TinyLife.Objects.ObjectCategory\" data-throw-if-not-resolved=\"false\"></xref> flags that this object has, based on the given <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public sealed override ObjectCategory GetCategories(Person person)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+      description: The person to query categories for
     return:
       type: TinyLife.Objects.ObjectCategory
+      description: A set of categories that this object has
     content.vb: Public NotOverridable Overrides Function GetCategories(person As Person) As ObjectCategory
   overridden: TinyLife.Objects.MapObject.GetCategories(TinyLife.Objects.Person)
   overload: TinyLife.Objects.Furniture.GetCategories*
@@ -1264,6 +1276,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when this object is added to a <xref href=\"TinyLife.Objects.MapObject.Map\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, it does nothing.\n"
   example: []
   syntax:
     content: public override void OnAdded()
@@ -1298,6 +1311,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when this object is removed from a <xref href=\"TinyLife.Objects.MapObject.Map\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, it does nothing.\n"
   example: []
   syntax:
     content: public override void OnRemoved()
@@ -1332,16 +1346,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns an integer that represents a priority for the <xref href=\"TinyLife.Objects.PersonAi\" data-throw-if-not-resolved=\"false\"></xref>&apos;s interaction with this object.\nA higher priority means that this object will be picked over other objects (with lower priority).\nThe default return value is 0, meaning that no special priority is assigned to this object.\nFor any <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"TinyLife.Objects.ObjectCategory.SingleBed\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Objects.ObjectCategory.DoubleBed\" data-throw-if-not-resolved=\"false\"></xref> category that is the person&apos;s <xref href=\"TinyLife.Objects.Person.LastBedSleptIn\" data-throw-if-not-resolved=\"false\"></xref>, 10 is returned.\n"
   example: []
   syntax:
     content: public override int GetAiPriority(Person person, ObjectCategory categories)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+      description: The person whose AI is attempting to interact with this object
     - id: categories
       type: TinyLife.Objects.ObjectCategory
+      description: The categories that are relevant for the ai interaction
     return:
       type: System.Int32
+      description: This object&apos;s priority
     content.vb: Public Overrides Function GetAiPriority(person As Person, categories As ObjectCategory) As Integer
   overridden: TinyLife.Objects.MapObject.GetAiPriority(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   overload: TinyLife.Objects.Furniture.GetAiPriority*
@@ -1373,11 +1391,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns the visibility settings of this object.\nBy default, <xref href=\"TinyLife.Objects.Visibility.WhenVisible\" data-throw-if-not-resolved=\"false\"></xref> is returned.\nFor <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref>, its <xref href=\"TinyLife.Objects.FurnitureType.TypeSettings.Visibility\" data-throw-if-not-resolved=\"false\"></xref> is returned instead.\n"
   example: []
   syntax:
     content: public override Visibility GetVisibility()
     return:
       type: TinyLife.Objects.Visibility
+      description: This object&apos;s visibility settings
     content.vb: Public Overrides Function GetVisibility As Visibility
   overridden: TinyLife.Objects.MapObject.GetVisibility
   overload: TinyLife.Objects.Furniture.GetVisibility*
@@ -1409,16 +1429,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> that this object is involved in is completed. Note that this includes actions that are underlying (<xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsUnderlying\" data-throw-if-not-resolved=\"false\"></xref>).\nThis object counts as involved in the action if its <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> includes this object.\nIn general, the base method should be called for <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects, since it sets <xref href=\"TinyLife.Objects.Furniture.DevaluedThroughUse\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void OnActionCompleted(Action action, CompletionType type, bool isAuxiliary)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action
     - id: type
       type: TinyLife.Actions.CompletionType
+      description: The type of the action&apos;s completion
     - id: isAuxiliary
       type: System.Boolean
+      description: Whether this object counts as an auxiliary object. If this value is false, the object is th e<xref href="TinyLife.Actions.ActionInfo.GetActionObject%60%601" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub OnActionCompleted(action As Action, type As CompletionType, isAuxiliary As Boolean)
   overridden: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   overload: TinyLife.Objects.Furniture.OnActionCompleted*
@@ -1450,20 +1474,26 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> that this object is involved in updates, which is every <xref href=\"Microsoft.Xna.Framework.Game.Update(Microsoft.Xna.Framework.GameTime)\" data-throw-if-not-resolved=\"false\"></xref> frame. Note that this includes actions that are underlying (<xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsUnderlying\" data-throw-if-not-resolved=\"false\"></xref>) and actions that aren&apos;t fully in progress yet (<xref href=\"TinyLife.Actions.Typeless.TypelessAction.FullyInProgress\" data-throw-if-not-resolved=\"false\"></xref>).\nThis object counts as involved in the action if its <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> includes this object.\nIn general, the base method should be called for <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects, since it sets deals with <xref href=\"TinyLife.Objects.Furniture.Dirty\" data-throw-if-not-resolved=\"false\"></xref> objects.\n"
   example: []
   syntax:
     content: public override void ActionUpdate(Action action, GameTime time, TimeSpan passedInGame, float speedMultiplier, bool isAuxiliary)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time
     - id: passedInGame
       type: System.TimeSpan
+      description: The amount of time that has passed, in game time
     - id: speedMultiplier
       type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     - id: isAuxiliary
       type: System.Boolean
+      description: Whether this object counts as an auxiliary object. If this value is false, the object is th e<xref href="TinyLife.Actions.ActionInfo.GetActionObject%60%601" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub ActionUpdate(action As Action, time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single, isAuxiliary As Boolean)
   overridden: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
   overload: TinyLife.Objects.Furniture.ActionUpdate*
@@ -1572,11 +1602,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns the price that this object can be bought or sold for.\nNote that, like in the case of the <xref href=\"TinyLife.Objects.Painting\" data-throw-if-not-resolved=\"false\"></xref>, the returned price isn&apos;t necessarily the full price that the object can be sold for. Instead, the price returned here should be the price that this object has when bought or sold from the <xref href=\"TinyLife.Tools.FurnitureTool\" data-throw-if-not-resolved=\"false\"></xref> or similar.\n"
   example: []
   syntax:
     content: public virtual float GetPrice()
     return:
       type: System.Single
+      description: The object&apos;s price
     content.vb: Public Overridable Function GetPrice As Single
   overload: TinyLife.Objects.Furniture.GetPrice*
   implements:
@@ -1744,6 +1776,40 @@ items:
   modifiers.vb:
   - Public
   - Overridable
+- uid: TinyLife.Objects.Furniture.GetDisplayName
+  commentId: M:TinyLife.Objects.Furniture.GetDisplayName
+  id: GetDisplayName
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: GetDisplayName()
+  nameWithType: Furniture.GetDisplayName()
+  fullName: TinyLife.Objects.Furniture.GetDisplayName()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: master
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetDisplayName
+    path: Objects/Furniture.cs
+    startLine: 404
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public virtual string GetDisplayName()
+    return:
+      type: System.String
+    content.vb: Public Overridable Function GetDisplayName As String
+  overload: TinyLife.Objects.Furniture.GetDisplayName*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
 - uid: TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   id: OnNeighborChanged(TinyLife.Objects.Furniture)
@@ -1762,7 +1828,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnNeighborChanged
     path: Objects/Furniture.cs
-    startLine: 409
+    startLine: 413
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1800,7 +1866,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawUi
     path: Objects/Furniture.cs
-    startLine: 420
+    startLine: 424
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1851,7 +1917,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpots
     path: Objects/Furniture.cs
-    startLine: 435
+    startLine: 439
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1893,14 +1959,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpot
     path: Objects/Furniture.cs
-    startLine: 451
+    startLine: 455
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nReturns the first free action spot from <xref href=\"TinyLife.Objects.Furniture.GetFreeActionSpots(TinyLife.Objects.Person%2cTinyLife.Objects.ObjectCategory)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public (ActionSpot, Direction2) GetFreeActionSpot(Person person, ObjectCategory context = null)
+    content: public (ActionSpot Spot, Direction2 Dir) GetFreeActionSpot(Person person, ObjectCategory context = null)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
@@ -1911,7 +1977,7 @@ items:
     return:
       type: System.ValueTuple{TinyLife.Objects.ActionSpot,MLEM.Misc.Direction2}
       description: A free action spot and the direction it&apos;s free in, or an empty tuple if there is no free action spot
-    content.vb: Public Function GetFreeActionSpot(person As Person, context As ObjectCategory = Nothing) As(ActionSpot, Direction2)(Of ActionSpot , Direction2)
+    content.vb: Public Function GetFreeActionSpot(person As Person, context As ObjectCategory = Nothing) As(Spot As ActionSpot, Dir As Direction2)(Of ActionSpot , Direction2)
   overload: TinyLife.Objects.Furniture.GetFreeActionSpot*
   modifiers.csharp:
   - public
@@ -1935,20 +2001,24 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpotInfo
     path: Objects/Furniture.cs
-    startLine: 458
+    startLine: 462
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns the first free action spot, packed into an <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override ActionInfo GetFreeActionSpotInfo(Person person, ObjectCategory context = null)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+      description: The person to query free action spots for
     - id: context
       type: TinyLife.Objects.ObjectCategory
+      description: The object category that this action spot needs to have
     return:
       type: TinyLife.Actions.ActionInfo
+      description: The first free action spot as an <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Function GetFreeActionSpotInfo(person As Person, context As ObjectCategory = Nothing) As ActionInfo
   overridden: TinyLife.Objects.MapObject.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   overload: TinyLife.Objects.Furniture.GetFreeActionSpotInfo*
@@ -1976,7 +2046,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActionSpotInfo
     path: Objects/Furniture.cs
-    startLine: 470
+    startLine: 474
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2021,14 +2091,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeObjectSpot
     path: Objects/Furniture.cs
-    startLine: 482
+    startLine: 486
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nReturns the first free <xref href=\"TinyLife.Objects.ObjectSpot\" data-throw-if-not-resolved=\"false\"></xref> on this furniture.\nFree, in this case, is any object spot that isn&apos;t already occupied by a different furniture.\n"
   example: []
   syntax:
-    content: public ObjectSpot GetFreeObjectSpot(FurnitureType type, Vector2? position = default(Vector2? ))
+    content: public ObjectSpot GetFreeObjectSpot(FurnitureType type, Vector2? position = null)
     parameters:
     - id: type
       type: TinyLife.Objects.FurnitureType
@@ -2066,7 +2136,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetParent
     path: Objects/Furniture.cs
-    startLine: 496
+    startLine: 500
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2105,7 +2175,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UnlinkParentsAndChildren
     path: Objects/Furniture.cs
-    startLine: 510
+    startLine: 514
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2137,7 +2207,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveAndUnlink
     path: Objects/Furniture.cs
-    startLine: 520
+    startLine: 524
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2169,7 +2239,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetChildren
     path: Objects/Furniture.cs
-    startLine: 530
+    startLine: 534
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2178,7 +2248,6 @@ items:
   syntax:
     content: >-
       public IEnumerable<T> GetChildren<T>()
-
           where T : MapObject
     typeParameters:
     - id: T
@@ -2212,7 +2281,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveChildren
     path: Objects/Furniture.cs
-    startLine: 541
+    startLine: 545
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2221,7 +2290,6 @@ items:
   syntax:
     content: >-
       public IEnumerable<T> RemoveChildren<T>(Predicate<T> predicate = null)
-
           where T : Furniture
     parameters:
     - id: predicate
@@ -2260,7 +2328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveChild
     path: Objects/Furniture.cs
-    startLine: 555
+    startLine: 559
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2299,7 +2367,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: Objects/Furniture.cs
-    startLine: 574
+    startLine: 578
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2307,8 +2375,7 @@ items:
   example: []
   syntax:
     content: >-
-      public T AddChild<T>(FurnitureType type, Direction2 rotation, int[] colors = null, Guid? id = default(Guid? ), Vector2? position = default(Vector2? ))
-
+      public T AddChild<T>(FurnitureType type, Direction2 rotation, int[] colors = null, Guid? id = null, Vector2? position = null)
           where T : Furniture
     parameters:
     - id: type
@@ -2359,14 +2426,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: Objects/Furniture.cs
-    startLine: 589
+    startLine: 593
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nAdds a child to this furniture, setting its parent (<xref href=\"TinyLife.Objects.Furniture.SetParent(TinyLife.Objects.Furniture%2cTinyLife.Objects.ObjectSpot)\" data-throw-if-not-resolved=\"false\"></xref>) to this furniture and adding it to this furniture&apos;s <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>.\nThe object spot selected is the first available object spot.\n"
   example: []
   syntax:
-    content: public bool AddChild(Furniture item, Direction2 rotation, Vector2? position = default(Vector2? ))
+    content: public bool AddChild(Furniture item, Direction2 rotation, Vector2? position = null)
     parameters:
     - id: item
       type: TinyLife.Objects.Furniture
@@ -2407,14 +2474,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: Objects/Furniture.cs
-    startLine: 606
+    startLine: 610
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nSets the child element in the given object spot to the given furniture and adds it to this furniture&apos;s <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>.\nIf there are already children in the given object spot, those are removed prior to adding the new child.\n"
   example: []
   syntax:
-    content: public void SetChild(ObjectSpot spot, FurnitureType type, Direction2 rotation, int[] colors = null, Guid? id = default(Guid? ))
+    content: public void SetChild(ObjectSpot spot, FurnitureType type, Direction2 rotation, int[] colors = null, Guid? id = null)
     parameters:
     - id: spot
       type: TinyLife.Objects.ObjectSpot
@@ -2458,7 +2525,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: Objects/Furniture.cs
-    startLine: 617
+    startLine: 621
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2500,7 +2567,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: NotifyNeighbors
     path: Objects/Furniture.cs
-    startLine: 629
+    startLine: 633
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2532,7 +2599,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetNewId
     path: Objects/Furniture.cs
-    startLine: 642
+    startLine: 646
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5741,6 +5808,18 @@ references:
   name: SetCreator
   nameWithType: Furniture.SetCreator
   fullName: TinyLife.Objects.Furniture.SetCreator
+- uid: TinyLife.Objects.Furniture.GetDisplayName*
+  commentId: Overload:TinyLife.Objects.Furniture.GetDisplayName
+  name: GetDisplayName
+  nameWithType: Furniture.GetDisplayName
+  fullName: TinyLife.Objects.Furniture.GetDisplayName
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  name: String
+  nameWithType: String
+  fullName: System.String
 - uid: TinyLife.Objects.Furniture.OnNeighborChanged*
   commentId: Overload:TinyLife.Objects.Furniture.OnNeighborChanged
   name: OnNeighborChanged

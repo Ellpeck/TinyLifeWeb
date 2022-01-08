@@ -6,7 +6,7 @@ items:
   parent: TinyLife.Tools
   children:
   - TinyLife.Tools.MoveLotTool.#ctor
-  - TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes
+  - TinyLife.Tools.MoveLotTool.CanSwitchGameModes
   - TinyLife.Tools.MoveLotTool.Closed
   - TinyLife.Tools.MoveLotTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Tools.MoveLotTool.GetMouseCursor
@@ -31,12 +31,12 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nA tool is a type of game mode that is currently active.\nTools are split up into the <xref href=\"TinyLife.Tools.Tool.PlayModeTool\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Tools.Tool.BuildTools\" data-throw-if-not-resolved=\"false\"></xref>, the latter of which holds all tools that can be found in the build menu.\n"
   example: []
   syntax:
     content: 'public class MoveLotTool : Tool'
     content.vb: >-
       Public Class MoveLotTool
-
           Inherits Tool
   inheritance:
   - System.Object
@@ -63,7 +63,7 @@ items:
   - TinyLife.Tools.Tool.ForceWallsUp
   - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32})
-  - TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
+  - TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -132,6 +132,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nCalled when this build tool is opened.\nBy default, this method initializes several settings and calls <xref href=\"TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel%2cMLEM.Ui.Elements.Panel)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Opened()
@@ -162,10 +163,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Closed
     path: Tools/MoveLotTool.cs
-    startLine: 35
+    startLine: 33
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nCalled when this build tool is closed.\nBy default, this method removes its elements from the ui.\n"
   example: []
   syntax:
     content: public override void Closed()
@@ -196,16 +198,18 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: Tools/MoveLotTool.cs
-    startLine: 46
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nThis method is called every update frame for the <xref href=\"TinyLife.GameImpl.CurrentTool\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, this method updates the <xref href=\"TinyLife.Tools.Tool.MousePos\" data-throw-if-not-resolved=\"false\"></xref> and invokes <xref href=\"TinyLife.Tools.Tool.OnUpdate\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Update(GameTime time)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The game&apos;s time
     content.vb: Public Overrides Sub Update(time As GameTime)
   overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
   overload: TinyLife.Tools.MoveLotTool.Update*
@@ -233,18 +237,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: Tools/MoveLotTool.cs
-    startLine: 82
+    startLine: 89
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nThis method is called every draw frame for the <xref href=\"TinyLife.GameImpl.CurrentTool\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that this method is only called if the mouse is not hovering over any ui elements.\nBy default, this method invokes <xref href=\"TinyLife.Tools.Tool.OnDraw\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Draw(GameTime time, SpriteBatch batch)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The game&apos;s time
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch used for drawing
     content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch)
   overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   overload: TinyLife.Tools.MoveLotTool.Draw*
@@ -254,36 +261,38 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-- uid: TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes
-  commentId: M:TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes
-  id: CanSaveOrSwitchModes
+- uid: TinyLife.Tools.MoveLotTool.CanSwitchGameModes
+  commentId: M:TinyLife.Tools.MoveLotTool.CanSwitchGameModes
+  id: CanSwitchGameModes
   parent: TinyLife.Tools.MoveLotTool
   langs:
   - csharp
   - vb
-  name: CanSaveOrSwitchModes()
-  nameWithType: MoveLotTool.CanSaveOrSwitchModes()
-  fullName: TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes()
+  name: CanSwitchGameModes()
+  nameWithType: MoveLotTool.CanSwitchGameModes()
+  fullName: TinyLife.Tools.MoveLotTool.CanSwitchGameModes()
   type: Method
   source:
     remote:
       path: TinyLife/Tools/MoveLotTool.cs
       branch: master
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CanSaveOrSwitchModes
+    id: CanSwitchGameModes
     path: Tools/MoveLotTool.cs
-    startLine: 109
+    startLine: 118
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nWhether or not the game <xref href=\"TinyLife.GameImpl.CanSwitchGameModes\" data-throw-if-not-resolved=\"false\"></xref> currently, while this tool is selected\n"
   example: []
   syntax:
-    content: public override bool CanSaveOrSwitchModes()
+    content: public override bool CanSwitchGameModes()
     return:
       type: System.Boolean
-    content.vb: Public Overrides Function CanSaveOrSwitchModes As Boolean
-  overridden: TinyLife.Tools.Tool.CanSaveOrSwitchModes
-  overload: TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes*
+      description: Whether the game can be mode switched right now
+    content.vb: Public Overrides Function CanSwitchGameModes As Boolean
+  overridden: TinyLife.Tools.Tool.CanSwitchGameModes
+  overload: TinyLife.Tools.MoveLotTool.CanSwitchGameModes*
   modifiers.csharp:
   - public
   - override
@@ -308,15 +317,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: Tools/MoveLotTool.cs
-    startLine: 114
+    startLine: 123
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nWhether or not the <xref href=\"TinyLife.Tools.Tool.SelectedObject\" data-throw-if-not-resolved=\"false\"></xref> should currently have a white highlight around it.\nThis method defaults to return true if <xref href=\"TinyLife.GameImpl.IsMouseOnUi\" data-throw-if-not-resolved=\"false\"></xref> is false.\n"
   example: []
   syntax:
     content: public override bool ShouldHighlightSelectedObject()
     return:
       type: System.Boolean
+      description: Whether or not the selected object should be highlighted
     content.vb: Public Overrides Function ShouldHighlightSelectedObject As Boolean
   overridden: TinyLife.Tools.Tool.ShouldHighlightSelectedObject
   overload: TinyLife.Tools.MoveLotTool.ShouldHighlightSelectedObject*
@@ -344,15 +355,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMouseCursor
     path: Tools/MoveLotTool.cs
-    startLine: 119
+    startLine: 128
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
+  summary: "\nReturns the <xref href=\"TinyLife.Uis.CursorType\" data-throw-if-not-resolved=\"false\"></xref> that this tool should currently display.\nBy default, <xref href=\"TinyLife.Uis.CursorType.Default\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
     content: public override CursorType GetMouseCursor()
     return:
       type: TinyLife.Uis.CursorType
+      description: The cursor type
     content.vb: Public Overrides Function GetMouseCursor As CursorType
   overridden: TinyLife.Tools.Tool.GetMouseCursor
   overload: TinyLife.Tools.MoveLotTool.GetMouseCursor*
@@ -683,18 +696,18 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
-  commentId: M:TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
+- uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
+  commentId: M:TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   parent: TinyLife.Tools.Tool
   isExternal: true
-  name: BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, LnCategory, IEnumerable<String>, Nullable<Single>)
-  nameWithType: Tool.BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, LnCategory, IEnumerable<String>, Nullable<Single>)
-  fullName: TinyLife.Tools.Tool.BuildModeButton(System.String, MLEM.Ui.Elements.Element.GenericCallback, MLEM.Ui.Elements.Element.DrawCallback, System.Single, MLEM.Textures.TextureRegion, TinyLife.LnCategory, System.Collections.Generic.IEnumerable<System.String>, System.Nullable<System.Single>)
-  nameWithType.vb: Tool.BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, LnCategory, IEnumerable(Of String), Nullable(Of Single))
-  fullName.vb: TinyLife.Tools.Tool.BuildModeButton(System.String, MLEM.Ui.Elements.Element.GenericCallback, MLEM.Ui.Elements.Element.DrawCallback, System.Single, MLEM.Textures.TextureRegion, TinyLife.LnCategory, System.Collections.Generic.IEnumerable(Of System.String), System.Nullable(Of System.Single))
-  name.vb: BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, LnCategory, IEnumerable(Of String), Nullable(Of Single))
+  name: BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, IEnumerable<String>, Nullable<Single>)
+  nameWithType: Tool.BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, IEnumerable<String>, Nullable<Single>)
+  fullName: TinyLife.Tools.Tool.BuildModeButton(System.String, MLEM.Ui.Elements.Element.GenericCallback, MLEM.Ui.Elements.Element.DrawCallback, System.Single, MLEM.Textures.TextureRegion, System.Collections.Generic.IEnumerable<System.String>, System.Nullable<System.Single>)
+  nameWithType.vb: Tool.BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, IEnumerable(Of String), Nullable(Of Single))
+  fullName.vb: TinyLife.Tools.Tool.BuildModeButton(System.String, MLEM.Ui.Elements.Element.GenericCallback, MLEM.Ui.Elements.Element.DrawCallback, System.Single, MLEM.Textures.TextureRegion, System.Collections.Generic.IEnumerable(Of System.String), System.Nullable(Of System.Single))
+  name.vb: BuildModeButton(String, Element.GenericCallback, Element.DrawCallback, Single, TextureRegion, IEnumerable(Of String), Nullable(Of Single))
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
+  - uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
     name: BuildModeButton
     nameWithType: Tool.BuildModeButton
     fullName: TinyLife.Tools.Tool.BuildModeButton
@@ -738,13 +751,6 @@ references:
     nameWithType: TextureRegion
     fullName: MLEM.Textures.TextureRegion
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.LnCategory
-    name: LnCategory
-    nameWithType: LnCategory
-    fullName: TinyLife.LnCategory
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -787,7 +793,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,TinyLife.LnCategory,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
+  - uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
     name: BuildModeButton
     nameWithType: Tool.BuildModeButton
     fullName: TinyLife.Tools.Tool.BuildModeButton
@@ -831,13 +837,6 @@ references:
     nameWithType: TextureRegion
     fullName: MLEM.Textures.TextureRegion
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.LnCategory
-    name: LnCategory
-    nameWithType: LnCategory
-    fullName: TinyLife.LnCategory
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -1444,17 +1443,17 @@ references:
   name: Microsoft.Xna.Framework.Graphics
   nameWithType: Microsoft.Xna.Framework.Graphics
   fullName: Microsoft.Xna.Framework.Graphics
-- uid: TinyLife.Tools.Tool.CanSaveOrSwitchModes
-  commentId: M:TinyLife.Tools.Tool.CanSaveOrSwitchModes
+- uid: TinyLife.Tools.Tool.CanSwitchGameModes
+  commentId: M:TinyLife.Tools.Tool.CanSwitchGameModes
   parent: TinyLife.Tools.Tool
-  name: CanSaveOrSwitchModes()
-  nameWithType: Tool.CanSaveOrSwitchModes()
-  fullName: TinyLife.Tools.Tool.CanSaveOrSwitchModes()
+  name: CanSwitchGameModes()
+  nameWithType: Tool.CanSwitchGameModes()
+  fullName: TinyLife.Tools.Tool.CanSwitchGameModes()
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.CanSaveOrSwitchModes
-    name: CanSaveOrSwitchModes
-    nameWithType: Tool.CanSaveOrSwitchModes
-    fullName: TinyLife.Tools.Tool.CanSaveOrSwitchModes
+  - uid: TinyLife.Tools.Tool.CanSwitchGameModes
+    name: CanSwitchGameModes
+    nameWithType: Tool.CanSwitchGameModes
+    fullName: TinyLife.Tools.Tool.CanSwitchGameModes
   - name: (
     nameWithType: (
     fullName: (
@@ -1462,21 +1461,21 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.CanSaveOrSwitchModes
-    name: CanSaveOrSwitchModes
-    nameWithType: Tool.CanSaveOrSwitchModes
-    fullName: TinyLife.Tools.Tool.CanSaveOrSwitchModes
+  - uid: TinyLife.Tools.Tool.CanSwitchGameModes
+    name: CanSwitchGameModes
+    nameWithType: Tool.CanSwitchGameModes
+    fullName: TinyLife.Tools.Tool.CanSwitchGameModes
   - name: (
     nameWithType: (
     fullName: (
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes*
-  commentId: Overload:TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes
-  name: CanSaveOrSwitchModes
-  nameWithType: MoveLotTool.CanSaveOrSwitchModes
-  fullName: TinyLife.Tools.MoveLotTool.CanSaveOrSwitchModes
+- uid: TinyLife.Tools.MoveLotTool.CanSwitchGameModes*
+  commentId: Overload:TinyLife.Tools.MoveLotTool.CanSwitchGameModes
+  name: CanSwitchGameModes
+  nameWithType: MoveLotTool.CanSwitchGameModes
+  fullName: TinyLife.Tools.MoveLotTool.CanSwitchGameModes
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System

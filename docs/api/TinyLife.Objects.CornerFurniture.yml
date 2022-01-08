@@ -35,9 +35,7 @@ items:
     content: 'public class CornerFurniture : Furniture, IGenericDataHolder, IPricedObject'
     content.vb: >-
       Public Class CornerFurniture
-
           Inherits Furniture
-
           Implements IGenericDataHolder, IPricedObject
   inheritance:
   - System.Object
@@ -86,6 +84,7 @@ items:
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+  - TinyLife.Objects.Furniture.GetDisplayName
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetFreeActionSpots(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Furniture.GetFreeActionSpot(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -162,20 +161,26 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nCreates a new furniture instance.\nBy default, this is done using <xref href=\"TinyLife.Objects.FurnitureType.Construct(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bSystem.Guid%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public CornerFurniture(Guid id, FurnitureType type, int[] colors, Map map, Vector2 pos)
     parameters:
     - id: id
       type: System.Guid
+      description: The id to apply to the created furniture instance
     - id: type
       type: TinyLife.Objects.FurnitureType
+      description: The type to create an instance of
     - id: colors
       type: System.Int32[]
+      description: The colors to apply to the furniture
     - id: map
       type: TinyLife.World.Map
+      description: The map to create the furniture on
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position that the furniture should have
     content.vb: Public Sub New(id As Guid, type As FurnitureType, colors As Integer(), map As Map, pos As Vector2)
   overload: TinyLife.Objects.CornerFurniture.#ctor*
   nameWithType.vb: CornerFurniture.CornerFurniture(Guid, FurnitureType, Int32(), Map, Vector2)
@@ -292,36 +297,50 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nDraws this furniture in the world with the given settings.\nThis is a more generalized version of <xref href=\"TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime%2cMicrosoft.Xna.Framework.Graphics.SpriteBatch%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Color%7d)\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public override void Draw(GameTime time, SpriteBatch batch, Vector2 pos, Vector2 drawPos, Color? overrideColor, Direction2 rotation, int[] colors, float drawScale, bool pivot, Furniture parent, AbstractSpot parentSpot, float depthOffset, bool held)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The game time
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to draw with
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position, in world space, that the furniture is at
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position, in draw space, to draw the furniture at
     - id: overrideColor
       type: System.Nullable{Microsoft.Xna.Framework.Color}
+      description: An optional color to override the default colors of the furniture
     - id: rotation
       type: MLEM.Misc.Direction2
+      description: The rotation of the furniture
     - id: colors
       type: System.Int32[]
+      description: The colors to draw the furniture with
     - id: drawScale
       type: System.Single
+      description: The scale to draw the furniture with
     - id: pivot
       type: System.Boolean
+      description: Whether or not to move the furniture by its texture&apos;s pivot point
     - id: parent
       type: TinyLife.Objects.Furniture
+      description: The object that this furniture is latched on to, or null if there is none
     - id: parentSpot
       type: TinyLife.Objects.AbstractSpot
+      description: The object spot that this furntiture is in, or null if there is none
     - id: depthOffset
       type: System.Single
+      description: A value that is added onto the calculated depth of the object
     - id: held
       type: System.Boolean
+      description: Whether or not this item is currently being held by a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, pos As Vector2, drawPos As Vector2, overrideColor As Color?, rotation As Direction2, colors As Integer(), drawScale As Single, pivot As Boolean, parent As Furniture, parentSpot As AbstractSpot, depthOffset As Single, held As Boolean)
   overridden: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,System.Single,System.Boolean)
   overload: TinyLife.Objects.CornerFurniture.Draw*
@@ -356,12 +375,14 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method gets called when any neighboring furniture changes. The neighboring furniture is passed.\nBy default, this method does nothing, so calling base is not necessary.\n"
   example: []
   syntax:
     content: protected override void OnNeighborChanged(Furniture neighbor)
     parameters:
     - id: neighbor
       type: TinyLife.Objects.Furniture
+      description: The neighbor furniture that changed
     content.vb: Protected Overrides Sub OnNeighborChanged(neighbor As Furniture)
   overridden: TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   overload: TinyLife.Objects.CornerFurniture.OnNeighborChanged*
@@ -393,11 +414,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when this object is loaded from disk.\nReturning false on this method causes the object to be removed from the map.\nBy default, this method invokes <xref href=\"TinyLife.Objects.MapObject.OnValidated\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.MapObject.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override bool Validate()
     return:
       type: System.Boolean
+      description: false if the object is not valid, true otherwise
     content.vb: Public Overrides Function Validate As Boolean
   overridden: TinyLife.Objects.Furniture.Validate
   overload: TinyLife.Objects.CornerFurniture.Validate*
@@ -1381,6 +1404,34 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.GetDisplayName
+  commentId: M:TinyLife.Objects.Furniture.GetDisplayName
+  parent: TinyLife.Objects.Furniture
+  name: GetDisplayName()
+  nameWithType: Furniture.GetDisplayName()
+  fullName: TinyLife.Objects.Furniture.GetDisplayName()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.GetDisplayName
+    name: GetDisplayName
+    nameWithType: Furniture.GetDisplayName
+    fullName: TinyLife.Objects.Furniture.GetDisplayName
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.GetDisplayName
+    name: GetDisplayName
+    nameWithType: Furniture.GetDisplayName
+    fullName: TinyLife.Objects.Furniture.GetDisplayName
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )

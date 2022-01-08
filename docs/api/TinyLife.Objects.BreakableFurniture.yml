@@ -39,9 +39,7 @@ items:
     content: 'public class BreakableFurniture : Furniture, IGenericDataHolder, IPricedObject, IUpdatingObject'
     content.vb: >-
       Public Class BreakableFurniture
-
           Inherits Furniture
-
           Implements IGenericDataHolder, IPricedObject, IUpdatingObject
   inheritance:
   - System.Object
@@ -89,6 +87,7 @@ items:
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.Furniture,TinyLife.Objects.AbstractSpot,System.Single,System.Boolean)
   - TinyLife.Objects.Furniture.GetDirty(System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+  - TinyLife.Objects.Furniture.GetDisplayName
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetFreeActionSpots(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -275,20 +274,26 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nCreates a new furniture instance.\nBy default, this is done using <xref href=\"TinyLife.Objects.FurnitureType.Construct(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bSystem.Guid%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public BreakableFurniture(Guid id, FurnitureType type, int[] colors, Map map, Vector2 pos)
     parameters:
     - id: id
       type: System.Guid
+      description: The id to apply to the created furniture instance
     - id: type
       type: TinyLife.Objects.FurnitureType
+      description: The type to create an instance of
     - id: colors
       type: System.Int32[]
+      description: The colors to apply to the furniture
     - id: map
       type: TinyLife.World.Map
+      description: The map to create the furniture on
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position that the furniture should have
     content.vb: Public Sub New(id As Guid, type As FurnitureType, colors As Integer(), map As Map, pos As Vector2)
   overload: TinyLife.Objects.BreakableFurniture.#ctor*
   nameWithType.vb: BreakableFurniture.BreakableFurniture(Guid, FurnitureType, Int32(), Map, Vector2)
@@ -320,16 +325,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThe update method, which is called every update frame by the underlying <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public virtual void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The game&apos;s time
     - id: passedInGame
       type: System.TimeSpan
+      description: The amount of time that has passed since the last call
     - id: speedMultiplier
       type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overridable Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
   overload: TinyLife.Objects.BreakableFurniture.Update*
   implements:
@@ -400,20 +409,26 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nThis method is called when an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> that this object is involved in updates, which is every <xref href=\"Microsoft.Xna.Framework.Game.Update(Microsoft.Xna.Framework.GameTime)\" data-throw-if-not-resolved=\"false\"></xref> frame. Note that this includes actions that are underlying (<xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsUnderlying\" data-throw-if-not-resolved=\"false\"></xref>) and actions that aren&apos;t fully in progress yet (<xref href=\"TinyLife.Actions.Typeless.TypelessAction.FullyInProgress\" data-throw-if-not-resolved=\"false\"></xref>).\nThis object counts as involved in the action if its <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> includes this object.\nIn general, the base method should be called for <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects, since it sets deals with <xref href=\"TinyLife.Objects.Furniture.Dirty\" data-throw-if-not-resolved=\"false\"></xref> objects.\n"
   example: []
   syntax:
     content: public override void ActionUpdate(Action action, GameTime time, TimeSpan passedInGame, float speedMultiplier, bool isAuxiliary)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time
     - id: passedInGame
       type: System.TimeSpan
+      description: The amount of time that has passed, in game time
     - id: speedMultiplier
       type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     - id: isAuxiliary
       type: System.Boolean
+      description: Whether this object counts as an auxiliary object. If this value is false, the object is th e<xref href="TinyLife.Actions.ActionInfo.GetActionObject%60%601" data-throw-if-not-resolved="false"></xref>
     content.vb: Public Overrides Sub ActionUpdate(action As Action, time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single, isAuxiliary As Boolean)
   overridden: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
   overload: TinyLife.Objects.BreakableFurniture.ActionUpdate*
@@ -445,11 +460,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns the price that this object can be bought or sold for.\nNote that, like in the case of the <xref href=\"TinyLife.Objects.Painting\" data-throw-if-not-resolved=\"false\"></xref>, the returned price isn&apos;t necessarily the full price that the object can be sold for. Instead, the price returned here should be the price that this object has when bought or sold from the <xref href=\"TinyLife.Tools.FurnitureTool\" data-throw-if-not-resolved=\"false\"></xref> or similar.\n"
   example: []
   syntax:
     content: public override float GetPrice()
     return:
       type: System.Single
+      description: The object&apos;s price
     content.vb: Public Overrides Function GetPrice As Single
   overridden: TinyLife.Objects.Furniture.GetPrice
   overload: TinyLife.Objects.BreakableFurniture.GetPrice*
@@ -481,11 +498,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns a set of lines that are displayed in build mode when this furniture is hovered over, either in the buy menu or in the <xref href=\"TinyLife.World.Household.FurnitureStorage\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, info about <xref href=\"TinyLife.Objects.FurnitureType.TypeSettings.Reliability\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.FurnitureType.TypeSettings.ElectricityRating\" data-throw-if-not-resolved=\"false\"></xref> is returned, and <xref href=\"TinyLife.Objects.Furniture.OnGetDescription\" data-throw-if-not-resolved=\"false\"></xref> is invoked.\n"
   example: []
   syntax:
     content: public override IEnumerable<string> GetDescription()
     return:
       type: System.Collections.Generic.IEnumerable{System.String}
+      description: A set of description lines for this furniture item
     content.vb: Public Overrides Function GetDescription As IEnumerable(Of String)
   overridden: TinyLife.Objects.Furniture.GetDescription
   overload: TinyLife.Objects.BreakableFurniture.GetDescription*
@@ -517,14 +536,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: "\nReturns the decorative rating of this object in the given room.\nBy default, the underlying <xref href=\"TinyLife.Objects.Furniture.Type\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating\" data-throw-if-not-resolved=\"false\"></xref>, influeced by whether this object is <xref href=\"TinyLife.Objects.Furniture.Dirty\" data-throw-if-not-resolved=\"false\"></xref>, is returned.\n"
   example: []
   syntax:
     content: public override int GetDecorativeRating(Room room)
     parameters:
     - id: room
       type: TinyLife.World.Room
+      description: The room that the object is in, or null if it is not in a room at all
     return:
       type: System.Int32
+      description: The decorative rating of this object
     content.vb: Public Overrides Function GetDecorativeRating(room As Room) As Integer
   overridden: TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   overload: TinyLife.Objects.BreakableFurniture.GetDecorativeRating*
@@ -1492,6 +1514,34 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.GetDisplayName
+  commentId: M:TinyLife.Objects.Furniture.GetDisplayName
+  parent: TinyLife.Objects.Furniture
+  name: GetDisplayName()
+  nameWithType: Furniture.GetDisplayName()
+  fullName: TinyLife.Objects.Furniture.GetDisplayName()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.GetDisplayName
+    name: GetDisplayName
+    nameWithType: Furniture.GetDisplayName
+    fullName: TinyLife.Objects.Furniture.GetDisplayName
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.GetDisplayName
+    name: GetDisplayName
+    nameWithType: Furniture.GetDisplayName
+    fullName: TinyLife.Objects.Furniture.GetDisplayName
+  - name: (
+    nameWithType: (
+    fullName: (
   - name: )
     nameWithType: )
     fullName: )

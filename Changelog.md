@@ -1,3 +1,28 @@
+# 0.19.1
+![](media/changelog/0.19.1.png)
+
+> Better Hints, Better Food, Better Names
+
+This is a small (devlog-less) update that fixes some issues and adds some small features. Enjoy!
+
+Additions
+- Added the ability to create and sell apps with a high Programming skill
+- Added an emergency food system where rations are delivered to a household whose funds are very low
+
+Improvements
+- Improved in-game hints by turning them into a popup and adding icons
+- Restore Entertainment need for skills based on how high the skill level is
+- Display the names of food plates and woodworking objects in the action and hover descriptions
+- Made the lot movement tool less scary when first opened
+- Always auto-save, even when lot or character creator conditions are unmet
+
+Fixes
+- Fixed a rare crash when changelog images fail to download
+- Fixed being able to pick up food plates that other Tinies are currently eating
+- Fixed ambient sounds not fading properly between day and night
+- Fixed the sell action not being saved and loaded properly
+- Fixed the ability to create new outfits even when funds are too low to do so
+
 # 0.19.0
 ![](media/changelog/0.19.0.png)
 

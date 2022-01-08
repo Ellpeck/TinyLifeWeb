@@ -38,9 +38,7 @@ items:
     content: 'public abstract class OutOfTownAction : MultiAction, IGenericDataHolder'
     content.vb: >-
       Public MustInherit Class OutOfTownAction
-
           Inherits MultiAction
-
           Implements IGenericDataHolder
   inheritance:
   - System.Object
@@ -94,7 +92,7 @@ items:
   - TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Single,TinyLife.Objects.ActionSpot)
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
-  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
@@ -225,11 +223,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturn a set of actions that should be executed before this action.\nEven if the yield statement is used, all actions will be collected into a list at the start of this action&apos;s invocation.\nIf no action gets returned in this function, this action fails.\nIf a null action is returned as the first item, no first actions will be executed.\n"
   example: []
   syntax:
     content: protected override IEnumerable<Action> CreateFirstActions()
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+      description: A set of actions that sohuld run before this action
     content.vb: Protected Overrides Function CreateFirstActions As IEnumerable(Of Action)
   overridden: TinyLife.Actions.MultiAction.CreateFirstActions
   overload: TinyLife.Actions.OutOfTownAction.CreateFirstActions*
@@ -261,6 +261,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nInitializes the main action.\nThis method is called after <xref href=\"TinyLife.Actions.MultiAction.Handler\" data-throw-if-not-resolved=\"false\"></xref> has all completed.\n"
   example: []
   syntax:
     content: protected override void AndThenInitialize()
@@ -295,16 +296,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nMultiAction version of <xref href=\"TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method is called every update frame while the main action is active.\nBy default, only <xref href=\"TinyLife.Actions.MultiAction.MainElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is increased.\n"
   example: []
   syntax:
     content: protected override void AndThenUpdate(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time
     - id: passedInGame
       type: System.TimeSpan
+      description: The amount of time that has passed, in game time
     - id: speedMultiplier
       type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     content.vb: Protected Overrides Sub AndThenUpdate(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
   overridden: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   overload: TinyLife.Actions.OutOfTownAction.AndThenUpdate*
@@ -336,14 +341,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturns an action that should be queued up immediately after this action completes.\nThe queued up action is immediately started in the slot that this action occupied.\nCan be null, and is null by default.\n"
   example: []
   syntax:
     content: public override Action GetNextAction(CompletionType completion)
     parameters:
     - id: completion
       type: TinyLife.Actions.CompletionType
+      description: The type that this action completed with
     return:
       type: TinyLife.Actions.Action
+      description: The follow-up action
     content.vb: Public Overrides Function GetNextAction(completion As CompletionType) As Action
   overridden: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.OutOfTownAction.GetNextAction*
@@ -375,16 +383,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturns true if the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">person</code> can (automatically) enqueue a social action with the <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> that is executing this action.\nNote that enqueueing a social action manually is still possible even if this method returns false.\nBy default, only <xref href=\"TinyLife.Actions.SleepAction\" data-throw-if-not-resolved=\"false\"></xref> returns false on this method.\n"
   example: []
   syntax:
     content: public override bool CanEnqueueConversation(Person person, ActionType type)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+      description: The person that wants to converse with us.
     - id: type
       type: TinyLife.Actions.ActionType
+      description: The type of action that should be enqueued. Might be null, in which case a generic or unknown action is querying this function.
     return:
       type: System.Boolean
+      description: Whether or not enqueueing a social action is possible.
     content.vb: Public Overrides Function CanEnqueueConversation(person As Person, type As ActionType) As Boolean
   overridden: TinyLife.Actions.Action.CanEnqueueConversation(TinyLife.Objects.Person,TinyLife.Actions.ActionType)
   overload: TinyLife.Actions.OutOfTownAction.CanEnqueueConversation*
@@ -416,11 +428,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturns true if this action, while it is currently active, should cause the <xref href=\"TinyLife.GameSpeed.ExtremelyFast\" data-throw-if-not-resolved=\"false\"></xref> speed to be available.\nBy default, this method returns false.\n"
   example: []
   syntax:
     content: public override bool CausesExtremelyFastSpeed()
     return:
       type: System.Boolean
+      description: Whether the extremely fast speed should be available
     content.vb: Public Overrides Function CausesExtremelyFastSpeed As Boolean
   overridden: TinyLife.Actions.Action.CausesExtremelyFastSpeed
   overload: TinyLife.Actions.OutOfTownAction.CausesExtremelyFastSpeed*
@@ -2232,35 +2246,35 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   parent: TinyLife.Actions.Typeless.TypelessAction
   isExternal: true
-  name: FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  nameWithType: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
-  nameWithType.vb: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
-  name.vb: FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  name: FindAllFreePeople(Person, ActionType, Nullable<Vector2>, Nullable<Single>, Boolean)
+  nameWithType: TypelessAction.FindAllFreePeople(Person, ActionType, Nullable<Vector2>, Nullable<Single>, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person, TinyLife.Actions.ActionType, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreePeople(Person, ActionType, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person, TinyLife.Actions.ActionType, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
+  name.vb: FindAllFreePeople(Person, ActionType, Nullable(Of Vector2), Nullable(Of Single), Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
     name: FindAllFreePeople
     nameWithType: TypelessAction.FindAllFreePeople
     fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
   - uid: TinyLife.Objects.Person
     name: Person
     nameWithType: Person
     fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -2311,24 +2325,24 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
     name: FindAllFreePeople
     nameWithType: TypelessAction.FindAllFreePeople
     fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
   - uid: TinyLife.Objects.Person
     name: Person
     nameWithType: Person
     fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '

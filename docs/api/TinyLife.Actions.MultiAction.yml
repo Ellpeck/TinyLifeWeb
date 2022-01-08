@@ -46,9 +46,7 @@ items:
     content: 'public abstract class MultiAction : Action, IGenericDataHolder'
     content.vb: >-
       Public MustInherit Class MultiAction
-
           Inherits Action
-
           Implements IGenericDataHolder
   inheritance:
   - System.Object
@@ -100,7 +98,7 @@ items:
   - TinyLife.Actions.Typeless.TypelessAction.Sit(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Single,TinyLife.Objects.ActionSpot)
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChair(TinyLife.Objects.Person,TinyLife.Objects.Furniture)
   - TinyLife.Actions.Typeless.TypelessAction.GetFreeChairs(TinyLife.Objects.Person,TinyLife.Objects.Furniture,System.Func{MLEM.Misc.Direction2,System.Boolean})
-  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeWalls(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   - TinyLife.Actions.Typeless.TypelessAction.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
@@ -242,12 +240,14 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nRepresents the amount of time that this action has &quot;properly&quot; been in progress for.\nThis is used by <xref href=\"TinyLife.Actions.MultiAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.SocialAction\" data-throw-if-not-resolved=\"false\"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.\nBy default, <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
     content: public override TimeSpan InProgressTime { get; }
     parameters: []
     return:
       type: System.TimeSpan
+      description: The amount of time that this action has properly been in progress for
     content.vb: Public Overrides ReadOnly Property InProgressTime As TimeSpan
   overridden: TinyLife.Actions.Typeless.TypelessAction.InProgressTime
   overload: TinyLife.Actions.MultiAction.InProgressTime*
@@ -281,14 +281,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nCreates a new action from the given <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public MultiAction(ActionType type, ActionInfo info)
     parameters:
     - id: type
       type: TinyLife.Actions.ActionType
+      description: The type to create this action from
     - id: info
       type: TinyLife.Actions.ActionInfo
+      description: The information for this action
     content.vb: Public Sub New(type As ActionType, info As ActionInfo)
   overload: TinyLife.Actions.MultiAction.#ctor*
   modifiers.csharp:
@@ -541,16 +544,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nThis method is called every update frame if this action is currently active.\nBy default, only the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is modified in this method and <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
   example: []
   syntax:
     content: public sealed override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time
     - id: passedInGame
       type: System.TimeSpan
+      description: The amount of time that has passed, in game time
     - id: speedMultiplier
       type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     content.vb: Public NotOverridable Overrides Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
   overridden: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   overload: TinyLife.Actions.MultiAction.Update*
@@ -584,6 +591,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nThis method is called when the action is first started by a <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that it is not called when the action gets added to the <xref href=\"TinyLife.Objects.Person.ActionQueue\" data-throw-if-not-resolved=\"false\"></xref>, but when it is moved to <xref href=\"TinyLife.Objects.Person.CurrentActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public sealed override void Initialize()
@@ -620,11 +628,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nThis method is called every update frame by a <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref> if this action is currently active to check if it should be stopped.\nIf this returns a result other than <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> will be called and the action is stopped.\nBy default, only <xref href=\"TinyLife.Actions.Typeless.TypelessAction.ForceFail\" data-throw-if-not-resolved=\"false\"></xref> modifies the completion type, otherwise <xref href=\"TinyLife.Actions.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
     content: public sealed override CompletionType IsCompleted()
     return:
       type: TinyLife.Actions.CompletionType
+      description: The current completion type of this action
     content.vb: Public NotOverridable Overrides Function IsCompleted As CompletionType
   overridden: TinyLife.Actions.Typeless.TypelessAction.IsCompleted
   overload: TinyLife.Actions.MultiAction.IsCompleted*
@@ -658,12 +668,14 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nThis method is called when this action <xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, or if it is canceled from an outside source.\nNote that, if this method is called as a result of <xref href=\"TinyLife.Actions.Typeless.TypelessAction.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"TinyLife.Actions.CompletionType\" data-throw-if-not-resolved=\"false\"></xref> passed will be the same.\n"
   example: []
   syntax:
     content: public sealed override void OnCompleted(CompletionType type)
     parameters:
     - id: type
       type: TinyLife.Actions.CompletionType
+      description: The type that this action completed with
     content.vb: Public NotOverridable Overrides Sub OnCompleted(type As CompletionType)
   overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.MultiAction.OnCompleted*
@@ -697,14 +709,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nValidates this action&apos;s data.\nThis is called when a map is loaded from disk.\nWhen returning false on this method, the action is removed from the <xref href=\"TinyLife.Actions.Typeless.TypelessAction.Person\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override bool Validate(Person person)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+      description: The person that this action belongs to
     return:
       type: System.Boolean
+      description: Whether or not the action is still valid (or if it has invalid data)
     content.vb: Public Overrides Function Validate(person As Person) As Boolean
   overridden: TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
   overload: TinyLife.Actions.MultiAction.Validate*
@@ -736,14 +751,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturns whether or not this action can be canceled by the given outside source.\nNote that the outside source can be null, and if it is, it means that the player canceled the action manually.\nBy default, actions can only be canceled if the <code data-dev-comment-type=\"paramref\" class=\"paramref\">cancelSource</code> is null.\n"
   example: []
   syntax:
     content: public override bool CanCancel(Action cancelSource)
     parameters:
     - id: cancelSource
       type: TinyLife.Actions.Action
+      description: The source of the cancelation, or null if the player canceled it
     return:
       type: System.Boolean
+      description: true if the action can be canceled
     content.vb: Public Overrides Function CanCancel(cancelSource As Action) As Boolean
   overridden: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   overload: TinyLife.Actions.MultiAction.CanCancel*
@@ -2286,35 +2304,35 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+- uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
   parent: TinyLife.Actions.Typeless.TypelessAction
   isExternal: true
-  name: FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  nameWithType: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable<Vector2>, Nullable<Single>, Boolean)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
-  nameWithType.vb: TypelessAction.FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType, TinyLife.Objects.Person, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
-  name.vb: FindAllFreePeople(ActionType, Person, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  name: FindAllFreePeople(Person, ActionType, Nullable<Vector2>, Nullable<Single>, Boolean)
+  nameWithType: TypelessAction.FindAllFreePeople(Person, ActionType, Nullable<Vector2>, Nullable<Single>, Boolean)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person, TinyLife.Actions.ActionType, System.Nullable<Microsoft.Xna.Framework.Vector2>, System.Nullable<System.Single>, System.Boolean)
+  nameWithType.vb: TypelessAction.FindAllFreePeople(Person, ActionType, Nullable(Of Vector2), Nullable(Of Single), Boolean)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person, TinyLife.Actions.ActionType, System.Nullable(Of Microsoft.Xna.Framework.Vector2), System.Nullable(Of System.Single), System.Boolean)
+  name.vb: FindAllFreePeople(Person, ActionType, Nullable(Of Vector2), Nullable(Of Single), Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
     name: FindAllFreePeople
     nameWithType: TypelessAction.FindAllFreePeople
     fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
   - uid: TinyLife.Objects.Person
     name: Person
     nameWithType: Person
     fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -2365,24 +2383,24 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Actions.ActionType,TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
     name: FindAllFreePeople
     nameWithType: TypelessAction.FindAllFreePeople
     fullName: TinyLife.Actions.Typeless.TypelessAction.FindAllFreePeople
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    nameWithType: ActionType
-    fullName: TinyLife.Actions.ActionType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
   - uid: TinyLife.Objects.Person
     name: Person
     nameWithType: Person
     fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
   - name: ', '
     nameWithType: ', '
     fullName: ', '

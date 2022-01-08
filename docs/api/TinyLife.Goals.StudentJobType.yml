@@ -29,19 +29,18 @@ items:
   summary: "\nA <xref href=\"TinyLife.Goals.JobType\" data-throw-if-not-resolved=\"false\"></xref> for school students\n"
   example: []
   syntax:
-    content: 'public class StudentJobType : JobType, IGenericDataHolder'
+    content: 'public class StudentJobType : JobType, IGenericDataHolder, IEmotionSource'
     content.vb: >-
       Public Class StudentJobType
-
           Inherits JobType
-
-          Implements IGenericDataHolder
+          Implements IGenericDataHolder, IEmotionSource
   inheritance:
   - System.Object
   - MLEM.Misc.GenericDataHolder
   - TinyLife.Goals.JobType
   implements:
   - MLEM.Misc.IGenericDataHolder
+  - TinyLife.Emotions.IEmotionSource
   inheritedMembers:
   - TinyLife.Goals.JobType.Types
   - TinyLife.Goals.JobType.Name
@@ -55,6 +54,7 @@ items:
   - TinyLife.Goals.JobType.CanQuitOrBeFired
   - TinyLife.Goals.JobType.DailyTasks
   - TinyLife.Goals.JobType.DailyTaskImportance
+  - TinyLife.Goals.JobType.SourceString
   - TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
   - TinyLife.Goals.JobType.IsTimeToWork(System.Nullable{System.TimeSpan})
   - TinyLife.Goals.JobType.ToScheduleString
@@ -104,18 +104,23 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
+  summary: "\nCreates a new job type with the given settings\n"
   example: []
   syntax:
     content: public StudentJobType(string name, float hourlyPay, Range<int> workHours, params DayOfWeek[] offWorkDays)
     parameters:
     - id: name
       type: System.String
+      description: The name of the job
     - id: hourlyPay
       type: System.Single
+      description: The hourly wage that this job yields
     - id: workHours
       type: MonoGame.Extended.Range{System.Int32}
+      description: A range of hours to work each day
     - id: offWorkDays
       type: System.DayOfWeek[]
+      description: The days of the week that are off work
     content.vb: Public Sub New(name As String, hourlyPay As Single, workHours As Range(Of Integer), ParamArray offWorkDays As DayOfWeek())
   overload: TinyLife.Goals.StudentJobType.#ctor*
   nameWithType.vb: StudentJobType.StudentJobType(String, Single, Range(Of Int32), DayOfWeek())
@@ -147,14 +152,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
+  summary: "\nA method that is called when a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> finishes a <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref> for this job.\nBy default, some emotion modifiers are randomly applied.\n"
   example: []
   syntax:
     content: public override void OnWorkFinished(Job job, WorkAction action)
     parameters:
     - id: job
       type: TinyLife.Goals.Job
+      description: The job instance
     - id: action
       type: TinyLife.Actions.WorkAction
+      description: The work action that was completed
     content.vb: Public Overrides Sub OnWorkFinished(job As Job, action As WorkAction)
   overridden: TinyLife.Goals.JobType.OnWorkFinished(TinyLife.Goals.Job,TinyLife.Actions.WorkAction)
   overload: TinyLife.Goals.StudentJobType.OnWorkFinished*
@@ -186,14 +194,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
+  summary: "\nA method that is called when a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> is promoted or demoted for this job.\nBy default, some emotion modifiers are applied.\n"
   example: []
   syntax:
     content: public override void OnLevelChanged(Job job, int levelDifference)
     parameters:
     - id: job
       type: TinyLife.Goals.Job
+      description: The job instance
     - id: levelDifference
       type: System.Int32
+      description: The level difference that was applied. If the person was demoted, this value is -1, else it is 1.
     content.vb: Public Overrides Sub OnLevelChanged(job As Job, levelDifference As Integer)
   overridden: TinyLife.Goals.JobType.OnLevelChanged(TinyLife.Goals.Job,System.Int32)
   overload: TinyLife.Goals.StudentJobType.OnLevelChanged*
@@ -236,6 +247,12 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
 - uid: TinyLife.Goals.JobType.Types
   commentId: F:TinyLife.Goals.JobType.Types
   parent: TinyLife.Goals.JobType
@@ -308,6 +325,12 @@ references:
   name: DailyTaskImportance
   nameWithType: JobType.DailyTaskImportance
   fullName: TinyLife.Goals.JobType.DailyTaskImportance
+- uid: TinyLife.Goals.JobType.SourceString
+  commentId: P:TinyLife.Goals.JobType.SourceString
+  parent: TinyLife.Goals.JobType
+  name: SourceString
+  nameWithType: JobType.SourceString
+  fullName: TinyLife.Goals.JobType.SourceString
 - uid: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
   commentId: M:TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
   parent: TinyLife.Goals.JobType
@@ -1166,6 +1189,11 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
