@@ -6,8 +6,11 @@ pipeline {
         branch 'main'
       }
       steps {
+        sh '''cd web
+              bundle
+              bundle exec jekyll build'''
         sh 'rm -rf /var/www/tinylifegame/*'
-        sh 'cp web/. /var/www/tinylifegame/ -r'
+        sh 'cp -r web/_site/. /var/www/tinylifegame/'
       }
     }
     stage('Docs') {
@@ -17,7 +20,7 @@ pipeline {
       steps {
         sh 'cd docs; docfx.exe'
         sh 'rm -rf /var/www/tinylifedocs/*'
-        sh 'cp docs/_site/. /var/www/tinylifedocs/ -r'   
+        sh 'cp -r docs/_site/. /var/www/tinylifedocs/'   
       }
     }
   }
