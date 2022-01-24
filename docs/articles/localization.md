@@ -2,7 +2,7 @@
 
 If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the community of people who play the game in the language you work on!
 
-If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](), or in the `#tinylife` channel. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a Google account, or create a new account with any email address.
+If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](), or in the `#tinylife` channel. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
 
 The following list contains a few bits of additional information that you should keep in mind when translating:
 - You don't need any kind of programming or advanced file editing experience, since you'll be translating on the previously mentioned translation site. When translating, you should set an existing language as your `reference locale` (preferably English), since most of the term names don't give much information about the actual content of the text they represent.
