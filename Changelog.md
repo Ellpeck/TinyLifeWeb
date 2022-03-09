@@ -1,3 +1,53 @@
+# 0.20.0
+![](media/changelog/0.20.0.png)
+
+> The Children Update, it's finally here!
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/355830/0200-the-children-update-its-finally-here) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3100171001731828571).
+
+Additions
+- Added the Children age group, which includes several new gameplay features, including new interactable furniture items, school, homework and the start of parenting interactions
+- Added the Familiar Attire set with art by [Tector](https://www.instagram.com/tector_pixel/), which includes several new clothing items and accessories for children and adults
+- Added multiple new furniture items, including three plants, two decorative objects, a smaller picnic table, a sandbox, a jigsaw puzzle, a stove for kids, and a toy box
+- Added a top hat clothing item
+- Added two new personality types: Family-Focused and Hates Children
+- Added a speech type system which includes a more feminine voice style spoken by [SyrinixSoul](https://https://www.twitch.tv/syrinixsoul)
+- Added an option to allow complex social relationships between AI Tinies
+- Added a grid to build mode (which can be toggled using the G key)
+- Added keybinds to move the camera (arrow keys by default, but can be changed to WASD in the controls menu)
+- Added a crash detection system which displays a notification when the game starts up the next time
+- Added a world selection to the "New Game" menu
+
+Improvements
+- Added the "failed joke" emotion modifier to all jokes
+- Organized the gameplay options menu better
+- Increased the default brightness increase to 25%
+- Moved the notification history button to where options and build mode are
+- Display a warning when a save is loaded with missing mods
+- Bundle all errors into one notification when loading or saving
+- Display the reason that actions in a subcategory are unavailable straight away if they are all the same
+- Made accessories less likely to be randomly generated on newly created people
+- Some memory usage improvements
+- Ordered the furniture tool's "All" tab by the category that furniture items are in
+- Added notifications for when cheats are turned on or off
+- Allow Tinies to get jobs automatically if important actions are enabled
+- Display which color scheme is currently selected
+- Allow using ALT for objects that are attached to walls
+- Display the loading progress in the loading screen
+- Allow stoves to get dirty
+- Allow editing and changing outfits at mirrors
+
+Fixes
+- Fixed a rare exception when people grabbed a serving of food
+- Fixed camera rotation buttons not having a highlight color
+- Fixed a crash when trying to talk to a person who just died
+- Fixed an exception that occurred when there was no mailbox on a residential lot
+- Fixed lot imports breaking if the import button is pressed too many times in a row
+- Fixed the household preview being too wide for large households
+
+API
+- Added Harmony, allowing for mods to inject custom code into the game
+
 # 0.19.2
 ![](media/changelog/0.19.1.png)
 
