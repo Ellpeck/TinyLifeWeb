@@ -5,12 +5,14 @@ items:
   id: Mail
   parent: TinyLife.World
   children:
-  - TinyLife.World.Mail.#ctor(System.Guid)
-  - TinyLife.World.Mail.GetReceivingLot(TinyLife.World.Map)
-  - TinyLife.World.Mail.GetReceivingMailbox(TinyLife.World.Map)
+  - TinyLife.World.Mail.#ctor(TinyLife.World.Map,System.Guid)
+  - TinyLife.World.Mail.GetReceivingLot
+  - TinyLife.World.Mail.GetReceivingMailbox
   - TinyLife.World.Mail.Id
-  - TinyLife.World.Mail.OnReceived(TinyLife.World.Map)
+  - TinyLife.World.Mail.Map
+  - TinyLife.World.Mail.OnReceived
   - TinyLife.World.Mail.SentTime
+  - TinyLife.World.Mail.Validate(TinyLife.World.Map)
   langs:
   - csharp
   - vb
@@ -21,7 +23,7 @@ items:
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Mail
     path: ../TinyLife/World/Mail.cs
@@ -89,7 +91,7 @@ items:
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Id
     path: ../TinyLife/World/Mail.cs
@@ -134,7 +136,7 @@ items:
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SentTime
     path: ../TinyLife/World/Mail.cs
@@ -165,152 +167,215 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.World.Mail.#ctor(System.Guid)
-  commentId: M:TinyLife.World.Mail.#ctor(System.Guid)
-  id: '#ctor(System.Guid)'
+- uid: TinyLife.World.Mail.Map
+  commentId: P:TinyLife.World.Mail.Map
+  id: Map
   parent: TinyLife.World.Mail
   langs:
   - csharp
   - vb
-  name: Mail(Guid)
-  nameWithType: Mail.Mail(Guid)
-  fullName: TinyLife.World.Mail.Mail(System.Guid)
+  name: Map
+  nameWithType: Mail.Map
+  fullName: TinyLife.World.Mail.Map
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Mail.cs
+      branch: 0.20.1
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Map
+    path: ../TinyLife/World/Mail.cs
+    startLine: 34
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: protected Map Map { get; }
+    parameters: []
+    return:
+      type: TinyLife.World.Map
+    content.vb: Protected ReadOnly Property Map As Map
+  overload: TinyLife.World.Mail.Map*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
+- uid: TinyLife.World.Mail.#ctor(TinyLife.World.Map,System.Guid)
+  commentId: M:TinyLife.World.Mail.#ctor(TinyLife.World.Map,System.Guid)
+  id: '#ctor(TinyLife.World.Map,System.Guid)'
+  parent: TinyLife.World.Mail
+  langs:
+  - csharp
+  - vb
+  name: Mail(Map, Guid)
+  nameWithType: Mail.Mail(Map, Guid)
+  fullName: TinyLife.World.Mail.Mail(TinyLife.World.Map, System.Guid)
   type: Constructor
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Mail.cs
-    startLine: 40
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nCreates a new mail instance with the given settings\n"
+  summary: "\nCreates a new mail instance with the given settings.\n"
   example: []
   syntax:
-    content: protected Mail(Guid receivingLot)
+    content: protected Mail(Map map, Guid receivingLot)
     parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The <xref href="TinyLife.World.Mail.Map" data-throw-if-not-resolved="false"></xref> that this mail should be received on.
     - id: receivingLot
       type: System.Guid
-      description: The <xref href="TinyLife.World.Lot.Id" data-throw-if-not-resolved="false"></xref> of the lot that should receive this mail
-    content.vb: Protected Sub New(receivingLot As Guid)
+      description: The <xref href="TinyLife.World.Lot.Id" data-throw-if-not-resolved="false"></xref> of the lot that should receive this mail.
+    content.vb: Protected Sub New(map As Map, receivingLot As Guid)
   overload: TinyLife.World.Mail.#ctor*
   modifiers.csharp:
   - protected
   modifiers.vb:
   - Protected
-- uid: TinyLife.World.Mail.GetReceivingLot(TinyLife.World.Map)
-  commentId: M:TinyLife.World.Mail.GetReceivingLot(TinyLife.World.Map)
-  id: GetReceivingLot(TinyLife.World.Map)
+- uid: TinyLife.World.Mail.GetReceivingLot
+  commentId: M:TinyLife.World.Mail.GetReceivingLot
+  id: GetReceivingLot
   parent: TinyLife.World.Mail
   langs:
   - csharp
   - vb
-  name: GetReceivingLot(Map)
-  nameWithType: Mail.GetReceivingLot(Map)
-  fullName: TinyLife.World.Mail.GetReceivingLot(TinyLife.World.Map)
+  name: GetReceivingLot()
+  nameWithType: Mail.GetReceivingLot()
+  fullName: TinyLife.World.Mail.GetReceivingLot()
   type: Method
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetReceivingLot
     path: ../TinyLife/World/Mail.cs
-    startLine: 50
+    startLine: 54
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nReturns the <xref href=\"TinyLife.World.Lot\" data-throw-if-not-resolved=\"false\"></xref> that should receive this mail instance\n"
   example: []
   syntax:
-    content: public Lot GetReceivingLot(Map map)
-    parameters:
-    - id: map
-      type: TinyLife.World.Map
-      description: The map
+    content: public Lot GetReceivingLot()
     return:
       type: TinyLife.World.Lot
       description: The lot that should receive this mail
-    content.vb: Public Function GetReceivingLot(map As Map) As Lot
+    content.vb: Public Function GetReceivingLot As Lot
   overload: TinyLife.World.Mail.GetReceivingLot*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.World.Mail.GetReceivingMailbox(TinyLife.World.Map)
-  commentId: M:TinyLife.World.Mail.GetReceivingMailbox(TinyLife.World.Map)
-  id: GetReceivingMailbox(TinyLife.World.Map)
+- uid: TinyLife.World.Mail.GetReceivingMailbox
+  commentId: M:TinyLife.World.Mail.GetReceivingMailbox
+  id: GetReceivingMailbox
   parent: TinyLife.World.Mail
   langs:
   - csharp
   - vb
-  name: GetReceivingMailbox(Map)
-  nameWithType: Mail.GetReceivingMailbox(Map)
-  fullName: TinyLife.World.Mail.GetReceivingMailbox(TinyLife.World.Map)
+  name: GetReceivingMailbox()
+  nameWithType: Mail.GetReceivingMailbox()
+  fullName: TinyLife.World.Mail.GetReceivingMailbox()
   type: Method
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetReceivingMailbox
     path: ../TinyLife/World/Mail.cs
-    startLine: 60
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nReturns the mailbox <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> that should receive this mail instance.\nIf there is no valid mailbox, null is returned.\n"
   example: []
   syntax:
-    content: public Furniture GetReceivingMailbox(Map map)
-    parameters:
-    - id: map
-      type: TinyLife.World.Map
-      description: The map
+    content: public Furniture GetReceivingMailbox()
     return:
       type: TinyLife.Objects.Furniture
       description: The mailbox to receive this mail
-    content.vb: Public Function GetReceivingMailbox(map As Map) As Furniture
+    content.vb: Public Function GetReceivingMailbox As Furniture
   overload: TinyLife.World.Mail.GetReceivingMailbox*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.World.Mail.OnReceived(TinyLife.World.Map)
-  commentId: M:TinyLife.World.Mail.OnReceived(TinyLife.World.Map)
-  id: OnReceived(TinyLife.World.Map)
+- uid: TinyLife.World.Mail.OnReceived
+  commentId: M:TinyLife.World.Mail.OnReceived
+  id: OnReceived
   parent: TinyLife.World.Mail
   langs:
   - csharp
   - vb
-  name: OnReceived(Map)
-  nameWithType: Mail.OnReceived(Map)
-  fullName: TinyLife.World.Mail.OnReceived(TinyLife.World.Map)
+  name: OnReceived()
+  nameWithType: Mail.OnReceived()
+  fullName: TinyLife.World.Mail.OnReceived()
   type: Method
   source:
     remote:
       path: TinyLife/World/Mail.cs
-      branch: master
+      branch: 0.20.1
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnReceived
     path: ../TinyLife/World/Mail.cs
-    startLine: 70
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nThis method is called automatically when this mail item is received by the receiving lot.\nA custom mail instance can execute its custom action in this method.\n"
   example: []
   syntax:
-    content: public virtual void OnReceived(Map map)
+    content: public virtual void OnReceived()
+    content.vb: Public Overridable Sub OnReceived
+  overload: TinyLife.World.Mail.OnReceived*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.World.Mail.Validate(TinyLife.World.Map)
+  commentId: M:TinyLife.World.Mail.Validate(TinyLife.World.Map)
+  id: Validate(TinyLife.World.Map)
+  parent: TinyLife.World.Mail
+  langs:
+  - csharp
+  - vb
+  name: Validate(Map)
+  nameWithType: Mail.Validate(Map)
+  fullName: TinyLife.World.Mail.Validate(TinyLife.World.Map)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Mail.cs
+      branch: 0.20.1
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Validate
+    path: ../TinyLife/World/Mail.cs
+    startLine: 74
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public virtual bool Validate(Map map)
     parameters:
     - id: map
       type: TinyLife.World.Map
-      description: The map
-    content.vb: Public Overridable Sub OnReceived(map As Map)
-  overload: TinyLife.World.Mail.OnReceived*
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable Function Validate(map As Map) As Boolean
+  overload: TinyLife.World.Mail.Validate*
   modifiers.csharp:
   - public
   - virtual
@@ -875,6 +940,23 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
+- uid: TinyLife.World.Mail.Map*
+  commentId: Overload:TinyLife.World.Mail.Map
+  name: Map
+  nameWithType: Mail.Map
+  fullName: TinyLife.World.Mail.Map
+- uid: TinyLife.World.Map
+  commentId: T:TinyLife.World.Map
+  parent: TinyLife.World
+  name: Map
+  nameWithType: Map
+  fullName: TinyLife.World.Map
+- uid: TinyLife.World.Mail.Map
+  commentId: P:TinyLife.World.Mail.Map
+  parent: TinyLife.World.Mail
+  name: Map
+  nameWithType: Mail.Map
+  fullName: TinyLife.World.Mail.Map
 - uid: TinyLife.World.Lot.Id
   commentId: F:TinyLife.World.Lot.Id
   isExternal: true
@@ -883,6 +965,12 @@ references:
   name: Mail
   nameWithType: Mail.Mail
   fullName: TinyLife.World.Mail.Mail
+- uid: TinyLife.World.Mail
+  commentId: T:TinyLife.World.Mail
+  parent: TinyLife.World
+  name: Mail
+  nameWithType: Mail
+  fullName: TinyLife.World.Mail
 - uid: TinyLife.World.Lot
   commentId: T:TinyLife.World.Lot
   parent: TinyLife.World
@@ -894,12 +982,6 @@ references:
   name: GetReceivingLot
   nameWithType: Mail.GetReceivingLot
   fullName: TinyLife.World.Mail.GetReceivingLot
-- uid: TinyLife.World.Map
-  commentId: T:TinyLife.World.Map
-  parent: TinyLife.World
-  name: Map
-  nameWithType: Map
-  fullName: TinyLife.World.Map
 - uid: TinyLife.Objects.Furniture
   commentId: T:TinyLife.Objects.Furniture
   parent: TinyLife.Objects
@@ -921,3 +1003,15 @@ references:
   name: OnReceived
   nameWithType: Mail.OnReceived
   fullName: TinyLife.World.Mail.OnReceived
+- uid: TinyLife.World.Mail.Validate*
+  commentId: Overload:TinyLife.World.Mail.Validate
+  name: Validate
+  nameWithType: Mail.Validate
+  fullName: TinyLife.World.Mail.Validate
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean

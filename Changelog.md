@@ -1,3 +1,17 @@
+# 0.20.1
+
+> Small Fixes and Improvements
+
+This small bugfix update also brings a few small improvements with it, which make it a little less infuriating to use a computer while guests or other household members are around.
+
+Improvements
+- Don't force-cancel any actions of the currently selected person when someone tries to socialize with them
+
+Fixes
+- Fixed actions that can be multitasked being force-canceled when other people try to socialize
+- Fixed the character creator's "take off" button don't scrolling properly
+- Fixed the emergency food mail crashing the game if retrieved after a game relaunch
+
 # 0.20.0
 ![](media/changelog/0.20.0.png)
 
