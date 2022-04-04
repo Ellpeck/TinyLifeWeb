@@ -1,3 +1,22 @@
+# 0.20.3
+> More Fixes and Fancier Grass
+
+Here's another small set of bugfix updates, along with a nice visual improvement that makes the world's grassy ground look a little more interesting.
+
+Improvements
+- Reduced the delay at which tooltips display to a quarter of a second
+- Added variations to grass tiles
+
+Fixes
+- Fixed a crash when people are told to leave a very tiny room
+- Fixed paintings being too expensive to buy sometimes at the easel
+- Fixed brazillian portuguese not being recognized on some computers, causing a crash
+- Fixed a rare exception when a chair is deleted while someone is occupying it
+- Fixed actions sometimes being disallowed with a "??Actions.??" tooltip
+
+API
+- Added a debug option to skip preloading pathfinding data when entering a save
+
 # 0.20.2
 
 > Small Fixes and Improvements
