@@ -1,13 +1,13 @@
 # 0.20.4
 > Fix Me, Please!
 
-# Improvements
+Improvements
 - Moved portraits down a bit to avoid them occluding the current emotion
 - Made it twice as likely for objects to break during use
 - Added proper error handling to action display names, which avoids unnecessary crashes
 - Made required match percentage for clothes occasions much less severe
 
-# Fixes
+Fixes
 - Fixed mailbox sounds not playing in various circumstances
 - Fixed projects being removed by daily pay before they are finished
 - Fixed a crash when no front door is found on a lot
@@ -18,7 +18,7 @@
 - Fixed the "go to work" action causing a crash if the person doing so doesn't have a job anymore
 - Fixed body parts counting towards the clothes occasions match percentage
 
-# API
+API
 - Allow adding new colors into existing color schemes
 
 # 0.20.3
