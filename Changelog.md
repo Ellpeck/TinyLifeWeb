@@ -1,3 +1,58 @@
+# 0.21.0
+![](media/changelog/0.21.0.png)
+
+> Two Years of Tiny Life: Cafés, Gamepad Controls and More
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/384666/0210-two-years-of-tiny-life-cafs-gamepad-controls-and-more) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3189123589808204255).
+
+Additions
+- Added the ability to control the entire game using a gamepad
+- Added newspapers, and the ability to get jobs from them
+- Added two street lamps, a stone wall fence, a coffee machine, a food display case, a staff-only door, a café sign, big and small glass dinner tables, a small wooden dinner table, a modern chair, a coat rack, a wall-attached shower
+- Added a café lot type, a playground lot type, and a barista lot employment
+- Added the Coffees and Trees Café to Maple Plains City
+- Added some additional sweet speech sounds
+- Added controls hints, which display useful controls in the bottom right corner (and can be disabled in the hints options)
+- Added the ability to tinker with objects to increase repair skill
+- Added the foodie personality
+- Added the ability to "add a little something" to food with cooking level 8 or higher
+- Added the ability to create and share custom maps with the community (this is not documented yet, however)
+- Added the ability for children to run around for fun
+- Added the ability to add a second binding for each keybind
+- Added the ability to clear the notification history
+
+Improvements
+- Hide the mouse cursor after five seconds of movement inactivity
+- Reduced the tooltip delay from half a second to a quarter of a second
+- Made grass tiles have visual variations
+- Moved portraits down to avoid them being hidden by the emotion name
+- Improved the way wall-hanging objects are rendered, causing them to look wrong less often
+- Show the amount of items in the household storage on the icon
+- Added particles for grilling, being stinky, chimneys, and breaking things in build mode
+- Added an option to allow or disallow loading mods (which is disabled by default)
+- Added a tooltip displaying who claimed a bed
+- Made stunned emotion go away when showering rather than sleeping
+- Added a deselect button to the move tool
+- Display a link to the game's roadmap in the main menu
+- Added a protective wear clothes intention that gets used when driving on an e-scooter for kids
+
+Fixes
+- Fixed a crash with regular visitors if there are broken exported households
+- Fixed debug food items crashing the game
+- Fixed children being able to do lot employments
+- Fixed the game crashing when the OS doesn't allow opening folders in the explorer
+- Fixed large benches occluding walls
+- Fixed a crash that sometimes occured when deleting the last tiny in the character creator
+- Fixed people trying to sleep in beds that other people had claimed
+- Fixed some issues with Vortis' households and lots
+- Fixed people holding paint brushes wrong in some rotations
+- Fixed a rare crash when grabbing a serving from a nonexistent platter
+- Fixed notifications forgetting their icons when quitting and reloading a save
+
+API
+- Converted a lot of enumerations to other types, allowing for custom values to be added
+- Allow openings to have multiple layers
+
 # 0.20.4
 > Fix Me, Please!
 

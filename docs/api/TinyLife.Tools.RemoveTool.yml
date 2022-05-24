@@ -13,6 +13,8 @@ items:
   - TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Rectangle})
   - TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
   - TinyLife.Tools.RemoveTool.ShouldHighlightSelectedObject
+  - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+  - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
   - TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
   - TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
   langs:
@@ -25,11 +27,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveTool
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 17
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -50,6 +52,9 @@ items:
   - TinyLife.Tools.Tool.BuildTools
   - TinyLife.Tools.Tool.SelectedObject
   - TinyLife.Tools.Tool.SelectedWall
+  - TinyLife.Tools.Tool.IsRotateCwPressed
+  - TinyLife.Tools.Tool.IsRotateCcwPressed
+  - TinyLife.Tools.Tool.IsCopyPressed
   - TinyLife.Tools.Tool.OnOpened
   - TinyLife.Tools.Tool.OnClosed
   - TinyLife.Tools.Tool.OnUpdate
@@ -66,6 +71,7 @@ items:
   - TinyLife.Tools.Tool.Closed
   - TinyLife.Tools.Tool.ForceWallsUp
   - TinyLife.Tools.Tool.CanSwitchGameModes
+  - TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
   - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
@@ -99,11 +105,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 24
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -130,11 +136,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 27
+    startLine: 31
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -169,11 +175,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 49
+    startLine: 51
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -211,11 +217,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMouseCursor
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 58
+    startLine: 60
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -249,15 +255,15 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 63
+    startLine: 65
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
-  summary: "\nWhether or not the <xref href=\"TinyLife.Tools.Tool.SelectedObject\" data-throw-if-not-resolved=\"false\"></xref> should currently have a white highlight around it.\nThis method defaults to return true if <xref href=\"TinyLife.GameImpl.IsMouseOnUi\" data-throw-if-not-resolved=\"false\"></xref> is false.\n"
+  summary: "\nWhether or not the <xref href=\"TinyLife.Tools.Tool.SelectedObject\" data-throw-if-not-resolved=\"false\"></xref> should currently have a white highlight around it.\nThis method defaults to return true if <xref href=\"TinyLife.GameImpl.IsCursorOnUi\" data-throw-if-not-resolved=\"false\"></xref> is false.\n"
   example: []
   syntax:
     content: public override bool ShouldHighlightSelectedObject()
@@ -287,11 +293,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveRoof
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 149
+    startLine: 157
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -305,6 +311,7 @@ items:
       description: The roof to remove
     - id: newRoof
       type: System.Nullable{Microsoft.Xna.Framework.Rectangle}
+      description: The area of a roof that replaces this one, or null if this roof is just being removed without a replacement.
     content.vb: Public Shared Sub RemoveRoof(roof As Roof, newRoof As Rectangle? = Nothing)
   overload: TinyLife.Tools.RemoveTool.RemoveRoof*
   nameWithType.vb: RemoveTool.RemoveRoof(Roof, Nullable(Of Rectangle))
@@ -330,11 +337,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveWall
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 165
+    startLine: 173
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -368,11 +375,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 185
+    startLine: 193
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -409,11 +416,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StoreOrRemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 205
+    startLine: 213
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -450,11 +457,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/RemoveTool.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayDestroySound
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 221
+    startLine: 229
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -470,6 +477,91 @@ items:
   modifiers.vb:
   - Public
   - Shared
+- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  id: SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  parent: TinyLife.Tools.RemoveTool
+  langs:
+  - csharp
+  - vb
+  name: SpawnDestroyParticles(Furniture)
+  nameWithType: RemoveTool.SpawnDestroyParticles(Furniture)
+  fullName: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Tools/RemoveTool.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SpawnDestroyParticles
+    path: ../TinyLife/Tools/RemoveTool.cs
+    startLine: 238
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nSpawns a set of particles for the given <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> being destroyed.\nThe particles are based on the furniture&apos;s textures and colors.\n"
+  example: []
+  syntax:
+    content: public static void SpawnDestroyParticles(Furniture furniture)
+    parameters:
+    - id: furniture
+      type: TinyLife.Objects.Furniture
+      description: The furniture whose particles to spawn.
+    content.vb: Public Shared Sub SpawnDestroyParticles(furniture As Furniture)
+  overload: TinyLife.Tools.RemoveTool.SpawnDestroyParticles*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+  commentId: M:TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+  id: SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+  parent: TinyLife.Tools.RemoveTool
+  langs:
+  - csharp
+  - vb
+  name: SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)[])
+  nameWithType: RemoveTool.SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)[])
+  fullName: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple<MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color>[])
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Tools/RemoveTool.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SpawnDestroyParticles
+    path: ../TinyLife/Tools/RemoveTool.cs
+    startLine: 250
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nSpawns a set of particles for an arbitrary object being destroyed.\nIf a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> is destroyed, <xref href=\"TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)\" data-throw-if-not-resolved=\"false\"></xref> should be used instead.\n"
+  example: []
+  syntax:
+    content: public static void SpawnDestroyParticles(RectangleF area, float amountMultiplier, params (TextureRegion, Color)[] textures)
+    parameters:
+    - id: area
+      type: MLEM.Misc.RectangleF
+      description: The area to spawn particles in.
+    - id: amountMultiplier
+      type: System.Single
+      description: The amount of particles that should be spawned, which will be multiplied with the size of the <code data-dev-comment-type="paramref" class="paramref">area</code>
+    - id: textures
+      type: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[]
+      description: The textures and their colors to choose from when spawning the particles.
+    content.vb: Public Shared Sub SpawnDestroyParticles(area As RectangleF, amountMultiplier As Single, ParamArray textures As(TextureRegion, Color)(Of TextureRegion , Color)())
+  overload: TinyLife.Tools.RemoveTool.SpawnDestroyParticles*
+  nameWithType.vb: RemoveTool.SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)(Of TextureRegion, Color)())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple(Of MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color)())
+  name.vb: SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)(Of TextureRegion, Color)())
 references:
 - uid: TinyLife.Tools
   commentId: N:TinyLife.Tools
@@ -525,6 +617,24 @@ references:
   name: SelectedWall
   nameWithType: Tool.SelectedWall
   fullName: TinyLife.Tools.Tool.SelectedWall
+- uid: TinyLife.Tools.Tool.IsRotateCwPressed
+  commentId: P:TinyLife.Tools.Tool.IsRotateCwPressed
+  parent: TinyLife.Tools.Tool
+  name: IsRotateCwPressed
+  nameWithType: Tool.IsRotateCwPressed
+  fullName: TinyLife.Tools.Tool.IsRotateCwPressed
+- uid: TinyLife.Tools.Tool.IsRotateCcwPressed
+  commentId: P:TinyLife.Tools.Tool.IsRotateCcwPressed
+  parent: TinyLife.Tools.Tool
+  name: IsRotateCcwPressed
+  nameWithType: Tool.IsRotateCcwPressed
+  fullName: TinyLife.Tools.Tool.IsRotateCcwPressed
+- uid: TinyLife.Tools.Tool.IsCopyPressed
+  commentId: P:TinyLife.Tools.Tool.IsCopyPressed
+  parent: TinyLife.Tools.Tool
+  name: IsCopyPressed
+  nameWithType: Tool.IsCopyPressed
+  fullName: TinyLife.Tools.Tool.IsCopyPressed
 - uid: TinyLife.Tools.Tool.OnOpened
   commentId: E:TinyLife.Tools.Tool.OnOpened
   parent: TinyLife.Tools.Tool
@@ -755,6 +865,45 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
+  commentId: M:TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
+  parent: TinyLife.Tools.Tool
+  isExternal: true
+  name: OnButtonCreated(Button)
+  nameWithType: Tool.OnButtonCreated(Button)
+  fullName: TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
+    name: OnButtonCreated
+    nameWithType: Tool.OnButtonCreated
+    fullName: TinyLife.Tools.Tool.OnButtonCreated
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MLEM.Ui.Elements.Button
+    name: Button
+    nameWithType: Button
+    fullName: MLEM.Ui.Elements.Button
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
+    name: OnButtonCreated
+    nameWithType: Tool.OnButtonCreated
+    fullName: TinyLife.Tools.Tool.OnButtonCreated
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MLEM.Ui.Elements.Button
+    name: Button
+    nameWithType: Button
+    fullName: MLEM.Ui.Elements.Button
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
@@ -2071,3 +2220,95 @@ references:
   name: PlayDestroySound
   nameWithType: RemoveTool.PlayDestroySound
   fullName: TinyLife.Tools.RemoveTool.PlayDestroySound
+- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles*
+  commentId: Overload:TinyLife.Tools.RemoveTool.SpawnDestroyParticles
+  name: SpawnDestroyParticles
+  nameWithType: RemoveTool.SpawnDestroyParticles
+  fullName: TinyLife.Tools.RemoveTool.SpawnDestroyParticles
+- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
+  isExternal: true
+- uid: MLEM.Misc.RectangleF
+  commentId: T:MLEM.Misc.RectangleF
+  parent: MLEM.Misc
+  isExternal: true
+  name: RectangleF
+  nameWithType: RectangleF
+  fullName: MLEM.Misc.RectangleF
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
+- uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[]
+  isExternal: true
+  name: (T1, T2)<TextureRegion, Color>[]
+  nameWithType: (T1, T2)<TextureRegion, Color>[]
+  fullName: System.ValueTuple<MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color>[]
+  nameWithType.vb: (T1, T2)(Of TextureRegion, Color)()
+  fullName.vb: System.ValueTuple(Of MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color)()
+  name.vb: (T1, T2)(Of TextureRegion, Color)()
+  spec.csharp:
+  - uid: System.ValueTuple`2
+    name: (T1, T2)
+    nameWithType: (T1, T2)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Textures.TextureRegion
+    name: TextureRegion
+    nameWithType: TextureRegion
+    fullName: MLEM.Textures.TextureRegion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    nameWithType: Color
+    fullName: Microsoft.Xna.Framework.Color
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: System.ValueTuple`2
+    name: (T1, T2)
+    nameWithType: (T1, T2)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Textures.TextureRegion
+    name: TextureRegion
+    nameWithType: TextureRegion
+    fullName: MLEM.Textures.TextureRegion
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    nameWithType: Color
+    fullName: Microsoft.Xna.Framework.Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+- uid: MLEM.Misc
+  commentId: N:MLEM.Misc
+  isExternal: true
+  name: MLEM.Misc
+  nameWithType: MLEM.Misc
+  fullName: MLEM.Misc

@@ -5,9 +5,16 @@ items:
   id: WallMode
   parent: TinyLife.World
   children:
+  - TinyLife.World.WallMode.#ctor(MLEM.Textures.UniformTextureAtlas,Microsoft.Xna.Framework.Point)
+  - TinyLife.World.WallMode.ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32,System.Int32,MLEM.Data.RuntimeTexturePacker,System.Action{MLEM.Textures.UniformTextureAtlas})
   - TinyLife.World.WallMode.Door
   - TinyLife.World.WallMode.Full
   - TinyLife.World.WallMode.LongWindow
+  - TinyLife.World.WallMode.MaskPosition
+  - TinyLife.World.WallMode.MaskTexture
+  - TinyLife.World.WallMode.Modes
+  - TinyLife.World.WallMode.OffsetTextureRegion(Microsoft.Xna.Framework.Point,System.Boolean,System.Boolean)
+  - TinyLife.World.WallMode.Register(TinyLife.World.WallMode)
   - TinyLife.World.WallMode.Roof
   - TinyLife.World.WallMode.RoofGable
   - TinyLife.World.WallMode.RoofGableInverse
@@ -18,31 +25,78 @@ items:
   name: WallMode
   nameWithType: WallMode
   fullName: TinyLife.World.WallMode
-  type: Enum
+  type: Class
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WallMode
-    path: ../TinyLife/World/Wall.cs
-    startLine: 238
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 15
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThis enumeration defines the possible rendering types for <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, <xref href=\"TinyLife.World.WallMode.Full\" data-throw-if-not-resolved=\"false\"></xref> is rendered, but an <xref href=\"TinyLife.World.Opening\" data-throw-if-not-resolved=\"false\"></xref> can change the type to allow for windows, doors etc.\n"
+  summary: "\nA wall mode is a way that a <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref>&apos;s wallpaper can be displayed. Each wall mode represents a cutout that hides certain parts of a wall for an <xref href=\"TinyLife.World.Opening\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.World.WallMode.Roof\" data-throw-if-not-resolved=\"false\"></xref> to be displayed there.\n"
   example: []
   syntax:
-    content: public enum WallMode
-    content.vb: Public Enum WallMode
+    content: public class WallMode
+    content.vb: Public Class WallMode
+  inheritance:
+  - System.Object
+  inheritedMembers:
+  - System.Object.Equals(System.Object)
+  - System.Object.Equals(System.Object,System.Object)
+  - System.Object.GetHashCode
+  - System.Object.GetType
+  - System.Object.MemberwiseClone
+  - System.Object.ReferenceEquals(System.Object,System.Object)
+  - System.Object.ToString
   extensionMethods:
   - TinyLife.World.WallMode.TinyLife.Utilities.Extensions.JsonCopy``1
   modifiers.csharp:
   - public
-  - enum
+  - class
   modifiers.vb:
   - Public
-  - Enum
+  - Class
+- uid: TinyLife.World.WallMode.Modes
+  commentId: F:TinyLife.World.WallMode.Modes
+  id: Modes
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: Modes
+  nameWithType: WallMode.Modes
+  fullName: TinyLife.World.WallMode.Modes
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Modes
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 21
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe registered wall modes, both by mods and the game itself.\n"
+  example: []
+  syntax:
+    content: public static readonly ReadOnlyCollection<WallMode> Modes
+    return:
+      type: System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.World.WallMode}
+    content.vb: Public Shared ReadOnly Modes As ReadOnlyCollection(Of WallMode)
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.Full
   commentId: F:TinyLife.World.WallMode.Full
   id: Full
@@ -56,27 +110,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Full
-    path: ../TinyLife/World/Wall.cs
-    startLine: 243
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 29
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall that is rendered in full, without any holes in it\n"
   example: []
   syntax:
-    content: Full = 0
+    content: public static readonly WallMode Full
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly Full As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.SmallWindow
   commentId: F:TinyLife.World.WallMode.SmallWindow
   id: SmallWindow
@@ -90,27 +147,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SmallWindow
-    path: ../TinyLife/World/Wall.cs
-    startLine: 247
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 33
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall with a small, rectanglular window in it\n"
   example: []
   syntax:
-    content: SmallWindow = 1
+    content: public static readonly WallMode SmallWindow
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly SmallWindow As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.Door
   commentId: F:TinyLife.World.WallMode.Door
   id: Door
@@ -124,27 +184,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Door
-    path: ../TinyLife/World/Wall.cs
-    startLine: 251
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 37
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall with a door-shaped hole in it\n"
   example: []
   syntax:
-    content: Door = 2
+    content: public static readonly WallMode Door
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly Door As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.Roof
   commentId: F:TinyLife.World.WallMode.Roof
   id: Roof
@@ -158,27 +221,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Roof
-    path: ../TinyLife/World/Wall.cs
-    startLine: 255
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 41
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall used on the faces of a <xref href=\"TinyLife.World.Roof\" data-throw-if-not-resolved=\"false\"></xref> that are straight\n"
   example: []
   syntax:
-    content: Roof = 3
+    content: public static readonly WallMode Roof
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly Roof As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.RoofGable
   commentId: F:TinyLife.World.WallMode.RoofGable
   id: RoofGable
@@ -192,27 +258,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RoofGable
-    path: ../TinyLife/World/Wall.cs
-    startLine: 259
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall used on the faces of a <xref href=\"TinyLife.World.Roof\" data-throw-if-not-resolved=\"false\"></xref> that are gabled\n"
   example: []
   syntax:
-    content: RoofGable = 4
+    content: public static readonly WallMode RoofGable
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly RoofGable As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.RoofGableInverse
   commentId: F:TinyLife.World.WallMode.RoofGableInverse
   id: RoofGableInverse
@@ -226,27 +295,30 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RoofGableInverse
-    path: ../TinyLife/World/Wall.cs
-    startLine: 263
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA wall mode that represents a wall used on the faces of a <xref href=\"TinyLife.World.Roof\" data-throw-if-not-resolved=\"false\"></xref> that are gabled in the opposite direction as <xref href=\"TinyLife.World.WallMode.RoofGable\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: RoofGableInverse = 5
+    content: public static readonly WallMode RoofGableInverse
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly RoofGableInverse As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
 - uid: TinyLife.World.WallMode.LongWindow
   commentId: F:TinyLife.World.WallMode.LongWindow
   id: LongWindow
@@ -260,48 +332,587 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/World/Wall.cs
-      branch: 0.20.4-dev
+      path: TinyLife/World/WallMode.cs
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LongWindow
-    path: ../TinyLife/World/Wall.cs
-    startLine: 267
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 53
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nA long window with a similar width to <xref href=\"TinyLife.World.WallMode.SmallWindow\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: LongWindow = 6
+    content: public static readonly WallMode LongWindow
     return:
       type: TinyLife.World.WallMode
+    content.vb: Public Shared ReadOnly LongWindow As WallMode
   modifiers.csharp:
   - public
-  - const
+  - static
+  - readonly
   modifiers.vb:
   - Public
-  - Const
+  - Shared
+  - ReadOnly
+- uid: TinyLife.World.WallMode.MaskTexture
+  commentId: F:TinyLife.World.WallMode.MaskTexture
+  id: MaskTexture
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: MaskTexture
+  nameWithType: WallMode.MaskTexture
+  fullName: TinyLife.World.WallMode.MaskTexture
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: MaskTexture
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 59
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe texture that is used as a mask when masking <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref> using <xref href=\"TinyLife.World.WallMode.MaskWallpaper(MLEM.Extensions.TextureExtensions.TextureData%2cMLEM.Extensions.TextureExtensions.TextureData%2cMLEM.Extensions.TextureExtensions.TextureData%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref>.\nEach pixel on the mask that is non-transparent will be removed from the <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public readonly UniformTextureAtlas MaskTexture
+    return:
+      type: MLEM.Textures.UniformTextureAtlas
+    content.vb: Public ReadOnly MaskTexture As UniformTextureAtlas
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.World.WallMode.MaskPosition
+  commentId: F:TinyLife.World.WallMode.MaskPosition
+  id: MaskPosition
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: MaskPosition
+  nameWithType: WallMode.MaskPosition
+  fullName: TinyLife.World.WallMode.MaskPosition
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: MaskPosition
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 64
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe position on the <xref href=\"TinyLife.World.WallMode.MaskTexture\" data-throw-if-not-resolved=\"false\"></xref> that the mask is at, in texture region coordinates similar to <xref href=\"MLEM.Textures.UniformTextureAtlas\" data-throw-if-not-resolved=\"false\"></xref>.\nEach pixel on the mask that is non-transparent will be removed from the <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public readonly Point MaskPosition
+    return:
+      type: Microsoft.Xna.Framework.Point
+    content.vb: Public ReadOnly MaskPosition As Point
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.World.WallMode.#ctor(MLEM.Textures.UniformTextureAtlas,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.World.WallMode.#ctor(MLEM.Textures.UniformTextureAtlas,Microsoft.Xna.Framework.Point)
+  id: '#ctor(MLEM.Textures.UniformTextureAtlas,Microsoft.Xna.Framework.Point)'
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: WallMode(UniformTextureAtlas, Point)
+  nameWithType: WallMode.WallMode(UniformTextureAtlas, Point)
+  fullName: TinyLife.World.WallMode.WallMode(MLEM.Textures.UniformTextureAtlas, Microsoft.Xna.Framework.Point)
+  type: Constructor
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: .ctor
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 73
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nCreates a new wall mode with the given mask settings.\nEach pixel on the mask that is non-transparent will be removed from the <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public WallMode(UniformTextureAtlas maskTexture, Point maskPosition)
+    parameters:
+    - id: maskTexture
+      type: MLEM.Textures.UniformTextureAtlas
+      description: The texture that is used as a mask when masking <xref href="TinyLife.World.Wallpaper" data-throw-if-not-resolved="false"></xref> using <xref href="TinyLife.World.WallMode.MaskWallpaper(MLEM.Extensions.TextureExtensions.TextureData%2cMLEM.Extensions.TextureExtensions.TextureData%2cMLEM.Extensions.TextureExtensions.TextureData%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point%2cMicrosoft.Xna.Framework.Point)" data-throw-if-not-resolved="false"></xref>.
+    - id: maskPosition
+      type: Microsoft.Xna.Framework.Point
+      description: The position on the <xref href="TinyLife.World.WallMode.MaskTexture" data-throw-if-not-resolved="false"></xref> that the mask is at, in texture region coordinates similar to <xref href="MLEM.Textures.UniformTextureAtlas" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Sub New(maskTexture As UniformTextureAtlas, maskPosition As Point)
+  overload: TinyLife.World.WallMode.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.World.WallMode.OffsetTextureRegion(Microsoft.Xna.Framework.Point,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.WallMode.OffsetTextureRegion(Microsoft.Xna.Framework.Point,System.Boolean,System.Boolean)
+  id: OffsetTextureRegion(Microsoft.Xna.Framework.Point,System.Boolean,System.Boolean)
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: OffsetTextureRegion(Point, Boolean, Boolean)
+  nameWithType: WallMode.OffsetTextureRegion(Point, Boolean, Boolean)
+  fullName: TinyLife.World.WallMode.OffsetTextureRegion(Microsoft.Xna.Framework.Point, System.Boolean, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OffsetTextureRegion
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 85
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nOffsets the given texture region based on this wall mode, causing the returned texture region to contain the same <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref>, but with this wall mode&apos;s cutout.\n"
+  example: []
+  syntax:
+    content: public Point OffsetTextureRegion(Point region, bool vertical, bool isDown)
+    parameters:
+    - id: region
+      type: Microsoft.Xna.Framework.Point
+      description: The texture region location to offset.
+    - id: vertical
+      type: System.Boolean
+      description: Whether the texture region location returned should be a vertical wall.
+    - id: isDown
+      type: System.Boolean
+      description: Whether the texture region location returned should be in the <xref href="TinyLife.WallDisplay.Down" data-throw-if-not-resolved="false"></xref> display mode.
+    return:
+      type: Microsoft.Xna.Framework.Point
+      description: The offset texture region position.
+    content.vb: Public Function OffsetTextureRegion(region As Point, vertical As Boolean, isDown As Boolean) As Point
+  overload: TinyLife.World.WallMode.OffsetTextureRegion*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.World.WallMode.Register(TinyLife.World.WallMode)
+  commentId: M:TinyLife.World.WallMode.Register(TinyLife.World.WallMode)
+  id: Register(TinyLife.World.WallMode)
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: Register(WallMode)
+  nameWithType: WallMode.Register(WallMode)
+  fullName: TinyLife.World.WallMode.Register(TinyLife.World.WallMode)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Register
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 99
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nRegisters the given <xref href=\"TinyLife.World.WallMode\" data-throw-if-not-resolved=\"false\"></xref> to the <xref href=\"TinyLife.World.WallMode.Modes\" data-throw-if-not-resolved=\"false\"></xref> registry.\n"
+  example: []
+  syntax:
+    content: public static WallMode Register(WallMode mode)
+    parameters:
+    - id: mode
+      type: TinyLife.World.WallMode
+      description: The mode to register.
+    return:
+      type: TinyLife.World.WallMode
+      description: The <code data-dev-comment-type="paramref" class="paramref">mode</code> passed, for chaining.
+    content.vb: Public Shared Function Register(mode As WallMode) As WallMode
+  overload: TinyLife.World.WallMode.Register*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.World.WallMode.ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32,System.Int32,MLEM.Data.RuntimeTexturePacker,System.Action{MLEM.Textures.UniformTextureAtlas})
+  commentId: M:TinyLife.World.WallMode.ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32,System.Int32,MLEM.Data.RuntimeTexturePacker,System.Action{MLEM.Textures.UniformTextureAtlas})
+  id: ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D,System.Int32,System.Int32,MLEM.Data.RuntimeTexturePacker,System.Action{MLEM.Textures.UniformTextureAtlas})
+  parent: TinyLife.World.WallMode
+  langs:
+  - csharp
+  - vb
+  name: ApplyMasks(Texture2D, Int32, Int32, RuntimeTexturePacker, Action<UniformTextureAtlas>)
+  nameWithType: WallMode.ApplyMasks(Texture2D, Int32, Int32, RuntimeTexturePacker, Action<UniformTextureAtlas>)
+  fullName: TinyLife.World.WallMode.ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D, System.Int32, System.Int32, MLEM.Data.RuntimeTexturePacker, System.Action<MLEM.Textures.UniformTextureAtlas>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/WallMode.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ApplyMasks
+    path: ../TinyLife/World/WallMode.cs
+    startLine: 114
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nApplies the game&apos;s predefined wallpaper maskings (based on <xref href=\"TinyLife.World.WallMode\" data-throw-if-not-resolved=\"false\"></xref>) to the given wallpaper texture.\nWhen adding custom <xref href=\"TinyLife.World.Wallpaper\" data-throw-if-not-resolved=\"false\"></xref> types, this method should be used.\n"
+  example: []
+  syntax:
+    content: public static UniformTextureAtlas ApplyMasks(Texture2D wallpapers, int regionAmountX, int regionAmountY, RuntimeTexturePacker packer = null, Action<UniformTextureAtlas> result = null)
+    parameters:
+    - id: wallpapers
+      type: Microsoft.Xna.Framework.Graphics.Texture2D
+      description: The texture to mask
+    - id: regionAmountX
+      type: System.Int32
+      description: The amount of texture regions on the x axis
+    - id: regionAmountY
+      type: System.Int32
+      description: The amount of texture regions on the y axis
+    - id: packer
+      type: MLEM.Data.RuntimeTexturePacker
+      description: The texture packer to pack the resulting texture with, or null to skip packing the texture
+    - id: result
+      type: System.Action{MLEM.Textures.UniformTextureAtlas}
+      description: A function that is called when the <code data-dev-comment-type="paramref" class="paramref">packer</code> packed the masked texture, which yields the resulting texture atlas
+    return:
+      type: MLEM.Textures.UniformTextureAtlas
+    content.vb: Public Shared Function ApplyMasks(wallpapers As Texture2D, regionAmountX As Integer, regionAmountY As Integer, packer As RuntimeTexturePacker = Nothing, result As Action(Of UniformTextureAtlas) = Nothing) As UniformTextureAtlas
+  overload: TinyLife.World.WallMode.ApplyMasks*
+  nameWithType.vb: WallMode.ApplyMasks(Texture2D, Int32, Int32, RuntimeTexturePacker, Action(Of UniformTextureAtlas))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: TinyLife.World.WallMode.ApplyMasks(Microsoft.Xna.Framework.Graphics.Texture2D, System.Int32, System.Int32, MLEM.Data.RuntimeTexturePacker, System.Action(Of MLEM.Textures.UniformTextureAtlas))
+  name.vb: ApplyMasks(Texture2D, Int32, Int32, RuntimeTexturePacker, Action(Of UniformTextureAtlas))
 references:
-- uid: TinyLife.World.Wallpaper
-  commentId: T:TinyLife.World.Wallpaper
+- uid: TinyLife.World.Wall
+  commentId: T:TinyLife.World.Wall
   parent: TinyLife.World
-  name: Wallpaper
-  nameWithType: Wallpaper
-  fullName: TinyLife.World.Wallpaper
-- uid: TinyLife.World.WallMode.Full
-  commentId: F:TinyLife.World.WallMode.Full
-  isExternal: true
+  name: Wall
+  nameWithType: Wall
+  fullName: TinyLife.World.Wall
 - uid: TinyLife.World.Opening
   commentId: T:TinyLife.World.Opening
   parent: TinyLife.World
   name: Opening
   nameWithType: Opening
   fullName: TinyLife.World.Opening
+- uid: TinyLife.World.WallMode.Roof
+  commentId: F:TinyLife.World.WallMode.Roof
+  isExternal: true
 - uid: TinyLife.World
   commentId: N:TinyLife.World
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
+- uid: System.Object
+  commentId: T:System.Object
+  parent: System
+  isExternal: true
+  name: Object
+  nameWithType: Object
+  fullName: System.Object
+- uid: System.Object.Equals(System.Object)
+  commentId: M:System.Object.Equals(System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object)
+  nameWithType: Object.Equals(Object)
+  fullName: System.Object.Equals(System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.Equals(System.Object,System.Object)
+  commentId: M:System.Object.Equals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: Equals(Object, Object)
+  nameWithType: Object.Equals(Object, Object)
+  fullName: System.Object.Equals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.Equals(System.Object,System.Object)
+    name: Equals
+    nameWithType: Object.Equals
+    fullName: System.Object.Equals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetHashCode
+  commentId: M:System.Object.GetHashCode
+  parent: System.Object
+  isExternal: true
+  name: GetHashCode()
+  nameWithType: Object.GetHashCode()
+  fullName: System.Object.GetHashCode()
+  spec.csharp:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetHashCode
+    name: GetHashCode
+    nameWithType: Object.GetHashCode
+    fullName: System.Object.GetHashCode
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.GetType
+  commentId: M:System.Object.GetType
+  parent: System.Object
+  isExternal: true
+  name: GetType()
+  nameWithType: Object.GetType()
+  fullName: System.Object.GetType()
+  spec.csharp:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.GetType
+    name: GetType
+    nameWithType: Object.GetType
+    fullName: System.Object.GetType
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.MemberwiseClone
+  commentId: M:System.Object.MemberwiseClone
+  parent: System.Object
+  isExternal: true
+  name: MemberwiseClone()
+  nameWithType: Object.MemberwiseClone()
+  fullName: System.Object.MemberwiseClone()
+  spec.csharp:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.MemberwiseClone
+    name: MemberwiseClone
+    nameWithType: Object.MemberwiseClone
+    fullName: System.Object.MemberwiseClone
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ReferenceEquals(System.Object,System.Object)
+  commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
+  parent: System.Object
+  isExternal: true
+  name: ReferenceEquals(Object, Object)
+  nameWithType: Object.ReferenceEquals(Object, Object)
+  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  spec.csharp:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ReferenceEquals(System.Object,System.Object)
+    name: ReferenceEquals
+    nameWithType: Object.ReferenceEquals
+    fullName: System.Object.ReferenceEquals
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Object.ToString
+  commentId: M:System.Object.ToString
+  parent: System.Object
+  isExternal: true
+  name: ToString()
+  nameWithType: Object.ToString()
+  fullName: System.Object.ToString()
+  spec.csharp:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: System.Object.ToString
+    name: ToString
+    nameWithType: Object.ToString
+    fullName: System.Object.ToString
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.World.WallMode.TinyLife.Utilities.Extensions.JsonCopy``1
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   parent: TinyLife.Utilities.Extensions
@@ -334,6 +945,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: System
+  commentId: N:System
+  isExternal: true
+  name: System
+  nameWithType: System
+  fullName: System
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -381,6 +998,93 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
+- uid: System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.World.WallMode}
+  commentId: T:System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.World.WallMode}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ReadOnlyCollection`1
+  name: ReadOnlyCollection<WallMode>
+  nameWithType: ReadOnlyCollection<WallMode>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<TinyLife.World.WallMode>
+  nameWithType.vb: ReadOnlyCollection(Of WallMode)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of TinyLife.World.WallMode)
+  name.vb: ReadOnlyCollection(Of WallMode)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.World.WallMode
+    name: WallMode
+    nameWithType: WallMode
+    fullName: TinyLife.World.WallMode
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.World.WallMode
+    name: WallMode
+    nameWithType: WallMode
+    fullName: TinyLife.World.WallMode
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+  commentId: T:System.Collections.ObjectModel.ReadOnlyCollection`1
+  isExternal: true
+  name: ReadOnlyCollection<T>
+  nameWithType: ReadOnlyCollection<T>
+  fullName: System.Collections.ObjectModel.ReadOnlyCollection<T>
+  nameWithType.vb: ReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyCollection(Of T)
+  name.vb: ReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.ObjectModel.ReadOnlyCollection`1
+    name: ReadOnlyCollection
+    nameWithType: ReadOnlyCollection
+    fullName: System.Collections.ObjectModel.ReadOnlyCollection
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.ObjectModel
+  commentId: N:System.Collections.ObjectModel
+  isExternal: true
+  name: System.Collections.ObjectModel
+  nameWithType: System.Collections.ObjectModel
+  fullName: System.Collections.ObjectModel
 - uid: TinyLife.World.WallMode
   commentId: T:TinyLife.World.WallMode
   parent: TinyLife.World
@@ -399,3 +1103,190 @@ references:
 - uid: TinyLife.World.WallMode.SmallWindow
   commentId: F:TinyLife.World.WallMode.SmallWindow
   isExternal: true
+- uid: TinyLife.World.Wallpaper
+  commentId: T:TinyLife.World.Wallpaper
+  parent: TinyLife.World
+  name: Wallpaper
+  nameWithType: Wallpaper
+  fullName: TinyLife.World.Wallpaper
+- uid: TinyLife.World.WallMode.MaskWallpaper(MLEM.Extensions.TextureExtensions.TextureData,MLEM.Extensions.TextureExtensions.TextureData,MLEM.Extensions.TextureExtensions.TextureData,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.World.WallMode.MaskWallpaper(MLEM.Extensions.TextureExtensions.TextureData,MLEM.Extensions.TextureExtensions.TextureData,MLEM.Extensions.TextureExtensions.TextureData,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+  isExternal: true
+- uid: MLEM.Textures.UniformTextureAtlas
+  commentId: T:MLEM.Textures.UniformTextureAtlas
+  parent: MLEM.Textures
+  isExternal: true
+  name: UniformTextureAtlas
+  nameWithType: UniformTextureAtlas
+  fullName: MLEM.Textures.UniformTextureAtlas
+- uid: MLEM.Textures
+  commentId: N:MLEM.Textures
+  isExternal: true
+  name: MLEM.Textures
+  nameWithType: MLEM.Textures
+  fullName: MLEM.Textures
+- uid: TinyLife.World.WallMode.MaskTexture
+  commentId: F:TinyLife.World.WallMode.MaskTexture
+  isExternal: true
+- uid: Microsoft.Xna.Framework.Point
+  commentId: T:Microsoft.Xna.Framework.Point
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Point
+  nameWithType: Point
+  fullName: Microsoft.Xna.Framework.Point
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
+- uid: TinyLife.World.WallMode.#ctor*
+  commentId: Overload:TinyLife.World.WallMode.#ctor
+  name: WallMode
+  nameWithType: WallMode.WallMode
+  fullName: TinyLife.World.WallMode.WallMode
+- uid: TinyLife.WallDisplay.Down
+  commentId: F:TinyLife.WallDisplay.Down
+  isExternal: true
+- uid: TinyLife.World.WallMode.OffsetTextureRegion*
+  commentId: Overload:TinyLife.World.WallMode.OffsetTextureRegion
+  name: OffsetTextureRegion
+  nameWithType: WallMode.OffsetTextureRegion
+  fullName: TinyLife.World.WallMode.OffsetTextureRegion
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TinyLife.World.WallMode.Modes
+  commentId: F:TinyLife.World.WallMode.Modes
+  isExternal: true
+- uid: TinyLife.World.WallMode.Register*
+  commentId: Overload:TinyLife.World.WallMode.Register
+  name: Register
+  nameWithType: WallMode.Register
+  fullName: TinyLife.World.WallMode.Register
+- uid: TinyLife.World.WallMode.ApplyMasks*
+  commentId: Overload:TinyLife.World.WallMode.ApplyMasks
+  name: ApplyMasks
+  nameWithType: WallMode.ApplyMasks
+  fullName: TinyLife.World.WallMode.ApplyMasks
+- uid: Microsoft.Xna.Framework.Graphics.Texture2D
+  commentId: T:Microsoft.Xna.Framework.Graphics.Texture2D
+  parent: Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: Texture2D
+  nameWithType: Texture2D
+  fullName: Microsoft.Xna.Framework.Graphics.Texture2D
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
+- uid: MLEM.Data.RuntimeTexturePacker
+  commentId: T:MLEM.Data.RuntimeTexturePacker
+  parent: MLEM.Data
+  isExternal: true
+  name: RuntimeTexturePacker
+  nameWithType: RuntimeTexturePacker
+  fullName: MLEM.Data.RuntimeTexturePacker
+- uid: System.Action{MLEM.Textures.UniformTextureAtlas}
+  commentId: T:System.Action{MLEM.Textures.UniformTextureAtlas}
+  parent: System
+  definition: System.Action`1
+  name: Action<UniformTextureAtlas>
+  nameWithType: Action<UniformTextureAtlas>
+  fullName: System.Action<MLEM.Textures.UniformTextureAtlas>
+  nameWithType.vb: Action(Of UniformTextureAtlas)
+  fullName.vb: System.Action(Of MLEM.Textures.UniformTextureAtlas)
+  name.vb: Action(Of UniformTextureAtlas)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: MLEM.Textures.UniformTextureAtlas
+    name: UniformTextureAtlas
+    nameWithType: UniformTextureAtlas
+    fullName: MLEM.Textures.UniformTextureAtlas
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: MLEM.Textures.UniformTextureAtlas
+    name: UniformTextureAtlas
+    nameWithType: UniformTextureAtlas
+    fullName: MLEM.Textures.UniformTextureAtlas
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: Microsoft.Xna.Framework.Graphics
+  commentId: N:Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: Microsoft.Xna.Framework.Graphics
+  nameWithType: Microsoft.Xna.Framework.Graphics
+  fullName: Microsoft.Xna.Framework.Graphics
+- uid: MLEM.Data
+  commentId: N:MLEM.Data
+  isExternal: true
+  name: MLEM.Data
+  nameWithType: MLEM.Data
+  fullName: MLEM.Data
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )

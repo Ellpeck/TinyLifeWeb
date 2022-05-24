@@ -5,18 +5,17 @@ items:
   id: FoodType
   parent: TinyLife.Skills
   children:
-  - TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource)
+  - TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.Skills.FoodType.CanEat
+  - TinyLife.Skills.FoodType.Color
   - TinyLife.Skills.FoodType.Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   - TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType,TinyLife.World.Map,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
+  - TinyLife.Skills.FoodType.Container
   - TinyLife.Skills.FoodType.DisplayName
   - TinyLife.Skills.FoodType.FoodAmount
-  - TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
+  - TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
   - TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
-  - TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  - TinyLife.Skills.FoodType.GetEmptyContainer
   - TinyLife.Skills.FoodType.GetPrice(System.Int32)
-  - TinyLife.Skills.FoodType.IsInGlass
   - TinyLife.Skills.FoodType.Name
   - TinyLife.Skills.FoodType.NeedsCooking
   - TinyLife.Skills.FoodType.OnEaten
@@ -24,7 +23,7 @@ items:
   - TinyLife.Skills.FoodType.Price
   - TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   - TinyLife.Skills.FoodType.RequiredCookingLevel
-  - TinyLife.Skills.FoodType.Source
+  - TinyLife.Skills.FoodType.Sources
   - TinyLife.Skills.FoodType.Texture
   - TinyLife.Skills.FoodType.Types
   langs:
@@ -37,15 +36,15 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FoodType
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 32
+    startLine: 35
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nA food type is a type of dish that can be cooked using <xref href=\"TinyLife.Actions.ActionType.GetIngredientsSingle\" data-throw-if-not-resolved=\"false\"></xref>.\nFood types store information such as their name and texture, but also the cooking level that is required to make them.\nFood types are registered using <xref href=\"TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA food type is a type of dish that can be cooked using <xref href=\"TinyLife.Actions.ActionType.GetIngredientsSingle\" data-throw-if-not-resolved=\"false\"></xref>.\nFood types store information such as their name and texture, but also the cooking level that is required to make them.\nWhether a food type has a custom <xref href=\"TinyLife.Skills.FoodType.Texture\" data-throw-if-not-resolved=\"false\"></xref> is based on its <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref>, but most foods use the <xref href=\"TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)\" data-throw-if-not-resolved=\"false\"></xref> and are loaded as as &quot;Food<xref href=\"TinyLife.Skills.FoodType.Name\" data-throw-if-not-resolved=\"false\"></xref>&quot;.\nFood types are registered using <xref href=\"TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
@@ -88,21 +87,21 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Types
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 39
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nAll of the <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> instances that are registered by the game and mods\n"
   example: []
   syntax:
-    content: public static readonly IDictionary<string, FoodType> Types
+    content: public static readonly ReadOnlyDictionary<string, FoodType> Types
     return:
-      type: System.Collections.Generic.IDictionary{System.String,TinyLife.Skills.FoodType}
-    content.vb: Public Shared ReadOnly Types As IDictionary(Of String, FoodType)
+      type: System.Collections.ObjectModel.ReadOnlyDictionary{System.String,TinyLife.Skills.FoodType}
+    content.vb: Public Shared ReadOnly Types As ReadOnlyDictionary(Of String, FoodType)
   modifiers.csharp:
   - public
   - static
@@ -125,11 +124,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnFoodEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 46
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -160,11 +159,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 101
+    startLine: 115
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -175,41 +174,6 @@ items:
     return:
       type: System.String
     content.vb: Public ReadOnly Name As String
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: TinyLife.Skills.FoodType.Texture
-  commentId: F:TinyLife.Skills.FoodType.Texture
-  id: Texture
-  parent: TinyLife.Skills.FoodType
-  langs:
-  - csharp
-  - vb
-  name: Texture
-  nameWithType: FoodType.Texture
-  fullName: TinyLife.Skills.FoodType.Texture
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Texture
-    path: ../TinyLife/Skills/FoodType.cs
-    startLine: 107
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Skills
-  summary: "\nThis food type&apos;s texture region.\nThe texture is loaded from the <xref href=\"TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)\" data-throw-if-not-resolved=\"false\"></xref> as &quot;Food<xref href=\"TinyLife.Skills.FoodType.Name\" data-throw-if-not-resolved=\"false\"></xref>&quot;\nSince the plate will automatically be rendered below this food type, the texture only needs to contain the dish itself.\n"
-  example: []
-  syntax:
-    content: public readonly TextureRegion Texture
-    return:
-      type: MLEM.Textures.TextureRegion
-    content.vb: Public ReadOnly Texture As TextureRegion
   modifiers.csharp:
   - public
   - readonly
@@ -230,11 +194,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredCookingLevel
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 111
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -265,11 +229,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Price
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 115
+    startLine: 123
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -300,11 +264,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FoodAmount
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 121
+    startLine: 129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -321,35 +285,70 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Skills.FoodType.Source
-  commentId: F:TinyLife.Skills.FoodType.Source
-  id: Source
+- uid: TinyLife.Skills.FoodType.Color
+  commentId: F:TinyLife.Skills.FoodType.Color
+  id: Color
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: Source
-  nameWithType: FoodType.Source
-  fullName: TinyLife.Skills.FoodType.Source
+  name: Color
+  nameWithType: FoodType.Color
+  fullName: TinyLife.Skills.FoodType.Color
   type: Field
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Source
+    id: Color
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 125
+    startLine: 133
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nThe <xref href=\"TinyLife.Skills.FoodType.IngredientSource\" data-throw-if-not-resolved=\"false\"></xref> that this food type can be created in\n"
+  summary: "\nThe color that this food type should display with.\n"
   example: []
   syntax:
-    content: public readonly FoodType.IngredientSource Source
+    content: public readonly Color Color
     return:
-      type: TinyLife.Skills.FoodType.IngredientSource
-    content.vb: Public ReadOnly Source As FoodType.IngredientSource
+      type: Microsoft.Xna.Framework.Color
+    content.vb: Public ReadOnly Color As Color
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Skills.FoodType.Sources
+  commentId: F:TinyLife.Skills.FoodType.Sources
+  id: Sources
+  parent: TinyLife.Skills.FoodType
+  langs:
+  - csharp
+  - vb
+  name: Sources
+  nameWithType: FoodType.Sources
+  fullName: TinyLife.Skills.FoodType.Sources
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Skills/FoodType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Sources
+    path: ../TinyLife/Skills/FoodType.cs
+    startLine: 137
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  summary: "\nA set of <xref href=\"TinyLife.Skills.FoodType.IngredientSource\" data-throw-if-not-resolved=\"false\"></xref> objects that determine where this food type can be created.\n"
+  example: []
+  syntax:
+    content: public readonly List<FoodType.IngredientSource> Sources
+    return:
+      type: System.Collections.Generic.List{TinyLife.Skills.FoodType.IngredientSource}
+    content.vb: Public ReadOnly Sources As List(Of FoodType.IngredientSource)
   modifiers.csharp:
   - public
   - readonly
@@ -370,15 +369,15 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: NeedsCooking
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 130
+    startLine: 143
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nWhether or not this food item needs to be cooked on a stove to be created.\nIf this value is false, <xref href=\"TinyLife.Skills.FoodType.GetActions(System.Int32%2cTinyLife.Skills.FoodType.IngredientSource)\" data-throw-if-not-resolved=\"false\"></xref> will not check if there is a <xref href=\"TinyLife.Objects.ObjectCategory.Stove\" data-throw-if-not-resolved=\"false\"></xref> nearby.\n"
+  summary: "\nWhether or not this food item needs to be cooked on a stove to be created.\nIf this value is false, <xref href=\"TinyLife.Skills.FoodType.GetActions(System.Int32%2cTinyLife.Skills.FoodType.IngredientSource%2cSystem.Boolean%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> will not check if there is a <xref href=\"TinyLife.Objects.ObjectCategory.Stove\" data-throw-if-not-resolved=\"false\"></xref> nearby.\n"
   example: []
   syntax:
     content: public bool NeedsCooking { get; set; }
@@ -393,37 +392,37 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: TinyLife.Skills.FoodType.IsInGlass
-  commentId: P:TinyLife.Skills.FoodType.IsInGlass
-  id: IsInGlass
+- uid: TinyLife.Skills.FoodType.Container
+  commentId: P:TinyLife.Skills.FoodType.Container
+  id: Container
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: IsInGlass
-  nameWithType: FoodType.IsInGlass
-  fullName: TinyLife.Skills.FoodType.IsInGlass
+  name: Container
+  nameWithType: FoodType.Container
+  fullName: TinyLife.Skills.FoodType.Container
   type: Property
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: IsInGlass
+    id: Container
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 134
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nA property that stores whether this food type should be served in a glass rather than on a plate\n"
+  summary: "\nThe <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref> that this food type should be stored in.\n"
   example: []
   syntax:
-    content: public bool IsInGlass { get; set; }
+    content: public FoodType.ContainerType Container { get; set; }
     parameters: []
     return:
-      type: System.Boolean
-    content.vb: Public Property IsInGlass As Boolean
-  overload: TinyLife.Skills.FoodType.IsInGlass*
+      type: TinyLife.Skills.FoodType.ContainerType
+    content.vb: Public Property Container As FoodType.ContainerType
+  overload: TinyLife.Skills.FoodType.Container*
   modifiers.csharp:
   - public
   - get
@@ -444,11 +443,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 139
+    startLine: 152
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -481,11 +480,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEat
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 144
+    startLine: 157
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -518,11 +517,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 148
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -541,32 +540,69 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource)
-  commentId: M:TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource)
-  id: '#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource)'
+- uid: TinyLife.Skills.FoodType.Texture
+  commentId: P:TinyLife.Skills.FoodType.Texture
+  id: Texture
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource)
-  nameWithType: FoodType.FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource)
-  fullName: TinyLife.Skills.FoodType.FoodType(System.String, System.Int32, System.Int32, System.Int32, TinyLife.Skills.FoodType.IngredientSource)
+  name: Texture
+  nameWithType: FoodType.Texture
+  fullName: TinyLife.Skills.FoodType.Texture
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Skills/FoodType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Texture
+    path: ../TinyLife/Skills/FoodType.cs
+    startLine: 165
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  summary: "\nThe texture of this food item, which is based on the <xref href=\"TinyLife.Skills.FoodType.Container\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Skills.FoodType.ContainerType.GetTexture(TinyLife.Skills.FoodType)\" data-throw-if-not-resolved=\"false\"></xref> method.\n"
+  example: []
+  syntax:
+    content: public TextureRegion Texture { get; }
+    parameters: []
+    return:
+      type: MLEM.Textures.TextureRegion
+    content.vb: Public ReadOnly Property Texture As TextureRegion
+  overload: TinyLife.Skills.FoodType.Texture*
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
+  commentId: M:TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
+  id: '#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})'
+  parent: TinyLife.Skills.FoodType
+  langs:
+  - csharp
+  - vb
+  name: FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource, Nullable<Color>)
+  nameWithType: FoodType.FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource, Nullable<Color>)
+  fullName: TinyLife.Skills.FoodType.FoodType(System.String, System.Int32, System.Int32, System.Int32, TinyLife.Skills.FoodType.IngredientSource, System.Nullable<Microsoft.Xna.Framework.Color>)
   type: Constructor
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 158
+    startLine: 176
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nCreates a new food type with the given settings\n"
   example: []
   syntax:
-    content: public FoodType(string name, int requiredCookingLevel, int price, int foodAmount, FoodType.IngredientSource source = FoodType.IngredientSource.Fridge)
+    content: public FoodType(string name, int requiredCookingLevel, int price, int foodAmount, FoodType.IngredientSource source = null, Color? color = null)
     parameters:
     - id: name
       type: System.String
@@ -583,94 +619,18 @@ items:
     - id: source
       type: TinyLife.Skills.FoodType.IngredientSource
       description: The <xref href="TinyLife.Skills.FoodType.IngredientSource" data-throw-if-not-resolved="false"></xref> that this food type can be created in, defaults to <xref href="TinyLife.Skills.FoodType.IngredientSource.Fridge" data-throw-if-not-resolved="false"></xref>
-    content.vb: Public Sub New(name As String, requiredCookingLevel As Integer, price As Integer, foodAmount As Integer, source As FoodType.IngredientSource = FoodType.IngredientSource.Fridge)
+    - id: color
+      type: System.Nullable{Microsoft.Xna.Framework.Color}
+      description: The color that this food type should display with, or <xref uid="langword_csharp_null" name="null" href=""></xref> to use <xref href="Microsoft.Xna.Framework.Color.White" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Sub New(name As String, requiredCookingLevel As Integer, price As Integer, foodAmount As Integer, source As FoodType.IngredientSource = Nothing, color As Color? = Nothing)
   overload: TinyLife.Skills.FoodType.#ctor*
+  nameWithType.vb: FoodType.FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource, Nullable(Of Color))
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  commentId: M:TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  id: GetContainer(System.Int32)
-  parent: TinyLife.Skills.FoodType
-  langs:
-  - csharp
-  - vb
-  name: GetContainer(Int32)
-  nameWithType: FoodType.GetContainer(Int32)
-  fullName: TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetContainer
-    path: ../TinyLife/Skills/FoodType.cs
-    startLine: 175
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Skills
-  summary: "\nReturns the container that this food type should be stored in based on the serving size.\nFor custom food types, this method can be overrided to use custom containers with it.\nIt is expected that the constructed type of the returned <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref> is or extends <xref href=\"TinyLife.Objects.Food\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: public virtual FurnitureType GetContainer(int servingSize)
-    parameters:
-    - id: servingSize
-      type: System.Int32
-      description: The serving size
-    return:
-      type: TinyLife.Objects.FurnitureType
-      description: The furniture type that this food type should be stored in
-    content.vb: Public Overridable Function GetContainer(servingSize As Integer) As FurnitureType
-  overload: TinyLife.Skills.FoodType.GetContainer*
-  exceptions:
-  - type: System.ArgumentOutOfRangeException
-    commentId: T:System.ArgumentOutOfRangeException
-    description: Thrown by default if this food type <xref href="TinyLife.Skills.FoodType.IsInGlass" data-throw-if-not-resolved="false"></xref> and the serving size is greater than 1
-  modifiers.csharp:
-  - public
-  - virtual
-  modifiers.vb:
-  - Public
-  - Overridable
-- uid: TinyLife.Skills.FoodType.GetEmptyContainer
-  commentId: M:TinyLife.Skills.FoodType.GetEmptyContainer
-  id: GetEmptyContainer
-  parent: TinyLife.Skills.FoodType
-  langs:
-  - csharp
-  - vb
-  name: GetEmptyContainer()
-  nameWithType: FoodType.GetEmptyContainer()
-  fullName: TinyLife.Skills.FoodType.GetEmptyContainer()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetEmptyContainer
-    path: ../TinyLife/Skills/FoodType.cs
-    startLine: 189
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Skills
-  summary: "\nReturns the container that should be spawned if the <xref href=\"TinyLife.Skills.FoodType.GetContainer(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> of this food type becomes empty.\nFor custom food types, this method can be overrided to use custom containers with it.\n"
-  example: []
-  syntax:
-    content: public virtual FurnitureType GetEmptyContainer()
-    return:
-      type: TinyLife.Objects.FurnitureType
-      description: The empty container for this food type
-    content.vb: Public Overridable Function GetEmptyContainer As FurnitureType
-  overload: TinyLife.Skills.FoodType.GetEmptyContainer*
-  modifiers.csharp:
-  - public
-  - virtual
-  modifiers.vb:
-  - Public
-  - Overridable
+  fullName.vb: TinyLife.Skills.FoodType.FoodType(System.String, System.Int32, System.Int32, System.Int32, TinyLife.Skills.FoodType.IngredientSource, System.Nullable(Of Microsoft.Xna.Framework.Color))
+  name.vb: FoodType(String, Int32, Int32, Int32, FoodType.IngredientSource, Nullable(Of Color))
 - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
   id: GetPrice(System.Int32)
@@ -685,11 +645,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 198
+    startLine: 191
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -724,15 +684,15 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Construct
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 213
+    startLine: 206
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.Food\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on this food type&apos;s <xref href=\"TinyLife.Skills.FoodType.GetContainer(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.Food\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on this food type&apos;s <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public Food Construct(Map map, Quality quality, TimeSpan expirationTime, int servingSize, Person creator = null, Guid? id = null, bool triggerGoals = true)
@@ -784,11 +744,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ConstructUnfinished
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 233
+    startLine: 226
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -844,11 +804,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 251
+    startLine: 246
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -868,32 +828,32 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
-  commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
-  id: GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
+- uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
+  commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
+  id: GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: GetActions(Int32, FoodType.IngredientSource)
-  nameWithType: FoodType.GetActions(Int32, FoodType.IngredientSource)
-  fullName: TinyLife.Skills.FoodType.GetActions(System.Int32, TinyLife.Skills.FoodType.IngredientSource)
+  name: GetActions(Int32, FoodType.IngredientSource, Boolean, Single)
+  nameWithType: FoodType.GetActions(Int32, FoodType.IngredientSource, Boolean, Single)
+  fullName: TinyLife.Skills.FoodType.GetActions(System.Int32, TinyLife.Skills.FoodType.IngredientSource, System.Boolean, System.Single)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActions
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 262
+    startLine: 259
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nReturns a set of action varieties for all <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> objects that match the given predicate\n"
   example: []
   syntax:
-    content: public static IEnumerable<ActionVariety> GetActions(int servingSize, FoodType.IngredientSource source)
+    content: public static IEnumerable<ActionVariety> GetActions(int servingSize, FoodType.IngredientSource source, bool checkConditions = true, float priceMarkup = 1F)
     parameters:
     - id: servingSize
       type: System.Int32
@@ -901,10 +861,16 @@ items:
     - id: source
       type: TinyLife.Skills.FoodType.IngredientSource
       description: The ingredient source to return actions for
+    - id: checkConditions
+      type: System.Boolean
+      description: Whether additional conditions like <xref href="TinyLife.Skills.FoodType.GetPrice(System.Int32)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Skills.FoodType.NeedsCooking" data-throw-if-not-resolved="false"></xref> should be checked.
+    - id: priceMarkup
+      type: System.Single
+      description: The amount that the <xref href="TinyLife.Skills.FoodType.GetPrice(System.Int32)" data-throw-if-not-resolved="false"></xref> should be multiplied by for display and condition checking.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionVariety}
       description: A set of action varieties representing food types
-    content.vb: Public Shared Function GetActions(servingSize As Integer, source As FoodType.IngredientSource) As IEnumerable(Of ActionVariety)
+    content.vb: Public Shared Function GetActions(servingSize As Integer, source As FoodType.IngredientSource, checkConditions As Boolean = True, priceMarkup As Single = 1F) As IEnumerable(Of ActionVariety)
   overload: TinyLife.Skills.FoodType.GetActions*
   modifiers.csharp:
   - public
@@ -926,7 +892,7 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllContainers
     path: ../TinyLife/Skills/FoodType.cs
@@ -934,7 +900,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nReturns all of the <xref href=\"TinyLife.Skills.FoodType.GetContainer(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> furniture types that any registered food types will be stored in, based on the serving size.\nThis method returns a distinct array of <xref href=\"TinyLife.Skills.FoodType.GetContainer(System.Int32)\" data-throw-if-not-resolved=\"false\"></xref> instances of all <xref href=\"TinyLife.Skills.FoodType.Types\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nReturns all of the <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref> furniture types that any registered food types will be stored in, based on the serving size.\nThis method returns a distinct array of <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref> instances of all <xref href=\"TinyLife.Skills.FoodType.Types\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public static FurnitureType[] GetAllContainers(int servingSize)
@@ -956,6 +922,21 @@ items:
 references:
 - uid: TinyLife.Actions.ActionType.GetIngredientsSingle
   commentId: F:TinyLife.Actions.ActionType.GetIngredientsSingle
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.Texture
+  commentId: P:TinyLife.Skills.FoodType.Texture
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.ContainerType
+  commentId: T:TinyLife.Skills.FoodType.ContainerType
+  parent: TinyLife.Skills
+  name: FoodType.ContainerType
+  nameWithType: FoodType.ContainerType
+  fullName: TinyLife.Skills.FoodType.ContainerType
+- uid: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
+  commentId: M:TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.Name
+  commentId: F:TinyLife.Skills.FoodType.Name
   isExternal: true
 - uid: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   commentId: M:TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
@@ -1342,21 +1323,21 @@ references:
   name: FoodType
   nameWithType: FoodType
   fullName: TinyLife.Skills.FoodType
-- uid: System.Collections.Generic.IDictionary{System.String,TinyLife.Skills.FoodType}
-  commentId: T:System.Collections.Generic.IDictionary{System.String,TinyLife.Skills.FoodType}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IDictionary`2
-  name: IDictionary<String, FoodType>
-  nameWithType: IDictionary<String, FoodType>
-  fullName: System.Collections.Generic.IDictionary<System.String, TinyLife.Skills.FoodType>
-  nameWithType.vb: IDictionary(Of String, FoodType)
-  fullName.vb: System.Collections.Generic.IDictionary(Of System.String, TinyLife.Skills.FoodType)
-  name.vb: IDictionary(Of String, FoodType)
+- uid: System.Collections.ObjectModel.ReadOnlyDictionary{System.String,TinyLife.Skills.FoodType}
+  commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary{System.String,TinyLife.Skills.FoodType}
+  parent: System.Collections.ObjectModel
+  definition: System.Collections.ObjectModel.ReadOnlyDictionary`2
+  name: ReadOnlyDictionary<String, FoodType>
+  nameWithType: ReadOnlyDictionary<String, FoodType>
+  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<System.String, TinyLife.Skills.FoodType>
+  nameWithType.vb: ReadOnlyDictionary(Of String, FoodType)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of System.String, TinyLife.Skills.FoodType)
+  name.vb: ReadOnlyDictionary(Of String, FoodType)
   spec.csharp:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    nameWithType: ReadOnlyDictionary
+    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1377,10 +1358,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    nameWithType: ReadOnlyDictionary
+    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1400,20 +1381,20 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.IDictionary`2
-  commentId: T:System.Collections.Generic.IDictionary`2
+- uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+  commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary`2
   isExternal: true
-  name: IDictionary<TKey, TValue>
-  nameWithType: IDictionary<TKey, TValue>
-  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
-  nameWithType.vb: IDictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
-  name.vb: IDictionary(Of TKey, TValue)
+  name: ReadOnlyDictionary<TKey, TValue>
+  nameWithType: ReadOnlyDictionary<TKey, TValue>
+  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
+  nameWithType.vb: ReadOnlyDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of TKey, TValue)
+  name.vb: ReadOnlyDictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    nameWithType: ReadOnlyDictionary
+    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
   - name: <
     nameWithType: <
@@ -1431,10 +1412,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: System.Collections.Generic.IDictionary`2
-    name: IDictionary
-    nameWithType: IDictionary
-    fullName: System.Collections.Generic.IDictionary
+  - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
+    name: ReadOnlyDictionary
+    nameWithType: ReadOnlyDictionary
+    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
   - name: '(Of '
     nameWithType: '(Of '
@@ -1451,12 +1432,12 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
+- uid: System.Collections.ObjectModel
+  commentId: N:System.Collections.ObjectModel
   isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
+  name: System.Collections.ObjectModel
+  nameWithType: System.Collections.ObjectModel
+  fullName: System.Collections.ObjectModel
 - uid: TinyLife.Actions.Action
   commentId: T:TinyLife.Actions.Action
   parent: TinyLife.Actions
@@ -1585,25 +1566,6 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
-  commentId: M:TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
-  isExternal: true
-- uid: TinyLife.Skills.FoodType.Name
-  commentId: F:TinyLife.Skills.FoodType.Name
-  isExternal: true
-- uid: MLEM.Textures.TextureRegion
-  commentId: T:MLEM.Textures.TextureRegion
-  parent: MLEM.Textures
-  isExternal: true
-  name: TextureRegion
-  nameWithType: TextureRegion
-  fullName: MLEM.Textures.TextureRegion
-- uid: MLEM.Textures
-  commentId: N:MLEM.Textures
-  isExternal: true
-  name: MLEM.Textures
-  nameWithType: MLEM.Textures
-  fullName: MLEM.Textures
 - uid: TinyLife.Skills.SkillType.Cooking
   commentId: F:TinyLife.Skills.SkillType.Cooking
   isExternal: true
@@ -1617,14 +1579,114 @@ references:
 - uid: TinyLife.Objects.Food.FoodLeft
   commentId: F:TinyLife.Objects.Food.FoodLeft
   isExternal: true
+- uid: Microsoft.Xna.Framework.Color
+  commentId: T:Microsoft.Xna.Framework.Color
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: Microsoft.Xna.Framework.Color
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
 - uid: TinyLife.Skills.FoodType.IngredientSource
   commentId: T:TinyLife.Skills.FoodType.IngredientSource
   parent: TinyLife.Skills
   name: FoodType.IngredientSource
   nameWithType: FoodType.IngredientSource
   fullName: TinyLife.Skills.FoodType.IngredientSource
-- uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
-  commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource)
+- uid: System.Collections.Generic.List{TinyLife.Skills.FoodType.IngredientSource}
+  commentId: T:System.Collections.Generic.List{TinyLife.Skills.FoodType.IngredientSource}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<FoodType.IngredientSource>
+  nameWithType: List<FoodType.IngredientSource>
+  fullName: System.Collections.Generic.List<TinyLife.Skills.FoodType.IngredientSource>
+  nameWithType.vb: List(Of FoodType.IngredientSource)
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Skills.FoodType.IngredientSource)
+  name.vb: List(Of FoodType.IngredientSource)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Skills.FoodType.IngredientSource
+    name: FoodType.IngredientSource
+    nameWithType: FoodType.IngredientSource
+    fullName: TinyLife.Skills.FoodType.IngredientSource
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Skills.FoodType.IngredientSource
+    name: FoodType.IngredientSource
+    nameWithType: FoodType.IngredientSource
+    fullName: TinyLife.Skills.FoodType.IngredientSource
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
+  commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single)
   isExternal: true
 - uid: TinyLife.Objects.ObjectCategory.Stove
   commentId: F:TinyLife.Objects.ObjectCategory.Stove
@@ -1641,11 +1703,11 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: TinyLife.Skills.FoodType.IsInGlass*
-  commentId: Overload:TinyLife.Skills.FoodType.IsInGlass
-  name: IsInGlass
-  nameWithType: FoodType.IsInGlass
-  fullName: TinyLife.Skills.FoodType.IsInGlass
+- uid: TinyLife.Skills.FoodType.Container*
+  commentId: Overload:TinyLife.Skills.FoodType.Container
+  name: Container
+  nameWithType: FoodType.Container
+  fullName: TinyLife.Skills.FoodType.Container
 - uid: TinyLife.Skills.FoodType.OnEaten*
   commentId: Overload:TinyLife.Skills.FoodType.OnEaten
   name: OnEaten
@@ -1751,50 +1813,124 @@ references:
   name: DisplayName
   nameWithType: FoodType.DisplayName
   fullName: TinyLife.Skills.FoodType.DisplayName
+- uid: TinyLife.Skills.FoodType.Container
+  commentId: P:TinyLife.Skills.FoodType.Container
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.ContainerType.GetTexture(TinyLife.Skills.FoodType)
+  commentId: M:TinyLife.Skills.FoodType.ContainerType.GetTexture(TinyLife.Skills.FoodType)
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.Texture*
+  commentId: Overload:TinyLife.Skills.FoodType.Texture
+  name: Texture
+  nameWithType: FoodType.Texture
+  fullName: TinyLife.Skills.FoodType.Texture
+- uid: MLEM.Textures.TextureRegion
+  commentId: T:MLEM.Textures.TextureRegion
+  parent: MLEM.Textures
+  isExternal: true
+  name: TextureRegion
+  nameWithType: TextureRegion
+  fullName: MLEM.Textures.TextureRegion
+- uid: MLEM.Textures
+  commentId: N:MLEM.Textures
+  isExternal: true
+  name: MLEM.Textures
+  nameWithType: MLEM.Textures
+  fullName: MLEM.Textures
 - uid: TinyLife.Skills.FoodType.IngredientSource.Fridge
   commentId: F:TinyLife.Skills.FoodType.IngredientSource.Fridge
+  isExternal: true
+- uid: Microsoft.Xna.Framework.Color.White
+  commentId: P:Microsoft.Xna.Framework.Color.White
   isExternal: true
 - uid: TinyLife.Skills.FoodType.#ctor*
   commentId: Overload:TinyLife.Skills.FoodType.#ctor
   name: FoodType
   nameWithType: FoodType.FoodType
   fullName: TinyLife.Skills.FoodType.FoodType
-- uid: TinyLife.Objects.FurnitureType
-  commentId: T:TinyLife.Objects.FurnitureType
-  parent: TinyLife.Objects
-  name: FurnitureType
-  nameWithType: FurnitureType
-  fullName: TinyLife.Objects.FurnitureType
-- uid: TinyLife.Objects.Food
-  commentId: T:TinyLife.Objects.Food
-  parent: TinyLife.Objects
-  name: Food
-  nameWithType: Food
-  fullName: TinyLife.Objects.Food
-- uid: TinyLife.Skills.FoodType.IsInGlass
-  commentId: P:TinyLife.Skills.FoodType.IsInGlass
+- uid: System.Nullable{Microsoft.Xna.Framework.Color}
+  commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
+  parent: System
+  definition: System.Nullable`1
+  name: Nullable<Color>
+  nameWithType: Nullable<Color>
+  fullName: System.Nullable<Microsoft.Xna.Framework.Color>
+  nameWithType.vb: Nullable(Of Color)
+  fullName.vb: System.Nullable(Of Microsoft.Xna.Framework.Color)
+  name.vb: Nullable(Of Color)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    nameWithType: Color
+    fullName: Microsoft.Xna.Framework.Color
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    nameWithType: Color
+    fullName: Microsoft.Xna.Framework.Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
   isExternal: true
-- uid: System.ArgumentOutOfRangeException
-  commentId: T:System.ArgumentOutOfRangeException
-  isExternal: true
-- uid: TinyLife.Skills.FoodType.GetContainer*
-  commentId: Overload:TinyLife.Skills.FoodType.GetContainer
-  name: GetContainer
-  nameWithType: FoodType.GetContainer
-  fullName: TinyLife.Skills.FoodType.GetContainer
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-- uid: TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  commentId: M:TinyLife.Skills.FoodType.GetContainer(System.Int32)
-  isExternal: true
-- uid: TinyLife.Skills.FoodType.GetEmptyContainer*
-  commentId: Overload:TinyLife.Skills.FoodType.GetEmptyContainer
-  name: GetEmptyContainer
-  nameWithType: FoodType.GetEmptyContainer
-  fullName: TinyLife.Skills.FoodType.GetEmptyContainer
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Skills.FoodType.GetPrice*
   commentId: Overload:TinyLife.Skills.FoodType.GetPrice
   name: GetPrice
@@ -1807,6 +1943,12 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
+- uid: TinyLife.Objects.Food
+  commentId: T:TinyLife.Objects.Food
+  parent: TinyLife.Objects
+  name: Food
+  nameWithType: Food
+  fullName: TinyLife.Objects.Food
 - uid: TinyLife.GameImpl.CurrentTime
   commentId: P:TinyLife.GameImpl.CurrentTime
   isExternal: true
@@ -1943,6 +2085,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
 - uid: TinyLife.Goals
   commentId: N:TinyLife.Goals
   name: TinyLife.Goals
@@ -1959,51 +2106,18 @@ references:
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Objects.FoodTypedItem
   commentId: T:TinyLife.Objects.FoodTypedItem
   parent: TinyLife.Objects
   name: FoodTypedItem
   nameWithType: FoodTypedItem
   fullName: TinyLife.Objects.FoodTypedItem
+- uid: TinyLife.Objects.FurnitureType
+  commentId: T:TinyLife.Objects.FurnitureType
+  parent: TinyLife.Objects
+  name: FurnitureType
+  nameWithType: FurnitureType
+  fullName: TinyLife.Objects.FurnitureType
 - uid: TinyLife.Skills.FoodType.ConstructUnfinished*
   commentId: Overload:TinyLife.Skills.FoodType.ConstructUnfinished
   name: ConstructUnfinished
@@ -2014,6 +2128,12 @@ references:
   name: Register
   nameWithType: FoodType.Register
   fullName: TinyLife.Skills.FoodType.Register
+- uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
+  commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
+  isExternal: true
+- uid: TinyLife.Skills.FoodType.NeedsCooking
+  commentId: P:TinyLife.Skills.FoodType.NeedsCooking
+  isExternal: true
 - uid: TinyLife.Skills.FoodType.GetActions*
   commentId: Overload:TinyLife.Skills.FoodType.GetActions
   name: GetActions

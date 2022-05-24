@@ -9,9 +9,10 @@ items:
   - TinyLife.Objects.ActionSpot.#ctor(Microsoft.Xna.Framework.Vector2,MLEM.Misc.Direction2[])
   - TinyLife.Objects.ActionSpot.#ctor(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2[])
   - TinyLife.Objects.ActionSpot.AllSpots(Microsoft.Xna.Framework.Point,TinyLife.Objects.ObjectCategory)
-  - TinyLife.Objects.ActionSpot.BedSpots(System.Boolean)
-  - TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean)
+  - TinyLife.Objects.ActionSpot.BedSpots(System.Boolean,System.Int32,System.Int32)
+  - TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean,System.Int32)
   - TinyLife.Objects.ActionSpot.CategoryRestriction
+  - TinyLife.Objects.ActionSpot.ChairSpots(System.Int32)
   - TinyLife.Objects.ActionSpot.GetFreeDirections(TinyLife.Objects.Furniture,TinyLife.Objects.Person)
   - TinyLife.Objects.ActionSpot.GetOccupants(TinyLife.Objects.Furniture,System.Boolean,System.Boolean)
   - TinyLife.Objects.ActionSpot.GetPicnicBenchDrawLayer(TinyLife.Objects.Furniture)
@@ -26,7 +27,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ActionSpot
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -51,7 +52,7 @@ items:
   - TinyLife.Objects.AbstractSpot.ValidDirections
   - TinyLife.Objects.AbstractSpot.Group
   - TinyLife.Objects.AbstractSpot.DrawLayer
-  - TinyLife.Objects.AbstractSpot.HasVisualOffset
+  - TinyLife.Objects.AbstractSpot.IsOnGround
   - TinyLife.Objects.AbstractSpot.GetValidDirections(MLEM.Misc.Direction2)
   - TinyLife.Objects.AbstractSpot.GetLocation(TinyLife.Objects.Furniture,System.Boolean)
   - TinyLife.Objects.AbstractSpot.DoGroupsOverlap(TinyLife.Objects.AbstractSpot)
@@ -84,7 +85,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CategoryRestriction
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -117,7 +118,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -159,7 +160,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -204,7 +205,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -252,7 +253,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeDirections
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -294,7 +295,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetOccupants
     path: ../TinyLife/Objects/ActionSpot.cs
@@ -325,40 +326,46 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.ActionSpot.BedSpots(System.Boolean)
-  commentId: M:TinyLife.Objects.ActionSpot.BedSpots(System.Boolean)
-  id: BedSpots(System.Boolean)
+- uid: TinyLife.Objects.ActionSpot.BedSpots(System.Boolean,System.Int32,System.Int32)
+  commentId: M:TinyLife.Objects.ActionSpot.BedSpots(System.Boolean,System.Int32,System.Int32)
+  id: BedSpots(System.Boolean,System.Int32,System.Int32)
   parent: TinyLife.Objects.ActionSpot
   langs:
   - csharp
   - vb
-  name: BedSpots(Boolean)
-  nameWithType: ActionSpot.BedSpots(Boolean)
-  fullName: TinyLife.Objects.ActionSpot.BedSpots(System.Boolean)
+  name: BedSpots(Boolean, Int32, Int32)
+  nameWithType: ActionSpot.BedSpots(Boolean, Int32, Int32)
+  fullName: TinyLife.Objects.ActionSpot.BedSpots(System.Boolean, System.Int32, System.Int32)
   type: Method
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BedSpots
     path: ../TinyLife/Objects/ActionSpot.cs
-    startLine: 197
+    startLine: 201
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nA helper method that returns an array of <xref href=\"TinyLife.Objects.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref> instances at the locations that they have to be for a bed.\nThe spots returned also contain spots that a person can sit on if there&apos;s not already someone laying in the bed.\nThis method can be used for single and double beds.\n"
   example: []
   syntax:
-    content: public static ActionSpot[] BedSpots(bool single = false)
+    content: public static ActionSpot[] BedSpots(bool single = false, int sleepDrawLayer = 3, int sitDrawLayer = 4)
     parameters:
     - id: single
       type: System.Boolean
       description: Whether the bed in question is a single bed (or a double bed)
+    - id: sleepDrawLayer
+      type: System.Int32
+      description: The layer that sleeping people should be drawn on.
+    - id: sitDrawLayer
+      type: System.Int32
+      description: The layer that sitting people should be drawn on.
     return:
       type: TinyLife.Objects.ActionSpot[]
       description: A set of action spots for the bed
-    content.vb: Public Shared Function BedSpots(single As Boolean = False) As ActionSpot()
+    content.vb: Public Shared Function BedSpots(single As Boolean = False, sleepDrawLayer As Integer = 3, sitDrawLayer As Integer = 4) As ActionSpot()
   overload: TinyLife.Objects.ActionSpot.BedSpots*
   modifiers.csharp:
   - public
@@ -366,41 +373,85 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean)
-  commentId: M:TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean)
-  id: BenchSpots(System.Boolean)
+- uid: TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean,System.Int32)
+  commentId: M:TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean,System.Int32)
+  id: BenchSpots(System.Boolean,System.Int32)
   parent: TinyLife.Objects.ActionSpot
   langs:
   - csharp
   - vb
-  name: BenchSpots(Boolean)
-  nameWithType: ActionSpot.BenchSpots(Boolean)
-  fullName: TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean)
+  name: BenchSpots(Boolean, Int32)
+  nameWithType: ActionSpot.BenchSpots(Boolean, Int32)
+  fullName: TinyLife.Objects.ActionSpot.BenchSpots(System.Boolean, System.Int32)
   type: Method
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BenchSpots
     path: ../TinyLife/Objects/ActionSpot.cs
-    startLine: 224
+    startLine: 229
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nA helper method that returns an array of <xref href=\"TinyLife.Objects.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref> instances at locations relevant for benches and sofas.\nThis is used by objects like <xref href=\"TinyLife.Objects.FurnitureType.SimpleBench\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.FurnitureType.SimpleSofa\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public static ActionSpot[] BenchSpots(bool threeSeater = false)
+    content: public static ActionSpot[] BenchSpots(bool threeSeater = false, int drawLayer = 2)
     parameters:
     - id: threeSeater
       type: System.Boolean
       description: Whether the bench is a three-seater (three tiles large)
+    - id: drawLayer
+      type: System.Int32
+      description: The layer that people should be drawn on when sitting.
     return:
       type: TinyLife.Objects.ActionSpot[]
       description: An array of action spots for benches and sofas
-    content.vb: Public Shared Function BenchSpots(threeSeater As Boolean = False) As ActionSpot()
+    content.vb: Public Shared Function BenchSpots(threeSeater As Boolean = False, drawLayer As Integer = 2) As ActionSpot()
   overload: TinyLife.Objects.ActionSpot.BenchSpots*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Objects.ActionSpot.ChairSpots(System.Int32)
+  commentId: M:TinyLife.Objects.ActionSpot.ChairSpots(System.Int32)
+  id: ChairSpots(System.Int32)
+  parent: TinyLife.Objects.ActionSpot
+  langs:
+  - csharp
+  - vb
+  name: ChairSpots(Int32)
+  nameWithType: ActionSpot.ChairSpots(Int32)
+  fullName: TinyLife.Objects.ActionSpot.ChairSpots(System.Int32)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/ActionSpot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ChairSpots
+    path: ../TinyLife/Objects/ActionSpot.cs
+    startLine: 249
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA helper method that returns an array of <xref href=\"TinyLife.Objects.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref> instances at locations relevant for regular chairs.\n"
+  example: []
+  syntax:
+    content: public static ActionSpot[] ChairSpots(int drawLayer = 1)
+    parameters:
+    - id: drawLayer
+      type: System.Int32
+      description: The layer that people should be drawn on when sitting.
+    return:
+      type: TinyLife.Objects.ActionSpot[]
+      description: An array of action spots for chairs
+    content.vb: Public Shared Function ChairSpots(drawLayer As Integer = 1) As ActionSpot()
+  overload: TinyLife.Objects.ActionSpot.ChairSpots*
   modifiers.csharp:
   - public
   - static
@@ -421,11 +472,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PicnicTableSpots
     path: ../TinyLife/Objects/ActionSpot.cs
-    startLine: 245
+    startLine: 259
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -462,11 +513,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AllSpots
     path: ../TinyLife/Objects/ActionSpot.cs
-    startLine: 268
+    startLine: 282
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -506,11 +557,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/ActionSpot.cs
-      branch: 0.20.4-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPicnicBenchDrawLayer
     path: ../TinyLife/Objects/ActionSpot.cs
-    startLine: 283
+    startLine: 297
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -600,12 +651,12 @@ references:
   name: DrawLayer
   nameWithType: AbstractSpot.DrawLayer
   fullName: TinyLife.Objects.AbstractSpot.DrawLayer
-- uid: TinyLife.Objects.AbstractSpot.HasVisualOffset
-  commentId: P:TinyLife.Objects.AbstractSpot.HasVisualOffset
+- uid: TinyLife.Objects.AbstractSpot.IsOnGround
+  commentId: P:TinyLife.Objects.AbstractSpot.IsOnGround
   parent: TinyLife.Objects.AbstractSpot
-  name: HasVisualOffset
-  nameWithType: AbstractSpot.HasVisualOffset
-  fullName: TinyLife.Objects.AbstractSpot.HasVisualOffset
+  name: IsOnGround
+  nameWithType: AbstractSpot.IsOnGround
+  fullName: TinyLife.Objects.AbstractSpot.IsOnGround
 - uid: TinyLife.Objects.AbstractSpot.GetValidDirections(MLEM.Misc.Direction2)
   commentId: M:TinyLife.Objects.AbstractSpot.GetValidDirections(MLEM.Misc.Direction2)
   parent: TinyLife.Objects.AbstractSpot
@@ -1433,6 +1484,13 @@ references:
   name: BedSpots
   nameWithType: ActionSpot.BedSpots
   fullName: TinyLife.Objects.ActionSpot.BedSpots
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  name: Int32
+  nameWithType: Int32
+  fullName: System.Int32
 - uid: TinyLife.Objects.ActionSpot[]
   isExternal: true
   name: ActionSpot[]
@@ -1468,6 +1526,11 @@ references:
   name: BenchSpots
   nameWithType: ActionSpot.BenchSpots
   fullName: TinyLife.Objects.ActionSpot.BenchSpots
+- uid: TinyLife.Objects.ActionSpot.ChairSpots*
+  commentId: Overload:TinyLife.Objects.ActionSpot.ChairSpots
+  name: ChairSpots
+  nameWithType: ActionSpot.ChairSpots
+  fullName: TinyLife.Objects.ActionSpot.ChairSpots
 - uid: TinyLife.Objects.FurnitureType.SimplePicnicTable
   commentId: F:TinyLife.Objects.FurnitureType.SimplePicnicTable
   isExternal: true
@@ -1502,10 +1565,3 @@ references:
   name: GetPicnicBenchDrawLayer
   nameWithType: ActionSpot.GetPicnicBenchDrawLayer
   fullName: TinyLife.Objects.ActionSpot.GetPicnicBenchDrawLayer
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
