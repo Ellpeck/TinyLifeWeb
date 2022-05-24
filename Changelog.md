@@ -1,3 +1,11 @@
+# 0.21.1
+
+> Small Fixes for the Two Year update
+
+Fixes
+- Fixed public street lamps not working when updating an older map
+- Fixed a crash when trying to start a woodworking action on an unfinished woodwork
+
 # 0.21.0
 ![](media/changelog/0.21.0.png)
 
