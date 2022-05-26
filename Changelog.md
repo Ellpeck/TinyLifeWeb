@@ -1,10 +1,17 @@
-# 0.21.1
+# 0.21.2
 
-> Small Fixes for the Two Year update
+> Small Additions to the Two Year update
+
+Improvements
+- Display an on-screen keyboard for input fields when playing on the Steam Deck
+- Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes
 
 Fixes
-- Fixed public street lamps not working when updating an older map
-- Fixed a crash when trying to start a woodworking action on an unfinished woodwork
+- Fixed woodworking actions not saving and loading properly
+- Fixed a rare crash with the "Ask to Taste" action
+- Fixed in-game news being impossible to navigate to using a gamepad
+- Fixed public street lamps not working when updating an older map (0.21.1)
+- Fixed a crash when trying to start a woodworking action on an unfinished woodwork (0.21.1)
 
 # 0.21.0
 ![](media/changelog/0.21.0.png)
