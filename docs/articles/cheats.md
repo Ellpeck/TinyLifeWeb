@@ -19,6 +19,10 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `Forget [name without spaces]` deletes any active relationships between the named partner and the current person.
 - `FreeLots` makes creating and importing households onto lots free.
 - `BigScreenshot` takes a full-size screenshot of the entire map, which might take a few seconds to save, during which the game will be stalled.
+- `LifeGoal [goal] [stage]` sets the current person's life goal to the goal and stage number. 
+  - `LifeGoal Advance` advances the current person's current life goal by one stage.
+- `Time [time]` sets the game's current time to the given number of hours. The current day will remain the same.
+- `Day [weekday name]` sets the game's current weekday to the given day by advancing time until the day is reached. Weekday names have to start with an uppercase letter.
 
 ## Modding and debug cheats
 - `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. Lots can be added using the Lots tool, and removed by clicking on them using the Remove tool.
