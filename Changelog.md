@@ -3,13 +3,18 @@
 > Small Additions to the Two Year update
 
 Improvements
-- Display an on-screen keyboard for input fields when playing on the Steam Deck
-- Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes
+- Skip packing empty wallpaper textures unnecessarily, improving load times
+- Display an on-screen keyboard for input fields when playing on the Steam Deck (0.21.2)
+- Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes (0.21.2)
 
 Fixes
-- Fixed woodworking actions not saving and loading properly
-- Fixed a rare crash with the "Ask to Taste" action
-- Fixed in-game news being impossible to navigate to using a gamepad
+- Fixed a crash when using a mouse button that has no icon in the game
+- Fixed rare exceptions with the Add a Little Something, Cook, and Ask to Taste actions
+- Fixed a rare crash when opening the in-game menu
+- Fixed Thomas Walden spawning in the wall on the default map
+- Fixed woodworking actions not saving and loading properly (0.21.2)
+- Fixed a rare crash with the "Ask to Taste" action (0.21.2)
+- Fixed in-game news being impossible to navigate to using a gamepad (0.21.2)
 - Fixed public street lamps not working when updating an older map (0.21.1)
 - Fixed a crash when trying to start a woodworking action on an unfinished woodwork (0.21.1)
 
