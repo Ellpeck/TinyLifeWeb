@@ -1,3 +1,37 @@
+# 0.22.0
+![](media/changelog/0.22.0.png)
+
+> Some Pride and Some Diet Choices
+
+No devlog this time, but we want to take this moment to wish you all a Happy Pride Month! If you're in a position to, please consider donating to charities like [The Trevor Project](https://www.thetrevorproject.org/) which make an effort to support LGBTQIA+ people.
+
+Additions
+- Added four new window designs
+- Added a few additional Pride flags
+- Added three curtain/blind furniture items
+- Added paper lantern fairy light furniture
+- Added pescetarian, vegetarian and vegan personality types
+- Added a lot of food types to accomodate the new personality types
+- Added uneasy and relaxed emotion types
+
+Improvements
+- Speed up game launch by improving texture packing performance
+- Made drywall a bit less ugly in terms of decorative rating
+- Added particles for death-related emotions, as well as showers
+- Added protein shakes for creative and relaxed emotions
+- Improved the look of the corners on grassy auto-tiles
+- Renamed Options button to Options and Hints
+- Allow cleaning dishes for the household hero life goal's first stage
+
+Fixes
+- Fixed a crash with gamepad controls and in-game hints
+- Fixed rendering issues with wall-hanging objects that were placed off the grid
+- Fixed a crash when all household members die and UI animations are enabled
+- Fixed objects not being able to get dirty
+
+API
+- Added the ability for map objects to influence need regeneration speed
+
 # 0.21.3
 
 > Small Additions to the Two Year update

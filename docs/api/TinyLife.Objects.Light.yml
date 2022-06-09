@@ -6,15 +6,17 @@ items:
   parent: TinyLife.Objects
   children:
   - TinyLife.Objects.Light.#ctor(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Color)
+  - TinyLife.Objects.Light.CameraOffset
   - TinyLife.Objects.Light.CircleTexture
   - TinyLife.Objects.Light.Color
   - TinyLife.Objects.Light.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - TinyLife.Objects.Light.DrawPosOffset
   - TinyLife.Objects.Light.IsDisabled
   - TinyLife.Objects.Light.Map
   - TinyLife.Objects.Light.Position
+  - TinyLife.Objects.Light.Rotation
   - TinyLife.Objects.Light.Size
   - TinyLife.Objects.Light.Texture
-  - TinyLife.Objects.Light.UpwardsOffset
   langs:
   - csharp
   - vb
@@ -29,7 +31,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Light
     path: ../TinyLife/Objects/Light.cs
-    startLine: 13
+    startLine: 15
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -74,7 +76,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CircleTexture
     path: ../TinyLife/Objects/Light.cs
-    startLine: 18
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -111,7 +113,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Map
     path: ../TinyLife/Objects/Light.cs
-    startLine: 23
+    startLine: 25
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -146,7 +148,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Texture
     path: ../TinyLife/Objects/Light.cs
-    startLine: 28
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -163,35 +165,35 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Objects.Light.UpwardsOffset
-  commentId: F:TinyLife.Objects.Light.UpwardsOffset
-  id: UpwardsOffset
+- uid: TinyLife.Objects.Light.CameraOffset
+  commentId: F:TinyLife.Objects.Light.CameraOffset
+  id: CameraOffset
   parent: TinyLife.Objects.Light
   langs:
   - csharp
   - vb
-  name: UpwardsOffset
-  nameWithType: Light.UpwardsOffset
-  fullName: TinyLife.Objects.Light.UpwardsOffset
+  name: CameraOffset
+  nameWithType: Light.CameraOffset
+  fullName: TinyLife.Objects.Light.CameraOffset
   type: Field
   source:
     remote:
       path: TinyLife/Objects/Light.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: UpwardsOffset
+    id: CameraOffset
     path: ../TinyLife/Objects/Light.cs
-    startLine: 32
+    startLine: 34
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nAn offset from this light&apos;s <xref href=\"TinyLife.Objects.Light.Position\" data-throw-if-not-resolved=\"false\"></xref>, in world space, that is vertical-only (and transformed using <xref href=\"TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref>).\n"
+  summary: "\nThe offset from this light&apos;s <xref href=\"TinyLife.Objects.Light.Position\" data-throw-if-not-resolved=\"false\"></xref> that is added in visual space only, using <xref href=\"TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Vector2 UpwardsOffset
+    content: public Vector2 CameraOffset
     return:
       type: Microsoft.Xna.Framework.Vector2
-    content.vb: Public UpwardsOffset As Vector2
+    content.vb: Public CameraOffset As Vector2
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -214,7 +216,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Position
     path: ../TinyLife/Objects/Light.cs
-    startLine: 37
+    startLine: 39
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -231,6 +233,37 @@ items:
   - public
   - get
   - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Objects.Light.DrawPosOffset
+  commentId: F:TinyLife.Objects.Light.DrawPosOffset
+  id: DrawPosOffset
+  parent: TinyLife.Objects.Light
+  langs:
+  - csharp
+  - vb
+  name: DrawPosOffset
+  nameWithType: Light.DrawPosOffset
+  fullName: TinyLife.Objects.Light.DrawPosOffset
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Light.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: DrawPosOffset
+    path: ../TinyLife/Objects/Light.cs
+    startLine: 51
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public Vector2 DrawPosOffset
+    return:
+      type: Microsoft.Xna.Framework.Vector2
+    content.vb: Public DrawPosOffset As Vector2
+  modifiers.csharp:
+  - public
   modifiers.vb:
   - Public
 - uid: TinyLife.Objects.Light.Size
@@ -251,17 +284,48 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Size
     path: ../TinyLife/Objects/Light.cs
-    startLine: 52
+    startLine: 56
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe size, in world space, of this light, centered on its <xref href=\"TinyLife.Objects.Light.Position\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nThe size, in world space, of this light, centered on its <xref href=\"TinyLife.Objects.Light.Position\" data-throw-if-not-resolved=\"false\"></xref>.\nThis value is multiplied with <xref href=\"TinyLife.World.Tile.Width\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.World.Tile.Height\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public Vector2 Size
     return:
       type: Microsoft.Xna.Framework.Vector2
     content.vb: Public Size As Vector2
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Objects.Light.Rotation
+  commentId: F:TinyLife.Objects.Light.Rotation
+  id: Rotation
+  parent: TinyLife.Objects.Light
+  langs:
+  - csharp
+  - vb
+  name: Rotation
+  nameWithType: Light.Rotation
+  fullName: TinyLife.Objects.Light.Rotation
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Light.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Rotation
+    path: ../TinyLife/Objects/Light.cs
+    startLine: 57
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public float Rotation
+    return:
+      type: System.Single
+    content.vb: Public Rotation As Single
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -284,7 +348,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Color
     path: ../TinyLife/Objects/Light.cs
-    startLine: 57
+    startLine: 62
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -317,7 +381,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsDisabled
     path: ../TinyLife/Objects/Light.cs
-    startLine: 62
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -350,7 +414,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Light.cs
-    startLine: 74
+    startLine: 79
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -398,7 +462,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Light.cs
-    startLine: 87
+    startLine: 92
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -861,6 +925,31 @@ references:
   name: Position
   nameWithType: Light.Position
   fullName: TinyLife.Objects.Light.Position
+- uid: TinyLife.World.Tile.Width
+  commentId: F:TinyLife.World.Tile.Width
+  parent: TinyLife.World.Tile
+  name: Width
+  nameWithType: Tile.Width
+  fullName: TinyLife.World.Tile.Width
+- uid: TinyLife.World.Tile.Height
+  commentId: F:TinyLife.World.Tile.Height
+  parent: TinyLife.World.Tile
+  name: Height
+  nameWithType: Tile.Height
+  fullName: TinyLife.World.Tile.Height
+- uid: TinyLife.World.Tile
+  commentId: T:TinyLife.World.Tile
+  parent: TinyLife.World
+  name: Tile
+  nameWithType: Tile
+  fullName: TinyLife.World.Tile
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  name: Single
+  nameWithType: Single
+  fullName: System.Single
 - uid: MLEM.Extensions.ColorExtensions.Invert(Microsoft.Xna.Framework.Color)
   commentId: M:MLEM.Extensions.ColorExtensions.Invert(Microsoft.Xna.Framework.Color)
   isExternal: true
