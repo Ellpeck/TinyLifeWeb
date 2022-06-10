@@ -1,9 +1,19 @@
-# 0.22.1
+# 0.22.2
 
-> Small, Important Fixes
+> Small Improvements, Important Fixes
+
+Improvements
+- Deliver newspapers to new households on the first day
+- Slightly reduced passive toilet and energy need reduction
+- Moved weekly bills to Friday
+- Display clothes occasions in the outfit tooltip in the character creator
+- Added a lot staff in-game hint when opening the menu
+- Made people lose energy more slowly if they're feeling energetic
 
 Fixes
-- Fixed a crash when a person that doesn't have a household dies
+- Fixed pathfinding sometimes failing for long distances
+- Fixed outfit tooltip not displaying in the character creator
+- Fixed a crash when a person that doesn't have a household dies (0.22.1)
 
 # 0.22.0
 ![](media/changelog/0.22.0.png)
