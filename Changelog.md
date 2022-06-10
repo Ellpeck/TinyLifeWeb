@@ -1,3 +1,10 @@
+# 0.22.1
+
+> Small, Important Fixes
+
+Fixes
+- Fixed a crash when a person that doesn't have a household dies
+
 # 0.22.0
 ![](media/changelog/0.22.0.png)
 
