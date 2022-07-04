@@ -1,3 +1,58 @@
+# 0.23.0
+![](media/changelog/0.23.0.png)
+
+> Job Choices, Aging Up and Furniture Fun
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/400497/0230-job-choices-aging-up-and-furniture-fun) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3344500789303904087).
+
+Additions
+- Added choice prompts for jobs and students, which appear randomly and allow the player to influence the situation
+- Added the ability for children to age up into adults
+- Added a baking skill and several food items that can be baked
+- Added the ability to add candles to cake to celebrate someone's birthday
+- Added a bigger version of the fitness rug
+- Added a cheaper computer
+- Added two new chairs
+- Added four new flower vases
+- Added two new small lamps
+- Added a taller wooden fence
+- Added a small coffee table and a new TV stand
+- Added two new roof textures
+- Added the ability to rummage through trash to dig up thrown away items
+- Added kissing
+- Added a search bar to the hint history menu
+- Added more actions for people that have diet personalities
+- Added decorative power poles to the default map
+
+Improvements
+- Clarify that puddles on natural ground can't be mopped
+- Allow wall sinks to get dirty
+- Display some important tooltip information properly when using a gamepad
+- Disallow sleeping when stunned
+- Go back to the starting location after jogging
+- Improve the action variety screen when other people are involved by increasing the size of their portrait
+- Allow using WASD to control the camera by default
+- Made trash cans fill up with trash
+- Order action varieties by name
+- Display learned recipes and woodworking recipes when leveling up the cooking and woodworking skills
+- Display a security disclaimer when enabling mods
+- Play sounds for broken objects
+
+Fixes
+- Fixed people's shoes rendering above the picnic table when sitting
+- Fixed lights being clipped early, causing them to disappear visually
+- Fixed people sometimes putting objects down on surfaces with the wrong rotation
+- Fixed some issues on the default map, including walden household duplications and a missing chair
+- Fixed diet personalities not being incompatible with each other
+- Fixed issues with the smoke particle displaying behind objects
+- Fixed people doing the walking animation while their pathfinding is still calculating
+- Fixed people sometimes not leaving a lot when asked to
+- Fixed "got food somewhere else" notifications being displayed for every household
+- Fixed emotion stings playing if the same person is selected again
+- Fixed children being able to tinker with stuff
+- Fixed being unable to place rugs under tables that have something on them
+- Fixed lamps in storage lighting up the place they used to occupy when reloading a save
+
 # 0.22.2
 
 > Small Improvements, Important Fixes
