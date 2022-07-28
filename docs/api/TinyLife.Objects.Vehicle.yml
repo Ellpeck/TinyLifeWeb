@@ -5,15 +5,15 @@ items:
   id: Vehicle
   parent: TinyLife.Objects
   children:
-  - TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Vehicle.VehicleType)
-  - TinyLife.Objects.Vehicle.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
+  - TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Vector2,TinyLife.Objects.Vehicle.VehicleType)
+  - TinyLife.Objects.Vehicle.Draw(GameTime,SpriteBatch,Vector2,System.Nullable{Color})
   - TinyLife.Objects.Vehicle.Driver
   - TinyLife.Objects.Vehicle.GetSpeed
   - TinyLife.Objects.Vehicle.OnCameraRotationChanged(MLEM.Misc.Direction2,MLEM.Misc.Direction2)
   - TinyLife.Objects.Vehicle.OnRemoved
   - TinyLife.Objects.Vehicle.Rotation
   - TinyLife.Objects.Vehicle.Type
-  - TinyLife.Objects.Vehicle.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.Vehicle.Update(GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.Vehicle.UpdateDriving(TinyLife.Actions.PathfindAction)
   - TinyLife.Objects.Vehicle.Validate
   langs:
@@ -30,7 +30,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Vehicle
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 15
+    startLine: 12
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -58,11 +58,13 @@ items:
   - TinyLife.Objects.MapObject.OnUpdate
   - TinyLife.Objects.MapObject.Position
   - TinyLife.Objects.MapObject.ParentInfo
+  - TinyLife.Objects.MapObject.Visibility
   - TinyLife.Objects.MapObject.Id
   - TinyLife.Objects.MapObject.Map
   - TinyLife.Objects.MapObject.CurrentLot
   - TinyLife.Objects.MapObject.CurrentRoom
   - TinyLife.Objects.MapObject.IsInWorld
+  - TinyLife.Objects.MapObject.Draw(GameTime,SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Color})
   - TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
   - TinyLife.Objects.MapObject.GetCategories(TinyLife.Objects.Person)
   - TinyLife.Objects.MapObject.OnAdded
@@ -70,14 +72,15 @@ items:
   - TinyLife.Objects.MapObject.GetAiPriority(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-  - TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  - TinyLife.Objects.MapObject.GetVisibility
+  - TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,GameTime,System.TimeSpan,System.Single,System.Boolean)
   - TinyLife.Objects.MapObject.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.MapObject.GetRestoreNeedModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
-  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - TinyLife.Objects.MapObject.DoDraw(GameTime,SpriteBatch,System.Nullable{Color},System.Boolean)
+  - TinyLife.Objects.MapObject.DoUpdate(GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Color,System.Single,Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
@@ -115,7 +118,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Rotation
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 24
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -158,7 +161,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Driver
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 29
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -201,7 +204,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 34
+    startLine: 31
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -226,16 +229,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Vehicle.VehicleType)
-  commentId: M:TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Vehicle.VehicleType)
-  id: '#ctor(System.Guid,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Vehicle.VehicleType)'
+- uid: TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Vector2,TinyLife.Objects.Vehicle.VehicleType)
+  commentId: M:TinyLife.Objects.Vehicle.#ctor(System.Guid,TinyLife.World.Map,Vector2,TinyLife.Objects.Vehicle.VehicleType)
+  id: '#ctor(System.Guid,TinyLife.World.Map,Vector2,TinyLife.Objects.Vehicle.VehicleType)'
   parent: TinyLife.Objects.Vehicle
   langs:
   - csharp
   - vb
   name: Vehicle(Guid, Map, Vector2, Vehicle.VehicleType)
   nameWithType: Vehicle.Vehicle(Guid, Map, Vector2, Vehicle.VehicleType)
-  fullName: TinyLife.Objects.Vehicle.Vehicle(System.Guid, TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, TinyLife.Objects.Vehicle.VehicleType)
+  fullName: TinyLife.Objects.Vehicle.Vehicle(System.Guid, TinyLife.World.Map, Vector2, TinyLife.Objects.Vehicle.VehicleType)
   type: Constructor
   source:
     remote:
@@ -244,7 +247,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 39
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -257,7 +260,7 @@ items:
     - id: map
       type: TinyLife.World.Map
     - id: position
-      type: Microsoft.Xna.Framework.Vector2
+      type: Vector2
     - id: type
       type: TinyLife.Objects.Vehicle.VehicleType
     content.vb: Public Sub New(id As Guid, map As Map, position As Vector2, type As Vehicle.VehicleType)
@@ -284,7 +287,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateDriving
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 58
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -325,7 +328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSpeed
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 81
+    startLine: 78
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -344,16 +347,16 @@ items:
   modifiers.vb:
   - Public
   - Overridable
-- uid: TinyLife.Objects.Vehicle.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Objects.Vehicle.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+- uid: TinyLife.Objects.Vehicle.Update(GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Objects.Vehicle.Update(GameTime,System.TimeSpan,System.Single)
+  id: Update(GameTime,System.TimeSpan,System.Single)
   parent: TinyLife.Objects.Vehicle
   langs:
   - csharp
   - vb
   name: Update(GameTime, TimeSpan, Single)
   nameWithType: Vehicle.Update(GameTime, TimeSpan, Single)
-  fullName: TinyLife.Objects.Vehicle.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
+  fullName: TinyLife.Objects.Vehicle.Update(GameTime, System.TimeSpan, System.Single)
   type: Method
   source:
     remote:
@@ -362,17 +365,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 90
+    startLine: 87
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe update method, which is called every update frame by the underlying <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nThe update method, which is called every update frame by the underlying <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref>.\nTo call this method while invoking all required events, use <xref href=\"TinyLife.Objects.MapObject.DoUpdate(GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public virtual void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
     - id: time
-      type: Microsoft.Xna.Framework.GameTime
+      type: GameTime
       description: The game&apos;s time
     - id: passedInGame
       type: System.TimeSpan
@@ -383,23 +386,23 @@ items:
     content.vb: Public Overridable Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
   overload: TinyLife.Objects.Vehicle.Update*
   implements:
-  - TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.IUpdatingObject.Update(GameTime,System.TimeSpan,System.Single)
   modifiers.csharp:
   - public
   - virtual
   modifiers.vb:
   - Public
   - Overridable
-- uid: TinyLife.Objects.Vehicle.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-  commentId: M:TinyLife.Objects.Vehicle.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
+- uid: TinyLife.Objects.Vehicle.Draw(GameTime,SpriteBatch,Vector2,System.Nullable{Color})
+  commentId: M:TinyLife.Objects.Vehicle.Draw(GameTime,SpriteBatch,Vector2,System.Nullable{Color})
+  id: Draw(GameTime,SpriteBatch,Vector2,System.Nullable{Color})
   parent: TinyLife.Objects.Vehicle
   langs:
   - csharp
   - vb
   name: Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
   nameWithType: Vehicle.Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
-  fullName: TinyLife.Objects.Vehicle.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable<Microsoft.Xna.Framework.Color>)
+  fullName: TinyLife.Objects.Vehicle.Draw(GameTime, SpriteBatch, Vector2, System.Nullable<Color>)
   type: Method
   source:
     remote:
@@ -408,29 +411,23 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 96
+    startLine: 93
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nDraws this object on the current <xref href=\"TinyLife.Objects.MapObject.Map\" data-throw-if-not-resolved=\"false\"></xref>, at the current <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Draw(GameTime time, SpriteBatch batch, Vector2 drawPos, Color? overrideColor)
     parameters:
     - id: time
-      type: Microsoft.Xna.Framework.GameTime
-      description: The current time
+      type: GameTime
     - id: batch
-      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
-      description: The sprite batch to use for drawing
+      type: SpriteBatch
     - id: drawPos
-      type: Microsoft.Xna.Framework.Vector2
-      description: The position, in draw space, to draw this furniture at
+      type: Vector2
     - id: overrideColor
-      type: System.Nullable{Microsoft.Xna.Framework.Color}
-      description: The color that should be used instead of this object&apos;s actual color. If null, the object&apos;s regular color should be used.
+      type: System.Nullable{Color}
     content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, drawPos As Vector2, overrideColor As Color?)
-  overridden: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
   overload: TinyLife.Objects.Vehicle.Draw*
   nameWithType.vb: Vehicle.Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
   modifiers.csharp:
@@ -439,7 +436,7 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-  fullName.vb: TinyLife.Objects.Vehicle.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable(Of Microsoft.Xna.Framework.Color))
+  fullName.vb: TinyLife.Objects.Vehicle.Draw(GameTime, SpriteBatch, Vector2, System.Nullable(Of Color))
   name.vb: Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
 - uid: TinyLife.Objects.Vehicle.Validate
   commentId: M:TinyLife.Objects.Vehicle.Validate
@@ -459,7 +456,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 105
+    startLine: 102
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -497,7 +494,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCameraRotationChanged
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 111
+    startLine: 108
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -539,7 +536,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRemoved
     path: ../TinyLife/Objects/Vehicle.cs
-    startLine: 117
+    startLine: 114
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -643,6 +640,12 @@ references:
   name: ParentInfo
   nameWithType: MapObject.ParentInfo
   fullName: TinyLife.Objects.MapObject.ParentInfo
+- uid: TinyLife.Objects.MapObject.Visibility
+  commentId: P:TinyLife.Objects.MapObject.Visibility
+  parent: TinyLife.Objects.MapObject
+  name: Visibility
+  nameWithType: MapObject.Visibility
+  fullName: TinyLife.Objects.MapObject.Visibility
 - uid: TinyLife.Objects.MapObject.Id
   commentId: P:TinyLife.Objects.MapObject.Id
   parent: TinyLife.Objects.MapObject
@@ -673,6 +676,118 @@ references:
   name: IsInWorld
   nameWithType: MapObject.IsInWorld
   fullName: TinyLife.Objects.MapObject.IsInWorld
+- uid: TinyLife.Objects.MapObject.Draw(GameTime,SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Color})
+  commentId: M:TinyLife.Objects.MapObject.Draw(GameTime,SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Color})
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
+  nameWithType: MapObject.Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
+  fullName: TinyLife.Objects.MapObject.Draw(GameTime, SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable<Color>)
+  nameWithType.vb: MapObject.Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
+  fullName.vb: TinyLife.Objects.MapObject.Draw(GameTime, SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable(Of Color))
+  name.vb: Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.Draw(GameTime,SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Color})
+    name: Draw
+    nameWithType: MapObject.Draw
+    fullName: TinyLife.Objects.MapObject.Draw
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SpriteBatch
+    name: SpriteBatch
+    nameWithType: SpriteBatch
+    fullName: SpriteBatch
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Color
+    name: Color
+    nameWithType: Color
+    fullName: Color
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.Draw(GameTime,SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Color})
+    name: Draw
+    nameWithType: MapObject.Draw
+    fullName: TinyLife.Objects.MapObject.Draw
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SpriteBatch
+    name: SpriteBatch
+    nameWithType: SpriteBatch
+    fullName: SpriteBatch
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    nameWithType: Vector2
+    fullName: Microsoft.Xna.Framework.Vector2
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Color
+    name: Color
+    nameWithType: Color
+    fullName: Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
   commentId: M:TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
   parent: TinyLife.Objects.MapObject
@@ -1015,15 +1130,15 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  commentId: M:TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+- uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,GameTime,System.TimeSpan,System.Single,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,GameTime,System.TimeSpan,System.Single,System.Boolean)
   parent: TinyLife.Objects.MapObject
   isExternal: true
   name: ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
   nameWithType: MapObject.ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
-  fullName: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single, System.Boolean)
+  fullName: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action, GameTime, System.TimeSpan, System.Single, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,GameTime,System.TimeSpan,System.Single,System.Boolean)
     name: ActionUpdate
     nameWithType: MapObject.ActionUpdate
     fullName: TinyLife.Objects.MapObject.ActionUpdate
@@ -1037,10 +1152,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1070,7 +1185,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,GameTime,System.TimeSpan,System.Single,System.Boolean)
     name: ActionUpdate
     nameWithType: MapObject.ActionUpdate
     fullName: TinyLife.Objects.MapObject.ActionUpdate
@@ -1084,10 +1199,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1113,34 +1228,6 @@ references:
     nameWithType: Boolean
     fullName: System.Boolean
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Objects.MapObject.GetVisibility
-  commentId: M:TinyLife.Objects.MapObject.GetVisibility
-  parent: TinyLife.Objects.MapObject
-  name: GetVisibility()
-  nameWithType: MapObject.GetVisibility()
-  fullName: TinyLife.Objects.MapObject.GetVisibility()
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.GetVisibility
-    name: GetVisibility
-    nameWithType: MapObject.GetVisibility
-    fullName: TinyLife.Objects.MapObject.GetVisibility
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.GetVisibility
-    name: GetVisibility
-    nameWithType: MapObject.GetVisibility
-    fullName: TinyLife.Objects.MapObject.GetVisibility
-  - name: (
-    nameWithType: (
-    fullName: (
   - name: )
     nameWithType: )
     fullName: )
@@ -1458,15 +1545,198 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+- uid: TinyLife.Objects.MapObject.DoDraw(GameTime,SpriteBatch,System.Nullable{Color},System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.DoDraw(GameTime,SpriteBatch,System.Nullable{Color},System.Boolean)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: DoDraw(GameTime, SpriteBatch, Nullable<Color>, Boolean)
+  nameWithType: MapObject.DoDraw(GameTime, SpriteBatch, Nullable<Color>, Boolean)
+  fullName: TinyLife.Objects.MapObject.DoDraw(GameTime, SpriteBatch, System.Nullable<Color>, System.Boolean)
+  nameWithType.vb: MapObject.DoDraw(GameTime, SpriteBatch, Nullable(Of Color), Boolean)
+  fullName.vb: TinyLife.Objects.MapObject.DoDraw(GameTime, SpriteBatch, System.Nullable(Of Color), System.Boolean)
+  name.vb: DoDraw(GameTime, SpriteBatch, Nullable(Of Color), Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.DoDraw(GameTime,SpriteBatch,System.Nullable{Color},System.Boolean)
+    name: DoDraw
+    nameWithType: MapObject.DoDraw
+    fullName: TinyLife.Objects.MapObject.DoDraw
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SpriteBatch
+    name: SpriteBatch
+    nameWithType: SpriteBatch
+    fullName: SpriteBatch
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Color
+    name: Color
+    nameWithType: Color
+    fullName: Color
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.DoDraw(GameTime,SpriteBatch,System.Nullable{Color},System.Boolean)
+    name: DoDraw
+    nameWithType: MapObject.DoDraw
+    fullName: TinyLife.Objects.MapObject.DoDraw
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: SpriteBatch
+    name: SpriteBatch
+    nameWithType: SpriteBatch
+    fullName: SpriteBatch
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Nullable`1
+    name: Nullable
+    nameWithType: Nullable
+    fullName: System.Nullable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Color
+    name: Color
+    nameWithType: Color
+    fullName: Color
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.MapObject.DoUpdate(GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Objects.MapObject.DoUpdate(GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: DoUpdate(GameTime, TimeSpan, Single)
+  nameWithType: MapObject.DoUpdate(GameTime, TimeSpan, Single)
+  fullName: TinyLife.Objects.MapObject.DoUpdate(GameTime, System.TimeSpan, System.Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.DoUpdate(GameTime,System.TimeSpan,System.Single)
+    name: DoUpdate
+    nameWithType: MapObject.DoUpdate
+    fullName: TinyLife.Objects.MapObject.DoUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.DoUpdate(GameTime,System.TimeSpan,System.Single)
+    name: DoUpdate
+    nameWithType: MapObject.DoUpdate
+    fullName: TinyLife.Objects.MapObject.DoUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Color,System.Single,Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Color,System.Single,Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
   parent: TinyLife.Objects.MapObject
   isExternal: true
   name: DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
   nameWithType: MapObject.DrawColumns(Map, Vector2, SpriteBatch, Vector2, TextureRegion, Color, Single, Point, Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
-  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, System.Single, Microsoft.Xna.Framework.Point, System.Boolean, TinyLife.Objects.ParentInfo, System.Single, Microsoft.Xna.Framework.Graphics.SpriteEffects, System.Boolean, System.Boolean, System.Boolean)
+  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, SpriteBatch, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Color, System.Single, Point, System.Boolean, TinyLife.Objects.ParentInfo, System.Single, SpriteEffects, System.Boolean, System.Boolean, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Color,System.Single,Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
     nameWithType: MapObject.DrawColumns
     fullName: TinyLife.Objects.MapObject.DrawColumns
@@ -1488,10 +1758,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+  - uid: SpriteBatch
     name: SpriteBatch
     nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    fullName: SpriteBatch
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1512,10 +1782,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1528,10 +1798,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Point
+  - uid: Point
     name: Point
     nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
+    fullName: Point
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1559,10 +1829,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteEffects
+  - uid: SpriteEffects
     name: SpriteEffects
     nameWithType: SpriteEffects
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteEffects
+    fullName: SpriteEffects
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1592,7 +1862,7 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,SpriteBatch,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Color,System.Single,Point,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
     nameWithType: MapObject.DrawColumns
     fullName: TinyLife.Objects.MapObject.DrawColumns
@@ -1614,10 +1884,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+  - uid: SpriteBatch
     name: SpriteBatch
     nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    fullName: SpriteBatch
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1638,10 +1908,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1654,10 +1924,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Point
+  - uid: Point
     name: Point
     nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
+    fullName: Point
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -1685,10 +1955,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteEffects
+  - uid: SpriteEffects
     name: SpriteEffects
     nameWithType: SpriteEffects
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteEffects
+    fullName: SpriteEffects
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -2295,24 +2565,16 @@ references:
   name: Map
   nameWithType: Map
   fullName: TinyLife.World.Map
-- uid: Microsoft.Xna.Framework.Vector2
-  commentId: T:Microsoft.Xna.Framework.Vector2
-  parent: Microsoft.Xna.Framework
+- uid: Vector2
   isExternal: true
   name: Vector2
   nameWithType: Vector2
-  fullName: Microsoft.Xna.Framework.Vector2
+  fullName: Vector2
 - uid: TinyLife.World
   commentId: N:TinyLife.World
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
-- uid: Microsoft.Xna.Framework
-  commentId: N:Microsoft.Xna.Framework
-  isExternal: true
-  name: Microsoft.Xna.Framework
-  nameWithType: Microsoft.Xna.Framework
-  fullName: Microsoft.Xna.Framework
 - uid: TinyLife.Actions.PathfindAction
   commentId: T:TinyLife.Actions.PathfindAction
   parent: TinyLife.Actions
@@ -2355,25 +2617,25 @@ references:
   name: Update
   nameWithType: Vehicle.Update
   fullName: TinyLife.Objects.Vehicle.Update
-- uid: TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+- uid: TinyLife.Objects.IUpdatingObject.Update(GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Objects.IUpdatingObject.Update(GameTime,System.TimeSpan,System.Single)
   parent: TinyLife.Objects.IUpdatingObject
   isExternal: true
   name: Update(GameTime, TimeSpan, Single)
   nameWithType: IUpdatingObject.Update(GameTime, TimeSpan, Single)
-  fullName: TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
+  fullName: TinyLife.Objects.IUpdatingObject.Update(GameTime, System.TimeSpan, System.Single)
   spec.csharp:
-  - uid: TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - uid: TinyLife.Objects.IUpdatingObject.Update(GameTime,System.TimeSpan,System.Single)
     name: Update
     nameWithType: IUpdatingObject.Update
     fullName: TinyLife.Objects.IUpdatingObject.Update
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -2395,17 +2657,17 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - uid: TinyLife.Objects.IUpdatingObject.Update(GameTime,System.TimeSpan,System.Single)
     name: Update
     nameWithType: IUpdatingObject.Update
     fullName: TinyLife.Objects.IUpdatingObject.Update
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
@@ -2426,13 +2688,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: Microsoft.Xna.Framework.GameTime
-  commentId: T:Microsoft.Xna.Framework.GameTime
-  parent: Microsoft.Xna.Framework
+- uid: GameTime
   isExternal: true
   name: GameTime
   nameWithType: GameTime
-  fullName: Microsoft.Xna.Framework.GameTime
+  fullName: GameTime
 - uid: System.TimeSpan
   commentId: T:System.TimeSpan
   parent: System
@@ -2440,139 +2700,25 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
-- uid: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-  commentId: M:TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-  parent: TinyLife.Objects.MapObject
-  isExternal: true
-  name: Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
-  nameWithType: MapObject.Draw(GameTime, SpriteBatch, Vector2, Nullable<Color>)
-  fullName: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable<Microsoft.Xna.Framework.Color>)
-  nameWithType.vb: MapObject.Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
-  fullName.vb: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, System.Nullable(Of Microsoft.Xna.Framework.Color))
-  name.vb: Draw(GameTime, SpriteBatch, Vector2, Nullable(Of Color))
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-    name: Draw
-    nameWithType: MapObject.Draw
-    fullName: TinyLife.Objects.MapObject.Draw
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color})
-    name: Draw
-    nameWithType: MapObject.Draw
-    fullName: TinyLife.Objects.MapObject.Draw
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    nameWithType: Vector2
-    fullName: Microsoft.Xna.Framework.Vector2
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Objects.Vehicle.Draw*
   commentId: Overload:TinyLife.Objects.Vehicle.Draw
   name: Draw
   nameWithType: Vehicle.Draw
   fullName: TinyLife.Objects.Vehicle.Draw
-- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
-  parent: Microsoft.Xna.Framework.Graphics
+- uid: SpriteBatch
   isExternal: true
   name: SpriteBatch
   nameWithType: SpriteBatch
-  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-- uid: System.Nullable{Microsoft.Xna.Framework.Color}
-  commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
+  fullName: SpriteBatch
+- uid: System.Nullable{Color}
+  commentId: T:System.Nullable{Color}
   parent: System
   definition: System.Nullable`1
   name: Nullable<Color>
   nameWithType: Nullable<Color>
-  fullName: System.Nullable<Microsoft.Xna.Framework.Color>
+  fullName: System.Nullable<Color>
   nameWithType.vb: Nullable(Of Color)
-  fullName.vb: System.Nullable(Of Microsoft.Xna.Framework.Color)
+  fullName.vb: System.Nullable(Of Color)
   name.vb: Nullable(Of Color)
   spec.csharp:
   - uid: System.Nullable`1
@@ -2583,10 +2729,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: '>'
     nameWithType: '>'
@@ -2600,20 +2746,14 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
   isExternal: true

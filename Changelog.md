@@ -1,3 +1,46 @@
+# 0.24.0
+![](media/changelog/0.24.0.png)
+
+> Undo, Redo, Fridge Achievements
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/409590/0240-undo-redo-fridge-achievements) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3370399657483457677).
+
+Additions
+- Added the ability to store leftovers in the fridge
+- Added the ability to undo and redo actions in build mode
+- Added achievements
+- Added a paper lantern furniture item
+- Added the reasoning skill
+- Added some facial hair
+- Added the ability to adopt children using the computer
+
+Improvements
+- Display a notification when first acquiring a new skill
+- Display a button in the job panel for going to work
+- Clarify when you can click on a person to head to work
+- Randomly generate new people for regular visitors and lot employments if exported ones run out
+- Allow children to be regular visitors too
+- Added a lot more random names, including various international ones
+- Improved performance of saves with a lot of people in them
+- Automatically set transitive genealogies when changing the genealogy of a relationship in the character creator
+
+Fixes
+- Fixed an exception when getting a job from a newspaper after it has already been removed
+- Fixed lot employment navigation on lots being incorrect when using a gamepad
+- Fixed new notifications not being added to the top of the notification queue
+- Fixed a rare exception when displaying interactions with multiple pages
+- Fixed death notifications not having an icon
+- Fixed keyboard camera movement not clearing the following person
+- Fixed children being able to get the capable carpenter life goal
+- Fixed ordering from lot staff not working correctly
+- Fixed being unable to click in the world when the cheats menu is open
+
+API
+- Objects in a person's hand or in the household storage will now also have their Update methods called
+- Improved auto-goal triggering system
+- Added the ability to change an action spot's main direction
+- Made time a map-based property rather than a game-based one
+
 # 0.23.0
 ![](media/changelog/0.23.0.png)
 

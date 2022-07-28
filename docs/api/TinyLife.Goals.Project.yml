@@ -6,12 +6,14 @@ items:
   parent: TinyLife.Goals
   children:
   - TinyLife.Goals.Project.#ctor(TinyLife.Objects.Person,System.String,System.String)
+  - TinyLife.Goals.Project.Completed
   - TinyLife.Goals.Project.CreateActions(TinyLife.Goals.Project.ActionSettings)
   - TinyLife.Goals.Project.DailyPay
   - TinyLife.Goals.Project.DailyPayReductionFactor
   - TinyLife.Goals.Project.GetVarieties(TinyLife.Actions.ActionInfo,System.String,System.Predicate{TinyLife.Goals.Project},System.Func{TinyLife.Goals.Project,System.String})
   - TinyLife.Goals.Project.MakeProgress(System.Single,System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Goals.Project.Name
+  - TinyLife.Goals.Project.OnCompleted
   - TinyLife.Goals.Project.OnNewDay
   - TinyLife.Goals.Project.OpenNamePrompt(TinyLife.Actions.Typeless.TypelessAction,System.String,System.Action{TinyLife.Goals.Project},System.String)
   - TinyLife.Goals.Project.OpenScrapPrompt(TinyLife.Actions.Typeless.TypelessAction,System.String,System.String,System.Action)
@@ -148,7 +150,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe name of this project, which is usually user-entered using <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nThe name of this project, which is usually user-entered using <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String%2cMLEM.Textures.TextureRegion)\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: >-
@@ -240,33 +242,21 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe progress of this project, which can be an arbitrary number.\nMost projects in the default game use a progress between 0 and 1 or between 0 and 100.\n"
+  summary: "\nThe progress of this project, which can be an arbitrary number.\nMost projects in the default game use a progress between 0 and 100, at which point <xref href=\"TinyLife.Goals.Project.Completed\" data-throw-if-not-resolved=\"false\"></xref> will also return true by default.\n"
   example: []
   syntax:
-    content: >-
-      [DataMember]
-
-      public float Progress { get; protected set; }
+    content: public float Progress { get; set; }
     parameters: []
     return:
       type: System.Single
-    content.vb: >-
-      <DataMember>
-
-      Public Property Progress As Single
+    content.vb: Public Property Progress As Single
   overload: TinyLife.Goals.Project.Progress*
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
   modifiers.csharp:
   - public
   - get
-  - protected set
+  - set
   modifiers.vb:
   - Public
-  - Get
-  - Protected Set
 - uid: TinyLife.Goals.Project.DailyPay
   commentId: P:TinyLife.Goals.Project.DailyPay
   id: DailyPay
@@ -285,7 +275,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DailyPay
     path: ../TinyLife/Goals/Project.cs
-    startLine: 49
+    startLine: 56
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -338,7 +328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DailyPayReductionFactor
     path: ../TinyLife/Goals/Project.cs
-    startLine: 55
+    startLine: 62
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -391,7 +381,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Person
     path: ../TinyLife/Goals/Project.cs
-    startLine: 60
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -412,6 +402,45 @@ items:
   - Public
   - Get
   - Protected Set
+- uid: TinyLife.Goals.Project.Completed
+  commentId: P:TinyLife.Goals.Project.Completed
+  id: Completed
+  parent: TinyLife.Goals.Project
+  langs:
+  - csharp
+  - vb
+  name: Completed
+  nameWithType: Project.Completed
+  fullName: TinyLife.Goals.Project.Completed
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/Project.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Completed
+    path: ../TinyLife/Goals/Project.cs
+    startLine: 72
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nReturns whether this project is completed.\nFor default projects, this returns whether <xref href=\"TinyLife.Goals.Project.Progress\" data-throw-if-not-resolved=\"false\"></xref> is greater than or equal to 100.\n"
+  example: []
+  syntax:
+    content: public virtual bool Completed { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable ReadOnly Property Completed As Boolean
+  overload: TinyLife.Goals.Project.Completed*
+  modifiers.csharp:
+  - public
+  - virtual
+  - get
+  modifiers.vb:
+  - Public
+  - Overridable
+  - ReadOnly
 - uid: TinyLife.Goals.Project.#ctor(TinyLife.Objects.Person,System.String,System.String)
   commentId: M:TinyLife.Goals.Project.#ctor(TinyLife.Objects.Person,System.String,System.String)
   id: '#ctor(TinyLife.Objects.Person,System.String,System.String)'
@@ -430,7 +459,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Goals/Project.cs
-    startLine: 68
+    startLine: 83
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -472,7 +501,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Goals/Project.cs
-    startLine: 79
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -513,7 +542,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MakeProgress
     path: ../TinyLife/Goals/Project.cs
-    startLine: 92
+    startLine: 107
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -563,7 +592,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Remove
     path: ../TinyLife/Goals/Project.cs
-    startLine: 99
+    startLine: 114
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -597,7 +626,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnNewDay
     path: ../TinyLife/Goals/Project.cs
-    startLine: 106
+    startLine: 121
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -612,6 +641,40 @@ items:
   - virtual
   modifiers.vb:
   - Public
+  - Overridable
+- uid: TinyLife.Goals.Project.OnCompleted
+  commentId: M:TinyLife.Goals.Project.OnCompleted
+  id: OnCompleted
+  parent: TinyLife.Goals.Project
+  langs:
+  - csharp
+  - vb
+  name: OnCompleted()
+  nameWithType: Project.OnCompleted()
+  fullName: TinyLife.Goals.Project.OnCompleted()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/Project.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnCompleted
+    path: ../TinyLife/Goals/Project.cs
+    startLine: 134
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA method called automatically when <xref href=\"TinyLife.Goals.Project.Completed\" data-throw-if-not-resolved=\"false\"></xref> turns to <xref uid=\"langword_csharp_true\" name=\"true\" href=\"\"></xref> after <xref href=\"TinyLife.Goals.Project.Progress\" data-throw-if-not-resolved=\"false\"></xref> changes.\nNote that, if <xref href=\"TinyLife.Goals.Project.Completed\" data-throw-if-not-resolved=\"false\"></xref> has a custom implementation, this method will respect that.\n"
+  example: []
+  syntax:
+    content: protected virtual void OnCompleted()
+    content.vb: Protected Overridable Sub OnCompleted
+  overload: TinyLife.Goals.Project.OnCompleted*
+  modifiers.csharp:
+  - protected
+  - virtual
+  modifiers.vb:
+  - Protected
   - Overridable
 - uid: TinyLife.Goals.Project.SetDailyPay(System.Single,System.Single,System.Boolean)
   commentId: M:TinyLife.Goals.Project.SetDailyPay(System.Single,System.Single,System.Boolean)
@@ -631,7 +694,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetDailyPay
     path: ../TinyLife/Goals/Project.cs
-    startLine: 122
+    startLine: 145
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -673,7 +736,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateActions
     path: ../TinyLife/Goals/Project.cs
-    startLine: 137
+    startLine: 160
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -714,7 +777,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVarieties
     path: ../TinyLife/Goals/Project.cs
-    startLine: 176
+    startLine: 199
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -767,11 +830,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenNamePrompt
     path: ../TinyLife/Goals/Project.cs
-    startLine: 190
+    startLine: 213
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nA helper method that uses <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref> to open a prompt that the player can enter a project name in when starting a new project.\nAdditionally, a (random or single) <code data-dev-comment-type=\"paramref\" class=\"paramref\">defaultName</code> can be specified to fill the text field by default.\n"
+  summary: "\nA helper method that uses <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String%2cMLEM.Textures.TextureRegion)\" data-throw-if-not-resolved=\"false\"></xref> to open a prompt that the player can enter a project name in when starting a new project.\nAdditionally, a (random or single) <code data-dev-comment-type=\"paramref\" class=\"paramref\">defaultName</code> can be specified to fill the text field by default.\n"
   example: []
   syntax:
     content: public static void OpenNamePrompt(TypelessAction action, string type, Action<Project> onNameChosen, string defaultName = null)
@@ -817,11 +880,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenScrapPrompt
     path: ../TinyLife/Goals/Project.cs
-    startLine: 204
+    startLine: 227
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nA helper method that uses <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String)\" data-throw-if-not-resolved=\"false\"></xref> to open a prompt for when a project should be scrapped by a player.\n"
+  summary: "\nA helper method that uses <xref href=\"TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String%2cMLEM.Textures.TextureRegion)\" data-throw-if-not-resolved=\"false\"></xref> to open a prompt for when a project should be scrapped by a player.\n"
   example: []
   syntax:
     content: public static void OpenScrapPrompt(TypelessAction action, string type, string name, Action onScrapped = null)
@@ -1402,18 +1465,18 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
-  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+- uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
+  commentId: M:TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
   parent: TinyLife.Actions.Typeless.TypelessAction
   isExternal: true
-  name: OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String)
-  nameWithType: TypelessAction.OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String)
-  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action<System.String>, System.Predicate<System.String>, MLEM.Ui.Elements.TextField.Rule, System.String)
-  nameWithType.vb: TypelessAction.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String)
-  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action(Of System.String), System.Predicate(Of System.String), MLEM.Ui.Elements.TextField.Rule, System.String)
-  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String)
+  name: OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String, TextureRegion)
+  nameWithType: TypelessAction.OpenTextPrompt(String, Action<String>, Predicate<String>, TextField.Rule, String, TextureRegion)
+  fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action<System.String>, System.Predicate<System.String>, MLEM.Ui.Elements.TextField.Rule, System.String, MLEM.Textures.TextureRegion)
+  nameWithType.vb: TypelessAction.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, TextureRegion)
+  fullName.vb: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String, System.Action(Of System.String), System.Predicate(Of System.String), MLEM.Ui.Elements.TextField.Rule, System.String, MLEM.Textures.TextureRegion)
+  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, TextureRegion)
   spec.csharp:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
     name: OpenTextPrompt
     nameWithType: TypelessAction.OpenTextPrompt
     fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
@@ -1478,12 +1541,20 @@ references:
     name: String
     nameWithType: String
     fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Textures.TextureRegion
+    name: TextureRegion
+    nameWithType: TextureRegion
+    fullName: MLEM.Textures.TextureRegion
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String)
+  - uid: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
     name: OpenTextPrompt
     nameWithType: TypelessAction.OpenTextPrompt
     fullName: TinyLife.Actions.Typeless.TypelessAction.OpenTextPrompt
@@ -1548,6 +1619,14 @@ references:
     name: String
     nameWithType: String
     fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Textures.TextureRegion
+    name: TextureRegion
+    nameWithType: TextureRegion
+    fullName: MLEM.Textures.TextureRegion
     isExternal: true
   - name: )
     nameWithType: )
@@ -1577,6 +1656,9 @@ references:
   name: TinyLife.Skills
   nameWithType: TinyLife.Skills
   fullName: TinyLife.Skills
+- uid: TinyLife.Goals.Project.Completed
+  commentId: P:TinyLife.Goals.Project.Completed
+  isExternal: true
 - uid: TinyLife.Goals.Project.Progress*
   commentId: Overload:TinyLife.Goals.Project.Progress
   name: Progress
@@ -1616,6 +1698,21 @@ references:
   name: Person
   nameWithType: Person
   fullName: TinyLife.Objects.Person
+- uid: TinyLife.Goals.Project.Progress
+  commentId: P:TinyLife.Goals.Project.Progress
+  isExternal: true
+- uid: TinyLife.Goals.Project.Completed*
+  commentId: Overload:TinyLife.Goals.Project.Completed
+  name: Completed
+  nameWithType: Project.Completed
+  fullName: TinyLife.Goals.Project.Completed
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: TinyLife.Goals.Project.#ctor*
   commentId: Overload:TinyLife.Goals.Project.#ctor
   name: Project
@@ -1626,16 +1723,6 @@ references:
   name: Validate
   nameWithType: Project.Validate
   fullName: TinyLife.Goals.Project.Validate
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
-- uid: TinyLife.Goals.Project.Progress
-  commentId: P:TinyLife.Goals.Project.Progress
-  isExternal: true
 - uid: TinyLife.Skills.Skill
   commentId: T:TinyLife.Skills.Skill
   name: Skill
@@ -1682,6 +1769,11 @@ references:
   name: OnNewDay
   nameWithType: Project.OnNewDay
   fullName: TinyLife.Goals.Project.OnNewDay
+- uid: TinyLife.Goals.Project.OnCompleted*
+  commentId: Overload:TinyLife.Goals.Project.OnCompleted
+  name: OnCompleted
+  nameWithType: Project.OnCompleted
+  fullName: TinyLife.Goals.Project.OnCompleted
 - uid: TinyLife.Goals.Project.Quality
   commentId: F:TinyLife.Goals.Project.Quality
   isExternal: true

@@ -6,6 +6,7 @@ items:
   parent: TinyLife.Goals
   children:
   - TinyLife.Goals.DistinctGoal.#ctor(TinyLife.Goals.GoalSet,TinyLife.Goals.AutoGoalInfo)
+  - TinyLife.Goals.DistinctGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
   - TinyLife.Goals.DistinctGoal.GetDisplayedProgress
   - TinyLife.Goals.DistinctGoal.GetProgress
   - TinyLife.Goals.DistinctGoal.Reset
@@ -32,22 +33,20 @@ items:
   summary: "\nA distinct goal is an auto-triggered goal, intended to be used with <xref href=\"TinyLife.Goals.AutoGoalInfo\" data-throw-if-not-resolved=\"false\"></xref>, that keeps track of a distinct set of objects to be completed or obtained.\nTo trigger all distinct goals in a goal set, use <xref href=\"TinyLife.Goals.DistinctGoal.Trigger(System.Object)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: 'public class DistinctGoal : AutoTriggerGoal<object>, IGenericDataHolder'
+    content: 'public class DistinctGoal : AutoTriggerGoal, IGenericDataHolder'
     content.vb: >-
       Public Class DistinctGoal
-          Inherits AutoTriggerGoal(Of Object)
+          Inherits AutoTriggerGoal
           Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Goals.Goal
-  - TinyLife.Goals.AutoTriggerGoal{System.Object}
+  - TinyLife.Goals.AutoTriggerGoal
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
-  - TinyLife.Goals.AutoTriggerGoal{System.Object}.AutoInfo
-  - TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(TinyLife.Goals.GoalSet,System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
-  - TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
+  - TinyLife.Goals.AutoTriggerGoal.AutoInfo
   - TinyLife.Goals.Goal.Name
   - TinyLife.Goals.Goal.Set
   - TinyLife.Goals.Goal.Info
@@ -250,7 +249,7 @@ items:
       type: System.Boolean
       description: Whether this goal is considered to be valid
     content.vb: Public Overrides Function Validate(set As GoalSet) As Boolean
-  overridden: TinyLife.Goals.AutoTriggerGoal{System.Object}.Validate(TinyLife.Goals.GoalSet)
+  overridden: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
   overload: TinyLife.Goals.DistinctGoal.Validate*
   modifiers.csharp:
   - public
@@ -280,21 +279,70 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nCauses this auto-triggered goal to be triggered.\nThis method is only called if the <xref href=\"TinyLife.Goals.AutoGoalInfo.Condition\" data-throw-if-not-resolved=\"false\"></xref> is met.\n"
+  summary: "\nCauses this auto-triggered goal to be triggered.\nThis method should only be called if <xref href=\"TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object%2cTinyLife.Goals.GoalTrigger%2cSystem.Object)\" data-throw-if-not-resolved=\"false\"></xref> returns <xref uid=\"langword_csharp_true\" name=\"true\" href=\"\"></xref>.\n"
   example: []
   syntax:
-    content: protected override void Trigger(object value)
+    content: public override void Trigger(object value)
     parameters:
     - id: value
       type: System.Object
-    content.vb: Protected Overrides Sub Trigger(value As Object)
-  overridden: TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Object)
+      description: The value to trigger.
+    content.vb: Public Overrides Sub Trigger(value As Object)
+  overridden: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
   overload: TinyLife.Goals.DistinctGoal.Trigger*
   modifiers.csharp:
-  - protected
+  - public
   - override
   modifiers.vb:
-  - Protected
+  - Public
+  - Overrides
+- uid: TinyLife.Goals.DistinctGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  commentId: M:TinyLife.Goals.DistinctGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  id: CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  parent: TinyLife.Goals.DistinctGoal
+  langs:
+  - csharp
+  - vb
+  name: CanTrigger(Object, GoalTrigger, Object)
+  nameWithType: DistinctGoal.CanTrigger(Object, GoalTrigger, Object)
+  fullName: TinyLife.Goals.DistinctGoal.CanTrigger(System.Object, TinyLife.Goals.GoalTrigger, System.Object)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/DistinctGoal.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CanTrigger
+    path: ../TinyLife/Goals/DistinctGoal.cs
+    startLine: 56
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nReturns whether this auto-triggered goal can currently be triggered.\nIf this method returns <xref uid=\"langword_csharp_true\" name=\"true\" href=\"\"></xref>, <xref href=\"TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)\" data-throw-if-not-resolved=\"false\"></xref> should always cause a change in this goal.\n"
+  example: []
+  syntax:
+    content: public override bool CanTrigger(object obj, GoalTrigger trigger, object value)
+    parameters:
+    - id: obj
+      type: System.Object
+      description: The object that is triggering this goal.
+    - id: trigger
+      type: TinyLife.Goals.GoalTrigger
+      description: The type of goal trigger that is triggering this goal.
+    - id: value
+      type: System.Object
+      description: The value to trigger, which will be passed to <xref href="TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)" data-throw-if-not-resolved="false"></xref>.
+    return:
+      type: System.Boolean
+      description: Whether this goal can be triggered right now.
+    content.vb: Public Overrides Function CanTrigger(obj As Object, trigger As GoalTrigger, value As Object) As Boolean
+  overridden: TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  overload: TinyLife.Goals.DistinctGoal.CanTrigger*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
   - Overrides
 references:
 - uid: TinyLife.Goals.AutoGoalInfo
@@ -331,48 +379,12 @@ references:
   name: Goal
   nameWithType: Goal
   fullName: TinyLife.Goals.Goal
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  commentId: T:TinyLife.Goals.AutoTriggerGoal{System.Object}
+- uid: TinyLife.Goals.AutoTriggerGoal
+  commentId: T:TinyLife.Goals.AutoTriggerGoal
   parent: TinyLife.Goals
-  definition: TinyLife.Goals.AutoTriggerGoal`1
-  name: AutoTriggerGoal<Object>
-  nameWithType: AutoTriggerGoal<Object>
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>
-  nameWithType.vb: AutoTriggerGoal(Of Object)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object)
-  name.vb: AutoTriggerGoal(Of Object)
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1
-    name: AutoTriggerGoal
-    nameWithType: AutoTriggerGoal
-    fullName: TinyLife.Goals.AutoTriggerGoal
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1
-    name: AutoTriggerGoal
-    nameWithType: AutoTriggerGoal
-    fullName: TinyLife.Goals.AutoTriggerGoal
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
+  name: AutoTriggerGoal
+  nameWithType: AutoTriggerGoal
+  fullName: TinyLife.Goals.AutoTriggerGoal
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -380,221 +392,12 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}.AutoInfo
-  commentId: F:TinyLife.Goals.AutoTriggerGoal{System.Object}.AutoInfo
-  parent: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  definition: TinyLife.Goals.AutoTriggerGoal`1.AutoInfo
+- uid: TinyLife.Goals.AutoTriggerGoal.AutoInfo
+  commentId: P:TinyLife.Goals.AutoTriggerGoal.AutoInfo
+  parent: TinyLife.Goals.AutoTriggerGoal
   name: AutoInfo
-  nameWithType: AutoTriggerGoal<Object>.AutoInfo
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.AutoInfo
-  nameWithType.vb: AutoTriggerGoal(Of Object).AutoInfo
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object).AutoInfo
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(TinyLife.Goals.GoalSet,System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
-  commentId: M:TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(TinyLife.Goals.GoalSet,System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
-  parent: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  definition: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  name: Trigger(GoalSet, Object, Object, GoalTrigger[])
-  nameWithType: AutoTriggerGoal<Object>.Trigger(GoalSet, Object, Object, GoalTrigger[])
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger(TinyLife.Goals.GoalSet, System.Object, System.Object, TinyLife.Goals.GoalTrigger[])
-  nameWithType.vb: AutoTriggerGoal(Of Object).Trigger(GoalSet, Object, Object, GoalTrigger())
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger(TinyLife.Goals.GoalSet, System.Object, System.Object, TinyLife.Goals.GoalTrigger())
-  name.vb: Trigger(GoalSet, Object, Object, GoalTrigger())
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal<Object>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal(Of Object).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
-  commentId: M:TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,System.Object,TinyLife.Goals.GoalTrigger[])
-  parent: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  definition: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  name: Trigger(IEnumerable<GoalSet>, Object, Object, GoalTrigger[])
-  nameWithType: AutoTriggerGoal<Object>.Trigger(IEnumerable<GoalSet>, Object, Object, GoalTrigger[])
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger(System.Collections.Generic.IEnumerable<TinyLife.Goals.GoalSet>, System.Object, System.Object, TinyLife.Goals.GoalTrigger[])
-  nameWithType.vb: AutoTriggerGoal(Of Object).Trigger(IEnumerable(Of GoalSet), Object, Object, GoalTrigger())
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger(System.Collections.Generic.IEnumerable(Of TinyLife.Goals.GoalSet), System.Object, System.Object, TinyLife.Goals.GoalTrigger())
-  name.vb: Trigger(IEnumerable(Of GoalSet), Object, Object, GoalTrigger())
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal<Object>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal(Of Object).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
+  nameWithType: AutoTriggerGoal.AutoInfo
+  fullName: TinyLife.Goals.AutoTriggerGoal.AutoInfo
 - uid: TinyLife.Goals.Goal.Name
   commentId: F:TinyLife.Goals.Goal.Name
   parent: TinyLife.Goals.Goal
@@ -1068,251 +871,12 @@ references:
   name: MLEM.Data.Json
   nameWithType: MLEM.Data.Json
   fullName: MLEM.Data.Json
-- uid: TinyLife.Goals.AutoTriggerGoal`1
-  commentId: T:TinyLife.Goals.AutoTriggerGoal`1
-  name: AutoTriggerGoal<T>
-  nameWithType: AutoTriggerGoal<T>
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>
-  nameWithType.vb: AutoTriggerGoal(Of T)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T)
-  name.vb: AutoTriggerGoal(Of T)
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1
-    name: AutoTriggerGoal
-    nameWithType: AutoTriggerGoal
-    fullName: TinyLife.Goals.AutoTriggerGoal
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1
-    name: AutoTriggerGoal
-    nameWithType: AutoTriggerGoal
-    fullName: TinyLife.Goals.AutoTriggerGoal
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: MLEM.Misc
   commentId: N:MLEM.Misc
   isExternal: true
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
-- uid: TinyLife.Goals.AutoTriggerGoal`1.AutoInfo
-  commentId: F:TinyLife.Goals.AutoTriggerGoal`1.AutoInfo
-  name: AutoInfo
-  nameWithType: AutoTriggerGoal<T>.AutoInfo
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>.AutoInfo
-  nameWithType.vb: AutoTriggerGoal(Of T).AutoInfo
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T).AutoInfo
-- uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  commentId: M:TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  isExternal: true
-  name: Trigger(GoalSet, Object, T, GoalTrigger[])
-  nameWithType: AutoTriggerGoal<T>.Trigger(GoalSet, Object, T, GoalTrigger[])
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger(TinyLife.Goals.GoalSet, System.Object, T, TinyLife.Goals.GoalTrigger[])
-  nameWithType.vb: AutoTriggerGoal(Of T).Trigger(GoalSet, Object, T, GoalTrigger())
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger(TinyLife.Goals.GoalSet, System.Object, T, TinyLife.Goals.GoalTrigger())
-  name.vb: Trigger(GoalSet, Object, T, GoalTrigger())
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal<T>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(TinyLife.Goals.GoalSet,System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal(Of T).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  commentId: M:TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-  isExternal: true
-  name: Trigger(IEnumerable<GoalSet>, Object, T, GoalTrigger[])
-  nameWithType: AutoTriggerGoal<T>.Trigger(IEnumerable<GoalSet>, Object, T, GoalTrigger[])
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger(System.Collections.Generic.IEnumerable<TinyLife.Goals.GoalSet>, System.Object, T, TinyLife.Goals.GoalTrigger[])
-  nameWithType.vb: AutoTriggerGoal(Of T).Trigger(IEnumerable(Of GoalSet), Object, T, GoalTrigger())
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger(System.Collections.Generic.IEnumerable(Of TinyLife.Goals.GoalSet), System.Object, T, TinyLife.Goals.GoalTrigger())
-  name.vb: Trigger(IEnumerable(Of GoalSet), Object, T, GoalTrigger())
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal<T>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(System.Collections.Generic.IEnumerable{TinyLife.Goals.GoalSet},System.Object,`0,TinyLife.Goals.GoalTrigger[])
-    name: Trigger
-    nameWithType: AutoTriggerGoal(Of T).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Goals.GoalTrigger
-    name: GoalTrigger
-    nameWithType: GoalTrigger
-    fullName: TinyLife.Goals.GoalTrigger
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -1484,20 +1048,17 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}.Validate(TinyLife.Goals.GoalSet)
-  commentId: M:TinyLife.Goals.AutoTriggerGoal{System.Object}.Validate(TinyLife.Goals.GoalSet)
-  parent: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  definition: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
+- uid: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
+  commentId: M:TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
+  parent: TinyLife.Goals.AutoTriggerGoal
   name: Validate(GoalSet)
-  nameWithType: AutoTriggerGoal<Object>.Validate(GoalSet)
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Validate(TinyLife.Goals.GoalSet)
-  nameWithType.vb: AutoTriggerGoal(Of Object).Validate(GoalSet)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Validate(TinyLife.Goals.GoalSet)
+  nameWithType: AutoTriggerGoal.Validate(GoalSet)
+  fullName: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
   spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
+  - uid: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
     name: Validate
-    nameWithType: AutoTriggerGoal<Object>.Validate
-    fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Validate
+    nameWithType: AutoTriggerGoal.Validate
+    fullName: TinyLife.Goals.AutoTriggerGoal.Validate
   - name: (
     nameWithType: (
     fullName: (
@@ -1509,10 +1070,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
+  - uid: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
     name: Validate
-    nameWithType: AutoTriggerGoal(Of Object).Validate
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Validate
+    nameWithType: AutoTriggerGoal.Validate
+    fullName: TinyLife.Goals.AutoTriggerGoal.Validate
   - name: (
     nameWithType: (
     fullName: (
@@ -1535,57 +1096,18 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
-  commentId: M:TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
-  name: Validate(GoalSet)
-  nameWithType: AutoTriggerGoal<T>.Validate(GoalSet)
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>.Validate(TinyLife.Goals.GoalSet)
-  nameWithType.vb: AutoTriggerGoal(Of T).Validate(GoalSet)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T).Validate(TinyLife.Goals.GoalSet)
-  spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
-    name: Validate
-    nameWithType: AutoTriggerGoal<T>.Validate
-    fullName: TinyLife.Goals.AutoTriggerGoal<T>.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Validate(TinyLife.Goals.GoalSet)
-    name: Validate
-    nameWithType: AutoTriggerGoal(Of T).Validate
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of T).Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Object)
-  commentId: M:TinyLife.Goals.AutoTriggerGoal{System.Object}.Trigger(System.Object)
-  parent: TinyLife.Goals.AutoTriggerGoal{System.Object}
-  definition: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
+- uid: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
+  commentId: M:TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
+  parent: TinyLife.Goals.AutoTriggerGoal
+  isExternal: true
   name: Trigger(Object)
-  nameWithType: AutoTriggerGoal<Object>.Trigger(Object)
-  fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger(System.Object)
-  nameWithType.vb: AutoTriggerGoal(Of Object).Trigger(Object)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger(System.Object)
+  nameWithType: AutoTriggerGoal.Trigger(Object)
+  fullName: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
   spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
+  - uid: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
     name: Trigger
-    nameWithType: AutoTriggerGoal<Object>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<System.Object>.Trigger
+    nameWithType: AutoTriggerGoal.Trigger
+    fullName: TinyLife.Goals.AutoTriggerGoal.Trigger
   - name: (
     nameWithType: (
     fullName: (
@@ -1598,10 +1120,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
+  - uid: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
     name: Trigger
-    nameWithType: AutoTriggerGoal(Of Object).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of System.Object).Trigger
+    nameWithType: AutoTriggerGoal.Trigger
+    fullName: TinyLife.Goals.AutoTriggerGoal.Trigger
   - name: (
     nameWithType: (
     fullName: (
@@ -1618,38 +1140,83 @@ references:
   name: Trigger
   nameWithType: DistinctGoal.Trigger
   fullName: TinyLife.Goals.DistinctGoal.Trigger
-- uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
-  commentId: M:TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
-  name: Trigger(T)
-  nameWithType: AutoTriggerGoal<T>.Trigger(T)
-  fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger(T)
-  nameWithType.vb: AutoTriggerGoal(Of T).Trigger(T)
-  fullName.vb: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger(T)
+- uid: TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  commentId: M:TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+  parent: TinyLife.Goals.AutoTriggerGoal
+  isExternal: true
+  name: CanTrigger(Object, GoalTrigger, Object)
+  nameWithType: AutoTriggerGoal.CanTrigger(Object, GoalTrigger, Object)
+  fullName: TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object, TinyLife.Goals.GoalTrigger, System.Object)
   spec.csharp:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
-    name: Trigger
-    nameWithType: AutoTriggerGoal<T>.Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal<T>.Trigger
+  - uid: TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+    name: CanTrigger
+    nameWithType: AutoTriggerGoal.CanTrigger
+    fullName: TinyLife.Goals.AutoTriggerGoal.CanTrigger
   - name: (
     nameWithType: (
     fullName: (
-  - name: T
-    nameWithType: T
-    fullName: T
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Goals.GoalTrigger
+    name: GoalTrigger
+    nameWithType: GoalTrigger
+    fullName: TinyLife.Goals.GoalTrigger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Goals.AutoTriggerGoal`1.Trigger(`0)
-    name: Trigger
-    nameWithType: AutoTriggerGoal(Of T).Trigger
-    fullName: TinyLife.Goals.AutoTriggerGoal(Of T).Trigger
+  - uid: TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
+    name: CanTrigger
+    nameWithType: AutoTriggerGoal.CanTrigger
+    fullName: TinyLife.Goals.AutoTriggerGoal.CanTrigger
   - name: (
     nameWithType: (
     fullName: (
-  - name: T
-    nameWithType: T
-    fullName: T
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Goals.GoalTrigger
+    name: GoalTrigger
+    nameWithType: GoalTrigger
+    fullName: TinyLife.Goals.GoalTrigger
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Goals.DistinctGoal.CanTrigger*
+  commentId: Overload:TinyLife.Goals.DistinctGoal.CanTrigger
+  name: CanTrigger
+  nameWithType: DistinctGoal.CanTrigger
+  fullName: TinyLife.Goals.DistinctGoal.CanTrigger
+- uid: TinyLife.Goals.GoalTrigger
+  commentId: T:TinyLife.Goals.GoalTrigger
+  parent: TinyLife.Goals
+  name: GoalTrigger
+  nameWithType: GoalTrigger
+  fullName: TinyLife.Goals.GoalTrigger

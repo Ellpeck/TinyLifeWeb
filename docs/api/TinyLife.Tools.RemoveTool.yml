@@ -6,17 +6,18 @@ items:
   parent: TinyLife.Tools
   children:
   - TinyLife.Tools.RemoveTool.#ctor
-  - TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - TinyLife.Tools.RemoveTool.CanUndoRedo
+  - TinyLife.Tools.RemoveTool.Draw(GameTime,SpriteBatch)
   - TinyLife.Tools.RemoveTool.GetMouseCursor
   - TinyLife.Tools.RemoveTool.PlayDestroySound
-  - TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
-  - TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Rectangle})
-  - TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
+  - TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  - TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,TinyLife.Tools.UndoableAction,System.Nullable{Rectangle})
+  - TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall,TinyLife.Tools.UndoableAction)
   - TinyLife.Tools.RemoveTool.ShouldHighlightSelectedObject
-  - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+  - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Color}[])
   - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
-  - TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
-  - TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
+  - TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  - TinyLife.Tools.RemoveTool.Update(GameTime)
   langs:
   - csharp
   - vb
@@ -31,7 +32,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveTool
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 20
+    startLine: 17
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -72,7 +73,7 @@ items:
   - TinyLife.Tools.Tool.ForceWallsUp
   - TinyLife.Tools.Tool.CanSwitchGameModes
   - TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
-  - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
+  - TinyLife.Tools.Tool.IsOnLot(Point)
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
   - TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
@@ -109,7 +110,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 28
+    startLine: 25
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -122,16 +123,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
-  id: Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.RemoveTool.Update(GameTime)
+  commentId: M:TinyLife.Tools.RemoveTool.Update(GameTime)
+  id: Update(GameTime)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
   name: Update(GameTime)
   nameWithType: RemoveTool.Update(GameTime)
-  fullName: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
+  fullName: TinyLife.Tools.RemoveTool.Update(GameTime)
   type: Method
   source:
     remote:
@@ -140,20 +141,20 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 31
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
-  summary: "\nThis method is called every update frame for the <xref href=\"TinyLife.GameImpl.CurrentTool\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, this method updates the <xref href=\"TinyLife.Tools.Tool.MousePos\" data-throw-if-not-resolved=\"false\"></xref> and invokes <xref href=\"TinyLife.Tools.Tool.OnUpdate\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThis method is called every update frame for the <xref href=\"TinyLife.GameImpl.CurrentTool\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, this method updates the <xref href=\"TinyLife.Tools.Tool.MousePos\" data-throw-if-not-resolved=\"false\"></xref> and invokes <xref href=\"TinyLife.Tools.Tool.OnUpdate\" data-throw-if-not-resolved=\"false\"></xref>, and also manages the <xref href=\"TinyLife.Tools.UndoRedoStack\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Update(GameTime time)
     parameters:
     - id: time
-      type: Microsoft.Xna.Framework.GameTime
+      type: GameTime
       description: The game&apos;s time
     content.vb: Public Overrides Sub Update(time As GameTime)
-  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  overridden: TinyLife.Tools.Tool.Update(GameTime)
   overload: TinyLife.Tools.RemoveTool.Update*
   modifiers.csharp:
   - public
@@ -161,16 +162,16 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-- uid: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+- uid: TinyLife.Tools.RemoveTool.Draw(GameTime,SpriteBatch)
+  commentId: M:TinyLife.Tools.RemoveTool.Draw(GameTime,SpriteBatch)
+  id: Draw(GameTime,SpriteBatch)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
   name: Draw(GameTime, SpriteBatch)
   nameWithType: RemoveTool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  fullName: TinyLife.Tools.RemoveTool.Draw(GameTime, SpriteBatch)
   type: Method
   source:
     remote:
@@ -179,7 +180,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 51
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -189,13 +190,13 @@ items:
     content: public override void Draw(GameTime time, SpriteBatch batch)
     parameters:
     - id: time
-      type: Microsoft.Xna.Framework.GameTime
+      type: GameTime
       description: The game&apos;s time
     - id: batch
-      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      type: SpriteBatch
       description: The sprite batch used for drawing
     content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch)
-  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  overridden: TinyLife.Tools.Tool.Draw(GameTime,SpriteBatch)
   overload: TinyLife.Tools.RemoveTool.Draw*
   modifiers.csharp:
   - public
@@ -221,7 +222,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMouseCursor
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 60
+    startLine: 59
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -235,6 +236,44 @@ items:
     content.vb: Public Overrides Function GetMouseCursor As CursorType
   overridden: TinyLife.Tools.Tool.GetMouseCursor
   overload: TinyLife.Tools.RemoveTool.GetMouseCursor*
+  modifiers.csharp:
+  - public
+  - override
+  modifiers.vb:
+  - Public
+  - Overrides
+- uid: TinyLife.Tools.RemoveTool.CanUndoRedo
+  commentId: M:TinyLife.Tools.RemoveTool.CanUndoRedo
+  id: CanUndoRedo
+  parent: TinyLife.Tools.RemoveTool
+  langs:
+  - csharp
+  - vb
+  name: CanUndoRedo()
+  nameWithType: RemoveTool.CanUndoRedo()
+  fullName: TinyLife.Tools.RemoveTool.CanUndoRedo()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Tools/RemoveTool.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CanUndoRedo
+    path: ../TinyLife/Tools/RemoveTool.cs
+    startLine: 64
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nReturns whether or not the <xref href=\"TinyLife.Tools.UndoRedoStack\" data-throw-if-not-resolved=\"false\"></xref> can currently operate and thus, whether the <xref href=\"TinyLife.Tools.UndoRedoStack.Undo\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Tools.UndoRedoStack.Redo\" data-throw-if-not-resolved=\"false\"></xref> actions can be called.\n"
+  example: []
+  syntax:
+    content: public override bool CanUndoRedo()
+    return:
+      type: System.Boolean
+      description: Whether the undo or redo commands can be used right now.
+    content.vb: Public Overrides Function CanUndoRedo As Boolean
+  overridden: TinyLife.Tools.Tool.CanUndoRedo
+  overload: TinyLife.Tools.RemoveTool.CanUndoRedo*
   modifiers.csharp:
   - public
   - override
@@ -259,7 +298,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 65
+    startLine: 69
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -279,16 +318,16 @@ items:
   modifiers.vb:
   - Public
   - Overrides
-- uid: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Rectangle})
-  commentId: M:TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Rectangle})
-  id: RemoveRoof(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Rectangle})
+- uid: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,TinyLife.Tools.UndoableAction,System.Nullable{Rectangle})
+  commentId: M:TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof,TinyLife.Tools.UndoableAction,System.Nullable{Rectangle})
+  id: RemoveRoof(TinyLife.World.Roof,TinyLife.Tools.UndoableAction,System.Nullable{Rectangle})
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: RemoveRoof(Roof, Nullable<Rectangle>)
-  nameWithType: RemoveTool.RemoveRoof(Roof, Nullable<Rectangle>)
-  fullName: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof, System.Nullable<Microsoft.Xna.Framework.Rectangle>)
+  name: RemoveRoof(Roof, UndoableAction, Nullable<Rectangle>)
+  nameWithType: RemoveTool.RemoveRoof(Roof, UndoableAction, Nullable<Rectangle>)
+  fullName: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof, TinyLife.Tools.UndoableAction, System.Nullable<Rectangle>)
   type: Method
   source:
     remote:
@@ -297,42 +336,45 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveRoof
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 157
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: "\nRemoves the given roof from the world, additionally removing any <xref href=\"TinyLife.Objects.ObjectCategory.CeilingHanging\" data-throw-if-not-resolved=\"false\"></xref> furniture below it and returning the money for the objects\n"
   example: []
   syntax:
-    content: public static void RemoveRoof(Roof roof, Rectangle? newRoof = null)
+    content: public static void RemoveRoof(Roof roof, UndoableAction action, Rectangle? newRoof = null)
     parameters:
     - id: roof
       type: TinyLife.World.Roof
       description: The roof to remove
+    - id: action
+      type: TinyLife.Tools.UndoableAction
+      description: The undoable action that this method should add its actions to. If this method should be executed immediately, use the <xref href="TinyLife.Tools.UndoableAction" data-throw-if-not-resolved="false"></xref> immediate constructor.
     - id: newRoof
-      type: System.Nullable{Microsoft.Xna.Framework.Rectangle}
+      type: System.Nullable{Rectangle}
       description: The area of a roof that replaces this one, or null if this roof is just being removed without a replacement.
-    content.vb: Public Shared Sub RemoveRoof(roof As Roof, newRoof As Rectangle? = Nothing)
+    content.vb: Public Shared Sub RemoveRoof(roof As Roof, action As UndoableAction, newRoof As Rectangle? = Nothing)
   overload: TinyLife.Tools.RemoveTool.RemoveRoof*
-  nameWithType.vb: RemoveTool.RemoveRoof(Roof, Nullable(Of Rectangle))
+  nameWithType.vb: RemoveTool.RemoveRoof(Roof, UndoableAction, Nullable(Of Rectangle))
   modifiers.csharp:
   - public
   - static
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof, System.Nullable(Of Microsoft.Xna.Framework.Rectangle))
-  name.vb: RemoveRoof(Roof, Nullable(Of Rectangle))
-- uid: TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
-  commentId: M:TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
-  id: RemoveWall(TinyLife.World.Wall)
+  fullName.vb: TinyLife.Tools.RemoveTool.RemoveRoof(TinyLife.World.Roof, TinyLife.Tools.UndoableAction, System.Nullable(Of Rectangle))
+  name.vb: RemoveRoof(Roof, UndoableAction, Nullable(Of Rectangle))
+- uid: TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall,TinyLife.Tools.UndoableAction)
+  id: RemoveWall(TinyLife.World.Wall,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: RemoveWall(Wall)
-  nameWithType: RemoveTool.RemoveWall(Wall)
-  fullName: TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall)
+  name: RemoveWall(Wall, UndoableAction)
+  nameWithType: RemoveTool.RemoveWall(Wall, UndoableAction)
+  fullName: TinyLife.Tools.RemoveTool.RemoveWall(TinyLife.World.Wall, TinyLife.Tools.UndoableAction)
   type: Method
   source:
     remote:
@@ -341,19 +383,22 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveWall
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 173
+    startLine: 194
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: "\nRemoves the given wall from the world, additionally removing any hanging <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> and adding the required amount of <xref href=\"TinyLife.Tools.Tool.Money\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public static void RemoveWall(Wall wall)
+    content: public static void RemoveWall(Wall wall, UndoableAction action)
     parameters:
     - id: wall
       type: TinyLife.World.Wall
       description: The wall to remove
-    content.vb: Public Shared Sub RemoveWall(wall As Wall)
+    - id: action
+      type: TinyLife.Tools.UndoableAction
+      description: The undoable action that this method should add its actions to. If this method should be executed immediately, use the <xref href="TinyLife.Tools.UndoableAction" data-throw-if-not-resolved="false"></xref> immediate constructor.
+    content.vb: Public Shared Sub RemoveWall(wall As Wall, action As UndoableAction)
   overload: TinyLife.Tools.RemoveTool.RemoveWall*
   modifiers.csharp:
   - public
@@ -361,16 +406,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
-  commentId: M:TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
-  id: RemoveFurniture(TinyLife.Objects.Furniture)
+- uid: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  id: RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: RemoveFurniture(Furniture)
-  nameWithType: RemoveTool.RemoveFurniture(Furniture)
-  fullName: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
+  name: RemoveFurniture(Furniture, UndoableAction)
+  nameWithType: RemoveTool.RemoveFurniture(Furniture, UndoableAction)
+  fullName: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture, TinyLife.Tools.UndoableAction)
   type: Method
   source:
     remote:
@@ -379,22 +424,25 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 193
+    startLine: 221
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: "\nRemoves the given furniture from the world, additionally removing all of its <xref href=\"TinyLife.Objects.Furniture.GetChildren%60%601\" data-throw-if-not-resolved=\"false\"></xref> and adding the required amount of <xref href=\"TinyLife.Tools.Tool.Money\" data-throw-if-not-resolved=\"false\"></xref>\nNote that the furniture&apos;s parent-child relationships are not edited or removed, so <xref href=\"TinyLife.Objects.Furniture.UnlinkParentsAndChildren\" data-throw-if-not-resolved=\"false\"></xref> should be called if the furniture is added into a household storage or similar.\n"
   example: []
   syntax:
-    content: public static bool RemoveFurniture(Furniture furniture)
+    content: public static bool RemoveFurniture(Furniture furniture, UndoableAction action)
     parameters:
     - id: furniture
       type: TinyLife.Objects.Furniture
       description: The furniture item to remove
+    - id: action
+      type: TinyLife.Tools.UndoableAction
+      description: The undoable action that this method should add its actions to. If this method should be executed immediately, use the <xref href="TinyLife.Tools.UndoableAction" data-throw-if-not-resolved="false"></xref> immediate constructor.
     return:
       type: System.Boolean
       description: Whether the removal was a success, which is only false if the passed <code data-dev-comment-type="paramref" class="paramref">furniture</code> has the <xref href="TinyLife.Objects.ObjectCategory.NonSellable" data-throw-if-not-resolved="false"></xref> category
-    content.vb: Public Shared Function RemoveFurniture(furniture As Furniture) As Boolean
+    content.vb: Public Shared Function RemoveFurniture(furniture As Furniture, action As UndoableAction) As Boolean
   overload: TinyLife.Tools.RemoveTool.RemoveFurniture*
   modifiers.csharp:
   - public
@@ -402,16 +450,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
-  commentId: M:TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
-  id: StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+- uid: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  id: StoreOrRemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: StoreOrRemoveFurniture(Furniture)
-  nameWithType: RemoveTool.StoreOrRemoveFurniture(Furniture)
-  fullName: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture)
+  name: StoreOrRemoveFurniture(Furniture, UndoableAction)
+  nameWithType: RemoveTool.StoreOrRemoveFurniture(Furniture, UndoableAction)
+  fullName: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture, TinyLife.Tools.UndoableAction)
   type: Method
   source:
     remote:
@@ -420,22 +468,25 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StoreOrRemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 213
+    startLine: 250
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
-  summary: "\nStores the passed <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> into the current household&apos;s <xref href=\"TinyLife.World.Household.FurnitureStorage\" data-throw-if-not-resolved=\"false\"></xref>, or, if there is no current household, removes the object using <xref href=\"TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)\" data-throw-if-not-resolved=\"false\"></xref> instead.\nIf the passed furniture is in the world and has children, the children are also stored (or removed) recursively.\n"
+  summary: "\nStores the passed <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> into the current household&apos;s <xref href=\"TinyLife.World.Household.FurnitureStorage\" data-throw-if-not-resolved=\"false\"></xref>, or, if there is no current household, removes the object using <xref href=\"TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture%2cTinyLife.Tools.UndoableAction)\" data-throw-if-not-resolved=\"false\"></xref> instead.\nIf the passed furniture is in the world and has children, the children are also stored (or removed) recursively.\n"
   example: []
   syntax:
-    content: public static bool StoreOrRemoveFurniture(Furniture furniture)
+    content: public static bool StoreOrRemoveFurniture(Furniture furniture, UndoableAction action)
     parameters:
     - id: furniture
       type: TinyLife.Objects.Furniture
       description: The furniture to store (or remove)
+    - id: action
+      type: TinyLife.Tools.UndoableAction
+      description: The undoable action that this method should add its actions to. If this method should be executed immediately, use the <xref href="TinyLife.Tools.UndoableAction" data-throw-if-not-resolved="false"></xref> immediate constructor.
     return:
       type: System.Boolean
       description: Whether the storage or removal was a success, which is only false if there is no current household and the passed <code data-dev-comment-type="paramref" class="paramref">furniture</code> has the <xref href="TinyLife.Objects.ObjectCategory.NonSellable" data-throw-if-not-resolved="false"></xref> category
-    content.vb: Public Shared Function StoreOrRemoveFurniture(furniture As Furniture) As Boolean
+    content.vb: Public Shared Function StoreOrRemoveFurniture(furniture As Furniture, action As UndoableAction) As Boolean
   overload: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture*
   modifiers.csharp:
   - public
@@ -461,7 +512,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayDestroySound
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 229
+    startLine: 279
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -495,7 +546,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpawnDestroyParticles
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 238
+    startLine: 288
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -515,16 +566,16 @@ items:
   modifiers.vb:
   - Public
   - Shared
-- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
-  commentId: M:TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
-  id: SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[])
+- uid: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Color}[])
+  commentId: M:TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Color}[])
+  id: SpawnDestroyParticles(MLEM.Misc.RectangleF,System.Single,System.ValueTuple{MLEM.Textures.TextureRegion,Color}[])
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
   name: SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)[])
   nameWithType: RemoveTool.SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)[])
-  fullName: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple<MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color>[])
+  fullName: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple<MLEM.Textures.TextureRegion, Color>[])
   type: Method
   source:
     remote:
@@ -533,7 +584,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpawnDestroyParticles
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 250
+    startLine: 300
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -549,7 +600,7 @@ items:
       type: System.Single
       description: The amount of particles that should be spawned, which will be multiplied with the size of the <code data-dev-comment-type="paramref" class="paramref">area</code>
     - id: textures
-      type: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[]
+      type: System.ValueTuple{MLEM.Textures.TextureRegion,Color}[]
       description: The textures and their colors to choose from when spawning the particles.
     content.vb: Public Shared Sub SpawnDestroyParticles(area As RectangleF, amountMultiplier As Single, ParamArray textures As(TextureRegion, Color)(Of TextureRegion , Color)())
   overload: TinyLife.Tools.RemoveTool.SpawnDestroyParticles*
@@ -560,7 +611,7 @@ items:
   modifiers.vb:
   - Public
   - Shared
-  fullName.vb: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple(Of MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color)())
+  fullName.vb: TinyLife.Tools.RemoveTool.SpawnDestroyParticles(MLEM.Misc.RectangleF, System.Single, System.ValueTuple(Of MLEM.Textures.TextureRegion, Color)())
   name.vb: SpawnDestroyParticles(RectangleF, Single, (TextureRegion, Color)(Of TextureRegion, Color)())
 references:
 - uid: TinyLife.Tools
@@ -907,41 +958,41 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Tools.Tool.IsOnLot(Point)
+  commentId: M:TinyLife.Tools.Tool.IsOnLot(Point)
   parent: TinyLife.Tools.Tool
   isExternal: true
   name: IsOnLot(Point)
   nameWithType: Tool.IsOnLot(Point)
-  fullName: TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
+  fullName: TinyLife.Tools.Tool.IsOnLot(Point)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Tools.Tool.IsOnLot(Point)
     name: IsOnLot
     nameWithType: Tool.IsOnLot
     fullName: TinyLife.Tools.Tool.IsOnLot
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.Point
+  - uid: Point
     name: Point
     nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
+    fullName: Point
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Tools.Tool.IsOnLot(Point)
     name: IsOnLot
     nameWithType: Tool.IsOnLot
     fullName: TinyLife.Tools.Tool.IsOnLot
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.Point
+  - uid: Point
     name: Point
     nameWithType: Point
-    fullName: Microsoft.Xna.Framework.Point
+    fullName: Point
     isExternal: true
   - name: )
     nameWithType: )
@@ -1799,41 +1850,41 @@ references:
   name: RemoveTool
   nameWithType: RemoveTool.RemoveTool
   fullName: TinyLife.Tools.RemoveTool.RemoveTool
-- uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.Tool.Update(GameTime)
+  commentId: M:TinyLife.Tools.Tool.Update(GameTime)
   parent: TinyLife.Tools.Tool
   isExternal: true
   name: Update(GameTime)
   nameWithType: Tool.Update(GameTime)
-  fullName: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  fullName: TinyLife.Tools.Tool.Update(GameTime)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(GameTime)
     name: Update
     nameWithType: Tool.Update
     fullName: TinyLife.Tools.Tool.Update
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(GameTime)
     name: Update
     nameWithType: Tool.Update
     fullName: TinyLife.Tools.Tool.Update
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: )
     nameWithType: )
@@ -1843,70 +1894,62 @@ references:
   name: Update
   nameWithType: RemoveTool.Update
   fullName: TinyLife.Tools.RemoveTool.Update
-- uid: Microsoft.Xna.Framework.GameTime
-  commentId: T:Microsoft.Xna.Framework.GameTime
-  parent: Microsoft.Xna.Framework
+- uid: GameTime
   isExternal: true
   name: GameTime
   nameWithType: GameTime
-  fullName: Microsoft.Xna.Framework.GameTime
-- uid: Microsoft.Xna.Framework
-  commentId: N:Microsoft.Xna.Framework
-  isExternal: true
-  name: Microsoft.Xna.Framework
-  nameWithType: Microsoft.Xna.Framework
-  fullName: Microsoft.Xna.Framework
-- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  fullName: GameTime
+- uid: TinyLife.Tools.Tool.Draw(GameTime,SpriteBatch)
+  commentId: M:TinyLife.Tools.Tool.Draw(GameTime,SpriteBatch)
   parent: TinyLife.Tools.Tool
   isExternal: true
   name: Draw(GameTime, SpriteBatch)
   nameWithType: Tool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  fullName: TinyLife.Tools.Tool.Draw(GameTime, SpriteBatch)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(GameTime,SpriteBatch)
     name: Draw
     nameWithType: Tool.Draw
     fullName: TinyLife.Tools.Tool.Draw
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+  - uid: SpriteBatch
     name: SpriteBatch
     nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    fullName: SpriteBatch
     isExternal: true
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(GameTime,SpriteBatch)
     name: Draw
     nameWithType: Tool.Draw
     fullName: TinyLife.Tools.Tool.Draw
   - name: (
     nameWithType: (
     fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
+  - uid: GameTime
     name: GameTime
     nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
+    fullName: GameTime
     isExternal: true
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+  - uid: SpriteBatch
     name: SpriteBatch
     nameWithType: SpriteBatch
-    fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    fullName: SpriteBatch
     isExternal: true
   - name: )
     nameWithType: )
@@ -1916,19 +1959,11 @@ references:
   name: Draw
   nameWithType: RemoveTool.Draw
   fullName: TinyLife.Tools.RemoveTool.Draw
-- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
-  parent: Microsoft.Xna.Framework.Graphics
+- uid: SpriteBatch
   isExternal: true
   name: SpriteBatch
   nameWithType: SpriteBatch
-  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
+  fullName: SpriteBatch
 - uid: TinyLife.Tools.Tool.GetMouseCursor
   commentId: M:TinyLife.Tools.Tool.GetMouseCursor
   parent: TinyLife.Tools.Tool
@@ -1973,6 +2008,46 @@ references:
   name: TinyLife.Uis
   nameWithType: TinyLife.Uis
   fullName: TinyLife.Uis
+- uid: TinyLife.Tools.Tool.CanUndoRedo
+  commentId: M:TinyLife.Tools.Tool.CanUndoRedo
+  parent: TinyLife.Tools.Tool
+  name: CanUndoRedo()
+  nameWithType: Tool.CanUndoRedo()
+  fullName: TinyLife.Tools.Tool.CanUndoRedo()
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.CanUndoRedo
+    name: CanUndoRedo
+    nameWithType: Tool.CanUndoRedo
+    fullName: TinyLife.Tools.Tool.CanUndoRedo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.CanUndoRedo
+    name: CanUndoRedo
+    nameWithType: Tool.CanUndoRedo
+    fullName: TinyLife.Tools.Tool.CanUndoRedo
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Tools.RemoveTool.CanUndoRedo*
+  commentId: Overload:TinyLife.Tools.RemoveTool.CanUndoRedo
+  name: CanUndoRedo
+  nameWithType: RemoveTool.CanUndoRedo
+  fullName: TinyLife.Tools.RemoveTool.CanUndoRedo
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
 - uid: TinyLife.Tools.Tool.ShouldHighlightSelectedObject
   commentId: M:TinyLife.Tools.Tool.ShouldHighlightSelectedObject
   parent: TinyLife.Tools.Tool
@@ -2006,16 +2081,15 @@ references:
   name: ShouldHighlightSelectedObject
   nameWithType: RemoveTool.ShouldHighlightSelectedObject
   fullName: TinyLife.Tools.RemoveTool.ShouldHighlightSelectedObject
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: TinyLife.Objects.ObjectCategory.CeilingHanging
   commentId: F:TinyLife.Objects.ObjectCategory.CeilingHanging
   isExternal: true
+- uid: TinyLife.Tools.UndoableAction
+  commentId: T:TinyLife.Tools.UndoableAction
+  parent: TinyLife.Tools
+  name: UndoableAction
+  nameWithType: UndoableAction
+  fullName: TinyLife.Tools.UndoableAction
 - uid: TinyLife.Tools.RemoveTool.RemoveRoof*
   commentId: Overload:TinyLife.Tools.RemoveTool.RemoveRoof
   name: RemoveRoof
@@ -2027,15 +2101,15 @@ references:
   name: Roof
   nameWithType: Roof
   fullName: TinyLife.World.Roof
-- uid: System.Nullable{Microsoft.Xna.Framework.Rectangle}
-  commentId: T:System.Nullable{Microsoft.Xna.Framework.Rectangle}
+- uid: System.Nullable{Rectangle}
+  commentId: T:System.Nullable{Rectangle}
   parent: System
   definition: System.Nullable`1
   name: Nullable<Rectangle>
   nameWithType: Nullable<Rectangle>
-  fullName: System.Nullable<Microsoft.Xna.Framework.Rectangle>
+  fullName: System.Nullable<Rectangle>
   nameWithType.vb: Nullable(Of Rectangle)
-  fullName.vb: System.Nullable(Of Microsoft.Xna.Framework.Rectangle)
+  fullName.vb: System.Nullable(Of Rectangle)
   name.vb: Nullable(Of Rectangle)
   spec.csharp:
   - uid: System.Nullable`1
@@ -2046,10 +2120,10 @@ references:
   - name: <
     nameWithType: <
     fullName: <
-  - uid: Microsoft.Xna.Framework.Rectangle
+  - uid: Rectangle
     name: Rectangle
     nameWithType: Rectangle
-    fullName: Microsoft.Xna.Framework.Rectangle
+    fullName: Rectangle
     isExternal: true
   - name: '>'
     nameWithType: '>'
@@ -2063,10 +2137,10 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
-  - uid: Microsoft.Xna.Framework.Rectangle
+  - uid: Rectangle
     name: Rectangle
     nameWithType: Rectangle
-    fullName: Microsoft.Xna.Framework.Rectangle
+    fullName: Rectangle
     isExternal: true
   - name: )
     nameWithType: )
@@ -2207,8 +2281,8 @@ references:
 - uid: TinyLife.World.Household.FurnitureStorage
   commentId: F:TinyLife.World.Household.FurnitureStorage
   isExternal: true
-- uid: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
-  commentId: M:TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture)
+- uid: TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
   isExternal: true
 - uid: TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture*
   commentId: Overload:TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture
@@ -2242,13 +2316,13 @@ references:
   name: Single
   nameWithType: Single
   fullName: System.Single
-- uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color}[]
+- uid: System.ValueTuple{MLEM.Textures.TextureRegion,Color}[]
   isExternal: true
   name: (T1, T2)<TextureRegion, Color>[]
   nameWithType: (T1, T2)<TextureRegion, Color>[]
-  fullName: System.ValueTuple<MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color>[]
+  fullName: System.ValueTuple<MLEM.Textures.TextureRegion, Color>[]
   nameWithType.vb: (T1, T2)(Of TextureRegion, Color)()
-  fullName.vb: System.ValueTuple(Of MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color)()
+  fullName.vb: System.ValueTuple(Of MLEM.Textures.TextureRegion, Color)()
   name.vb: (T1, T2)(Of TextureRegion, Color)()
   spec.csharp:
   - uid: System.ValueTuple`2
@@ -2267,10 +2341,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: '>'
     nameWithType: '>'
@@ -2295,10 +2369,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: Microsoft.Xna.Framework.Color
+  - uid: Color
     name: Color
     nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
+    fullName: Color
     isExternal: true
   - name: )
     nameWithType: )
