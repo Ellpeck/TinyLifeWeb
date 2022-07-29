@@ -19,13 +19,16 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `Forget [name without spaces]` deletes any active relationships between the named partner and the current person.
 - `FreeLots` makes creating and importing households onto lots free.
 - `BigScreenshot` takes a full-size screenshot of the entire map, which might take a few seconds to save, during which the game will be stalled.
-- `LifeGoal [goal] [stage]` sets the current person's life goal to the goal and stage number. 
+- `LifeGoal [goal] [stage]` sets the current person's life goal to the goal and stage number.
   - `LifeGoal Advance` advances the current person's current life goal by one stage.
 - `Time [time]` sets the game's current time to the given number of hours. The current day will remain the same.
 - `Day [weekday name]` sets the game's current weekday to the given day by advancing time until the day is reached. Weekday names have to start with an uppercase letter.
+- `ShowDebugActions` will enable a set of debug actions you can always select in-game, including teleporting to a certain location, adding people to your household, and more.
+- `AgeUp` will cause the selected person to age up if possible.
+- `RemoveRandos` will remove any randomly generated people from the map and regenerate them.
 
 ## Modding and debug cheats
-- `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. Lots can be added using the Lots tool, and removed by clicking on them using the Remove tool.
+- `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. You can find out more about editing the world in the [custom maps tutorial](custom_maps.md).
 - `Held [object name or null]` sets the current person's held object. You can find a list of all object names [in the API docs](xref:TinyLife.Objects.FurnitureType).
 - `EditCurrentActionSpot` turns on action spot edit mode, which allows you to easily edit the properties of the selected person's current action spot.
   - The person's animation stops, but they are drawn on all surrounding objects of the same type instead, which makes it easier to ensure that the offset looks correct in multiple rotations and positions.
