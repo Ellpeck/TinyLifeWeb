@@ -1,3 +1,15 @@
+# 0.24.1
+> Various Fixes and Improvements
+
+Improvements
+- Made randomly generated outfits match their intention better
+- Made lots replace the ground with their default tile type rather than grass when moving them
+- Added info text to homes that are too expensive for starter households
+- Added a notification for when a mod fails to load
+
+Fixes
+- Fixed mods being unable to contain custom furniture
+
 # 0.24.0
 ![](media/changelog/0.24.0.png)
 
