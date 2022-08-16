@@ -8,6 +8,7 @@ To get started, simply create a new save file that'll serve as the basis for you
 There's a set of required [cheats](cheats.md) that you have to enable to be able to create custom maps. You can open the cheat menu with the `F1` key.
 - `EditWorld` allows you to place build mode items outside the current lot.
 - `ShowNonBuyable` allows you to access hidden build mode items, like decorative power poles, road tiles, and more.
+- `IgnorePlacementRules` to allow placing some hidden items like power lines in the proper place.
 
 Now, you'll be able to edit the map to your heart's content. Note that you can only delete lots if they don't currently have a household occupying them, so you'll have to export or delete existing households first.
 
