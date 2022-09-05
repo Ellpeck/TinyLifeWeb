@@ -1,3 +1,58 @@
+# 0.25.0
+![](media/changelog/0.25.0.png)
+
+> Water, Stuff and Skill Books
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/424507/0250-water-stuff-and-skill-books) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3360269804911051302).
+
+Additions
+- Added the ability for primary school students to study at a bookshelf
+- Added the ability to get raises after reaching level 10 of a career
+- Added some decorations, including maple fairy lights, three rocks, a shelf with three layers, big bushes
+- Added some wooden siding wallpaper
+- Added water, grassy dirt and stone ground tiles
+- Added large glass windows and a large glass door
+- Added skill books for every skill in the game
+- Added businessperson, retail worker, doctor, and scientist daily tasks
+- Added required promotion skills for primary school students
+- Added icons for jobs
+- Added the ability to disable newspaper deliveries at mailboxes
+- Added a keybind to change wall modes
+
+Improvements
+- Extended the map with a house by Macy and a household by Vortis
+- Adjusted death emotions to be less severe for acquaintances
+- Adjusted the introvert personality to get less overstimulated less quickly
+- Slightly rebalanced energy and entertainment need gain
+- Made higher job levels require higher amounts of performance to be promoted again
+- Expanded the color palette for sofas and some wallpapers
+- Made lot boundaries display with proper depth related to objects intersecting them
+- Improved rendering performance by drawing some objects in a static batch, rather than every frame
+- Order keybind menu by name
+- Display a notification when a lot can't be imported due to an error
+- Display portraits of people who are out of town as slightly transparent
+
+Fixes
+- Fixed an exception when trying to load mail from disk
+- Fixed being unable to put the homework book away
+- Fixed a rare exception when creating a painting
+- Fixed undo/redo hints not displaying in keyboard mode
+- Fixed various objects still executing an in-world action when in the household storage
+- Fixed a rare exception when a Tiny tries to pick up an object that has been removed
+- Fixed visitors not going home properly after being out of town sometimes
+- Fixed an exception when trying to make fun of people who don't have a job
+- Fixed an incomplete options file causing the game to crash on startup
+- Fixed border tiles not being added to the static sprite batch properly, causing rendering issues
+- Fixed an exception when trying to take an object from the fridge that has already been removed
+- Fixed keyboard camera movement not allowing diagonal movement
+- Fixed the feedback form not working when the log file is large and a lot of info has been input
+- Fixed the job tab displaying a dollar sign in addition to the tiny bucks sign
+- Fixed the ability to place walls without enough money
+
+API
+- Allow furniture to specify whether it should fit in an object spot or not
+- The game version that a save was saved with is now stored
+
 # 0.24.1
 > Various Fixes and Improvements
 
