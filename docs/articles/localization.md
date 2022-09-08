@@ -1,6 +1,6 @@
 # Contributing Localizations
 
-If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the community of people who play the game in the language you work on!
+If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the game's community!
 
 If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](https://ellpeck.de/discord), or in the `#tinylife` channel. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
 
@@ -9,7 +9,7 @@ The following list contains a few bits of additional information that you should
 - In this document, I'm using the words "translate" and "localize" semi-interchangeably, but it should be noted that this is a **localization**, meaning any jokes or references that don't make sense in the language you're translating for should be edited to make them sound logical.  
   *For example, a pun like `Standing Up to Sitting` might not work well in other languages, where "standing up to something" is not a valid figure of speech. As a result, the translation shouldn't literally reference the act of standing up if it doesn't also mean "making a defense against something".*
 - I know that this is difficult to accomplish in some languages, but please try to keep gender-specific language to a minimum. If this is entirely impossible in your language, please try to use constructs that your place of residence usually sticks to, similar to the English "Latinx" or the German "Mitarbeiter\*in".
-- Tiny Life is an inclusive game, for all genders, sexualities and identities. Even if the language you translate for belongs to a country where you fear that certain aspects of the game, like asexuality and aromance, might be ill-received or get the game banned, translations **should not be altered** to remove references to any such things.
+- Tiny Life is an inclusive game, for all genders, sexualities, and identities. Even if the language you translate for is used by a country where you fear that certain aspects of the game might be ill-received, translations **should not be altered** to remove references to any such things.
 - Tiny Life should be suitable for as many audiences as possible, so please avoid using sexually explicit terms and stick to innuendo when it comes to *fooling around* and the like. In a lot of cases, this is less of a concern about the game's audience and more of a concern about the game's age ratings in stores. 
 - There are several placeholders and formatting codes that **should not be deleted or changed**, notably:
   - `{0}`, `{1}`, etc. are placeholders for text that is fed into the localized term dynamically. The order of these placeholders is not important, but the number that they contain is.  
@@ -20,3 +20,11 @@ The following list contains a few bits of additional information that you should
 - Any translations whose English versions have changed, and any untranslated strings, are automatically marked as "In Review". Once you translate or review these for your language, you should mark them as reviewed.
 - To test your translation, [export it](https://translate.ellpeck.de/app/projects/da5ba3ec-ab26-4ff2-a1ff-24b817c2f7f6/files) and put it into the `Content/Localization` directory of the game's installation. If it's not part of it already, its name also has to be added to the `LanguageNames.json` file.
 - You don't need to finish the translation to your language, by any means! Since you're doing this for free, I don't expect you to, either. An incomplete translation means that some in-game text will be translated, and it also means that anyone who comes along after you will have less work to do!
+
+# Notes for Specific Languages
+## German
+- The German localization uses gender-neutral language (*Geschlechtergerechte Sprache*) for its translations. The following spellings are used:
+  - "Er/sie", "sein/seine" and other pronouns that can't be appreviated neatly are combined using a forward slash.
+  - "Mitarbeiter\*in", "Partner\*in" and other words that have the same structure are abbreviated using an asterisk (*Gendersternchen*) if possible.
+  - The word "Tiny" is gender-neutral: "ein\*e Tiny", "der/die" Tiny.
+- The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
