@@ -4,14 +4,14 @@ This page sums up a few of the basics that you'll need to know if you want to ma
 ## Creating mods
 To create a mod, all you have to do is create a repository [from this template](https://github.com/Ellpeck/TinyLifeExampleMod/generate) and open the project contained in it using Visual Studio, Rider or any other kind of C# IDE. The code that is already there contains some examples. Once you're done checking them out, you can just delete them and start fresh.
 
-The template repository also contains a little `Run` script for [windows](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.bat) and [linux and mac](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Run.sh) that automatically builds your mod, copies it into the `Mods` directory of your Tiny Life instance and runs the game. Note that the script will only work correctly if you've launched Tiny Life manually at least once before.
+To run and publish your mods, you can use the included [Cake](https://cakebuild.net/) script, which includes tasks to build, run and publish your mod. To install the required dependencies, you have to run `dotnet tool restore` in the directory that your mod's project file is in. Then, you can run `dotnet cake --target Run` to build your mod, copy it to Tiny Life's mods directory, and run the game, all in one simple command. 
 
 The game's API is **fully documented**. The documentation is easily accessible by opening any of the API's files in your IDE. The most updated version can be found on this site as well.
 
 If you have any questions, don't hesitate to [ask on the Discord](https://ellpeck.de/discord) or [start a discussion](https://github.com/Ellpeck/TinyLifeExampleMod/discussions) about it.
 
 ## Distributing mods
-To distribute your mod to other people, you can use the `Publish` script for [windows](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Publish.bat) and [linux and mac](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/Publish.sh) which can also be found in the template repository. This script will automatically create a `zip` archive that you can share. If you want other players to try out your mod, you can also post it to [the community](https://itch.io/board/1032686/mods).
+To distribute your mod to other people, you can simply run `dotnet cake --target Publish`. This task will automatically create a `zip` archive that you can share. If you want other players to try out your mod, you can also post it to [the community](https://itch.io/board/1032686/mods).
 
 ## Updating mods
 To change the version of Tiny Life that your mod is compiled against, simply go into [the project file](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/ExampleMod.csproj) and change the `TinyLifeApi` version. Note that some other dependencies might also have been updated, which needs to be [taken into account](https://github.com/Ellpeck/TinyLifeExampleMod#dependency-version-history).
