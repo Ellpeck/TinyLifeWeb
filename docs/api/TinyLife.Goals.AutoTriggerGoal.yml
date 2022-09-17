@@ -6,10 +6,8 @@ items:
   parent: TinyLife.Goals
   children:
   - TinyLife.Goals.AutoTriggerGoal.#ctor(TinyLife.Goals.GoalSet,TinyLife.Goals.AutoGoalInfo)
-  - TinyLife.Goals.AutoTriggerGoal.AutoInfo
   - TinyLife.Goals.AutoTriggerGoal.CanTrigger(System.Object,TinyLife.Goals.GoalTrigger,System.Object)
   - TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
-  - TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
   langs:
   - csharp
   - vb
@@ -31,27 +29,29 @@ items:
   summary: "\nAn auto-triggered goal is intended to be used with <xref href=\"TinyLife.Goals.AutoGoalInfo\" data-throw-if-not-resolved=\"false\"></xref>. This is the base class for all auto-triggered goals.\nAuto-triggered goals do not need to be called, triggered or referenced manually, since they get triggered automatically based on a <xref href=\"TinyLife.Goals.GoalTrigger\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: 'public abstract class AutoTriggerGoal : Goal, IGenericDataHolder'
+    content: 'public abstract class AutoTriggerGoal : Goal<AutoGoalInfo>, IGenericDataHolder'
     content.vb: >-
       Public MustInherit Class AutoTriggerGoal
-          Inherits Goal
+          Inherits Goal(Of AutoGoalInfo)
           Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Goals.Goal
+  - TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}
   derivedClasses:
   - TinyLife.Goals.AutoTriggerGoal`1
   - TinyLife.Goals.DistinctGoal
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
+  - TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}.Info
   - TinyLife.Goals.Goal.Name
   - TinyLife.Goals.Goal.Set
-  - TinyLife.Goals.Goal.Info
   - TinyLife.Goals.Goal.GetProgress
   - TinyLife.Goals.Goal.Reset
   - TinyLife.Goals.Goal.GetDisplayedProgress
+  - TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
@@ -72,43 +72,6 @@ items:
   - Public
   - MustInherit
   - Class
-- uid: TinyLife.Goals.AutoTriggerGoal.AutoInfo
-  commentId: P:TinyLife.Goals.AutoTriggerGoal.AutoInfo
-  id: AutoInfo
-  parent: TinyLife.Goals.AutoTriggerGoal
-  langs:
-  - csharp
-  - vb
-  name: AutoInfo
-  nameWithType: AutoTriggerGoal.AutoInfo
-  fullName: TinyLife.Goals.AutoTriggerGoal.AutoInfo
-  type: Property
-  source:
-    remote:
-      path: TinyLife/Goals/AutoTriggerGoal.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: AutoInfo
-    path: ../TinyLife/Goals/AutoTriggerGoal.cs
-    startLine: 13
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Goals
-  summary: "\nThe underlying <xref href=\"TinyLife.Goals.GoalInfo\" data-throw-if-not-resolved=\"false\"></xref>, but cast to an <xref href=\"TinyLife.Goals.AutoGoalInfo\" data-throw-if-not-resolved=\"false\"></xref>\n"
-  example: []
-  syntax:
-    content: protected AutoGoalInfo AutoInfo { get; }
-    parameters: []
-    return:
-      type: TinyLife.Goals.AutoGoalInfo
-    content.vb: Protected ReadOnly Property AutoInfo As AutoGoalInfo
-  overload: TinyLife.Goals.AutoTriggerGoal.AutoInfo*
-  modifiers.csharp:
-  - protected
-  - get
-  modifiers.vb:
-  - Protected
-  - ReadOnly
 - uid: TinyLife.Goals.AutoTriggerGoal.#ctor(TinyLife.Goals.GoalSet,TinyLife.Goals.AutoGoalInfo)
   commentId: M:TinyLife.Goals.AutoTriggerGoal.#ctor(TinyLife.Goals.GoalSet,TinyLife.Goals.AutoGoalInfo)
   id: '#ctor(TinyLife.Goals.GoalSet,TinyLife.Goals.AutoGoalInfo)'
@@ -127,24 +90,24 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Goals/AutoTriggerGoal.cs
-    startLine: 16
+    startLine: 11
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   example: []
   syntax:
-    content: public AutoTriggerGoal(GoalSet set, AutoGoalInfo info)
+    content: protected AutoTriggerGoal(GoalSet set, AutoGoalInfo info)
     parameters:
     - id: set
       type: TinyLife.Goals.GoalSet
     - id: info
       type: TinyLife.Goals.AutoGoalInfo
-    content.vb: Public Sub New(set As GoalSet, info As AutoGoalInfo)
+    content.vb: Protected Sub New(set As GoalSet, info As AutoGoalInfo)
   overload: TinyLife.Goals.AutoTriggerGoal.#ctor*
   modifiers.csharp:
-  - public
+  - protected
   modifiers.vb:
-  - Public
+  - Protected
 - uid: TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
   commentId: M:TinyLife.Goals.AutoTriggerGoal.Trigger(System.Object)
   id: Trigger(System.Object)
@@ -163,7 +126,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Trigger
     path: ../TinyLife/Goals/AutoTriggerGoal.cs
-    startLine: 25
+    startLine: 18
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -201,7 +164,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanTrigger
     path: ../TinyLife/Goals/AutoTriggerGoal.cs
-    startLine: 35
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -230,48 +193,6 @@ items:
   modifiers.vb:
   - Public
   - Overridable
-- uid: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
-  commentId: M:TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
-  id: Validate(TinyLife.Goals.GoalSet)
-  parent: TinyLife.Goals.AutoTriggerGoal
-  langs:
-  - csharp
-  - vb
-  name: Validate(GoalSet)
-  nameWithType: AutoTriggerGoal.Validate(GoalSet)
-  fullName: TinyLife.Goals.AutoTriggerGoal.Validate(TinyLife.Goals.GoalSet)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Goals/AutoTriggerGoal.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Validate
-    path: ../TinyLife/Goals/AutoTriggerGoal.cs
-    startLine: 40
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Goals
-  summary: "\nValidates this goal when loading the underlying <xref href=\"TinyLife.Goals.GoalSet\" data-throw-if-not-resolved=\"false\"></xref> from disk\n"
-  example: []
-  syntax:
-    content: public override bool Validate(GoalSet set)
-    parameters:
-    - id: set
-      type: TinyLife.Goals.GoalSet
-      description: The underlying goal set
-    return:
-      type: System.Boolean
-      description: Whether this goal is considered to be valid
-    content.vb: Public Overrides Function Validate(set As GoalSet) As Boolean
-  overridden: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-  overload: TinyLife.Goals.AutoTriggerGoal.Validate*
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
 references:
 - uid: TinyLife.Goals.AutoGoalInfo
   commentId: T:TinyLife.Goals.AutoGoalInfo
@@ -310,6 +231,46 @@ references:
   name: Goal
   nameWithType: Goal
   fullName: TinyLife.Goals.Goal
+- uid: TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}
+  commentId: T:TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}
+  parent: TinyLife.Goals
+  definition: TinyLife.Goals.Goal`1
+  name: Goal<AutoGoalInfo>
+  nameWithType: Goal<AutoGoalInfo>
+  fullName: TinyLife.Goals.Goal<TinyLife.Goals.AutoGoalInfo>
+  nameWithType.vb: Goal(Of AutoGoalInfo)
+  fullName.vb: TinyLife.Goals.Goal(Of TinyLife.Goals.AutoGoalInfo)
+  name.vb: Goal(Of AutoGoalInfo)
+  spec.csharp:
+  - uid: TinyLife.Goals.Goal`1
+    name: Goal
+    nameWithType: Goal
+    fullName: TinyLife.Goals.Goal
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Goals.AutoGoalInfo
+    name: AutoGoalInfo
+    nameWithType: AutoGoalInfo
+    fullName: TinyLife.Goals.AutoGoalInfo
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: TinyLife.Goals.Goal`1
+    name: Goal
+    nameWithType: Goal
+    fullName: TinyLife.Goals.Goal
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Goals.AutoGoalInfo
+    name: AutoGoalInfo
+    nameWithType: AutoGoalInfo
+    fullName: TinyLife.Goals.AutoGoalInfo
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -317,6 +278,15 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
+- uid: TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}.Info
+  commentId: P:TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}.Info
+  parent: TinyLife.Goals.Goal{TinyLife.Goals.AutoGoalInfo}
+  definition: TinyLife.Goals.Goal`1.Info
+  name: Info
+  nameWithType: Goal<AutoGoalInfo>.Info
+  fullName: TinyLife.Goals.Goal<TinyLife.Goals.AutoGoalInfo>.Info
+  nameWithType.vb: Goal(Of AutoGoalInfo).Info
+  fullName.vb: TinyLife.Goals.Goal(Of TinyLife.Goals.AutoGoalInfo).Info
 - uid: TinyLife.Goals.Goal.Name
   commentId: F:TinyLife.Goals.Goal.Name
   parent: TinyLife.Goals.Goal
@@ -329,12 +299,6 @@ references:
   name: Set
   nameWithType: Goal.Set
   fullName: TinyLife.Goals.Goal.Set
-- uid: TinyLife.Goals.Goal.Info
-  commentId: P:TinyLife.Goals.Goal.Info
-  parent: TinyLife.Goals.Goal
-  name: Info
-  nameWithType: Goal.Info
-  fullName: TinyLife.Goals.Goal.Info
 - uid: TinyLife.Goals.Goal.GetProgress
   commentId: M:TinyLife.Goals.Goal.GetProgress
   parent: TinyLife.Goals.Goal
@@ -416,6 +380,42 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
+  commentId: M:TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
+  parent: TinyLife.Goals.Goal
+  name: Validate(GoalSet)
+  nameWithType: Goal.Validate(GoalSet)
+  fullName: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
+  spec.csharp:
+  - uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
+    name: Validate
+    nameWithType: Goal.Validate
+    fullName: TinyLife.Goals.Goal.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Goals.GoalSet
+    name: GoalSet
+    nameWithType: GoalSet
+    fullName: TinyLife.Goals.GoalSet
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
+    name: Validate
+    nameWithType: Goal.Validate
+    fullName: TinyLife.Goals.Goal.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Goals.GoalSet
+    name: GoalSet
+    nameWithType: GoalSet
+    fullName: TinyLife.Goals.GoalSet
   - name: )
     nameWithType: )
     fullName: )
@@ -874,12 +874,55 @@ references:
   name: MLEM.Data.Json
   nameWithType: MLEM.Data.Json
   fullName: MLEM.Data.Json
+- uid: TinyLife.Goals.Goal`1
+  commentId: T:TinyLife.Goals.Goal`1
+  name: Goal<TInfo>
+  nameWithType: Goal<TInfo>
+  fullName: TinyLife.Goals.Goal<TInfo>
+  nameWithType.vb: Goal(Of TInfo)
+  fullName.vb: TinyLife.Goals.Goal(Of TInfo)
+  name.vb: Goal(Of TInfo)
+  spec.csharp:
+  - uid: TinyLife.Goals.Goal`1
+    name: Goal
+    nameWithType: Goal
+    fullName: TinyLife.Goals.Goal
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TInfo
+    nameWithType: TInfo
+    fullName: TInfo
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: TinyLife.Goals.Goal`1
+    name: Goal
+    nameWithType: Goal
+    fullName: TinyLife.Goals.Goal
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TInfo
+    nameWithType: TInfo
+    fullName: TInfo
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MLEM.Misc
   commentId: N:MLEM.Misc
   isExternal: true
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: TinyLife.Goals.Goal`1.Info
+  commentId: P:TinyLife.Goals.Goal`1.Info
+  name: Info
+  nameWithType: Goal<TInfo>.Info
+  fullName: TinyLife.Goals.Goal<TInfo>.Info
+  nameWithType.vb: Goal(Of TInfo).Info
+  fullName.vb: TinyLife.Goals.Goal(Of TInfo).Info
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -927,17 +970,6 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Goals.GoalInfo
-  commentId: T:TinyLife.Goals.GoalInfo
-  parent: TinyLife.Goals
-  name: GoalInfo
-  nameWithType: GoalInfo
-  fullName: TinyLife.Goals.GoalInfo
-- uid: TinyLife.Goals.AutoTriggerGoal.AutoInfo*
-  commentId: Overload:TinyLife.Goals.AutoTriggerGoal.AutoInfo
-  name: AutoInfo
-  nameWithType: AutoTriggerGoal.AutoInfo
-  fullName: TinyLife.Goals.AutoTriggerGoal.AutoInfo
 - uid: TinyLife.Goals.AutoTriggerGoal.#ctor*
   commentId: Overload:TinyLife.Goals.AutoTriggerGoal.#ctor
   name: AutoTriggerGoal
@@ -1080,44 +1112,3 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-  commentId: M:TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-  parent: TinyLife.Goals.Goal
-  name: Validate(GoalSet)
-  nameWithType: Goal.Validate(GoalSet)
-  fullName: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-  spec.csharp:
-  - uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-    name: Validate
-    nameWithType: Goal.Validate
-    fullName: TinyLife.Goals.Goal.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Goals.Goal.Validate(TinyLife.Goals.GoalSet)
-    name: Validate
-    nameWithType: Goal.Validate
-    fullName: TinyLife.Goals.Goal.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Goals.GoalSet
-    name: GoalSet
-    nameWithType: GoalSet
-    fullName: TinyLife.Goals.GoalSet
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Goals.AutoTriggerGoal.Validate*
-  commentId: Overload:TinyLife.Goals.AutoTriggerGoal.Validate
-  name: Validate
-  nameWithType: AutoTriggerGoal.Validate
-  fullName: TinyLife.Goals.AutoTriggerGoal.Validate

@@ -1,19 +1,24 @@
-# 0.25.1
-> Fixes and Improvements for 0.25.0
+# 0.25.2
+> Fixes and Improvements for 0.25
 
 Improvements
-- Animate notifications when they appear and disappear
-- Allow clicking on notifications to make them go away
-- Search for custom content recursively, rather than in just the topmost folder
-- Increased rendering performance, especially when rotating and moving the camera while zoomed out
+- Also follow a person when left-clicking their button again while they're already selected
+- When saving custom households, files will now append a number rather than a large amount of dashes if they conflict
+- Animate notifications when they appear and disappear (0.25.1)
+- Allow clicking on notifications to make them go away (0.25.1)
+- Search for custom content recursively, rather than in just the topmost folder (0.25.1)
+- Increased rendering performance, especially when rotating and moving the camera while zoomed out (0.25.1)
 
 Fixes
-- Fixed roofs being duplicated when undoing and redoing
-- Fixed a rare crash when a Tiny tries to face another Tiny in a conversation
+- Fixed a rare crash when opening an interaction menu too fast
+- Fixed the skill book action not being able to be loaded from disk, causing an exception
+- Fixed options not saving when pressing the X button on them
+- Fixed roofs being duplicated when undoing and redoing (0.25.1)
+- Fixed a rare crash when a Tiny tries to face another Tiny in a conversation (0.25.1)
 
 API
-- Added the ability for mods to add an options file and menu
-- Added a proper build script to the Example Mod, allowing for more control and ease of use when modding
+- Added the ability for mods to add an options file and menu (0.25.1)
+- Added a proper build script to the Example Mod, allowing for more control and ease of use when modding (0.25.1)
 
 # 0.25.0
 ![](media/changelog/0.25.0.png)
