@@ -1,18 +1,22 @@
-# 0.25.2
+# 0.25.3
 > Fixes and Improvements for 0.25
 
 Improvements
-- Also follow a person when left-clicking their button again while they're already selected
-- When saving custom households, files will now append a number rather than a large amount of dashes if they conflict
+- Also follow a person when left-clicking their button again while they're already selected (0.25.2)
+- When saving custom households, files will now append a number rather than a large amount of dashes if they conflict (0.25.2)
 - Animate notifications when they appear and disappear (0.25.1)
 - Allow clicking on notifications to make them go away (0.25.1)
 - Search for custom content recursively, rather than in just the topmost folder (0.25.1)
 - Increased rendering performance, especially when rotating and moving the camera while zoomed out (0.25.1)
 
 Fixes
-- Fixed a rare crash when opening an interaction menu too fast
-- Fixed the skill book action not being able to be loaded from disk, causing an exception
-- Fixed options not saving when pressing the X button on them
+- Fixed a crash when abandoning a life goal
+- Fixed adults being able to blow out candles, causing a crash
+- Fixed a rare crash when a notification popup slides away
+- Fixed being able to slide away notifications in the history menu
+- Fixed a rare crash when opening an interaction menu too fast (0.25.2)
+- Fixed the skill book action not being able to be loaded from disk, causing an exception (0.25.2)
+- Fixed options not saving when pressing the X button on them (0.25.2)
 - Fixed roofs being duplicated when undoing and redoing (0.25.1)
 - Fixed a rare crash when a Tiny tries to face another Tiny in a conversation (0.25.1)
 
