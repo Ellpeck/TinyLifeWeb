@@ -1,28 +1,34 @@
 # 0.25.3
-> Fixes and Improvements for 0.25
-
-Improvements
-- Also follow a person when left-clicking their button again while they're already selected (0.25.2)
-- When saving custom households, files will now append a number rather than a large amount of dashes if they conflict (0.25.2)
-- Animate notifications when they appear and disappear (0.25.1)
-- Allow clicking on notifications to make them go away (0.25.1)
-- Search for custom content recursively, rather than in just the topmost folder (0.25.1)
-- Increased rendering performance, especially when rotating and moving the camera while zoomed out (0.25.1)
-
 Fixes
 - Fixed a crash when abandoning a life goal
 - Fixed adults being able to blow out candles, causing a crash
 - Fixed a rare crash when a notification popup slides away
 - Fixed being able to slide away notifications in the history menu
-- Fixed a rare crash when opening an interaction menu too fast (0.25.2)
-- Fixed the skill book action not being able to be loaded from disk, causing an exception (0.25.2)
-- Fixed options not saving when pressing the X button on them (0.25.2)
-- Fixed roofs being duplicated when undoing and redoing (0.25.1)
-- Fixed a rare crash when a Tiny tries to face another Tiny in a conversation (0.25.1)
+
+# 0.25.2
+Improvements
+- Also follow a person when left-clicking their button again while they're already selected
+- When saving custom households, files will now append a number rather than a large amount of dashes if they conflict
+
+Fixes
+- Fixed a rare crash when opening an interaction menu too fast
+- Fixed the skill book action not being able to be loaded from disk, causing an exception
+- Fixed options not saving when pressing the X button on them
+
+# 0.25.1
+Improvements
+- Animate notifications when they appear and disappear
+- Allow clicking on notifications to make them go away
+- Search for custom content recursively, rather than in just the topmost folder
+- Increased rendering performance, especially when rotating and moving the camera while zoomed out
+
+Fixes
+- Fixed roofs being duplicated when undoing and redoing
+- Fixed a rare crash when a Tiny tries to face another Tiny in a conversation
 
 API
-- Added the ability for mods to add an options file and menu (0.25.1)
-- Added a proper build script to the Example Mod, allowing for more control and ease of use when modding (0.25.1)
+- Added the ability for mods to add an options file and menu
+- Added a proper build script to the Example Mod, allowing for more control and ease of use when modding
 
 # 0.25.0
 ![](media/changelog/0.25.0.png)
@@ -204,7 +210,10 @@ Improvements
 Fixes
 - Fixed pathfinding sometimes failing for long distances
 - Fixed outfit tooltip not displaying in the character creator
-- Fixed a crash when a person that doesn't have a household dies (0.22.1)
+
+# 0.22.1
+Fixes
+- Fixed a crash when a person that doesn't have a household dies
 
 # 0.22.0
 ![](media/changelog/0.22.0.png)
@@ -241,24 +250,29 @@ API
 - Added the ability for map objects to influence need regeneration speed
 
 # 0.21.3
-
-> Small Additions to the Two Year update
-
 Improvements
 - Skip packing empty wallpaper textures unnecessarily, improving load times
-- Display an on-screen keyboard for input fields when playing on the Steam Deck (0.21.2)
-- Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes (0.21.2)
 
 Fixes
 - Fixed a crash when using a mouse button that has no icon in the game
 - Fixed rare exceptions with the Add a Little Something, Cook, and Ask to Taste actions
 - Fixed a rare crash when opening the in-game menu
 - Fixed Thomas Walden spawning in the wall on the default map
-- Fixed woodworking actions not saving and loading properly (0.21.2)
-- Fixed a rare crash with the "Ask to Taste" action (0.21.2)
-- Fixed in-game news being impossible to navigate to using a gamepad (0.21.2)
-- Fixed public street lamps not working when updating an older map (0.21.1)
-- Fixed a crash when trying to start a woodworking action on an unfinished woodwork (0.21.1)
+
+# 0.21.2
+Improvements
+- Display an on-screen keyboard for input fields when playing on the Steam Deck)
+- Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes
+
+Fixes
+- Fixed woodworking actions not saving and loading properly
+- Fixed a rare crash with the "Ask to Taste" action
+- Fixed in-game news being impossible to navigate to using a gamepad
+
+# 0.21.1
+Fixes
+- Fixed public street lamps not working when updating an older map
+- Fixed a crash when trying to start a woodworking action on an unfinished woodwork
 
 # 0.21.0
 ![](media/changelog/0.21.0.png)
@@ -358,18 +372,16 @@ API
 - Added a debug option to skip preloading pathfinding data when entering a save
 
 # 0.20.2
+Fixes
+- Fixed the emergency food mail crashing the game if retrieved after a game relaunch
+- Fixed roof-attached objects being removed when a roof is replaced with a new one
+- Fixed the household panel not updating when a household is deleted
 
-> Small Fixes and Improvements
-
-This small set of bugfix updates also brings a few small improvements with it, which make it a little less infuriating to use a computer while guests or other household members are around.
-
+# 0.20.1
 Improvements
 - Don't force-cancel any actions of the currently selected person when someone tries to socialize with them
 
 Fixes
-- Fixed the emergency food mail crashing the game if retrieved after a game relaunch (0.20.2)
-- Fixed roof-attached objects being removed when a roof is replaced with a new one (0.20.2)
-- Fixed the household panel not updating when a household is deleted (0.20.2)
 - Fixed actions that can be multitasked being force-canceled when other people try to socialize
 - Fixed the character creator's "take off" button don't scrolling properly
 
@@ -424,6 +436,10 @@ API
 - Added Harmony, allowing for mods to inject custom code into the game
 
 # 0.19.2
+Fixes
+- Fixed a crash when opening the woodworking menu
+
+# 0.19.1
 ![](media/changelog/0.19.1.png)
 
 > Better Hints, Better Food, Better Names
@@ -442,7 +458,6 @@ Improvements
 - Always auto-save, even when lot or character creator conditions are unmet
 
 Fixes
-- Fixed a crash when opening the woodworking menu (0.19.2)
 - Fixed a rare crash when changelog images fail to download
 - Fixed being able to pick up food plates that other Tinies are currently eating
 - Fixed ambient sounds not fading properly between day and night
@@ -537,21 +552,33 @@ Fixes
 - Fixed particles being lit from the outside despite being inside in some cases
 
 # 0.17.5
-Apologies for the many hotfix updates recently. If you encounter any more bugs, don't hesitate to let us know using the [report form](https://tinylifegame.com/bugreport).
-
-Improvements
-- Move natural objects to household storage when new room is built (0.17.4)
-- Default names of lots on the map are now localized when creating a new save (0.17.3)
-- Added an option to disable camera rounding, which helps with visual fragments on some screen sizes (0.17.3)
-- Turned the mac build into an app bundle (0.17.2)
-- Improved video ram usage of outside tiles (0.17.2)
-
 Fixes
 - Fixed mods crashing the game on startup
-- Fixed inside tiles being hidden for newly built rooms until the game is restarted (0.17.4)
-- Fixed a crash when rotating the camera on some machines (0.17.3)
-- Fixed visual fragments on the terrain on some screen sizes (0.17.3)
-- Fixed an exception when putting away books (0.17.1)
+
+# 0.17.4
+Improvements
+- Move natural objects to household storage when new room is built
+
+Fixes
+- Fixed inside tiles being hidden for newly built rooms until the game is restarted
+
+# 0.17.3
+Improvements
+- Default names of lots on the map are now localized when creating a new save
+- Added an option to disable camera rounding, which helps with visual fragments on some screen sizes
+
+Fixes
+- Fixed a crash when rotating the camera on some machines
+- Fixed visual fragments on the terrain on some screen sizes 
+
+# 0.17.2
+Improvements
+- Turned the mac build into an app bundle
+- Improved video ram usage of outside tiles
+
+# 0.17.1
+Fixes
+- Fixed an exception when putting away books
 
 # 0.17.0
 ![](media/changelog/0.17.0.png)
