@@ -6,9 +6,10 @@ items:
   parent: TinyLife.Objects
   children:
   - TinyLife.Objects.ScreenObject.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  - TinyLife.Objects.ScreenObject.Content
   - TinyLife.Objects.ScreenObject.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.ScreenObject.IsOn
-  - TinyLife.Objects.ScreenObject.ScreenContent
+  - TinyLife.Objects.ScreenObject.ScreenContentOverrides
   - TinyLife.Objects.ScreenObject.TurnOff
   - TinyLife.Objects.ScreenObject.TurnOn(System.String)
   langs:
@@ -25,7 +26,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ScreenObject
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -155,25 +156,63 @@ items:
   modifiers.vb:
   - Public
   - Class
-- uid: TinyLife.Objects.ScreenObject.ScreenContent
-  commentId: P:TinyLife.Objects.ScreenObject.ScreenContent
-  id: ScreenContent
+- uid: TinyLife.Objects.ScreenObject.ScreenContentOverrides
+  commentId: F:TinyLife.Objects.ScreenObject.ScreenContentOverrides
+  id: ScreenContentOverrides
   parent: TinyLife.Objects.ScreenObject
   langs:
   - csharp
   - vb
-  name: ScreenContent
-  nameWithType: ScreenObject.ScreenContent
-  fullName: TinyLife.Objects.ScreenObject.ScreenContent
+  name: ScreenContentOverrides
+  nameWithType: ScreenObject.ScreenContentOverrides
+  fullName: TinyLife.Objects.ScreenObject.ScreenContentOverrides
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/ScreenObject.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ScreenContentOverrides
+    path: ../TinyLife/Objects/ScreenObject.cs
+    startLine: 25
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA set of predicates and overrides that determine what screen content textures certain furniture items should display.\nIf your furniture item has a specific screen width, height or location, you can add an item to this collection that determines the names of the textures used.\n"
+  example:
+  - "\nFor example, the <xref href=\"TinyLife.Objects.FurnitureType.OldComputer\" data-throw-if-not-resolved=\"false\"></xref> adds the following entry:\n<pre><code>(t => t.Type == FurnitureType.OldComputer, (_, s) => $&quot;Square{s}&quot;)</code></pre>\n"
+  syntax:
+    content: public static readonly List<(Func<Furniture, bool> Predicate, Func<Furniture, string, string> Override)> ScreenContentOverrides
+    return:
+      type: System.Collections.Generic.List{System.ValueTuple{System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.String,System.String}}}
+    content.vb: Public Shared ReadOnly ScreenContentOverrides As List(Of(Predicate As Func(Of Furniture, Boolean), Override As Func(Of Furniture, String, String))(Of Func(Of Furniture , Boolean), Func(Of Furniture, String, String))
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Objects.ScreenObject.Content
+  commentId: P:TinyLife.Objects.ScreenObject.Content
+  id: Content
+  parent: TinyLife.Objects.ScreenObject
+  langs:
+  - csharp
+  - vb
+  name: Content
+  nameWithType: ScreenObject.Content
+  fullName: TinyLife.Objects.ScreenObject.Content
   type: Property
   source:
     remote:
       path: TinyLife/Objects/ScreenObject.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: ScreenContent
+    id: Content
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 19
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -183,15 +222,15 @@ items:
     content: >-
       [DataMember]
 
-      public string ScreenContent { get; }
+      public string Content { get; }
     parameters: []
     return:
       type: System.String
     content.vb: >-
       <DataMember>
 
-      Public ReadOnly Property ScreenContent As String
-  overload: TinyLife.Objects.ScreenObject.ScreenContent*
+      Public ReadOnly Property Content As String
+  overload: TinyLife.Objects.ScreenObject.Content*
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -220,11 +259,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsOn
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 25
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nA property that determines whether this screen object is currently on.\nA screen object is on if it has a current <xref href=\"TinyLife.Objects.ScreenObject.ScreenContent\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA property that determines whether this screen object is currently on.\nA screen object is on if it has a current <xref href=\"TinyLife.Objects.ScreenObject.Content\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public bool IsOn { get; }
@@ -257,7 +296,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 28
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -308,7 +347,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 32
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -386,19 +425,19 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TurnOn
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 49
+    startLine: 66
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nTurns this screen object on, setting its <xref href=\"TinyLife.Objects.ScreenObject.ScreenContent\" data-throw-if-not-resolved=\"false\"></xref> to the given content.\nThe screen content set here determines the texture to display on this screen object&apos;s screen.\n"
+  summary: "\nTurns this screen object on, setting its <xref href=\"TinyLife.Objects.ScreenObject.Content\" data-throw-if-not-resolved=\"false\"></xref> to the given content.\nThe screen content set here determines the texture to display on this screen object&apos;s screen.\n"
   example: []
   syntax:
-    content: public void TurnOn(string screenContent)
+    content: public void TurnOn(string content)
     parameters:
-    - id: screenContent
+    - id: content
       type: System.String
       description: ''
-    content.vb: Public Sub TurnOn(screenContent As String)
+    content.vb: Public Sub TurnOn(content As String)
   overload: TinyLife.Objects.ScreenObject.TurnOn*
   modifiers.csharp:
   - public
@@ -422,7 +461,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TurnOff
     path: ../TinyLife/Objects/ScreenObject.cs
-    startLine: 56
+    startLine: 73
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4453,17 +4492,235 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
+- uid: TinyLife.Objects.FurnitureType.OldComputer
+  commentId: F:TinyLife.Objects.FurnitureType.OldComputer
+  isExternal: true
+- uid: System.Collections.Generic.List{System.ValueTuple{System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.String,System.String}}}
+  commentId: T:System.Collections.Generic.List{System.ValueTuple{System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.String,System.String}}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  name: List<(T1, T2)<Func<Furniture, Boolean>, Func<Furniture, String, String>>>
+  nameWithType: List<(T1, T2)<Func<Furniture, Boolean>, Func<Furniture, String, String>>>
+  fullName: System.Collections.Generic.List<System.ValueTuple<System.Func<TinyLife.Objects.Furniture, System.Boolean>, System.Func<TinyLife.Objects.Furniture, System.String, System.String>>>
+  nameWithType.vb: List(Of (T1, T2)(Of Func(Of Furniture, Boolean), Func(Of Furniture, String, String)))
+  fullName.vb: System.Collections.Generic.List(Of System.ValueTuple(Of System.Func(Of TinyLife.Objects.Furniture, System.Boolean), System.Func(Of TinyLife.Objects.Furniture, System.String, System.String)))
+  name.vb: List(Of (T1, T2)(Of Func(Of Furniture, Boolean), Func(Of Furniture, String, String)))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.ValueTuple`2
+    name: (T1, T2)
+    nameWithType: (T1, T2)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.ValueTuple`2
+    name: (T1, T2)
+    nameWithType: (T1, T2)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Func`3
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    nameWithType: Furniture
+    fullName: TinyLife.Objects.Furniture
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    nameWithType: List
+    fullName: System.Collections.Generic.List
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
 - uid: TinyLife.Objects.ScreenObject.TurnOn(System.String)
   commentId: M:TinyLife.Objects.ScreenObject.TurnOn(System.String)
   isExternal: true
 - uid: TinyLife.Objects.ScreenObject.TurnOff
   commentId: M:TinyLife.Objects.ScreenObject.TurnOff
   isExternal: true
-- uid: TinyLife.Objects.ScreenObject.ScreenContent*
-  commentId: Overload:TinyLife.Objects.ScreenObject.ScreenContent
-  name: ScreenContent
-  nameWithType: ScreenObject.ScreenContent
-  fullName: TinyLife.Objects.ScreenObject.ScreenContent
+- uid: TinyLife.Objects.ScreenObject.Content*
+  commentId: Overload:TinyLife.Objects.ScreenObject.Content
+  name: Content
+  nameWithType: ScreenObject.Content
+  fullName: TinyLife.Objects.ScreenObject.Content
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -4471,8 +4728,8 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: TinyLife.Objects.ScreenObject.ScreenContent
-  commentId: P:TinyLife.Objects.ScreenObject.ScreenContent
+- uid: TinyLife.Objects.ScreenObject.Content
+  commentId: P:TinyLife.Objects.ScreenObject.Content
   isExternal: true
 - uid: TinyLife.Objects.ScreenObject.IsOn*
   commentId: Overload:TinyLife.Objects.ScreenObject.IsOn
@@ -4990,51 +5247,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
-  isExternal: true
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    nameWithType: List
-    fullName: System.Collections.Generic.List
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
 - uid: TinyLife.Objects.ScreenObject.TurnOn*
   commentId: Overload:TinyLife.Objects.ScreenObject.TurnOn
   name: TurnOn

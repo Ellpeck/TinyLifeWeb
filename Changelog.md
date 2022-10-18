@@ -1,3 +1,42 @@
+# 0.26.0
+> Lights, Camera, Music
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/441031/0260-lights-camera-music) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6319138589415905559).
+
+Additions
+- Added the first of many of [Leiss](https://leiss.bandcamp.com)'s songs for the Tiny Life Soundtrack
+- Added the outdoorsy personality type
+- Added two headscarves
+- Added some more skill-related socials
+
+Improvements
+- Improved custom content import menus
+- Automatically update import menu content if underlying files change
+- Change a lot's name to the imported lot's name when importing
+- Ask for a name when exporting a lot or a household
+- Children without a complete household are now added to the adoption pool instead of being exported
+- Made choice prompts also be influenced by a Tiny's skills
+- Hide small updates in the main menu's changelog panel by default
+- Made the old computer a bit more square looking
+- Cooking shows will now have a chance to yield the baking skill in addition to the cooking skill
+- Made Tinies meet and gain friendship with their coworkers while they're both at work
+- Mark visually held items (like sponges and spanners) as fake so they don't inhibit action queueing
+
+Fixes
+- Fixed diagonal keyboard camera movement being too fast
+- Fixed failed undo/redo attempts crashing the game
+- Fixed a crash when getting up out of bed after a Tiny's outfits have been edited
+- Fixed a crash when a modded personality type was removed since the last session
+- Fixed an ignored exception when exiting the character creator
+- Fixed the mouse cursor still activating the UI while it was hidden
+- Fixed Admire being called Admirar (for some reason)
+- Fixed food item effects not being applied if the eat action is not completed fully
+- Fixed a crash when multiple emotion modifiers run out at the same time
+
+API
+- Added a clothes compatibility system to allow for certain clothes to be automatically removed if others are selected
+- Added Ben.Demystifier to make stack traces more legible
+
 # 0.25.3
 Fixes
 - Fixed a crash when abandoning a life goal
@@ -569,7 +608,7 @@ Improvements
 
 Fixes
 - Fixed a crash when rotating the camera on some machines
-- Fixed visual fragments on the terrain on some screen sizes 
+- Fixed visual fragments on the terrain on some screen sizes
 
 # 0.17.2
 Improvements

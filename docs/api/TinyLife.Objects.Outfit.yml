@@ -10,7 +10,7 @@ items:
   - TinyLife.Objects.Outfit.EnsureIntentionsMatch(System.Int32)
   - TinyLife.Objects.Outfit.GetIntentionPercentage(TinyLife.Objects.ClothesIntention)
   - TinyLife.Objects.Outfit.Intentions
-  - TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32)
+  - TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32,System.Func{TinyLife.Objects.Clothes,System.Boolean})
   langs:
   - csharp
   - vb
@@ -25,7 +25,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Outfit
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 403
+    startLine: 423
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -80,7 +80,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Clothes
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 411
+    startLine: 431
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -125,7 +125,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intentions
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 417
+    startLine: 437
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -168,7 +168,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 423
+    startLine: 443
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -207,7 +207,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetIntentionPercentage
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 433
+    startLine: 453
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -246,7 +246,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EnsureIntentionsMatch
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 451
+    startLine: 471
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -264,16 +264,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32)
-  commentId: M:TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32)
-  id: SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32)
+- uid: TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32,System.Func{TinyLife.Objects.Clothes,System.Boolean})
+  commentId: M:TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32,System.Func{TinyLife.Objects.Clothes,System.Boolean})
+  id: SetRandomClothesItem(System.Random,TinyLife.Objects.ClothesLayer,TinyLife.Objects.AgeGroup,TinyLife.Objects.ClothesIntention,System.Boolean,System.Int32,System.Func{TinyLife.Objects.Clothes,System.Boolean})
   parent: TinyLife.Objects.Outfit
   langs:
   - csharp
   - vb
-  name: SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32)
-  nameWithType: Outfit.SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32)
-  fullName: TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random, TinyLife.Objects.ClothesLayer, TinyLife.Objects.AgeGroup, TinyLife.Objects.ClothesIntention, System.Boolean, System.Int32)
+  name: SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32, Func<Clothes, Boolean>)
+  nameWithType: Outfit.SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32, Func<Clothes, Boolean>)
+  fullName: TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random, TinyLife.Objects.ClothesLayer, TinyLife.Objects.AgeGroup, TinyLife.Objects.ClothesIntention, System.Boolean, System.Int32, System.Func<TinyLife.Objects.Clothes, System.Boolean>)
   type: Method
   source:
     remote:
@@ -282,14 +282,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetRandomClothesItem
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 471
+    startLine: 492
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nSets a random clothes item for this outfit&apos;s given <xref href=\"TinyLife.Objects.ClothesLayer\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public void SetRandomClothesItem(Random random, ClothesLayer layer, AgeGroup age, ClothesIntention allowedIntentions = ClothesIntention.None, bool keepOldColors = false, int maxPrice = 50)
+    content: public void SetRandomClothesItem(Random random, ClothesLayer layer, AgeGroup age, ClothesIntention allowedIntentions = ClothesIntention.None, bool keepOldColors = false, int maxPrice = 50, Func<Clothes, bool> additionalConditions = null)
     parameters:
     - id: random
       type: System.Random
@@ -309,12 +309,18 @@ items:
     - id: maxPrice
       type: System.Int32
       description: The maximum price that should be used when setting a random clothes item. Defaults to <xref href="TinyLife.Objects.Clothes.ReferencePrice" data-throw-if-not-resolved="false"></xref>.
-    content.vb: Public Sub SetRandomClothesItem(random As Random, layer As ClothesLayer, age As AgeGroup, allowedIntentions As ClothesIntention = ClothesIntention.None, keepOldColors As Boolean = False, maxPrice As Integer = 50)
+    - id: additionalConditions
+      type: System.Func{TinyLife.Objects.Clothes,System.Boolean}
+      description: An optional set of additional conditions to check for when selecting clothing items.
+    content.vb: Public Sub SetRandomClothesItem(random As Random, layer As ClothesLayer, age As AgeGroup, allowedIntentions As ClothesIntention = ClothesIntention.None, keepOldColors As Boolean = False, maxPrice As Integer = 50, additionalConditions As Func(Of Clothes, Boolean) = Nothing)
   overload: TinyLife.Objects.Outfit.SetRandomClothesItem*
+  nameWithType.vb: Outfit.SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32, Func(Of Clothes, Boolean))
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+  fullName.vb: TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random, TinyLife.Objects.ClothesLayer, TinyLife.Objects.AgeGroup, TinyLife.Objects.ClothesIntention, System.Boolean, System.Int32, System.Func(Of TinyLife.Objects.Clothes, System.Boolean))
+  name.vb: SetRandomClothesItem(Random, ClothesLayer, AgeGroup, ClothesIntention, Boolean, Int32, Func(Of Clothes, Boolean))
 references:
 - uid: TinyLife.Objects.WornClothes
   commentId: T:TinyLife.Objects.WornClothes
@@ -941,3 +947,112 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: System.Func{TinyLife.Objects.Clothes,System.Boolean}
+  commentId: T:System.Func{TinyLife.Objects.Clothes,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  name: Func<Clothes, Boolean>
+  nameWithType: Func<Clothes, Boolean>
+  fullName: System.Func<TinyLife.Objects.Clothes, System.Boolean>
+  nameWithType.vb: Func(Of Clothes, Boolean)
+  fullName.vb: System.Func(Of TinyLife.Objects.Clothes, System.Boolean)
+  name.vb: Func(Of Clothes, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    nameWithType: Clothes
+    fullName: TinyLife.Objects.Clothes
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    nameWithType: Clothes
+    fullName: TinyLife.Objects.Clothes
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TResult
+    nameWithType: TResult
+    fullName: TResult
+  - name: )
+    nameWithType: )
+    fullName: )

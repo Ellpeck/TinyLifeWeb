@@ -7,12 +7,12 @@ items:
   children:
   - TinyLife.ChoicePromptInfo.Option.#ctor(System.String,System.Action{TinyLife.ChoicePromptInfo,TinyLife.Objects.Person},System.Action{TinyLife.ChoicePromptInfo,TinyLife.Objects.Person},System.Func{TinyLife.Objects.Person,System.Single})
   - TinyLife.ChoicePromptInfo.Option.#ctor(System.String,System.Func{TinyLife.Objects.Person,System.Single},System.Func{TinyLife.Objects.Person,System.Single},System.Func{TinyLife.Objects.Person,System.Single})
-  - TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,System.Single,System.Single,System.Single)
+  - TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,TinyLife.Skills.SkillType,System.Single,System.Single,System.Single)
   - TinyLife.ChoicePromptInfo.Option.Execute(TinyLife.ChoicePromptInfo,TinyLife.Objects.Person,System.Boolean)
   - TinyLife.ChoicePromptInfo.Option.FailAction
   - TinyLife.ChoicePromptInfo.Option.Name
   - TinyLife.ChoicePromptInfo.Option.SuccessAction
-  - TinyLife.ChoicePromptInfo.Option.SuccessWeight
+  - TinyLife.ChoicePromptInfo.Option.SuccessChance
   langs:
   - csharp
   - vb
@@ -27,7 +27,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Option
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 72
+    startLine: 71
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -72,7 +72,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 77
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -107,7 +107,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SuccessAction
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 81
+    startLine: 80
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -142,7 +142,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FailAction
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 85
+    startLine: 84
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -159,35 +159,35 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.ChoicePromptInfo.Option.SuccessWeight
-  commentId: F:TinyLife.ChoicePromptInfo.Option.SuccessWeight
-  id: SuccessWeight
+- uid: TinyLife.ChoicePromptInfo.Option.SuccessChance
+  commentId: F:TinyLife.ChoicePromptInfo.Option.SuccessChance
+  id: SuccessChance
   parent: TinyLife.ChoicePromptInfo.Option
   langs:
   - csharp
   - vb
-  name: SuccessWeight
-  nameWithType: ChoicePromptInfo.Option.SuccessWeight
-  fullName: TinyLife.ChoicePromptInfo.Option.SuccessWeight
+  name: SuccessChance
+  nameWithType: ChoicePromptInfo.Option.SuccessChance
+  fullName: TinyLife.ChoicePromptInfo.Option.SuccessChance
   type: Field
   source:
     remote:
       path: TinyLife/Actions/ChoicePromptInfo.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: SuccessWeight
+    id: SuccessChance
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 89
+    startLine: 88
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: "\nThe weight (or chance) with which this option will be randomly chosen as the correct one. If one of the options of a <xref href=\"TinyLife.ChoicePromptInfo\" data-throw-if-not-resolved=\"false\"></xref> has a higher weight, it is more likely to be chosen than the other ones.\n"
+  summary: "\nA function that determines the success change of this choice prompt option once it&apos;s chosen, which is expected to be a value between 0 and 1.\n"
   example: []
   syntax:
-    content: public readonly Func<Person, float> SuccessWeight
+    content: public readonly Func<Person, float> SuccessChance
     return:
       type: System.Func{TinyLife.Objects.Person,System.Single}
-    content.vb: Public ReadOnly SuccessWeight As Func(Of Person, Single)
+    content.vb: Public ReadOnly SuccessChance As Func(Of Person, Single)
   modifiers.csharp:
   - public
   - readonly
@@ -212,14 +212,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 98
+    startLine: 97
   assemblies:
   - Tiny Life
   namespace: TinyLife
   summary: "\nCreates a new option with the given generic settings.\n"
   example: []
   syntax:
-    content: public Option(string name, Action<ChoicePromptInfo, Person> successAction, Action<ChoicePromptInfo, Person> failAction, Func<Person, float> successWeight = null)
+    content: public Option(string name, Action<ChoicePromptInfo, Person> successAction, Action<ChoicePromptInfo, Person> failAction, Func<Person, float> successChance)
     parameters:
     - id: name
       type: System.String
@@ -230,10 +230,10 @@ items:
     - id: failAction
       type: System.Action{TinyLife.ChoicePromptInfo,TinyLife.Objects.Person}
       description: The action that should be invoked when this option is chosen as the incorrect option when the player selects it.
-    - id: successWeight
+    - id: successChance
       type: System.Func{TinyLife.Objects.Person,System.Single}
-      description: The weight (or chance) with which this option will be randomly chosen as the correct one. If one of the options of a <xref href="TinyLife.ChoicePromptInfo" data-throw-if-not-resolved="false"></xref> has a higher weight, it is more likely to be chosen than the other ones.
-    content.vb: Public Sub New(name As String, successAction As Action(Of ChoicePromptInfo, Person), failAction As Action(Of ChoicePromptInfo, Person), successWeight As Func(Of Person, Single) = Nothing)
+      description: A function that determines the success change of this choice prompt option once it&apos;s chosen, which is expected to be a value between 0 and 1.
+    content.vb: Public Sub New(name As String, successAction As Action(Of ChoicePromptInfo, Person), failAction As Action(Of ChoicePromptInfo, Person), successChance As Func(Of Person, Single))
   overload: TinyLife.ChoicePromptInfo.Option.#ctor*
   nameWithType.vb: ChoicePromptInfo.Option.Option(String, Action(Of ChoicePromptInfo, Person), Action(Of ChoicePromptInfo, Person), Func(Of Person, Single))
   modifiers.csharp:
@@ -260,14 +260,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 112
+    startLine: 111
   assemblies:
   - Tiny Life
   namespace: TinyLife
   summary: "\nCreates a new option with the given job-related outcomes.\n"
   example: []
   syntax:
-    content: public Option(string name, Func<Person, float> jobPerformanceGained, Func<Person, float> jobPerformanceLost, Func<Person, float> successWeight = null)
+    content: public Option(string name, Func<Person, float> jobPerformanceGained, Func<Person, float> jobPerformanceLost, Func<Person, float> successChance)
     parameters:
     - id: name
       type: System.String
@@ -278,10 +278,10 @@ items:
     - id: jobPerformanceLost
       type: System.Func{TinyLife.Objects.Person,System.Single}
       description: A function that returns the amount of job performance that should be lost when the incorrect option is selected by the player.
-    - id: successWeight
+    - id: successChance
       type: System.Func{TinyLife.Objects.Person,System.Single}
-      description: The weight (or chance) with which this option will be randomly chosen as the correct one. If one of the options of a <xref href="TinyLife.ChoicePromptInfo" data-throw-if-not-resolved="false"></xref> has a higher weight, it is more likely to be chosen than the other ones.
-    content.vb: Public Sub New(name As String, jobPerformanceGained As Func(Of Person, Single), jobPerformanceLost As Func(Of Person, Single), successWeight As Func(Of Person, Single) = Nothing)
+      description: A function that determines the success change of this choice prompt option once it&apos;s chosen, which is expected to be a value between 0 and 1.
+    content.vb: Public Sub New(name As String, jobPerformanceGained As Func(Of Person, Single), jobPerformanceLost As Func(Of Person, Single), successChance As Func(Of Person, Single))
   overload: TinyLife.ChoicePromptInfo.Option.#ctor*
   nameWithType.vb: ChoicePromptInfo.Option.Option(String, Func(Of Person, Single), Func(Of Person, Single), Func(Of Person, Single))
   modifiers.csharp:
@@ -290,16 +290,16 @@ items:
   - Public
   fullName.vb: TinyLife.ChoicePromptInfo.Option.Option(System.String, System.Func(Of TinyLife.Objects.Person, System.Single), System.Func(Of TinyLife.Objects.Person, System.Single), System.Func(Of TinyLife.Objects.Person, System.Single))
   name.vb: Option(String, Func(Of Person, Single), Func(Of Person, Single), Func(Of Person, Single))
-- uid: TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,System.Single,System.Single,System.Single)
-  id: '#ctor(System.String,TinyLife.Emotions.EmotionType,System.Single,System.Single,System.Single)'
+- uid: TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,TinyLife.Skills.SkillType,System.Single,System.Single,System.Single)
+  commentId: M:TinyLife.ChoicePromptInfo.Option.#ctor(System.String,TinyLife.Emotions.EmotionType,TinyLife.Skills.SkillType,System.Single,System.Single,System.Single)
+  id: '#ctor(System.String,TinyLife.Emotions.EmotionType,TinyLife.Skills.SkillType,System.Single,System.Single,System.Single)'
   parent: TinyLife.ChoicePromptInfo.Option
   langs:
   - csharp
   - vb
-  name: Option(String, EmotionType, Single, Single, Single)
-  nameWithType: ChoicePromptInfo.Option.Option(String, EmotionType, Single, Single, Single)
-  fullName: TinyLife.ChoicePromptInfo.Option.Option(System.String, TinyLife.Emotions.EmotionType, System.Single, System.Single, System.Single)
+  name: Option(String, EmotionType, SkillType, Single, Single, Single)
+  nameWithType: ChoicePromptInfo.Option.Option(String, EmotionType, SkillType, Single, Single, Single)
+  fullName: TinyLife.ChoicePromptInfo.Option.Option(System.String, TinyLife.Emotions.EmotionType, TinyLife.Skills.SkillType, System.Single, System.Single, System.Single)
   type: Constructor
   source:
     remote:
@@ -315,24 +315,27 @@ items:
   summary: "\nCreates a new option with the given job-related outcomes.\n"
   example: []
   syntax:
-    content: public Option(string name, EmotionType successIncreaseEmotion = null, float jobPerformanceGained = 0.1F, float jobPerformanceLost = 0.1F, float successWeight = 1F)
+    content: public Option(string name, EmotionType successIncreaseEmotion = null, SkillType successIncreaseSkill = null, float jobPerformanceGained = 0.1F, float jobPerformanceLost = 0.1F, float successChance = 0.4F)
     parameters:
     - id: name
       type: System.String
       description: This option&apos;s name, which will be localized.
     - id: successIncreaseEmotion
       type: TinyLife.Emotions.EmotionType
-      description: ''
+      description: An emotion that optionally increases the success chance of this option.
+    - id: successIncreaseSkill
+      type: TinyLife.Skills.SkillType
+      description: A skill that optionally increases the success chance of this option.
     - id: jobPerformanceGained
       type: System.Single
       description: The amount of job performance that should be gained when the correct option is selected by the player.
     - id: jobPerformanceLost
       type: System.Single
       description: The amount of job performance that should be lost when the incorrect option is selected by the player.
-    - id: successWeight
+    - id: successChance
       type: System.Single
-      description: The weight (or chance) with which this option will be randomly chosen as the correct one. If one of the options of a <xref href="TinyLife.ChoicePromptInfo" data-throw-if-not-resolved="false"></xref> has a higher weight, it is more likely to be chosen than the other ones.
-    content.vb: Public Sub New(name As String, successIncreaseEmotion As EmotionType = Nothing, jobPerformanceGained As Single = 0.1F, jobPerformanceLost As Single = 0.1F, successWeight As Single = 1F)
+      description: The success chance of this option, which is expected to be a value between 0 and 1.
+    content.vb: Public Sub New(name As String, successIncreaseEmotion As EmotionType = Nothing, successIncreaseSkill As SkillType = Nothing, jobPerformanceGained As Single = 0.1F, jobPerformanceLost As Single = 0.1F, successChance As Single = 0.4F)
   overload: TinyLife.ChoicePromptInfo.Option.#ctor*
   modifiers.csharp:
   - public
@@ -356,7 +359,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Execute
     path: ../TinyLife/Actions/ChoicePromptInfo.cs
-    startLine: 148
+    startLine: 155
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -997,6 +1000,12 @@ references:
   name: EmotionType
   nameWithType: EmotionType
   fullName: TinyLife.Emotions.EmotionType
+- uid: TinyLife.Skills.SkillType
+  commentId: T:TinyLife.Skills.SkillType
+  parent: TinyLife.Skills
+  name: SkillType
+  nameWithType: SkillType
+  fullName: TinyLife.Skills.SkillType
 - uid: System.Single
   commentId: T:System.Single
   parent: System
@@ -1009,6 +1018,11 @@ references:
   name: TinyLife.Emotions
   nameWithType: TinyLife.Emotions
   fullName: TinyLife.Emotions
+- uid: TinyLife.Skills
+  commentId: N:TinyLife.Skills
+  name: TinyLife.Skills
+  nameWithType: TinyLife.Skills
+  fullName: TinyLife.Skills
 - uid: TinyLife.ChoicePromptInfo.Option.Execute*
   commentId: Overload:TinyLife.ChoicePromptInfo.Option.Execute
   name: Execute
