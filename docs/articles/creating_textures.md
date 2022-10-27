@@ -10,8 +10,6 @@ When creating textures, either for custom mods or to change the game's default t
 - Furniture items generally have four distinct directions they can be placed in if they're more complex, or just one or two if they have symmetry in one or both axes.
 - Layers (see general notes) can also be used to determine which parts of a furniture item will be occluded by Tinies and which won't. This is useful, for example, for the backrests of chairs, which should be drawn above a Tiny when looking at them from behind.
 
-Here are some examples of furniture items that use layers.
-
 ![](../media/beds.png)
 
 ![](../media/counters.png)
