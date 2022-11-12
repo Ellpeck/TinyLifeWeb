@@ -1,3 +1,43 @@
+# 0.27.0
+![](media/changelog/0.27.0.png)
+
+> Trashy Techie Library
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/450800/0270-trashy-techie-library) or [on Steam](https://store.steampowered.com/news/app/1651490/view/5453324100721557422).
+
+Additions
+- Added a double-sided bookshelf, a book cart, a small indoor trash can, an outdoor wheelie bin, a vertical planter box, and a simple nightstand
+- Added a library lot type with a librarian Tiny, as well as the Maple Plains Library by Vortis
+- Added the techie personality type
+- Added the ability to take out the trash from indoor trash cans
+- Added a lot more emote images
+- Added the ability to short-press the right mouse button to rotate objects
+
+Improvements
+- Display particles when children are playing in the sandbox
+- Display smoke particles when someone is angry
+- Display particles when using a sink
+- Display an "Are You Sure" panel when changing lot types if there's staff on the lot
+- Made roofs have a maximum size so that they don't cause issues on big lots
+- Made some food types more friendly to other diets
+- Slightly improved the espresso machine's steam wand texture
+- Children now gain skills at school based on an internal schedule
+- Force residential lots to have outdoor trash cans on them (they have to be added upon first entering build mode after this update)
+
+Fixes
+- Fixed skill books giving skill points while still walking with the book
+- Fixed an exception when a food item gets removed while someone is eating it
+- Fixed being able to attempt to kiss strangers
+- Fixed households not being removed properly when everyone dies, causing issues later on
+- Fixed some ground items (like books and gravestones) being non-walkable, causing Tinies to get stuck
+- Fixed some static objects not being drawn properly after the map is updated to a new version
+- Fixed a possible stall when a map is updated with custom lots present
+
+API
+- Added the ability to specify clothes depths based on the layer
+- Archive projects instead of fully removing them when they don't pay out anymore
+- Removed TypelessAction in favor of allowing normal actions to be typeless
+
 # 0.26.0
 > Lights, Camera, Music
 

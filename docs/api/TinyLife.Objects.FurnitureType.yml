@@ -10,6 +10,7 @@ items:
   - TinyLife.Objects.FurnitureType.BigRocks
   - TinyLife.Objects.FurnitureType.BirchTree
   - TinyLife.Objects.FurnitureType.Book
+  - TinyLife.Objects.FurnitureType.BookCart
   - TinyLife.Objects.FurnitureType.BridgeBorderEnd
   - TinyLife.Objects.FurnitureType.BridgeBorderSegment
   - TinyLife.Objects.FurnitureType.BridgeBorderStart
@@ -18,7 +19,7 @@ items:
   - TinyLife.Objects.FurnitureType.CafeSign
   - TinyLife.Objects.FurnitureType.ChildStove
   - TinyLife.Objects.FurnitureType.ColorfulCandles
-  - TinyLife.Objects.FurnitureType.Construct(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
+  - TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
   - TinyLife.Objects.FurnitureType.CountryFence
   - TinyLife.Objects.FurnitureType.CushionedWoodworkingSofa
   - TinyLife.Objects.FurnitureType.CustomPainting
@@ -115,10 +116,12 @@ items:
   - TinyLife.Objects.FurnitureType.SimpleChair
   - TinyLife.Objects.FurnitureType.SimpleCounter
   - TinyLife.Objects.FurnitureType.SimpleDesk
+  - TinyLife.Objects.FurnitureType.SimpleDoubleSidedBookshelf
   - TinyLife.Objects.FurnitureType.SimpleDrawer
   - TinyLife.Objects.FurnitureType.SimpleEasel
   - TinyLife.Objects.FurnitureType.SimpleLamp
   - TinyLife.Objects.FurnitureType.SimpleLowTable
+  - TinyLife.Objects.FurnitureType.SimpleNightstand
   - TinyLife.Objects.FurnitureType.SimpleOpenShower
   - TinyLife.Objects.FurnitureType.SimplePicnicTable
   - TinyLife.Objects.FurnitureType.SimpleShower
@@ -143,6 +146,7 @@ items:
   - TinyLife.Objects.FurnitureType.Spanner
   - TinyLife.Objects.FurnitureType.Sponge
   - TinyLife.Objects.FurnitureType.SquareDinnerTable
+  - TinyLife.Objects.FurnitureType.SquareIndoorTrashCan
   - TinyLife.Objects.FurnitureType.SquarePlantPots
   - TinyLife.Objects.FurnitureType.StandingCoatRack
   - TinyLife.Objects.FurnitureType.StandingDesk
@@ -160,6 +164,7 @@ items:
   - TinyLife.Objects.FurnitureType.TraditionalBedsideLamp
   - TinyLife.Objects.FurnitureType.TraditionalCounter
   - TinyLife.Objects.FurnitureType.TraditionalFireplace
+  - TinyLife.Objects.FurnitureType.TrashBag
   - TinyLife.Objects.FurnitureType.Treadmill
   - TinyLife.Objects.FurnitureType.TreeStumps
   - TinyLife.Objects.FurnitureType.Types
@@ -167,6 +172,8 @@ items:
   - TinyLife.Objects.FurnitureType.UnpreparedFood
   - TinyLife.Objects.FurnitureType.Vases
   - TinyLife.Objects.FurnitureType.VerticalDumbbellRack
+  - TinyLife.Objects.FurnitureType.VerticalPlanter
+  - TinyLife.Objects.FurnitureType.WheelieBin
   - TinyLife.Objects.FurnitureType.WindowPlants
   - TinyLife.Objects.FurnitureType.Wisteria
   - TinyLife.Objects.FurnitureType.WoodenPowerPole
@@ -755,16 +762,16 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.FurnitureType.Construct(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
-  commentId: M:TinyLife.Objects.FurnitureType.Construct(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
-  id: Construct(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
+- uid: TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
+  commentId: M:TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
+  id: Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Nullable{System.Guid})
   parent: TinyLife.Objects.FurnitureType
   langs:
   - csharp
   - vb
-  name: Construct(Int32[], Map, Vector2, Nullable<Guid>)
-  nameWithType: FurnitureType.Construct(Int32[], Map, Vector2, Nullable<Guid>)
-  fullName: TinyLife.Objects.FurnitureType.Construct(System.Int32[], TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Nullable<System.Guid>)
+  name: Construct<T>(Int32[], Map, Vector2, Nullable<Guid>)
+  nameWithType: FurnitureType.Construct<T>(Int32[], Map, Vector2, Nullable<Guid>)
+  fullName: TinyLife.Objects.FurnitureType.Construct<T>(System.Int32[], TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Nullable<System.Guid>)
   type: Method
   source:
     remote:
@@ -780,7 +787,9 @@ items:
   summary: "\nConstructs a new <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> object from this furniture type\n"
   example: []
   syntax:
-    content: public Furniture Construct(int[] colors, Map map, Vector2 pos, Guid? id = null)
+    content: >-
+      public T Construct<T>(int[] colors, Map map, Vector2 pos, Guid? id = null)
+          where T : Furniture
     parameters:
     - id: colors
       type: System.Int32[]
@@ -794,18 +803,20 @@ items:
     - id: id
       type: System.Nullable{System.Guid}
       description: The id that the furniture should have, or a random one by defualt
+    typeParameters:
+    - id: T
     return:
-      type: TinyLife.Objects.Furniture
+      type: '{T}'
       description: A new furniture instance of this type
-    content.vb: Public Function Construct(colors As Integer(), map As Map, pos As Vector2, id As Guid? = Nothing) As Furniture
+    content.vb: Public Function Construct(Of T As Furniture)(colors As Integer(), map As Map, pos As Vector2, id As Guid? = Nothing) As T
   overload: TinyLife.Objects.FurnitureType.Construct*
-  nameWithType.vb: FurnitureType.Construct(Int32(), Map, Vector2, Nullable(Of Guid))
+  nameWithType.vb: FurnitureType.Construct(Of T)(Int32(), Map, Vector2, Nullable(Of Guid))
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: TinyLife.Objects.FurnitureType.Construct(System.Int32(), TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Nullable(Of System.Guid))
-  name.vb: Construct(Int32(), Map, Vector2, Nullable(Of Guid))
+  fullName.vb: TinyLife.Objects.FurnitureType.Construct(Of T)(System.Int32(), TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Nullable(Of System.Guid))
+  name.vb: Construct(Of T)(Int32(), Map, Vector2, Nullable(Of Guid))
 - uid: TinyLife.Objects.FurnitureType.GetConstructedType
   commentId: M:TinyLife.Objects.FurnitureType.GetConstructedType
   id: GetConstructedType
@@ -3113,6 +3124,41 @@ items:
   - Public
   - Shared
   - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.VerticalPlanter
+  commentId: F:TinyLife.Objects.FurnitureType.VerticalPlanter
+  id: VerticalPlanter
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: VerticalPlanter
+  nameWithType: FurnitureType.VerticalPlanter
+  fullName: TinyLife.Objects.FurnitureType.VerticalPlanter
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Decor.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: VerticalPlanter
+    path: ../TinyLife/Objects/FurnitureType.Decor.cs
+    startLine: 322
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType VerticalPlanter
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly VerticalPlanter As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: TinyLife.Objects.FurnitureType.SimpleDesk
   commentId: F:TinyLife.Objects.FurnitureType.SimpleDesk
   id: SimpleDesk
@@ -4093,6 +4139,41 @@ items:
   - Public
   - Shared
   - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.SimpleDoubleSidedBookshelf
+  commentId: F:TinyLife.Objects.FurnitureType.SimpleDoubleSidedBookshelf
+  id: SimpleDoubleSidedBookshelf
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: SimpleDoubleSidedBookshelf
+  nameWithType: FurnitureType.SimpleDoubleSidedBookshelf
+  fullName: TinyLife.Objects.FurnitureType.SimpleDoubleSidedBookshelf
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Misc.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SimpleDoubleSidedBookshelf
+    path: ../TinyLife/Objects/FurnitureType.Misc.cs
+    startLine: 177
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType SimpleDoubleSidedBookshelf
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly SimpleDoubleSidedBookshelf As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: TinyLife.Objects.FurnitureType.ModernTv
   commentId: F:TinyLife.Objects.FurnitureType.ModernTv
   id: ModernTv
@@ -4111,7 +4192,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ModernTv
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 177
+    startLine: 186
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4146,7 +4227,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MixologyKit
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 184
+    startLine: 193
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4181,7 +4262,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SimpleSofa
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 188
+    startLine: 197
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4216,7 +4297,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SimpleLowTable
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 195
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4251,7 +4332,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SimpleWallSink
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 200
+    startLine: 209
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4286,7 +4367,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Treadmill
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 207
+    startLine: 216
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4321,7 +4402,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DumbbellRack
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 217
+    startLine: 226
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4356,7 +4437,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VerticalDumbbellRack
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 221
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4391,7 +4472,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StandingDesk
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 225
+    startLine: 234
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4426,7 +4507,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ProteinShakeKit
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 231
+    startLine: 240
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4461,7 +4542,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SmallBarbecue
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 236
+    startLine: 245
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4496,7 +4577,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SimplePicnicTable
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 242
+    startLine: 251
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4531,7 +4612,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SmallPicnicTable
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 247
+    startLine: 256
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4566,7 +4647,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParkTrashCan
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 252
+    startLine: 261
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4601,7 +4682,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodworkingTable
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 256
+    startLine: 265
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4636,7 +4717,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OrnateBed
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 262
+    startLine: 271
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4671,7 +4752,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OrnateFlowerBed
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 268
+    startLine: 277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4706,7 +4787,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OrnateSingleBed
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 274
+    startLine: 283
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4741,7 +4822,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FourPostBed
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 280
+    startLine: 289
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4776,7 +4857,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TraditionalCounter
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 286
+    startLine: 295
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4811,7 +4892,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TraditionalBar
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 293
+    startLine: 302
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4846,7 +4927,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CushionedWoodworkingSofa
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 299
+    startLine: 308
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4881,7 +4962,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FullyCushionedWoodworkingSofa
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 307
+    startLine: 316
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4916,7 +4997,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LargeWoodworkingSofa
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 315
+    startLine: 324
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4951,7 +5032,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodworkingChairArmrests
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 323
+    startLine: 332
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4986,7 +5067,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodworkingChair
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 329
+    startLine: 338
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5021,7 +5102,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodworkingCloset
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 335
+    startLine: 344
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5056,7 +5137,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodenToyBox
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 345
+    startLine: 354
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5091,7 +5172,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChildStove
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 348
+    startLine: 357
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5126,7 +5207,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Sandbox
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 358
+    startLine: 367
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5161,7 +5242,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Puzzle
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 366
+    startLine: 375
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5196,7 +5277,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BaristaCoffeeMachine
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 370
+    startLine: 379
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5231,7 +5312,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StandingCoatRack
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 376
+    startLine: 385
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5266,7 +5347,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CafeDisplayCase
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 380
+    startLine: 389
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5301,7 +5382,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlainCoffeeTable
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 384
+    startLine: 393
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5336,7 +5417,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ModernTvStand
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 389
+    startLine: 398
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5371,7 +5452,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SmallOpenShelf
     path: ../TinyLife/Objects/FurnitureType.Misc.cs
-    startLine: 395
+    startLine: 404
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5380,6 +5461,146 @@ items:
     return:
       type: TinyLife.Objects.FurnitureType
     content.vb: Public Shared ReadOnly SmallOpenShelf As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.BookCart
+  commentId: F:TinyLife.Objects.FurnitureType.BookCart
+  id: BookCart
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: BookCart
+  nameWithType: FurnitureType.BookCart
+  fullName: TinyLife.Objects.FurnitureType.BookCart
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Misc.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: BookCart
+    path: ../TinyLife/Objects/FurnitureType.Misc.cs
+    startLine: 413
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType BookCart
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly BookCart As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.SquareIndoorTrashCan
+  commentId: F:TinyLife.Objects.FurnitureType.SquareIndoorTrashCan
+  id: SquareIndoorTrashCan
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: SquareIndoorTrashCan
+  nameWithType: FurnitureType.SquareIndoorTrashCan
+  fullName: TinyLife.Objects.FurnitureType.SquareIndoorTrashCan
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Misc.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SquareIndoorTrashCan
+    path: ../TinyLife/Objects/FurnitureType.Misc.cs
+    startLine: 417
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType SquareIndoorTrashCan
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly SquareIndoorTrashCan As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.WheelieBin
+  commentId: F:TinyLife.Objects.FurnitureType.WheelieBin
+  id: WheelieBin
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: WheelieBin
+  nameWithType: FurnitureType.WheelieBin
+  fullName: TinyLife.Objects.FurnitureType.WheelieBin
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Misc.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: WheelieBin
+    path: ../TinyLife/Objects/FurnitureType.Misc.cs
+    startLine: 421
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType WheelieBin
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly WheelieBin As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.SimpleNightstand
+  commentId: F:TinyLife.Objects.FurnitureType.SimpleNightstand
+  id: SimpleNightstand
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: SimpleNightstand
+  nameWithType: FurnitureType.SimpleNightstand
+  fullName: TinyLife.Objects.FurnitureType.SimpleNightstand
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.Misc.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SimpleNightstand
+    path: ../TinyLife/Objects/FurnitureType.Misc.cs
+    startLine: 425
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType SimpleNightstand
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly SimpleNightstand As FurnitureType
   modifiers.csharp:
   - public
   - static
@@ -6053,6 +6274,41 @@ items:
   - Public
   - Shared
   - ReadOnly
+- uid: TinyLife.Objects.FurnitureType.TrashBag
+  commentId: F:TinyLife.Objects.FurnitureType.TrashBag
+  id: TrashBag
+  parent: TinyLife.Objects.FurnitureType
+  langs:
+  - csharp
+  - vb
+  name: TrashBag
+  nameWithType: FurnitureType.TrashBag
+  fullName: TinyLife.Objects.FurnitureType.TrashBag
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/FurnitureType.NonBuyable.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: TrashBag
+    path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
+    startLine: 87
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly FurnitureType TrashBag
+    return:
+      type: TinyLife.Objects.FurnitureType
+    content.vb: Public Shared ReadOnly TrashBag As FurnitureType
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
 - uid: TinyLife.Objects.FurnitureType.Mop
   commentId: F:TinyLife.Objects.FurnitureType.Mop
   id: Mop
@@ -6071,7 +6327,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Mop
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 87
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6106,7 +6362,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Dumbbell
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 88
+    startLine: 91
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6141,7 +6397,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GrillingFood
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 91
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6176,7 +6432,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UnfinishedWoodwork
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 94
+    startLine: 97
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6211,7 +6467,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HomeworkBook
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 100
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6246,7 +6502,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToyCar
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 103
+    startLine: 106
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6281,7 +6537,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SmallShovel
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 106
+    startLine: 109
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6316,7 +6572,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Newspaper
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 107
+    startLine: 110
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6351,7 +6607,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodenPowerPole
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 115
+    startLine: 118
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6386,7 +6642,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WoodenPowerPoleLine
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 118
+    startLine: 121
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6421,7 +6677,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SkillBooks
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 121
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6456,7 +6712,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BridgeBorderSegment
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 125
+    startLine: 128
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6491,7 +6747,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BridgeBorderStart
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 126
+    startLine: 129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6526,7 +6782,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BridgeBorderEnd
     path: ../TinyLife/Objects/FurnitureType.NonBuyable.cs
-    startLine: 127
+    startLine: 130
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -8207,6 +8463,16 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: System.Type
   commentId: T:System.Type
   parent: System
