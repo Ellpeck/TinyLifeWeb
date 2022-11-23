@@ -1,4 +1,6 @@
 # 0.27.0
+*November 12, 2022*
+
 ![](media/changelog/0.27.0.png)
 
 > Trashy Techie Library
@@ -39,6 +41,8 @@ API
 - Removed TypelessAction in favor of allowing normal actions to be typeless
 
 # 0.26.0
+*October 18, 2022*
+
 > Lights, Camera, Music
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/441031/0260-lights-camera-music) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6319138589415905559).
@@ -78,6 +82,8 @@ API
 - Added Ben.Demystifier to make stack traces more legible
 
 # 0.25.3
+*September 19, 2022*
+
 Fixes
 - Fixed a crash when abandoning a life goal
 - Fixed adults being able to blow out candles, causing a crash
@@ -85,6 +91,8 @@ Fixes
 - Fixed being able to slide away notifications in the history menu
 
 # 0.25.2
+*September 17, 2022*
+
 Improvements
 - Also follow a person when left-clicking their button again while they're already selected
 - When saving custom households, files will now append a number rather than a large amount of dashes if they conflict
@@ -95,6 +103,8 @@ Fixes
 - Fixed options not saving when pressing the X button on them
 
 # 0.25.1
+*September 13, 2022*
+
 Improvements
 - Animate notifications when they appear and disappear
 - Allow clicking on notifications to make them go away
@@ -110,6 +120,8 @@ API
 - Added a proper build script to the Example Mod, allowing for more control and ease of use when modding
 
 # 0.25.0
+*September 5, 2022*
+
 ![](media/changelog/0.25.0.png)
 
 > Water, Stuff and Skill Books
@@ -165,6 +177,8 @@ API
 - The game version that a save was saved with is now stored
 
 # 0.24.1
+*August 2, 2022*
+
 > Various Fixes and Improvements
 
 Improvements
@@ -177,6 +191,8 @@ Fixes
 - Fixed mods being unable to contain custom furniture
 
 # 0.24.0
+*July 28, 2022*
+
 ![](media/changelog/0.24.0.png)
 
 > Undo, Redo, Fridge Achievements
@@ -220,6 +236,8 @@ API
 - Made time a map-based property rather than a game-based one
 
 # 0.23.0
+*July 4, 2022*
+
 ![](media/changelog/0.23.0.png)
 
 > Job Choices, Aging Up and Furniture Fun
@@ -275,6 +293,7 @@ Fixes
 - Fixed lamps in storage lighting up the place they used to occupy when reloading a save
 
 # 0.22.2
+*June 9, 2022*
 
 > Small Improvements, Important Fixes
 
@@ -291,10 +310,14 @@ Fixes
 - Fixed outfit tooltip not displaying in the character creator
 
 # 0.22.1
+*June 9, 2022*
+
 Fixes
 - Fixed a crash when a person that doesn't have a household dies
 
 # 0.22.0
+*June 9, 2022*
+
 ![](media/changelog/0.22.0.png)
 
 > Some Pride and Some Diet Choices
@@ -329,6 +352,8 @@ API
 - Added the ability for map objects to influence need regeneration speed
 
 # 0.21.3
+*May 26, 2022*
+
 Improvements
 - Skip packing empty wallpaper textures unnecessarily, improving load times
 
@@ -339,8 +364,10 @@ Fixes
 - Fixed Thomas Walden spawning in the wall on the default map
 
 # 0.21.2
+*May 26, 2022*
+
 Improvements
-- Display an on-screen keyboard for input fields when playing on the Steam Deck)
+- Display an on-screen keyboard for input fields when playing on the Steam Deck
 - Added a padding to the wallpaper texture to reduce graphical issues with odd screen sizes
 
 Fixes
@@ -349,11 +376,15 @@ Fixes
 - Fixed in-game news being impossible to navigate to using a gamepad
 
 # 0.21.1
+*May 26, 2022*
+
 Fixes
 - Fixed public street lamps not working when updating an older map
 - Fixed a crash when trying to start a woodworking action on an unfinished woodwork
 
 # 0.21.0
+*May 24, 2022*
+
 ![](media/changelog/0.21.0.png)
 
 > Two Years of Tiny Life: Cafés, Gamepad Controls and More
@@ -409,6 +440,8 @@ API
 - Allow openings to have multiple layers
 
 # 0.20.4
+*April 27, 2022*
+
 > Fix Me, Please!
 
 Improvements
@@ -432,6 +465,8 @@ API
 - Allow adding new colors into existing color schemes
 
 # 0.20.3
+*April 4, 2022*
+
 > More Fixes and Fancier Grass
 
 Here's another small set of bugfix updates, along with a nice visual improvement that makes the world's grassy ground look a little more interesting.
@@ -451,12 +486,16 @@ API
 - Added a debug option to skip preloading pathfinding data when entering a save
 
 # 0.20.2
+*March 29, 2022*
+
 Fixes
 - Fixed the emergency food mail crashing the game if retrieved after a game relaunch
 - Fixed roof-attached objects being removed when a roof is replaced with a new one
 - Fixed the household panel not updating when a household is deleted
 
 # 0.20.1
+*March 28, 2022*
+
 Improvements
 - Don't force-cancel any actions of the currently selected person when someone tries to socialize with them
 
@@ -465,6 +504,8 @@ Fixes
 - Fixed the character creator's "take off" button don't scrolling properly
 
 # 0.20.0
+*March 9, 2022*
+
 ![](media/changelog/0.20.0.png)
 
 > The Children Update, it's finally here!
@@ -515,10 +556,14 @@ API
 - Added Harmony, allowing for mods to inject custom code into the game
 
 # 0.19.2
+*January 8, 2022*
+
 Fixes
 - Fixed a crash when opening the woodworking menu
 
 # 0.19.1
+*January 8, 2022*
+
 ![](media/changelog/0.19.1.png)
 
 > Better Hints, Better Food, Better Names
@@ -544,6 +589,8 @@ Fixes
 - Fixed the ability to create new outfits even when funds are too low to do so
 
 # 0.19.0
+*January 1, 2022*
+
 ![](media/changelog/0.19.0.png)
 
 > Ui, Sound and Improvements Abound
@@ -577,6 +624,8 @@ Fixes
 - Fixed some actions throwing an exception when their action object is removed before the action starts
 
 # 0.18.1
+*November 26, 2021*
+
 > Changelog Images, News Panel for Main Menu
 
 Improvements
@@ -589,6 +638,8 @@ API
 - Turned some Action methods into properties
 
 # 0.18.0
+*November 23, 2021*
+
 ![](media/changelog/0.18.0.png)
 
 > Animations, Food and Sources
@@ -631,10 +682,14 @@ Fixes
 - Fixed particles being lit from the outside despite being inside in some cases
 
 # 0.17.5
+*October 20, 2021*
+
 Fixes
 - Fixed mods crashing the game on startup
 
 # 0.17.4
+*October 20, 2021*
+
 Improvements
 - Move natural objects to household storage when new room is built
 
@@ -642,6 +697,8 @@ Fixes
 - Fixed inside tiles being hidden for newly built rooms until the game is restarted
 
 # 0.17.3
+*October 19, 2021*
+
 Improvements
 - Default names of lots on the map are now localized when creating a new save
 - Added an option to disable camera rounding, which helps with visual fragments on some screen sizes
@@ -651,15 +708,21 @@ Fixes
 - Fixed visual fragments on the terrain on some screen sizes
 
 # 0.17.2
+*October 18, 2021*
+
 Improvements
 - Turned the mac build into an app bundle
 - Improved video ram usage of outside tiles
 
 # 0.17.1
+*October 18, 2021*
+
 Fixes
 - Fixed an exception when putting away books
 
 # 0.17.0
+*October 14, 2021*
+
 ![](media/changelog/0.17.0.png)
 
 > Life Goals, Reward Personalities and Daily Tasks
@@ -695,6 +758,8 @@ Fixes
 - Fixed people displaying particles when hidden
 
 # 0.16.1
+*September 9, 2021*
+
 Additions
 - Added "[Give Feedback or Report Bug](https://ell.lt/tlfeedback)" buttons to the in-game and main menus
 - Added [a cheat](https://docs.tinylifegame.com/articles/cheats.html) to take a full-size screenshot of the map
@@ -717,6 +782,8 @@ Fixes
 - Fixed some table and desk positions causing chairs to be seen as invalid or unavailable
 
 # 0.16.0
+*August 30, 2021*
+
 ![](media/changelog/0.16.0.png)
 
 > Woodlands and Visitors
@@ -774,6 +841,8 @@ Fixes
 - Fixed practice speech and jokes actions going on forever if done automatically
 
 # 0.15.0
+*July 27, 2021*
+
 > Barbecue Trash Cleaning
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/277913/0150-barbecue-trash-cleaning) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2968419780808932932).
@@ -808,6 +877,8 @@ Fixes
 - Fixed cars being spawned erroneously when the map is loaded
 
 # 0.14.0
+*July 15, 2021*
+
 > Lamps, Lot Movement, Speech Sounds!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/274082/0140-lamps-lot-movement-speech-sounds) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4430963222678444595).
@@ -840,6 +911,8 @@ Fixes
 - Fixed a wall rendering inconsistency in some camera rotations
 
 # 0.13.1
+*July 8, 2021*
+
 > It's the little things
 
 Additions
@@ -856,6 +929,8 @@ Fixes
 - Fixed an action exception if a chair becomes occupied
 
 # 0.13.0
+*July 6, 2021*
+
 > Camera Rotation and a Larger Map!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/271199/0130-camera-rotation-and-a-larger-map) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2967291343236374275).
@@ -895,6 +970,8 @@ Fixes
 - Fixed some depth inconsistencies with rugs and wall-hanging objects like paintings
 
 # 0.12.2
+*June 22, 2021*
+
 This is a small update that features several accessibility features based on information gathered in the [Tiny Life Roadmap Survey](https://ell.lt/tinysurvey). If you haven't taken part in the survey yet, you can still do so now!
 
 Additions
@@ -918,10 +995,14 @@ Fixes
 - Updated German localization
 
 # 0.12.1
+*June 18, 2021*
+
 - Fixed Make Mod and Write Book actions crashing the game
 - Updated German localization
 
 # 0.12.0
+*June 17, 2021*
+
 > The Fitness Set
 
 Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/264773/0120-the-fitness-set) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2990934608186477339).
@@ -953,6 +1034,8 @@ Fixes
 - Fixed people going to weird locations when visiting non-residential lots
 
 # 0.11.0
+*June 5, 2021*
+
 > More Actions, More Skills, More Personalities, More Pride!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/260838/0110-more-actions-more-skills-more-personalities-more-pride) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3028088035178415265).
@@ -988,6 +1071,8 @@ Fixes
 - Fixed multiple invalid game states which could cause crashes
 
 # 0.10.1
+*May 22, 2021*
+
 > In-depth writing skill and more AI depth!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/256150/0101-in-depth-writing-skill-and-more-ai-depth).
@@ -1009,6 +1094,8 @@ Fixes
 - Updated German localization
 
 # 0.10.0
+*May 17, 2021*
+
 > New colors, clothes and many fixes!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/254608/0100-new-colors-clothes-and-many-fixes).
@@ -1037,6 +1124,8 @@ API
 - Added various events for people and actions
 
 # 0.9.0
+*April 30, 2021*
+
 > Kick Out Your Annoying Aunt and Sofas
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/248431/090-kick-out-your-annoying-aunt-and-sofas).
@@ -1061,18 +1150,24 @@ Fixes
 - Fixed the Paint action being on too many objects when a person is uncomfortable
 
 # 0.8.2
+*April 18, 2021*
+
 Fixes
 - Fixed a crash if an object had no default rotation assigned
 - Fixed a hang when loading a game with an object of invalid rotation
 - Fixed a crash when picking up non-rotating furniture
 
 # 0.8.1
+*March 29, 2021*
+
 Fixes
 - Fixed in-world sounds being a lot quieter than menu sounds
 - Fixed a rare crash on load when removing outdated objects
 - Fixed a crash with the skills menu on certain window sizes
 
 # 0.8.0
+*March 27, 2021*
+
 > Mail Carriers, Bills and New Screenshots
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/236301/080-mail-carriers-bills-and-new-screenshots).
@@ -1096,6 +1191,8 @@ Fixes
 - Fixed camera scaling being incorrect when launching in fullscreen
 
 # 0.7.0
+*February 18, 2021*
+
 > Breaking Furniture, Programming, and Many Improvements!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/223659/070-breaking-furniture-programming-and-many-improvements).
@@ -1144,6 +1241,8 @@ API
 - Allow clothes to have multiple texture layers
 
 # 0.6.0
+*January 27, 2021*
+
 > Romance, Sounds and a Lot More!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/216521/060-romance-sounds-and-a-lot-more).
@@ -1173,6 +1272,8 @@ Fixes
 - Fixed positive emotions taking precedence over negative ones if their total amounts are equal
 
 # 0.5.2
+*January 14, 2021*
+
 Improvements
 - Improved the changelog panel on the main menu
 - Made the current emotion be more logically based on modifiers (by separating emotions into general categories)
@@ -1183,10 +1284,14 @@ Fixes
 - Some performance and RAM usage improvements
 
 # 0.5.1
+*January 12, 2021*
+
 Improvements
 - Improved the Person AI to drastically decrease the chance of people passing out and dying from low needs
 
 # 0.5.0
+*January 11, 2021*
+
 > Emotions!
 
 Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/212031/050-emotions).
