@@ -14,7 +14,7 @@ All content that does not follow these rules will be removed from the official d
 ## Tiny Life Content on Official Distribution Platforms
 Tiny Life's official distribution platforms include [the itch community](https://ellpeck.itch.io/tiny-life/community), [the Steam workshop](https://store.steampowered.com/app/1651490/Tiny_Life/), and [the Discord](https://ellpeck.de/discord). For these platforms, there are a multitude of additional rules.
 - ✔️ You are free (and encouraged!) to share videos, livestreams, blog posts, and other content that shows off Tiny Life and its features, with the community through the official distribution platforms.
-- ❌ You are not allowed to share mods or other types of custom content that suggest or attempt removing or hiding features from the game that support body positivity, bodily autonomy, queer people, gender equality, and racial diversity.
+- ❌ You are not allowed to share mods or other types of custom content that suggest or attempt removing or hiding features from the game that support body positivity, bodily autonomy, queer representation, gender equality, and racial diversity.
 - ❌ You are not allowed to share mods or other types of custom content that promote or engage in criminal activity, including but not limited to illegal drug use and abuse of minors or adults.
 - ❌ Due to the game's age rating and target audience, you are not allowed to share mods or other types of custom content that depict activities and situations not suitable for all ages. This includes explicit sexual activity, abuse of drugs or alcohol, as well as possibly triggering topics like references to intense emotional trauma.
 
