@@ -7,7 +7,7 @@ As part of the goal of Tiny Life's design, we want to foster a community of play
 All content that does not follow these rules will be removed from the official distribution platforms, and their authors may be banned for a period of time at the moderators' discretion.
 
 ## Tiny Life Content on the Internet
-- ✔️ You are free (and encouraged!) to create videos, livestreams, blog posts, and other content that shows off Tiny Life and its gameplay. When doing so, be sure to make it sufficiently clear that the content you are showing off is associated with Tiny Life.
+- ✔️ You are free (and encouraged!) to create videos, livestreams, blog posts, and other content that shows off Tiny Life and its gameplay. When doing so, be sure to make it sufficiently clear that the content you are showing off is associated with Tiny Life. For example, when posting a video about the game, Tiny Life's name should be included in the title, description or video content.
 - ✔️ You are free to share any custom content of any kind for Tiny Life outside the official distribution platforms. When doing so, be sure to make it sufficiently clear what parts are your creations, and what parts are Tiny Life's original content.
 - ❌ You are not allowed to reupload or otherwise redistribute the Tiny Life binary, assets, or code. If you want people to be able to find the game easily, it is recommended that you link to its website https://tinylifegame.com.
 
