@@ -2,7 +2,7 @@
 This page sums up a few of the basics that you'll need to know if you want to make a mod for Tiny Life.
 
 ## Creating mods
-To create a mod, all you have to do is create a repository [from this template](https://github.com/Ellpeck/TinyLifeExampleMod/generate) and open the project contained in it using Visual Studio, Rider or any other kind of C# IDE. The code that is already there contains some examples. Once you're done checking them out, you can just delete them and start fresh.
+To create a mod, all you have to do is create a repository [from this template](https://github.com/Ellpeck/TinyLifeExampleMod) by pressing the green "Use this template" button. Then, you can open the project contained in it using Visual Studio, Rider or any other kind of C# IDE. The code that is already there contains some examples. Once you're done checking them out, you can just delete them and start fresh.
 
 To run and publish your mods, you can use the included [Cake](https://cakebuild.net/) script, which includes tasks to build, run and publish your mod. To install the required dependencies, you have to run `dotnet tool restore` in the directory that your mod's project file is in. Then, you can run `dotnet cake --target Run` to build your mod, copy it to Tiny Life's mods directory, and run the game, all in one simple command. 
 
