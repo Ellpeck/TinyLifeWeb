@@ -1,3 +1,9 @@
+# 0.28.1
+*December 20, 2022*
+
+Fixes
+- Fixed localizations from mods not being loaded on startup
+
 # 0.28.0
 *December 20, 2022*
 
