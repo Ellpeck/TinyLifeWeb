@@ -20,10 +20,12 @@ items:
   - TinyLife.Objects.MapObject.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
+  - TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.GetRestoreNeedModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.Id
   - TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+  - TinyLife.Objects.MapObject.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.IsInWorld
   - TinyLife.Objects.MapObject.Map
   - TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
@@ -83,6 +85,7 @@ items:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -1073,7 +1076,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThis method is called when an <xref href=\"System.Action\" data-throw-if-not-resolved=\"false\"></xref> that this object is involved in is completed. Note that this includes actions that are underlying (see <see cref=\"!:Actions.Typeless.Action.Parent\"></see>).\nThis object counts as involved in the action if its <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> includes this object.\nIn general, the base method should be called for <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects, since it sets <xref href=\"TinyLife.Objects.Furniture.DevaluedThroughUse\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThis method is called when an <xref href=\"System.Action\" data-throw-if-not-resolved=\"false\"></xref> that this object is involved in is completed. Note that this includes actions that are underlying (see <xref href=\"TinyLife.Actions.Action.Parent\" data-throw-if-not-resolved=\"false\"></xref>).\nThis object counts as involved in the action if its <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> includes this object.\nIn general, the base method should be called for <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects, since it sets <xref href=\"TinyLife.Objects.Furniture.DevaluedThroughUse\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public virtual void OnActionCompleted(Action action, CompletionType type, bool isAuxiliary)
@@ -1414,6 +1417,88 @@ items:
   modifiers.vb:
   - Public
   - Overridable
+- uid: TinyLife.Objects.MapObject.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Objects.MapObject.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  id: IsFreeSpot(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.Objects.MapObject
+  langs:
+  - csharp
+  - vb
+  name: IsFreeSpot(Point)
+  nameWithType: MapObject.IsFreeSpot(Point)
+  fullName: TinyLife.Objects.MapObject.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/MapObject.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsFreeSpot
+    path: ../TinyLife/Objects/MapObject.cs
+    startLine: 332
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nReturns whether a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> should be allowed to occupy or pass the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">position</code>, which is contained in this object&apos;s intersection area (<xref href=\"TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)\" data-throw-if-not-resolved=\"false\"></xref>).\nBy default, <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> objects return whether they have the <xref href=\"TinyLife.Objects.ObjectCategory.NonColliding\" data-throw-if-not-resolved=\"false\"></xref> category, and all other objects return <xref uid=\"langword_csharp_true\" name=\"true\" href=\"\"></xref>.\nNote that, if this object moves, <xref href=\"TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref> should be invoked for its previous and resulting <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public virtual bool IsFreeSpot(Point position)
+    parameters:
+    - id: position
+      type: Microsoft.Xna.Framework.Point
+      description: The position whose path cost modifier is being calculated.
+    return:
+      type: System.Boolean
+      description: Whether a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> can occupy the given <code data-dev-comment-type="paramref" class="paramref">position</code>.
+    content.vb: Public Overridable Function IsFreeSpot(position As Point) As Boolean
+  overload: TinyLife.Objects.MapObject.IsFreeSpot*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
+- uid: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  id: GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.Objects.MapObject
+  langs:
+  - csharp
+  - vb
+  name: GetPathCostModifier(Point)
+  nameWithType: MapObject.GetPathCostModifier(Point)
+  fullName: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/MapObject.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetPathCostModifier
+    path: ../TinyLife/Objects/MapObject.cs
+    startLine: 343
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nReturns a modifier that indicates the &quot;cost&quot; for pathfinding over this object.\nIf this object is a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> object, it has to have the <xref href=\"TinyLife.Objects.ObjectCategory.NonColliding\" data-throw-if-not-resolved=\"false\"></xref> category for the returned value to have an effect.\nNote that, if this object moves, <xref href=\"TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref> should be invoked for its previous and resulting <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public virtual float GetPathCostModifier(Point position)
+    parameters:
+    - id: position
+      type: Microsoft.Xna.Framework.Point
+      description: The position whose path cost modifier is being calculated.
+    return:
+      type: System.Single
+      description: This object&apos;s path cost modifier for the given <code data-dev-comment-type="paramref" class="paramref">position</code>
+    content.vb: Public Overridable Function GetPathCostModifier(position As Point) As Single
+  overload: TinyLife.Objects.MapObject.GetPathCostModifier*
+  modifiers.csharp:
+  - public
+  - virtual
+  modifiers.vb:
+  - Public
+  - Overridable
 - uid: TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   commentId: M:TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   id: DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
@@ -1432,7 +1517,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DoDraw
     path: ../TinyLife/Objects/MapObject.cs
-    startLine: 333
+    startLine: 355
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1483,7 +1568,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DoUpdate
     path: ../TinyLife/Objects/MapObject.cs
-    startLine: 350
+    startLine: 372
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1525,7 +1610,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawColumns
     path: ../TinyLife/Objects/MapObject.cs
-    startLine: 379
+    startLine: 401
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1611,7 +1696,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetModCategory
     path: ../TinyLife/Objects/MapObject.cs
-    startLine: 445
+    startLine: 469
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1727,6 +1812,62 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -2140,6 +2281,61 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -3128,6 +3324,12 @@ references:
   name: Action
   nameWithType: Action
   fullName: System.Action
+- uid: TinyLife.Actions.Action.Parent
+  commentId: P:TinyLife.Actions.Action.Parent
+  parent: TinyLife.Actions.Action
+  name: Parent
+  nameWithType: Action.Parent
+  fullName: TinyLife.Actions.Action.Parent
 - uid: TinyLife.Actions.ActionInfo.GetInvolvedObjects``1(TinyLife.Objects.ObjectCategory,System.Boolean,System.Boolean)
   commentId: M:TinyLife.Actions.ActionInfo.GetInvolvedObjects``1(TinyLife.Objects.ObjectCategory,System.Boolean,System.Boolean)
   isExternal: true
@@ -3160,12 +3362,6 @@ references:
 - uid: Microsoft.Xna.Framework.Game.Update(Microsoft.Xna.Framework.GameTime)
   commentId: M:Microsoft.Xna.Framework.Game.Update(Microsoft.Xna.Framework.GameTime)
   isExternal: true
-- uid: TinyLife.Actions.Action.Parent
-  commentId: P:TinyLife.Actions.Action.Parent
-  parent: TinyLife.Actions.Action
-  name: Parent
-  nameWithType: Action.Parent
-  fullName: TinyLife.Actions.Action.Parent
 - uid: TinyLife.Actions.Action.FullyInProgress
   commentId: P:TinyLife.Actions.Action.FullyInProgress
   parent: TinyLife.Actions.Action
@@ -3294,6 +3490,68 @@ references:
   name: TinyLife
   nameWithType: TinyLife
   fullName: TinyLife
+- uid: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+  commentId: M:TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: Intersects(RectangleF)
+  nameWithType: MapObject.Intersects(RectangleF)
+  fullName: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+    name: Intersects
+    nameWithType: MapObject.Intersects
+    fullName: TinyLife.Objects.MapObject.Intersects
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MLEM.Misc.RectangleF
+    name: RectangleF
+    nameWithType: RectangleF
+    fullName: MLEM.Misc.RectangleF
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.Intersects(MLEM.Misc.RectangleF)
+    name: Intersects
+    nameWithType: MapObject.Intersects
+    fullName: TinyLife.Objects.MapObject.Intersects
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: MLEM.Misc.RectangleF
+    name: RectangleF
+    nameWithType: RectangleF
+    fullName: MLEM.Misc.RectangleF
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.ObjectCategory.NonColliding
+  commentId: F:TinyLife.Objects.ObjectCategory.NonColliding
+  isExternal: true
+- uid: TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)
+  isExternal: true
+- uid: TinyLife.Objects.MapObject.IsFreeSpot*
+  commentId: Overload:TinyLife.Objects.MapObject.IsFreeSpot
+  name: IsFreeSpot
+  nameWithType: MapObject.IsFreeSpot
+  fullName: TinyLife.Objects.MapObject.IsFreeSpot
+- uid: Microsoft.Xna.Framework.Point
+  commentId: T:Microsoft.Xna.Framework.Point
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Point
+  nameWithType: Point
+  fullName: Microsoft.Xna.Framework.Point
+- uid: TinyLife.Objects.MapObject.GetPathCostModifier*
+  commentId: Overload:TinyLife.Objects.MapObject.GetPathCostModifier
+  name: GetPathCostModifier
+  nameWithType: MapObject.GetPathCostModifier
+  fullName: TinyLife.Objects.MapObject.GetPathCostModifier
 - uid: TinyLife.Objects.MapObject.Visibility
   commentId: P:TinyLife.Objects.MapObject.Visibility
   parent: TinyLife.Objects.MapObject
@@ -3341,13 +3599,6 @@ references:
   name: Color
   nameWithType: Color
   fullName: Microsoft.Xna.Framework.Color
-- uid: Microsoft.Xna.Framework.Point
-  commentId: T:Microsoft.Xna.Framework.Point
-  parent: Microsoft.Xna.Framework
-  isExternal: true
-  name: Point
-  nameWithType: Point
-  fullName: Microsoft.Xna.Framework.Point
 - uid: Microsoft.Xna.Framework.Graphics.SpriteEffects
   commentId: T:Microsoft.Xna.Framework.Graphics.SpriteEffects
   parent: Microsoft.Xna.Framework.Graphics

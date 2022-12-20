@@ -6,8 +6,10 @@ items:
   parent: TinyLife.Actions.Behaviors
   children:
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action)
+  - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action,System.TimeSpan,System.TimeSpan)
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.CreateFirstActions
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.GetNextAction(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   langs:
   - csharp
@@ -27,28 +29,27 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nA work at desk object behavior is a <xref href=\"TinyLife.Actions.Behaviors.MultiActionBehavior\" data-throw-if-not-resolved=\"false\"></xref> where a person works at an object that is statically attached to a table or standing desk.\nNote that this behavior differs from <xref href=\"TinyLife.Actions.Behaviors.GetAndSitDownBehavior\" data-throw-if-not-resolved=\"false\"></xref> in that the object involved in this behavior cannot be picked up or moved by a person.\nThis class is used by <xref href=\"TinyLife.Actions.Behaviors.ComputerBehavior\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA work at desk object behavior is a <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior\" data-throw-if-not-resolved=\"false\"></xref> where a person works at an object that is statically attached to a table or standing desk.\nNote that this behavior differs from <xref href=\"TinyLife.Actions.Behaviors.GetAndSitDownBehavior\" data-throw-if-not-resolved=\"false\"></xref> in that the object involved in this behavior cannot be picked up or moved by a person.\nThis class is used by <xref href=\"TinyLife.Actions.Behaviors.ComputerBehavior\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: 'public class WorkAtDeskObjectBehavior : MultiActionBehavior'
+    content: 'public class WorkAtDeskObjectBehavior : ActionBehavior'
     content.vb: >-
       Public Class WorkAtDeskObjectBehavior
-          Inherits MultiActionBehavior
+          Inherits ActionBehavior
   inheritance:
   - System.Object
   - TinyLife.Actions.Behaviors.ActionBehavior
-  - TinyLife.Actions.Behaviors.MultiActionBehavior
   derivedClasses:
   - TinyLife.Actions.Behaviors.ComputerBehavior
   inheritedMembers:
-  - TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.Action
   - TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
+  - TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   - TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   - TinyLife.Actions.Behaviors.ActionBehavior.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Behaviors.ActionBehavior.OnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
+  - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -64,6 +65,43 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  commentId: P:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  id: IsWorking
+  parent: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  langs:
+  - csharp
+  - vb
+  name: IsWorking
+  nameWithType: WorkAtDeskObjectBehavior.IsWorking
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsWorking
+    path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
+    startLine: 19
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Behaviors
+  summary: "\nReturns whether this action&apos;s <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> currently looks to be working, which is displayed by the person&apos;s <xref href=\"TinyLife.Objects.Person.Pose\" data-throw-if-not-resolved=\"false\"></xref> being changed in <xref href=\"TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: protected bool IsWorking { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Protected ReadOnly Property IsWorking As Boolean
+  overload: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking*
+  modifiers.csharp:
+  - protected
+  - get
+  modifiers.vb:
+  - Protected
+  - ReadOnly
 - uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action)
   id: '#ctor(TinyLife.Actions.Action)'
@@ -82,19 +120,61 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
-    startLine: 17
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nCreates a new action behavior with the given underlying action.\nTo create an action behavior of a given type automatically, use <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance%60%601(TinyLife.Actions.Action)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nCreates a new work at desk object behavior with the given settings.\n"
   example: []
   syntax:
     content: public WorkAtDeskObjectBehavior(Action action)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
-      description: The action that this behavior is acting upon
+      description: The action that this behavior is acting upon.
     content.vb: Public Sub New(action As Action)
+  overload: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action,System.TimeSpan,System.TimeSpan)
+  commentId: M:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor(TinyLife.Actions.Action,System.TimeSpan,System.TimeSpan)
+  id: '#ctor(TinyLife.Actions.Action,System.TimeSpan,System.TimeSpan)'
+  parent: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  langs:
+  - csharp
+  - vb
+  name: WorkAtDeskObjectBehavior(Action, TimeSpan, TimeSpan)
+  nameWithType: WorkAtDeskObjectBehavior.WorkAtDeskObjectBehavior(Action, TimeSpan, TimeSpan)
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.WorkAtDeskObjectBehavior(TinyLife.Actions.Action, System.TimeSpan, System.TimeSpan)
+  type: Constructor
+  source:
+    remote:
+      path: TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: .ctor
+    path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
+    startLine: 38
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Behaviors
+  summary: "\nCreates a new work at desk object behavior with the given settings.\n"
+  example: []
+  syntax:
+    content: public WorkAtDeskObjectBehavior(Action action, TimeSpan workTime, TimeSpan breakTime)
+    parameters:
+    - id: action
+      type: TinyLife.Actions.Action
+      description: The action that this behavior is acting upon.
+    - id: workTime
+      type: System.TimeSpan
+      description: The amount of in-game time that this action&apos;s <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> shoud look to be working for.
+    - id: breakTime
+      type: System.TimeSpan
+      description: The amount of in-game time that this action&apos;s <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> should look to be waiting for inbetween working sessions.
+    content.vb: Public Sub New(action As Action, workTime As TimeSpan, breakTime As TimeSpan)
   overload: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor*
   modifiers.csharp:
   - public
@@ -118,11 +198,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateFirstActions
     path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
-    startLine: 20
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nCreates a set of actions that should be executed before the main <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> starts.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.BehaviorMultiAction%601.CreateFirstActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nCreates a set of actions that should be executed before the main <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior.Action\" data-throw-if-not-resolved=\"false\"></xref> starts.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.BehaviorAction.CreateFirstActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override IEnumerable<Action> CreateFirstActions()
@@ -130,7 +210,7 @@ items:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
       description: ''
     content.vb: Public Overrides Function CreateFirstActions As IEnumerable(Of Action)
-  overridden: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
+  overridden: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   overload: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.CreateFirstActions*
   modifiers.csharp:
   - public
@@ -156,11 +236,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
-    startLine: 39
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nUpdates this action behavior every update frame.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nUpdates this action behavior every update frame.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
@@ -201,11 +281,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNextAction
     path: ../TinyLife/Actions/Behaviors/WorkAtDeskObjectBehavior.cs
-    startLine: 52
+    startLine: 85
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nReturns the action that should be executed after this action behavior&apos;s underlying <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior.Action\" data-throw-if-not-resolved=\"false\"></xref> completes.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nReturns the action that should be executed after this action behavior&apos;s underlying <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior.Action\" data-throw-if-not-resolved=\"false\"></xref> completes.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override Action GetNextAction(CompletionType completion)
@@ -226,12 +306,12 @@ items:
   - Public
   - Overrides
 references:
-- uid: TinyLife.Actions.Behaviors.MultiActionBehavior
-  commentId: T:TinyLife.Actions.Behaviors.MultiActionBehavior
+- uid: TinyLife.Actions.Behaviors.ActionBehavior
+  commentId: T:TinyLife.Actions.Behaviors.ActionBehavior
   parent: TinyLife.Actions.Behaviors
-  name: MultiActionBehavior
-  nameWithType: MultiActionBehavior
-  fullName: TinyLife.Actions.Behaviors.MultiActionBehavior
+  name: ActionBehavior
+  nameWithType: ActionBehavior
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior
 - uid: TinyLife.Actions.Behaviors.GetAndSitDownBehavior
   commentId: T:TinyLife.Actions.Behaviors.GetAndSitDownBehavior
   name: GetAndSitDownBehavior
@@ -254,40 +334,6 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
-- uid: TinyLife.Actions.Behaviors.ActionBehavior
-  commentId: T:TinyLife.Actions.Behaviors.ActionBehavior
-  parent: TinyLife.Actions.Behaviors
-  name: ActionBehavior
-  nameWithType: ActionBehavior
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior
-- uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  commentId: M:TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  parent: TinyLife.Actions.Behaviors.MultiActionBehavior
-  name: CreateLastActions()
-  nameWithType: MultiActionBehavior.CreateLastActions()
-  fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions()
-  spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-    name: CreateLastActions
-    nameWithType: MultiActionBehavior.CreateLastActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-    name: CreateLastActions
-    nameWithType: MultiActionBehavior.CreateLastActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.Action
   commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.Action
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -300,6 +346,34 @@ references:
   name: FullyInProgress
   nameWithType: ActionBehavior.FullyInProgress
   fullName: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  parent: TinyLife.Actions.Behaviors.ActionBehavior
+  name: CreateLastActions()
+  nameWithType: ActionBehavior.CreateLastActions()
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+    name: CreateLastActions
+    nameWithType: ActionBehavior.CreateLastActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+    name: CreateLastActions
+    nameWithType: ActionBehavior.CreateLastActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -428,23 +502,29 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
   parent: TinyLife.Actions.Behaviors.ActionBehavior
-  name: CreateDefaultInstance<T>(Action)
-  nameWithType: ActionBehavior.CreateDefaultInstance<T>(Action)
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance<T>(TinyLife.Actions.Action)
-  nameWithType.vb: ActionBehavior.CreateDefaultInstance(Of T)(Action)
-  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(Of T)(TinyLife.Actions.Action)
-  name.vb: CreateDefaultInstance(Of T)(Action)
+  isExternal: true
+  name: CreateDefaultInstance(Type, Action)
+  nameWithType: ActionBehavior.CreateDefaultInstance(Type, Action)
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type, TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-    name: CreateDefaultInstance<T>
-    nameWithType: ActionBehavior.CreateDefaultInstance<T>
-    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance<T>
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+    name: CreateDefaultInstance
+    nameWithType: ActionBehavior.CreateDefaultInstance
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Actions.Action
     name: Action
     nameWithType: Action
@@ -453,13 +533,21 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-    name: CreateDefaultInstance(Of T)
-    nameWithType: ActionBehavior.CreateDefaultInstance(Of T)
-    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(Of T)
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+    name: CreateDefaultInstance
+    nameWithType: ActionBehavior.CreateDefaultInstance
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Actions.Action
     name: Action
     nameWithType: Action
@@ -831,6 +919,112 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
+- uid: TinyLife.Objects.Person.Pose
+  commentId: T:TinyLife.Objects.Person.Pose
+  parent: TinyLife.Objects
+  name: Person.Pose
+  nameWithType: Person.Pose
+  fullName: TinyLife.Objects.Person.Pose
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  isExternal: true
+  name: Update(GameTime, TimeSpan, Single)
+  nameWithType: WorkAtDeskObjectBehavior.Update(GameTime, TimeSpan, Single)
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
+  spec.csharp:
+  - uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    nameWithType: WorkAtDeskObjectBehavior.Update
+    fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    nameWithType: WorkAtDeskObjectBehavior.Update
+    fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.Update
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking*
+  commentId: Overload:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  name: IsWorking
+  nameWithType: WorkAtDeskObjectBehavior.IsWorking
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  commentId: T:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  parent: TinyLife.Actions.Behaviors
+  name: WorkAtDeskObjectBehavior
+  nameWithType: WorkAtDeskObjectBehavior
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
 - uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor*
   commentId: Overload:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.#ctor
   name: WorkAtDeskObjectBehavior
@@ -847,17 +1041,24 @@ references:
   name: TinyLife.Actions
   nameWithType: TinyLife.Actions
   fullName: TinyLife.Actions
-- uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
-  commentId: M:TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
-  parent: TinyLife.Actions.Behaviors.MultiActionBehavior
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
+  parent: TinyLife.Actions.Behaviors.ActionBehavior
   name: CreateFirstActions()
-  nameWithType: MultiActionBehavior.CreateFirstActions()
-  fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions()
+  nameWithType: ActionBehavior.CreateFirstActions()
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions()
   spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
     name: CreateFirstActions
-    nameWithType: MultiActionBehavior.CreateFirstActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
+    nameWithType: ActionBehavior.CreateFirstActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   - name: (
     nameWithType: (
     fullName: (
@@ -865,10 +1066,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
     name: CreateFirstActions
-    nameWithType: MultiActionBehavior.CreateFirstActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateFirstActions
+    nameWithType: ActionBehavior.CreateFirstActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   - name: (
     nameWithType: (
     fullName: (
@@ -1050,13 +1251,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.TimeSpan
-  commentId: T:System.TimeSpan
-  parent: System
-  isExternal: true
-  name: TimeSpan
-  nameWithType: TimeSpan
-  fullName: System.TimeSpan
 - uid: System.Single
   commentId: T:System.Single
   parent: System

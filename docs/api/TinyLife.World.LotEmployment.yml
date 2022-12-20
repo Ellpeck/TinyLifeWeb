@@ -9,6 +9,7 @@ items:
   - TinyLife.World.LotEmployment.Actions
   - TinyLife.World.LotEmployment.GetCurrentPerson(TinyLife.World.Map,TinyLife.World.Lot)
   - TinyLife.World.LotEmployment.IdleObjects
+  - TinyLife.World.LotEmployment.IdleTime
   - TinyLife.World.LotEmployment.IsFinished
   - TinyLife.World.LotEmployment.MapWideEmployments
   - TinyLife.World.LotEmployment.Name
@@ -145,17 +146,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Actions
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 46
+    startLine: 47
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nA set of <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref> instances that a person working in this employment should execute.\nUsing actions with the <xref href=\"TinyLife.Objects.ObjectCategory.Nothing\" data-throw-if-not-resolved=\"false\"></xref> category will cause any instances of the action to act as if they had the <xref href=\"TinyLife.Objects.ObjectCategory.Self\" data-throw-if-not-resolved=\"false\"></xref> category instead.\n"
+  summary: "\nA set of <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref> instances that a person working in this employment should randomly execute.\nUsing actions with the <xref href=\"TinyLife.Objects.ObjectCategory.Nothing\" data-throw-if-not-resolved=\"false\"></xref> category will cause any instances of the action to act as if they had the <xref href=\"TinyLife.Objects.ObjectCategory.Self\" data-throw-if-not-resolved=\"false\"></xref> category instead.\nNote that, for an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> returned by this function to have an effect, its <xref href=\"TinyLife.Actions.ActionType.AiSettings.PassivePriority\" data-throw-if-not-resolved=\"false\"></xref> needs to be greater than 0.\n"
   example: []
   syntax:
-    content: public readonly Func<ActionType[]> Actions
+    content: public readonly Func<IEnumerable<ActionType>> Actions
     return:
-      type: System.Func{TinyLife.Actions.ActionType[]}
-    content.vb: Public ReadOnly Actions As Func(Of ActionType())
+      type: System.Func{System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionType}}
+    content.vb: Public ReadOnly Actions As Func(Of IEnumerable(Of ActionType))
   modifiers.csharp:
   - public
   - readonly
@@ -180,7 +181,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WorkHours
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 51
+    startLine: 52
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -215,7 +216,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsFinished
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 57
+    startLine: 58
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -252,7 +253,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IdleObjects
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -265,6 +266,43 @@ items:
       type: TinyLife.Objects.ObjectCategory
     content.vb: Public Property IdleObjects As ObjectCategory
   overload: TinyLife.World.LotEmployment.IdleObjects*
+  modifiers.csharp:
+  - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.World.LotEmployment.IdleTime
+  commentId: P:TinyLife.World.LotEmployment.IdleTime
+  id: IdleTime
+  parent: TinyLife.World.LotEmployment
+  langs:
+  - csharp
+  - vb
+  name: IdleTime
+  nameWithType: LotEmployment.IdleTime
+  fullName: TinyLife.World.LotEmployment.IdleTime
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/LotEmployment.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IdleTime
+    path: ../TinyLife/World/LotEmployment.cs
+    startLine: 68
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe amount of in-game time that a person with this lot employment will idle at one of their <xref href=\"TinyLife.World.LotEmployment.IdleObjects\" data-throw-if-not-resolved=\"false\"></xref> for.\nDefaults to 5 minutes.\n"
+  example: []
+  syntax:
+    content: public TimeSpan IdleTime { get; set; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Property IdleTime As TimeSpan
+  overload: TinyLife.World.LotEmployment.IdleTime*
   modifiers.csharp:
   - public
   - get
@@ -289,7 +327,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 70
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -306,7 +344,7 @@ items:
       description: The lot employment&apos;s work hours
     - id: actions
       type: System.Func{TinyLife.Actions.ActionType[]}
-      description: The actions that lot employees should execute
+      description: The <xref href="TinyLife.World.LotEmployment.Actions" data-throw-if-not-resolved="false"></xref> that lot employees should execute
     content.vb: Public Sub New(name As String, workHours As Range(Of Integer), actions As Func(Of ActionType()))
   overload: TinyLife.World.LotEmployment.#ctor*
   nameWithType.vb: LotEmployment.LotEmployment(String, Range(Of Int32), Func(Of ActionType()))
@@ -334,7 +372,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCurrentPerson
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 84
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -376,7 +414,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCurrentPerson
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 97
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -921,16 +959,25 @@ references:
 - uid: TinyLife.Objects.ObjectCategory.Self
   commentId: F:TinyLife.Objects.ObjectCategory.Self
   isExternal: true
-- uid: System.Func{TinyLife.Actions.ActionType[]}
-  commentId: T:System.Func{TinyLife.Actions.ActionType[]}
+- uid: TinyLife.Actions.Action
+  commentId: T:TinyLife.Actions.Action
+  parent: TinyLife.Actions
+  name: Action
+  nameWithType: Action
+  fullName: TinyLife.Actions.Action
+- uid: TinyLife.Actions.ActionType.AiSettings.PassivePriority
+  commentId: F:TinyLife.Actions.ActionType.AiSettings.PassivePriority
+  isExternal: true
+- uid: System.Func{System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionType}}
+  commentId: T:System.Func{System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionType}}
   parent: System
   definition: System.Func`1
-  name: Func<ActionType[]>
-  nameWithType: Func<ActionType[]>
-  fullName: System.Func<TinyLife.Actions.ActionType[]>
-  nameWithType.vb: Func(Of ActionType())
-  fullName.vb: System.Func(Of TinyLife.Actions.ActionType())
-  name.vb: Func(Of ActionType())
+  name: Func<IEnumerable<ActionType>>
+  nameWithType: Func<IEnumerable<ActionType>>
+  fullName: System.Func<System.Collections.Generic.IEnumerable<TinyLife.Actions.ActionType>>
+  nameWithType.vb: Func(Of IEnumerable(Of ActionType))
+  fullName.vb: System.Func(Of System.Collections.Generic.IEnumerable(Of TinyLife.Actions.ActionType))
+  name.vb: Func(Of IEnumerable(Of ActionType))
   spec.csharp:
   - uid: System.Func`1
     name: Func
@@ -940,13 +987,21 @@ references:
   - name: <
     nameWithType: <
     fullName: <
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
   - uid: TinyLife.Actions.ActionType
     name: ActionType
     nameWithType: ActionType
     fullName: TinyLife.Actions.ActionType
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
   - name: '>'
     nameWithType: '>'
     fullName: '>'
@@ -959,13 +1014,21 @@ references:
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    nameWithType: IEnumerable
+    fullName: System.Collections.Generic.IEnumerable
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
   - uid: TinyLife.Actions.ActionType
     name: ActionType
     nameWithType: ActionType
     fullName: TinyLife.Actions.ActionType
-  - name: ()
-    nameWithType: ()
-    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
   - name: )
     nameWithType: )
     fullName: )
@@ -1233,11 +1296,77 @@ references:
   name: IdleObjects
   nameWithType: LotEmployment.IdleObjects
   fullName: TinyLife.World.LotEmployment.IdleObjects
+- uid: TinyLife.World.LotEmployment.IdleObjects
+  commentId: P:TinyLife.World.LotEmployment.IdleObjects
+  isExternal: true
+- uid: TinyLife.World.LotEmployment.IdleTime*
+  commentId: Overload:TinyLife.World.LotEmployment.IdleTime
+  name: IdleTime
+  nameWithType: LotEmployment.IdleTime
+  fullName: TinyLife.World.LotEmployment.IdleTime
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: TinyLife.World.LotEmployment.Actions
+  commentId: F:TinyLife.World.LotEmployment.Actions
+  isExternal: true
 - uid: TinyLife.World.LotEmployment.#ctor*
   commentId: Overload:TinyLife.World.LotEmployment.#ctor
   name: LotEmployment
   nameWithType: LotEmployment.LotEmployment
   fullName: TinyLife.World.LotEmployment.LotEmployment
+- uid: System.Func{TinyLife.Actions.ActionType[]}
+  commentId: T:System.Func{TinyLife.Actions.ActionType[]}
+  parent: System
+  definition: System.Func`1
+  name: Func<ActionType[]>
+  nameWithType: Func<ActionType[]>
+  fullName: System.Func<TinyLife.Actions.ActionType[]>
+  nameWithType.vb: Func(Of ActionType())
+  fullName.vb: System.Func(Of TinyLife.Actions.ActionType())
+  name.vb: Func(Of ActionType())
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    nameWithType: Func
+    fullName: System.Func
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    nameWithType: ActionType
+    fullName: TinyLife.Actions.ActionType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.World.LotEmployment.GetCurrentPerson*
   commentId: Overload:TinyLife.World.LotEmployment.GetCurrentPerson
   name: GetCurrentPerson

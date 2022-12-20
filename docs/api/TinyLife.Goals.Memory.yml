@@ -5,11 +5,11 @@ items:
   id: Memory
   parent: TinyLife.Goals
   children:
-  - TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Objects.Person,System.TimeSpan)
-  - TinyLife.Goals.Memory.Person
+  - TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.TimeSpan)
+  - TinyLife.Goals.Memory.Info
   - TinyLife.Goals.Memory.TimeOccured
   - TinyLife.Goals.Memory.TimeSinceOccured
-  - TinyLife.Goals.Memory.TryReplace(System.TimeSpan)
+  - TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
   - TinyLife.Goals.Memory.Type
   - TinyLife.Goals.Memory.Validate(TinyLife.Objects.Person)
   langs:
@@ -26,11 +26,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Memory
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 92
+    startLine: 13
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nA memory is a set of information that a <xref href=\"TinyLife.Goals.Memory.Person\" data-throw-if-not-resolved=\"false\"></xref> can store, related to an activity or event that has happened at a given type.\nA memory is constructed from an underlying <xref href=\"TinyLife.Goals.MemoryType\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA memory is a set of information that a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> can store, related to an activity or event that has happened at a given type.\nA memory is constructed from an underlying <xref href=\"TinyLife.Goals.MemoryType\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
@@ -50,6 +50,7 @@ items:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -89,7 +90,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 99
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -134,7 +135,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeOccured
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 104
+    startLine: 25
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -144,14 +145,14 @@ items:
     content: >-
       [DataMember]
 
-      public TimeSpan TimeOccured { get; }
+      public TimeSpan TimeOccured { get; protected set; }
     parameters: []
     return:
       type: System.TimeSpan
     content.vb: >-
       <DataMember>
 
-      Public ReadOnly Property TimeOccured As TimeSpan
+      Public Property TimeOccured As TimeSpan
   overload: TinyLife.Goals.Memory.TimeOccured*
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
@@ -160,46 +161,50 @@ items:
   modifiers.csharp:
   - public
   - get
+  - protected set
   modifiers.vb:
   - Public
-  - ReadOnly
-- uid: TinyLife.Goals.Memory.Person
-  commentId: P:TinyLife.Goals.Memory.Person
-  id: Person
+  - Get
+  - Protected Set
+- uid: TinyLife.Goals.Memory.Info
+  commentId: P:TinyLife.Goals.Memory.Info
+  id: Info
   parent: TinyLife.Goals.Memory
   langs:
   - csharp
   - vb
-  name: Person
-  nameWithType: Memory.Person
-  fullName: TinyLife.Goals.Memory.Person
+  name: Info
+  nameWithType: Memory.Info
+  fullName: TinyLife.Goals.Memory.Info
   type: Property
   source:
     remote:
       path: TinyLife/Goals/Memory.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Person
+    id: Info
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 109
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe person that has this memory.\n"
+  summary: "\nThis memory&apos;s <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>, which contains information about when and how this memory was gained.\n"
   example: []
   syntax:
-    content: public Person Person { get; }
+    content: public ActionInfo Info { get; protected set; }
     parameters: []
     return:
-      type: TinyLife.Objects.Person
-    content.vb: Public ReadOnly Property Person As Person
-  overload: TinyLife.Goals.Memory.Person*
+      type: TinyLife.Actions.ActionInfo
+    content.vb: Public Property Info As ActionInfo
+  overload: TinyLife.Goals.Memory.Info*
   modifiers.csharp:
   - public
   - get
+  - protected set
   modifiers.vb:
   - Public
-  - ReadOnly
+  - Get
+  - Protected Set
 - uid: TinyLife.Goals.Memory.TimeSinceOccured
   commentId: P:TinyLife.Goals.Memory.TimeSinceOccured
   id: TimeSinceOccured
@@ -218,7 +223,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeSinceOccured
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 113
+    startLine: 34
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -237,16 +242,16 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Objects.Person,System.TimeSpan)
-  commentId: M:TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Objects.Person,System.TimeSpan)
-  id: '#ctor(TinyLife.Goals.MemoryType,TinyLife.Objects.Person,System.TimeSpan)'
+- uid: TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.TimeSpan)
+  commentId: M:TinyLife.Goals.Memory.#ctor(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.TimeSpan)
+  id: '#ctor(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.TimeSpan)'
   parent: TinyLife.Goals.Memory
   langs:
   - csharp
   - vb
-  name: Memory(MemoryType, Person, TimeSpan)
-  nameWithType: Memory.Memory(MemoryType, Person, TimeSpan)
-  fullName: TinyLife.Goals.Memory.Memory(TinyLife.Goals.MemoryType, TinyLife.Objects.Person, System.TimeSpan)
+  name: Memory(MemoryType, ActionInfo, TimeSpan)
+  nameWithType: Memory.Memory(MemoryType, ActionInfo, TimeSpan)
+  fullName: TinyLife.Goals.Memory.Memory(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, System.TimeSpan)
   type: Constructor
   source:
     remote:
@@ -255,25 +260,25 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 122
+    startLine: 43
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nCreates a new memory with the given settings.\nIn most cases, <xref href=\"TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person%2cSystem.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> should be used instead.\n"
+  summary: "\nCreates a new memory with the given settings.\nIn most cases, <xref href=\"TinyLife.Goals.MemoryType.Construct%60%601(TinyLife.Actions.ActionInfo%2cSystem.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref> should be used instead.\n"
   example: []
   syntax:
-    content: public Memory(MemoryType type, Person person, TimeSpan timeOccured)
+    content: public Memory(MemoryType type, ActionInfo info, TimeSpan timeOccured)
     parameters:
     - id: type
       type: TinyLife.Goals.MemoryType
       description: The type of this memory.
-    - id: person
-      type: TinyLife.Objects.Person
-      description: The person that has this memory.
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref> that contains information about this memory.
     - id: timeOccured
       type: System.TimeSpan
       description: The in-game time that this event occured at.
-    content.vb: Public Sub New(type As MemoryType, person As Person, timeOccured As TimeSpan)
+    content.vb: Public Sub New(type As MemoryType, info As ActionInfo, timeOccured As TimeSpan)
   overload: TinyLife.Goals.Memory.#ctor*
   modifiers.csharp:
   - public
@@ -297,7 +302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 134
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -320,16 +325,16 @@ items:
   modifiers.vb:
   - Public
   - Overridable
-- uid: TinyLife.Goals.Memory.TryReplace(System.TimeSpan)
-  commentId: M:TinyLife.Goals.Memory.TryReplace(System.TimeSpan)
-  id: TryReplace(System.TimeSpan)
+- uid: TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
+  id: TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
   parent: TinyLife.Goals.Memory
   langs:
   - csharp
   - vb
-  name: TryReplace(TimeSpan)
-  nameWithType: Memory.TryReplace(TimeSpan)
-  fullName: TinyLife.Goals.Memory.TryReplace(System.TimeSpan)
+  name: TryReplace(TimeSpan, ActionInfo)
+  nameWithType: Memory.TryReplace(TimeSpan, ActionInfo)
+  fullName: TinyLife.Goals.Memory.TryReplace(System.TimeSpan, TinyLife.Actions.ActionInfo)
   type: Method
   source:
     remote:
@@ -338,22 +343,25 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TryReplace
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 146
+    startLine: 68
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nTries to replace this memory instance&apos;s <xref href=\"TinyLife.Goals.Memory.TimeOccured\" data-throw-if-not-resolved=\"false\"></xref> with the passed <code data-dev-comment-type=\"paramref\" class=\"paramref\">newTimeOccured</code>.\nIf this memory should not be allowed to have its occurance time replaced, and a new memory should be added instead, <xref uid=\"langword_csharp_false\" name=\"false\" href=\"\"></xref> should be returned.\nBy default, the <xref href=\"TinyLife.Goals.Memory.TimeOccured\" data-throw-if-not-resolved=\"false\"></xref> is updated, and <xref uid=\"langword_csharp_true\" name=\"true\" href=\"\"></xref> is returned.\n"
+  summary: "\nTries to replace this memory instance&apos;s data with the given memory data. Returns whether the replacement was successful.\nThis method is called in <xref href=\"TinyLife.Objects.Person.AddMemory%60%601(TinyLife.Goals.MemoryType%2cTinyLife.Actions.ActionInfo%2cSystem.Nullable%7bSystem.TimeSpan%7d)\" data-throw-if-not-resolved=\"false\"></xref> when a memory of this memory&apos;s <xref href=\"TinyLife.Goals.Memory.Type\" data-throw-if-not-resolved=\"false\"></xref> is being added. If this method returns <xref uid=\"langword_csharp_false\" name=\"false\" href=\"\"></xref>, a new memory of this <xref href=\"TinyLife.Goals.Memory.Type\" data-throw-if-not-resolved=\"false\"></xref> will be added in addition to this one.\n"
   example: []
   syntax:
-    content: public virtual bool TryReplace(TimeSpan newTimeOccured)
+    content: public virtual bool TryReplace(TimeSpan newTimeOccured, ActionInfo newInfo)
     parameters:
     - id: newTimeOccured
       type: System.TimeSpan
-      description: The new time that this memory occured on.
+      description: The time to replace <xref href="TinyLife.Goals.Memory.TimeOccured" data-throw-if-not-resolved="false"></xref> with.
+    - id: newInfo
+      type: TinyLife.Actions.ActionInfo
+      description: The action info to replace <xref href="TinyLife.Goals.Memory.Info" data-throw-if-not-resolved="false"></xref> with.
     return:
       type: System.Boolean
-      description: Whether the time occured could successfully be replaced.
-    content.vb: Public Overridable Function TryReplace(newTimeOccured As TimeSpan) As Boolean
+      description: Whether this memory&apos;s data could be replaced, which is based on <xref href="TinyLife.Goals.MemoryType.CanReplace" data-throw-if-not-resolved="false"></xref> by default.
+    content.vb: Public Overridable Function TryReplace(newTimeOccured As TimeSpan, newInfo As ActionInfo) As Boolean
   overload: TinyLife.Goals.Memory.TryReplace*
   modifiers.csharp:
   - public
@@ -362,9 +370,12 @@ items:
   - Public
   - Overridable
 references:
-- uid: TinyLife.Goals.Memory.Person
-  commentId: P:TinyLife.Goals.Memory.Person
-  isExternal: true
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
 - uid: TinyLife.Goals.MemoryType
   commentId: T:TinyLife.Goals.MemoryType
   parent: TinyLife.Goals
@@ -451,6 +462,62 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -840,6 +907,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
 - uid: System
   commentId: N:System
   isExternal: true
@@ -858,6 +930,61 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -917,22 +1044,22 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
-- uid: TinyLife.Goals.Memory.Person*
-  commentId: Overload:TinyLife.Goals.Memory.Person
-  name: Person
-  nameWithType: Memory.Person
-  fullName: TinyLife.Goals.Memory.Person
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
-  parent: TinyLife.Objects
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
+- uid: TinyLife.Actions.ActionInfo
+  commentId: T:TinyLife.Actions.ActionInfo
+  parent: TinyLife.Actions
+  name: ActionInfo
+  nameWithType: ActionInfo
+  fullName: TinyLife.Actions.ActionInfo
+- uid: TinyLife.Goals.Memory.Info*
+  commentId: Overload:TinyLife.Goals.Memory.Info
+  name: Info
+  nameWithType: Memory.Info
+  fullName: TinyLife.Goals.Memory.Info
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
 - uid: TinyLife.World.Map.Time
   commentId: P:TinyLife.World.Map.Time
   isExternal: true
@@ -944,8 +1071,8 @@ references:
   name: TimeSinceOccured
   nameWithType: Memory.TimeSinceOccured
   fullName: TinyLife.Goals.Memory.TimeSinceOccured
-- uid: TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
-  commentId: M:TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
+- uid: TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
+  commentId: M:TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
   isExternal: true
 - uid: TinyLife.Goals.Memory.#ctor*
   commentId: Overload:TinyLife.Goals.Memory.#ctor
@@ -967,6 +1094,18 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
+  isExternal: true
+- uid: TinyLife.Goals.Memory.Type
+  commentId: F:TinyLife.Goals.Memory.Type
+  isExternal: true
+- uid: TinyLife.Goals.Memory.Info
+  commentId: P:TinyLife.Goals.Memory.Info
+  isExternal: true
+- uid: TinyLife.Goals.MemoryType.CanReplace
+  commentId: F:TinyLife.Goals.MemoryType.CanReplace
+  isExternal: true
 - uid: TinyLife.Goals.Memory.TryReplace*
   commentId: Overload:TinyLife.Goals.Memory.TryReplace
   name: TryReplace

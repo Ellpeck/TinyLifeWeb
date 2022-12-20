@@ -9,13 +9,14 @@ items:
   - TinyLife.Objects.AbstractSpot.DoGroupsOverlap(TinyLife.Objects.AbstractSpot)
   - TinyLife.Objects.AbstractSpot.DrawLayer
   - TinyLife.Objects.AbstractSpot.GetLocation(TinyLife.Objects.Furniture,System.Boolean)
-  - TinyLife.Objects.AbstractSpot.GetMainDirection(MLEM.Misc.Direction2)
   - TinyLife.Objects.AbstractSpot.GetValidDirections(MLEM.Misc.Direction2)
+  - TinyLife.Objects.AbstractSpot.GetVisualDirection(MLEM.Misc.Direction2)
   - TinyLife.Objects.AbstractSpot.Group
   - TinyLife.Objects.AbstractSpot.IsOnGround
-  - TinyLife.Objects.AbstractSpot.MainDirection
   - TinyLife.Objects.AbstractSpot.Offset
+  - TinyLife.Objects.AbstractSpot.SortDrawLayers``1(``0[])
   - TinyLife.Objects.AbstractSpot.ValidDirections
+  - TinyLife.Objects.AbstractSpot.VisualDirection
   - TinyLife.Objects.AbstractSpot.VisualOffset
   - TinyLife.Objects.AbstractSpot.YOffset
   langs:
@@ -102,7 +103,7 @@ items:
   - Public
   - ReadOnly
 - uid: TinyLife.Objects.AbstractSpot.Group
-  commentId: F:TinyLife.Objects.AbstractSpot.Group
+  commentId: P:TinyLife.Objects.AbstractSpot.Group
   id: Group
   parent: TinyLife.Objects.AbstractSpot
   langs:
@@ -111,7 +112,7 @@ items:
   name: Group
   nameWithType: AbstractSpot.Group
   fullName: TinyLife.Objects.AbstractSpot.Group
-  type: Field
+  type: Property
   source:
     remote:
       path: TinyLife/Objects/AbstractSpot.cs
@@ -126,12 +127,53 @@ items:
   summary: "\nThe groups that this spot has, which is interpreted as a bit flag.\nTwo action spots with overlapping groups ((g1 AND g2) != 0) cannot both be occupied by two different people.\nThis is used by things lke <xref href=\"TinyLife.Objects.FurnitureType.ModernBed\" data-throw-if-not-resolved=\"false\"></xref> to stop people from sitting on a side there someone is already sleeping.\nBy default, this is set to 0, meaning there is no group set.\n"
   example: []
   syntax:
-    content: public int Group
+    content: public int Group { get; set; }
+    parameters: []
     return:
       type: System.Int32
-    content.vb: Public Group As Integer
+    content.vb: Public Property Group As Integer
+  overload: TinyLife.Objects.AbstractSpot.Group*
   modifiers.csharp:
   - public
+  - get
+  - set
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Objects.AbstractSpot.VisualDirection
+  commentId: P:TinyLife.Objects.AbstractSpot.VisualDirection
+  id: VisualDirection
+  parent: TinyLife.Objects.AbstractSpot
+  langs:
+  - csharp
+  - vb
+  name: VisualDirection
+  nameWithType: AbstractSpot.VisualDirection
+  fullName: TinyLife.Objects.AbstractSpot.VisualDirection
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Objects/AbstractSpot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: VisualDirection
+    path: ../TinyLife/Objects/AbstractSpot.cs
+    startLine: 30
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nThe visual direction that this action spot has.\nThe visual direction is the direction used by a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> when occupying this action spot for actions like sitting.\nBy default, this value is set to the first <xref href=\"TinyLife.Objects.AbstractSpot.ValidDirections\" data-throw-if-not-resolved=\"false\"></xref> entry in the constructor.\n"
+  example: []
+  syntax:
+    content: public Direction2 VisualDirection { get; set; }
+    parameters: []
+    return:
+      type: MLEM.Misc.Direction2
+    content.vb: Public Property VisualDirection As Direction2
+  overload: TinyLife.Objects.AbstractSpot.VisualDirection*
+  modifiers.csharp:
+  - public
+  - get
+  - set
   modifiers.vb:
   - Public
 - uid: TinyLife.Objects.AbstractSpot.DrawLayer
@@ -152,17 +194,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawLayer
     path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 29
+    startLine: 35
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nThe layer that a person slotted into this action spot using <xref href=\"TinyLife.Objects.Person.OccupyActionSpot(TinyLife.Objects.Furniture%2cTinyLife.Objects.ActionSpot%2cSystem.Boolean%2cSystem.Nullable%7bMLEM.Misc.Direction2%7d)\" data-throw-if-not-resolved=\"false\"></xref> is drawn on.\nBy default, this is set to return 0, meaning it will be drawn on top of the first layer of this furniture.\n"
   example: []
   syntax:
-    content: public Func<Furniture, int> DrawLayer
+    content: public Func<Furniture, float> DrawLayer
     return:
-      type: System.Func{TinyLife.Objects.Furniture,System.Int32}
-    content.vb: Public DrawLayer As Func(Of Furniture, Integer)
+      type: System.Func{TinyLife.Objects.Furniture,System.Single}
+    content.vb: Public DrawLayer As Func(Of Furniture, Single)
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -185,7 +227,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsOnGround
     path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 34
+    startLine: 40
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -222,7 +264,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidDirections
     path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 40
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -257,7 +299,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Offset
     path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 44
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -290,7 +332,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisualOffset
     path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 49
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -301,39 +343,6 @@ items:
     return:
       type: Microsoft.Xna.Framework.Vector2
     content.vb: Protected VisualOffset As Vector2
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
-- uid: TinyLife.Objects.AbstractSpot.MainDirection
-  commentId: F:TinyLife.Objects.AbstractSpot.MainDirection
-  id: MainDirection
-  parent: TinyLife.Objects.AbstractSpot
-  langs:
-  - csharp
-  - vb
-  name: MainDirection
-  nameWithType: AbstractSpot.MainDirection
-  fullName: TinyLife.Objects.AbstractSpot.MainDirection
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/AbstractSpot.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: MainDirection
-    path: ../TinyLife/Objects/AbstractSpot.cs
-    startLine: 55
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: "\nThe <xref href=\"TinyLife.Objects.AbstractSpot.MainDirection\" data-throw-if-not-resolved=\"false\"></xref> that this action spot has.\nThe main direction is the direction used by a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> when occupying this action spot for actions like sitting.\nBy default, this value is set to the first <xref href=\"TinyLife.Objects.AbstractSpot.ValidDirections\" data-throw-if-not-resolved=\"false\"></xref> entry in the constructor.\n"
-  example: []
-  syntax:
-    content: protected Direction2 MainDirection
-    return:
-      type: MLEM.Misc.Direction2
-    content.vb: Protected MainDirection As Direction2
   modifiers.csharp:
   - protected
   modifiers.vb:
@@ -425,41 +434,41 @@ items:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.AbstractSpot.GetMainDirection(MLEM.Misc.Direction2)
-  commentId: M:TinyLife.Objects.AbstractSpot.GetMainDirection(MLEM.Misc.Direction2)
-  id: GetMainDirection(MLEM.Misc.Direction2)
+- uid: TinyLife.Objects.AbstractSpot.GetVisualDirection(MLEM.Misc.Direction2)
+  commentId: M:TinyLife.Objects.AbstractSpot.GetVisualDirection(MLEM.Misc.Direction2)
+  id: GetVisualDirection(MLEM.Misc.Direction2)
   parent: TinyLife.Objects.AbstractSpot
   langs:
   - csharp
   - vb
-  name: GetMainDirection(Direction2)
-  nameWithType: AbstractSpot.GetMainDirection(Direction2)
-  fullName: TinyLife.Objects.AbstractSpot.GetMainDirection(MLEM.Misc.Direction2)
+  name: GetVisualDirection(Direction2)
+  nameWithType: AbstractSpot.GetVisualDirection(Direction2)
+  fullName: TinyLife.Objects.AbstractSpot.GetVisualDirection(MLEM.Misc.Direction2)
   type: Method
   source:
     remote:
       path: TinyLife/Objects/AbstractSpot.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetMainDirection
+    id: GetVisualDirection
     path: ../TinyLife/Objects/AbstractSpot.cs
     startLine: 89
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nReturns the <xref href=\"TinyLife.Objects.AbstractSpot.MainDirection\" data-throw-if-not-resolved=\"false\"></xref> that this action spot has, rotated by the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">rotation</code>.\nThe main direction is the direction used by a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> when occupying this action spot for actions like sitting.\n"
+  summary: "\nReturns the <xref href=\"TinyLife.Objects.AbstractSpot.VisualDirection\" data-throw-if-not-resolved=\"false\"></xref> that this action spot has, rotated by the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">rotation</code>.\nThe visual direction is the direction used by a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> when occupying this action spot for actions like sitting.\n"
   example: []
   syntax:
-    content: public Direction2 GetMainDirection(Direction2 rotation)
+    content: public Direction2 GetVisualDirection(Direction2 rotation)
     parameters:
     - id: rotation
       type: MLEM.Misc.Direction2
       description: The rotation of the containing furniture.
     return:
       type: MLEM.Misc.Direction2
-      description: The main direction for this spot.
-    content.vb: Public Function GetMainDirection(rotation As Direction2) As Direction2
-  overload: TinyLife.Objects.AbstractSpot.GetMainDirection*
+      description: The visual direction for this spot.
+    content.vb: Public Function GetVisualDirection(rotation As Direction2) As Direction2
+  overload: TinyLife.Objects.AbstractSpot.GetVisualDirection*
   modifiers.csharp:
   - public
   modifiers.vb:
@@ -545,6 +554,55 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: TinyLife.Objects.AbstractSpot.SortDrawLayers``1(``0[])
+  commentId: M:TinyLife.Objects.AbstractSpot.SortDrawLayers``1(``0[])
+  id: SortDrawLayers``1(``0[])
+  parent: TinyLife.Objects.AbstractSpot
+  langs:
+  - csharp
+  - vb
+  name: SortDrawLayers<T>(T[])
+  nameWithType: AbstractSpot.SortDrawLayers<T>(T[])
+  fullName: TinyLife.Objects.AbstractSpot.SortDrawLayers<T>(T[])
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/AbstractSpot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SortDrawLayers
+    path: ../TinyLife/Objects/AbstractSpot.cs
+    startLine: 121
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA helper method that sorts the given <xref href=\"TinyLife.Objects.AbstractSpot\" data-throw-if-not-resolved=\"false\"></xref> instances by depth when drawing by modifying their <xref href=\"TinyLife.Objects.AbstractSpot.DrawLayer\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method can be used for more complex objects like wide desks, that have smaller and bigger objects visually overlappying, to mitigate z-fighting.\n"
+  example: []
+  syntax:
+    content: >-
+      public static T[] SortDrawLayers<T>(T[] spots)
+          where T : AbstractSpot
+    parameters:
+    - id: spots
+      type: '{T}[]'
+      description: The spots to sort.
+    typeParameters:
+    - id: T
+      description: The type of spot.
+    return:
+      type: '{T}[]'
+      description: The same <code data-dev-comment-type="paramref" class="paramref">spots</code>, for chaining.
+    content.vb: Public Shared Function SortDrawLayers(Of T As AbstractSpot)(spots As T()) As T()
+  overload: TinyLife.Objects.AbstractSpot.SortDrawLayers*
+  nameWithType.vb: AbstractSpot.SortDrawLayers(Of T)(T())
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+  fullName.vb: TinyLife.Objects.AbstractSpot.SortDrawLayers(Of T)(T())
+  name.vb: SortDrawLayers(Of T)(T())
 references:
 - uid: TinyLife.Objects.AbstractSpot
   commentId: T:TinyLife.Objects.AbstractSpot
@@ -967,6 +1025,11 @@ references:
 - uid: TinyLife.Objects.FurnitureType.ModernBed
   commentId: F:TinyLife.Objects.FurnitureType.ModernBed
   isExternal: true
+- uid: TinyLife.Objects.AbstractSpot.Group*
+  commentId: Overload:TinyLife.Objects.AbstractSpot.Group
+  name: Group
+  nameWithType: AbstractSpot.Group
+  fullName: TinyLife.Objects.AbstractSpot.Group
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
@@ -974,19 +1037,43 @@ references:
   name: Int32
   nameWithType: Int32
   fullName: System.Int32
+- uid: TinyLife.Objects.AbstractSpot.ValidDirections
+  commentId: F:TinyLife.Objects.AbstractSpot.ValidDirections
+  parent: TinyLife.Objects.AbstractSpot
+  name: ValidDirections
+  nameWithType: AbstractSpot.ValidDirections
+  fullName: TinyLife.Objects.AbstractSpot.ValidDirections
+- uid: TinyLife.Objects.AbstractSpot.VisualDirection*
+  commentId: Overload:TinyLife.Objects.AbstractSpot.VisualDirection
+  name: VisualDirection
+  nameWithType: AbstractSpot.VisualDirection
+  fullName: TinyLife.Objects.AbstractSpot.VisualDirection
+- uid: MLEM.Misc.Direction2
+  commentId: T:MLEM.Misc.Direction2
+  parent: MLEM.Misc
+  isExternal: true
+  name: Direction2
+  nameWithType: Direction2
+  fullName: MLEM.Misc.Direction2
+- uid: MLEM.Misc
+  commentId: N:MLEM.Misc
+  isExternal: true
+  name: MLEM.Misc
+  nameWithType: MLEM.Misc
+  fullName: MLEM.Misc
 - uid: TinyLife.Objects.Person.OccupyActionSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
   commentId: M:TinyLife.Objects.Person.OccupyActionSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
   isExternal: true
-- uid: System.Func{TinyLife.Objects.Furniture,System.Int32}
-  commentId: T:System.Func{TinyLife.Objects.Furniture,System.Int32}
+- uid: System.Func{TinyLife.Objects.Furniture,System.Single}
+  commentId: T:System.Func{TinyLife.Objects.Furniture,System.Single}
   parent: System
   definition: System.Func`2
-  name: Func<Furniture, Int32>
-  nameWithType: Func<Furniture, Int32>
-  fullName: System.Func<TinyLife.Objects.Furniture, System.Int32>
-  nameWithType.vb: Func(Of Furniture, Int32)
-  fullName.vb: System.Func(Of TinyLife.Objects.Furniture, System.Int32)
-  name.vb: Func(Of Furniture, Int32)
+  name: Func<Furniture, Single>
+  nameWithType: Func<Furniture, Single>
+  fullName: System.Func<TinyLife.Objects.Furniture, System.Single>
+  nameWithType.vb: Func(Of Furniture, Single)
+  fullName.vb: System.Func(Of TinyLife.Objects.Furniture, System.Single)
+  name.vb: Func(Of Furniture, Single)
   spec.csharp:
   - uid: System.Func`2
     name: Func
@@ -1003,10 +1090,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
     isExternal: true
   - name: '>'
     nameWithType: '>'
@@ -1027,10 +1114,10 @@ references:
   - name: ', '
     nameWithType: ', '
     fullName: ', '
-  - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
     isExternal: true
   - name: )
     nameWithType: )
@@ -1116,13 +1203,6 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
-- uid: MLEM.Misc.Direction2
-  commentId: T:MLEM.Misc.Direction2
-  parent: MLEM.Misc
-  isExternal: true
-  name: Direction2
-  nameWithType: Direction2
-  fullName: MLEM.Misc.Direction2
 - uid: MLEM.Misc.Direction2.Up
   commentId: F:MLEM.Misc.Direction2.Up
   isExternal: true
@@ -1152,12 +1232,6 @@ references:
   - name: ()
     nameWithType: ()
     fullName: ()
-- uid: MLEM.Misc
-  commentId: N:MLEM.Misc
-  isExternal: true
-  name: MLEM.Misc
-  nameWithType: MLEM.Misc
-  fullName: MLEM.Misc
 - uid: Microsoft.Xna.Framework.Vector2
   commentId: T:Microsoft.Xna.Framework.Vector2
   parent: Microsoft.Xna.Framework
@@ -1171,18 +1245,6 @@ references:
   name: Microsoft.Xna.Framework
   nameWithType: Microsoft.Xna.Framework
   fullName: Microsoft.Xna.Framework
-- uid: TinyLife.Objects.AbstractSpot.MainDirection
-  commentId: F:TinyLife.Objects.AbstractSpot.MainDirection
-  parent: TinyLife.Objects.AbstractSpot
-  name: MainDirection
-  nameWithType: AbstractSpot.MainDirection
-  fullName: TinyLife.Objects.AbstractSpot.MainDirection
-- uid: TinyLife.Objects.AbstractSpot.ValidDirections
-  commentId: F:TinyLife.Objects.AbstractSpot.ValidDirections
-  parent: TinyLife.Objects.AbstractSpot
-  name: ValidDirections
-  nameWithType: AbstractSpot.ValidDirections
-  fullName: TinyLife.Objects.AbstractSpot.ValidDirections
 - uid: TinyLife.Objects.AbstractSpot.#ctor*
   commentId: Overload:TinyLife.Objects.AbstractSpot.#ctor
   name: AbstractSpot
@@ -1282,18 +1344,24 @@ references:
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
-- uid: TinyLife.Objects.AbstractSpot.GetMainDirection*
-  commentId: Overload:TinyLife.Objects.AbstractSpot.GetMainDirection
-  name: GetMainDirection
-  nameWithType: AbstractSpot.GetMainDirection
-  fullName: TinyLife.Objects.AbstractSpot.GetMainDirection
+- uid: TinyLife.Objects.AbstractSpot.VisualDirection
+  commentId: P:TinyLife.Objects.AbstractSpot.VisualDirection
+  parent: TinyLife.Objects.AbstractSpot
+  name: VisualDirection
+  nameWithType: AbstractSpot.VisualDirection
+  fullName: TinyLife.Objects.AbstractSpot.VisualDirection
+- uid: TinyLife.Objects.AbstractSpot.GetVisualDirection*
+  commentId: Overload:TinyLife.Objects.AbstractSpot.GetVisualDirection
+  name: GetVisualDirection
+  nameWithType: AbstractSpot.GetVisualDirection
+  fullName: TinyLife.Objects.AbstractSpot.GetVisualDirection
 - uid: TinyLife.Objects.AbstractSpot.GetLocation*
   commentId: Overload:TinyLife.Objects.AbstractSpot.GetLocation
   name: GetLocation
   nameWithType: AbstractSpot.GetLocation
   fullName: TinyLife.Objects.AbstractSpot.GetLocation
 - uid: TinyLife.Objects.AbstractSpot.Group
-  commentId: F:TinyLife.Objects.AbstractSpot.Group
+  commentId: P:TinyLife.Objects.AbstractSpot.Group
   parent: TinyLife.Objects.AbstractSpot
   name: Group
   nameWithType: AbstractSpot.Group
@@ -1303,3 +1371,36 @@ references:
   name: DoGroupsOverlap
   nameWithType: AbstractSpot.DoGroupsOverlap
   fullName: TinyLife.Objects.AbstractSpot.DoGroupsOverlap
+- uid: TinyLife.Objects.AbstractSpot.DrawLayer
+  commentId: F:TinyLife.Objects.AbstractSpot.DrawLayer
+  parent: TinyLife.Objects.AbstractSpot
+  name: DrawLayer
+  nameWithType: AbstractSpot.DrawLayer
+  fullName: TinyLife.Objects.AbstractSpot.DrawLayer
+- uid: TinyLife.Objects.AbstractSpot.SortDrawLayers*
+  commentId: Overload:TinyLife.Objects.AbstractSpot.SortDrawLayers
+  name: SortDrawLayers
+  nameWithType: AbstractSpot.SortDrawLayers
+  fullName: TinyLife.Objects.AbstractSpot.SortDrawLayers
+- uid: '{T}[]'
+  isExternal: true
+  name: T[]
+  nameWithType: T[]
+  fullName: T[]
+  nameWithType.vb: T()
+  fullName.vb: T()
+  name.vb: T()
+  spec.csharp:
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: ()
+    nameWithType: ()
+    fullName: ()

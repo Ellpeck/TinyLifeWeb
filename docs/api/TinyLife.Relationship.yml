@@ -6,6 +6,7 @@ items:
   parent: TinyLife
   children:
   - TinyLife.Relationship.AddRecentSocial(TinyLife.Actions.ActionType)
+  - TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Relationship.Dating
   - TinyLife.Relationship.DisplayString
   - TinyLife.Relationship.FriendLevel
@@ -17,10 +18,13 @@ items:
   - TinyLife.Relationship.KnownPersonalityTypes
   - TinyLife.Relationship.Max
   - TinyLife.Relationship.MaxRecentSocialsAmount
+  - TinyLife.Relationship.OnRelationshipPanel
+  - TinyLife.Relationship.OnRelationshipTooltip
   - TinyLife.Relationship.OtherPerson
   - TinyLife.Relationship.Partner
   - TinyLife.Relationship.PassiveFriendReduction
   - TinyLife.Relationship.PassiveRomanceReduction
+  - TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
   - TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Relationship.RomanceLevel
   - TinyLife.Relationship.RomancePercentage
@@ -41,7 +45,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Relationship
     path: ../TinyLife/Relationship.cs
-    startLine: 17
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -51,14 +55,23 @@ items:
     content: >-
       [DataContract]
 
-      public class Relationship
+      public class Relationship : JsonTypeSafeGenericDataHolder, IGenericDataHolder
     content.vb: >-
       <DataContract>
 
       Public Class Relationship
+          Inherits JsonTypeSafeGenericDataHolder
+          Implements IGenericDataHolder
   inheritance:
   - System.Object
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  implements:
+  - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -78,6 +91,76 @@ items:
   modifiers.vb:
   - Public
   - Class
+- uid: TinyLife.Relationship.OnRelationshipPanel
+  commentId: E:TinyLife.Relationship.OnRelationshipPanel
+  id: OnRelationshipPanel
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: OnRelationshipPanel
+  nameWithType: Relationship.OnRelationshipPanel
+  fullName: TinyLife.Relationship.OnRelationshipPanel
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnRelationshipPanel
+    path: ../TinyLife/Relationship.cs
+    startLine: 30
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: "\nAn event that is raised when a relationship panel is created in <xref href=\"TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person%2cTinyLife.Objects.Person%2cTinyLife.Relationship%2cMicrosoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref>.\nUse this event to add custom information to a relationship panel.\n"
+  example: []
+  syntax:
+    content: public static event Action<(Person Person, Person Other, Relationship Relationship, Group Group)> OnRelationshipPanel
+    return:
+      type: System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Group}}
+    content.vb: Public Shared Event OnRelationshipPanel As Action(Of(Person As Person, Other As Person, Relationship As Relationship, Group As Group)(Of Person , Person, Relationship, Group))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Relationship.OnRelationshipTooltip
+  commentId: E:TinyLife.Relationship.OnRelationshipTooltip
+  id: OnRelationshipTooltip
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: OnRelationshipTooltip
+  nameWithType: Relationship.OnRelationshipTooltip
+  fullName: TinyLife.Relationship.OnRelationshipTooltip
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnRelationshipTooltip
+    path: ../TinyLife/Relationship.cs
+    startLine: 35
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: "\nAn event that is raised when a relationship tooltip is populated in <xref href=\"TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person%2cTinyLife.Objects.Person%2cTinyLife.Relationship%2cMLEM.Ui.Elements.Tooltip)\" data-throw-if-not-resolved=\"false\"></xref>.\nUse this event to add custom information to a relationship tooltip.\n"
+  example: []
+  syntax:
+    content: public static event Action<(Person Person, Person Other, Relationship Relationship, Tooltip Tooltip)> OnRelationshipTooltip
+    return:
+      type: System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip}}
+    content.vb: Public Shared Event OnRelationshipTooltip As Action(Of(Person As Person, Other As Person, Relationship As Relationship, Tooltip As Tooltip)(Of Person , Person, Relationship, Tooltip))
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 - uid: TinyLife.Relationship.Max
   commentId: F:TinyLife.Relationship.Max
   id: Max
@@ -96,7 +179,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Max
     path: ../TinyLife/Relationship.cs
-    startLine: 23
+    startLine: 40
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -131,7 +214,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PassiveFriendReduction
     path: ../TinyLife/Relationship.cs
-    startLine: 27
+    startLine: 44
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -166,7 +249,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PassiveRomanceReduction
     path: ../TinyLife/Relationship.cs
-    startLine: 31
+    startLine: 48
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -201,7 +284,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MaxRecentSocialsAmount
     path: ../TinyLife/Relationship.cs
-    startLine: 36
+    startLine: 53
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -236,7 +319,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: KnownPersonalityTypes
     path: ../TinyLife/Relationship.cs
-    startLine: 43
+    startLine: 60
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -281,7 +364,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OtherPerson
     path: ../TinyLife/Relationship.cs
-    startLine: 49
+    startLine: 66
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -328,7 +411,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Partner
     path: ../TinyLife/Relationship.cs
-    startLine: 55
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -365,7 +448,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FriendLevel
     path: ../TinyLife/Relationship.cs
-    startLine: 60
+    startLine: 77
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -402,7 +485,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomanceLevel
     path: ../TinyLife/Relationship.cs
-    startLine: 69
+    startLine: 86
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -439,7 +522,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FriendPercentage
     path: ../TinyLife/Relationship.cs
-    startLine: 82
+    startLine: 99
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -476,7 +559,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomancePercentage
     path: ../TinyLife/Relationship.cs
-    startLine: 86
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -513,7 +596,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Relationship.cs
-    startLine: 90
+    startLine: 107
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -550,7 +633,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayString
     path: ../TinyLife/Relationship.cs
-    startLine: 105
+    startLine: 122
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -587,7 +670,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Genealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 111
+    startLine: 128
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -634,7 +717,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Dating
     path: ../TinyLife/Relationship.cs
-    startLine: 117
+    startLine: 134
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -677,7 +760,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HadFirstKiss
     path: ../TinyLife/Relationship.cs
-    startLine: 122
+    startLine: 139
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -720,7 +803,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSocialEffectiveness
     path: ../TinyLife/Relationship.cs
-    startLine: 144
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -759,7 +842,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRecentSocialAmount
     path: ../TinyLife/Relationship.cs
-    startLine: 154
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -798,7 +881,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRecentSocial
     path: ../TinyLife/Relationship.cs
-    startLine: 164
+    startLine: 181
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -834,7 +917,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Relationship.cs
-    startLine: 175
+    startLine: 192
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -870,7 +953,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Relationship.cs
-    startLine: 187
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -909,7 +992,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetGenealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 213
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -930,6 +1013,103 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
+  id: CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: CreatePanel(Person, Person, Relationship, Vector2)
+  nameWithType: Relationship.CreatePanel(Person, Person, Relationship, Vector2)
+  fullName: TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, Microsoft.Xna.Framework.Vector2)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreatePanel
+    path: ../TinyLife/Relationship.cs
+    startLine: 265
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: "\nCreates a <xref href=\"MLEM.Ui.Elements.Group\" data-throw-if-not-resolved=\"false\"></xref> with a <xref href=\"MLEM.Ui.Elements.Panel\" data-throw-if-not-resolved=\"false\"></xref> in it that contains information about the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">relationship</code>.\nThis method also calls <xref href=\"TinyLife.Relationship.OnRelationshipPanel\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public static Group CreatePanel(Person person, Person otherPerson, Relationship relationship, Vector2 size)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person who has the <code data-dev-comment-type="paramref" class="paramref">relationship</code>.
+    - id: otherPerson
+      type: TinyLife.Objects.Person
+      description: The partner of the <code data-dev-comment-type="paramref" class="paramref">relationship</code>.
+    - id: relationship
+      type: TinyLife.Relationship
+      description: The relationship.
+    - id: size
+      type: Microsoft.Xna.Framework.Vector2
+      description: The <xref href="MLEM.Ui.Elements.Element.Size" data-throw-if-not-resolved="false"></xref> that the <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> should have.
+    return:
+      type: MLEM.Ui.Elements.Group
+      description: A <xref href="MLEM.Ui.Elements.Group" data-throw-if-not-resolved="false"></xref> that contains the <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> created.
+    content.vb: Public Shared Function CreatePanel(person As Person, otherPerson As Person, relationship As Relationship, size As Vector2) As Group
+  overload: TinyLife.Relationship.CreatePanel*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
+- uid: TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  commentId: M:TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  id: PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: PopulateTooltip(Person, Person, Relationship, Tooltip)
+  nameWithType: Relationship.PopulateTooltip(Person, Person, Relationship, Tooltip)
+  fullName: TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, MLEM.Ui.Elements.Tooltip)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: PopulateTooltip
+    path: ../TinyLife/Relationship.cs
+    startLine: 303
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: "\nPopulates the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">tooltip</code> with information about the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">relationship</code>.\nThis method also takes the <xref href=\"TinyLife.Relationship.OnRelationshipTooltip\" data-throw-if-not-resolved=\"false\"></xref> event into account.\n"
+  example: []
+  syntax:
+    content: public static void PopulateTooltip(Person person, Person otherPerson, Relationship relationship, Tooltip tooltip)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person who has the <code data-dev-comment-type="paramref" class="paramref">relationship</code>.
+    - id: otherPerson
+      type: TinyLife.Objects.Person
+      description: The partner of the <code data-dev-comment-type="paramref" class="paramref">relationship</code>.
+    - id: relationship
+      type: TinyLife.Relationship
+      description: The relationship.
+    - id: tooltip
+      type: MLEM.Ui.Elements.Tooltip
+      description: The tooltip to populate.
+    content.vb: Public Shared Sub PopulateTooltip(person As Person, otherPerson As Person, relationship As Relationship, tooltip As Tooltip)
+  overload: TinyLife.Relationship.PopulateTooltip*
+  modifiers.csharp:
+  - public
+  - static
+  modifiers.vb:
+  - Public
+  - Shared
 references:
 - uid: TinyLife.Objects.Person
   commentId: T:TinyLife.Objects.Person
@@ -952,6 +1132,208 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  commentId: T:MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  parent: MLEM.Data.Json
+  isExternal: true
+  name: JsonTypeSafeGenericDataHolder
+  nameWithType: JsonTypeSafeGenericDataHolder
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+- uid: MLEM.Misc.IGenericDataHolder
+  commentId: T:MLEM.Misc.IGenericDataHolder
+  parent: MLEM.Misc
+  isExternal: true
+  name: IGenericDataHolder
+  nameWithType: IGenericDataHolder
+  fullName: MLEM.Misc.IGenericDataHolder
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  isExternal: true
+  name: SetData(String, Object)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData(String, Object)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String, System.Object)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+    name: SetData
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+    name: SetData
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Object
+    name: Object
+    nameWithType: Object
+    fullName: System.Object
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  isExternal: true
+  name: GetData<T>(String)
+  nameWithType: JsonTypeSafeGenericDataHolder.GetData<T>(String)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData<T>(System.String)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.GetData(Of T)(String)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData(Of T)(System.String)
+  name.vb: GetData(Of T)(String)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+    name: GetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.GetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
+    name: GetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.GetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  isExternal: true
+  name: GetDataKeys()
+  nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys()
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys()
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+    name: GetDataKeys
+    nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+    name: GetDataKeys
+    nameWithType: JsonTypeSafeGenericDataHolder.GetDataKeys
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -1274,6 +1656,73 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: MLEM.Data.Json
+  commentId: N:MLEM.Data.Json
+  isExternal: true
+  name: MLEM.Data.Json
+  nameWithType: MLEM.Data.Json
+  fullName: MLEM.Data.Json
+- uid: MLEM.Misc
+  commentId: N:MLEM.Misc
+  isExternal: true
+  name: MLEM.Misc
+  nameWithType: MLEM.Misc
+  fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -1321,6 +1770,267 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
+- uid: TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
+  isExternal: true
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Group}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Group}}
+  parent: System
+  definition: System.Action`1
+  name: Action<(T1, T2, T3, T4)<Person, Person, Relationship, Group>>
+  nameWithType: Action<(T1, T2, T3, T4)<Person, Person, Relationship, Group>>
+  fullName: System.Action<System.ValueTuple<TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, MLEM.Ui.Elements.Group>>
+  nameWithType.vb: Action(Of (T1, T2, T3, T4)(Of Person, Person, Relationship, Group))
+  fullName.vb: System.Action(Of System.ValueTuple(Of TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, MLEM.Ui.Elements.Group))
+  name.vb: Action(Of (T1, T2, T3, T4)(Of Person, Person, Relationship, Group))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.ValueTuple`4
+    name: (T1, T2, T3, T4)
+    nameWithType: (T1, T2, T3, T4)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Relationship
+    name: Relationship
+    nameWithType: Relationship
+    fullName: TinyLife.Relationship
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Group
+    name: Group
+    nameWithType: Group
+    fullName: MLEM.Ui.Elements.Group
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.ValueTuple`4
+    name: (T1, T2, T3, T4)
+    nameWithType: (T1, T2, T3, T4)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Relationship
+    name: Relationship
+    nameWithType: Relationship
+    fullName: TinyLife.Relationship
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Group
+    name: Group
+    nameWithType: Group
+    fullName: MLEM.Ui.Elements.Group
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  commentId: M:TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  isExternal: true
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip}}
+  parent: System
+  definition: System.Action`1
+  name: Action<(T1, T2, T3, T4)<Person, Person, Relationship, Tooltip>>
+  nameWithType: Action<(T1, T2, T3, T4)<Person, Person, Relationship, Tooltip>>
+  fullName: System.Action<System.ValueTuple<TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, MLEM.Ui.Elements.Tooltip>>
+  nameWithType.vb: Action(Of (T1, T2, T3, T4)(Of Person, Person, Relationship, Tooltip))
+  fullName.vb: System.Action(Of System.ValueTuple(Of TinyLife.Objects.Person, TinyLife.Objects.Person, TinyLife.Relationship, MLEM.Ui.Elements.Tooltip))
+  name.vb: Action(Of (T1, T2, T3, T4)(Of Person, Person, Relationship, Tooltip))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: System.ValueTuple`4
+    name: (T1, T2, T3, T4)
+    nameWithType: (T1, T2, T3, T4)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Relationship
+    name: Relationship
+    nameWithType: Relationship
+    fullName: TinyLife.Relationship
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Tooltip
+    name: Tooltip
+    nameWithType: Tooltip
+    fullName: MLEM.Ui.Elements.Tooltip
+    isExternal: true
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    nameWithType: Action
+    fullName: System.Action
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: System.ValueTuple`4
+    name: (T1, T2, T3, T4)
+    nameWithType: (T1, T2, T3, T4)
+    fullName: System.ValueTuple
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: TinyLife.Relationship
+    name: Relationship
+    nameWithType: Relationship
+    fullName: TinyLife.Relationship
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: MLEM.Ui.Elements.Tooltip
+    name: Tooltip
+    nameWithType: Tooltip
+    fullName: MLEM.Ui.Elements.Tooltip
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: System.Single
   commentId: T:System.Single
   parent: System
@@ -1678,3 +2388,79 @@ references:
   name: SetGenealogy
   nameWithType: Relationship.SetGenealogy
   fullName: TinyLife.Relationship.SetGenealogy
+- uid: MLEM.Ui.Elements.Group
+  commentId: T:MLEM.Ui.Elements.Group
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Group
+  nameWithType: Group
+  fullName: MLEM.Ui.Elements.Group
+- uid: MLEM.Ui.Elements.Panel
+  commentId: T:MLEM.Ui.Elements.Panel
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Panel
+  nameWithType: Panel
+  fullName: MLEM.Ui.Elements.Panel
+- uid: TinyLife.Relationship.OnRelationshipPanel
+  commentId: E:TinyLife.Relationship.OnRelationshipPanel
+  isExternal: true
+- uid: MLEM.Ui.Elements.Element.Size
+  commentId: P:MLEM.Ui.Elements.Element.Size
+  parent: MLEM.Ui.Elements.Element
+  isExternal: true
+  name: Size
+  nameWithType: Element.Size
+  fullName: MLEM.Ui.Elements.Element.Size
+- uid: TinyLife.Relationship.CreatePanel*
+  commentId: Overload:TinyLife.Relationship.CreatePanel
+  name: CreatePanel
+  nameWithType: Relationship.CreatePanel
+  fullName: TinyLife.Relationship.CreatePanel
+- uid: TinyLife.Relationship
+  commentId: T:TinyLife.Relationship
+  parent: TinyLife
+  name: Relationship
+  nameWithType: Relationship
+  fullName: TinyLife.Relationship
+- uid: Microsoft.Xna.Framework.Vector2
+  commentId: T:Microsoft.Xna.Framework.Vector2
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: Microsoft.Xna.Framework.Vector2
+- uid: MLEM.Ui.Elements
+  commentId: N:MLEM.Ui.Elements
+  isExternal: true
+  name: MLEM.Ui.Elements
+  nameWithType: MLEM.Ui.Elements
+  fullName: MLEM.Ui.Elements
+- uid: MLEM.Ui.Elements.Element
+  commentId: T:MLEM.Ui.Elements.Element
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Element
+  nameWithType: Element
+  fullName: MLEM.Ui.Elements.Element
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
+- uid: TinyLife.Relationship.OnRelationshipTooltip
+  commentId: E:TinyLife.Relationship.OnRelationshipTooltip
+  isExternal: true
+- uid: TinyLife.Relationship.PopulateTooltip*
+  commentId: Overload:TinyLife.Relationship.PopulateTooltip
+  name: PopulateTooltip
+  nameWithType: Relationship.PopulateTooltip
+  fullName: TinyLife.Relationship.PopulateTooltip
+- uid: MLEM.Ui.Elements.Tooltip
+  commentId: T:MLEM.Ui.Elements.Tooltip
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Tooltip
+  nameWithType: Tooltip
+  fullName: MLEM.Ui.Elements.Tooltip

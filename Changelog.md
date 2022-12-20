@@ -1,3 +1,64 @@
+# 0.28.0
+*December 20, 2022*
+
+![](media/changelog/0.28.0.png)
+
+> The Last Beta Update Ever
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/466033/0280-the-last-beta-update-ever) or [on Steam](https://store.steampowered.com/news/app/1651490/view/5891302324258788947).
+
+Additions
+- Added jungle gym, coloring book, and festive tree objects
+- Added the thrifty personality
+- Added goofy and confident emotions
+- Added the perfect painter life goal
+- Added an accessibility menu with some new options
+- Added the ability to ask someone if they're single
+- Added the ability to cheat, admit to cheating, and possibly be broken up with as a result
+- Added more emotions for existing interactions, such as children seeing adults kiss
+- Added some more painting types to the easel and some more woodworking recipes
+- Added a gym trainer to gym lots that occasionally encourages people who are working out
+- Added some more of Leiss' songs
+- Added a proper loading screen so that the window doesn't stay closed while loading the game
+
+Improvements
+- Made romantic actions less likely to go well if the partner is already dating someone else
+- Also use pixel-based selection for roofs, allowing more intuitive roof selection and removal
+- Improved pathfinding by considering multiple locations for when driving to a goal, which should mitigate unnecessary driving
+- Improved the visuals of the Tiny Bucks logo
+- Improved some AI priorities for certain actions
+- Display a green background for items that are cheaper in build mode and the character creator
+- Tinies will now try to avoid walking over gravestones and puddles
+- Increased the default and maximum amounts of regular visitors
+- Made it less likely for randomly generated people to wear helmets for their daily outfits
+- Introduced some memory and CPU usage improvements
+- Made held items swing less wildly during the walking animation
+- Display a warning when a lot employment has to be removed due to a lot import
+
+Fixes
+- Fixed an incorrect border when drawing auto-tiles next to concrete
+- Fixed the "Toggle All Lights in Room" action being available for lights that are outside
+- Fixed people who are out of town still displaying particles
+- Fixed homework books getting stuck on the ground if the action fails early
+- Fixed some z-fighting issues with objects on desks, as well as hanging lamps
+- Fixed the game sometimes staying open in the background after being closed
+- Fixed the incorrect emotions being added when friends and family members die
+- Fixed people being able to cross double doors diagonally
+- Fixed paintings contributing to the Capable Carpenter life goal
+- Fixed chimney particles being affected by indoor light and hiddenness
+- Fixed lag when pressing the Steam cloud sync button
+- Fixed abandoned vehicles sometimes being left forever
+- Fixed a rare exception when quitting to the main menu while a notification is being displayed
+- Fixed regularly visiting children not having the student job
+- Fixed being able to store others' creations in the household storage
+- Fixed a rare exception when loading a skill book action from disk
+- Fixed a rare exception when closing the move tool while an item is on the cursor
+
+API
+- Improved the ActionBehavior pattern by merging MultiActionBehavior
+- Added the ability to add custom data to relationships
+- Added ActionPriorities cheat that prints every action priority for a person
+
 # 0.27.0
 *November 12, 2022*
 

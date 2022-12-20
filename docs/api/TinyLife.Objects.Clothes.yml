@@ -5,7 +5,7 @@ items:
   id: Clothes
   parent: TinyLife.Objects
   children:
-  - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,MLEM.Textures.TextureRegion,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
+  - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
   - TinyLife.Objects.Clothes.Ages
   - TinyLife.Objects.Clothes.AllIntentions
   - TinyLife.Objects.Clothes.AreCompatible(TinyLife.Objects.Clothes,TinyLife.Objects.Clothes)
@@ -25,8 +25,10 @@ items:
   - TinyLife.Objects.Clothes.RandomWeight
   - TinyLife.Objects.Clothes.ReferencePrice
   - TinyLife.Objects.Clothes.Register(TinyLife.Objects.Clothes)
+  - TinyLife.Objects.Clothes.SourceString
   - TinyLife.Objects.Clothes.TextureBehaviorLayer
-  - TinyLife.Objects.Clothes.TextureRegions
+  - TinyLife.Objects.Clothes.TextureRegion
+  - TinyLife.Objects.Clothes.Textures
   - TinyLife.Objects.Clothes.Types
   langs:
   - csharp
@@ -42,7 +44,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Clothes
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 22
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -52,16 +54,17 @@ items:
     content: >-
       [JsonConverter(typeof(StaticJsonConverter<Clothes>), new object[]{typeof(Clothes), "PrivateTypes"})]
 
-      public class Clothes : IPricedObject
+      public class Clothes : IPricedObject, IEmotionSource
     content.vb: >-
       <JsonConverter(GetType(StaticJsonConverter(Of Clothes)), New Object() {GetType(Clothes), "PrivateTypes"})>
 
       Public Class Clothes
-          Implements IPricedObject
+          Implements IPricedObject, IEmotionSource
   inheritance:
   - System.Object
   implements:
   - TinyLife.World.IPricedObject
+  - TinyLife.Emotions.IEmotionSource
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -96,7 +99,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Types
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 29
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -133,7 +136,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Layers
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 33
+    startLine: 34
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -170,7 +173,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AllIntentions
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 37
+    startLine: 38
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -207,7 +210,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ReferencePrice
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 42
+    startLine: 43
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -294,35 +297,70 @@ items:
   modifiers.vb:
   - Public
   - ReadOnly
-- uid: TinyLife.Objects.Clothes.TextureRegions
-  commentId: F:TinyLife.Objects.Clothes.TextureRegions
-  id: TextureRegions
+- uid: TinyLife.Objects.Clothes.Textures
+  commentId: F:TinyLife.Objects.Clothes.Textures
+  id: Textures
   parent: TinyLife.Objects.Clothes
   langs:
   - csharp
   - vb
-  name: TextureRegions
-  nameWithType: Clothes.TextureRegions
-  fullName: TinyLife.Objects.Clothes.TextureRegions
+  name: Textures
+  nameWithType: Clothes.Textures
+  fullName: TinyLife.Objects.Clothes.Textures
   type: Field
   source:
     remote:
       path: TinyLife/Objects/Clothes.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: TextureRegions
+    id: Textures
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 232
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe <xref href=\"MLEM.Textures.TextureRegion\" data-throw-if-not-resolved=\"false\"></xref> that this clothes item uses in the world.\nThe texture region specified in the constructor only needs to cover the top left animation frame of the <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref>, any remaining frames will automatically be gathered.\nMultiple layers will be gathered if <xref href=\"TinyLife.Objects.Clothes.Colors\" data-throw-if-not-resolved=\"false\"></xref> has multiple entries. Each new layer will be gathered to the right of the passed region&apos;s area.\n"
+  summary: "\nThis clothing item&apos;s textures, based on the <xref href=\"TinyLife.Objects.Clothes.TextureRegion\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public readonly TextureRegion[] TextureRegions
+    content: public readonly IReadOnlyDictionary<Point, TextureRegion> Textures
     return:
-      type: MLEM.Textures.TextureRegion[]
-    content.vb: Public ReadOnly TextureRegions As TextureRegion()
+      type: System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
+    content.vb: Public ReadOnly Textures As IReadOnlyDictionary(Of Point, TextureRegion)
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Objects.Clothes.TextureRegion
+  commentId: F:TinyLife.Objects.Clothes.TextureRegion
+  id: TextureRegion
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: TextureRegion
+  nameWithType: Clothes.TextureRegion
+  fullName: TinyLife.Objects.Clothes.TextureRegion
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Clothes.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: TextureRegion
+    path: ../TinyLife/Objects/Clothes.cs
+    startLine: 234
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nThis clothing&apos;s initial, top left texture region.\n"
+  example: []
+  syntax:
+    content: public readonly Point TextureRegion
+    return:
+      type: Microsoft.Xna.Framework.Point
+    content.vb: Public ReadOnly TextureRegion As Point
   modifiers.csharp:
   - public
   - readonly
@@ -347,11 +385,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Colors
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 237
+    startLine: 239
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe set of <xref href=\"TinyLife.Utilities.ColorScheme\" data-throw-if-not-resolved=\"false\"></xref>s that this clothes item can have its colors selected from.\nThe color scheme at index i will be mapped to the <xref href=\"TinyLife.Objects.Clothes.TextureRegions\" data-throw-if-not-resolved=\"false\"></xref> entry at index i.\n"
+  summary: "\nThe set of <xref href=\"TinyLife.Utilities.ColorScheme\" data-throw-if-not-resolved=\"false\"></xref>s that this clothes item can have its colors selected from.\nThe color scheme at index i will be mapped to the <xref href=\"TinyLife.Objects.Clothes.Textures\" data-throw-if-not-resolved=\"false\"></xref> entry at index i.\n"
   example: []
   syntax:
     content: public readonly ColorScheme[] Colors
@@ -382,7 +420,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Price
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 242
+    startLine: 244
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -417,7 +455,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intentions
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 246
+    startLine: 248
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -452,7 +490,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Icon
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 251
+    startLine: 253
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -489,7 +527,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: NonBuyable
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 256
+    startLine: 258
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -526,7 +564,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Ages
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 261
+    startLine: 263
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -563,7 +601,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepthFunction
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 266
+    startLine: 268
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -600,7 +638,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TextureBehaviorLayer
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 271
+    startLine: 273
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -637,7 +675,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RandomWeight
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 277
+    startLine: 279
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -674,7 +712,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RandomColorWeight
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 282
+    startLine: 284
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -711,7 +749,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsIncompatible
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 286
+    startLine: 288
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -730,16 +768,55 @@ items:
   - set
   modifiers.vb:
   - Public
-- uid: TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,MLEM.Textures.TextureRegion,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
-  commentId: M:TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,MLEM.Textures.TextureRegion,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
-  id: '#ctor(System.String,TinyLife.Objects.ClothesLayer,MLEM.Textures.TextureRegion,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])'
+- uid: TinyLife.Objects.Clothes.SourceString
+  commentId: P:TinyLife.Objects.Clothes.SourceString
+  id: SourceString
   parent: TinyLife.Objects.Clothes
   langs:
   - csharp
   - vb
-  name: Clothes(String, ClothesLayer, TextureRegion, Single, ClothesIntention, ColorScheme[])
-  nameWithType: Clothes.Clothes(String, ClothesLayer, TextureRegion, Single, ClothesIntention, ColorScheme[])
-  fullName: TinyLife.Objects.Clothes.Clothes(System.String, TinyLife.Objects.ClothesLayer, MLEM.Textures.TextureRegion, System.Single, TinyLife.Objects.ClothesIntention, TinyLife.Utilities.ColorScheme[])
+  name: SourceString
+  nameWithType: Clothes.SourceString
+  fullName: TinyLife.Objects.Clothes.SourceString
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Objects/Clothes.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SourceString
+    path: ../TinyLife/Objects/Clothes.cs
+    startLine: 290
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA (localized) string that is displayed when hovering over an <xref href=\"TinyLife.Emotions.EmotionModifier\" data-throw-if-not-resolved=\"false\"></xref> that has this source\n"
+  example: []
+  syntax:
+    content: public string SourceString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SourceString As String
+  overload: TinyLife.Objects.Clothes.SourceString*
+  implements:
+  - TinyLife.Emotions.IEmotionSource.SourceString
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
+  commentId: M:TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])
+  id: '#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Utilities.ColorScheme[])'
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: Clothes(String, ClothesLayer, IReadOnlyDictionary<Point, TextureRegion>, Point, Single, ClothesIntention, ColorScheme[])
+  nameWithType: Clothes.Clothes(String, ClothesLayer, IReadOnlyDictionary<Point, TextureRegion>, Point, Single, ClothesIntention, ColorScheme[])
+  fullName: TinyLife.Objects.Clothes.Clothes(System.String, TinyLife.Objects.ClothesLayer, System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>, Microsoft.Xna.Framework.Point, System.Single, TinyLife.Objects.ClothesIntention, TinyLife.Utilities.ColorScheme[])
   type: Constructor
   source:
     remote:
@@ -748,14 +825,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 297
+    startLine: 302
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nCreates a new clothes item with the given data\n"
   example: []
   syntax:
-    content: public Clothes(string name, ClothesLayer layer, TextureRegion region, float price, ClothesIntention intentions, params ColorScheme[] colors)
+    content: public Clothes(string name, ClothesLayer layer, IReadOnlyDictionary<Point, TextureRegion> textures, Point textureRegion, float price, ClothesIntention intentions, params ColorScheme[] colors)
     parameters:
     - id: name
       type: System.String
@@ -763,9 +840,12 @@ items:
     - id: layer
       type: TinyLife.Objects.ClothesLayer
       description: The <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> that this clothes item should render on
-    - id: region
-      type: MLEM.Textures.TextureRegion
-      description: The top left (standing frame 1) <xref href="MLEM.Textures.TextureRegion" data-throw-if-not-resolved="false"></xref> that this clothes item uses in the world
+    - id: textures
+      type: System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
+      description: The texture atlas to use for this clothing item.
+    - id: textureRegion
+      type: Microsoft.Xna.Framework.Point
+      description: The top left (standing frame 1) <xref href="TinyLife.Objects.Clothes.TextureRegion" data-throw-if-not-resolved="false"></xref> that this clothes item uses in the world
     - id: price
       type: System.Single
       description: The price of this piece of clothing
@@ -775,15 +855,15 @@ items:
     - id: colors
       type: TinyLife.Utilities.ColorScheme[]
       description: The <xref href="TinyLife.Utilities.ColorScheme" data-throw-if-not-resolved="false"></xref> that this clothes item can have its colors selected from
-    content.vb: Public Sub New(name As String, layer As ClothesLayer, region As TextureRegion, price As Single, intentions As ClothesIntention, ParamArray colors As ColorScheme())
+    content.vb: Public Sub New(name As String, layer As ClothesLayer, textures As IReadOnlyDictionary(Of Point, TextureRegion), textureRegion As Point, price As Single, intentions As ClothesIntention, ParamArray colors As ColorScheme())
   overload: TinyLife.Objects.Clothes.#ctor*
-  nameWithType.vb: Clothes.Clothes(String, ClothesLayer, TextureRegion, Single, ClothesIntention, ColorScheme())
+  nameWithType.vb: Clothes.Clothes(String, ClothesLayer, IReadOnlyDictionary(Of Point, TextureRegion), Point, Single, ClothesIntention, ColorScheme())
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-  fullName.vb: TinyLife.Objects.Clothes.Clothes(System.String, TinyLife.Objects.ClothesLayer, MLEM.Textures.TextureRegion, System.Single, TinyLife.Objects.ClothesIntention, TinyLife.Utilities.ColorScheme())
-  name.vb: Clothes(String, ClothesLayer, TextureRegion, Single, ClothesIntention, ColorScheme())
+  fullName.vb: TinyLife.Objects.Clothes.Clothes(System.String, TinyLife.Objects.ClothesLayer, System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point, System.Single, TinyLife.Objects.ClothesIntention, TinyLife.Utilities.ColorScheme())
+  name.vb: Clothes(String, ClothesLayer, IReadOnlyDictionary(Of Point, TextureRegion), Point, Single, ClothesIntention, ColorScheme())
 - uid: TinyLife.Objects.Clothes.GetPrice
   commentId: M:TinyLife.Objects.Clothes.GetPrice
   id: GetPrice
@@ -802,7 +882,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 321
+    startLine: 328
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -839,7 +919,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AreCompatible
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 331
+    startLine: 338
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -883,7 +963,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 339
+    startLine: 346
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -921,7 +1001,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClothes
     path: ../TinyLife/Objects/Clothes.cs
-    startLine: 350
+    startLine: 357
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -975,6 +1055,12 @@ references:
   name: IPricedObject
   nameWithType: IPricedObject
   fullName: TinyLife.World.IPricedObject
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -1297,6 +1383,11 @@ references:
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -1542,56 +1633,147 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: MLEM.Textures.TextureRegion
-  commentId: T:MLEM.Textures.TextureRegion
-  parent: MLEM.Textures
+- uid: TinyLife.Objects.Clothes.TextureRegion
+  commentId: F:TinyLife.Objects.Clothes.TextureRegion
   isExternal: true
-  name: TextureRegion
-  nameWithType: TextureRegion
-  fullName: MLEM.Textures.TextureRegion
-- uid: TinyLife.Objects.Clothes.Colors
-  commentId: F:TinyLife.Objects.Clothes.Colors
-  isExternal: true
-- uid: MLEM.Textures.TextureRegion[]
-  isExternal: true
-  name: TextureRegion[]
-  nameWithType: TextureRegion[]
-  fullName: MLEM.Textures.TextureRegion[]
-  nameWithType.vb: TextureRegion()
-  fullName.vb: MLEM.Textures.TextureRegion()
-  name.vb: TextureRegion()
+- uid: System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
+  commentId: T:System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyDictionary`2
+  name: IReadOnlyDictionary<Point, TextureRegion>
+  nameWithType: IReadOnlyDictionary<Point, TextureRegion>
+  fullName: System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>
+  nameWithType.vb: IReadOnlyDictionary(Of Point, TextureRegion)
+  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion)
+  name.vb: IReadOnlyDictionary(Of Point, TextureRegion)
   spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    nameWithType: IReadOnlyDictionary
+    fullName: System.Collections.Generic.IReadOnlyDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     nameWithType: TextureRegion
     fullName: MLEM.Textures.TextureRegion
     isExternal: true
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
   spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    nameWithType: IReadOnlyDictionary
+    fullName: System.Collections.Generic.IReadOnlyDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     nameWithType: TextureRegion
     fullName: MLEM.Textures.TextureRegion
     isExternal: true
-  - name: ()
-    nameWithType: ()
-    fullName: ()
-- uid: MLEM.Textures
-  commentId: N:MLEM.Textures
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic.IReadOnlyDictionary`2
+  commentId: T:System.Collections.Generic.IReadOnlyDictionary`2
   isExternal: true
-  name: MLEM.Textures
-  nameWithType: MLEM.Textures
-  fullName: MLEM.Textures
+  name: IReadOnlyDictionary<TKey, TValue>
+  nameWithType: IReadOnlyDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>
+  nameWithType.vb: IReadOnlyDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of TKey, TValue)
+  name.vb: IReadOnlyDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    nameWithType: IReadOnlyDictionary
+    fullName: System.Collections.Generic.IReadOnlyDictionary
+    isExternal: true
+  - name: <
+    nameWithType: <
+    fullName: <
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: '>'
+    nameWithType: '>'
+    fullName: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyDictionary`2
+    name: IReadOnlyDictionary
+    nameWithType: IReadOnlyDictionary
+    fullName: System.Collections.Generic.IReadOnlyDictionary
+    isExternal: true
+  - name: '(Of '
+    nameWithType: '(Of '
+    fullName: '(Of '
+  - name: TKey
+    nameWithType: TKey
+    fullName: TKey
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: TValue
+    nameWithType: TValue
+    fullName: TValue
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+- uid: Microsoft.Xna.Framework.Point
+  commentId: T:Microsoft.Xna.Framework.Point
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Point
+  nameWithType: Point
+  fullName: Microsoft.Xna.Framework.Point
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
 - uid: TinyLife.Utilities.ColorScheme
   commentId: T:TinyLife.Utilities.ColorScheme
   parent: TinyLife.Utilities
   name: ColorScheme
   nameWithType: ColorScheme
   fullName: TinyLife.Utilities.ColorScheme
-- uid: TinyLife.Objects.Clothes.TextureRegions
-  commentId: F:TinyLife.Objects.Clothes.TextureRegions
+- uid: TinyLife.Objects.Clothes.Textures
+  commentId: F:TinyLife.Objects.Clothes.Textures
   isExternal: true
 - uid: TinyLife.Utilities.ColorScheme[]
   isExternal: true
@@ -1632,6 +1814,19 @@ references:
   name: Icon
   nameWithType: Clothes.Icon
   fullName: TinyLife.Objects.Clothes.Icon
+- uid: MLEM.Textures.TextureRegion
+  commentId: T:MLEM.Textures.TextureRegion
+  parent: MLEM.Textures
+  isExternal: true
+  name: TextureRegion
+  nameWithType: TextureRegion
+  fullName: MLEM.Textures.TextureRegion
+- uid: MLEM.Textures
+  commentId: N:MLEM.Textures
+  isExternal: true
+  name: MLEM.Textures
+  nameWithType: MLEM.Textures
+  fullName: MLEM.Textures
 - uid: TinyLife.World.Household.ClothesStorage
   commentId: F:TinyLife.World.Household.ClothesStorage
   isExternal: true
@@ -2356,6 +2551,17 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.Clothes.SourceString*
+  commentId: Overload:TinyLife.Objects.Clothes.SourceString
+  name: SourceString
+  nameWithType: Clothes.SourceString
+  fullName: TinyLife.Objects.Clothes.SourceString
+- uid: TinyLife.Emotions.IEmotionSource.SourceString
+  commentId: P:TinyLife.Emotions.IEmotionSource.SourceString
+  parent: TinyLife.Emotions.IEmotionSource
+  name: SourceString
+  nameWithType: IEmotionSource.SourceString
+  fullName: TinyLife.Emotions.IEmotionSource.SourceString
 - uid: TinyLife.Objects.Clothes.#ctor*
   commentId: Overload:TinyLife.Objects.Clothes.#ctor
   name: Clothes
@@ -2496,9 +2702,3 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic

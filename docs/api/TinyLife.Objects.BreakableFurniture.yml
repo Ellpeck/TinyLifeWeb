@@ -12,6 +12,7 @@ items:
   - TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String})
   - TinyLife.Objects.BreakableFurniture.GetPrice
+  - TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
   - TinyLife.Objects.BreakableFurniture.OnBreak
   - TinyLife.Objects.BreakableFurniture.OnRemoved
   - TinyLife.Objects.BreakableFurniture.OnWearDown
@@ -93,9 +94,11 @@ items:
   - TinyLife.Objects.Furniture.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   - TinyLife.Objects.Furniture.GetEfficiencyModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.Furniture.GetRestoreNeedModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
+  - TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.Person,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetOccupants(TinyLife.Objects.ObjectCategory,System.Boolean)
@@ -130,11 +133,13 @@ items:
   - TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Misc.Direction2,MLEM.Misc.Direction2)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
+  - TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.DoUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -261,6 +266,45 @@ items:
   - public
   modifiers.vb:
   - Public
+- uid: TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
+  commentId: P:TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
+  id: IsMinorUpdateNow
+  parent: TinyLife.Objects.BreakableFurniture
+  langs:
+  - csharp
+  - vb
+  name: IsMinorUpdateNow
+  nameWithType: BreakableFurniture.IsMinorUpdateNow
+  fullName: TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Objects/BreakableFurniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsMinorUpdateNow
+    path: ../TinyLife/Objects/BreakableFurniture.cs
+    startLine: 38
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA property that returns whether this updating object should currently update minorly, rather than majorly.\nA minor update means that <xref href=\"TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> is only called once every 10 in-game minutes (see <xref href=\"TinyLife.World.MapSection.MinorUpdateMinutes\" data-throw-if-not-resolved=\"false\"></xref>), but all of the parameters to <xref href=\"TinyLife.Objects.IUpdatingObject.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> are modified accordingly to maintain proper time calculations.\nNote that this property is only queried every 10 in-game minutes, as switching between major and minor update schedules only happens when a minor update is executed.\nFor example, a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> updates minorly when they&apos;re out of town to aid the game&apos;s performance.\n"
+  example: []
+  syntax:
+    content: public bool IsMinorUpdateNow { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsMinorUpdateNow As Boolean
+  overload: TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow*
+  implements:
+  - TinyLife.Objects.IUpdatingObject.IsMinorUpdateNow
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
 - uid: TinyLife.Objects.BreakableFurniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Objects.BreakableFurniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)'
@@ -279,7 +323,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 43
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -330,7 +374,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 46
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -376,7 +420,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WearDown
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 109
+    startLine: 112
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -414,7 +458,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanExecuteAction
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 123
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -465,7 +509,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ActionUpdate
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 128
+    startLine: 131
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -516,7 +560,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 142
+    startLine: 145
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -554,7 +598,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDescription
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 147
+    startLine: 150
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -596,7 +640,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDecorativeRating
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 157
+    startLine: 160
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -638,7 +682,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRemoved
     path: ../TinyLife/Objects/BreakableFurniture.cs
-    startLine: 162
+    startLine: 165
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1545,6 +1589,45 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  name: IsFreeSpot(Point)
+  nameWithType: Furniture.IsFreeSpot(Point)
+  fullName: TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
+    name: IsFreeSpot
+    nameWithType: Furniture.IsFreeSpot
+    fullName: TinyLife.Objects.Furniture.IsFreeSpot
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
+    name: IsFreeSpot
+    nameWithType: Furniture.IsFreeSpot
+    fullName: TinyLife.Objects.Furniture.IsFreeSpot
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   commentId: M:TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.Objects.Furniture
@@ -1922,6 +2005,59 @@ references:
     name: Person
     nameWithType: Person
     fullName: TinyLife.Objects.Person
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  name: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, System.Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+    name: OnPlacedInBuildMode
+    nameWithType: Furniture.OnPlacedInBuildMode
+    fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Tools.FurniturePlacer
+    name: FurniturePlacer
+    nameWithType: FurniturePlacer
+    fullName: TinyLife.Tools.FurniturePlacer
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Boolean
+    name: Boolean
+    nameWithType: Boolean
+    fullName: System.Boolean
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+    name: OnPlacedInBuildMode
+    nameWithType: Furniture.OnPlacedInBuildMode
+    fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Tools.FurniturePlacer
+    name: FurniturePlacer
+    nameWithType: FurniturePlacer
+    fullName: TinyLife.Tools.FurniturePlacer
   - name: ', '
     nameWithType: ', '
     fullName: ', '
@@ -3360,6 +3496,45 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: GetPathCostModifier(Point)
+  nameWithType: MapObject.GetPathCostModifier(Point)
+  fullName: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+    name: GetPathCostModifier
+    nameWithType: MapObject.GetPathCostModifier
+    fullName: TinyLife.Objects.MapObject.GetPathCostModifier
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
+    name: GetPathCostModifier
+    nameWithType: MapObject.GetPathCostModifier
+    fullName: TinyLife.Objects.MapObject.GetPathCostModifier
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    nameWithType: Point
+    fullName: Microsoft.Xna.Framework.Point
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   commentId: M:TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.Objects.MapObject
@@ -3977,6 +4152,62 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -4451,6 +4682,61 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -4634,6 +4920,17 @@ references:
   name: Boolean
   nameWithType: Boolean
   fullName: System.Boolean
+- uid: TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow*
+  commentId: Overload:TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
+  name: IsMinorUpdateNow
+  nameWithType: BreakableFurniture.IsMinorUpdateNow
+  fullName: TinyLife.Objects.BreakableFurniture.IsMinorUpdateNow
+- uid: TinyLife.Objects.IUpdatingObject.IsMinorUpdateNow
+  commentId: P:TinyLife.Objects.IUpdatingObject.IsMinorUpdateNow
+  parent: TinyLife.Objects.IUpdatingObject
+  name: IsMinorUpdateNow
+  nameWithType: IUpdatingObject.IsMinorUpdateNow
+  fullName: TinyLife.Objects.IUpdatingObject.IsMinorUpdateNow
 - uid: TinyLife.Objects.BreakableFurniture.#ctor*
   commentId: Overload:TinyLife.Objects.BreakableFurniture.#ctor
   name: BreakableFurniture

@@ -5,8 +5,9 @@ items:
   id: MemoryType
   parent: TinyLife.Goals
   children:
-  - TinyLife.Goals.MemoryType.#ctor(System.String)
-  - TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
+  - TinyLife.Goals.MemoryType.#ctor(System.String,System.Boolean,System.Type)
+  - TinyLife.Goals.MemoryType.CanReplace
+  - TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
   - TinyLife.Goals.MemoryType.ConstructedType
   - TinyLife.Goals.MemoryType.FamilySocial
   - TinyLife.Goals.MemoryType.Name
@@ -14,10 +15,12 @@ items:
   - TinyLife.Goals.MemoryType.PublishFailure
   - TinyLife.Goals.MemoryType.Register(TinyLife.Goals.MemoryType)
   - TinyLife.Goals.MemoryType.SocialAction
+  - TinyLife.Goals.MemoryType.SourceString
   - TinyLife.Goals.MemoryType.Types
   - TinyLife.Goals.MemoryType.UsedFurniture
   - TinyLife.Goals.MemoryType.UsedSkillCategory
   - TinyLife.Goals.MemoryType.WasOutside
+  - TinyLife.Goals.MemoryType.WasRomanticWithSomeoneElse
   langs:
   - csharp
   - vb
@@ -27,11 +30,11 @@ items:
   type: Class
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MemoryType
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 20
   assemblies:
   - Tiny Life
@@ -42,13 +45,16 @@ items:
     content: >-
       [JsonConverter(typeof(StaticJsonConverter<MemoryType>), new object[]{typeof(MemoryType), "PrivateTypes"})]
 
-      public class MemoryType
+      public class MemoryType : IEmotionSource
     content.vb: >-
       <JsonConverter(GetType(StaticJsonConverter(Of MemoryType)), New Object() {GetType(MemoryType), "PrivateTypes"})>
 
       Public Class MemoryType
+          Implements IEmotionSource
   inheritance:
   - System.Object
+  implements:
+  - TinyLife.Emotions.IEmotionSource
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -78,11 +84,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Types
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 27
   assemblies:
   - Tiny Life
@@ -115,11 +121,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PublishFailure
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 30
   assemblies:
   - Tiny Life
@@ -150,11 +156,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SocialAction
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 31
   assemblies:
   - Tiny Life
@@ -185,11 +191,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PromotionOrRaise
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 32
   assemblies:
   - Tiny Life
@@ -220,11 +226,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FamilySocial
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 33
   assemblies:
   - Tiny Life
@@ -255,11 +261,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UsedSkillCategory
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 34
   assemblies:
   - Tiny Life
@@ -290,11 +296,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WasOutside
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 36
   assemblies:
   - Tiny Life
@@ -325,11 +331,11 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UsedFurniture
-    path: ../TinyLife/Goals/Memory.cs
+    path: ../TinyLife/Goals/MemoryType.cs
     startLine: 37
   assemblies:
   - Tiny Life
@@ -339,6 +345,41 @@ items:
     return:
       type: System.Collections.Generic.Dictionary{TinyLife.Objects.ObjectCategory,TinyLife.Goals.MemoryType}
     content.vb: Public Shared ReadOnly UsedFurniture As Dictionary(Of ObjectCategory, MemoryType)
+  modifiers.csharp:
+  - public
+  - static
+  - readonly
+  modifiers.vb:
+  - Public
+  - Shared
+  - ReadOnly
+- uid: TinyLife.Goals.MemoryType.WasRomanticWithSomeoneElse
+  commentId: F:TinyLife.Goals.MemoryType.WasRomanticWithSomeoneElse
+  id: WasRomanticWithSomeoneElse
+  parent: TinyLife.Goals.MemoryType
+  langs:
+  - csharp
+  - vb
+  name: WasRomanticWithSomeoneElse
+  nameWithType: MemoryType.WasRomanticWithSomeoneElse
+  fullName: TinyLife.Goals.MemoryType.WasRomanticWithSomeoneElse
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Goals/MemoryType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: WasRomanticWithSomeoneElse
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 39
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  syntax:
+    content: public static readonly MemoryType WasRomanticWithSomeoneElse
+    return:
+      type: TinyLife.Goals.MemoryType
+    content.vb: Public Shared ReadOnly WasRomanticWithSomeoneElse As MemoryType
   modifiers.csharp:
   - public
   - static
@@ -360,12 +401,12 @@ items:
   type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
-    path: ../TinyLife/Goals/Memory.cs
-    startLine: 44
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -383,7 +424,7 @@ items:
   - Public
   - ReadOnly
 - uid: TinyLife.Goals.MemoryType.ConstructedType
-  commentId: P:TinyLife.Goals.MemoryType.ConstructedType
+  commentId: F:TinyLife.Goals.MemoryType.ConstructedType
   id: ConstructedType
   parent: TinyLife.Goals.MemoryType
   langs:
@@ -392,115 +433,200 @@ items:
   name: ConstructedType
   nameWithType: MemoryType.ConstructedType
   fullName: TinyLife.Goals.MemoryType.ConstructedType
-  type: Property
+  type: Field
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ConstructedType
-    path: ../TinyLife/Goals/Memory.cs
-    startLine: 48
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nThe type of <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> constructed in <xref href=\"TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person%2cSystem.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref>, or null to construct the default type.\n"
+  summary: "\nThe type of <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> constructed in <xref href=\"TinyLife.Goals.MemoryType.Construct%60%601(TinyLife.Actions.ActionInfo%2cSystem.TimeSpan)\" data-throw-if-not-resolved=\"false\"></xref>, or null to construct the default type.\n"
   example: []
   syntax:
-    content: public Type ConstructedType { get; set; }
-    parameters: []
+    content: public readonly Type ConstructedType
     return:
       type: System.Type
-    content.vb: Public Property ConstructedType As Type
-  overload: TinyLife.Goals.MemoryType.ConstructedType*
+    content.vb: Public ReadOnly ConstructedType As Type
   modifiers.csharp:
   - public
-  - get
-  - set
+  - readonly
   modifiers.vb:
   - Public
-- uid: TinyLife.Goals.MemoryType.#ctor(System.String)
-  commentId: M:TinyLife.Goals.MemoryType.#ctor(System.String)
-  id: '#ctor(System.String)'
+  - ReadOnly
+- uid: TinyLife.Goals.MemoryType.CanReplace
+  commentId: F:TinyLife.Goals.MemoryType.CanReplace
+  id: CanReplace
   parent: TinyLife.Goals.MemoryType
   langs:
   - csharp
   - vb
-  name: MemoryType(String)
-  nameWithType: MemoryType.MemoryType(String)
-  fullName: TinyLife.Goals.MemoryType.MemoryType(System.String)
+  name: CanReplace
+  nameWithType: MemoryType.CanReplace
+  fullName: TinyLife.Goals.MemoryType.CanReplace
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Goals/MemoryType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CanReplace
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 53
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nWhether this memory type&apos;s <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> instance data can be replaced using <xref href=\"TinyLife.Goals.Memory.TryReplace(System.TimeSpan%2cTinyLife.Actions.ActionInfo)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public readonly bool CanReplace
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly CanReplace As Boolean
+  modifiers.csharp:
+  - public
+  - readonly
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Goals.MemoryType.SourceString
+  commentId: P:TinyLife.Goals.MemoryType.SourceString
+  id: SourceString
+  parent: TinyLife.Goals.MemoryType
+  langs:
+  - csharp
+  - vb
+  name: SourceString
+  nameWithType: MemoryType.SourceString
+  fullName: TinyLife.Goals.MemoryType.SourceString
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/MemoryType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SourceString
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 56
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nA (localized) string that is displayed when hovering over an <xref href=\"TinyLife.Emotions.EmotionModifier\" data-throw-if-not-resolved=\"false\"></xref> that has this source\n"
+  example: []
+  syntax:
+    content: public string SourceString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SourceString As String
+  overload: TinyLife.Goals.MemoryType.SourceString*
+  implements:
+  - TinyLife.Emotions.IEmotionSource.SourceString
+  modifiers.csharp:
+  - public
+  - get
+  modifiers.vb:
+  - Public
+  - ReadOnly
+- uid: TinyLife.Goals.MemoryType.#ctor(System.String,System.Boolean,System.Type)
+  commentId: M:TinyLife.Goals.MemoryType.#ctor(System.String,System.Boolean,System.Type)
+  id: '#ctor(System.String,System.Boolean,System.Type)'
+  parent: TinyLife.Goals.MemoryType
+  langs:
+  - csharp
+  - vb
+  name: MemoryType(String, Boolean, Type)
+  nameWithType: MemoryType.MemoryType(String, Boolean, Type)
+  fullName: TinyLife.Goals.MemoryType.MemoryType(System.String, System.Boolean, System.Type)
   type: Constructor
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
-    path: ../TinyLife/Goals/Memory.cs
-    startLine: 54
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 64
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nCreates a new memory type with the given name.\n"
   example: []
   syntax:
-    content: public MemoryType(string name)
+    content: public MemoryType(string name, bool canReplace = true, Type constructedType = null)
     parameters:
     - id: name
       type: System.String
       description: The name of this memory type.
-    content.vb: Public Sub New(name As String)
+    - id: canReplace
+      type: System.Boolean
+      description: Whether this memory type&apos;s <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instance data can be replaced using <xref href="TinyLife.Goals.Memory.TryReplace(System.TimeSpan%2cTinyLife.Actions.ActionInfo)" data-throw-if-not-resolved="false"></xref>.
+    - id: constructedType
+      type: System.Type
+      description: The type of <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> to construct, or <xref uid="langword_csharp_null" name="null" href=""></xref> to construct the default type <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Sub New(name As String, canReplace As Boolean = True, constructedType As Type = Nothing)
   overload: TinyLife.Goals.MemoryType.#ctor*
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
-- uid: TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
-  commentId: M:TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
-  id: Construct(TinyLife.Objects.Person,System.TimeSpan)
+- uid: TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
+  commentId: M:TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
+  id: Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
   parent: TinyLife.Goals.MemoryType
   langs:
   - csharp
   - vb
-  name: Construct(Person, TimeSpan)
-  nameWithType: MemoryType.Construct(Person, TimeSpan)
-  fullName: TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person, System.TimeSpan)
+  name: Construct<T>(ActionInfo, TimeSpan)
+  nameWithType: MemoryType.Construct<T>(ActionInfo, TimeSpan)
+  fullName: TinyLife.Goals.MemoryType.Construct<T>(TinyLife.Actions.ActionInfo, System.TimeSpan)
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Construct
-    path: ../TinyLife/Goals/Memory.cs
-    startLine: 65
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 77
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nConstructs a new <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> from this memory type.\n"
   example: []
   syntax:
-    content: public Memory Construct(Person person, TimeSpan timeOccured)
+    content: >-
+      public T Construct<T>(ActionInfo info, TimeSpan timeOccured)
+          where T : Memory
     parameters:
-    - id: person
-      type: TinyLife.Objects.Person
-      description: The person who should have the memory.
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref> that contains information about this memory.
     - id: timeOccured
       type: System.TimeSpan
       description: The time that this memory occured.
+    typeParameters:
+    - id: T
     return:
-      type: TinyLife.Goals.Memory
+      type: '{T}'
       description: The constructed memory.
-    content.vb: Public Function Construct(person As Person, timeOccured As TimeSpan) As Memory
+    content.vb: Public Function Construct(Of T As Memory)(info As ActionInfo, timeOccured As TimeSpan) As T
   overload: TinyLife.Goals.MemoryType.Construct*
   exceptions:
   - type: System.ArgumentException
     commentId: T:System.ArgumentException
     description: Thrown if constructing the <xref href="TinyLife.Goals.MemoryType.ConstructedType" data-throw-if-not-resolved="false"></xref> fails.
+  nameWithType.vb: MemoryType.Construct(Of T)(ActionInfo, TimeSpan)
   modifiers.csharp:
   - public
   modifiers.vb:
   - Public
+  fullName.vb: TinyLife.Goals.MemoryType.Construct(Of T)(TinyLife.Actions.ActionInfo, System.TimeSpan)
+  name.vb: Construct(Of T)(ActionInfo, TimeSpan)
 - uid: TinyLife.Goals.MemoryType.Register(TinyLife.Goals.MemoryType)
   commentId: M:TinyLife.Goals.MemoryType.Register(TinyLife.Goals.MemoryType)
   id: Register(TinyLife.Goals.MemoryType)
@@ -514,12 +640,12 @@ items:
   type: Method
   source:
     remote:
-      path: TinyLife/Goals/Memory.cs
+      path: TinyLife/Goals/MemoryType.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
-    path: ../TinyLife/Goals/Memory.cs
-    startLine: 80
+    path: ../TinyLife/Goals/MemoryType.cs
+    startLine: 92
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -545,7 +671,6 @@ items:
 references:
 - uid: TinyLife.Goals.Memory
   commentId: T:TinyLife.Goals.Memory
-  parent: TinyLife.Goals
   name: Memory
   nameWithType: Memory
   fullName: TinyLife.Goals.Memory
@@ -561,6 +686,12 @@ references:
   name: Object
   nameWithType: Object
   fullName: System.Object
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -878,6 +1009,11 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -1222,14 +1358,9 @@ references:
   name: String
   nameWithType: String
   fullName: System.String
-- uid: TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
-  commentId: M:TinyLife.Goals.MemoryType.Construct(TinyLife.Objects.Person,System.TimeSpan)
+- uid: TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
+  commentId: M:TinyLife.Goals.MemoryType.Construct``1(TinyLife.Actions.ActionInfo,System.TimeSpan)
   isExternal: true
-- uid: TinyLife.Goals.MemoryType.ConstructedType*
-  commentId: Overload:TinyLife.Goals.MemoryType.ConstructedType
-  name: ConstructedType
-  nameWithType: MemoryType.ConstructedType
-  fullName: TinyLife.Goals.MemoryType.ConstructedType
 - uid: System.Type
   commentId: T:System.Type
   parent: System
@@ -1237,13 +1368,40 @@ references:
   name: Type
   nameWithType: Type
   fullName: System.Type
+- uid: TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
+  isExternal: true
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  name: Boolean
+  nameWithType: Boolean
+  fullName: System.Boolean
+- uid: TinyLife.Goals.MemoryType.SourceString*
+  commentId: Overload:TinyLife.Goals.MemoryType.SourceString
+  name: SourceString
+  nameWithType: MemoryType.SourceString
+  fullName: TinyLife.Goals.MemoryType.SourceString
+- uid: TinyLife.Emotions.IEmotionSource.SourceString
+  commentId: P:TinyLife.Emotions.IEmotionSource.SourceString
+  parent: TinyLife.Emotions.IEmotionSource
+  name: SourceString
+  nameWithType: IEmotionSource.SourceString
+  fullName: TinyLife.Emotions.IEmotionSource.SourceString
 - uid: TinyLife.Goals.MemoryType.#ctor*
   commentId: Overload:TinyLife.Goals.MemoryType.#ctor
   name: MemoryType
   nameWithType: MemoryType.MemoryType
   fullName: TinyLife.Goals.MemoryType.MemoryType
+- uid: TinyLife.Actions.ActionInfo
+  commentId: T:TinyLife.Actions.ActionInfo
+  parent: TinyLife.Actions
+  name: ActionInfo
+  nameWithType: ActionInfo
+  fullName: TinyLife.Actions.ActionInfo
 - uid: TinyLife.Goals.MemoryType.ConstructedType
-  commentId: P:TinyLife.Goals.MemoryType.ConstructedType
+  commentId: F:TinyLife.Goals.MemoryType.ConstructedType
   isExternal: true
 - uid: System.ArgumentException
   commentId: T:System.ArgumentException
@@ -1253,12 +1411,6 @@ references:
   name: Construct
   nameWithType: MemoryType.Construct
   fullName: TinyLife.Goals.MemoryType.Construct
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
-  parent: TinyLife.Objects
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
 - uid: System.TimeSpan
   commentId: T:System.TimeSpan
   parent: System
@@ -1266,11 +1418,21 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
 - uid: TinyLife.Goals.MemoryType.Types
   commentId: F:TinyLife.Goals.MemoryType.Types
   isExternal: true

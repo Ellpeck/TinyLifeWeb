@@ -8,13 +8,6 @@ items:
   - TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.BehaviorAction`1.Behavior
-  - TinyLife.Actions.BehaviorAction`1.CanMultitask(TinyLife.Actions.Action)
-  - TinyLife.Actions.BehaviorAction`1.FullyInProgress
-  - TinyLife.Actions.BehaviorAction`1.GetIconObject
-  - TinyLife.Actions.BehaviorAction`1.GetNextAction(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.BehaviorAction`1.Initialize
-  - TinyLife.Actions.BehaviorAction`1.OnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.BehaviorAction`1.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   langs:
   - csharp
   - vb
@@ -29,31 +22,53 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BehaviorAction
     path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 25
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA behavior-based action is an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> that invokes an underlying <xref href=\"TinyLife.Actions.Behaviors.ActionBehavior\" data-throw-if-not-resolved=\"false\"></xref> in the appropriate places.\nThis type of action can be useful for when an action uses a basic behavior, but does a more complex additional action.\nIf the chosen behavior type <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code> does not have a constructor that only accepts an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> as an argument, the <xref href=\"TinyLife.Actions.IBehaviorAction%601.Behavior\" data-throw-if-not-resolved=\"false\"></xref> property has to be set manually in the subclass constructor.\n"
+  summary: "\nA generic version of <xref href=\"TinyLife.Actions.BehaviorAction%601\" data-throw-if-not-resolved=\"false\"></xref> with some additional functionality.\nIf the chosen behavior type <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code> does not have a constructor that only accepts an <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref> as an argument, the <xref href=\"TinyLife.Actions.BehaviorAction%601.Behavior\" data-throw-if-not-resolved=\"false\"></xref> property has to be set manually in the subclass constructor.\n"
   example: []
   syntax:
-    content: 'public abstract class BehaviorAction<T> : Action, IGenericDataHolder, IBehaviorAction<T> where T : ActionBehavior'
+    content: 'public abstract class BehaviorAction<T> : BehaviorAction, IGenericDataHolder where T : ActionBehavior'
     typeParameters:
     - id: T
       description: The type of <xref href="TinyLife.Actions.Behaviors.ActionBehavior" data-throw-if-not-resolved="false"></xref> that this action uses
     content.vb: >-
       Public MustInherit Class BehaviorAction(Of T As ActionBehavior)
-          Inherits Action
-          Implements IGenericDataHolder, IBehaviorAction(Of T)
+          Inherits BehaviorAction
+          Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Actions.Action
+  - TinyLife.Actions.MultiAction
+  - TinyLife.Actions.BehaviorAction
   implements:
   - MLEM.Misc.IGenericDataHolder
-  - TinyLife.Actions.IBehaviorAction{{T}}
   inheritedMembers:
+  - TinyLife.Actions.BehaviorAction.FullyInProgress
+  - TinyLife.Actions.BehaviorAction.CreateFirstActions
+  - TinyLife.Actions.BehaviorAction.CreateLastActions
+  - TinyLife.Actions.BehaviorAction.AndThenInitialize
+  - TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Actions.BehaviorAction.GetIconObject
+  - TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+  - TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.MultiAction.Handler
+  - TinyLife.Actions.MultiAction.MainElapsedTime
+  - TinyLife.Actions.MultiAction.InProgressTime
+  - TinyLife.Actions.MultiAction.AndThenIsCompleted
+  - TinyLife.Actions.MultiAction.PreInitialize
+  - TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Actions.MultiAction.Initialize
+  - TinyLife.Actions.MultiAction.IsCompleted
+  - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+  - TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
   - TinyLife.Actions.Action.Random
-  - TinyLife.Actions.Action.InProgressTime
   - TinyLife.Actions.Action.Type
   - TinyLife.Actions.Action.Info
   - TinyLife.Actions.Action.StartedAutomatically
@@ -63,10 +78,7 @@ items:
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
   - TinyLife.Actions.Action.ForceResult
-  - TinyLife.Actions.Action.IsCompleted
-  - TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
   - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  - TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
   - TinyLife.Actions.Action.GetDisplayName
   - TinyLife.Actions.Action.CanEnqueueConversation(TinyLife.Objects.Person,TinyLife.Actions.ActionType)
@@ -76,8 +88,10 @@ items:
   - TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.ChoicePromptInfo)
   - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
   - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.Person,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteCategory},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32)
-  - TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  - TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  - TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   - TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.ObjectCategory,System.Boolean)
   - TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean)
   - TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,System.Single,TinyLife.Objects.ActionSpot)
@@ -95,6 +109,7 @@ items:
   - TinyLife.Actions.Action.InvokeForBoth(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Action{TinyLife.Objects.Person,TinyLife.Objects.Person})
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -117,49 +132,6 @@ items:
   - Class
   fullName.vb: TinyLife.Actions.BehaviorAction(Of T)
   name.vb: BehaviorAction(Of T)
-- uid: TinyLife.Actions.BehaviorAction`1.FullyInProgress
-  commentId: P:TinyLife.Actions.BehaviorAction`1.FullyInProgress
-  id: FullyInProgress
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: FullyInProgress
-  nameWithType: BehaviorAction<T>.FullyInProgress
-  fullName: TinyLife.Actions.BehaviorAction<T>.FullyInProgress
-  type: Property
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: FullyInProgress
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 28
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nReturns whether this action is currently &quot;properly&quot; in progress.\nThis is used by <xref href=\"TinyLife.Actions.MultiAction\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Actions.SocialAction\" data-throw-if-not-resolved=\"false\"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.\nBy default, this property is true if <xref href=\"TinyLife.Actions.Action.InProgressTime\" data-throw-if-not-resolved=\"false\"></xref> is greater than <xref href=\"System.TimeSpan.Zero\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: public override bool FullyInProgress { get; }
-    parameters: []
-    return:
-      type: System.Boolean
-      description: Whether this action is fully in progress
-    content.vb: Public Overrides ReadOnly Property FullyInProgress As Boolean
-  overridden: TinyLife.Actions.Action.FullyInProgress
-  overload: TinyLife.Actions.BehaviorAction`1.FullyInProgress*
-  nameWithType.vb: BehaviorAction(Of T).FullyInProgress
-  modifiers.csharp:
-  - public
-  - override
-  - get
-  modifiers.vb:
-  - Public
-  - Overrides
-  - ReadOnly
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).FullyInProgress
 - uid: TinyLife.Actions.BehaviorAction`1.Behavior
   commentId: P:TinyLife.Actions.BehaviorAction`1.Behavior
   id: Behavior
@@ -178,7 +150,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Behavior
     path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 30
+    startLine: 97
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -191,8 +163,6 @@ items:
       type: '{T}'
     content.vb: Public Property Behavior As T
   overload: TinyLife.Actions.BehaviorAction`1.Behavior*
-  implements:
-  - TinyLife.Actions.IBehaviorAction{{T}}.Behavior
   nameWithType.vb: BehaviorAction(Of T).Behavior
   modifiers.csharp:
   - public
@@ -203,47 +173,6 @@ items:
   - Get
   - Protected Set
   fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Behavior
-- uid: TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
-  id: '#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)'
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: BehaviorAction(ActionType, ActionInfo)
-  nameWithType: BehaviorAction<T>.BehaviorAction(ActionType, ActionInfo)
-  fullName: TinyLife.Actions.BehaviorAction<T>.BehaviorAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
-  type: Constructor
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: .ctor
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 46
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nCreates a new action with the given action information.\n"
-  example: []
-  syntax:
-    content: protected BehaviorAction(ActionType type, ActionInfo info)
-    parameters:
-    - id: type
-      type: TinyLife.Actions.ActionType
-      description: The type for this action.
-    - id: info
-      type: TinyLife.Actions.ActionInfo
-      description: The information for this action.
-    content.vb: Protected Sub New(type As ActionType, info As ActionInfo)
-  overload: TinyLife.Actions.BehaviorAction`1.#ctor*
-  nameWithType.vb: BehaviorAction(Of T).BehaviorAction(ActionType, ActionInfo)
-  modifiers.csharp:
-  - protected
-  modifiers.vb:
-  - Protected
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).BehaviorAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
 - uid: TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionInfo)
   commentId: M:TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionInfo)
   id: '#ctor(TinyLife.Actions.ActionInfo)'
@@ -262,18 +191,16 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 49
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nCreates a new typeless action with the given action information.\n"
   example: []
   syntax:
     content: protected BehaviorAction(ActionInfo info)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
-      description: The information for this action.
     content.vb: Protected Sub New(info As ActionInfo)
   overload: TinyLife.Actions.BehaviorAction`1.#ctor*
   nameWithType.vb: BehaviorAction(Of T).BehaviorAction(ActionInfo)
@@ -282,273 +209,58 @@ items:
   modifiers.vb:
   - Protected
   fullName.vb: TinyLife.Actions.BehaviorAction(Of T).BehaviorAction(TinyLife.Actions.ActionInfo)
-- uid: TinyLife.Actions.BehaviorAction`1.Initialize
-  commentId: M:TinyLife.Actions.BehaviorAction`1.Initialize
-  id: Initialize
+- uid: TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Actions.BehaviorAction`1.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
+  id: '#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)'
   parent: TinyLife.Actions.BehaviorAction`1
   langs:
   - csharp
   - vb
-  name: Initialize()
-  nameWithType: BehaviorAction<T>.Initialize()
-  fullName: TinyLife.Actions.BehaviorAction<T>.Initialize()
-  type: Method
+  name: BehaviorAction(ActionType, ActionInfo)
+  nameWithType: BehaviorAction<T>.BehaviorAction(ActionType, ActionInfo)
+  fullName: TinyLife.Actions.BehaviorAction<T>.BehaviorAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
+  type: Constructor
   source:
     remote:
       path: TinyLife/Actions/BehaviorAction.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Initialize
+    id: .ctor
     path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 52
+    startLine: 106
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThis method is called when the action is first started by a <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that it is not called when the action gets added to the <xref href=\"TinyLife.Objects.Person.ActionQueue\" data-throw-if-not-resolved=\"false\"></xref>, but when it is moved to <xref href=\"TinyLife.Objects.Person.CurrentActions\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public override void Initialize()
-    content.vb: Public Overrides Sub Initialize
-  overridden: TinyLife.Actions.Action.Initialize
-  overload: TinyLife.Actions.BehaviorAction`1.Initialize*
-  nameWithType.vb: BehaviorAction(Of T).Initialize()
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Initialize()
-- uid: TinyLife.Actions.BehaviorAction`1.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.BehaviorAction`1.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: Update(GameTime, TimeSpan, Single)
-  nameWithType: BehaviorAction<T>.Update(GameTime, TimeSpan, Single)
-  fullName: TinyLife.Actions.BehaviorAction<T>.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Update
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 57
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nThis method is called every update frame if this action is currently active.\nBy default, only the <xref href=\"TinyLife.Actions.Action.ElapsedTime\" data-throw-if-not-resolved=\"false\"></xref> is modified in this method and <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
-  example: []
-  syntax:
-    content: public override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
-    parameters:
-    - id: time
-      type: Microsoft.Xna.Framework.GameTime
-      description: The current game time
-    - id: passedInGame
-      type: System.TimeSpan
-      description: The amount of time that has passed, in game time
-    - id: speedMultiplier
-      type: System.Single
-      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
-    content.vb: Public Overrides Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
-  overridden: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  overload: TinyLife.Actions.BehaviorAction`1.Update*
-  nameWithType.vb: BehaviorAction(Of T).Update(GameTime, TimeSpan, Single)
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
-- uid: TinyLife.Actions.BehaviorAction`1.GetIconObject
-  commentId: M:TinyLife.Actions.BehaviorAction`1.GetIconObject
-  id: GetIconObject
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: GetIconObject()
-  nameWithType: BehaviorAction<T>.GetIconObject()
-  fullName: TinyLife.Actions.BehaviorAction<T>.GetIconObject()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetIconObject
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 63
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nReturns the map object that is displayed in the action queue in the top left of the screen.\nNote that this value is ignored if this action&apos;s type has a <xref href=\"TinyLife.Actions.ActionType.TypeSettings.Texture\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, the <xref href=\"TinyLife.Actions.ActionInfo.GetActionObject%60%601(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
-  example: []
-  syntax:
-    content: public override MapObject GetIconObject()
-    return:
-      type: TinyLife.Objects.MapObject
-      description: The icon object
-    content.vb: Public Overrides Function GetIconObject As MapObject
-  overridden: TinyLife.Actions.Action.GetIconObject
-  overload: TinyLife.Actions.BehaviorAction`1.GetIconObject*
-  nameWithType.vb: BehaviorAction(Of T).GetIconObject()
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).GetIconObject()
-- uid: TinyLife.Actions.BehaviorAction`1.CanMultitask(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.BehaviorAction`1.CanMultitask(TinyLife.Actions.Action)
-  id: CanMultitask(TinyLife.Actions.Action)
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: CanMultitask(Action)
-  nameWithType: BehaviorAction<T>.CanMultitask(Action)
-  fullName: TinyLife.Actions.BehaviorAction<T>.CanMultitask(TinyLife.Actions.Action)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CanMultitask
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 68
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nReturn true on this method if this action can be multi-tasked along with the passed <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref>.\nTo actually check this property, <xref href=\"TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action%2cTinyLife.Actions.Action)\" data-throw-if-not-resolved=\"false\"></xref> should be used as it compares both objects.\nA multi-tasking is an action that is currently active along with another action.\nBy default, multi-tasking is disallowed for any action.\n"
-  example: []
-  syntax:
-    content: public override bool CanMultitask(Action other)
-    parameters:
-    - id: other
-      type: TinyLife.Actions.Action
-      description: The action to multi-task with
-    return:
-      type: System.Boolean
-      description: Whether this action can be multi-tasked
-    content.vb: Public Overrides Function CanMultitask(other As Action) As Boolean
-  overridden: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-  overload: TinyLife.Actions.BehaviorAction`1.CanMultitask*
-  nameWithType.vb: BehaviorAction(Of T).CanMultitask(Action)
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).CanMultitask(TinyLife.Actions.Action)
-- uid: TinyLife.Actions.BehaviorAction`1.OnCompleted(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.BehaviorAction`1.OnCompleted(TinyLife.Actions.CompletionType)
-  id: OnCompleted(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: OnCompleted(CompletionType)
-  nameWithType: BehaviorAction<T>.OnCompleted(CompletionType)
-  fullName: TinyLife.Actions.BehaviorAction<T>.OnCompleted(TinyLife.Actions.CompletionType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: OnCompleted
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 73
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nThis method is called when this action <xref href=\"TinyLife.Actions.Action.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, or if it is canceled from an outside source.\nNote that, if this method is called as a result of <xref href=\"TinyLife.Actions.Action.IsCompleted\" data-throw-if-not-resolved=\"false\"></xref>, the <xref href=\"TinyLife.Actions.CompletionType\" data-throw-if-not-resolved=\"false\"></xref> passed will be the same.\nBy default, only <xref href=\"TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> is called.\n"
-  example: []
-  syntax:
-    content: public override void OnCompleted(CompletionType type)
+    content: protected BehaviorAction(ActionType type, ActionInfo info)
     parameters:
     - id: type
-      type: TinyLife.Actions.CompletionType
-      description: The type that this action completed with
-    content.vb: Public Overrides Sub OnCompleted(type As CompletionType)
-  overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-  overload: TinyLife.Actions.BehaviorAction`1.OnCompleted*
-  nameWithType.vb: BehaviorAction(Of T).OnCompleted(CompletionType)
+      type: TinyLife.Actions.ActionType
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+    content.vb: Protected Sub New(type As ActionType, info As ActionInfo)
+  overload: TinyLife.Actions.BehaviorAction`1.#ctor*
+  nameWithType.vb: BehaviorAction(Of T).BehaviorAction(ActionType, ActionInfo)
   modifiers.csharp:
-  - public
-  - override
+  - protected
   modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).OnCompleted(TinyLife.Actions.CompletionType)
-- uid: TinyLife.Actions.BehaviorAction`1.GetNextAction(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.BehaviorAction`1.GetNextAction(TinyLife.Actions.CompletionType)
-  id: GetNextAction(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.BehaviorAction`1
-  langs:
-  - csharp
-  - vb
-  name: GetNextAction(CompletionType)
-  nameWithType: BehaviorAction<T>.GetNextAction(CompletionType)
-  fullName: TinyLife.Actions.BehaviorAction<T>.GetNextAction(TinyLife.Actions.CompletionType)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/BehaviorAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetNextAction
-    path: ../TinyLife/Actions/BehaviorAction.cs
-    startLine: 79
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nReturns an action that should be queued up immediately after this action completes.\nThe queued up action is immediately started in the slot that this action occupied.\nCan be null, and is null by default.\n"
-  example: []
-  syntax:
-    content: public override Action GetNextAction(CompletionType completion)
-    parameters:
-    - id: completion
-      type: TinyLife.Actions.CompletionType
-      description: The type that this action completed with
-    return:
-      type: TinyLife.Actions.Action
-      description: The follow-up action
-    content.vb: Public Overrides Function GetNextAction(completion As CompletionType) As Action
-  overridden: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-  overload: TinyLife.Actions.BehaviorAction`1.GetNextAction*
-  nameWithType.vb: BehaviorAction(Of T).GetNextAction(CompletionType)
-  modifiers.csharp:
-  - public
-  - override
-  modifiers.vb:
-  - Public
-  - Overrides
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).GetNextAction(TinyLife.Actions.CompletionType)
+  - Protected
+  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).BehaviorAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
 references:
-- uid: TinyLife.Actions.IBehaviorAction`1
-  commentId: T:TinyLife.Actions.IBehaviorAction`1
-  name: IBehaviorAction<T>
-  nameWithType: IBehaviorAction<T>
-  fullName: TinyLife.Actions.IBehaviorAction<T>
-  nameWithType.vb: IBehaviorAction(Of T)
-  fullName.vb: TinyLife.Actions.IBehaviorAction(Of T)
-  name.vb: IBehaviorAction(Of T)
+- uid: TinyLife.Actions.BehaviorAction`1
+  commentId: T:TinyLife.Actions.BehaviorAction`1
+  name: BehaviorAction<T>
+  nameWithType: BehaviorAction<T>
+  fullName: TinyLife.Actions.BehaviorAction<T>
+  nameWithType.vb: BehaviorAction(Of T)
+  fullName.vb: TinyLife.Actions.BehaviorAction(Of T)
+  name.vb: BehaviorAction(Of T)
   spec.csharp:
-  - uid: TinyLife.Actions.IBehaviorAction`1
-    name: IBehaviorAction
-    nameWithType: IBehaviorAction
-    fullName: TinyLife.Actions.IBehaviorAction
+  - uid: TinyLife.Actions.BehaviorAction`1
+    name: BehaviorAction
+    nameWithType: BehaviorAction
+    fullName: TinyLife.Actions.BehaviorAction
   - name: <
     nameWithType: <
     fullName: <
@@ -559,10 +271,10 @@ references:
     nameWithType: '>'
     fullName: '>'
   spec.vb:
-  - uid: TinyLife.Actions.IBehaviorAction`1
-    name: IBehaviorAction
-    nameWithType: IBehaviorAction
-    fullName: TinyLife.Actions.IBehaviorAction
+  - uid: TinyLife.Actions.BehaviorAction`1
+    name: BehaviorAction
+    nameWithType: BehaviorAction
+    fullName: TinyLife.Actions.BehaviorAction
   - name: '(Of '
     nameWithType: '(Of '
     fullName: '(Of '
@@ -572,6 +284,21 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Actions.Action
+  commentId: T:TinyLife.Actions.Action
+  parent: TinyLife.Actions
+  name: Action
+  nameWithType: Action
+  fullName: TinyLife.Actions.Action
+- uid: TinyLife.Actions.BehaviorAction`1.Behavior
+  commentId: P:TinyLife.Actions.BehaviorAction`1.Behavior
+  isExternal: true
+- uid: TinyLife.Actions.Behaviors.ActionBehavior
+  commentId: T:TinyLife.Actions.Behaviors.ActionBehavior
+  parent: TinyLife.Actions.Behaviors
+  name: ActionBehavior
+  nameWithType: ActionBehavior
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   name: TinyLife.Actions
@@ -591,12 +318,18 @@ references:
   name: JsonTypeSafeGenericDataHolder
   nameWithType: JsonTypeSafeGenericDataHolder
   fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
-- uid: TinyLife.Actions.Action
-  commentId: T:TinyLife.Actions.Action
+- uid: TinyLife.Actions.MultiAction
+  commentId: T:TinyLife.Actions.MultiAction
   parent: TinyLife.Actions
-  name: Action
-  nameWithType: Action
-  fullName: TinyLife.Actions.Action
+  name: MultiAction
+  nameWithType: MultiAction
+  fullName: TinyLife.Actions.MultiAction
+- uid: TinyLife.Actions.BehaviorAction
+  commentId: T:TinyLife.Actions.BehaviorAction
+  parent: TinyLife.Actions
+  name: BehaviorAction
+  nameWithType: BehaviorAction
+  fullName: TinyLife.Actions.BehaviorAction
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -604,41 +337,681 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
-- uid: TinyLife.Actions.IBehaviorAction{{T}}
-  commentId: T:TinyLife.Actions.IBehaviorAction{`0}
-  parent: TinyLife.Actions
-  definition: TinyLife.Actions.IBehaviorAction`1
-  name: IBehaviorAction<T>
-  nameWithType: IBehaviorAction<T>
-  fullName: TinyLife.Actions.IBehaviorAction<T>
-  nameWithType.vb: IBehaviorAction(Of T)
-  fullName.vb: TinyLife.Actions.IBehaviorAction(Of T)
-  name.vb: IBehaviorAction(Of T)
+- uid: TinyLife.Actions.BehaviorAction.FullyInProgress
+  commentId: P:TinyLife.Actions.BehaviorAction.FullyInProgress
+  parent: TinyLife.Actions.BehaviorAction
+  name: FullyInProgress
+  nameWithType: BehaviorAction.FullyInProgress
+  fullName: TinyLife.Actions.BehaviorAction.FullyInProgress
+- uid: TinyLife.Actions.BehaviorAction.CreateFirstActions
+  commentId: M:TinyLife.Actions.BehaviorAction.CreateFirstActions
+  parent: TinyLife.Actions.BehaviorAction
+  name: CreateFirstActions()
+  nameWithType: BehaviorAction.CreateFirstActions()
+  fullName: TinyLife.Actions.BehaviorAction.CreateFirstActions()
   spec.csharp:
-  - uid: TinyLife.Actions.IBehaviorAction`1
-    name: IBehaviorAction
-    nameWithType: IBehaviorAction
-    fullName: TinyLife.Actions.IBehaviorAction
-  - name: <
-    nameWithType: <
-    fullName: <
-  - name: T
-    nameWithType: T
-    fullName: T
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
+  - uid: TinyLife.Actions.BehaviorAction.CreateFirstActions
+    name: CreateFirstActions
+    nameWithType: BehaviorAction.CreateFirstActions
+    fullName: TinyLife.Actions.BehaviorAction.CreateFirstActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.IBehaviorAction`1
-    name: IBehaviorAction
-    nameWithType: IBehaviorAction
-    fullName: TinyLife.Actions.IBehaviorAction
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - name: T
-    nameWithType: T
-    fullName: T
+  - uid: TinyLife.Actions.BehaviorAction.CreateFirstActions
+    name: CreateFirstActions
+    nameWithType: BehaviorAction.CreateFirstActions
+    fullName: TinyLife.Actions.BehaviorAction.CreateFirstActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.CreateLastActions
+  commentId: M:TinyLife.Actions.BehaviorAction.CreateLastActions
+  parent: TinyLife.Actions.BehaviorAction
+  name: CreateLastActions()
+  nameWithType: BehaviorAction.CreateLastActions()
+  fullName: TinyLife.Actions.BehaviorAction.CreateLastActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.CreateLastActions
+    name: CreateLastActions
+    nameWithType: BehaviorAction.CreateLastActions
+    fullName: TinyLife.Actions.BehaviorAction.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.CreateLastActions
+    name: CreateLastActions
+    nameWithType: BehaviorAction.CreateLastActions
+    fullName: TinyLife.Actions.BehaviorAction.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.AndThenInitialize
+  commentId: M:TinyLife.Actions.BehaviorAction.AndThenInitialize
+  parent: TinyLife.Actions.BehaviorAction
+  name: AndThenInitialize()
+  nameWithType: BehaviorAction.AndThenInitialize()
+  fullName: TinyLife.Actions.BehaviorAction.AndThenInitialize()
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenInitialize
+    name: AndThenInitialize
+    nameWithType: BehaviorAction.AndThenInitialize
+    fullName: TinyLife.Actions.BehaviorAction.AndThenInitialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenInitialize
+    name: AndThenInitialize
+    nameWithType: BehaviorAction.AndThenInitialize
+    fullName: TinyLife.Actions.BehaviorAction.AndThenInitialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.BehaviorAction
+  isExternal: true
+  name: AndThenUpdate(GameTime, TimeSpan, Single)
+  nameWithType: BehaviorAction.AndThenUpdate(GameTime, TimeSpan, Single)
+  fullName: TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: AndThenUpdate
+    nameWithType: BehaviorAction.AndThenUpdate
+    fullName: TinyLife.Actions.BehaviorAction.AndThenUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: AndThenUpdate
+    nameWithType: BehaviorAction.AndThenUpdate
+    fullName: TinyLife.Actions.BehaviorAction.AndThenUpdate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.GetIconObject
+  commentId: M:TinyLife.Actions.BehaviorAction.GetIconObject
+  parent: TinyLife.Actions.BehaviorAction
+  name: GetIconObject()
+  nameWithType: BehaviorAction.GetIconObject()
+  fullName: TinyLife.Actions.BehaviorAction.GetIconObject()
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.GetIconObject
+    name: GetIconObject
+    nameWithType: BehaviorAction.GetIconObject
+    fullName: TinyLife.Actions.BehaviorAction.GetIconObject
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.GetIconObject
+    name: GetIconObject
+    nameWithType: BehaviorAction.GetIconObject
+    fullName: TinyLife.Actions.BehaviorAction.GetIconObject
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.BehaviorAction
+  name: CanMultitask(Action)
+  nameWithType: BehaviorAction.CanMultitask(Action)
+  fullName: TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+    name: CanMultitask
+    nameWithType: BehaviorAction.CanMultitask
+    fullName: TinyLife.Actions.BehaviorAction.CanMultitask
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.CanMultitask(TinyLife.Actions.Action)
+    name: CanMultitask
+    nameWithType: BehaviorAction.CanMultitask
+    fullName: TinyLife.Actions.BehaviorAction.CanMultitask
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.BehaviorAction
+  name: AndThenOnCompleted(CompletionType)
+  nameWithType: BehaviorAction.AndThenOnCompleted(CompletionType)
+  fullName: TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+    name: AndThenOnCompleted
+    nameWithType: BehaviorAction.AndThenOnCompleted
+    fullName: TinyLife.Actions.BehaviorAction.AndThenOnCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
+    name: AndThenOnCompleted
+    nameWithType: BehaviorAction.AndThenOnCompleted
+    fullName: TinyLife.Actions.BehaviorAction.AndThenOnCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.BehaviorAction
+  name: GetNextAction(CompletionType)
+  nameWithType: BehaviorAction.GetNextAction(CompletionType)
+  fullName: TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+    name: GetNextAction
+    nameWithType: BehaviorAction.GetNextAction
+    fullName: TinyLife.Actions.BehaviorAction.GetNextAction
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+    name: GetNextAction
+    nameWithType: BehaviorAction.GetNextAction
+    fullName: TinyLife.Actions.BehaviorAction.GetNextAction
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.Handler
+  commentId: F:TinyLife.Actions.MultiAction.Handler
+  parent: TinyLife.Actions.MultiAction
+  name: Handler
+  nameWithType: MultiAction.Handler
+  fullName: TinyLife.Actions.MultiAction.Handler
+- uid: TinyLife.Actions.MultiAction.MainElapsedTime
+  commentId: P:TinyLife.Actions.MultiAction.MainElapsedTime
+  parent: TinyLife.Actions.MultiAction
+  name: MainElapsedTime
+  nameWithType: MultiAction.MainElapsedTime
+  fullName: TinyLife.Actions.MultiAction.MainElapsedTime
+- uid: TinyLife.Actions.MultiAction.InProgressTime
+  commentId: P:TinyLife.Actions.MultiAction.InProgressTime
+  parent: TinyLife.Actions.MultiAction
+  name: InProgressTime
+  nameWithType: MultiAction.InProgressTime
+  fullName: TinyLife.Actions.MultiAction.InProgressTime
+- uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
+  commentId: M:TinyLife.Actions.MultiAction.AndThenIsCompleted
+  parent: TinyLife.Actions.MultiAction
+  name: AndThenIsCompleted()
+  nameWithType: MultiAction.AndThenIsCompleted()
+  fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
+    name: AndThenIsCompleted
+    nameWithType: MultiAction.AndThenIsCompleted
+    fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
+    name: AndThenIsCompleted
+    nameWithType: MultiAction.AndThenIsCompleted
+    fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.PreInitialize
+  commentId: M:TinyLife.Actions.MultiAction.PreInitialize
+  parent: TinyLife.Actions.MultiAction
+  name: PreInitialize()
+  nameWithType: MultiAction.PreInitialize()
+  fullName: TinyLife.Actions.MultiAction.PreInitialize()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.PreInitialize
+    name: PreInitialize
+    nameWithType: MultiAction.PreInitialize
+    fullName: TinyLife.Actions.MultiAction.PreInitialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.PreInitialize
+    name: PreInitialize
+    nameWithType: MultiAction.PreInitialize
+    fullName: TinyLife.Actions.MultiAction.PreInitialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  name: PreCompleted(CompletionType)
+  nameWithType: MultiAction.PreCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+    name: PreCompleted
+    nameWithType: MultiAction.PreCompleted
+    fullName: TinyLife.Actions.MultiAction.PreCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+    name: PreCompleted
+    nameWithType: MultiAction.PreCompleted
+    fullName: TinyLife.Actions.MultiAction.PreCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.MultiAction
+  isExternal: true
+  name: Update(GameTime, TimeSpan, Single)
+  nameWithType: MultiAction.Update(GameTime, TimeSpan, Single)
+  fullName: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    nameWithType: MultiAction.Update
+    fullName: TinyLife.Actions.MultiAction.Update
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    nameWithType: MultiAction.Update
+    fullName: TinyLife.Actions.MultiAction.Update
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    nameWithType: GameTime
+    fullName: Microsoft.Xna.Framework.GameTime
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.TimeSpan
+    name: TimeSpan
+    nameWithType: TimeSpan
+    fullName: System.TimeSpan
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - uid: System.Single
+    name: Single
+    nameWithType: Single
+    fullName: System.Single
+    isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.Initialize
+  commentId: M:TinyLife.Actions.MultiAction.Initialize
+  parent: TinyLife.Actions.MultiAction
+  name: Initialize()
+  nameWithType: MultiAction.Initialize()
+  fullName: TinyLife.Actions.MultiAction.Initialize()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Initialize
+    name: Initialize
+    nameWithType: MultiAction.Initialize
+    fullName: TinyLife.Actions.MultiAction.Initialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Initialize
+    name: Initialize
+    nameWithType: MultiAction.Initialize
+    fullName: TinyLife.Actions.MultiAction.Initialize
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.IsCompleted
+  commentId: M:TinyLife.Actions.MultiAction.IsCompleted
+  parent: TinyLife.Actions.MultiAction
+  name: IsCompleted()
+  nameWithType: MultiAction.IsCompleted()
+  fullName: TinyLife.Actions.MultiAction.IsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.IsCompleted
+    name: IsCompleted
+    nameWithType: MultiAction.IsCompleted
+    fullName: TinyLife.Actions.MultiAction.IsCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.IsCompleted
+    name: IsCompleted
+    nameWithType: MultiAction.IsCompleted
+    fullName: TinyLife.Actions.MultiAction.IsCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  name: OnCompleted(CompletionType)
+  nameWithType: MultiAction.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+    name: OnCompleted
+    nameWithType: MultiAction.OnCompleted
+    fullName: TinyLife.Actions.MultiAction.OnCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+    name: OnCompleted
+    nameWithType: MultiAction.OnCompleted
+    fullName: TinyLife.Actions.MultiAction.OnCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+  commentId: M:TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+  parent: TinyLife.Actions.MultiAction
+  name: Validate(Person)
+  nameWithType: MultiAction.Validate(Person)
+  fullName: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+    name: Validate
+    nameWithType: MultiAction.Validate
+    fullName: TinyLife.Actions.MultiAction.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.Person)
+    name: Validate
+    nameWithType: MultiAction.Validate
+    fullName: TinyLife.Actions.MultiAction.Validate
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.MultiAction
+  name: CanCancel(Action)
+  nameWithType: MultiAction.CanCancel(Action)
+  fullName: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+    name: CanCancel
+    nameWithType: MultiAction.CanCancel
+    fullName: TinyLife.Actions.MultiAction.CanCancel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+    name: CanCancel
+    nameWithType: MultiAction.CanCancel
+    fullName: TinyLife.Actions.MultiAction.CanCancel
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    nameWithType: Action
+    fullName: TinyLife.Actions.Action
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+  commentId: M:TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+  parent: TinyLife.Actions.MultiAction
+  name: GoToActionLocation(ObjectCategory)
+  nameWithType: MultiAction.GoToActionLocation(ObjectCategory)
+  fullName: TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+    name: GoToActionLocation
+    nameWithType: MultiAction.GoToActionLocation
+    fullName: TinyLife.Actions.MultiAction.GoToActionLocation
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.GoToActionLocation(TinyLife.Objects.ObjectCategory)
+    name: GoToActionLocation
+    nameWithType: MultiAction.GoToActionLocation
+    fullName: TinyLife.Actions.MultiAction.GoToActionLocation
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    nameWithType: ObjectCategory
+    fullName: TinyLife.Objects.ObjectCategory
   - name: )
     nameWithType: )
     fullName: )
@@ -648,12 +1021,6 @@ references:
   name: Random
   nameWithType: Action.Random
   fullName: TinyLife.Actions.Action.Random
-- uid: TinyLife.Actions.Action.InProgressTime
-  commentId: P:TinyLife.Actions.Action.InProgressTime
-  parent: TinyLife.Actions.Action
-  name: InProgressTime
-  nameWithType: Action.InProgressTime
-  fullName: TinyLife.Actions.Action.InProgressTime
 - uid: TinyLife.Actions.Action.Type
   commentId: F:TinyLife.Actions.Action.Type
   parent: TinyLife.Actions.Action
@@ -708,70 +1075,6 @@ references:
   name: ForceResult
   nameWithType: Action.ForceResult
   fullName: TinyLife.Actions.Action.ForceResult
-- uid: TinyLife.Actions.Action.IsCompleted
-  commentId: M:TinyLife.Actions.Action.IsCompleted
-  parent: TinyLife.Actions.Action
-  name: IsCompleted()
-  nameWithType: Action.IsCompleted()
-  fullName: TinyLife.Actions.Action.IsCompleted()
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.IsCompleted
-    name: IsCompleted
-    nameWithType: Action.IsCompleted
-    fullName: TinyLife.Actions.Action.IsCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.IsCompleted
-    name: IsCompleted
-    nameWithType: Action.IsCompleted
-    fullName: TinyLife.Actions.Action.IsCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
-  parent: TinyLife.Actions.Action
-  name: Validate(Person)
-  nameWithType: Action.Validate(Person)
-  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
-    name: Validate
-    nameWithType: Action.Validate
-    fullName: TinyLife.Actions.Action.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.Person)
-    name: Validate
-    nameWithType: Action.Validate
-    fullName: TinyLife.Actions.Action.Validate
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   parent: TinyLife.Actions.Action
@@ -859,42 +1162,6 @@ references:
     name: MapObject
     nameWithType: MapObject
     fullName: TinyLife.Objects.MapObject
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-  parent: TinyLife.Actions.Action
-  name: CanCancel(Action)
-  nameWithType: Action.CanCancel(Action)
-  fullName: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    nameWithType: Action.CanCancel
-    fullName: TinyLife.Actions.Action.CanCancel
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    nameWithType: Action.CanCancel
-    fullName: TinyLife.Actions.Action.CanCancel
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
   - name: )
     nameWithType: )
     fullName: )
@@ -1804,18 +2071,90 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+- uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  commentId: M:TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  parent: TinyLife.Actions.Action
+  name: FacePartner(Person)
+  nameWithType: Action.FacePartner(Person)
+  fullName: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+    name: FacePartner
+    nameWithType: Action.FacePartner
+    fullName: TinyLife.Actions.Action.FacePartner
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+    name: FacePartner
+    nameWithType: Action.FacePartner
+    fullName: TinyLife.Actions.Action.FacePartner
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  parent: TinyLife.Actions.Action
+  name: CompleteIfNeedFull(NeedType)
+  nameWithType: Action.CompleteIfNeedFull(NeedType)
+  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+    name: CompleteIfNeedFull
+    nameWithType: Action.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+    name: CompleteIfNeedFull
+    nameWithType: Action.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  commentId: M:TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   parent: TinyLife.Actions.Action
   isExternal: true
-  name: CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  nameWithType: Action.CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  fullName: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
+  name: CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  nameWithType: Action.CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  fullName: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
+  - uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteIfTimeUp
+    nameWithType: Action.CompleteIfTimeUp
+    fullName: TinyLife.Actions.Action.CompleteIfTimeUp
   - name: (
     nameWithType: (
     fullName: (
@@ -1859,10 +2198,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
+  - uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteIfTimeUp
+    nameWithType: Action.CompleteIfTimeUp
+    fullName: TinyLife.Actions.Action.CompleteIfTimeUp
   - name: (
     nameWithType: (
     fullName: (
@@ -1905,67 +2244,48 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+- uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  commentId: M:TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   parent: TinyLife.Actions.Action
-  name: CompleteIfNeedFull(Person, NeedType, CompletionType)
-  nameWithType: Action.CompleteIfNeedFull(Person, NeedType, CompletionType)
-  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person, TinyLife.NeedType, TinyLife.Actions.CompletionType)
+  name: CancelIfEmotional(EmotionType[])
+  nameWithType: Action.CancelIfEmotional(EmotionType[])
+  fullName: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  nameWithType.vb: Action.CancelIfEmotional(EmotionType())
+  fullName.vb: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType())
+  name.vb: CancelIfEmotional(EmotionType())
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+    name: CancelIfEmotional
+    nameWithType: Action.CancelIfEmotional
+    fullName: TinyLife.Actions.Action.CancelIfEmotional
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+    name: CancelIfEmotional
+    nameWithType: Action.CancelIfEmotional
+    fullName: TinyLife.Actions.Action.CancelIfEmotional
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
   - name: )
     nameWithType: )
     fullName: )
@@ -3728,6 +4048,62 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -4114,6 +4490,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: TinyLife.Actions.Behaviors
+  commentId: N:TinyLife.Actions.Behaviors
+  name: TinyLife.Actions.Behaviors
+  nameWithType: TinyLife.Actions.Behaviors
+  fullName: TinyLife.Actions.Behaviors
 - uid: System
   commentId: N:System
   isExternal: true
@@ -4132,6 +4513,61 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -4179,26 +4615,9 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
-- uid: TinyLife.Actions.Action.FullyInProgress
-  commentId: P:TinyLife.Actions.Action.FullyInProgress
-  parent: TinyLife.Actions.Action
-  name: FullyInProgress
-  nameWithType: Action.FullyInProgress
-  fullName: TinyLife.Actions.Action.FullyInProgress
-- uid: TinyLife.Actions.BehaviorAction`1.FullyInProgress*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.FullyInProgress
-  name: FullyInProgress
-  nameWithType: BehaviorAction<T>.FullyInProgress
-  fullName: TinyLife.Actions.BehaviorAction<T>.FullyInProgress
-  nameWithType.vb: BehaviorAction(Of T).FullyInProgress
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).FullyInProgress
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
+- uid: TinyLife.Actions.BehaviorAction.Behavior
+  commentId: P:TinyLife.Actions.BehaviorAction.Behavior
   isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
 - uid: TinyLife.Actions.BehaviorAction`1.Behavior*
   commentId: Overload:TinyLife.Actions.BehaviorAction`1.Behavior
   name: Behavior
@@ -4206,28 +4625,12 @@ references:
   fullName: TinyLife.Actions.BehaviorAction<T>.Behavior
   nameWithType.vb: BehaviorAction(Of T).Behavior
   fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Behavior
-- uid: TinyLife.Actions.IBehaviorAction{{T}}.Behavior
-  commentId: P:TinyLife.Actions.IBehaviorAction{`0}.Behavior
-  parent: TinyLife.Actions.IBehaviorAction{{T}}
-  definition: TinyLife.Actions.IBehaviorAction`1.Behavior
-  name: Behavior
-  nameWithType: IBehaviorAction<T>.Behavior
-  fullName: TinyLife.Actions.IBehaviorAction<T>.Behavior
-  nameWithType.vb: IBehaviorAction(Of T).Behavior
-  fullName.vb: TinyLife.Actions.IBehaviorAction(Of T).Behavior
 - uid: '{T}'
   commentId: '!:T'
   definition: T
   name: T
   nameWithType: T
   fullName: T
-- uid: TinyLife.Actions.IBehaviorAction`1.Behavior
-  commentId: P:TinyLife.Actions.IBehaviorAction`1.Behavior
-  name: Behavior
-  nameWithType: IBehaviorAction<T>.Behavior
-  fullName: TinyLife.Actions.IBehaviorAction<T>.Behavior
-  nameWithType.vb: IBehaviorAction(Of T).Behavior
-  fullName.vb: TinyLife.Actions.IBehaviorAction(Of T).Behavior
 - uid: T
   name: T
   nameWithType: T
@@ -4239,336 +4642,15 @@ references:
   fullName: TinyLife.Actions.BehaviorAction<T>.BehaviorAction
   nameWithType.vb: BehaviorAction(Of T).BehaviorAction
   fullName.vb: TinyLife.Actions.BehaviorAction(Of T).BehaviorAction
-- uid: TinyLife.Actions.ActionType
-  commentId: T:TinyLife.Actions.ActionType
-  parent: TinyLife.Actions
-  name: ActionType
-  nameWithType: ActionType
-  fullName: TinyLife.Actions.ActionType
 - uid: TinyLife.Actions.ActionInfo
   commentId: T:TinyLife.Actions.ActionInfo
   parent: TinyLife.Actions
   name: ActionInfo
   nameWithType: ActionInfo
   fullName: TinyLife.Actions.ActionInfo
-- uid: TinyLife.Actions.Action.Initialize
-  commentId: M:TinyLife.Actions.Action.Initialize
-  parent: TinyLife.Actions.Action
-  name: Initialize()
-  nameWithType: Action.Initialize()
-  fullName: TinyLife.Actions.Action.Initialize()
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.Initialize
-    name: Initialize
-    nameWithType: Action.Initialize
-    fullName: TinyLife.Actions.Action.Initialize
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.Initialize
-    name: Initialize
-    nameWithType: Action.Initialize
-    fullName: TinyLife.Actions.Action.Initialize
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.Initialize*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.Initialize
-  name: Initialize
-  nameWithType: BehaviorAction<T>.Initialize
-  fullName: TinyLife.Actions.BehaviorAction<T>.Initialize
-  nameWithType.vb: BehaviorAction(Of T).Initialize
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Initialize
-- uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.Action
-  isExternal: true
-  name: Update(GameTime, TimeSpan, Single)
-  nameWithType: Action.Update(GameTime, TimeSpan, Single)
-  fullName: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, System.Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    nameWithType: Action.Update
-    fullName: TinyLife.Actions.Action.Update
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    nameWithType: Action.Update
-    fullName: TinyLife.Actions.Action.Update
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    nameWithType: GameTime
-    fullName: Microsoft.Xna.Framework.GameTime
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.TimeSpan
-    name: TimeSpan
-    nameWithType: TimeSpan
-    fullName: System.TimeSpan
-    isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
-    isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.Update*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.Update
-  name: Update
-  nameWithType: BehaviorAction<T>.Update
-  fullName: TinyLife.Actions.BehaviorAction<T>.Update
-  nameWithType.vb: BehaviorAction(Of T).Update
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).Update
-- uid: Microsoft.Xna.Framework.GameTime
-  commentId: T:Microsoft.Xna.Framework.GameTime
-  parent: Microsoft.Xna.Framework
-  isExternal: true
-  name: GameTime
-  nameWithType: GameTime
-  fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.TimeSpan
-  commentId: T:System.TimeSpan
-  parent: System
-  isExternal: true
-  name: TimeSpan
-  nameWithType: TimeSpan
-  fullName: System.TimeSpan
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
-  isExternal: true
-  name: Single
-  nameWithType: Single
-  fullName: System.Single
-- uid: Microsoft.Xna.Framework
-  commentId: N:Microsoft.Xna.Framework
-  isExternal: true
-  name: Microsoft.Xna.Framework
-  nameWithType: Microsoft.Xna.Framework
-  fullName: Microsoft.Xna.Framework
-- uid: TinyLife.Actions.Action.GetIconObject
-  commentId: M:TinyLife.Actions.Action.GetIconObject
-  parent: TinyLife.Actions.Action
-  name: GetIconObject()
-  nameWithType: Action.GetIconObject()
-  fullName: TinyLife.Actions.Action.GetIconObject()
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.GetIconObject
-    name: GetIconObject
-    nameWithType: Action.GetIconObject
-    fullName: TinyLife.Actions.Action.GetIconObject
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.GetIconObject
-    name: GetIconObject
-    nameWithType: Action.GetIconObject
-    fullName: TinyLife.Actions.Action.GetIconObject
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.GetIconObject*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.GetIconObject
-  name: GetIconObject
-  nameWithType: BehaviorAction<T>.GetIconObject
-  fullName: TinyLife.Actions.BehaviorAction<T>.GetIconObject
-  nameWithType.vb: BehaviorAction(Of T).GetIconObject
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).GetIconObject
-- uid: TinyLife.Objects.MapObject
-  commentId: T:TinyLife.Objects.MapObject
-  parent: TinyLife.Objects
-  name: MapObject
-  nameWithType: MapObject
-  fullName: TinyLife.Objects.MapObject
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-- uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-  parent: TinyLife.Actions.Action
-  name: CanMultitask(Action)
-  nameWithType: Action.CanMultitask(Action)
-  fullName: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-    name: CanMultitask
-    nameWithType: Action.CanMultitask
-    fullName: TinyLife.Actions.Action.CanMultitask
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
-    name: CanMultitask
-    nameWithType: Action.CanMultitask
-    fullName: TinyLife.Actions.Action.CanMultitask
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.CanMultitask*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.CanMultitask
-  name: CanMultitask
-  nameWithType: BehaviorAction<T>.CanMultitask
-  fullName: TinyLife.Actions.BehaviorAction<T>.CanMultitask
-  nameWithType.vb: BehaviorAction(Of T).CanMultitask
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).CanMultitask
-- uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.Action
-  name: OnCompleted(CompletionType)
-  nameWithType: Action.OnCompleted(CompletionType)
-  fullName: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-    name: OnCompleted
-    nameWithType: Action.OnCompleted
-    fullName: TinyLife.Actions.Action.OnCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
-    name: OnCompleted
-    nameWithType: Action.OnCompleted
-    fullName: TinyLife.Actions.Action.OnCompleted
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.OnCompleted*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.OnCompleted
-  name: OnCompleted
-  nameWithType: BehaviorAction<T>.OnCompleted
-  fullName: TinyLife.Actions.BehaviorAction<T>.OnCompleted
-  nameWithType.vb: BehaviorAction(Of T).OnCompleted
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).OnCompleted
-- uid: TinyLife.Actions.CompletionType
-  commentId: T:TinyLife.Actions.CompletionType
+- uid: TinyLife.Actions.ActionType
+  commentId: T:TinyLife.Actions.ActionType
   parent: TinyLife.Actions
-  name: CompletionType
-  nameWithType: CompletionType
-  fullName: TinyLife.Actions.CompletionType
-- uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.Action
-  name: GetNextAction(CompletionType)
-  nameWithType: Action.GetNextAction(CompletionType)
-  fullName: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-    name: GetNextAction
-    nameWithType: Action.GetNextAction
-    fullName: TinyLife.Actions.Action.GetNextAction
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
-    name: GetNextAction
-    nameWithType: Action.GetNextAction
-    fullName: TinyLife.Actions.Action.GetNextAction
-  - name: (
-    nameWithType: (
-    fullName: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
-  - name: )
-    nameWithType: )
-    fullName: )
-- uid: TinyLife.Actions.BehaviorAction`1.GetNextAction*
-  commentId: Overload:TinyLife.Actions.BehaviorAction`1.GetNextAction
-  name: GetNextAction
-  nameWithType: BehaviorAction<T>.GetNextAction
-  fullName: TinyLife.Actions.BehaviorAction<T>.GetNextAction
-  nameWithType.vb: BehaviorAction(Of T).GetNextAction
-  fullName.vb: TinyLife.Actions.BehaviorAction(Of T).GetNextAction
+  name: ActionType
+  nameWithType: ActionType
+  fullName: TinyLife.Actions.ActionType

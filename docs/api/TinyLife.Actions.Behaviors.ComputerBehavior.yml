@@ -6,6 +6,7 @@ items:
   parent: TinyLife.Actions.Behaviors
   children:
   - TinyLife.Actions.Behaviors.ComputerBehavior.#ctor(TinyLife.Actions.Action,System.String)
+  - TinyLife.Actions.Behaviors.ComputerBehavior.#ctor(TinyLife.Actions.Action,System.String,System.TimeSpan,System.TimeSpan)
   - TinyLife.Actions.Behaviors.ComputerBehavior.Initialize
   - TinyLife.Actions.Behaviors.ComputerBehavior.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Behaviors.ComputerBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -37,17 +38,17 @@ items:
   inheritance:
   - System.Object
   - TinyLife.Actions.Behaviors.ActionBehavior
-  - TinyLife.Actions.Behaviors.MultiActionBehavior
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
   inheritedMembers:
+  - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.CreateFirstActions
   - TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.GetNextAction(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.Action
   - TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
+  - TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   - TinyLife.Actions.Behaviors.ActionBehavior.CanMultitask(TinyLife.Actions.Action)
-  - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
+  - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -81,19 +82,67 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/Behaviors/ComputerBehavior.cs
-    startLine: 17
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
+  summary: "\nCreates a new computer behavior with the given settings.\n"
   example: []
   syntax:
     content: public ComputerBehavior(Action action, string screenContent)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action that this behavior is acting upon.
     - id: screenContent
       type: System.String
+      description: The name of the texture that should be displayed on the computer&apos;s screen, which is passed to <xref href="TinyLife.Objects.ScreenObject.TurnOn(System.String)" data-throw-if-not-resolved="false"></xref>.
     content.vb: Public Sub New(action As Action, screenContent As String)
+  overload: TinyLife.Actions.Behaviors.ComputerBehavior.#ctor*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.Behaviors.ComputerBehavior.#ctor(TinyLife.Actions.Action,System.String,System.TimeSpan,System.TimeSpan)
+  commentId: M:TinyLife.Actions.Behaviors.ComputerBehavior.#ctor(TinyLife.Actions.Action,System.String,System.TimeSpan,System.TimeSpan)
+  id: '#ctor(TinyLife.Actions.Action,System.String,System.TimeSpan,System.TimeSpan)'
+  parent: TinyLife.Actions.Behaviors.ComputerBehavior
+  langs:
+  - csharp
+  - vb
+  name: ComputerBehavior(Action, String, TimeSpan, TimeSpan)
+  nameWithType: ComputerBehavior.ComputerBehavior(Action, String, TimeSpan, TimeSpan)
+  fullName: TinyLife.Actions.Behaviors.ComputerBehavior.ComputerBehavior(TinyLife.Actions.Action, System.String, System.TimeSpan, System.TimeSpan)
+  type: Constructor
+  source:
+    remote:
+      path: TinyLife/Actions/Behaviors/ComputerBehavior.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: .ctor
+    path: ../TinyLife/Actions/Behaviors/ComputerBehavior.cs
+    startLine: 32
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Behaviors
+  summary: "\nCreates a new computer behavior with the given settings.\n"
+  example: []
+  syntax:
+    content: public ComputerBehavior(Action action, string screenContent, TimeSpan workTime, TimeSpan breakTime)
+    parameters:
+    - id: action
+      type: TinyLife.Actions.Action
+      description: The action that this behavior is acting upon.
+    - id: screenContent
+      type: System.String
+      description: The name of the texture that should be displayed on the computer&apos;s screen, which is passed to <xref href="TinyLife.Objects.ScreenObject.TurnOn(System.String)" data-throw-if-not-resolved="false"></xref>.
+    - id: workTime
+      type: System.TimeSpan
+      description: The amount of in-game time that this action&apos;s <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> shoud look to be typing for.
+    - id: breakTime
+      type: System.TimeSpan
+      description: The amount of in-game time that this action&apos;s <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> should look to be waiting for inbetween typing sessions.
+    content.vb: Public Sub New(action As Action, screenContent As String, workTime As TimeSpan, breakTime As TimeSpan)
   overload: TinyLife.Actions.Behaviors.ComputerBehavior.#ctor*
   modifiers.csharp:
   - public
@@ -117,11 +166,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Initialize
     path: ../TinyLife/Actions/Behaviors/ComputerBehavior.cs
-    startLine: 22
+    startLine: 37
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nInitializes this action behavior.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenInitialize\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nInitializes this action behavior.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenInitialize\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Initialize()
@@ -152,11 +201,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Actions/Behaviors/ComputerBehavior.cs
-    startLine: 27
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nUpdates this action behavior every update frame.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nUpdates this action behavior every update frame.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
@@ -197,11 +246,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCompleted
     path: ../TinyLife/Actions/Behaviors/ComputerBehavior.cs
-    startLine: 35
+    startLine: 56
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
-  summary: "\nCauses any activities that this action behavior executes to be marked as completed.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorMultiAction%601\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nCauses any activities that this action behavior executes to be marked as completed.\nThis method is automatically called when using <xref href=\"TinyLife.Actions.BehaviorAction\" data-throw-if-not-resolved=\"false\"></xref> in <xref href=\"TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public override void OnCompleted(CompletionType completion)
@@ -246,12 +295,12 @@ references:
   name: ActionBehavior
   nameWithType: ActionBehavior
   fullName: TinyLife.Actions.Behaviors.ActionBehavior
-- uid: TinyLife.Actions.Behaviors.MultiActionBehavior
-  commentId: T:TinyLife.Actions.Behaviors.MultiActionBehavior
-  parent: TinyLife.Actions.Behaviors
-  name: MultiActionBehavior
-  nameWithType: MultiActionBehavior
-  fullName: TinyLife.Actions.Behaviors.MultiActionBehavior
+- uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  commentId: P:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
+  parent: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
+  name: IsWorking
+  nameWithType: WorkAtDeskObjectBehavior.IsWorking
+  fullName: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.IsWorking
 - uid: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.CreateFirstActions
   commentId: M:TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior.CreateFirstActions
   parent: TinyLife.Actions.Behaviors.WorkAtDeskObjectBehavior
@@ -316,34 +365,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  commentId: M:TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  parent: TinyLife.Actions.Behaviors.MultiActionBehavior
-  name: CreateLastActions()
-  nameWithType: MultiActionBehavior.CreateLastActions()
-  fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions()
-  spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-    name: CreateLastActions
-    nameWithType: MultiActionBehavior.CreateLastActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
-  spec.vb:
-  - uid: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-    name: CreateLastActions
-    nameWithType: MultiActionBehavior.CreateLastActions
-    fullName: TinyLife.Actions.Behaviors.MultiActionBehavior.CreateLastActions
-  - name: (
-    nameWithType: (
-    fullName: (
-  - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.Action
   commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.Action
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -356,6 +377,34 @@ references:
   name: FullyInProgress
   nameWithType: ActionBehavior.FullyInProgress
   fullName: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  parent: TinyLife.Actions.Behaviors.ActionBehavior
+  name: CreateLastActions()
+  nameWithType: ActionBehavior.CreateLastActions()
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+    name: CreateLastActions
+    nameWithType: ActionBehavior.CreateLastActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+    name: CreateLastActions
+    nameWithType: ActionBehavior.CreateLastActions
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
+  - name: (
+    nameWithType: (
+    fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -420,23 +469,29 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
   parent: TinyLife.Actions.Behaviors.ActionBehavior
-  name: CreateDefaultInstance<T>(Action)
-  nameWithType: ActionBehavior.CreateDefaultInstance<T>(Action)
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance<T>(TinyLife.Actions.Action)
-  nameWithType.vb: ActionBehavior.CreateDefaultInstance(Of T)(Action)
-  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(Of T)(TinyLife.Actions.Action)
-  name.vb: CreateDefaultInstance(Of T)(Action)
+  isExternal: true
+  name: CreateDefaultInstance(Type, Action)
+  nameWithType: ActionBehavior.CreateDefaultInstance(Type, Action)
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type, TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-    name: CreateDefaultInstance<T>
-    nameWithType: ActionBehavior.CreateDefaultInstance<T>
-    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance<T>
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+    name: CreateDefaultInstance
+    nameWithType: ActionBehavior.CreateDefaultInstance
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Actions.Action
     name: Action
     nameWithType: Action
@@ -445,13 +500,21 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance``1(TinyLife.Actions.Action)
-    name: CreateDefaultInstance(Of T)
-    nameWithType: ActionBehavior.CreateDefaultInstance(Of T)
-    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(Of T)
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
+    name: CreateDefaultInstance
+    nameWithType: ActionBehavior.CreateDefaultInstance
+    fullName: TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance
   - name: (
     nameWithType: (
     fullName: (
+  - uid: System.Type
+    name: Type
+    nameWithType: Type
+    fullName: System.Type
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
   - uid: TinyLife.Actions.Action
     name: Action
     nameWithType: Action
@@ -846,6 +909,24 @@ references:
   name: TinyLife.Actions
   nameWithType: TinyLife.Actions
   fullName: TinyLife.Actions
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -962,13 +1043,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.TimeSpan
-  commentId: T:System.TimeSpan
-  parent: System
-  isExternal: true
-  name: TimeSpan
-  nameWithType: TimeSpan
-  fullName: System.TimeSpan
 - uid: System.Single
   commentId: T:System.Single
   parent: System

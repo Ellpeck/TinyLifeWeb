@@ -8,13 +8,15 @@ items:
   - TinyLife.Actions.Action.#ctor(TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.Action.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   - TinyLife.Actions.Action.CanEnqueueConversation(TinyLife.Objects.Person,TinyLife.Actions.ActionType)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
-  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  - TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   - TinyLife.Actions.Action.ElapsedTime
+  - TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
   - TinyLife.Actions.Action.FindAllActionObjects(TinyLife.Objects.Person,TinyLife.Actions.ActionType,System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean,System.Boolean)
   - TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.Person,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Boolean)
@@ -91,7 +93,6 @@ items:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   derivedClasses:
-  - TinyLife.Actions.BehaviorAction`1
   - TinyLife.Actions.DieAction
   - TinyLife.Actions.MultiAction
   - TinyLife.Actions.PathfindAction
@@ -104,6 +105,7 @@ items:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -786,7 +788,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThis method is called every update frame by a <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> if this action is currently active to check if it should be stopped.\nIf this returns a result other than <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> will be called and the action is stopped.\nBy default, only <xref href=\"TinyLife.Actions.Action.ForceResult\" data-throw-if-not-resolved=\"false\"></xref> modifies the completion type, otherwise <xref href=\"TinyLife.Actions.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
+  summary: "\nThis method is called every update frame by a <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> if this action is currently active to check if it should be stopped.\nIf this returns a result other than <xref href=\"TinyLife.Actions.CompletionType.Completed\" data-throw-if-not-resolved=\"false\"></xref>, <xref href=\"TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)\" data-throw-if-not-resolved=\"false\"></xref> will be called and the action is stopped.\nBy default, only <xref href=\"TinyLife.Actions.Action.ForceResult\" data-throw-if-not-resolved=\"false\"></xref> modifies the completion type, otherwise <xref href=\"TinyLife.Actions.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> is returned.\n"
   example: []
   syntax:
     content: public virtual CompletionType IsCompleted()
@@ -898,7 +900,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TryForceResult
     path: ../TinyLife/Actions/Action.cs
-    startLine: 198
+    startLine: 197
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -948,7 +950,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanMultitask
     path: ../TinyLife/Actions/Action.cs
-    startLine: 216
+    startLine: 215
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -989,7 +991,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCancel
     path: ../TinyLife/Actions/Action.cs
-    startLine: 227
+    startLine: 226
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1030,7 +1032,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNextAction
     path: ../TinyLife/Actions/Action.cs
-    startLine: 238
+    startLine: 237
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1071,7 +1073,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetIconObject
     path: ../TinyLife/Actions/Action.cs
-    startLine: 248
+    startLine: 247
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1108,7 +1110,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CausesExtremelyFastSpeed
     path: ../TinyLife/Actions/Action.cs
-    startLine: 257
+    startLine: 256
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1145,7 +1147,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDisplayName
     path: ../TinyLife/Actions/Action.cs
-    startLine: 266
+    startLine: 265
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1182,7 +1184,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEnqueueConversation
     path: ../TinyLife/Actions/Action.cs
-    startLine: 278
+    startLine: 277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1226,7 +1228,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenPlayerPrompt
     path: ../TinyLife/Actions/Action.cs
-    startLine: 294
+    startLine: 293
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1286,7 +1288,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenYesNoPrompt
     path: ../TinyLife/Actions/Action.cs
-    startLine: 330
+    startLine: 329
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1333,7 +1335,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenTextPrompt
     path: ../TinyLife/Actions/Action.cs
-    startLine: 358
+    startLine: 357
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1389,7 +1391,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OpenChoicePrompt
     path: ../TinyLife/Actions/Action.cs
-    startLine: 371
+    startLine: 370
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1428,7 +1430,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpeakAlone
     path: ../TinyLife/Actions/Action.cs
-    startLine: 386
+    startLine: 385
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1479,7 +1481,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpeakInConversation
     path: ../TinyLife/Actions/Action.cs
-    startLine: 403
+    startLine: 402
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1524,32 +1526,109 @@ items:
   - Public
   fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.Person, Microsoft.Xna.Framework.GameTime, System.Single, TinyLife.Actions.EmoteCategory, TinyLife.Objects.SpeakStyle, System.Nullable(Of TinyLife.Actions.EmoteCategory), System.Nullable(Of TinyLife.Objects.SpeakStyle), System.Int32)
   name.vb: SpeakInConversation(Person, GameTime, Single, EmoteCategory, SpeakStyle, Nullable(Of EmoteCategory), Nullable(Of SpeakStyle), Int32)
-- uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  id: CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+- uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  commentId: M:TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  id: FacePartner(TinyLife.Objects.Person)
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  nameWithType: Action.CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  fullName: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
+  name: FacePartner(Person)
+  nameWithType: Action.FacePartner(Person)
+  fullName: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
   type: Method
   source:
     remote:
       path: TinyLife/Actions/Action.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CompleteInTime
+    id: FacePartner
     path: ../TinyLife/Actions/Action.cs
-    startLine: 419
+    startLine: 413
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA helper method that returns <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">time</code> has passed.\nThis method makes use of <xref href=\"TinyLife.Objects.Person.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> to return true faster or slower based on the person&apos;s current mood and skill levels.\n"
+  summary: "\nA utility method that causes this action&apos;s <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> to face in the direction of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">partner</code>.\nThis method returns <xref uid=\"langword_csharp_false\" name=\"false\" href=\"\"></xref> if the <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> is occupying a furniture object, or if they&apos;re standing in the same location as the <code data-dev-comment-type=\"paramref\" class=\"paramref\">partner</code>.\n"
   example: []
   syntax:
-    content: protected CompletionType CompleteInTime(TimeSpan time, bool efficiencyMatters = false, SkillType skill = null, float levelModifier = 0.1F, bool autoOnly = false)
+    content: public bool FacePartner(Person partner)
+    parameters:
+    - id: partner
+      type: TinyLife.Objects.Person
+    return:
+      type: System.Boolean
+      description: Whether it was possible to face in the partner&apos;s direction.
+    content.vb: Public Function FacePartner(partner As Person) As Boolean
+  overload: TinyLife.Actions.Action.FacePartner*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  id: CompleteIfNeedFull(TinyLife.NeedType)
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: CompleteIfNeedFull(NeedType)
+  nameWithType: Action.CompleteIfNeedFull(NeedType)
+  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Action.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CompleteIfNeedFull
+    path: ../TinyLife/Actions/Action.cs
+    startLine: 427
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nA helper method that returns <xref href=\"TinyLife.Actions.CompletionType.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <xref href=\"TinyLife.Need\" data-throw-if-not-resolved=\"false\"></xref>&apos;s value is at <xref href=\"TinyLife.Need.Max\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public CompletionType CompleteIfNeedFull(NeedType type)
+    parameters:
+    - id: type
+      type: TinyLife.NeedType
+      description: The need that should be completed
+    return:
+      type: TinyLife.Actions.CompletionType
+      description: The appropriate completion type
+    content.vb: Public Function CompleteIfNeedFull(type As NeedType) As CompletionType
+  overload: TinyLife.Actions.Action.CompleteIfNeedFull*
+  modifiers.csharp:
+  - public
+  modifiers.vb:
+  - Public
+- uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  commentId: M:TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  id: CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  nameWithType: Action.CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  fullName: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/Action.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CompleteIfTimeUp
+    path: ../TinyLife/Actions/Action.cs
+    startLine: 441
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nA helper method that returns <xref href=\"TinyLife.Actions.CompletionType.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">time</code> has passed.\nThis method makes use of <xref href=\"TinyLife.Objects.Person.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> to return true faster or slower based on the person&apos;s current mood and skill levels.\n"
+  example: []
+  syntax:
+    content: public CompletionType CompleteIfTimeUp(TimeSpan time, bool efficiencyMatters = false, SkillType skill = null, float levelModifier = 0.1F, bool autoOnly = false)
     parameters:
     - id: time
       type: System.TimeSpan
@@ -1568,60 +1647,59 @@ items:
       description: Whether the action should only be completed in the given amount of time if it has been <xref href="TinyLife.Actions.Action.StartedAutomatically" data-throw-if-not-resolved="false"></xref>. If both this value and <xref href="TinyLife.Actions.Action.StartedAutomatically" data-throw-if-not-resolved="false"></xref> are true, this method always returns <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref>.
     return:
       type: TinyLife.Actions.CompletionType
-      description: <xref href="MLEM.Animations.SpriteAnimation.Completed" data-throw-if-not-resolved="false"></xref> if the time has passed, <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> otherwise
-    content.vb: Protected Function CompleteInTime(time As TimeSpan, efficiencyMatters As Boolean = False, skill As SkillType = Nothing, levelModifier As Single = 0.1F, autoOnly As Boolean = False) As CompletionType
-  overload: TinyLife.Actions.Action.CompleteInTime*
+      description: <xref href="TinyLife.Actions.CompletionType.Completed" data-throw-if-not-resolved="false"></xref> if the time has passed, <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> otherwise
+    content.vb: Public Function CompleteIfTimeUp(time As TimeSpan, efficiencyMatters As Boolean = False, skill As SkillType = Nothing, levelModifier As Single = 0.1F, autoOnly As Boolean = False) As CompletionType
+  overload: TinyLife.Actions.Action.CompleteIfTimeUp*
   modifiers.csharp:
-  - protected
+  - public
   modifiers.vb:
-  - Protected
-- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  id: CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  - Public
+- uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  commentId: M:TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  id: CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: CompleteIfNeedFull(Person, NeedType, CompletionType)
-  nameWithType: Action.CompleteIfNeedFull(Person, NeedType, CompletionType)
-  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person, TinyLife.NeedType, TinyLife.Actions.CompletionType)
+  name: CancelIfEmotional(EmotionType[])
+  nameWithType: Action.CancelIfEmotional(EmotionType[])
+  fullName: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   type: Method
   source:
     remote:
       path: TinyLife/Actions/Action.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CompleteIfNeedFull
+    id: CancelIfEmotional
     path: ../TinyLife/Actions/Action.cs
-    startLine: 459
+    startLine: 455
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nA helper method that returns <xref href=\"MLEM.Animations.SpriteAnimation.Completed\" data-throw-if-not-resolved=\"false\"></xref> if the given <xref href=\"TinyLife.Need\" data-throw-if-not-resolved=\"false\"></xref>&apos;s value is at <xref href=\"TinyLife.Need.Max\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA helper method that returns <xref href=\"TinyLife.Actions.CompletionType.Canceled\" data-throw-if-not-resolved=\"false\"></xref> if this action&apos;s <xref href=\"TinyLife.Actions.Action.Person\" data-throw-if-not-resolved=\"false\"></xref> has any of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">emotions</code>, and <xref href=\"TinyLife.Actions.CompletionType.Active\" data-throw-if-not-resolved=\"false\"></xref> otherwise.\n"
   example: []
   syntax:
-    content: public static CompletionType CompleteIfNeedFull(Person person, NeedType type, CompletionType els = CompletionType.Active)
+    content: public CompletionType CancelIfEmotional(params EmotionType[] emotions)
     parameters:
-    - id: person
-      type: TinyLife.Objects.Person
-      description: The person whose needs should be queried
-    - id: type
-      type: TinyLife.NeedType
-      description: The need that should be completed
-    - id: els
-      type: TinyLife.Actions.CompletionType
-      description: The action type that is returned if the need is not completed. <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> by default.
+    - id: emotions
+      type: TinyLife.Emotions.EmotionType[]
+      description: The emotions to cancel based on.
     return:
       type: TinyLife.Actions.CompletionType
-      description: The appropriate completion type
-    content.vb: Public Shared Function CompleteIfNeedFull(person As Person, type As NeedType, els As CompletionType = CompletionType.Active) As CompletionType
-  overload: TinyLife.Actions.Action.CompleteIfNeedFull*
+      description: A completion type based on whether any of the <code data-dev-comment-type="paramref" class="paramref">emotions</code> are present.
+    content.vb: Public Function CancelIfEmotional(ParamArray emotions As EmotionType()) As CompletionType
+  overload: TinyLife.Actions.Action.CancelIfEmotional*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown if the <code data-dev-comment-type="paramref" class="paramref">emotions</code> array has no entries.
+  nameWithType.vb: Action.CancelIfEmotional(EmotionType())
   modifiers.csharp:
   - public
-  - static
   modifiers.vb:
   - Public
-  - Shared
+  fullName.vb: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType())
+  name.vb: CancelIfEmotional(EmotionType())
 - uid: TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.ObjectCategory,System.Boolean)
   commentId: M:TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.ObjectCategory,System.Boolean)
   id: PickUpAndGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.ObjectCategory,System.Boolean)
@@ -1640,7 +1718,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PickUpAndGoTo
     path: ../TinyLife/Actions/Action.cs
-    startLine: 472
+    startLine: 495
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1690,7 +1768,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PickUpAndGoTo
     path: ../TinyLife/Actions/Action.cs
-    startLine: 485
+    startLine: 508
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1743,7 +1821,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Sit
     path: ../TinyLife/Actions/Action.cs
-    startLine: 522
+    startLine: 545
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1788,7 +1866,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeChair
     path: ../TinyLife/Actions/Action.cs
-    startLine: 540
+    startLine: 563
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1832,7 +1910,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeChairs
     path: ../TinyLife/Actions/Action.cs
-    startLine: 557
+    startLine: 580
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1882,7 +1960,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindAllFreePeople
     path: ../TinyLife/Actions/Action.cs
-    startLine: 583
+    startLine: 602
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1938,7 +2016,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindAllFreeFurniture
     path: ../TinyLife/Actions/Action.cs
-    startLine: 608
+    startLine: 627
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2003,7 +2081,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindAllFreeWalls
     path: ../TinyLife/Actions/Action.cs
-    startLine: 626
+    startLine: 645
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2056,7 +2134,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindAllFreeGround
     path: ../TinyLife/Actions/Action.cs
-    startLine: 641
+    startLine: 660
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2109,7 +2187,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindFreeFurniture
     path: ../TinyLife/Actions/Action.cs
-    startLine: 659
+    startLine: 678
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2168,7 +2246,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindAllActionObjects
     path: ../TinyLife/Actions/Action.cs
-    startLine: 672
+    startLine: 691
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2218,7 +2296,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FindValidActionObjects
     path: ../TinyLife/Actions/Action.cs
-    startLine: 709
+    startLine: 728
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2274,7 +2352,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomVariety
     path: ../TinyLife/Actions/Action.cs
-    startLine: 729
+    startLine: 748
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2321,7 +2399,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTableSpot
     path: ../TinyLife/Actions/Action.cs
-    startLine: 744
+    startLine: 763
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2365,7 +2443,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InvokeForBoth
     path: ../TinyLife/Actions/Action.cs
-    startLine: 757
+    startLine: 776
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2412,7 +2490,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanMultitask
     path: ../TinyLife/Actions/Action.cs
-    startLine: 769
+    startLine: 788
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2546,6 +2624,62 @@ references:
     nameWithType: Object
     fullName: System.Object
     isExternal: true
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
   - name: )
     nameWithType: )
     fullName: )
@@ -2958,6 +3092,61 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -3704,8 +3893,8 @@ references:
   name: Microsoft.Xna.Framework
   nameWithType: Microsoft.Xna.Framework
   fullName: Microsoft.Xna.Framework
-- uid: MLEM.Animations.SpriteAnimation.Completed
-  commentId: T:MLEM.Animations.SpriteAnimation.Completed
+- uid: TinyLife.Actions.CompletionType.Completed
+  commentId: F:TinyLife.Actions.CompletionType.Completed
   isExternal: true
 - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
@@ -4769,31 +4958,11 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
-  commentId: M:TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
-  isExternal: true
-- uid: TinyLife.Actions.Action.StartedAutomatically
-  commentId: P:TinyLife.Actions.Action.StartedAutomatically
-  parent: TinyLife.Actions.Action
-  name: StartedAutomatically
-  nameWithType: Action.StartedAutomatically
-  fullName: TinyLife.Actions.Action.StartedAutomatically
-- uid: TinyLife.Actions.Action.CompleteInTime*
-  commentId: Overload:TinyLife.Actions.Action.CompleteInTime
-  name: CompleteInTime
-  nameWithType: Action.CompleteInTime
-  fullName: TinyLife.Actions.Action.CompleteInTime
-- uid: TinyLife.Skills.SkillType
-  commentId: T:TinyLife.Skills.SkillType
-  parent: TinyLife.Skills
-  name: SkillType
-  nameWithType: SkillType
-  fullName: TinyLife.Skills.SkillType
-- uid: TinyLife.Skills
-  commentId: N:TinyLife.Skills
-  name: TinyLife.Skills
-  nameWithType: TinyLife.Skills
-  fullName: TinyLife.Skills
+- uid: TinyLife.Actions.Action.FacePartner*
+  commentId: Overload:TinyLife.Actions.Action.FacePartner
+  name: FacePartner
+  nameWithType: Action.FacePartner
+  fullName: TinyLife.Actions.Action.FacePartner
 - uid: TinyLife.Need
   commentId: T:TinyLife.Need
   name: Need
@@ -4813,6 +4982,66 @@ references:
   name: NeedType
   nameWithType: NeedType
   fullName: TinyLife.NeedType
+- uid: TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
+  commentId: M:TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
+  isExternal: true
+- uid: TinyLife.Actions.Action.StartedAutomatically
+  commentId: P:TinyLife.Actions.Action.StartedAutomatically
+  parent: TinyLife.Actions.Action
+  name: StartedAutomatically
+  nameWithType: Action.StartedAutomatically
+  fullName: TinyLife.Actions.Action.StartedAutomatically
+- uid: TinyLife.Actions.Action.CompleteIfTimeUp*
+  commentId: Overload:TinyLife.Actions.Action.CompleteIfTimeUp
+  name: CompleteIfTimeUp
+  nameWithType: Action.CompleteIfTimeUp
+  fullName: TinyLife.Actions.Action.CompleteIfTimeUp
+- uid: TinyLife.Skills.SkillType
+  commentId: T:TinyLife.Skills.SkillType
+  parent: TinyLife.Skills
+  name: SkillType
+  nameWithType: SkillType
+  fullName: TinyLife.Skills.SkillType
+- uid: TinyLife.Skills
+  commentId: N:TinyLife.Skills
+  name: TinyLife.Skills
+  nameWithType: TinyLife.Skills
+  fullName: TinyLife.Skills
+- uid: TinyLife.Actions.CompletionType.Canceled
+  commentId: F:TinyLife.Actions.CompletionType.Canceled
+  isExternal: true
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+- uid: TinyLife.Actions.Action.CancelIfEmotional*
+  commentId: Overload:TinyLife.Actions.Action.CancelIfEmotional
+  name: CancelIfEmotional
+  nameWithType: Action.CancelIfEmotional
+  fullName: TinyLife.Actions.Action.CancelIfEmotional
+- uid: TinyLife.Emotions.EmotionType[]
+  isExternal: true
+  name: EmotionType[]
+  nameWithType: EmotionType[]
+  fullName: TinyLife.Emotions.EmotionType[]
+  nameWithType.vb: EmotionType()
+  fullName.vb: TinyLife.Emotions.EmotionType()
+  name.vb: EmotionType()
+  spec.csharp:
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
+  spec.vb:
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
 - uid: TinyLife.Actions.ActionType.Eat
   commentId: F:TinyLife.Actions.ActionType.Eat
   isExternal: true

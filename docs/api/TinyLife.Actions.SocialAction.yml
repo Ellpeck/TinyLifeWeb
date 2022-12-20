@@ -14,7 +14,6 @@ items:
   - TinyLife.Actions.SocialAction.ConversationTime
   - TinyLife.Actions.SocialAction.CreateFirstActions
   - TinyLife.Actions.SocialAction.EnqueuePartnerAction(TinyLife.Actions.ActionInfo)
-  - TinyLife.Actions.SocialAction.FacePartner
   - TinyLife.Actions.SocialAction.GetDisplayName
   - TinyLife.Actions.SocialAction.GetMaxWaitTime
   - TinyLife.Actions.SocialAction.Id
@@ -40,7 +39,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SocialAction
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 17
+    startLine: 16
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -68,6 +67,7 @@ items:
   - TinyLife.Actions.MultiAction.CreateLastActions
   - TinyLife.Actions.MultiAction.AndThenInitialize
   - TinyLife.Actions.MultiAction.PreInitialize
+  - TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.MultiAction.Initialize
   - TinyLife.Actions.MultiAction.IsCompleted
@@ -95,8 +95,10 @@ items:
   - TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.ChoicePromptInfo)
   - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Int32)
   - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.Person,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteCategory,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteCategory},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32)
-  - TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  - TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  - TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   - TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,TinyLife.Objects.ObjectCategory,System.Boolean)
   - TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean)
   - TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,System.Single,TinyLife.Objects.ActionSpot)
@@ -114,6 +116,7 @@ items:
   - TinyLife.Actions.Action.InvokeForBoth(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Action{TinyLife.Objects.Person,TinyLife.Objects.Person})
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action,TinyLife.Actions.Action)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
+  - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
@@ -151,7 +154,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsMain
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 23
+    startLine: 22
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -200,7 +203,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Partner
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 28
+    startLine: 27
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -237,7 +240,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PartnerAction
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 32
+    startLine: 31
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -274,7 +277,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ConversationTime
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 37
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -323,7 +326,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InProgressTime
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 41
+    startLine: 40
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -364,7 +367,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Id
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 46
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -411,18 +414,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 50
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nCreates a new action with the given action information.\n"
   example: []
   syntax:
     content: public SocialAction(ActionType type, ActionInfo info)
     parameters:
     - id: type
       type: TinyLife.Actions.ActionType
+      description: The type for this action.
     - id: info
       type: TinyLife.Actions.ActionInfo
+      description: The information for this action.
     content.vb: Public Sub New(type As ActionType, info As ActionInfo)
   overload: TinyLife.Actions.SocialAction.#ctor*
   modifiers.csharp:
@@ -447,7 +453,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateFirstActions
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 53
+    startLine: 52
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -485,7 +491,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateConversation
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 72
+    startLine: 71
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -529,7 +535,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsConversationCompleted
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 82
+    startLine: 81
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -566,7 +572,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMaxWaitTime
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 91
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -603,7 +609,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EnqueuePartnerAction
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 101
+    startLine: 100
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -644,7 +650,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AndThenUpdate
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 106
+    startLine: 105
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -689,7 +695,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AndThenIsCompleted
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 115
+    startLine: 114
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -729,7 +735,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCancel
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 127
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -771,7 +777,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AndThenOnCompleted
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 134
+    startLine: 133
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -810,7 +816,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanMultitask
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 140
+    startLine: 139
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -852,7 +858,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDisplayName
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 151
+    startLine: 150
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -890,7 +896,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TryForceResult
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 156
+    startLine: 155
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -923,41 +929,6 @@ items:
   - Overrides
   fullName.vb: TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType, System.Nullable(Of TinyLife.Actions.CanExecuteResult), TinyLife.Objects.MapObject)
   name.vb: TryForceResult(CompletionType, Nullable(Of CanExecuteResult), MapObject)
-- uid: TinyLife.Actions.SocialAction.FacePartner
-  commentId: M:TinyLife.Actions.SocialAction.FacePartner
-  id: FacePartner
-  parent: TinyLife.Actions.SocialAction
-  langs:
-  - csharp
-  - vb
-  name: FacePartner()
-  nameWithType: SocialAction.FacePartner()
-  fullName: TinyLife.Actions.SocialAction.FacePartner()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Actions/SocialAction.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: FacePartner
-    path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 170
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Actions
-  summary: "\nA utility method that causes this action&apos;s <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> to face in the direction of this action&apos;s <xref href=\"TinyLife.Actions.SocialAction.Partner\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method returns <xref uid=\"langword_csharp_false\" name=\"false\" href=\"\"></xref> if the <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> is occupying a furniture object, or if they&apos;re standing in the same location as the <xref href=\"TinyLife.Actions.SocialAction.Partner\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: public bool FacePartner()
-    return:
-      type: System.Boolean
-      description: Whether it was possible to face in the partner&apos;s direction.
-    content.vb: Public Function FacePartner As Boolean
-  overload: TinyLife.Actions.SocialAction.FacePartner*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Actions.SocialAction.InvokeForBoth(System.Action{TinyLife.Objects.Person,TinyLife.Objects.Person})
   commentId: M:TinyLife.Actions.SocialAction.InvokeForBoth(System.Action{TinyLife.Objects.Person,TinyLife.Objects.Person})
   id: InvokeForBoth(System.Action{TinyLife.Objects.Person,TinyLife.Objects.Person})
@@ -976,7 +947,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InvokeForBoth
     path: ../TinyLife/Actions/SocialAction.cs
-    startLine: 185
+    startLine: 168
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1141,6 +1112,42 @@ references:
   - name: (
     nameWithType: (
     fullName: (
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  name: PreCompleted(CompletionType)
+  nameWithType: MultiAction.PreCompleted(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+    name: PreCompleted
+    nameWithType: MultiAction.PreCompleted
+    fullName: TinyLife.Actions.MultiAction.PreCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
+    name: PreCompleted
+    nameWithType: MultiAction.PreCompleted
+    fullName: TinyLife.Actions.MultiAction.PreCompleted
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    nameWithType: CompletionType
+    fullName: TinyLife.Actions.CompletionType
   - name: )
     nameWithType: )
     fullName: )
@@ -2387,18 +2394,90 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-  commentId: M:TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+- uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  commentId: M:TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  parent: TinyLife.Actions.Action
+  name: FacePartner(Person)
+  nameWithType: Action.FacePartner(Person)
+  fullName: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+    name: FacePartner
+    nameWithType: Action.FacePartner
+    fullName: TinyLife.Actions.Action.FacePartner
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.FacePartner(TinyLife.Objects.Person)
+    name: FacePartner
+    nameWithType: Action.FacePartner
+    fullName: TinyLife.Actions.Action.FacePartner
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    nameWithType: Person
+    fullName: TinyLife.Objects.Person
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  parent: TinyLife.Actions.Action
+  name: CompleteIfNeedFull(NeedType)
+  nameWithType: Action.CompleteIfNeedFull(NeedType)
+  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+    name: CompleteIfNeedFull
+    nameWithType: Action.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType)
+    name: CompleteIfNeedFull
+    nameWithType: Action.CompleteIfNeedFull
+    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    nameWithType: NeedType
+    fullName: TinyLife.NeedType
+  - name: )
+    nameWithType: )
+    fullName: )
+- uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+  commentId: M:TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
   parent: TinyLife.Actions.Action
   isExternal: true
-  name: CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  nameWithType: Action.CompleteInTime(TimeSpan, Boolean, SkillType, Single, Boolean)
-  fullName: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
+  name: CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  nameWithType: Action.CompleteIfTimeUp(TimeSpan, Boolean, SkillType, Single, Boolean)
+  fullName: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan, System.Boolean, TinyLife.Skills.SkillType, System.Single, System.Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
+  - uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteIfTimeUp
+    nameWithType: Action.CompleteIfTimeUp
+    fullName: TinyLife.Actions.Action.CompleteIfTimeUp
   - name: (
     nameWithType: (
     fullName: (
@@ -2442,10 +2521,10 @@ references:
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteInTime(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
-    name: CompleteInTime
-    nameWithType: Action.CompleteInTime
-    fullName: TinyLife.Actions.Action.CompleteInTime
+  - uid: TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
+    name: CompleteIfTimeUp
+    nameWithType: Action.CompleteIfTimeUp
+    fullName: TinyLife.Actions.Action.CompleteIfTimeUp
   - name: (
     nameWithType: (
     fullName: (
@@ -2488,67 +2567,48 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
+- uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  commentId: M:TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
   parent: TinyLife.Actions.Action
-  name: CompleteIfNeedFull(Person, NeedType, CompletionType)
-  nameWithType: Action.CompleteIfNeedFull(Person, NeedType, CompletionType)
-  fullName: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person, TinyLife.NeedType, TinyLife.Actions.CompletionType)
+  name: CancelIfEmotional(EmotionType[])
+  nameWithType: Action.CancelIfEmotional(EmotionType[])
+  fullName: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+  nameWithType.vb: Action.CancelIfEmotional(EmotionType())
+  fullName.vb: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType())
+  name.vb: CancelIfEmotional(EmotionType())
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+    name: CancelIfEmotional
+    nameWithType: Action.CancelIfEmotional
+    fullName: TinyLife.Actions.Action.CancelIfEmotional
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: '[]'
+    nameWithType: '[]'
+    fullName: '[]'
   - name: )
     nameWithType: )
     fullName: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.Objects.Person,TinyLife.NeedType,TinyLife.Actions.CompletionType)
-    name: CompleteIfNeedFull
-    nameWithType: Action.CompleteIfNeedFull
-    fullName: TinyLife.Actions.Action.CompleteIfNeedFull
+  - uid: TinyLife.Actions.Action.CancelIfEmotional(TinyLife.Emotions.EmotionType[])
+    name: CancelIfEmotional
+    nameWithType: Action.CancelIfEmotional
+    fullName: TinyLife.Actions.Action.CancelIfEmotional
   - name: (
     nameWithType: (
     fullName: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.NeedType
-    name: NeedType
-    nameWithType: NeedType
-    fullName: TinyLife.NeedType
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    nameWithType: CompletionType
-    fullName: TinyLife.Actions.CompletionType
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    nameWithType: EmotionType
+    fullName: TinyLife.Emotions.EmotionType
+  - name: ()
+    nameWithType: ()
+    fullName: ()
   - name: )
     nameWithType: )
     fullName: )
@@ -4311,6 +4371,62 @@ references:
   - name: )
     nameWithType: )
     fullName: )
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
+  definition: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -4726,6 +4842,61 @@ references:
   name: MLEM.Misc
   nameWithType: MLEM.Misc
   fullName: MLEM.Misc
+- uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  name: SetData<T>(String, T)
+  nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>(String, T)
+  fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>(System.String, T)
+  nameWithType.vb: JsonTypeSafeGenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)(System.String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData<T>
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData<T>
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData<T>
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
+  spec.vb:
+  - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
+    name: SetData(Of T)
+    nameWithType: JsonTypeSafeGenericDataHolder.SetData(Of T)
+    fullName: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(Of T)
+    isExternal: true
+  - name: (
+    nameWithType: (
+    fullName: (
+  - uid: System.String
+    name: String
+    nameWithType: String
+    fullName: System.String
+    isExternal: true
+  - name: ', '
+    nameWithType: ', '
+    fullName: ', '
+  - name: T
+    nameWithType: T
+    fullName: T
+  - name: )
+    nameWithType: )
+    fullName: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -5597,11 +5768,6 @@ references:
   - name: )
     nameWithType: )
     fullName: )
-- uid: TinyLife.Actions.SocialAction.FacePartner*
-  commentId: Overload:TinyLife.Actions.SocialAction.FacePartner
-  name: FacePartner
-  nameWithType: SocialAction.FacePartner
-  fullName: TinyLife.Actions.SocialAction.FacePartner
 - uid: TinyLife.Actions.SocialAction.InvokeForBoth*
   commentId: Overload:TinyLife.Actions.SocialAction.InvokeForBoth
   name: InvokeForBoth
