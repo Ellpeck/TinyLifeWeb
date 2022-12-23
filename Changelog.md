@@ -1,3 +1,18 @@
+# 0.28.2
+*December 23, 2022*
+
+Additions
+- Added the ability to use window border scrolling, which can be enabled in the Controls options
+
+Improvements
+- Improve rendering performance by not animating outside tiles while zoomed out
+- Don't slide notifications in and out when UI animations are disabled
+
+Fixes
+- Fixed Tinies avoiding walking on rugs
+- Fixed a crash when copying or pasting text in a text field fails
+- Fixed the tile placement preview not rendering indoors
+
 # 0.28.1
 *December 20, 2022*
 
