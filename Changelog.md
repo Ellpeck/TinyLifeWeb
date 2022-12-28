@@ -1,3 +1,21 @@
+# 0.28.3
+*December 28, 2022*
+
+Additions
+- Added the option to use a 12-hour clock
+
+Improvements
+- Improved the mod options button and menu layout
+- Removed the itch community button from the main menu
+- Improved pathfinding on pathways by taking diagonal costs into account
+- Improved performance of outside tile rendering
+
+Fixes
+- Fixed the interaction menu's back button not displaying in the correct location
+- Fixed "do you want to enable mods" notification never displaying on startup
+- Fixed a lot's home location not being correct for non-residential lots, causing Tinies to walk into weird places
+- Fixed rocky ground and grassy dirt being favored for walking
+
 # 0.28.2
 *December 23, 2022*
 
