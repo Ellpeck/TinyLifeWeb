@@ -24,7 +24,7 @@ The following list contains a few bits of additional information that you should
 # Notes for Specific Languages
 ## German
 - The German localization uses gender-neutral language (*Geschlechtergerechte Sprache*) for its translations. The following spellings are used:
-  - "Er/sie", "sein/seine" and other pronouns that can't be appreviated neatly are combined using a forward slash.
+  - "Er/sie", "sein/ihr" and other pronouns that can't be appreviated neatly are combined using a forward slash.
   - "Mitarbeiter\*in", "Partner\*in" and other words that have the same structure are abbreviated using an asterisk (*Gendersternchen*) if possible.
-  - The word "Tiny" is gender-neutral: "ein\*e Tiny", "der/die" Tiny.
+  - The word "Tiny" is gender-neutral: "ein\*e Tiny", "der/die Tiny".
 - The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
