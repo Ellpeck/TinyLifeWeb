@@ -8,7 +8,7 @@ The following list contains a few bits of additional information that you should
 - You don't need any kind of programming or advanced file editing experience, since you'll be translating on the previously mentioned translation site. When translating, you should set an existing language as your `reference locale` (preferably English), since most of the term names don't give much information about the actual content of the text they represent.
 - In this document, I'm using the words "translate" and "localize" semi-interchangeably, but it should be noted that this is a **localization**, meaning any jokes or references that don't make sense in the language you're translating for should be edited to make them sound logical.  
   *For example, a pun like `Standing Up to Sitting` might not work well in other languages, where "standing up to something" is not a valid figure of speech. As a result, the translation shouldn't literally reference the act of standing up if it doesn't also mean "making a defense against something".*
-- I know that this is difficult to accomplish in some languages, but please try to keep gender-specific language to a minimum. If this is entirely impossible in your language, please try to use constructs that your place of residence usually sticks to, similar to the English "Latinx" or the German "Mitarbeiter\*in".
+- I know that this is difficult to accomplish in some languages, but please try to keep gender-specific language to a minimum. If this is entirely impossible in your language, please try to use constructs that your place of residence usually sticks to, similar to the English "Latinx" or the German "Mitarbeiter:in".
 - Tiny Life is an inclusive game, for all genders, sexualities, and identities. Even if the language you translate for is used by a country where you fear that certain aspects of the game might be ill-received, translations **should not be altered** to remove references to any such things.
 - Tiny Life should be suitable for as many audiences as possible, so please avoid using sexually explicit terms and stick to innuendo when it comes to *fooling around* and the like. In a lot of cases, this is less of a concern about the game's audience and more of a concern about the game's age ratings in stores. 
 - There are several placeholders and formatting codes that **should not be deleted or changed**, notably:
@@ -25,6 +25,6 @@ The following list contains a few bits of additional information that you should
 ## German
 - The German localization uses gender-neutral language (*Geschlechtergerechte Sprache*) for its translations. The following spellings are used:
   - "Er/sie", "sein/ihr" and other pronouns that can't be appreviated neatly are combined using a forward slash.
-  - "Mitarbeiter\*in", "Partner\*in" and other words that have the same structure are abbreviated using an asterisk (*Gendersternchen*) if possible.
-  - The word "Tiny" is gender-neutral: "ein\*e Tiny", "der/die Tiny".
+  - "Mitarbeiter:in", "Partner:in" and other words that have the same structure are abbreviated using a colon (*Gender-Doppelpunkt*) if possible.
+  - The word "Tiny" is gender-neutral: "ein:e Tiny", "der/die Tiny".
 - The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
