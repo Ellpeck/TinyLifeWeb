@@ -28,3 +28,12 @@ The following list contains a few bits of additional information that you should
   - "Mitarbeiter:in", "Partner:in" and other words that have the same structure are abbreviated using a colon (*Gender-Doppelpunkt*) if possible.
   - The word "Tiny" is gender-neutral: "ein:e Tiny", "der/die Tiny".
 - The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
+
+## Italian
+- The Italian localization uses gender-neutral language for its translations. The following spellings are used:
+  - "Il/la", "bambino/bambina" and other words that change according to their gender are combined using a forward slash. This extended form is preferred.
+  - The contracted form (suo/a, bambino/a) should be used only for reasons of space or in case of many repetitions.
+  - The word "Tiny" is gender-neutral: "un/una Tiny", "il/la Tiny".
+- The plural of foreign words that have no translation follows this rule:
+  - If the word is already in common use in Italian, its plural will be the same as the singular form: "film", "bar".
+  - If the word is new or highly specialized, its plural will be the same as it is in its origin language: "Tinies".
