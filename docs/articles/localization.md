@@ -31,9 +31,9 @@ The following list contains a few bits of additional information that you should
 
 ## Italian
 - The Italian localization uses gender-neutral language for its translations. The following spellings are used:
-  - "Il/la", "bambino/bambina" and other words that change according to their gender are combined using a forward slash. This extended form is preferred.
-  - The contracted form (suo/a, bambino/a) should be used only for reasons of space or in case of many repetitions.
-  - The word "Tiny" is gender-neutral: "un/una Tiny", "il/la Tiny".
+  - "Il/la", "tuoi/tue" and other words that change according to their gender and that can't be abbreviated neatly are combined using a forward slash.
+  - "Su*, bambin* and other words that have the same structure are abbreviated using an asterisk if possible.
+  - The word "Tiny" is gender-neutral: "un* Tiny", "il/la Tiny".
 - The plural of foreign words that have no translation follows this rule:
   - If the word is already in common use in Italian, its plural will be the same as the singular form: "film", "bar".
   - If the word is new or highly specialized, its plural will be the same as it is in its origin language: "Tinies".
