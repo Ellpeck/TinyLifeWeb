@@ -1,3 +1,52 @@
+# 0.29.0
+*January 16, 2023*
+
+![](media/changelog/0.29.0.png)
+
+> Say Hi to the Demo
+
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/477028/0290-say-hi-to-the-demo) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6132247440463996085).
+
+Additions
+- Added the Demoville world, including its community-made lots and households
+- Added the Exploring Demoville life goal to the demo
+- Added a default long hairstyle for children
+- Added a progress arrow display to skills, relationships, job performance and needs
+- Added the ability to clean out all of a fridge's empty or expired items
+- Added the ability to view a lot's opening hours by hovering over the café sign furniture item
+
+Improvements
+- Made TVs play sounds when they're on
+- Improved performance when first drawing a map's static objects
+- Render with anti-aliasing on low zoom levels to create a mipmap-style effect
+- Made cafés require a food display case
+- Don't draw room content that isn't visible, improving performance on maps with houses that have a lot of rooms
+- Made it much more likely for people to go home when their needs are low
+- Preload emotion sting sound effects to mitigate lag when the first one is played
+- Improved the way a skill's max level looks
+- Enable gamepad repeats to allow holding buttons to press them multiple times
+- Made food in the fridge last much longer
+- Allow children to order food from cafés
+- Hide clothes occasions that were unused
+- Added a maximum amount of money for a household to have
+- Made it a bit more likely for choice prompts to be successful
+- Display a tooltip when there's not enough money to copy an outfit
+
+Fixes
+- Fixed various crashes when loading save files with missing objects or clothes
+- Fixed the tile tool not drawing previews properly in some locations
+- Fixed a crash when importing a lot that was exported on a bigger map
+- Fixed tiles not being visible when using the lot movement tool
+- Fixed a texture region bleeding issue on chairs
+- Fixed an exception when trying to talk to someone who is at the border of the map
+- Fixed keybind names being moved into multiple lines even though they have enough space
+- Fixed lighting causing artifacts on some older graphics cards
+- Fixed color selection in the character creator not working correctly with a gamepad
+- Fixed no elements being selected after switching a person's age using a gamepad
+- Fixed cakes with candles being able to be put into the fridge
+- Fixed long life goal titles going under the abandon button
+- Fixed a crash when a duplicate object is added to a map and the map is loaded
+
 # 0.28.3
 *December 28, 2022*
 
