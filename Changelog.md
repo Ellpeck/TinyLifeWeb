@@ -1,3 +1,17 @@
+# 0.29.1
+*January 17, 2023*
+
+Improvements
+- Made reading jokes in the newspaper raise the humor skill
+- Don't hide the mouse cursor automatically when a tooltip is showing
+- Lower the amount that the toilet need is reduced by when eating
+- Made working as a programmer affect the Techie personality's emotions
+
+Fixes
+- Fixed info about an unreleased set showing in the demo
+- Fixed out-of-town children affecting the Hates Children personality
+- Fixed emotes sometimes clipping into walls and roofs
+
 # 0.29.0
 *January 16, 2023*
 
