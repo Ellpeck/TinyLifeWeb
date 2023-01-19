@@ -1,3 +1,16 @@
+# 0.29.2
+*January 19, 2023*
+
+Improvements
+- Made hint popups be displayed per-save, and allow skipping them more easily
+- Only display 10 saves at a time in the Load Game menu to avoid lag
+- Added gamepad scrolling to the New Game menu to allow easily reading worlds' descriptions
+- Updated default money amounts for various households to be more in line with their stories
+
+Fixes
+- Fixed breakable furniture taking a while to show that it's broken
+- Fixed vehicles sometimes getting stuck in default maps when exporting
+
 # 0.29.1
 *January 17, 2023*
 
