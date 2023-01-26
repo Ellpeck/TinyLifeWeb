@@ -1,3 +1,17 @@
+# 0.29.3
+*January 26, 2023*
+
+Improvements
+- Explain that other default maps are unavailable in the demo
+- Improved error handling for Steam cloud save issues
+
+Fixes
+- Fixed people in Demoville cleaning up items from the picnic spot while cleaning at home
+- Fixed the load menu staying open after the last save is deleted, causing gamepad controls to get stuck
+- Fixed natural objects not being removed when a new room is created
+- Fixed a rare crash when switching between gamepad and mouse controls
+- Fixed old cloud saves crashing the game if Steam is open (thanks so much [Owlynn](https://twitter.com/OY_TheGeniusD) for their help fixing this issue)
+
 # 0.29.2
 *January 19, 2023*
 
