@@ -1,4 +1,4 @@
-![](media/news/NextFest2023.png)
+# Tiny Life at Steam Next Fest
 
 Yes, you heard that right! Tiny Life will be participating in the upcoming **[Steam Next Fest](https://store.steampowered.com/sale/nextfest)**, which will take place between **February 6** and **February 13**. The times it starts and ends are **10am PT**, which is **18:00 UTC** for us European folks.
 
