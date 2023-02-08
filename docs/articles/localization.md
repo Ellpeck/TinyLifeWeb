@@ -25,12 +25,16 @@ The following list contains a few bits of additional information that you should
 - You don't need to finish the translation to your language, by any means! Since you're doing this for free, I don't expect you to, either. An incomplete translation means that some in-game text will be translated, and it also means that anyone who comes along after you will have less work to do!
 
 # Notes for Specific Languages
+## English
+- The names of achievements in the English versions are references to popular culture. In other languages, they can be pretty much anything else, including popular culture references that make sense in the context of the language, provided they also abide by the information above.
+
 ## German
 - The German localization uses gender-neutral language (*Geschlechtergerechte Sprache*) for its translations. The following spellings are used:
   - "Er/sie", "sein/ihr" and other pronouns that can't be appreviated neatly are combined using a forward slash.
   - "Mitarbeiter:in", "Partner:in" and other words that have the same structure are abbreviated using a colon (*Gender-Doppelpunkt*) if possible.
   - The word "Tiny" is gender-neutral: "ein:e Tiny", "der/die Tiny".
 - The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
+- Achievement names in the German localization are just brief, funny descriptions of the achievement.
 
 ## Italian
 - The Italian localization uses gender-neutral language for its translations. The following spellings are used:
