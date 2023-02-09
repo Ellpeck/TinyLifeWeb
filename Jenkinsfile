@@ -18,7 +18,9 @@ pipeline {
         branch 'main'
       }
       steps {
-        sh 'cd docs; docfx'
+        sh '''cd docs
+              dotnet tool restore
+              dotnet docfx'''
         sh 'rm -rf /var/www/tinylifedocs/*'
         sh 'cp -r docs/_site/. /var/www/tinylifedocs/'
       }
