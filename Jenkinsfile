@@ -15,12 +15,12 @@ pipeline {
     }
     stage('Docs') {
       when {
-        branch 'main' 
+        branch 'main'
       }
       steps {
-        sh 'cd docs; docfx.exe'
+        sh 'cd docs; docfx'
         sh 'rm -rf /var/www/tinylifedocs/*'
-        sh 'cp -r docs/_site/. /var/www/tinylifedocs/'   
+        sh 'cp -r docs/_site/. /var/www/tinylifedocs/'
       }
     }
   }
