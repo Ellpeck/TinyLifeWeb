@@ -1,3 +1,22 @@
+# 0.29.4
+*February 14, 2023*
+
+Improvements
+- Allow regular visitors to enter town more quickly after a new save is created
+- Always allow blowing out birthday candles when aging is disabled
+- Added program arguments for cheats (`--cheats`) and a custom game directory (`--game-dir`)
+
+Fixes
+- Fixed large objects like trees not being selectable near section boundaries
+- Fixed big screenshots not working in non-default camera rotations
+- Fixed animated tiles being drawn onto the selection target unnecessarily
+- Fixed arm accessories on children looking incorrect
+- Fixed drinks making people pee themselves very quickly
+- Fixed hair not being consistent with multiple outfits when aging up
+- Fixed blurred map rendering being triggered based on the wrong camera size
+- Fixed control characters being added to text boxes when pressing unrecognized keyboard keys
+- Fixed progress arrows causing a crash when using a gamepad sometimes
+
 # 0.29.3
 *January 26, 2023*
 
