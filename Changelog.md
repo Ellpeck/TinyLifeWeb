@@ -1,3 +1,16 @@
+# 0.29.5
+*February 20, 2023*
+
+Fixes
+- Fixed the mouse button not being hidden properly when using a gamepad
+- Fixed a crash when pressing buttons on a gamepad during a transition
+- Fixed jogging not being available in the demo
+- Fixed Split and Export button being available in the demo, deleting households
+- Fixed a rare exception when using a gamepad in the emotions tab
+- Fixed some issues with transitive relationship calculations
+- Fixed lot staff being invited into a household still maintaining their position
+- Fixed a rare exception when opening the character creator through an action
+
 # 0.29.4
 *February 14, 2023*
 
