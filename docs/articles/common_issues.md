@@ -13,7 +13,7 @@ When reporting an issue to Tiny Life developers, please make sure that you have 
 This can have multiple reasons:
 - When downloading the game from itch, make sure to **extract the zip archive** before starting the game executable within it.
 - Some ARM-based distributions of Linux and Mac (like newer MacBooks that use Apple Silicon) don't support Tiny Life without installing additional tools (like [Rosetta](https://en.wikipedia.org/wiki/Rosetta_(software))) to translate instructions correctly. You might have to do additional research to figure out what these are for your device.
-- When downloading the game from itch, your device might warn you about the application's **security**, since Tiny Life is not signed by Apple. If you want to run the game anyway, hold the Option key, then right-click and select Open.
+- When downloading the game from itch on a Mac, your device might warn you about the application's **security**, since Tiny Life is not signed by Apple. If you want to run the game anyway, hold the Option key, then right-click and select Open.
 
 ### There's no log file to attach to my bug report
 If the game is crashing when you try to launch it, but there's no log file in [the logs folder](game_dir.md), the game might be crashing too early or it might be unable to create a log file due to permission issues.
