@@ -25,3 +25,6 @@ The following issues are known bugs in the game and will be fixed in a future up
 
 ### A required object is said to be unavailable
 Sometimes an action is grayed out and its tooltip displays this reason, even though a required object is available. This issue occurs when the selected Tiny is too far away from the objects. You can fix this issue by telling the Tiny to "Go Here" first.
+
+### An out-of-town action (like going to work) fails immediately
+It turns out that this happens when someone leaves an item right on the world border that your Tiny is trying to exit the world at. You can solve this either by having your Tiny "Go Here" to another world border before selecting the out-of-town action again, or you can pick up the blocking item and put it down elsewhere.
