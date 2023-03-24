@@ -12,7 +12,7 @@ When reporting an issue to Tiny Life developers, please make sure that you have 
 ### The game won't start correctly
 This can have multiple reasons:
 - When downloading the game from itch, make sure to **extract the zip archive** before starting the game executable within it.
-- Some ARM-based distributions of Linux and Mac (like newer MacBooks that use Apple Silicon) don't support Tiny Life without installing additional tools (like [Rosetta](https://en.wikipedia.org/wiki/Rosetta_(software))) to translate instructions correctly. You might have to do additional research to figure out what these are for your device.
+- Some ARM-based distributions of Linux and Mac (like newer MacBooks that use Apple Silicon) don't support Tiny Life without installing additional tools (like [Rosetta](https://en.wikipedia.org/wiki/Rosetta_(software)) or [QEMU](https://www.qemu.org/)) to translate instructions correctly. You might have to do additional research to figure out what these are for your device.
 - Some older operating system versions don't support Tiny Life, which currently runs on .NET 6. Unfortunately, especially Mac is known for having very short lifecycles for supported versions. To see if your operating system version is supported by .NET 6, you can take a look at [the official list](https://github.com/dotnet/core/blob/main/release-notes/6.0/supported-os.md).
 - When downloading the game from itch on a Mac, your device might warn you about the application's **security**, since Tiny Life is not signed by Apple. If you want to run the game anyway, hold the Option key, then right-click and select Open.
 
