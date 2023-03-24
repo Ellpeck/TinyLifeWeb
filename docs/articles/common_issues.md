@@ -28,3 +28,6 @@ Sometimes an action is grayed out and its tooltip displays this reason, even tho
 
 ### An out-of-town action (like going to work) fails immediately
 It turns out that this happens when someone leaves an item right on the world border that your Tiny is trying to exit the world at. You can solve this either by having your Tiny "Go Here" to another world border before selecting the out-of-town action again, or you can pick up the blocking item and put it down elsewhere.
+
+### Tinies are entering my house without my permission
+This is the way that Tinies visiting a lot currently works. There's no way to disable this behavior right now, but you can select your front door and lock it for other Tinies, which means they won't be able to enter your house anymore. In the future, we plan on making it so that Tinies have to be invited into your house to be allowed to enter.
