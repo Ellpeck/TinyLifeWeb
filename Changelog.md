@@ -1,5 +1,5 @@
 # 0.30.0
-*March 28, 2023.*
+*March 28, 2023*
 
 > Big Steps Towards Release
 
