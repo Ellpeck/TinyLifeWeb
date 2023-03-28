@@ -1,3 +1,57 @@
+# 0.30.0
+*March 28, 2023.*
+
+> Big Steps Towards Release
+
+This version's full name is **0.30.0-pre1**, but previous versions of the in-game changelog viewer don't support displaying pre-release suffixes.
+
+**This version is currently in preview. If you want to try it out, you can check out [this documentation article](https://docs.tinylifegame.com/articles/preview.html).**
+
+Additions
+- Added a few more decorative objects, including two lamps, cattails and lily pads
+- Added a flat sheet metal roof
+- Added the ability to set initial relationship data in the character creator
+- Added a tea maker and various types of tea
+- Added the ability for children to ask for help with their homework
+- Added the ability to move to a different lot in play mode
+- Added the ability to ask people about their jobs
+- Added polish localization by [HugBeast](https://www.instagram.com/hugbeast00), Kalme and [TeaMaki](https://www.fiverr.com/ioderuntcapulus)
+- Added french localization by [YenSide](https://instagram.com/candice_mlng)
+
+Improvements
+- Cause links to be opened in the Steam overly on Steam Deck
+- Improved social action pathfinding, causing people to stop less
+- Allow changing the cursor size in the accessibility options
+- Made people much more likely to eat the food they cooked immediately
+- Display a popup with info on how to add additional tinies when first pressing the Done button in the character creator
+- Headscarves will now hide a Tiny's hair rather than entirely removing it
+- Deflate save files to decrease their size
+- Tinies with a partner will now try to sleep in a double bed that their partner has claimed a side of
+- Replace the "Alternate Number Keys" option with keybinds for switching between Play Mode tabs (which default to Q and E)
+- Allow rotating flat roofs
+- Rebalance the amount of frienship and romance gain that actions give
+- Massively reduce the markup of custom paintings
+- Draw the build mode grid on the entire lot, rather than just in rooms
+
+Fixes
+- Fixed people being able to steal held items from other people
+- Fixed big objects not being selected properly near section boundaries
+- Fixed "This is Inappropriate" action not having a properly localized string
+- Fixed maki rolls looking awful
+- Fixed forced actions sometimes being able to exceed the action queue's length limit
+- Fixed macros like keybinds not displaying properly on the loading screen's hints
+- Fixed some default couples not having had their first kisses yet
+- Fixed a rare crash when resizing the window while in a loading screen
+- Fixed techie tinies being unable to play video games when they're sad
+- Fixed the Ask if Single notification having the wrong order
+- Fixed out-of-town actions failing if there's an item on the ground near the map border
+- Fixed some actions claiming a required object is missing when the Tiny is too far away
+- Fixed being unable to close the Life Goal menu if all life goals are completed when using a controller
+- Fixed Tinies watching TV through walls
+- Fixed a crash when removing a TV that someone is currently watching
+- Fixed Tinies using the toilet and washing their hands while holding an item
+- Fixed some more issues with transitive genealogy calculations
+
 # 0.29.5
 *February 20, 2023*
 
