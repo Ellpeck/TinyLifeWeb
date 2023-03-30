@@ -5,7 +5,7 @@ items:
   id: FoodType
   parent: TinyLife.Skills
   children:
-  - TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
+  - TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Single,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.Skills.FoodType.AdditionalObject
   - TinyLife.Skills.FoodType.AllIntolerances
   - TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
@@ -19,7 +19,6 @@ items:
   - TinyLife.Skills.FoodType.Container
   - TinyLife.Skills.FoodType.CustomTextureFunc
   - TinyLife.Skills.FoodType.DisplayName
-  - TinyLife.Skills.FoodType.FoodAmount
   - TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
   - TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   - TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
@@ -34,7 +33,9 @@ items:
   - TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   - TinyLife.Skills.FoodType.RequiredSkill
   - TinyLife.Skills.FoodType.RequiredSkillLevel
+  - TinyLife.Skills.FoodType.SaturationModifier
   - TinyLife.Skills.FoodType.Sources
+  - TinyLife.Skills.FoodType.SourceString
   - TinyLife.Skills.FoodType.Types
   langs:
   - csharp
@@ -46,7 +47,7 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FoodType
     path: ../TinyLife/Skills/FoodType.cs
@@ -58,15 +59,17 @@ items:
   example: []
   syntax:
     content: >-
-      [JsonConverter(typeof(StaticJsonConverter<FoodType>), new object[]{typeof(FoodType), "PrivateTypes"})]
+      [JsonConverter(typeof(StaticJsonConverter<FoodType>), new object[] { typeof(FoodType), "PrivateTypes" })]
 
-      public class FoodType
+      public class FoodType : IEmotionSource
     content.vb: >-
-      <JsonConverter(GetType(StaticJsonConverter(Of FoodType)), New Object() {GetType(FoodType), "PrivateTypes"})>
+      <JsonConverter(GetType(StaticJsonConverter(Of FoodType)), New Object() { GetType(FoodType), "PrivateTypes" })>
 
-      Public Class FoodType
+      Public Class FoodType Implements IEmotionSource
   inheritance:
   - System.Object
+  implements:
+  - TinyLife.Emotions.IEmotionSource
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -77,12 +80,6 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Skills.FoodType.TinyLife.Utilities.Extensions.JsonCopy``1
-  modifiers.csharp:
-  - public
-  - class
-  modifiers.vb:
-  - Public
-  - Class
 - uid: TinyLife.Skills.FoodType.Types
   commentId: F:TinyLife.Skills.FoodType.Types
   id: Types
@@ -97,7 +94,7 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Types
     path: ../TinyLife/Skills/FoodType.cs
@@ -112,14 +109,6 @@ items:
     return:
       type: System.Collections.ObjectModel.ReadOnlyDictionary{System.String,TinyLife.Skills.FoodType}
     content.vb: Public Shared ReadOnly Types As ReadOnlyDictionary(Of String, FoodType)
-  modifiers.csharp:
-  - public
-  - static
-  - readonly
-  modifiers.vb:
-  - Public
-  - Shared
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.AllIntolerances
   commentId: F:TinyLife.Skills.FoodType.AllIntolerances
   id: AllIntolerances
@@ -134,7 +123,7 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AllIntolerances
     path: ../TinyLife/Skills/FoodType.cs
@@ -149,14 +138,6 @@ items:
     return:
       type: TinyLife.Skills.FoodType.FoodIntolerance[]
     content.vb: Public Shared ReadOnly AllIntolerances As FoodType.FoodIntolerance()
-  modifiers.csharp:
-  - public
-  - static
-  - readonly
-  modifiers.vb:
-  - Public
-  - Shared
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.OnFoodEaten
   commentId: E:TinyLife.Skills.FoodType.OnFoodEaten
   id: OnFoodEaten
@@ -171,7 +152,7 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnFoodEaten
     path: ../TinyLife/Skills/FoodType.cs
@@ -186,12 +167,6 @@ items:
     return:
       type: System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem,TinyLife.Skills.FoodType}
     content.vb: Public Shared Event OnFoodEaten As Action(Of Action, FoodTypedItem, FoodType)
-  modifiers.csharp:
-  - public
-  - static
-  modifiers.vb:
-  - Public
-  - Shared
 - uid: TinyLife.Skills.FoodType.Name
   commentId: F:TinyLife.Skills.FoodType.Name
   id: Name
@@ -206,11 +181,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 129
+    startLine: 143
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -221,12 +196,6 @@ items:
     return:
       type: System.String
     content.vb: Public ReadOnly Name As String
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.RequiredSkillLevel
   commentId: F:TinyLife.Skills.FoodType.RequiredSkillLevel
   id: RequiredSkillLevel
@@ -241,11 +210,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredSkillLevel
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 133
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -256,12 +225,6 @@ items:
     return:
       type: System.Int32
     content.vb: Public ReadOnly RequiredSkillLevel As Integer
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.Price
   commentId: F:TinyLife.Skills.FoodType.Price
   id: Price
@@ -276,11 +239,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Price
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 137
+    startLine: 151
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -291,47 +254,33 @@ items:
     return:
       type: System.Int32
     content.vb: Public ReadOnly Price As Integer
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: TinyLife.Skills.FoodType.FoodAmount
-  commentId: F:TinyLife.Skills.FoodType.FoodAmount
-  id: FoodAmount
+- uid: TinyLife.Skills.FoodType.SaturationModifier
+  commentId: F:TinyLife.Skills.FoodType.SaturationModifier
+  id: SaturationModifier
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: FoodAmount
-  nameWithType: FoodType.FoodAmount
-  fullName: TinyLife.Skills.FoodType.FoodAmount
+  name: SaturationModifier
+  nameWithType: FoodType.SaturationModifier
+  fullName: TinyLife.Skills.FoodType.SaturationModifier
   type: Field
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: FoodAmount
+    id: SaturationModifier
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 143
+    startLine: 152
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nThe amount of food points that this food gives.\nThis is passed to <xref href=\"TinyLife.Objects.Food.FoodLeft\" data-throw-if-not-resolved=\"false\"></xref> when a dish is created.\nFor reference, the mac and cheese dish has a food amount of 100.\n"
-  example: []
   syntax:
-    content: public readonly int FoodAmount
+    content: public readonly float SaturationModifier
     return:
-      type: System.Int32
-    content.vb: Public ReadOnly FoodAmount As Integer
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
+      type: System.Single
+    content.vb: Public ReadOnly SaturationModifier As Single
 - uid: TinyLife.Skills.FoodType.Color
   commentId: F:TinyLife.Skills.FoodType.Color
   id: Color
@@ -346,11 +295,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Color
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 147
+    startLine: 156
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -361,12 +310,6 @@ items:
     return:
       type: Microsoft.Xna.Framework.Color
     content.vb: Public ReadOnly Color As Color
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.Sources
   commentId: F:TinyLife.Skills.FoodType.Sources
   id: Sources
@@ -381,11 +324,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Sources
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 151
+    startLine: 160
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -396,12 +339,6 @@ items:
     return:
       type: System.Collections.Generic.ISet{TinyLife.Skills.FoodType.IngredientSource}
     content.vb: Public ReadOnly Sources As ISet(Of FoodType.IngredientSource)
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.Intolerances
   commentId: F:TinyLife.Skills.FoodType.Intolerances
   id: Intolerances
@@ -416,11 +353,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intolerances
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 155
+    startLine: 164
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -431,12 +368,6 @@ items:
     return:
       type: TinyLife.Skills.FoodType.FoodIntolerance
     content.vb: Public ReadOnly Intolerances As FoodType.FoodIntolerance
-  modifiers.csharp:
-  - public
-  - readonly
-  modifiers.vb:
-  - Public
-  - ReadOnly
 - uid: TinyLife.Skills.FoodType.RequiredSkill
   commentId: P:TinyLife.Skills.FoodType.RequiredSkill
   id: RequiredSkill
@@ -451,29 +382,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredSkill
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 161
+    startLine: 170
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nThe <xref href=\"TinyLife.Skills.SkillType\" data-throw-if-not-resolved=\"false\"></xref> required for this food type, which is linked to the <xref href=\"TinyLife.Skills.FoodType.RequiredSkillLevel\" data-throw-if-not-resolved=\"false\"></xref>.\nThis value defaults to the <xref href=\"TinyLife.Skills.SkillType.Cooking\" data-throw-if-not-resolved=\"false\"></xref> skill.\n"
   example: []
   syntax:
-    content: public SkillType RequiredSkill { get; set; }
+    content: public SkillType RequiredSkill { get; init; }
     parameters: []
     return:
       type: TinyLife.Skills.SkillType
     content.vb: Public Property RequiredSkill As SkillType
   overload: TinyLife.Skills.FoodType.RequiredSkill*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.AdditionalObject
   commentId: P:TinyLife.Skills.FoodType.AdditionalObject
   id: AdditionalObject
@@ -488,29 +413,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdditionalObject
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 167
+    startLine: 176
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nAn object category that dictates an additional object that is required for this food type to be created.\nFor default actions, the categories <xref href=\"TinyLife.Objects.ObjectCategory.Stove\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.ObjectCategory.Oven\" data-throw-if-not-resolved=\"false\"></xref> are supported.\nIf this is not set, a <xref href=\"TinyLife.Skills.FoodType.IngredientSource.Fridge\" data-throw-if-not-resolved=\"false\"></xref> food will not be cooked or baked.\n"
   example: []
   syntax:
-    content: public ObjectCategory AdditionalObject { get; set; }
+    content: public ObjectCategory AdditionalObject { get; init; }
     parameters: []
     return:
       type: TinyLife.Objects.ObjectCategory
     content.vb: Public Property AdditionalObject As ObjectCategory
   overload: TinyLife.Skills.FoodType.AdditionalObject*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.Container
   commentId: P:TinyLife.Skills.FoodType.Container
   id: Container
@@ -525,29 +444,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Container
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 171
+    startLine: 180
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nThe <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref> that this food type should be stored in.\n"
   example: []
   syntax:
-    content: public FoodType.ContainerType Container { get; set; }
+    content: public FoodType.ContainerType Container { get; init; }
     parameters: []
     return:
       type: TinyLife.Skills.FoodType.ContainerType
     content.vb: Public Property Container As FoodType.ContainerType
   overload: TinyLife.Skills.FoodType.Container*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.OnEaten
   commentId: P:TinyLife.Skills.FoodType.OnEaten
   id: OnEaten
@@ -562,29 +475,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 177
+    startLine: 186
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nAn optional action that is invoked when this food object has been eaten.\nThis method is called if the underlying <xref href=\"System.Action\" data-throw-if-not-resolved=\"false\"></xref> is completed after a sufficient amount of time, so the food item has not necessarily been fully finished when this action is invoked.\nThis action is invoked in <xref href=\"TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action%2cTinyLife.Objects.FoodTypedItem)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Action<Action, FoodTypedItem> OnEaten { get; set; }
+    content: public Action<Action, FoodTypedItem> OnEaten { get; init; }
     parameters: []
     return:
       type: System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem}
     content.vb: Public Property OnEaten As Action(Of Action, FoodTypedItem)
   overload: TinyLife.Skills.FoodType.OnEaten*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.CanEatFunc
   commentId: P:TinyLife.Skills.FoodType.CanEatFunc
   id: CanEatFunc
@@ -599,29 +506,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEatFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 182
+    startLine: 191
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nAn optional <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref>-style function that allows passing additional conditions to <xref href=\"TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person%2cTinyLife.Objects.FoodTypedItem%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this is null, which is also the default value, no additional checks are done in <xref href=\"TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person%2cTinyLife.Objects.FoodTypedItem%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Func<(Person Person, FoodTypedItem Food, bool Automatic), CanExecuteResult> CanEatFunc { get; set; }
+    content: public Func<(Person Person, FoodTypedItem Food, bool Automatic), CanExecuteResult> CanEatFunc { get; init; }
     parameters: []
     return:
       type: System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean},TinyLife.Actions.CanExecuteResult}
-    content.vb: Public Property CanEatFunc As Func(Of(Person As Person, Food As FoodTypedItem, Automatic As Boolean)(Of Person , FoodTypedItem, Boolean), CanExecuteResult)
+    content.vb: Public Property CanEatFunc As Func(Of (Person As Person, Food As FoodTypedItem, Automatic As Boolean), CanExecuteResult)
   overload: TinyLife.Skills.FoodType.CanEatFunc*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.CanCreateFunc
   commentId: P:TinyLife.Skills.FoodType.CanCreateFunc
   id: CanCreateFunc
@@ -636,29 +537,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCreateFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 187
+    startLine: 196
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nAn optional <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref>-style function that allows passing additional conditions to <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this is null, which is the default value, no additional checks are done in <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Func<(ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), CanExecuteResult> CanCreateFunc { get; set; }
+    content: public Func<(ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), CanExecuteResult> CanCreateFunc { get; init; }
     parameters: []
     return:
       type: System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single},TinyLife.Actions.CanExecuteResult}
-    content.vb: Public Property CanCreateFunc As Func(Of(Info As ActionInfo, Automatic As Boolean, ServingSize As Integer, PriceMarkup As Single)(Of ActionInfo , Boolean, Integer, Single), CanExecuteResult)
+    content.vb: Public Property CanCreateFunc As Func(Of (Info As ActionInfo, Automatic As Boolean, ServingSize As Integer, PriceMarkup As Single), CanExecuteResult)
   overload: TinyLife.Skills.FoodType.CanCreateFunc*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.CustomTextureFunc
   commentId: P:TinyLife.Skills.FoodType.CustomTextureFunc
   id: CustomTextureFunc
@@ -673,29 +568,23 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CustomTextureFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 191
+    startLine: 200
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nA function that can optionally return a custom texture to be used for the given serving size.\n"
   example: []
   syntax:
-    content: public Func<int, TextureRegion> CustomTextureFunc { get; set; }
+    content: public Func<int, TextureRegion> CustomTextureFunc { get; init; }
     parameters: []
     return:
       type: System.Func{System.Int32,MLEM.Textures.TextureRegion}
     content.vb: Public Property CustomTextureFunc As Func(Of Integer, TextureRegion)
   overload: TinyLife.Skills.FoodType.CustomTextureFunc*
-  modifiers.csharp:
-  - public
-  - get
-  - set
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.CanHaveCandle
   commentId: F:TinyLife.Skills.FoodType.CanHaveCandle
   id: CanHaveCandle
@@ -710,11 +599,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanHaveCandle
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 195
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -725,10 +614,6 @@ items:
     return:
       type: System.Func{TinyLife.Objects.Food,System.Boolean}
     content.vb: Public CanHaveCandle As Func(Of Food, Boolean)
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.DisplayName
   commentId: P:TinyLife.Skills.FoodType.DisplayName
   id: DisplayName
@@ -743,11 +628,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 199
+    startLine: 208
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -760,38 +645,63 @@ items:
       type: System.String
     content.vb: Public ReadOnly Property DisplayName As String
   overload: TinyLife.Skills.FoodType.DisplayName*
-  modifiers.csharp:
-  - public
-  - get
-  modifiers.vb:
-  - Public
-  - ReadOnly
-- uid: TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
-  commentId: M:TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
-  id: '#ctor(System.String,System.Int32,System.Int32,System.Int32,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})'
+- uid: TinyLife.Skills.FoodType.SourceString
+  commentId: P:TinyLife.Skills.FoodType.SourceString
+  id: SourceString
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: FoodType(String, Int32, Int32, Int32, FoodType.FoodIntolerance, FoodType.IngredientSource, Nullable<Color>)
-  nameWithType: FoodType.FoodType(String, Int32, Int32, Int32, FoodType.FoodIntolerance, FoodType.IngredientSource, Nullable<Color>)
-  fullName: TinyLife.Skills.FoodType.FoodType(System.String, System.Int32, System.Int32, System.Int32, TinyLife.Skills.FoodType.FoodIntolerance, TinyLife.Skills.FoodType.IngredientSource, System.Nullable<Microsoft.Xna.Framework.Color>)
+  name: SourceString
+  nameWithType: FoodType.SourceString
+  fullName: TinyLife.Skills.FoodType.SourceString
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Skills/FoodType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SourceString
+    path: ../TinyLife/Skills/FoodType.cs
+    startLine: 209
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  syntax:
+    content: public string SourceString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property SourceString As String
+  overload: TinyLife.Skills.FoodType.SourceString*
+  implements:
+  - TinyLife.Emotions.IEmotionSource.SourceString
+- uid: TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Single,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
+  commentId: M:TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Single,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
+  id: '#ctor(System.String,System.Int32,System.Int32,System.Single,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})'
+  parent: TinyLife.Skills.FoodType
+  langs:
+  - csharp
+  - vb
+  name: FoodType(string, int, int, float, FoodIntolerance, IngredientSource, Color?)
+  nameWithType: FoodType.FoodType(string, int, int, float, FoodType.FoodIntolerance, FoodType.IngredientSource, Color?)
+  fullName: TinyLife.Skills.FoodType.FoodType(string, int, int, float, TinyLife.Skills.FoodType.FoodIntolerance, TinyLife.Skills.FoodType.IngredientSource, Microsoft.Xna.Framework.Color?)
   type: Constructor
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 211
+    startLine: 221
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nCreates a new food type with the given settings.\n"
   example: []
   syntax:
-    content: public FoodType(string name, int requiredSkillLevel, int price, int foodAmount, FoodType.FoodIntolerance intolerances, FoodType.IngredientSource source = null, Color? color = null)
+    content: public FoodType(string name, int requiredSkillLevel, int price, float saturationModifier, FoodType.FoodIntolerance intolerances, FoodType.IngredientSource source = null, Color? color = null)
     parameters:
     - id: name
       type: System.String
@@ -802,9 +712,8 @@ items:
     - id: price
       type: System.Int32
       description: The price to prepare this food type.
-    - id: foodAmount
-      type: System.Int32
-      description: The amount of food points that this food gives.
+    - id: saturationModifier
+      type: System.Single
     - id: intolerances
       type: TinyLife.Skills.FoodType.FoodIntolerance
       description: A set of <xref href="TinyLife.Skills.FoodType.FoodIntolerance" data-throw-if-not-resolved="false"></xref> flags that determine what things this food item contains that people might be intolerant to.
@@ -813,16 +722,12 @@ items:
       description: The <xref href="TinyLife.Skills.FoodType.IngredientSource" data-throw-if-not-resolved="false"></xref> that this food type can be created in, defaults to <xref href="TinyLife.Skills.FoodType.IngredientSource.Fridge" data-throw-if-not-resolved="false"></xref>.
     - id: color
       type: System.Nullable{Microsoft.Xna.Framework.Color}
-      description: The color that this food type should display with, or <xref uid="langword_csharp_null" name="null" href=""></xref> to use <xref href="Microsoft.Xna.Framework.Color.White" data-throw-if-not-resolved="false"></xref>.
-    content.vb: Public Sub New(name As String, requiredSkillLevel As Integer, price As Integer, foodAmount As Integer, intolerances As FoodType.FoodIntolerance, source As FoodType.IngredientSource = Nothing, color As Color? = Nothing)
+      description: The color that this food type should display with, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use <xref href="Microsoft.Xna.Framework.Color.White" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Sub New(name As String, requiredSkillLevel As Integer, price As Integer, saturationModifier As Single, intolerances As FoodType.FoodIntolerance, source As FoodType.IngredientSource = Nothing, color As Color? = Nothing)
   overload: TinyLife.Skills.FoodType.#ctor*
-  nameWithType.vb: FoodType.FoodType(String, Int32, Int32, Int32, FoodType.FoodIntolerance, FoodType.IngredientSource, Nullable(Of Color))
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: TinyLife.Skills.FoodType.FoodType(System.String, System.Int32, System.Int32, System.Int32, TinyLife.Skills.FoodType.FoodIntolerance, TinyLife.Skills.FoodType.IngredientSource, System.Nullable(Of Microsoft.Xna.Framework.Color))
-  name.vb: FoodType(String, Int32, Int32, Int32, FoodType.FoodIntolerance, FoodType.IngredientSource, Nullable(Of Color))
+  nameWithType.vb: FoodType.New(String, Integer, Integer, Single, FoodType.FoodIntolerance, FoodType.IngredientSource, Color?)
+  fullName.vb: TinyLife.Skills.FoodType.New(String, Integer, Integer, Single, TinyLife.Skills.FoodType.FoodIntolerance, TinyLife.Skills.FoodType.IngredientSource, Microsoft.Xna.Framework.Color?)
+  name.vb: New(String, Integer, Integer, Single, FoodIntolerance, IngredientSource, Color?)
 - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
   id: GetPrice(System.Int32)
@@ -830,18 +735,18 @@ items:
   langs:
   - csharp
   - vb
-  name: GetPrice(Int32)
-  nameWithType: FoodType.GetPrice(Int32)
-  fullName: TinyLife.Skills.FoodType.GetPrice(System.Int32)
+  name: GetPrice(int)
+  nameWithType: FoodType.GetPrice(int)
+  fullName: TinyLife.Skills.FoodType.GetPrice(int)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 227
+    startLine: 237
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -858,10 +763,9 @@ items:
       description: The price for this food type
     content.vb: Public Function GetPrice(servingSize As Integer) As Single
   overload: TinyLife.Skills.FoodType.GetPrice*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
+  nameWithType.vb: FoodType.GetPrice(Integer)
+  fullName.vb: TinyLife.Skills.FoodType.GetPrice(Integer)
+  name.vb: GetPrice(Integer)
 - uid: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   id: Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
@@ -869,22 +773,22 @@ items:
   langs:
   - csharp
   - vb
-  name: Construct(Map, Quality, TimeSpan, Int32, Person, Nullable<Guid>, Boolean)
-  nameWithType: FoodType.Construct(Map, Quality, TimeSpan, Int32, Person, Nullable<Guid>, Boolean)
-  fullName: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map, TinyLife.Skills.Quality, System.TimeSpan, System.Int32, TinyLife.Objects.Person, System.Nullable<System.Guid>, System.Boolean)
+  name: Construct(Map, Quality, TimeSpan, int, Person, Guid?, bool)
+  nameWithType: FoodType.Construct(Map, Quality, TimeSpan, int, Person, Guid?, bool)
+  fullName: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map, TinyLife.Skills.Quality, System.TimeSpan, int, TinyLife.Objects.Person, System.Guid?, bool)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Construct
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 242
+    startLine: 253
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.Food\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on this food type&apos;s <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.Food\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on this food type&apos;s <xref href=\"TinyLife.Skills.FoodType.ContainerType\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that the returned item won&apos;t be added to the <code data-dev-comment-type=\"paramref\" class=\"paramref\">map</code> automatically.\n"
   example: []
   syntax:
     content: public Food Construct(Map map, Quality quality, TimeSpan expirationTime, int servingSize, Person creator = null, Guid? id = null, bool triggerGoals = true)
@@ -915,13 +819,9 @@ items:
       description: A new food instance with the given settings
     content.vb: Public Function Construct(map As Map, quality As Quality, expirationTime As TimeSpan, servingSize As Integer, creator As Person = Nothing, id As Guid? = Nothing, triggerGoals As Boolean = True) As Food
   overload: TinyLife.Skills.FoodType.Construct*
-  nameWithType.vb: FoodType.Construct(Map, Quality, TimeSpan, Int32, Person, Nullable(Of Guid), Boolean)
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map, TinyLife.Skills.Quality, System.TimeSpan, System.Int32, TinyLife.Objects.Person, System.Nullable(Of System.Guid), System.Boolean)
-  name.vb: Construct(Map, Quality, TimeSpan, Int32, Person, Nullable(Of Guid), Boolean)
+  nameWithType.vb: FoodType.Construct(Map, Quality, TimeSpan, Integer, Person, Guid?, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map, TinyLife.Skills.Quality, System.TimeSpan, Integer, TinyLife.Objects.Person, System.Guid?, Boolean)
+  name.vb: Construct(Map, Quality, TimeSpan, Integer, Person, Guid?, Boolean)
 - uid: TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType,TinyLife.World.Map,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType,TinyLife.World.Map,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   id: ConstructUnfinished(TinyLife.Objects.FurnitureType,TinyLife.World.Map,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
@@ -929,22 +829,22 @@ items:
   langs:
   - csharp
   - vb
-  name: ConstructUnfinished(FurnitureType, Map, TimeSpan, Int32, Person, Nullable<Guid>, Boolean)
-  nameWithType: FoodType.ConstructUnfinished(FurnitureType, Map, TimeSpan, Int32, Person, Nullable<Guid>, Boolean)
-  fullName: TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType, TinyLife.World.Map, System.TimeSpan, System.Int32, TinyLife.Objects.Person, System.Nullable<System.Guid>, System.Boolean)
+  name: ConstructUnfinished(FurnitureType, Map, TimeSpan, int, Person, Guid?, bool)
+  nameWithType: FoodType.ConstructUnfinished(FurnitureType, Map, TimeSpan, int, Person, Guid?, bool)
+  fullName: TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType, TinyLife.World.Map, System.TimeSpan, int, TinyLife.Objects.Person, System.Guid?, bool)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ConstructUnfinished
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 262
+    startLine: 273
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.FoodTypedItem\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on the passed <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nConstructs a new <xref href=\"TinyLife.Objects.FoodTypedItem\" data-throw-if-not-resolved=\"false\"></xref> furniture instance based on the passed <xref href=\"TinyLife.Objects.FurnitureType\" data-throw-if-not-resolved=\"false\"></xref>\nNote that the returned item won&apos;t be added to the <code data-dev-comment-type=\"paramref\" class=\"paramref\">map</code> automatically.\n"
   example: []
   syntax:
     content: public FoodTypedItem ConstructUnfinished(FurnitureType container, Map map, TimeSpan expirationTime, int servingSize, Person creator = null, Guid? id = null, bool triggerGoals = false)
@@ -975,13 +875,9 @@ items:
       description: ''
     content.vb: Public Function ConstructUnfinished(container As FurnitureType, map As Map, expirationTime As TimeSpan, servingSize As Integer, creator As Person = Nothing, id As Guid? = Nothing, triggerGoals As Boolean = False) As FoodTypedItem
   overload: TinyLife.Skills.FoodType.ConstructUnfinished*
-  nameWithType.vb: FoodType.ConstructUnfinished(FurnitureType, Map, TimeSpan, Int32, Person, Nullable(Of Guid), Boolean)
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
-  fullName.vb: TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType, TinyLife.World.Map, System.TimeSpan, System.Int32, TinyLife.Objects.Person, System.Nullable(Of System.Guid), System.Boolean)
-  name.vb: ConstructUnfinished(FurnitureType, Map, TimeSpan, Int32, Person, Nullable(Of Guid), Boolean)
+  nameWithType.vb: FoodType.ConstructUnfinished(FurnitureType, Map, TimeSpan, Integer, Person, Guid?, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.ConstructUnfinished(TinyLife.Objects.FurnitureType, TinyLife.World.Map, System.TimeSpan, Integer, TinyLife.Objects.Person, System.Guid?, Boolean)
+  name.vb: ConstructUnfinished(FurnitureType, Map, TimeSpan, Integer, Person, Guid?, Boolean)
 - uid: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
   id: CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
@@ -989,18 +885,18 @@ items:
   langs:
   - csharp
   - vb
-  name: CanEat(Person, FoodTypedItem, Boolean)
-  nameWithType: FoodType.CanEat(Person, FoodTypedItem, Boolean)
-  fullName: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, System.Boolean)
+  name: CanEat(Person, FoodTypedItem, bool)
+  nameWithType: FoodType.CanEat(Person, FoodTypedItem, bool)
+  fullName: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, bool)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEat
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 279
+    startLine: 290
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1023,10 +919,9 @@ items:
       description: A <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref> indicating whether this food item can be eaten.
     content.vb: Public Function CanEat(person As Person, food As FoodTypedItem, automatic As Boolean) As CanExecuteResult
   overload: TinyLife.Skills.FoodType.CanEat*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
+  nameWithType.vb: FoodType.CanEat(Person, FoodTypedItem, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, Boolean)
+  name.vb: CanEat(Person, FoodTypedItem, Boolean)
 - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
   commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
   id: CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
@@ -1034,18 +929,18 @@ items:
   langs:
   - csharp
   - vb
-  name: CanCreate(ActionInfo, Boolean, Int32, Single)
-  nameWithType: FoodType.CanCreate(ActionInfo, Boolean, Int32, Single)
-  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, System.Boolean, System.Int32, System.Single)
+  name: CanCreate(ActionInfo, bool, int, float)
+  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float)
+  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCreate
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 298
+    startLine: 311
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1071,10 +966,9 @@ items:
       description: A <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref> indicating whether this food item can be created.
     content.vb: Public Function CanCreate(info As ActionInfo, automatic As Boolean, servingSize As Integer, priceMarkup As Single) As CanExecuteResult
   overload: TinyLife.Skills.FoodType.CanCreate*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
+  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single)
+  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single)
+  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single)
 - uid: TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
   id: GetIntolerancesDescription(System.Boolean)
@@ -1082,18 +976,18 @@ items:
   langs:
   - csharp
   - vb
-  name: GetIntolerancesDescription(Boolean)
-  nameWithType: FoodType.GetIntolerancesDescription(Boolean)
-  fullName: TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
+  name: GetIntolerancesDescription(bool)
+  nameWithType: FoodType.GetIntolerancesDescription(bool)
+  fullName: TinyLife.Skills.FoodType.GetIntolerancesDescription(bool)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetIntolerancesDescription
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 320
+    startLine: 333
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1110,10 +1004,9 @@ items:
       description: A set of strings that describe this food item&apos;s <xref href="TinyLife.Skills.FoodType.Intolerances" data-throw-if-not-resolved="false"></xref>.
     content.vb: Public Function GetIntolerancesDescription(includeIcon As Boolean = True) As IEnumerable(Of String)
   overload: TinyLife.Skills.FoodType.GetIntolerancesDescription*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
+  nameWithType.vb: FoodType.GetIntolerancesDescription(Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.GetIntolerancesDescription(Boolean)
+  name.vb: GetIntolerancesDescription(Boolean)
 - uid: TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
   commentId: M:TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
   id: InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
@@ -1128,11 +1021,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InvokeOnEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 335
+    startLine: 348
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1149,10 +1042,6 @@ items:
       description: The food item being eaten.
     content.vb: Public Sub InvokeOnEaten(action As Action, food As FoodTypedItem)
   overload: TinyLife.Skills.FoodType.InvokeOnEaten*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
 - uid: TinyLife.Skills.FoodType.GetTexture(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetTexture(System.Int32)
   id: GetTexture(System.Int32)
@@ -1160,18 +1049,18 @@ items:
   langs:
   - csharp
   - vb
-  name: GetTexture(Int32)
-  nameWithType: FoodType.GetTexture(Int32)
-  fullName: TinyLife.Skills.FoodType.GetTexture(System.Int32)
+  name: GetTexture(int)
+  nameWithType: FoodType.GetTexture(int)
+  fullName: TinyLife.Skills.FoodType.GetTexture(int)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTexture
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 361
+    startLine: 374
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1188,10 +1077,9 @@ items:
       description: The texture region to draw.
     content.vb: Public Function GetTexture(servingSize As Integer) As TextureRegion
   overload: TinyLife.Skills.FoodType.GetTexture*
-  modifiers.csharp:
-  - public
-  modifiers.vb:
-  - Public
+  nameWithType.vb: FoodType.GetTexture(Integer)
+  fullName.vb: TinyLife.Skills.FoodType.GetTexture(Integer)
+  name.vb: GetTexture(Integer)
 - uid: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   commentId: M:TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   id: Register(TinyLife.Skills.FoodType)
@@ -1206,11 +1094,11 @@ items:
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 369
+    startLine: 382
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1224,12 +1112,6 @@ items:
       description: The food type to register
     content.vb: Public Shared Sub Register(type As FoodType)
   overload: TinyLife.Skills.FoodType.Register*
-  modifiers.csharp:
-  - public
-  - static
-  modifiers.vb:
-  - Public
-  - Shared
 - uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
   commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
   id: GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
@@ -1237,25 +1119,25 @@ items:
   langs:
   - csharp
   - vb
-  name: GetActions(Int32, FoodType.IngredientSource, Boolean, Single, SkillType)
-  nameWithType: FoodType.GetActions(Int32, FoodType.IngredientSource, Boolean, Single, SkillType)
-  fullName: TinyLife.Skills.FoodType.GetActions(System.Int32, TinyLife.Skills.FoodType.IngredientSource, System.Boolean, System.Single, TinyLife.Skills.SkillType)
+  name: GetActions(int, IngredientSource, bool, float, SkillType)
+  nameWithType: FoodType.GetActions(int, FoodType.IngredientSource, bool, float, SkillType)
+  fullName: TinyLife.Skills.FoodType.GetActions(int, TinyLife.Skills.FoodType.IngredientSource, bool, float, TinyLife.Skills.SkillType)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActions
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 383
+    startLine: 396
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nReturns a set of action varieties for all <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> objects that match the given predicate\n"
   example: []
   syntax:
-    content: public static IEnumerable<ActionVariety> GetActions(int servingSize, FoodType.IngredientSource source, bool checkConditions = true, float priceMarkup = 1F, SkillType requiredSkill = null)
+    content: public static IEnumerable<ActionVariety> GetActions(int servingSize, FoodType.IngredientSource source, bool checkConditions = true, float priceMarkup = 1, SkillType requiredSkill = null)
     parameters:
     - id: servingSize
       type: System.Int32
@@ -1271,18 +1153,15 @@ items:
       description: The amount that the <xref href="TinyLife.Skills.FoodType.GetPrice(System.Int32)" data-throw-if-not-resolved="false"></xref> should be multiplied by for display and condition checking.
     - id: requiredSkill
       type: TinyLife.Skills.SkillType
-      description: The required skill, or <xref uid="langword_csharp_null" name="null" href=""></xref> to use <xref href="TinyLife.Skills.SkillType.Cooking" data-throw-if-not-resolved="false"></xref>.
+      description: The required skill, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use <xref href="TinyLife.Skills.SkillType.Cooking" data-throw-if-not-resolved="false"></xref>.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionVariety}
       description: A set of action varieties representing food types
-    content.vb: Public Shared Function GetActions(servingSize As Integer, source As FoodType.IngredientSource, checkConditions As Boolean = True, priceMarkup As Single = 1F, requiredSkill As SkillType = Nothing) As IEnumerable(Of ActionVariety)
+    content.vb: Public Shared Function GetActions(servingSize As Integer, source As FoodType.IngredientSource, checkConditions As Boolean = True, priceMarkup As Single = 1, requiredSkill As SkillType = Nothing) As IEnumerable(Of ActionVariety)
   overload: TinyLife.Skills.FoodType.GetActions*
-  modifiers.csharp:
-  - public
-  - static
-  modifiers.vb:
-  - Public
-  - Shared
+  nameWithType.vb: FoodType.GetActions(Integer, FoodType.IngredientSource, Boolean, Single, SkillType)
+  fullName.vb: TinyLife.Skills.FoodType.GetActions(Integer, TinyLife.Skills.FoodType.IngredientSource, Boolean, Single, TinyLife.Skills.SkillType)
+  name.vb: GetActions(Integer, IngredientSource, Boolean, Single, SkillType)
 - uid: TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   id: GetAllContainers(System.Int32)
@@ -1290,18 +1169,18 @@ items:
   langs:
   - csharp
   - vb
-  name: GetAllContainers(Int32)
-  nameWithType: FoodType.GetAllContainers(Int32)
-  fullName: TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
+  name: GetAllContainers(int)
+  nameWithType: FoodType.GetAllContainers(int)
+  fullName: TinyLife.Skills.FoodType.GetAllContainers(int)
   type: Method
   source:
     remote:
       path: TinyLife/Skills/FoodType.cs
-      branch: 0.29.3-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllContainers
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 409
+    startLine: 427
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1318,363 +1197,393 @@ items:
       description: All food containers for the given serving size
     content.vb: Public Shared Function GetAllContainers(servingSize As Integer) As FurnitureType()
   overload: TinyLife.Skills.FoodType.GetAllContainers*
-  modifiers.csharp:
-  - public
-  - static
-  modifiers.vb:
-  - Public
-  - Shared
+  nameWithType.vb: FoodType.GetAllContainers(Integer)
+  fullName.vb: TinyLife.Skills.FoodType.GetAllContainers(Integer)
+  name.vb: GetAllContainers(Integer)
 references:
 - uid: TinyLife.Actions.ActionType.GetIngredientsSingle
   commentId: F:TinyLife.Actions.ActionType.GetIngredientsSingle
-  isExternal: true
+  name: GetIngredientsSingle
+  nameWithType: ActionType.GetIngredientsSingle
+  fullName: TinyLife.Actions.ActionType.GetIngredientsSingle
 - uid: Microsoft.Xna.Framework.Graphics.Texture
   commentId: T:Microsoft.Xna.Framework.Graphics.Texture
   isExternal: true
+  name: Texture
+  nameWithType: Texture
+  fullName: Microsoft.Xna.Framework.Graphics.Texture
 - uid: TinyLife.Skills.FoodType.ContainerType
   commentId: T:TinyLife.Skills.FoodType.ContainerType
   parent: TinyLife.Skills
   name: FoodType.ContainerType
   nameWithType: FoodType.ContainerType
   fullName: TinyLife.Skills.FoodType.ContainerType
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.ContainerType
+    name: ContainerType
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.ContainerType
+    name: ContainerType
 - uid: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
   commentId: M:TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
-  isExternal: true
+  name: GetCustomFurnitureTextures(ModInfo)
+  nameWithType: Mod.GetCustomFurnitureTextures(ModInfo)
+  fullName: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
+  spec.csharp:
+  - uid: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
+    name: GetCustomFurnitureTextures
+  - name: (
+  - uid: TinyLife.Mods.ModInfo
+    name: ModInfo
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Mods.Mod.GetCustomFurnitureTextures(TinyLife.Mods.ModInfo)
+    name: GetCustomFurnitureTextures
+  - name: (
+  - uid: TinyLife.Mods.ModInfo
+    name: ModInfo
+  - name: )
 - uid: TinyLife.Skills.FoodType.Name
   commentId: F:TinyLife.Skills.FoodType.Name
-  isExternal: true
+  name: Name
+  nameWithType: FoodType.Name
+  fullName: TinyLife.Skills.FoodType.Name
 - uid: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   commentId: M:TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
-  isExternal: true
+  name: Register(FoodType)
+  nameWithType: FoodType.Register(FoodType)
+  fullName: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
+    name: Register
+  - name: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
+    name: Register
+  - name: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: )
 - uid: TinyLife.Skills
   commentId: N:TinyLife.Skills
   name: TinyLife.Skills
   nameWithType: TinyLife.Skills
   fullName: TinyLife.Skills
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Skills
+    name: Skills
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Skills
+    name: Skills
 - uid: System.Object
   commentId: T:System.Object
   parent: System
   isExternal: true
-  name: Object
-  nameWithType: Object
-  fullName: System.Object
+  href: https://learn.microsoft.com/dotnet/api/system.object
+  name: object
+  nameWithType: object
+  fullName: object
+  nameWithType.vb: Object
+  fullName.vb: Object
+  name.vb: Object
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
   isExternal: true
-  name: Equals(Object)
-  nameWithType: Object.Equals(Object)
-  fullName: System.Object.Equals(System.Object)
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
+  name: Equals(object)
+  nameWithType: object.Equals(object)
+  fullName: object.Equals(object)
+  nameWithType.vb: Object.Equals(Object)
+  fullName.vb: Object.Equals(Object)
+  name.vb: Equals(Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
+    name: object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object)
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
     name: Object
-    nameWithType: Object
-    fullName: System.Object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.Equals(System.Object,System.Object)
   commentId: M:System.Object.Equals(System.Object,System.Object)
   parent: System.Object
   isExternal: true
-  name: Equals(Object, Object)
-  nameWithType: Object.Equals(Object, Object)
-  fullName: System.Object.Equals(System.Object, System.Object)
+  href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
+  name: Equals(object, object)
+  nameWithType: object.Equals(object, object)
+  fullName: object.Equals(object, object)
+  nameWithType.vb: Object.Equals(Object, Object)
+  fullName.vb: Object.Equals(Object, Object)
+  name.vb: Equals(Object, Object)
   spec.csharp:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
+    name: object
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
   - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
+    name: object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.Equals(System.Object,System.Object)
     name: Equals
-    nameWithType: Object.Equals
-    fullName: System.Object.Equals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.equals#system-object-equals(system-object-system-object)
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
     name: Object
-    nameWithType: Object
-    fullName: System.Object
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
   - uid: System.Object
     name: Object
-    nameWithType: Object
-    fullName: System.Object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.GetHashCode
   commentId: M:System.Object.GetHashCode
   parent: System.Object
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
   name: GetHashCode()
-  nameWithType: Object.GetHashCode()
-  fullName: System.Object.GetHashCode()
+  nameWithType: object.GetHashCode()
+  fullName: object.GetHashCode()
+  nameWithType.vb: Object.GetHashCode()
+  fullName.vb: Object.GetHashCode()
   spec.csharp:
   - uid: System.Object.GetHashCode
     name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.GetHashCode
     name: GetHashCode
-    nameWithType: Object.GetHashCode
-    fullName: System.Object.GetHashCode
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gethashcode
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.GetType
   commentId: M:System.Object.GetType
   parent: System.Object
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.gettype
   name: GetType()
-  nameWithType: Object.GetType()
-  fullName: System.Object.GetType()
+  nameWithType: object.GetType()
+  fullName: object.GetType()
+  nameWithType.vb: Object.GetType()
+  fullName.vb: Object.GetType()
   spec.csharp:
   - uid: System.Object.GetType
     name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.GetType
     name: GetType
-    nameWithType: Object.GetType
-    fullName: System.Object.GetType
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.gettype
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.MemberwiseClone
   commentId: M:System.Object.MemberwiseClone
   parent: System.Object
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
   name: MemberwiseClone()
-  nameWithType: Object.MemberwiseClone()
-  fullName: System.Object.MemberwiseClone()
+  nameWithType: object.MemberwiseClone()
+  fullName: object.MemberwiseClone()
+  nameWithType.vb: Object.MemberwiseClone()
+  fullName.vb: Object.MemberwiseClone()
   spec.csharp:
   - uid: System.Object.MemberwiseClone
     name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.MemberwiseClone
     name: MemberwiseClone
-    nameWithType: Object.MemberwiseClone
-    fullName: System.Object.MemberwiseClone
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.memberwiseclone
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.ReferenceEquals(System.Object,System.Object)
   commentId: M:System.Object.ReferenceEquals(System.Object,System.Object)
   parent: System.Object
   isExternal: true
-  name: ReferenceEquals(Object, Object)
-  nameWithType: Object.ReferenceEquals(Object, Object)
-  fullName: System.Object.ReferenceEquals(System.Object, System.Object)
+  href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
+  name: ReferenceEquals(object, object)
+  nameWithType: object.ReferenceEquals(object, object)
+  fullName: object.ReferenceEquals(object, object)
+  nameWithType.vb: Object.ReferenceEquals(Object, Object)
+  fullName.vb: Object.ReferenceEquals(Object, Object)
+  name.vb: ReferenceEquals(Object, Object)
   spec.csharp:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
+    name: object
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
   - uid: System.Object
-    name: Object
-    nameWithType: Object
-    fullName: System.Object
+    name: object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.ReferenceEquals(System.Object,System.Object)
     name: ReferenceEquals
-    nameWithType: Object.ReferenceEquals
-    fullName: System.Object.ReferenceEquals
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.referenceequals
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: System.Object
     name: Object
-    nameWithType: Object
-    fullName: System.Object
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
   - uid: System.Object
     name: Object
-    nameWithType: Object
-    fullName: System.Object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Object.ToString
   commentId: M:System.Object.ToString
   parent: System.Object
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   name: ToString()
-  nameWithType: Object.ToString()
-  fullName: System.Object.ToString()
+  nameWithType: object.ToString()
+  fullName: object.ToString()
+  nameWithType.vb: Object.ToString()
+  fullName.vb: Object.ToString()
   spec.csharp:
   - uid: System.Object.ToString
     name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: System.Object.ToString
     name: ToString
-    nameWithType: Object.ToString
-    fullName: System.Object.ToString
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   - name: (
-    nameWithType: (
-    fullName: (
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.TinyLife.Utilities.Extensions.JsonCopy``1
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   parent: TinyLife.Utilities.Extensions
   definition: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
-  name: JsonCopy<FoodType>()
-  nameWithType: Extensions.JsonCopy<FoodType>()
-  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Skills.FoodType>()
-  nameWithType.vb: Extensions.JsonCopy(Of FoodType)()
-  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Skills.FoodType)()
-  name.vb: JsonCopy(Of FoodType)()
+  name: JsonCopy<FoodType>(FoodType)
+  nameWithType: Extensions.JsonCopy<FoodType>(FoodType)
+  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Skills.FoodType>(TinyLife.Skills.FoodType)
+  nameWithType.vb: Extensions.JsonCopy(Of FoodType)(FoodType)
+  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Skills.FoodType)(TinyLife.Skills.FoodType)
+  name.vb: JsonCopy(Of FoodType)(FoodType)
   spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1
-    name: JsonCopy<FoodType>
-    nameWithType: Extensions.JsonCopy<FoodType>
-    fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Skills.FoodType>
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Skills.FoodType)
+    name: JsonCopy
+  - name: <
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: '>'
   - name: (
-    nameWithType: (
-    fullName: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1
-    name: JsonCopy(Of FoodType)
-    nameWithType: Extensions.JsonCopy(Of FoodType)
-    fullName: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Skills.FoodType)
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Skills.FoodType)
+    name: JsonCopy
   - name: (
-    nameWithType: (
-    fullName: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
   - name: )
-    nameWithType: )
-    fullName: )
+  - name: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: )
 - uid: System
   commentId: N:System
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
   name: System
   nameWithType: System
   fullName: System
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   name: JsonCopy<T>(T)
@@ -1685,32 +1594,24 @@ references:
   name.vb: JsonCopy(Of T)(T)
   spec.csharp:
   - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
-    name: JsonCopy<T>
-    nameWithType: Extensions.JsonCopy<T>
-    fullName: TinyLife.Utilities.Extensions.JsonCopy<T>
-  - name: (
-    nameWithType: (
-    fullName: (
+    name: JsonCopy
+  - name: <
   - name: T
-    nameWithType: T
-    fullName: T
+  - name: '>'
+  - name: (
+  - name: T
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
-    name: JsonCopy(Of T)
-    nameWithType: Extensions.JsonCopy(Of T)
-    fullName: TinyLife.Utilities.Extensions.JsonCopy(Of T)
+    name: JsonCopy
   - name: (
-    nameWithType: (
-    fullName: (
+  - name: Of
+  - name: " "
   - name: T
-    nameWithType: T
-    fullName: T
   - name: )
-    nameWithType: )
-    fullName: )
+  - name: (
+  - name: T
+  - name: )
 - uid: TinyLife.Utilities.Extensions
   commentId: T:TinyLife.Utilities.Extensions
   parent: TinyLife.Utilities
@@ -1722,6 +1623,18 @@ references:
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Utilities
+    name: Utilities
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Utilities
+    name: Utilities
 - uid: TinyLife.Skills.FoodType
   commentId: T:TinyLife.Skills.FoodType
   parent: TinyLife.Skills
@@ -1732,63 +1645,49 @@ references:
   commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary{System.String,TinyLife.Skills.FoodType}
   parent: System.Collections.ObjectModel
   definition: System.Collections.ObjectModel.ReadOnlyDictionary`2
-  name: ReadOnlyDictionary<String, FoodType>
-  nameWithType: ReadOnlyDictionary<String, FoodType>
-  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<System.String, TinyLife.Skills.FoodType>
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  name: ReadOnlyDictionary<string, FoodType>
+  nameWithType: ReadOnlyDictionary<string, FoodType>
+  fullName: System.Collections.ObjectModel.ReadOnlyDictionary<string, TinyLife.Skills.FoodType>
   nameWithType.vb: ReadOnlyDictionary(Of String, FoodType)
-  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of System.String, TinyLife.Skills.FoodType)
+  fullName.vb: System.Collections.ObjectModel.ReadOnlyDictionary(Of String, TinyLife.Skills.FoodType)
   name.vb: ReadOnlyDictionary(Of String, FoodType)
   spec.csharp:
   - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
     name: ReadOnlyDictionary
-    nameWithType: ReadOnlyDictionary
-    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
+    name: string
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: TinyLife.Skills.FoodType
     name: FoodType
-    nameWithType: FoodType
-    fullName: TinyLife.Skills.FoodType
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
     name: ReadOnlyDictionary
-    nameWithType: ReadOnlyDictionary
-    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
   - uid: System.String
     name: String
-    nameWithType: String
-    fullName: System.String
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: TinyLife.Skills.FoodType
     name: FoodType
-    nameWithType: FoodType
-    fullName: TinyLife.Skills.FoodType
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
   commentId: T:System.Collections.ObjectModel.ReadOnlyDictionary`2
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
   name: ReadOnlyDictionary<TKey, TValue>
   nameWithType: ReadOnlyDictionary<TKey, TValue>
   fullName: System.Collections.ObjectModel.ReadOnlyDictionary<TKey, TValue>
@@ -1798,98 +1697,145 @@ references:
   spec.csharp:
   - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
     name: ReadOnlyDictionary
-    nameWithType: ReadOnlyDictionary
-    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
   - name: <
-    nameWithType: <
-    fullName: <
   - name: TKey
-    nameWithType: TKey
-    fullName: TKey
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: TValue
-    nameWithType: TValue
-    fullName: TValue
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.ObjectModel.ReadOnlyDictionary`2
     name: ReadOnlyDictionary
-    nameWithType: ReadOnlyDictionary
-    fullName: System.Collections.ObjectModel.ReadOnlyDictionary
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel.readonlydictionary-2
+  - name: (
+  - name: Of
+  - name: " "
   - name: TKey
-    nameWithType: TKey
-    fullName: TKey
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: TValue
-    nameWithType: TValue
-    fullName: TValue
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Collections.ObjectModel
   commentId: N:System.Collections.ObjectModel
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
   name: System.Collections.ObjectModel
   nameWithType: System.Collections.ObjectModel
   fullName: System.Collections.ObjectModel
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.ObjectModel
+    name: ObjectModel
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.objectmodel
 - uid: TinyLife.Skills.FoodType.FoodIntolerance
   commentId: T:TinyLife.Skills.FoodType.FoodIntolerance
   parent: TinyLife.Skills
   name: FoodType.FoodIntolerance
   nameWithType: FoodType.FoodIntolerance
   fullName: TinyLife.Skills.FoodType.FoodIntolerance
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.FoodIntolerance
+    name: FoodIntolerance
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.FoodIntolerance
+    name: FoodIntolerance
 - uid: TinyLife.Skills.FoodType.FoodIntolerance[]
   isExternal: true
-  name: FoodType.FoodIntolerance[]
+  name: FoodIntolerance[]
   nameWithType: FoodType.FoodIntolerance[]
   fullName: TinyLife.Skills.FoodType.FoodIntolerance[]
   nameWithType.vb: FoodType.FoodIntolerance()
   fullName.vb: TinyLife.Skills.FoodType.FoodIntolerance()
-  name.vb: FoodType.FoodIntolerance()
+  name.vb: FoodIntolerance()
   spec.csharp:
   - uid: TinyLife.Skills.FoodType.FoodIntolerance
-    name: FoodType.FoodIntolerance
-    nameWithType: FoodType.FoodIntolerance
-    fullName: TinyLife.Skills.FoodType.FoodIntolerance
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
+    name: FoodIntolerance
+  - name: '['
+  - name: ']'
   spec.vb:
   - uid: TinyLife.Skills.FoodType.FoodIntolerance
-    name: FoodType.FoodIntolerance
-    nameWithType: FoodType.FoodIntolerance
-    fullName: TinyLife.Skills.FoodType.FoodIntolerance
-  - name: ()
-    nameWithType: ()
-    fullName: ()
+    name: FoodIntolerance
+  - name: (
+  - name: )
 - uid: System.Action
   commentId: T:System.Action
   parent: System
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action
   name: Action
   nameWithType: Action
   fullName: System.Action
 - uid: TinyLife.Skills.FoodType.OnEaten
   commentId: P:TinyLife.Skills.FoodType.OnEaten
-  isExternal: true
+  name: OnEaten
+  nameWithType: FoodType.OnEaten
+  fullName: TinyLife.Skills.FoodType.OnEaten
 - uid: TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
   commentId: M:TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
-  isExternal: true
+  name: InvokeOnEaten(Action, FoodTypedItem)
+  nameWithType: FoodType.InvokeOnEaten(Action, FoodTypedItem)
+  fullName: TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action, TinyLife.Objects.FoodTypedItem)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
+    name: InvokeOnEaten
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.FoodTypedItem
+    name: FoodTypedItem
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
+    name: InvokeOnEaten
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.FoodTypedItem
+    name: FoodTypedItem
+  - name: )
 - uid: System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem,TinyLife.Skills.FoodType}
   commentId: T:System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem,TinyLife.Skills.FoodType}
   parent: System
   definition: System.Action`3
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
   name: Action<Action, FoodTypedItem, FoodType>
   nameWithType: Action<Action, FoodTypedItem, FoodType>
   fullName: System.Action<TinyLife.Actions.Action, TinyLife.Objects.FoodTypedItem, TinyLife.Skills.FoodType>
@@ -1899,66 +1845,43 @@ references:
   spec.csharp:
   - uid: System.Action`3
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: TinyLife.Actions.Action
     name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Skills.FoodType
     name: FoodType
-    nameWithType: FoodType
-    fullName: TinyLife.Skills.FoodType
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Action`3
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
   - uid: TinyLife.Actions.Action
     name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Skills.FoodType
     name: FoodType
-    nameWithType: FoodType
-    fullName: TinyLife.Skills.FoodType
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Action`3
   commentId: T:System.Action`3
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
   name: Action<T1, T2, T3>
   nameWithType: Action<T1, T2, T3>
   fullName: System.Action<T1, T2, T3>
@@ -1968,77 +1891,71 @@ references:
   spec.csharp:
   - uid: System.Action`3
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T2
-    nameWithType: T2
-    fullName: T2
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T3
-    nameWithType: T3
-    fullName: T3
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Action`3
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
   - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T2
-    nameWithType: T2
-    fullName: T2
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T3
-    nameWithType: T3
-    fullName: T3
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.String
   commentId: T:System.String
   parent: System
   isExternal: true
-  name: String
-  nameWithType: String
-  fullName: System.String
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
 - uid: TinyLife.Skills.SkillType.Cooking
   commentId: F:TinyLife.Skills.SkillType.Cooking
-  isExternal: true
+  name: Cooking
+  nameWithType: SkillType.Cooking
+  fullName: TinyLife.Skills.SkillType.Cooking
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
   isExternal: true
-  name: Int32
-  nameWithType: Int32
-  fullName: System.Int32
-- uid: TinyLife.Objects.Food.FoodLeft
-  commentId: F:TinyLife.Objects.Food.FoodLeft
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
 - uid: Microsoft.Xna.Framework.Color
   commentId: T:Microsoft.Xna.Framework.Color
   parent: Microsoft.Xna.Framework
@@ -2052,16 +1969,53 @@ references:
   name: Microsoft.Xna.Framework
   nameWithType: Microsoft.Xna.Framework
   fullName: Microsoft.Xna.Framework
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
 - uid: TinyLife.Skills.FoodType.IngredientSource
   commentId: T:TinyLife.Skills.FoodType.IngredientSource
   parent: TinyLife.Skills
   name: FoodType.IngredientSource
   nameWithType: FoodType.IngredientSource
   fullName: TinyLife.Skills.FoodType.IngredientSource
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.IngredientSource
+    name: IngredientSource
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.IngredientSource
+    name: IngredientSource
 - uid: System.Collections.Generic.ISet{TinyLife.Skills.FoodType.IngredientSource}
   commentId: T:System.Collections.Generic.ISet{TinyLife.Skills.FoodType.IngredientSource}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.ISet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
   name: ISet<FoodType.IngredientSource>
   nameWithType: ISet<FoodType.IngredientSource>
   fullName: System.Collections.Generic.ISet<TinyLife.Skills.FoodType.IngredientSource>
@@ -2071,38 +2025,33 @@ references:
   spec.csharp:
   - uid: System.Collections.Generic.ISet`1
     name: ISet
-    nameWithType: ISet
-    fullName: System.Collections.Generic.ISet
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
   - name: <
-    nameWithType: <
-    fullName: <
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
   - uid: TinyLife.Skills.FoodType.IngredientSource
-    name: FoodType.IngredientSource
-    nameWithType: FoodType.IngredientSource
-    fullName: TinyLife.Skills.FoodType.IngredientSource
+    name: IngredientSource
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.ISet`1
     name: ISet
-    nameWithType: ISet
-    fullName: System.Collections.Generic.ISet
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
   - uid: TinyLife.Skills.FoodType.IngredientSource
-    name: FoodType.IngredientSource
-    nameWithType: FoodType.IngredientSource
-    fullName: TinyLife.Skills.FoodType.IngredientSource
+    name: IngredientSource
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Collections.Generic.ISet`1
   commentId: T:System.Collections.Generic.ISet`1
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
   name: ISet<T>
   nameWithType: ISet<T>
   fullName: System.Collections.Generic.ISet<T>
@@ -2112,39 +2061,58 @@ references:
   spec.csharp:
   - uid: System.Collections.Generic.ISet`1
     name: ISet
-    nameWithType: ISet
-    fullName: System.Collections.Generic.ISet
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T
-    nameWithType: T
-    fullName: T
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.ISet`1
     name: ISet
-    nameWithType: ISet
-    fullName: System.Collections.Generic.ISet
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
   - name: T
-    nameWithType: T
-    fullName: T
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Collections.Generic
   commentId: N:System.Collections.Generic
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
   name: System.Collections.Generic
   nameWithType: System.Collections.Generic
   fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Skills.SkillType
   commentId: T:TinyLife.Skills.SkillType
   parent: TinyLife.Skills
@@ -2153,7 +2121,9 @@ references:
   fullName: TinyLife.Skills.SkillType
 - uid: TinyLife.Skills.FoodType.RequiredSkillLevel
   commentId: F:TinyLife.Skills.FoodType.RequiredSkillLevel
-  isExternal: true
+  name: RequiredSkillLevel
+  nameWithType: FoodType.RequiredSkillLevel
+  fullName: TinyLife.Skills.FoodType.RequiredSkillLevel
 - uid: TinyLife.Skills.FoodType.RequiredSkill*
   commentId: Overload:TinyLife.Skills.FoodType.RequiredSkill
   name: RequiredSkill
@@ -2161,13 +2131,19 @@ references:
   fullName: TinyLife.Skills.FoodType.RequiredSkill
 - uid: TinyLife.Objects.ObjectCategory.Stove
   commentId: F:TinyLife.Objects.ObjectCategory.Stove
-  isExternal: true
+  name: Stove
+  nameWithType: ObjectCategory.Stove
+  fullName: TinyLife.Objects.ObjectCategory.Stove
 - uid: TinyLife.Objects.ObjectCategory.Oven
   commentId: F:TinyLife.Objects.ObjectCategory.Oven
-  isExternal: true
+  name: Oven
+  nameWithType: ObjectCategory.Oven
+  fullName: TinyLife.Objects.ObjectCategory.Oven
 - uid: TinyLife.Skills.FoodType.IngredientSource.Fridge
   commentId: F:TinyLife.Skills.FoodType.IngredientSource.Fridge
-  isExternal: true
+  name: Fridge
+  nameWithType: FoodType.IngredientSource.Fridge
+  fullName: TinyLife.Skills.FoodType.IngredientSource.Fridge
 - uid: TinyLife.Skills.FoodType.AdditionalObject*
   commentId: Overload:TinyLife.Skills.FoodType.AdditionalObject
   name: AdditionalObject
@@ -2184,6 +2160,18 @@ references:
   name: TinyLife.Objects
   nameWithType: TinyLife.Objects
   fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
 - uid: TinyLife.Skills.FoodType.Container*
   commentId: Overload:TinyLife.Skills.FoodType.Container
   name: Container
@@ -2198,6 +2186,7 @@ references:
   commentId: T:System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem}
   parent: System
   definition: System.Action`2
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
   name: Action<Action, FoodTypedItem>
   nameWithType: Action<Action, FoodTypedItem>
   fullName: System.Action<TinyLife.Actions.Action, TinyLife.Objects.FoodTypedItem>
@@ -2207,52 +2196,35 @@ references:
   spec.csharp:
   - uid: System.Action`2
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: TinyLife.Actions.Action
     name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Action`2
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
   - uid: TinyLife.Actions.Action
     name: Action
-    nameWithType: Action
-    fullName: TinyLife.Actions.Action
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Action`2
   commentId: T:System.Action`2
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
   name: Action<T1, T2>
   nameWithType: Action<T1, T2>
   fullName: System.Action<T1, T2>
@@ -2262,54 +2234,89 @@ references:
   spec.csharp:
   - uid: System.Action`2
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T2
-    nameWithType: T2
-    fullName: T2
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Action`2
     name: Action
-    nameWithType: Action
-    fullName: System.Action
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
   - name: T1
-    nameWithType: T1
-    fullName: T1
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: T2
-    nameWithType: T2
-    fullName: T2
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
   commentId: T:TinyLife.Actions.ActionType.CanExecuteDelegate
   parent: TinyLife.Actions
   name: ActionType.CanExecuteDelegate
   nameWithType: ActionType.CanExecuteDelegate
   fullName: TinyLife.Actions.ActionType.CanExecuteDelegate
+  spec.csharp:
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+  - name: .
+  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
+    name: CanExecuteDelegate
+  spec.vb:
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+  - name: .
+  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
+    name: CanExecuteDelegate
 - uid: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: CanEat(Person, FoodTypedItem, bool)
+  nameWithType: FoodType.CanEat(Person, FoodTypedItem, bool)
+  fullName: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, bool)
+  nameWithType.vb: FoodType.CanEat(Person, FoodTypedItem, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, Boolean)
+  name.vb: CanEat(Person, FoodTypedItem, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
+    name: CanEat
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.FoodTypedItem
+    name: FoodTypedItem
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
+    name: CanEat
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.FoodTypedItem
+    name: FoodTypedItem
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
 - uid: TinyLife.Skills.FoodType.CanEatFunc*
   commentId: Overload:TinyLife.Skills.FoodType.CanEatFunc
   name: CanEatFunc
@@ -2319,118 +2326,116 @@ references:
   commentId: T:System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean},TinyLife.Actions.CanExecuteResult}
   parent: System
   definition: System.Func`2
-  name: Func<(T1, T2, T3)<Person, FoodTypedItem, Boolean>, CanExecuteResult>
-  nameWithType: Func<(T1, T2, T3)<Person, FoodTypedItem, Boolean>, CanExecuteResult>
-  fullName: System.Func<System.ValueTuple<TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, System.Boolean>, TinyLife.Actions.CanExecuteResult>
-  nameWithType.vb: Func(Of (T1, T2, T3)(Of Person, FoodTypedItem, Boolean), CanExecuteResult)
-  fullName.vb: System.Func(Of System.ValueTuple(Of TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, System.Boolean), TinyLife.Actions.CanExecuteResult)
-  name.vb: Func(Of (T1, T2, T3)(Of Person, FoodTypedItem, Boolean), CanExecuteResult)
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<(Person Person, FoodTypedItem Food, bool Automatic), CanExecuteResult>
+  nameWithType: Func<(Person Person, FoodTypedItem Food, bool Automatic), CanExecuteResult>
+  fullName: System.Func<(TinyLife.Objects.Person Person, TinyLife.Objects.FoodTypedItem Food, bool Automatic), TinyLife.Actions.CanExecuteResult>
+  nameWithType.vb: Func(Of (Person As Person, Food As FoodTypedItem, Automatic As Boolean), CanExecuteResult)
+  fullName.vb: System.Func(Of (Person As TinyLife.Objects.Person, Food As TinyLife.Objects.FoodTypedItem, Automatic As Boolean), TinyLife.Actions.CanExecuteResult)
+  name.vb: Func(Of (Person As Person, Food As FoodTypedItem, Automatic As Boolean), CanExecuteResult)
   spec.csharp:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.ValueTuple`3
-    name: (T1, T2, T3)
-    nameWithType: (T1, T2, T3)
-    fullName: System.ValueTuple
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
+  - name: (
   - uid: TinyLife.Objects.Person
     name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.person
+  - name: ','
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Food
+    name: Food
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.food
+  - name: ','
+  - name: " "
   - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
+    name: bool
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Automatic
+    name: Automatic
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.automatic
+  - name: )
+  - name: ','
+  - name: " "
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
-    nameWithType: CanExecuteResult
-    fullName: TinyLife.Actions.CanExecuteResult
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.ValueTuple`3
-    name: (T1, T2, T3)
-    nameWithType: (T1, T2, T3)
-    fullName: System.ValueTuple
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.person
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Objects.Person
     name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Food
+    name: Food
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.food
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Objects.FoodTypedItem
     name: FoodTypedItem
-    nameWithType: FoodTypedItem
-    fullName: TinyLife.Objects.FoodTypedItem
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean}.Automatic
+    name: Automatic
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.foodtypeditem,system.boolean-.automatic
+  - name: " "
+  - name: As
+  - name: " "
   - uid: System.Boolean
     name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
-    nameWithType: CanExecuteResult
-    fullName: TinyLife.Actions.CanExecuteResult
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   name: TinyLife.Actions
   nameWithType: TinyLife.Actions
   fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
 - uid: System.Func`2
   commentId: T:System.Func`2
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
   name: Func<T, TResult>
   nameWithType: Func<T, TResult>
   fullName: System.Func<T, TResult>
@@ -2440,48 +2445,87 @@ references:
   spec.csharp:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: TResult
-    nameWithType: TResult
-    fullName: TResult
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
   - name: T
-    nameWithType: T
-    fullName: T
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - name: TResult
-    nameWithType: TResult
-    fullName: TResult
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
   commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: CanCreate(ActionInfo, bool, int, float)
+  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float)
+  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float)
+  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single)
+  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single)
+  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+    name: CanCreate
+  - name: (
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+    name: CanCreate
+  - name: (
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
 - uid: TinyLife.Skills.FoodType.CanCreateFunc*
   commentId: Overload:TinyLife.Skills.FoodType.CanCreateFunc
   name: CanCreateFunc
@@ -2491,128 +2535,121 @@ references:
   commentId: T:System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single},TinyLife.Actions.CanExecuteResult}
   parent: System
   definition: System.Func`2
-  name: Func<(T1, T2, T3, T4)<ActionInfo, Boolean, Int32, Single>, CanExecuteResult>
-  nameWithType: Func<(T1, T2, T3, T4)<ActionInfo, Boolean, Int32, Single>, CanExecuteResult>
-  fullName: System.Func<System.ValueTuple<TinyLife.Actions.ActionInfo, System.Boolean, System.Int32, System.Single>, TinyLife.Actions.CanExecuteResult>
-  nameWithType.vb: Func(Of (T1, T2, T3, T4)(Of ActionInfo, Boolean, Int32, Single), CanExecuteResult)
-  fullName.vb: System.Func(Of System.ValueTuple(Of TinyLife.Actions.ActionInfo, System.Boolean, System.Int32, System.Single), TinyLife.Actions.CanExecuteResult)
-  name.vb: Func(Of (T1, T2, T3, T4)(Of ActionInfo, Boolean, Int32, Single), CanExecuteResult)
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<(ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), CanExecuteResult>
+  nameWithType: Func<(ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), CanExecuteResult>
+  fullName: System.Func<(TinyLife.Actions.ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), TinyLife.Actions.CanExecuteResult>
+  nameWithType.vb: Func(Of (Info As ActionInfo, Automatic As Boolean, ServingSize As Integer, PriceMarkup As Single), CanExecuteResult)
+  fullName.vb: System.Func(Of (Info As TinyLife.Actions.ActionInfo, Automatic As Boolean, ServingSize As Integer, PriceMarkup As Single), TinyLife.Actions.CanExecuteResult)
+  name.vb: Func(Of (Info As ActionInfo, Automatic As Boolean, ServingSize As Integer, PriceMarkup As Single), CanExecuteResult)
   spec.csharp:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-    nameWithType: <
-    fullName: <
-  - uid: System.ValueTuple`4
-    name: (T1, T2, T3, T4)
-    nameWithType: (T1, T2, T3, T4)
-    fullName: System.ValueTuple
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
+  - name: (
   - uid: TinyLife.Actions.ActionInfo
     name: ActionInfo
-    nameWithType: ActionInfo
-    fullName: TinyLife.Actions.ActionInfo
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.info
+  - name: ','
+  - name: " "
   - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
+    name: bool
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.Automatic
+    name: Automatic
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.automatic
+  - name: ','
+  - name: " "
   - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+    name: int
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.ServingSize
+    name: ServingSize
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.servingsize
+  - name: ','
+  - name: " "
   - uid: System.Single
-    name: Single
-    nameWithType: Single
-    fullName: System.Single
+    name: float
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.PriceMarkup
+    name: PriceMarkup
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.pricemarkup
+  - name: )
+  - name: ','
+  - name: " "
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
-    nameWithType: CanExecuteResult
-    fullName: TinyLife.Actions.CanExecuteResult
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
-  - uid: System.ValueTuple`4
-    name: (T1, T2, T3, T4)
-    nameWithType: (T1, T2, T3, T4)
-    fullName: System.ValueTuple
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.info
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Actions.ActionInfo
     name: ActionInfo
-    nameWithType: ActionInfo
-    fullName: TinyLife.Actions.ActionInfo
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.Automatic
+    name: Automatic
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.automatic
+  - name: " "
+  - name: As
+  - name: " "
   - uid: System.Boolean
     name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.ServingSize
+    name: ServingSize
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.servingsize
+  - name: " "
+  - name: As
+  - name: " "
   - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+    name: Integer
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single}.PriceMarkup
+    name: PriceMarkup
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actioninfo,system.boolean,system.int32,system.single-.pricemarkup
+  - name: " "
+  - name: As
+  - name: " "
   - uid: System.Single
     name: Single
-    nameWithType: Single
-    fullName: System.Single
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-    nameWithType: )
-    fullName: )
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
-    nameWithType: CanExecuteResult
-    fullName: TinyLife.Actions.CanExecuteResult
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.CustomTextureFunc*
   commentId: Overload:TinyLife.Skills.FoodType.CustomTextureFunc
   name: CustomTextureFunc
@@ -2622,186 +2659,151 @@ references:
   commentId: T:System.Func{System.Int32,MLEM.Textures.TextureRegion}
   parent: System
   definition: System.Func`2
-  name: Func<Int32, TextureRegion>
-  nameWithType: Func<Int32, TextureRegion>
-  fullName: System.Func<System.Int32, MLEM.Textures.TextureRegion>
-  nameWithType.vb: Func(Of Int32, TextureRegion)
-  fullName.vb: System.Func(Of System.Int32, MLEM.Textures.TextureRegion)
-  name.vb: Func(Of Int32, TextureRegion)
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<int, TextureRegion>
+  nameWithType: Func<int, TextureRegion>
+  fullName: System.Func<int, MLEM.Textures.TextureRegion>
+  nameWithType.vb: Func(Of Integer, TextureRegion)
+  fullName.vb: System.Func(Of Integer, MLEM.Textures.TextureRegion)
+  name.vb: Func(Of Integer, TextureRegion)
   spec.csharp:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+    name: int
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
-    nameWithType: TextureRegion
-    fullName: MLEM.Textures.TextureRegion
     isExternal: true
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
   - uid: System.Int32
-    name: Int32
-    nameWithType: Int32
-    fullName: System.Int32
+    name: Integer
     isExternal: true
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
-    nameWithType: TextureRegion
-    fullName: MLEM.Textures.TextureRegion
     isExternal: true
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Func{TinyLife.Objects.Food,System.Boolean}
   commentId: T:System.Func{TinyLife.Objects.Food,System.Boolean}
   parent: System
   definition: System.Func`2
-  name: Func<Food, Boolean>
-  nameWithType: Func<Food, Boolean>
-  fullName: System.Func<TinyLife.Objects.Food, System.Boolean>
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<Food, bool>
+  nameWithType: Func<Food, bool>
+  fullName: System.Func<TinyLife.Objects.Food, bool>
   nameWithType.vb: Func(Of Food, Boolean)
-  fullName.vb: System.Func(Of TinyLife.Objects.Food, System.Boolean)
+  fullName.vb: System.Func(Of TinyLife.Objects.Food, Boolean)
   name.vb: Func(Of Food, Boolean)
   spec.csharp:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: TinyLife.Objects.Food
     name: Food
-    nameWithType: Food
-    fullName: TinyLife.Objects.Food
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
+    name: bool
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Func`2
     name: Func
-    nameWithType: Func
-    fullName: System.Func
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
   - uid: TinyLife.Objects.Food
     name: Food
-    nameWithType: Food
-    fullName: TinyLife.Objects.Food
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: System.Boolean
     name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.LnCategory.Food
   commentId: F:TinyLife.LnCategory.Food
-  isExternal: true
+  name: Food
+  nameWithType: LnCategory.Food
+  fullName: TinyLife.LnCategory.Food
 - uid: TinyLife.Skills.FoodType.DisplayName*
   commentId: Overload:TinyLife.Skills.FoodType.DisplayName
   name: DisplayName
   nameWithType: FoodType.DisplayName
   fullName: TinyLife.Skills.FoodType.DisplayName
+- uid: TinyLife.Skills.FoodType.SourceString*
+  commentId: Overload:TinyLife.Skills.FoodType.SourceString
+  name: SourceString
+  nameWithType: FoodType.SourceString
+  fullName: TinyLife.Skills.FoodType.SourceString
+- uid: TinyLife.Emotions.IEmotionSource.SourceString
+  commentId: P:TinyLife.Emotions.IEmotionSource.SourceString
+  parent: TinyLife.Emotions.IEmotionSource
+  name: SourceString
+  nameWithType: IEmotionSource.SourceString
+  fullName: TinyLife.Emotions.IEmotionSource.SourceString
 - uid: TinyLife.Skills.FoodType.RequiredSkill
   commentId: P:TinyLife.Skills.FoodType.RequiredSkill
-  isExternal: true
+  name: RequiredSkill
+  nameWithType: FoodType.RequiredSkill
+  fullName: TinyLife.Skills.FoodType.RequiredSkill
 - uid: Microsoft.Xna.Framework.Color.White
   commentId: P:Microsoft.Xna.Framework.Color.White
   isExternal: true
+  name: White
+  nameWithType: Color.White
+  fullName: Microsoft.Xna.Framework.Color.White
 - uid: TinyLife.Skills.FoodType.#ctor*
   commentId: Overload:TinyLife.Skills.FoodType.#ctor
   name: FoodType
   nameWithType: FoodType.FoodType
   fullName: TinyLife.Skills.FoodType.FoodType
+  nameWithType.vb: FoodType.New
+  fullName.vb: TinyLife.Skills.FoodType.New
+  name.vb: New
 - uid: System.Nullable{Microsoft.Xna.Framework.Color}
   commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
   parent: System
   definition: System.Nullable`1
-  name: Nullable<Color>
-  nameWithType: Nullable<Color>
-  fullName: System.Nullable<Microsoft.Xna.Framework.Color>
-  nameWithType.vb: Nullable(Of Color)
-  fullName.vb: System.Nullable(Of Microsoft.Xna.Framework.Color)
-  name.vb: Nullable(Of Color)
+  name: Color?
+  nameWithType: Color?
+  fullName: Microsoft.Xna.Framework.Color?
   spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
   - uid: Microsoft.Xna.Framework.Color
     name: Color
-    nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
+  - name: '?'
   spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
   - uid: Microsoft.Xna.Framework.Color
     name: Color
-    nameWithType: Color
-    fullName: Microsoft.Xna.Framework.Color
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
+  - name: '?'
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
   name: Nullable<T>
   nameWithType: Nullable<T>
   fullName: System.Nullable<T>
@@ -2811,54 +2813,42 @@ references:
   spec.csharp:
   - uid: System.Nullable`1
     name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T
-    nameWithType: T
-    fullName: T
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Nullable`1
     name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
   - name: T
-    nameWithType: T
-    fullName: T
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.GetPrice*
   commentId: Overload:TinyLife.Skills.FoodType.GetPrice
   name: GetPrice
   nameWithType: FoodType.GetPrice
   fullName: TinyLife.Skills.FoodType.GetPrice
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
-  isExternal: true
-  name: Single
-  nameWithType: Single
-  fullName: System.Single
 - uid: TinyLife.Objects.Food
   commentId: T:TinyLife.Objects.Food
   parent: TinyLife.Objects
   name: Food
   nameWithType: Food
   fullName: TinyLife.Objects.Food
+- uid: TinyLife.Objects.Food.FoodLeft
+  commentId: F:TinyLife.Objects.Food.FoodLeft
+  name: FoodLeft
+  nameWithType: Food.FoodLeft
+  fullName: TinyLife.Objects.Food.FoodLeft
 - uid: TinyLife.World.Map.Time
   commentId: P:TinyLife.World.Map.Time
-  isExternal: true
+  name: Time
+  nameWithType: Map.Time
+  fullName: TinyLife.World.Map.Time
 - uid: TinyLife.Objects.Person
   commentId: T:TinyLife.Objects.Person
   parent: TinyLife.Objects
@@ -2875,55 +2865,39 @@ references:
   commentId: M:TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  name: SetCreator(Person, Boolean)
-  nameWithType: Furniture.SetCreator(Person, Boolean)
-  fullName: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person, System.Boolean)
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: SetCreator(Person, bool)
+  nameWithType: Furniture.SetCreator(Person, bool)
+  fullName: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person, bool)
+  nameWithType.vb: Furniture.SetCreator(Person, Boolean)
+  fullName.vb: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person, Boolean)
+  name.vb: SetCreator(Person, Boolean)
   spec.csharp:
   - uid: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
     name: SetCreator
-    nameWithType: Furniture.SetCreator
-    fullName: TinyLife.Objects.Furniture.SetCreator
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: TinyLife.Objects.Person
     name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: System.Boolean
-    name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
+    name: bool
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-    nameWithType: )
-    fullName: )
   spec.vb:
   - uid: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
     name: SetCreator
-    nameWithType: Furniture.SetCreator
-    fullName: TinyLife.Objects.Furniture.SetCreator
   - name: (
-    nameWithType: (
-    fullName: (
   - uid: TinyLife.Objects.Person
     name: Person
-    nameWithType: Person
-    fullName: TinyLife.Objects.Person
-  - name: ', '
-    nameWithType: ', '
-    fullName: ', '
+  - name: ','
+  - name: " "
   - uid: System.Boolean
     name: Boolean
-    nameWithType: Boolean
-    fullName: System.Boolean
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.Construct*
   commentId: Overload:TinyLife.Skills.FoodType.Construct
   name: Construct
@@ -2945,6 +2919,7 @@ references:
   commentId: T:System.TimeSpan
   parent: System
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
@@ -2952,58 +2927,50 @@ references:
   commentId: T:System.Nullable{System.Guid}
   parent: System
   definition: System.Nullable`1
-  name: Nullable<Guid>
-  nameWithType: Nullable<Guid>
-  fullName: System.Nullable<System.Guid>
-  nameWithType.vb: Nullable(Of Guid)
-  fullName.vb: System.Nullable(Of System.Guid)
-  name.vb: Nullable(Of Guid)
+  href: https://learn.microsoft.com/dotnet/api/system.guid
+  name: Guid?
+  nameWithType: Guid?
+  fullName: System.Guid?
   spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: <
-    nameWithType: <
-    fullName: <
   - uid: System.Guid
     name: Guid
-    nameWithType: Guid
-    fullName: System.Guid
     isExternal: true
-  - name: '>'
-    nameWithType: '>'
-    fullName: '>'
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: '?'
   spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    nameWithType: Nullable
-    fullName: System.Nullable
-    isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
   - uid: System.Guid
     name: Guid
-    nameWithType: Guid
-    fullName: System.Guid
     isExternal: true
-  - name: )
-    nameWithType: )
-    fullName: )
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: '?'
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
   isExternal: true
-  name: Boolean
-  nameWithType: Boolean
-  fullName: System.Boolean
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: TinyLife.Goals
   commentId: N:TinyLife.Goals
   name: TinyLife.Goals
   nameWithType: TinyLife.Goals
   fullName: TinyLife.Goals
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Goals
+    name: Goals
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Goals
+    name: Goals
 - uid: TinyLife.Objects.Furniture
   commentId: T:TinyLife.Objects.Furniture
   parent: TinyLife.Objects
@@ -3015,6 +2982,18 @@ references:
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.World
+    name: World
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.World
+    name: World
 - uid: TinyLife.Objects.FoodTypedItem
   commentId: T:TinyLife.Objects.FoodTypedItem
   parent: TinyLife.Objects
@@ -3040,10 +3019,14 @@ references:
   fullName: TinyLife.Actions.CanExecuteResult
 - uid: TinyLife.Skills.FoodType.CanEatFunc
   commentId: P:TinyLife.Skills.FoodType.CanEatFunc
-  isExternal: true
+  name: CanEatFunc
+  nameWithType: FoodType.CanEatFunc
+  fullName: TinyLife.Skills.FoodType.CanEatFunc
 - uid: TinyLife.Skills.FoodType.Intolerances
   commentId: F:TinyLife.Skills.FoodType.Intolerances
-  isExternal: true
+  name: Intolerances
+  nameWithType: FoodType.Intolerances
+  fullName: TinyLife.Skills.FoodType.Intolerances
 - uid: TinyLife.Skills.FoodType.CanEat*
   commentId: Overload:TinyLife.Skills.FoodType.CanEat
   name: CanEat
@@ -3051,13 +3034,19 @@ references:
   fullName: TinyLife.Skills.FoodType.CanEat
 - uid: TinyLife.Skills.FoodType.CanCreateFunc
   commentId: P:TinyLife.Skills.FoodType.CanCreateFunc
-  isExternal: true
+  name: CanCreateFunc
+  nameWithType: FoodType.CanCreateFunc
+  fullName: TinyLife.Skills.FoodType.CanCreateFunc
 - uid: TinyLife.Skills.FoodType.Price
   commentId: F:TinyLife.Skills.FoodType.Price
-  isExternal: true
+  name: Price
+  nameWithType: FoodType.Price
+  fullName: TinyLife.Skills.FoodType.Price
 - uid: TinyLife.Skills.FoodType.AdditionalObject
   commentId: P:TinyLife.Skills.FoodType.AdditionalObject
-  isExternal: true
+  name: AdditionalObject
+  nameWithType: FoodType.AdditionalObject
+  fullName: TinyLife.Skills.FoodType.AdditionalObject
 - uid: TinyLife.Skills.FoodType.CanCreate*
   commentId: Overload:TinyLife.Skills.FoodType.CanCreate
   name: CanCreate
@@ -3078,49 +3067,41 @@ references:
   commentId: T:System.Collections.Generic.IEnumerable{System.String}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
-  name: IEnumerable<String>
-  nameWithType: IEnumerable<String>
-  fullName: System.Collections.Generic.IEnumerable<System.String>
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<string>
+  nameWithType: IEnumerable<string>
+  fullName: System.Collections.Generic.IEnumerable<string>
   nameWithType.vb: IEnumerable(Of String)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of System.String)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of String)
   name.vb: IEnumerable(Of String)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: System.String
-    name: String
-    nameWithType: String
-    fullName: System.String
+    name: string
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
   - uid: System.String
     name: String
-    nameWithType: String
-    fullName: System.String
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: System.Collections.Generic.IEnumerable`1
   commentId: T:System.Collections.Generic.IEnumerable`1
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   name: IEnumerable<T>
   nameWithType: IEnumerable<T>
   fullName: System.Collections.Generic.IEnumerable<T>
@@ -3130,42 +3111,36 @@ references:
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
-    nameWithType: <
-    fullName: <
   - name: T
-    nameWithType: T
-    fullName: T
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
   - name: T
-    nameWithType: T
-    fullName: T
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.Sources
   commentId: F:TinyLife.Skills.FoodType.Sources
-  isExternal: true
+  name: Sources
+  nameWithType: FoodType.Sources
+  fullName: TinyLife.Skills.FoodType.Sources
 - uid: TinyLife.Skills.FoodType.IngredientSource.OnEaten
   commentId: P:TinyLife.Skills.FoodType.IngredientSource.OnEaten
-  isExternal: true
+  name: OnEaten
+  nameWithType: FoodType.IngredientSource.OnEaten
+  fullName: TinyLife.Skills.FoodType.IngredientSource.OnEaten
 - uid: TinyLife.Actions.ActionType.Eat
   commentId: F:TinyLife.Actions.ActionType.Eat
-  isExternal: true
+  name: Eat
+  nameWithType: ActionType.Eat
+  fullName: TinyLife.Actions.ActionType.Eat
 - uid: TinyLife.Skills.FoodType.InvokeOnEaten*
   commentId: Overload:TinyLife.Skills.FoodType.InvokeOnEaten
   name: InvokeOnEaten
@@ -3179,10 +3154,28 @@ references:
   fullName: TinyLife.Actions.Action
 - uid: TinyLife.Skills.FoodType.CustomTextureFunc
   commentId: P:TinyLife.Skills.FoodType.CustomTextureFunc
-  isExternal: true
+  name: CustomTextureFunc
+  nameWithType: FoodType.CustomTextureFunc
+  fullName: TinyLife.Skills.FoodType.CustomTextureFunc
 - uid: TinyLife.Skills.FoodType.ContainerType.GetDefaultTexture(TinyLife.Skills.FoodType)
   commentId: M:TinyLife.Skills.FoodType.ContainerType.GetDefaultTexture(TinyLife.Skills.FoodType)
-  isExternal: true
+  name: GetDefaultTexture(FoodType)
+  nameWithType: FoodType.ContainerType.GetDefaultTexture(FoodType)
+  fullName: TinyLife.Skills.FoodType.ContainerType.GetDefaultTexture(TinyLife.Skills.FoodType)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.ContainerType.GetDefaultTexture(TinyLife.Skills.FoodType)
+    name: GetDefaultTexture
+  - name: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.ContainerType.GetDefaultTexture(TinyLife.Skills.FoodType)
+    name: GetDefaultTexture
+  - name: (
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: )
 - uid: TinyLife.Skills.FoodType.GetTexture*
   commentId: Overload:TinyLife.Skills.FoodType.GetTexture
   name: GetTexture
@@ -3201,6 +3194,22 @@ references:
   name: MLEM.Textures
   nameWithType: MLEM.Textures
   fullName: MLEM.Textures
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Textures
+    name: Textures
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Textures
+    name: Textures
+    isExternal: true
 - uid: TinyLife.Skills.FoodType.Register*
   commentId: Overload:TinyLife.Skills.FoodType.Register
   name: Register
@@ -3209,6 +3218,31 @@ references:
 - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
   isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: GetPrice(int)
+  nameWithType: FoodType.GetPrice(int)
+  fullName: TinyLife.Skills.FoodType.GetPrice(int)
+  nameWithType.vb: FoodType.GetPrice(Integer)
+  fullName.vb: TinyLife.Skills.FoodType.GetPrice(Integer)
+  name.vb: GetPrice(Integer)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
+    name: GetPrice
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
+    name: GetPrice
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
 - uid: TinyLife.Skills.FoodType.GetActions*
   commentId: Overload:TinyLife.Skills.FoodType.GetActions
   name: GetActions
@@ -3218,6 +3252,7 @@ references:
   commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionVariety}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   name: IEnumerable<ActionVariety>
   nameWithType: IEnumerable<ActionVariety>
   fullName: System.Collections.Generic.IEnumerable<TinyLife.Actions.ActionVariety>
@@ -3227,38 +3262,28 @@ references:
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
-    nameWithType: <
-    fullName: <
   - uid: TinyLife.Actions.ActionVariety
     name: ActionVariety
-    nameWithType: ActionVariety
-    fullName: TinyLife.Actions.ActionVariety
   - name: '>'
-    nameWithType: '>'
-    fullName: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
-    nameWithType: IEnumerable
-    fullName: System.Collections.Generic.IEnumerable
     isExternal: true
-  - name: '(Of '
-    nameWithType: '(Of '
-    fullName: '(Of '
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
   - uid: TinyLife.Actions.ActionVariety
     name: ActionVariety
-    nameWithType: ActionVariety
-    fullName: TinyLife.Actions.ActionVariety
   - name: )
-    nameWithType: )
-    fullName: )
 - uid: TinyLife.Skills.FoodType.Types
   commentId: F:TinyLife.Skills.FoodType.Types
-  isExternal: true
+  name: Types
+  nameWithType: FoodType.Types
+  fullName: TinyLife.Skills.FoodType.Types
 - uid: TinyLife.Skills.FoodType.GetAllContainers*
   commentId: Overload:TinyLife.Skills.FoodType.GetAllContainers
   name: GetAllContainers
@@ -3275,16 +3300,10 @@ references:
   spec.csharp:
   - uid: TinyLife.Objects.FurnitureType
     name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: '[]'
-    nameWithType: '[]'
-    fullName: '[]'
+  - name: '['
+  - name: ']'
   spec.vb:
   - uid: TinyLife.Objects.FurnitureType
     name: FurnitureType
-    nameWithType: FurnitureType
-    fullName: TinyLife.Objects.FurnitureType
-  - name: ()
-    nameWithType: ()
-    fullName: ()
+  - name: (
+  - name: )

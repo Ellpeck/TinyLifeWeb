@@ -1,11 +1,23 @@
 # 0.30.0
-*March 28, 2023*
+*March 30, 2023*
 
 > Big Steps Towards Release
 
-This version's full name is **0.30.0-pre1**, but previous versions of the in-game changelog viewer don't support displaying pre-release suffixes.
+This version's full name is **0.30.0-pre2**, but previous versions of the in-game changelog viewer don't support displaying pre-release suffixes.
 
 **This version is currently in preview. If you want to try it out, you can check out [this documentation article](https://docs.tinylifegame.com/articles/preview.html).**
+
+Improvements
+- Allow navigating the interaction menu's pages with the shoulder buttons when using a gamepad
+- Randomly add items to trash cans at midnight occasionally to allow for special rummaging finds
+- Made food quality and saturation not influence eating speed, but hunger need restoration speed
+- Increase the friendship gain from random interactions with coworkers at work
+- Improved the look and layout of update notifications in the main menu
+- Made grilled cheese vegan-friendly
+- Updated from .NET 6 to .NET 7
+
+# 0.30.0-pre1
+*March 28, 2023*
 
 Additions
 - Added a few more decorative objects, including two lamps, cattails and lily pads
