@@ -1,23 +1,11 @@
 # 0.30.0
-*March 30, 2023*
+*March 31, 2023*
+
+![](media/changelog/0.30.0.png)
 
 > Big Steps Towards Release
 
-This version's full name is **0.30.0-pre2**, but previous versions of the in-game changelog viewer don't support displaying pre-release suffixes.
-
-**This version is currently in preview. If you want to try it out, you can check out [this documentation article](https://docs.tinylifegame.com/articles/preview.html).**
-
-Improvements
-- Allow navigating the interaction menu's pages with the shoulder buttons when using a gamepad
-- Randomly add items to trash cans at midnight occasionally to allow for special rummaging finds
-- Made food quality and saturation not influence eating speed, but hunger need restoration speed
-- Increase the friendship gain from random interactions with coworkers at work
-- Improved the look and layout of update notifications in the main menu
-- Made grilled cheese vegan-friendly
-- Updated from .NET 6 to .NET 7
-
-# 0.30.0-pre1
-*March 28, 2023*
+Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/510006/0300-big-steps-towards-release) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6492542378896226821).
 
 Additions
 - Added a few more decorative objects, including two lamps, cattails and lily pads
@@ -31,7 +19,7 @@ Additions
 - Added french localization by [YenSide](https://instagram.com/candice_mlng)
 
 Improvements
-- Cause links to be opened in the Steam overly on Steam Deck
+- Cause links to be opened in the Steam overlay on Steam Deck
 - Improved social action pathfinding, causing people to stop less
 - Allow changing the cursor size in the accessibility options
 - Made people much more likely to eat the food they cooked immediately
@@ -44,6 +32,13 @@ Improvements
 - Rebalance the amount of frienship and romance gain that actions give
 - Massively reduce the markup of custom paintings
 - Draw the build mode grid on the entire lot, rather than just in rooms
+- Allow navigating the interaction menu's pages with the shoulder buttons when using a gamepad
+- Randomly add items to trash cans at midnight occasionally to allow for special rummaging finds
+- Made food quality and saturation not influence eating speed, but hunger need restoration speed
+- Increase the friendship gain from random interactions with coworkers at work
+- Improved the look and layout of update notifications in the main menu
+- Made grilled cheese vegan-friendly
+- Updated from .NET 6 to .NET 7
 
 Fixes
 - Fixed people being able to steal held items from other people
