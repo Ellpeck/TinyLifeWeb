@@ -1,3 +1,14 @@
+# 0.30.1
+*April 2, 2023*
+
+Additions
+- Added shadows to Tinies (which were the only objects that didn't have any)
+- Added the ability to order tea at cafés
+
+Fixes
+- Fixed Tinies not sitting down properly while watching TV
+- Fixed Linux and Mac builds crashing due to a localization file name inconsistency
+
 # 0.30.0
 *March 31, 2023*
 
