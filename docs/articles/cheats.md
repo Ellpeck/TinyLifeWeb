@@ -8,7 +8,8 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
   - `Needless` fills all needs back up for the current person.
 - `IgnorePlacementRules` allows you to place colliding furniture. Note that, in this mode, it is very easy to place furniture in a way that looks incorrect or overlaps when rotating the camera.
 - `EditPerson` opens a character editor for the current household, with all functionality enabled.
-- `Gib` gives you 10,000 tiny bucks.
+- `Money [amount]` sets your current household's tiny bucks amount.
+  - `Gib` gives you 10,000 tiny bucks.
 - `ExtremelyFast` allows you to select the 15x speed option all the time, regardless of whether people in the active household are sleeping or out of town.
 - `Skill [name] [level]` changes the current person's skill level. You can find a list of all skill names [in the API docs](xref:TinyLife.Skills.SkillType).
 - `Job [name] [level]` stes the current person's job and job level.
@@ -36,3 +37,4 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
   - Pressing the page up and page down keys moves the spot's y offset.
   - The resulting values are printed to the console every time a modification is made, so you can copy them and paste them into your action spot code.
 - `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life directory (which can be accessed through the options menu) as `_Packed.png`.
+- There are various cheats that print organized debug information to the console, which can be useful for debugging and balancing mods. These include `TalkActions`, `AverageTalkActions`, `ActionPriorities`, `AverageActionPriorities`, `NeedStats`, `HouseholdStats`, `SkillStats`, and `ActionStats`.

@@ -24,11 +24,8 @@ If this happens, the game will create a file next to the game's executable calle
 ## Game Issues
 The following issues are known bugs in the game and will be fixed in a future update. Once they are fixed, they will be removed from this list. For issues from older versions, you can refer to [the list's history](https://github.com/Ellpeck/TinyLifeWeb/commits/main/docs/articles/common_issues.md).
 
-### A required object is said to be unavailable
-Sometimes an action is grayed out and its tooltip displays this reason, even though a required object is available. This issue occurs when the selected Tiny is too far away from the objects. You can fix this issue by telling the Tiny to "Go Here" first.
-
-### An out-of-town action (like going to work) fails immediately
-It turns out that this happens when someone leaves an item right on the world border that your Tiny is trying to exit the world at. You can solve this either by having your Tiny "Go Here" to another world border before selecting the out-of-town action again, or you can pick up the blocking item and put it down elsewhere.
+### My Tinies automatically get assigned wrong genealogies
+Transitive genealogies are automatically calculated in the character creator. For example, adding a parent and a child for a Tiny automatically causes them to have a grandparent/grandchild relationship. The current implementation of this system may contain some oversights causing incorrect transitive genealogies to be calculated automatically. To fix this issue temporarily and be able to set your own genealogies manually, you can enable the `IgnoreTransitive` [cheat](cheats.md).
 
 ### Tinies are entering my house without my permission
 This is the way that Tinies visiting a lot currently works. There's no way to disable this behavior right now, but you can select your front door and lock it for other Tinies, which means they won't be able to enter your house anymore. In the future, we plan on making it so that Tinies have to be invited into your house to be allowed to enter.
