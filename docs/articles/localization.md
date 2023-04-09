@@ -7,6 +7,7 @@ If you're interested in contributing new languages to Tiny Life's localization o
 
 If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](https://ellpeck.de/discord), or in the `#tinylife` channel. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
 
+## General Notes
 The following list contains a few bits of additional information that you should keep in mind when translating:
 - You don't need any kind of programming or advanced file editing experience, since you'll be translating on the previously mentioned translation site. When translating, you should set an existing language as your `reference locale` (preferably English), since most of the term names don't give much information about the actual content of the text they represent.
 - In this document, I'm using the words "translate" and "localize" semi-interchangeably, but it should be noted that this is a **localization**, meaning any jokes or references that don't make sense in the language you're translating for should be edited to make them sound logical.  
@@ -24,11 +25,11 @@ The following list contains a few bits of additional information that you should
 - To test your translation, [export it](https://translate.ellpeck.de/app/projects/da5ba3ec-ab26-4ff2-a1ff-24b817c2f7f6/files) and put it into the `Content/Localization` directory of the game's installation. If it's not part of it already, its name also has to be added to the `LanguageNames.json` file.
 - You don't need to finish the translation to your language, by any means! Since you're doing this for free, I don't expect you to, either. An incomplete translation means that some in-game text will be translated, and it also means that anyone who comes along after you will have less work to do!
 
-# Notes for Specific Languages
-## English
+## Notes for Specific Languages
+### English
 - The names of achievements in the English versions are references to popular culture. In other languages, they can be pretty much anything else, including popular culture references that make sense in the context of the language, provided they also abide by the information above.
 
-## German
+### German
 - The German localization uses gender-neutral language (*Geschlechtergerechte Sprache*) for its translations. The following spellings are used:
   - "Er/sie", "sein/ihr" and other pronouns that can't be appreviated neatly are combined using a forward slash.
   - "Mitarbeiter:in", "Partner:in" and other words that have the same structure are abbreviated using a colon (*Gender-Doppelpunkt*) if possible.
@@ -36,7 +37,7 @@ The following list contains a few bits of additional information that you should
 - The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "die Tinys".
 - Achievement names in the German localization are just brief, funny descriptions of the achievement.
 
-## Italian
+### Italian
 - The Italian localization uses gender-neutral language for its translations. The following spellings are used:
   - "Il/la", "tuoi/tue" and other words that change according to their gender and that can't be abbreviated neatly are combined using a forward slash.
   - "Su*, bambin* and other words that have the same structure are abbreviated using an asterisk if possible.
