@@ -1,5 +1,5 @@
 pipeline {
-  agent any
+  agent { label 'web' }
   stages {
     stage('Site') {
       when {
