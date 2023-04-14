@@ -1,3 +1,31 @@
+# 0.31.0
+*April 14, 2023*
+
+![](media/changelog/0.31.0.png)
+
+> Small Update, Big Pronouns
+
+No devlog this time! Keep an eye out for a big announcement soon, though...
+
+Additions
+- Added the ability to set pronouns for Tinies. To set pronouns for your already existing Tinies, use the `EditPerson` [cheat](https://docs.tinylifegame.com/articles/cheats.html).
+
+Improvements
+- Display the price for a new painting on the Paint action
+- Avoid creating portraits for Tinies who aren't seen unnecessarily
+- Improved the way relationship type names are displayed
+- The camera now rotates around the cursor rather than the center of the screen
+- Hide personality types that aren't available for the Tiny's current age
+- Display a notification when a relationship's romance type changes
+
+Fixes
+- Fixed adults being able to be randomly generated with child voices
+- Fixed being able to start a new painting when not having enough money
+- Fixed primary students being able to get a raise
+- Fixed children being able to die from too much protein
+- Fixed copying outfits causing the color to change on the outfit copied from as well
+- Fixed food/drink orders at cafés being random items rather than the ones ordered
+
 # 0.30.1
 *April 2, 2023*
 

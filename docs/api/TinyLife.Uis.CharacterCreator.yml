@@ -8,8 +8,13 @@ items:
   - TinyLife.Uis.CharacterCreator.Active
   - TinyLife.Uis.CharacterCreator.BoughtItem(TinyLife.Objects.Person,TinyLife.Objects.WornClothes)
   - TinyLife.Uis.CharacterCreator.CanCloseOrExport
-  - TinyLife.Uis.CharacterCreator.CanSwitchPeople
+  - TinyLife.Uis.CharacterCreator.CreateNameSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  - TinyLife.Uis.CharacterCreator.CreatePersonalitySelector(TinyLife.Objects.Person,System.Boolean)
+  - TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  - TinyLife.Uis.CharacterCreator.CreatePronounSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  - TinyLife.Uis.CharacterCreator.CreateVoiceSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
   - TinyLife.Uis.CharacterCreator.GetCustomPrice(TinyLife.Objects.Person,TinyLife.Objects.WornClothes)
+  - TinyLife.Uis.CharacterCreator.IsPersonComplete(TinyLife.Objects.Person)
   - TinyLife.Uis.CharacterCreator.MaxHouseholdSize
   - TinyLife.Uis.CharacterCreator.MaxOutfitAmount
   - TinyLife.Uis.CharacterCreator.OnBoughtItem
@@ -197,37 +202,6 @@ items:
     return:
       type: TinyLife.Uis.CharacterCreator.BoughtItemDelegate
     content.vb: Public Shared Event OnBoughtItem As CharacterCreator.BoughtItemDelegate
-- uid: TinyLife.Uis.CharacterCreator.CanSwitchPeople
-  commentId: M:TinyLife.Uis.CharacterCreator.CanSwitchPeople
-  id: CanSwitchPeople
-  parent: TinyLife.Uis.CharacterCreator
-  langs:
-  - csharp
-  - vb
-  name: CanSwitchPeople()
-  nameWithType: CharacterCreator.CanSwitchPeople()
-  fullName: TinyLife.Uis.CharacterCreator.CanSwitchPeople()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Uis/CharacterCreator.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CanSwitchPeople
-    path: ../TinyLife/Uis/CharacterCreator.cs
-    startLine: 447
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Uis
-  summary: "\nReturns whether or not this character creator instance currently allows switching the selected character.\nThe return value is based on the selected person&apos;s <xref href=\"TinyLife.Objects.Person.FullName\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.Person.PersonalityTypes\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: public bool CanSwitchPeople()
-    return:
-      type: System.Boolean
-      description: Whether we can currently switch the active person
-    content.vb: Public Function CanSwitchPeople() As Boolean
-  overload: TinyLife.Uis.CharacterCreator.CanSwitchPeople*
 - uid: TinyLife.Uis.CharacterCreator.CanCloseOrExport
   commentId: M:TinyLife.Uis.CharacterCreator.CanCloseOrExport
   id: CanCloseOrExport
@@ -246,11 +220,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCloseOrExport
     path: ../TinyLife/Uis/CharacterCreator.cs
-    startLine: 458
+    startLine: 392
   assemblies:
   - Tiny Life
   namespace: TinyLife.Uis
-  summary: "\nReturns whether the character creator currently allows being closed or for the current household to be exported.\nThe return value is based on <xref href=\"TinyLife.Uis.CharacterCreator.CanSwitchPeople\" data-throw-if-not-resolved=\"false\"></xref>, as well as <xref href=\"TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable%7bTinyLife.Objects.Person%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nReturns whether the character creator currently allows being closed or for the current household to be exported.\nThe return value is based on <see cref=\"!:CanSwitchPeople\"></see>, as well as <xref href=\"TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable%7bTinyLife.Objects.Person%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public bool CanCloseOrExport()
@@ -277,7 +251,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Open
     path: ../TinyLife/Uis/CharacterCreator.cs
-    startLine: 852
+    startLine: 785
   assemblies:
   - Tiny Life
   namespace: TinyLife.Uis
@@ -315,7 +289,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCustomPrice
     path: ../TinyLife/Uis/CharacterCreator.cs
-    startLine: 866
+    startLine: 799
   assemblies:
   - Tiny Life
   namespace: TinyLife.Uis
@@ -353,7 +327,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BoughtItem
     path: ../TinyLife/Uis/CharacterCreator.cs
-    startLine: 882
+    startLine: 815
   assemblies:
   - Tiny Life
   namespace: TinyLife.Uis
@@ -370,6 +344,197 @@ items:
       description: The clothes bought.
     content.vb: Public Shared Sub BoughtItem(person As Person, clothes As WornClothes)
   overload: TinyLife.Uis.CharacterCreator.BoughtItem*
+- uid: TinyLife.Uis.CharacterCreator.IsPersonComplete(TinyLife.Objects.Person)
+  commentId: M:TinyLife.Uis.CharacterCreator.IsPersonComplete(TinyLife.Objects.Person)
+  id: IsPersonComplete(TinyLife.Objects.Person)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: IsPersonComplete(Person)
+  nameWithType: CharacterCreator.IsPersonComplete(Person)
+  fullName: TinyLife.Uis.CharacterCreator.IsPersonComplete(TinyLife.Objects.Person)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsPersonComplete
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 821
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static bool IsPersonComplete(Person person)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsPersonComplete(person As Person) As Boolean
+  overload: TinyLife.Uis.CharacterCreator.IsPersonComplete*
+- uid: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector(TinyLife.Objects.Person,System.Boolean)
+  commentId: M:TinyLife.Uis.CharacterCreator.CreatePersonalitySelector(TinyLife.Objects.Person,System.Boolean)
+  id: CreatePersonalitySelector(TinyLife.Objects.Person,System.Boolean)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: CreatePersonalitySelector(Person, bool)
+  nameWithType: CharacterCreator.CreatePersonalitySelector(Person, bool)
+  fullName: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector(TinyLife.Objects.Person, bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreatePersonalitySelector
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 827
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static Group CreatePersonalitySelector(Person person, bool lockCurrent)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: lockCurrent
+      type: System.Boolean
+    return:
+      type: MLEM.Ui.Elements.Group
+    content.vb: Public Shared Function CreatePersonalitySelector(person As Person, lockCurrent As Boolean) As Group
+  overload: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector*
+  nameWithType.vb: CharacterCreator.CreatePersonalitySelector(Person, Boolean)
+  fullName.vb: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector(TinyLife.Objects.Person, Boolean)
+  name.vb: CreatePersonalitySelector(Person, Boolean)
+- uid: TinyLife.Uis.CharacterCreator.CreateNameSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  commentId: M:TinyLife.Uis.CharacterCreator.CreateNameSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  id: CreateNameSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: CreateNameSelector(Person, Element)
+  nameWithType: CharacterCreator.CreateNameSelector(Person, Element)
+  fullName: TinyLife.Uis.CharacterCreator.CreateNameSelector(TinyLife.Objects.Person, MLEM.Ui.Elements.Element)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreateNameSelector
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 857
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static void CreateNameSelector(Person person, Element parent)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: parent
+      type: MLEM.Ui.Elements.Element
+    content.vb: Public Shared Sub CreateNameSelector(person As Person, parent As Element)
+  overload: TinyLife.Uis.CharacterCreator.CreateNameSelector*
+- uid: TinyLife.Uis.CharacterCreator.CreatePronounSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  commentId: M:TinyLife.Uis.CharacterCreator.CreatePronounSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  id: CreatePronounSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: CreatePronounSelector(Person, Element)
+  nameWithType: CharacterCreator.CreatePronounSelector(Person, Element)
+  fullName: TinyLife.Uis.CharacterCreator.CreatePronounSelector(TinyLife.Objects.Person, MLEM.Ui.Elements.Element)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreatePronounSelector
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 880
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static void CreatePronounSelector(Person person, Element parent)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: parent
+      type: MLEM.Ui.Elements.Element
+    content.vb: Public Shared Sub CreatePronounSelector(person As Person, parent As Element)
+  overload: TinyLife.Uis.CharacterCreator.CreatePronounSelector*
+- uid: TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  commentId: M:TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  id: CreatePregnancyAbilitySelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: CreatePregnancyAbilitySelector(Person, Element)
+  nameWithType: CharacterCreator.CreatePregnancyAbilitySelector(Person, Element)
+  fullName: TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector(TinyLife.Objects.Person, MLEM.Ui.Elements.Element)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreatePregnancyAbilitySelector
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 891
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static void CreatePregnancyAbilitySelector(Person person, Element parent)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: parent
+      type: MLEM.Ui.Elements.Element
+    content.vb: Public Shared Sub CreatePregnancyAbilitySelector(person As Person, parent As Element)
+  overload: TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector*
+- uid: TinyLife.Uis.CharacterCreator.CreateVoiceSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  commentId: M:TinyLife.Uis.CharacterCreator.CreateVoiceSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  id: CreateVoiceSelector(TinyLife.Objects.Person,MLEM.Ui.Elements.Element)
+  parent: TinyLife.Uis.CharacterCreator
+  langs:
+  - csharp
+  - vb
+  name: CreateVoiceSelector(Person, Element)
+  nameWithType: CharacterCreator.CreateVoiceSelector(Person, Element)
+  fullName: TinyLife.Uis.CharacterCreator.CreateVoiceSelector(TinyLife.Objects.Person, MLEM.Ui.Elements.Element)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Uis/CharacterCreator.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreateVoiceSelector
+    path: ../TinyLife/Uis/CharacterCreator.cs
+    startLine: 915
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static void CreateVoiceSelector(Person person, Element parent)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: parent
+      type: MLEM.Ui.Elements.Element
+    content.vb: Public Shared Sub CreateVoiceSelector(person As Person, parent As Element)
+  overload: TinyLife.Uis.CharacterCreator.CreateVoiceSelector*
 references:
 - uid: TinyLife.Objects.Clothes
   commentId: T:TinyLife.Objects.Clothes
@@ -856,47 +1021,6 @@ references:
   - name: .
   - uid: TinyLife.Uis.CharacterCreator.BoughtItemDelegate
     name: BoughtItemDelegate
-- uid: TinyLife.Objects.Person.FullName
-  commentId: P:TinyLife.Objects.Person.FullName
-  name: FullName
-  nameWithType: Person.FullName
-  fullName: TinyLife.Objects.Person.FullName
-- uid: TinyLife.Objects.Person.PersonalityTypes
-  commentId: F:TinyLife.Objects.Person.PersonalityTypes
-  name: PersonalityTypes
-  nameWithType: Person.PersonalityTypes
-  fullName: TinyLife.Objects.Person.PersonalityTypes
-- uid: TinyLife.Uis.CharacterCreator.CanSwitchPeople*
-  commentId: Overload:TinyLife.Uis.CharacterCreator.CanSwitchPeople
-  name: CanSwitchPeople
-  nameWithType: CharacterCreator.CanSwitchPeople
-  fullName: TinyLife.Uis.CharacterCreator.CanSwitchPeople
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
-- uid: TinyLife.Uis.CharacterCreator.CanSwitchPeople
-  commentId: M:TinyLife.Uis.CharacterCreator.CanSwitchPeople
-  name: CanSwitchPeople()
-  nameWithType: CharacterCreator.CanSwitchPeople()
-  fullName: TinyLife.Uis.CharacterCreator.CanSwitchPeople()
-  spec.csharp:
-  - uid: TinyLife.Uis.CharacterCreator.CanSwitchPeople
-    name: CanSwitchPeople
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Uis.CharacterCreator.CanSwitchPeople
-    name: CanSwitchPeople
-  - name: (
-  - name: )
 - uid: TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
   commentId: M:TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
   isExternal: true
@@ -940,6 +1064,17 @@ references:
   name: CanCloseOrExport
   nameWithType: CharacterCreator.CanCloseOrExport
   fullName: TinyLife.Uis.CharacterCreator.CanCloseOrExport
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: TinyLife.Uis.CharacterCreator.Open*
   commentId: Overload:TinyLife.Uis.CharacterCreator.Open
   name: Open
@@ -1028,3 +1163,77 @@ references:
   name: BoughtItem
   nameWithType: CharacterCreator.BoughtItem
   fullName: TinyLife.Uis.CharacterCreator.BoughtItem
+- uid: TinyLife.Uis.CharacterCreator.IsPersonComplete*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.IsPersonComplete
+  name: IsPersonComplete
+  nameWithType: CharacterCreator.IsPersonComplete
+  fullName: TinyLife.Uis.CharacterCreator.IsPersonComplete
+- uid: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.CreatePersonalitySelector
+  name: CreatePersonalitySelector
+  nameWithType: CharacterCreator.CreatePersonalitySelector
+  fullName: TinyLife.Uis.CharacterCreator.CreatePersonalitySelector
+- uid: MLEM.Ui.Elements.Group
+  commentId: T:MLEM.Ui.Elements.Group
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Group
+  nameWithType: Group
+  fullName: MLEM.Ui.Elements.Group
+- uid: MLEM.Ui.Elements
+  commentId: N:MLEM.Ui.Elements
+  isExternal: true
+  name: MLEM.Ui.Elements
+  nameWithType: MLEM.Ui.Elements
+  fullName: MLEM.Ui.Elements
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
+- uid: TinyLife.Uis.CharacterCreator.CreateNameSelector*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.CreateNameSelector
+  name: CreateNameSelector
+  nameWithType: CharacterCreator.CreateNameSelector
+  fullName: TinyLife.Uis.CharacterCreator.CreateNameSelector
+- uid: MLEM.Ui.Elements.Element
+  commentId: T:MLEM.Ui.Elements.Element
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Element
+  nameWithType: Element
+  fullName: MLEM.Ui.Elements.Element
+- uid: TinyLife.Uis.CharacterCreator.CreatePronounSelector*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.CreatePronounSelector
+  name: CreatePronounSelector
+  nameWithType: CharacterCreator.CreatePronounSelector
+  fullName: TinyLife.Uis.CharacterCreator.CreatePronounSelector
+- uid: TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector
+  name: CreatePregnancyAbilitySelector
+  nameWithType: CharacterCreator.CreatePregnancyAbilitySelector
+  fullName: TinyLife.Uis.CharacterCreator.CreatePregnancyAbilitySelector
+- uid: TinyLife.Uis.CharacterCreator.CreateVoiceSelector*
+  commentId: Overload:TinyLife.Uis.CharacterCreator.CreateVoiceSelector
+  name: CreateVoiceSelector
+  nameWithType: CharacterCreator.CreateVoiceSelector
+  fullName: TinyLife.Uis.CharacterCreator.CreateVoiceSelector

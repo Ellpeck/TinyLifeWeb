@@ -8,7 +8,7 @@ items:
   - TinyLife.Relationship.AddRecentSocial(TinyLife.Actions.ActionType)
   - TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Relationship.Dating
-  - TinyLife.Relationship.DisplayString
+  - TinyLife.Relationship.FriendDisplayString
   - TinyLife.Relationship.FriendLevel
   - TinyLife.Relationship.FriendPercentage
   - TinyLife.Relationship.Genealogy
@@ -27,10 +27,12 @@ items:
   - TinyLife.Relationship.PassiveRomanceReduction
   - TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
   - TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
+  - TinyLife.Relationship.RomanceDisplayString
   - TinyLife.Relationship.RomanceLevel
   - TinyLife.Relationship.RomancePercentage
   - TinyLife.Relationship.RomanceType
   - TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean)
+  - TinyLife.Relationship.TryingForBaby
   - TinyLife.Relationship.Type
   - TinyLife.Relationship.Validate(TinyLife.Objects.Person)
   langs:
@@ -47,7 +49,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Relationship
     path: ../TinyLife/Relationship.cs
-    startLine: 24
+    startLine: 25
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -103,7 +105,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRelationshipPanel
     path: ../TinyLife/Relationship.cs
-    startLine: 31
+    startLine: 32
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -132,7 +134,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRelationshipTooltip
     path: ../TinyLife/Relationship.cs
-    startLine: 36
+    startLine: 37
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -161,7 +163,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Max
     path: ../TinyLife/Relationship.cs
-    startLine: 41
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -190,7 +192,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PassiveFriendReduction
     path: ../TinyLife/Relationship.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -219,7 +221,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PassiveRomanceReduction
     path: ../TinyLife/Relationship.cs
-    startLine: 49
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -248,7 +250,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MaxRecentSocialsAmount
     path: ../TinyLife/Relationship.cs
-    startLine: 54
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -277,7 +279,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: KnownPersonalityTypes
     path: ../TinyLife/Relationship.cs
-    startLine: 61
+    startLine: 62
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -316,7 +318,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OtherPerson
     path: ../TinyLife/Relationship.cs
-    startLine: 67
+    startLine: 68
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -357,7 +359,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Partner
     path: ../TinyLife/Relationship.cs
-    startLine: 73
+    startLine: 74
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -388,11 +390,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FriendLevel
     path: ../TinyLife/Relationship.cs
-    startLine: 78
+    startLine: 80
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: "\nThe current amount of friendship points (out of <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>) that this relationship has.\nThis value is automatically clamped between -<xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe current amount of friendship points (out of <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>) that this relationship has.\nThis value is automatically clamped between -<xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>.\nTo take skills, personalities and more into account, use <xref href=\"TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public float FriendLevel { get; set; }
@@ -419,11 +421,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomanceLevel
     path: ../TinyLife/Relationship.cs
-    startLine: 87
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: "\nThe current amount of romance points (out of <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>) that this relationship has.\nThis value is automatically clamped between 0 and <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that, for aromantic people, getting and setting this value always gets and sets <xref href=\"TinyLife.Relationship.FriendLevel\" data-throw-if-not-resolved=\"false\"></xref> instead.\n"
+  summary: "\nThe current amount of romance points (out of <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>) that this relationship has.\nThis value is automatically clamped between 0 and <xref href=\"TinyLife.Relationship.Max\" data-throw-if-not-resolved=\"false\"></xref>.\nTo take skills, personalities and more into account, use <xref href=\"TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\nNote that, for aromantic people, getting and setting this value always gets and sets <xref href=\"TinyLife.Relationship.FriendLevel\" data-throw-if-not-resolved=\"false\"></xref> instead.\n"
   example: []
   syntax:
     content: public float RomanceLevel { get; set; }
@@ -450,7 +452,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FriendPercentage
     path: ../TinyLife/Relationship.cs
-    startLine: 100
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -481,7 +483,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomancePercentage
     path: ../TinyLife/Relationship.cs
-    startLine: 104
+    startLine: 107
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -512,7 +514,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Relationship.cs
-    startLine: 108
+    startLine: 111
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -543,7 +545,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomanceType
     path: ../TinyLife/Relationship.cs
-    startLine: 125
+    startLine: 128
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -554,37 +556,68 @@ items:
       type: TinyLife.RomanceType
     content.vb: Public Property RomanceType As RomanceType
   overload: TinyLife.Relationship.RomanceType*
-- uid: TinyLife.Relationship.DisplayString
-  commentId: P:TinyLife.Relationship.DisplayString
-  id: DisplayString
+- uid: TinyLife.Relationship.FriendDisplayString
+  commentId: P:TinyLife.Relationship.FriendDisplayString
+  id: FriendDisplayString
   parent: TinyLife.Relationship
   langs:
   - csharp
   - vb
-  name: DisplayString
-  nameWithType: Relationship.DisplayString
-  fullName: TinyLife.Relationship.DisplayString
+  name: FriendDisplayString
+  nameWithType: Relationship.FriendDisplayString
+  fullName: TinyLife.Relationship.FriendDisplayString
   type: Property
   source:
     remote:
       path: TinyLife/Relationship.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: DisplayString
+    id: FriendDisplayString
     path: ../TinyLife/Relationship.cs
-    startLine: 144
+    startLine: 146
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: "\nAn (unlocalized) string that represents a written version of this relationship&apos;s status.\nIf <xref href=\"TinyLife.Relationship.Dating\" data-throw-if-not-resolved=\"false\"></xref> is true, the string &quot;Dating&quot; will be returned. Otherwise, <xref href=\"TinyLife.Relationship.RomanceType\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Relationship.Type\" data-throw-if-not-resolved=\"false\"></xref> is returned as a string.\n"
+  summary: "\nAn (unlocalized) string that represents a written version of this relationship&apos;s <xref href=\"TinyLife.Relationship.Type\" data-throw-if-not-resolved=\"false\"></xref> status.\n"
   example: []
   syntax:
-    content: public string DisplayString { get; }
+    content: public string FriendDisplayString { get; }
     parameters: []
     return:
       type: System.String
-    content.vb: Public ReadOnly Property DisplayString As String
-  overload: TinyLife.Relationship.DisplayString*
+    content.vb: Public ReadOnly Property FriendDisplayString As String
+  overload: TinyLife.Relationship.FriendDisplayString*
+- uid: TinyLife.Relationship.RomanceDisplayString
+  commentId: P:TinyLife.Relationship.RomanceDisplayString
+  id: RomanceDisplayString
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: RomanceDisplayString
+  nameWithType: Relationship.RomanceDisplayString
+  fullName: TinyLife.Relationship.RomanceDisplayString
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: RomanceDisplayString
+    path: ../TinyLife/Relationship.cs
+    startLine: 150
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: "\nAn (unlocalized) string that represents a written version of this relationship&apos;s <xref href=\"TinyLife.Relationship.RomanceType\" data-throw-if-not-resolved=\"false\"></xref> status.\n"
+  example: []
+  syntax:
+    content: public string RomanceDisplayString { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public ReadOnly Property RomanceDisplayString As String
+  overload: TinyLife.Relationship.RomanceDisplayString*
 - uid: TinyLife.Relationship.Genealogy
   commentId: P:TinyLife.Relationship.Genealogy
   id: Genealogy
@@ -603,7 +636,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Genealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 158
+    startLine: 156
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -644,7 +677,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Dating
     path: ../TinyLife/Relationship.cs
-    startLine: 164
+    startLine: 162
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -683,7 +716,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HadFirstKiss
     path: ../TinyLife/Relationship.cs
-    startLine: 169
+    startLine: 167
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -722,7 +755,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: KnownJobType
     path: ../TinyLife/Relationship.cs
-    startLine: 171
+    startLine: 169
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -741,6 +774,47 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Relationship.TryingForBaby
+  commentId: F:TinyLife.Relationship.TryingForBaby
+  id: TryingForBaby
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: TryingForBaby
+  nameWithType: Relationship.TryingForBaby
+  fullName: TinyLife.Relationship.TryingForBaby
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: TryingForBaby
+    path: ../TinyLife/Relationship.cs
+    startLine: 173
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: >-
+      [DataMember(EmitDefaultValue = false)]
+
+      public bool TryingForBaby
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <DataMember(EmitDefaultValue:=False)>
+
+      Public TryingForBaby As Boolean
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: EmitDefaultValue
+      type: System.Boolean
+      value: false
 - uid: TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   commentId: M:TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   id: GetSocialEffectiveness(TinyLife.Actions.ActionType)
@@ -759,7 +833,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSocialEffectiveness
     path: ../TinyLife/Relationship.cs
-    startLine: 193
+    startLine: 196
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -794,7 +868,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRecentSocialAmount
     path: ../TinyLife/Relationship.cs
-    startLine: 203
+    startLine: 206
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -829,7 +903,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRecentSocial
     path: ../TinyLife/Relationship.cs
-    startLine: 213
+    startLine: 216
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -861,7 +935,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Relationship.cs
-    startLine: 224
+    startLine: 227
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -893,7 +967,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Relationship.cs
-    startLine: 239
+    startLine: 242
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -931,7 +1005,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetGenealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 269
+    startLine: 272
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -969,7 +1043,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreatePanel
     path: ../TinyLife/Relationship.cs
-    startLine: 308
+    startLine: 311
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1013,7 +1087,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PopulateTooltip
     path: ../TinyLife/Relationship.cs
-    startLine: 346
+    startLine: 356
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -2142,11 +2216,83 @@ references:
   name: Partner
   nameWithType: Relationship.Partner
   fullName: TinyLife.Relationship.Partner
+- uid: TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person,System.Single)
+  commentId: M:TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person,System.Single)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: ChangeFriendship(Person, float)
+  nameWithType: Person.ChangeFriendship(Person, float)
+  fullName: TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person, float)
+  nameWithType.vb: Person.ChangeFriendship(Person, Single)
+  fullName.vb: TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person, Single)
+  name.vb: ChangeFriendship(Person, Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person,System.Single)
+    name: ChangeFriendship
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.ChangeFriendship(TinyLife.Objects.Person,System.Single)
+    name: ChangeFriendship
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
 - uid: TinyLife.Relationship.FriendLevel*
   commentId: Overload:TinyLife.Relationship.FriendLevel
   name: FriendLevel
   nameWithType: Relationship.FriendLevel
   fullName: TinyLife.Relationship.FriendLevel
+- uid: TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person,System.Single)
+  commentId: M:TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person,System.Single)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: ChangeRomance(Person, float)
+  nameWithType: Person.ChangeRomance(Person, float)
+  fullName: TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person, float)
+  nameWithType.vb: Person.ChangeRomance(Person, Single)
+  fullName.vb: TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person, Single)
+  name.vb: ChangeRomance(Person, Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person,System.Single)
+    name: ChangeRomance
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.ChangeRomance(TinyLife.Objects.Person,System.Single)
+    name: ChangeRomance
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
 - uid: TinyLife.Relationship.RomanceLevel*
   commentId: Overload:TinyLife.Relationship.RomanceLevel
   name: RomanceLevel
@@ -2184,26 +2330,16 @@ references:
   name: RomanceType
   nameWithType: RomanceType
   fullName: TinyLife.RomanceType
-- uid: TinyLife.Relationship.Dating
-  commentId: F:TinyLife.Relationship.Dating
-  name: Dating
-  nameWithType: Relationship.Dating
-  fullName: TinyLife.Relationship.Dating
-- uid: TinyLife.Relationship.RomanceType
-  commentId: P:TinyLife.Relationship.RomanceType
-  name: RomanceType
-  nameWithType: Relationship.RomanceType
-  fullName: TinyLife.Relationship.RomanceType
 - uid: TinyLife.Relationship.Type
   commentId: P:TinyLife.Relationship.Type
   name: Type
   nameWithType: Relationship.Type
   fullName: TinyLife.Relationship.Type
-- uid: TinyLife.Relationship.DisplayString*
-  commentId: Overload:TinyLife.Relationship.DisplayString
-  name: DisplayString
-  nameWithType: Relationship.DisplayString
-  fullName: TinyLife.Relationship.DisplayString
+- uid: TinyLife.Relationship.FriendDisplayString*
+  commentId: Overload:TinyLife.Relationship.FriendDisplayString
+  name: FriendDisplayString
+  nameWithType: Relationship.FriendDisplayString
+  fullName: TinyLife.Relationship.FriendDisplayString
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -2215,6 +2351,16 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
+- uid: TinyLife.Relationship.RomanceType
+  commentId: P:TinyLife.Relationship.RomanceType
+  name: RomanceType
+  nameWithType: Relationship.RomanceType
+  fullName: TinyLife.Relationship.RomanceType
+- uid: TinyLife.Relationship.RomanceDisplayString*
+  commentId: Overload:TinyLife.Relationship.RomanceDisplayString
+  name: RomanceDisplayString
+  nameWithType: Relationship.RomanceDisplayString
+  fullName: TinyLife.Relationship.RomanceDisplayString
 - uid: TinyLife.GenealogyType
   commentId: T:TinyLife.GenealogyType
   parent: TinyLife
