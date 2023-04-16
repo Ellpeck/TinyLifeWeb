@@ -27,6 +27,7 @@ The following list contains a few bits of additional information that you should
 
 ## Language Overrides
 Strings that begin with `Overrides` are part of the overrides section, which is a set of settings that determine the way parts of the game operate when a language is applied. These should not be translated, and set to the appropriate values instead.
+- `DisplayLastNameFirst` determines the order that a Tiny's first and last names are displayed in. Set this to `true` to display last names first.
 - `HasGenderedPronouns` determines whether the pronoun customization menu, as well as Tinies' pronouns, should be displayed in-game. Set this to `false` for languages that don't have gendered pronouns, or languages that don't have pronouns at all. **Do not change this value for any other reason.**
 
 ## Notes for Specific Languages
