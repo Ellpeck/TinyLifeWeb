@@ -1,3 +1,18 @@
+# 0.31.1
+*April 17, 2023*
+
+Additions
+- Added the ability to disable the "Unavailable in Demo" info boxes in the hints options
+- Added "On the Roadmap" boxes in appropriate places that tease upcoming features (which can also be disabled in the hints options)
+
+Improvements
+- Made clock time format be based on the selected language
+- Allow languages to specify that a Tiny's last name should be displayed in front of their first name
+
+Fixes
+- Fixed spanish localization using the wrong language code, causing a crash
+- Fixed the character creator soft-locking the game when editing outfits for a Tiny who is incomplete
+
 # 0.31.0
 *April 14, 2023*
 
