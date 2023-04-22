@@ -3,7 +3,7 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 
 ## In-game cheats
 - `ShowNonBuyable` allows you to buy plates, pots and the like.
-- `Need [name] [percentage <= 1]` changes the current person's needs.
+- `Need [name] [percentage between 0 and 1]` changes the current person's needs.
   - `NoNeed` stops need reduction for everyone.
   - `Needless` fills all needs back up for the current person.
 - `IgnorePlacementRules` allows you to place colliding furniture. Note that, in this mode, it is very easy to place furniture in a way that looks incorrect or overlaps when rotating the camera.
@@ -15,8 +15,8 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `Job [name] [level]` stes the current person's job and job level.
 - `Die` kills the current person.
 - `Emotion [modifier name] [level] [seconds]` adds an emotion modifier to the current person. You can find a list of all emotion modifiers [in the API docs](xref:TinyLife.Emotions.EmotionModifier).
-- `Friendship [name without spaces] [percentage <= 1]` sets the friendship level between the named partner and the current person to the given percentage.
-- `Romance [name without spaces] [percentage <= 1]` sets the romance level between the named partner and the current person to the given percentage.
+- `Friendship [name without spaces] [percentage between -1 and 1]` sets the friendship level between the named partner and the current person to the given percentage.
+- `Romance [name without spaces] [percentage between -1 and 1]` sets the romance level between the named partner and the current person to the given percentage.
 - `Forget [name without spaces]` deletes any active relationships between the named partner and the current person.
 - `FreeLots` makes creating and importing households onto lots free.
 - `BigScreenshot` takes a full-size screenshot of the entire map, which might take a few seconds to save, during which the game will be stalled.
