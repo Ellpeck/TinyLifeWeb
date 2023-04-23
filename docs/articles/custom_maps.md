@@ -29,9 +29,10 @@ There's a few cheats not listed in the [cheats article](cheats.md) that are usef
 ## Exporting Your Map
 To export your custom map, simply execute the `ExportCustomMap` cheat. This will reset some of the map's properties to default values, which includes normalization the skill level progress and relationships of everyone on the map. You can find your exported map in the [game directory's](game_dir.md) `Custom Maps` folder.
 
-Before sharing your map with the community, there are two additional files that are required to make the map work in-game:
-- A `txt` file with the same name as your map file that contains the description of your map which will be displayed when creating a new save file in the game.
-- A `png` file that contains a screenshot of a prominent part of your map (or any other image) which will aos be displayed when creating a new save file. The game expects this file to have 4:1 aspect ratio, with the default maps' size being 512x128 pixels.
+Before sharing your map with the community, there are some additional files that are required to make the map work in-game:
+- `MyMapName.txt` contains the description of your map which will be displayed when creating a new save file in the game.
+- `MyMapName.png` contains a screenshot of a prominent part of your map (or any other image) which will be displayed when creating a new save file. The game expects this file to have 4:1 aspect ratio, with the default maps' size being 512x128 pixels.
+- Optionally `MyMapNameSteamThumbnail.png`, which will be used as the preview image displayed in the Steam Workshop if you decide to share your map there.
 
 Optionally, you can put the three files into a `zip` archive to share with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
 
