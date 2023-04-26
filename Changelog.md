@@ -1,3 +1,9 @@
+# 0.31.3
+*April 26, 2023*
+
+Fixes
+- Fixed some actions with varieties never being started by the AI
+
 # 0.31.2
 *April 26, 2023*
 
