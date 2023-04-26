@@ -18,6 +18,7 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `Friendship [name without spaces] [percentage between -1 and 1]` sets the friendship level between the named partner and the current person to the given percentage.
 - `Romance [name without spaces] [percentage between -1 and 1]` sets the romance level between the named partner and the current person to the given percentage.
 - `Forget [name without spaces]` deletes any active relationships between the named partner and the current person.
+- `Revive [name without spaces]` revives a person who has died and adds them to your household.
 - `FreeLots` makes creating and importing households onto lots free.
 - `BigScreenshot` takes a full-size screenshot of the entire map, which might take a few seconds to save, during which the game will be stalled.
 - `LifeGoal [goal] [stage]` sets the current person's life goal to the goal and stage number.

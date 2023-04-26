@@ -5,6 +5,7 @@ items:
   id: Relationship
   parent: TinyLife
   children:
+  - TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan})
   - TinyLife.Relationship.AddRecentSocial(TinyLife.Actions.ActionType)
   - TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Relationship.Dating
@@ -12,8 +13,10 @@ items:
   - TinyLife.Relationship.FriendLevel
   - TinyLife.Relationship.FriendPercentage
   - TinyLife.Relationship.Genealogy
+  - TinyLife.Relationship.GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
   - TinyLife.Relationship.GetRecentSocialAmount(TinyLife.Actions.ActionType)
   - TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
+  - TinyLife.Relationship.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
   - TinyLife.Relationship.HadFirstKiss
   - TinyLife.Relationship.KnownJobType
   - TinyLife.Relationship.KnownPersonalityTypes
@@ -26,6 +29,7 @@ items:
   - TinyLife.Relationship.PassiveFriendReduction
   - TinyLife.Relationship.PassiveRomanceReduction
   - TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
+  - TinyLife.Relationship.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
   - TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Relationship.RomanceDisplayString
   - TinyLife.Relationship.RomanceLevel
@@ -545,10 +549,12 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomanceType
     path: ../TinyLife/Relationship.cs
-    startLine: 128
+    startLine: 131
   assemblies:
   - Tiny Life
   namespace: TinyLife
+  summary: "\nThe <xref href=\"TinyLife.Relationship.RomanceType\" data-throw-if-not-resolved=\"false\"></xref> that this relationship has, based on the current <xref href=\"TinyLife.Relationship.RomanceLevel\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
   syntax:
     content: public RomanceType RomanceType { get; set; }
     parameters: []
@@ -574,7 +580,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FriendDisplayString
     path: ../TinyLife/Relationship.cs
-    startLine: 146
+    startLine: 149
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -605,7 +611,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RomanceDisplayString
     path: ../TinyLife/Relationship.cs
-    startLine: 150
+    startLine: 153
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -636,7 +642,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Genealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 156
+    startLine: 159
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -677,7 +683,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Dating
     path: ../TinyLife/Relationship.cs
-    startLine: 162
+    startLine: 165
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -716,7 +722,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HadFirstKiss
     path: ../TinyLife/Relationship.cs
-    startLine: 167
+    startLine: 170
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -726,17 +732,26 @@ items:
     content: >-
       [DataMember]
 
+      [Obsolete("Use the HadFirstKiss memory instead")]
+
       public bool HadFirstKiss
     return:
       type: System.Boolean
     content.vb: >-
       <DataMember>
 
+      <Obsolete("Use the HadFirstKiss memory instead")>
+
       Public HadFirstKiss As Boolean
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+  - type: System.ObsoleteAttribute
+    ctor: System.ObsoleteAttribute.#ctor(System.String)
+    arguments:
+    - type: System.String
+      value: Use the HadFirstKiss memory instead
 - uid: TinyLife.Relationship.KnownJobType
   commentId: F:TinyLife.Relationship.KnownJobType
   id: KnownJobType
@@ -755,10 +770,12 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: KnownJobType
     path: ../TinyLife/Relationship.cs
-    startLine: 169
+    startLine: 175
   assemblies:
   - Tiny Life
   namespace: TinyLife
+  summary: "\nStores the <xref href=\"TinyLife.Goals.JobType.Types\" data-throw-if-not-resolved=\"false\"></xref> registry name of the job type that this relationship&apos;s person currently knows about the relationship&apos;s <xref href=\"TinyLife.Relationship.Partner\" data-throw-if-not-resolved=\"false\"></xref>. If this is <a href=\"https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null\">null</a>, no job type is known. If this value is set to <code>None</code>, the <xref href=\"TinyLife.Relationship.Partner\" data-throw-if-not-resolved=\"false\"></xref> has no job.\n"
+  example: []
   syntax:
     content: >-
       [DataMember]
@@ -792,10 +809,12 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TryingForBaby
     path: ../TinyLife/Relationship.cs
-    startLine: 173
+    startLine: 181
   assemblies:
   - Tiny Life
   namespace: TinyLife
+  summary: "\nStores whether the people involved in this relationship have agreed to try for a baby. If this is <a href=\"https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool\">true</a>, fooling around has a chance to lead to a pregnancy.\n"
+  example: []
   syntax:
     content: >-
       [DataMember(EmitDefaultValue = false)]
@@ -833,7 +852,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSocialEffectiveness
     path: ../TinyLife/Relationship.cs
-    startLine: 196
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -868,7 +887,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRecentSocialAmount
     path: ../TinyLife/Relationship.cs
-    startLine: 206
+    startLine: 214
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -903,7 +922,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRecentSocial
     path: ../TinyLife/Relationship.cs
-    startLine: 216
+    startLine: 224
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -935,7 +954,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Relationship.cs
-    startLine: 227
+    startLine: 235
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -967,7 +986,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Relationship.cs
-    startLine: 242
+    startLine: 255
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1005,7 +1024,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetGenealogy
     path: ../TinyLife/Relationship.cs
-    startLine: 272
+    startLine: 285
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1025,6 +1044,166 @@ items:
   nameWithType.vb: Relationship.SetGenealogy(GenealogyType, Boolean)
   fullName.vb: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType, Boolean)
   name.vb: SetGenealogy(GenealogyType, Boolean)
+- uid: TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan})
+  id: AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Boolean,System.Nullable{System.TimeSpan})
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: AddMemory<T>(MemoryType, bool, bool, TimeSpan?)
+  nameWithType: Relationship.AddMemory<T>(MemoryType, bool, bool, TimeSpan?)
+  fullName: TinyLife.Relationship.AddMemory<T>(TinyLife.Goals.MemoryType, bool, bool, System.TimeSpan?)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: AddMemory
+    path: ../TinyLife/Relationship.cs
+    startLine: 315
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: 'public T AddMemory<T>(MemoryType type, bool addToBoth, bool replace = false, TimeSpan? timeOccured = null) where T : Memory'
+    parameters:
+    - id: type
+      type: TinyLife.Goals.MemoryType
+    - id: addToBoth
+      type: System.Boolean
+    - id: replace
+      type: System.Boolean
+    - id: timeOccured
+      type: System.Nullable{System.TimeSpan}
+    typeParameters:
+    - id: T
+    return:
+      type: '{T}'
+    content.vb: Public Function AddMemory(Of T As Memory)(type As MemoryType, addToBoth As Boolean, replace As Boolean = False, timeOccured As TimeSpan? = Nothing) As T
+  overload: TinyLife.Relationship.AddMemory*
+  nameWithType.vb: Relationship.AddMemory(Of T)(MemoryType, Boolean, Boolean, TimeSpan?)
+  fullName.vb: TinyLife.Relationship.AddMemory(Of T)(TinyLife.Goals.MemoryType, Boolean, Boolean, System.TimeSpan?)
+  name.vb: AddMemory(Of T)(MemoryType, Boolean, Boolean, TimeSpan?)
+- uid: TinyLife.Relationship.GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
+  commentId: M:TinyLife.Relationship.GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
+  id: GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: GetMemories<T>(MemoryType, bool)
+  nameWithType: Relationship.GetMemories<T>(MemoryType, bool)
+  fullName: TinyLife.Relationship.GetMemories<T>(TinyLife.Goals.MemoryType, bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetMemories
+    path: ../TinyLife/Relationship.cs
+    startLine: 321
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: 'public IEnumerable<T> GetMemories<T>(MemoryType type, bool returnBoth) where T : Memory'
+    parameters:
+    - id: type
+      type: TinyLife.Goals.MemoryType
+    - id: returnBoth
+      type: System.Boolean
+    typeParameters:
+    - id: T
+    return:
+      type: System.Collections.Generic.IEnumerable{{T}}
+    content.vb: Public Function GetMemories(Of T As Memory)(type As MemoryType, returnBoth As Boolean) As IEnumerable(Of T)
+  overload: TinyLife.Relationship.GetMemories*
+  nameWithType.vb: Relationship.GetMemories(Of T)(MemoryType, Boolean)
+  fullName.vb: TinyLife.Relationship.GetMemories(Of T)(TinyLife.Goals.MemoryType, Boolean)
+  name.vb: GetMemories(Of T)(MemoryType, Boolean)
+- uid: TinyLife.Relationship.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  commentId: M:TinyLife.Relationship.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  id: RemoveMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: RemoveMemory<T>(MemoryType, bool, Func<T, bool>)
+  nameWithType: Relationship.RemoveMemory<T>(MemoryType, bool, Func<T, bool>)
+  fullName: TinyLife.Relationship.RemoveMemory<T>(TinyLife.Goals.MemoryType, bool, System.Func<T, bool>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: RemoveMemory
+    path: ../TinyLife/Relationship.cs
+    startLine: 328
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: 'public int RemoveMemory<T>(MemoryType type, bool removeFromBoth, Func<T, bool> condition = null) where T : Memory'
+    parameters:
+    - id: type
+      type: TinyLife.Goals.MemoryType
+    - id: removeFromBoth
+      type: System.Boolean
+    - id: condition
+      type: System.Func{{T},System.Boolean}
+    typeParameters:
+    - id: T
+    return:
+      type: System.Int32
+    content.vb: Public Function RemoveMemory(Of T As Memory)(type As MemoryType, removeFromBoth As Boolean, condition As Func(Of T, Boolean) = Nothing) As Integer
+  overload: TinyLife.Relationship.RemoveMemory*
+  nameWithType.vb: Relationship.RemoveMemory(Of T)(MemoryType, Boolean, Func(Of T, Boolean))
+  fullName.vb: TinyLife.Relationship.RemoveMemory(Of T)(TinyLife.Goals.MemoryType, Boolean, System.Func(Of T, Boolean))
+  name.vb: RemoveMemory(Of T)(MemoryType, Boolean, Func(Of T, Boolean))
+- uid: TinyLife.Relationship.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  commentId: M:TinyLife.Relationship.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  id: GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: GetTimeSinceMemory<T>(MemoryType, bool, Func<T, bool>)
+  nameWithType: Relationship.GetTimeSinceMemory<T>(MemoryType, bool, Func<T, bool>)
+  fullName: TinyLife.Relationship.GetTimeSinceMemory<T>(TinyLife.Goals.MemoryType, bool, System.Func<T, bool>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetTimeSinceMemory
+    path: ../TinyLife/Relationship.cs
+    startLine: 335
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: 'public TimeSpan? GetTimeSinceMemory<T>(MemoryType type, bool includeBoth, Func<T, bool> condition = null) where T : Memory'
+    parameters:
+    - id: type
+      type: TinyLife.Goals.MemoryType
+    - id: includeBoth
+      type: System.Boolean
+    - id: condition
+      type: System.Func{{T},System.Boolean}
+    typeParameters:
+    - id: T
+    return:
+      type: System.Nullable{System.TimeSpan}
+    content.vb: Public Function GetTimeSinceMemory(Of T As Memory)(type As MemoryType, includeBoth As Boolean, condition As Func(Of T, Boolean) = Nothing) As TimeSpan?
+  overload: TinyLife.Relationship.GetTimeSinceMemory*
+  nameWithType.vb: Relationship.GetTimeSinceMemory(Of T)(MemoryType, Boolean, Func(Of T, Boolean))
+  fullName.vb: TinyLife.Relationship.GetTimeSinceMemory(Of T)(TinyLife.Goals.MemoryType, Boolean, System.Func(Of T, Boolean))
+  name.vb: GetTimeSinceMemory(Of T)(MemoryType, Boolean, Func(Of T, Boolean))
 - uid: TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   id: CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
@@ -1043,7 +1222,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreatePanel
     path: ../TinyLife/Relationship.cs
-    startLine: 311
+    startLine: 354
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1087,7 +1266,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PopulateTooltip
     path: ../TinyLife/Relationship.cs
-    startLine: 356
+    startLine: 399
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -2319,6 +2498,11 @@ references:
   name: Type
   nameWithType: Relationship.Type
   fullName: TinyLife.Relationship.Type
+- uid: TinyLife.Relationship.RomanceType
+  commentId: P:TinyLife.Relationship.RomanceType
+  name: RomanceType
+  nameWithType: Relationship.RomanceType
+  fullName: TinyLife.Relationship.RomanceType
 - uid: TinyLife.Relationship.RomanceType*
   commentId: Overload:TinyLife.Relationship.RomanceType
   name: RomanceType
@@ -2351,11 +2535,6 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: TinyLife.Relationship.RomanceType
-  commentId: P:TinyLife.Relationship.RomanceType
-  name: RomanceType
-  nameWithType: Relationship.RomanceType
-  fullName: TinyLife.Relationship.RomanceType
 - uid: TinyLife.Relationship.RomanceDisplayString*
   commentId: Overload:TinyLife.Relationship.RomanceDisplayString
   name: RomanceDisplayString
@@ -2407,6 +2586,35 @@ references:
   name: Kiss
   nameWithType: ActionType.Kiss
   fullName: TinyLife.Actions.ActionType.Kiss
+- uid: TinyLife.Goals.JobType.Types
+  commentId: F:TinyLife.Goals.JobType.Types
+  parent: TinyLife.Goals.JobType
+  name: Types
+  nameWithType: JobType.Types
+  fullName: TinyLife.Goals.JobType.Types
+- uid: TinyLife.Goals.JobType
+  commentId: T:TinyLife.Goals.JobType
+  parent: TinyLife.Goals
+  name: JobType
+  nameWithType: JobType
+  fullName: TinyLife.Goals.JobType
+- uid: TinyLife.Goals
+  commentId: N:TinyLife.Goals
+  name: TinyLife.Goals
+  nameWithType: TinyLife.Goals
+  fullName: TinyLife.Goals
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Goals
+    name: Goals
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Goals
+    name: Goals
 - uid: TinyLife.Actions.ActionType
   commentId: T:TinyLife.Actions.ActionType
   parent: TinyLife.Actions
@@ -2541,6 +2749,222 @@ references:
   name: SetGenealogy
   nameWithType: Relationship.SetGenealogy
   fullName: TinyLife.Relationship.SetGenealogy
+- uid: TinyLife.Relationship.AddMemory*
+  commentId: Overload:TinyLife.Relationship.AddMemory
+  name: AddMemory
+  nameWithType: Relationship.AddMemory
+  fullName: TinyLife.Relationship.AddMemory
+- uid: TinyLife.Goals.MemoryType
+  commentId: T:TinyLife.Goals.MemoryType
+  parent: TinyLife.Goals
+  name: MemoryType
+  nameWithType: MemoryType
+  fullName: TinyLife.Goals.MemoryType
+- uid: System.Nullable{System.TimeSpan}
+  commentId: T:System.Nullable{System.TimeSpan}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan?
+  nameWithType: TimeSpan?
+  fullName: System.TimeSpan?
+  spec.csharp:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  spec.vb:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+- uid: '{T}'
+  commentId: '!:T'
+  definition: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: T
+  name: T
+  nameWithType: T
+  fullName: T
+- uid: TinyLife.Relationship.GetMemories*
+  commentId: Overload:TinyLife.Relationship.GetMemories
+  name: GetMemories
+  nameWithType: Relationship.GetMemories
+  fullName: TinyLife.Relationship.GetMemories
+- uid: System.Collections.Generic.IEnumerable{{T}}
+  commentId: T:System.Collections.Generic.IEnumerable{``0}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: TinyLife.Relationship.RemoveMemory*
+  commentId: Overload:TinyLife.Relationship.RemoveMemory
+  name: RemoveMemory
+  nameWithType: Relationship.RemoveMemory
+  fullName: TinyLife.Relationship.RemoveMemory
+- uid: System.Func{{T},System.Boolean}
+  commentId: T:System.Func{``0,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, bool>
+  nameWithType: Func<T, bool>
+  fullName: System.Func<T, bool>
+  nameWithType.vb: Func(Of T, Boolean)
+  fullName.vb: System.Func(Of T, Boolean)
+  name.vb: Func(Of T, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: TinyLife.Relationship.GetTimeSinceMemory*
+  commentId: Overload:TinyLife.Relationship.GetTimeSinceMemory
+  name: GetTimeSinceMemory
+  nameWithType: Relationship.GetTimeSinceMemory
+  fullName: TinyLife.Relationship.GetTimeSinceMemory
 - uid: MLEM.Ui.Elements.Group
   commentId: T:MLEM.Ui.Elements.Group
   parent: MLEM.Ui.Elements

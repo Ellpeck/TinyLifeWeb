@@ -1,3 +1,23 @@
+# 0.31.2
+*April 26, 2023*
+
+Additions
+- Added the Revive cheat to revive dead Tinies
+- Added a Randomize button to the pronoun selector
+- Added some more socials between children and adults
+
+Improvements
+- Render roofs and objects that have a parent in the lot movement preview
+- Store texture pivots for Tinies in a file rather than in code
+
+Fixes
+- Fixed portrait layout hiding pronouns if a Tiny's name is very long
+- Fixed long names causing issues in the household split menu
+- Fixed changing ages in the character creator not updating clothes previews correctly
+- Fixed a rare exception when throwing an item away
+- Fixed multiple text fields being able to be selected in the character creator sometimes
+- Fixed memories not being saved correctly
+
 # 0.31.1
 *April 17, 2023*
 

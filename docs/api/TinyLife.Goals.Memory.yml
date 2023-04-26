@@ -9,8 +9,8 @@ items:
   - TinyLife.Goals.Memory.Info
   - TinyLife.Goals.Memory.TimeOccured
   - TinyLife.Goals.Memory.TimeSinceOccured
-  - TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
   - TinyLife.Goals.Memory.Type
+  - TinyLife.Goals.Memory.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Goals.Memory.Validate(TinyLife.Objects.Person)
   langs:
   - csharp
@@ -26,7 +26,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Memory
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -82,7 +82,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 20
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -121,7 +121,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeOccured
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -162,19 +162,29 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Info
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 30
+    startLine: 31
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nThis memory&apos;s <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref>, which contains information about when and how this memory was gained.\n"
   example: []
   syntax:
-    content: public ActionInfo Info { get; protected set; }
+    content: >-
+      [DataMember]
+
+      public ActionInfo Info { get; protected set; }
     parameters: []
     return:
       type: TinyLife.Actions.ActionInfo
-    content.vb: Public Property Info As ActionInfo
+    content.vb: >-
+      <DataMember>
+
+      Public Property Info As ActionInfo
   overload: TinyLife.Goals.Memory.Info*
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
 - uid: TinyLife.Goals.Memory.TimeSinceOccured
   commentId: P:TinyLife.Goals.Memory.TimeSinceOccured
   id: TimeSinceOccured
@@ -193,7 +203,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeSinceOccured
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 34
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -224,7 +234,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 43
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -265,7 +275,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 55
+    startLine: 57
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -282,44 +292,47 @@ items:
       description: Whether this memory is valid.
     content.vb: Public Overridable Function Validate(person As Person) As Boolean
   overload: TinyLife.Goals.Memory.Validate*
-- uid: TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Goals.Memory.TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
-  id: TryReplace(System.TimeSpan,TinyLife.Actions.ActionInfo)
+- uid: TinyLife.Goals.Memory.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Goals.Memory.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   parent: TinyLife.Goals.Memory
   langs:
   - csharp
   - vb
-  name: TryReplace(TimeSpan, ActionInfo)
-  nameWithType: Memory.TryReplace(TimeSpan, ActionInfo)
-  fullName: TinyLife.Goals.Memory.TryReplace(System.TimeSpan, TinyLife.Actions.ActionInfo)
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: Memory.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Goals.Memory.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
   type: Method
   source:
     remote:
       path: TinyLife/Goals/Memory.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: TryReplace
+    id: Update
     path: ../TinyLife/Goals/Memory.cs
-    startLine: 68
+    startLine: 69
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nTries to replace this memory instance&apos;s data with the given memory data. Returns whether the replacement was successful.\nThis method is called in <xref href=\"TinyLife.Objects.Person.AddMemory%60%601(TinyLife.Goals.MemoryType%2cTinyLife.Actions.ActionInfo%2cSystem.Nullable%7bSystem.TimeSpan%7d)\" data-throw-if-not-resolved=\"false\"></xref> when a memory of this memory&apos;s <xref href=\"TinyLife.Goals.Memory.Type\" data-throw-if-not-resolved=\"false\"></xref> is being added. If this method returns <a href=\"https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool\">false</a>, a new memory of this <xref href=\"TinyLife.Goals.Memory.Type\" data-throw-if-not-resolved=\"false\"></xref> will be added in addition to this one.\n"
+  summary: "\nA method that is called in <xref href=\"TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> for a person who has this memory.\n"
   example: []
   syntax:
-    content: public virtual bool TryReplace(TimeSpan newTimeOccured, ActionInfo newInfo)
+    content: public virtual void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
     parameters:
-    - id: newTimeOccured
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The game&apos;s time
+    - id: passedInGame
       type: System.TimeSpan
-      description: The time to replace <xref href="TinyLife.Goals.Memory.TimeOccured" data-throw-if-not-resolved="false"></xref> with.
-    - id: newInfo
-      type: TinyLife.Actions.ActionInfo
-      description: The action info to replace <xref href="TinyLife.Goals.Memory.Info" data-throw-if-not-resolved="false"></xref> with.
-    return:
-      type: System.Boolean
-      description: Whether this memory&apos;s data could be replaced, which is based on <xref href="TinyLife.Goals.MemoryType.CanReplace" data-throw-if-not-resolved="false"></xref> by default.
-    content.vb: Public Overridable Function TryReplace(newTimeOccured As TimeSpan, newInfo As ActionInfo) As Boolean
-  overload: TinyLife.Goals.Memory.TryReplace*
+      description: The amount of time that has passed since the last call
+    - id: speedMultiplier
+      type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Overridable Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
+  overload: TinyLife.Goals.Memory.Update*
+  nameWithType.vb: Memory.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Goals.Memory.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
 references:
 - uid: TinyLife.Objects.Person
   commentId: T:TinyLife.Objects.Person
@@ -1084,77 +1097,111 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
-  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
+- uid: TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.timespan
-  name: AddMemory<T>(MemoryType, ActionInfo, TimeSpan?)
-  nameWithType: Person.AddMemory<T>(MemoryType, ActionInfo, TimeSpan?)
-  fullName: TinyLife.Objects.Person.AddMemory<T>(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, System.TimeSpan?)
-  nameWithType.vb: Person.AddMemory(Of T)(MemoryType, ActionInfo, TimeSpan?)
-  fullName.vb: TinyLife.Objects.Person.AddMemory(Of T)(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, System.TimeSpan?)
-  name.vb: AddMemory(Of T)(MemoryType, ActionInfo, TimeSpan?)
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: Person.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
+  nameWithType.vb: Person.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
   spec.csharp:
-  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
-    name: AddMemory
-  - name: <
-  - name: T
-  - name: '>'
+  - uid: TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
   - name: (
-  - uid: TinyLife.Goals.MemoryType
-    name: MemoryType
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
   - name: ','
   - name: " "
   - uid: System.TimeSpan
     name: TimeSpan
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Nullable{System.TimeSpan})
-    name: AddMemory
+  - uid: TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
   - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-  - name: (
-  - uid: TinyLife.Goals.MemoryType
-    name: MemoryType
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
   - name: ','
   - name: " "
   - uid: System.TimeSpan
     name: TimeSpan
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Goals.Memory.Type
-  commentId: F:TinyLife.Goals.Memory.Type
-  name: Type
-  nameWithType: Memory.Type
-  fullName: TinyLife.Goals.Memory.Type
-- uid: TinyLife.Goals.Memory.Info
-  commentId: P:TinyLife.Goals.Memory.Info
-  name: Info
-  nameWithType: Memory.Info
-  fullName: TinyLife.Goals.Memory.Info
-- uid: TinyLife.Goals.MemoryType.CanReplace
-  commentId: F:TinyLife.Goals.MemoryType.CanReplace
-  name: CanReplace
-  nameWithType: MemoryType.CanReplace
-  fullName: TinyLife.Goals.MemoryType.CanReplace
-- uid: TinyLife.Goals.Memory.TryReplace*
-  commentId: Overload:TinyLife.Goals.Memory.TryReplace
-  name: TryReplace
-  nameWithType: Memory.TryReplace
-  fullName: TinyLife.Goals.Memory.TryReplace
+- uid: TinyLife.GameImpl.Speed
+  commentId: P:TinyLife.GameImpl.Speed
+  name: Speed
+  nameWithType: GameImpl.Speed
+  fullName: TinyLife.GameImpl.Speed
+- uid: TinyLife.Goals.Memory.Update*
+  commentId: Overload:TinyLife.Goals.Memory.Update
+  name: Update
+  nameWithType: Memory.Update
+  fullName: TinyLife.Goals.Memory.Update
+- uid: Microsoft.Xna.Framework.GameTime
+  commentId: T:Microsoft.Xna.Framework.GameTime
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: GameTime
+  nameWithType: GameTime
+  fullName: Microsoft.Xna.Framework.GameTime
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true

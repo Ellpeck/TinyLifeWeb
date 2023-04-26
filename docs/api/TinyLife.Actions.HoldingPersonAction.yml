@@ -8,6 +8,7 @@ items:
   - TinyLife.Actions.HoldingPersonAction.#ctor(TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.HoldingPersonAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.HoldingPersonAction.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.HoldingPersonAction.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.HoldingPersonAction.CreateFirstActions
   - TinyLife.Actions.HoldingPersonAction.CreateLastActions
   - TinyLife.Actions.HoldingPersonAction.IsHoldingParty
@@ -25,19 +26,23 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HoldingPersonAction
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 9
+    startLine: 12
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nThis is a <xref href=\"TinyLife.Actions.SocialAction\" data-throw-if-not-resolved=\"false\"></xref> with additional capabilities that can be used for actions that involve one <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> picking up and holding another <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref>, especially babies.\n"
+  example: []
   syntax:
-    content: 'public class HoldingPersonAction : SocialAction, IGenericDataHolder'
-    content.vb: Public Class HoldingPersonAction Inherits SocialAction Implements IGenericDataHolder
+    content: 'public abstract class HoldingPersonAction : SocialAction, IGenericDataHolder'
+    content.vb: Public MustInherit Class HoldingPersonAction Inherits SocialAction Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Actions.Action
   - TinyLife.Actions.MultiAction
   - TinyLife.Actions.SocialAction
+  derivedClasses:
+  - TinyLife.Actions.CleanUpBabyAction
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
@@ -58,7 +63,6 @@ items:
   - TinyLife.Actions.SocialAction.AndThenIsCompleted
   - TinyLife.Actions.SocialAction.AndThenInitialize
   - TinyLife.Actions.SocialAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.SocialAction.CanStartNow
   - TinyLife.Actions.SocialAction.GetDisplayName
   - TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
@@ -156,10 +160,12 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsHoldingParty
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 11
+    startLine: 17
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
+  summary: "\nReturns whether this action&apos;s <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> is the holding party (rather than the party that is being held).\n"
+  example: []
   syntax:
     content: protected virtual bool IsHoldingParty { get; }
     parameters: []
@@ -185,7 +191,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 17
+    startLine: 23
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -220,7 +226,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 20
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -258,7 +264,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateFirstActions
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 23
+    startLine: 29
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -290,7 +296,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateLastActions
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 30
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -322,7 +328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCancel
     path: ../TinyLife/Actions/HoldingPersonAction.cs
-    startLine: 39
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -340,7 +346,55 @@ items:
     content.vb: Public Overrides Function CanCancel(cancelSource As Action) As Boolean
   overridden: TinyLife.Actions.SocialAction.CanCancel(TinyLife.Actions.Action)
   overload: TinyLife.Actions.HoldingPersonAction.CanCancel*
+- uid: TinyLife.Actions.HoldingPersonAction.CanMultitask(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.HoldingPersonAction.CanMultitask(TinyLife.Actions.Action)
+  id: CanMultitask(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.HoldingPersonAction
+  langs:
+  - csharp
+  - vb
+  name: CanMultitask(Action)
+  nameWithType: HoldingPersonAction.CanMultitask(Action)
+  fullName: TinyLife.Actions.HoldingPersonAction.CanMultitask(TinyLife.Actions.Action)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Actions/HoldingPersonAction.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CanMultitask
+    path: ../TinyLife/Actions/HoldingPersonAction.cs
+    startLine: 51
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nReturn true on this method if this action can be multi-tasked along with the passed <xref href=\"TinyLife.Actions.Action\" data-throw-if-not-resolved=\"false\"></xref>.\nTo actually check this property, <xref href=\"TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action%2cTinyLife.Actions.Action)\" data-throw-if-not-resolved=\"false\"></xref> should be used as it compares both objects.\nA multi-tasking is an action that is currently active along with another action.\nBy default, multi-tasking is disallowed for any action.\n"
+  example: []
+  syntax:
+    content: public override bool CanMultitask(Action other)
+    parameters:
+    - id: other
+      type: TinyLife.Actions.Action
+      description: The action to multi-task with
+    return:
+      type: System.Boolean
+      description: Whether this action can be multi-tasked
+    content.vb: Public Overrides Function CanMultitask(other As Action) As Boolean
+  overridden: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+  overload: TinyLife.Actions.HoldingPersonAction.CanMultitask*
 references:
+- uid: TinyLife.Actions.SocialAction
+  commentId: T:TinyLife.Actions.SocialAction
+  parent: TinyLife.Actions
+  name: SocialAction
+  nameWithType: SocialAction
+  fullName: TinyLife.Actions.SocialAction
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   name: TinyLife.Actions
@@ -388,12 +442,6 @@ references:
   name: MultiAction
   nameWithType: MultiAction
   fullName: TinyLife.Actions.MultiAction
-- uid: TinyLife.Actions.SocialAction
-  commentId: T:TinyLife.Actions.SocialAction
-  parent: TinyLife.Actions
-  name: SocialAction
-  nameWithType: SocialAction
-  fullName: TinyLife.Actions.SocialAction
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -698,26 +746,6 @@ references:
   - name: (
   - uid: TinyLife.Actions.CompletionType
     name: CompletionType
-  - name: )
-- uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
-  parent: TinyLife.Actions.SocialAction
-  name: CanMultitask(Action)
-  nameWithType: SocialAction.CanMultitask(Action)
-  fullName: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
-  spec.csharp:
-  - uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
-    name: CanMultitask
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
-    name: CanMultitask
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
   - name: )
 - uid: TinyLife.Actions.SocialAction.CanStartNow
   commentId: M:TinyLife.Actions.SocialAction.CanStartNow
@@ -3598,6 +3626,23 @@ references:
   - uid: TinyLife.Actions.HoldingPersonAction
     name: HoldingPersonAction
   - name: )
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
 - uid: System
   commentId: N:System
   isExternal: true
@@ -3951,3 +3996,28 @@ references:
   name: CanCancel
   nameWithType: HoldingPersonAction.CanCancel
   fullName: TinyLife.Actions.HoldingPersonAction.CanCancel
+- uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.SocialAction
+  name: CanMultitask(Action)
+  nameWithType: SocialAction.CanMultitask(Action)
+  fullName: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+    name: CanMultitask
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
+    name: CanMultitask
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+  - name: )
+- uid: TinyLife.Actions.HoldingPersonAction.CanMultitask*
+  commentId: Overload:TinyLife.Actions.HoldingPersonAction.CanMultitask
+  name: CanMultitask
+  nameWithType: HoldingPersonAction.CanMultitask
+  fullName: TinyLife.Actions.HoldingPersonAction.CanMultitask
