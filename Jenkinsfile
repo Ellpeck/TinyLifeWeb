@@ -9,7 +9,7 @@ pipeline {
             sh '''cd web
                   bundle
                   bundle exec jekyll build'''
-            stash includes: "web/_site/.", name: "docs"
+            stash includes: "web/_site/**", name: "site"
           }
         }
         stage('Docs') {
@@ -17,7 +17,7 @@ pipeline {
             sh '''cd docs
                   dotnet tool restore
                   dotnet docfx'''
-            stash includes: "docs/_site/.", name: "docs"
+            stash includes: "docs/_site/**", name: "docs"
           }
         }
       }
