@@ -1,3 +1,14 @@
+# 0.31.4
+*April 27, 2023*
+
+Improvements
+- Prioritize the cooking action when asking an adult for food
+
+Fixes
+- Fixed objects out of bounds being able to crash the game
+- Fixed a rare exception when spawning an item from a bookshelf or toy box
+- Fixed Tinies being kind of addicted to getting jobs on their own
+
 # 0.31.3
 *April 26, 2023*
 
