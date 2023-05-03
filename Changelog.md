@@ -1,3 +1,14 @@
+# 0.32.1
+*May 2, 2023*
+
+This is a small update to fix some major bugs people have reported since the Early Access release earlier today! Thanks so much for all the kind words and lovely feedback today, we're so grateful to have such a kind and loving community <3
+
+Fixes
+- Fixed a rare crash when a person is out of bounds in a vehicle
+- Fixed a crash when a map loads very quickly
+- Fixed a rare crash when a food item's parent furniture is removed while eating
+- Addressed a crash when trying to resize the cursor on some devices
+
 # 0.32.0
 *May 2, 2023*
 
