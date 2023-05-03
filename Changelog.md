@@ -3,9 +3,9 @@
 
 ![](media/changelog/0.32.0.png)
 
-> Mark Your Calendars!
+> Tiny Life is out now!
 
-This is the last update before Tiny Life's Steam Early Access release. The following changelog only covers changes in the Tiny Life Demo since 0.31.4.
+This is the initial version of Tiny Life's [Steam Early Access release](https://store.steampowered.com/news/app/1651490/view/3702565493872455898). The following changelog only covers changes in the Tiny Life Demo since 0.31.4.
 
 Improvements
 - Made autonomously getting a job be affected by the "AI Important Actions" gameplay option
