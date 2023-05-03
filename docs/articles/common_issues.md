@@ -11,6 +11,7 @@ When reporting an issue to Tiny Life developers, please make sure that you have 
 
 ### The game won't start correctly
 This can have multiple reasons:
+- If you played older versions of the demo in Spanish, there might be outdated data in your `Options.json` file. Please delete it by navigating to the [game folder](https://docs.tinylifegame.com/articles/game_dir.html), which is located at `%LocalAppData%\Tiny Life` on Windows.
 - When downloading the game from itch, make sure to **extract the zip archive** before starting the game executable within it.
 - Some ARM-based distributions of Linux and Mac (like newer MacBooks that use Apple Silicon) don't support Tiny Life without installing additional tools (like [Rosetta](https://en.wikipedia.org/wiki/Rosetta_(software)) or [QEMU](https://www.qemu.org/)) to translate instructions correctly. You might have to do additional research to figure out what these are for your device.
 - Some older operating system versions don't support Tiny Life, which currently runs on .NET 7. Unfortunately, especially Mac is known for having very short lifecycles for supported versions. To see if your operating system version is supported by .NET 7, you can take a look at [the official list](https://github.com/dotnet/core/blob/main/release-notes/7.0/supported-os.md).
