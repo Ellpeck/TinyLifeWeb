@@ -4,6 +4,13 @@ This is a list of commonly faced problems when downloading, installing and playi
 ## User Issues
 The following issues unfortunately **cannot** be fixed by Tiny Life's developers, and players have to take action themselves to fix them. If you're struggling with solving these issues yourself, feel free to ask for help in [the Discord server](https://link.tinylifegame.com/discord).
 
+### My save files aren't synchronized through Steam Cloud
+Cloud storage in Tiny Life has to be enabled individually for each save file that you want to back up and synchronize. 
+
+To do so, make sure that you have Steam running, and then go into the Load Game menu on the game's title screen. From there, simply press the button that has a little cloud icon on it for each save file that you want to store in the cloud. If you ever want to stop saving a file to the cloud, just press the button again.
+
+While Steam Cloud storage is enabled for a save file, it will automatically be uploaded whenever the game is saved, and newer versions will automatically be downloaded every time you launch the game.
+
 ### I get an error or crash with mods installed
 For issues that only happen with mods, please contact the mods' developers. 
 
