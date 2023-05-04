@@ -8,7 +8,7 @@ To run and publish your mods, you can use the included [Cake](https://cakebuild.
 
 The game's API is **fully documented**. The documentation is easily accessible by opening any of the API's files in your IDE. The most updated version can be found on this site as well.
 
-If you have any questions, don't hesitate to [ask on the Discord](https://ellpeck.de/discord) or [start a discussion](https://github.com/Ellpeck/TinyLifeExampleMod/discussions) about it.
+If you have any questions, don't hesitate to [ask on the Discord](https://link.tinylifegame.com/discord) or [start a discussion](https://github.com/Ellpeck/TinyLifeExampleMod/discussions) about it.
 
 ## Distributing mods
 To distribute your mod to other people, you can simply run `dotnet cake --target Publish`. This task will automatically create a `zip` archive that you can share. If you want other players to try out your mod, you can also post it to [the community](https://itch.io/board/1032686/mods).

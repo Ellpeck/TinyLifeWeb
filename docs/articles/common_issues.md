@@ -2,7 +2,7 @@
 This is a list of commonly faced problems when downloading, installing and playing the game. Please read this list carefully before reporting an issue.
 
 ## User Issues
-The following issues unfortunately **cannot** be fixed by Tiny Life's developers, and players have to take action themselves to fix them. If you're struggling with solving these issues yourself, feel free to ask for help in [the Discord server](https://ellpeck.de/discord).
+The following issues unfortunately **cannot** be fixed by Tiny Life's developers, and players have to take action themselves to fix them. If you're struggling with solving these issues yourself, feel free to ask for help in [the Discord server](https://link.tinylifegame.com/discord).
 
 ### I get an error or crash with mods installed
 For issues that only happen with mods, please contact the mods' developers. 
