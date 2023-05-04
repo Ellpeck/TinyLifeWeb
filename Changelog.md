@@ -1,3 +1,20 @@
+# 0.32.2
+*May 3, 2023*
+
+Additions
+- Added a popup with additional information when uploading an item to the Steam workshop
+- Added an accessibility option to move the pronoun display to before a Tiny's name
+
+Improvements
+- Made it much more likely for Tinies to get leftovers rather than cook something
+
+Fixes
+- Fixed a missing "too angry" localization string
+- Fixed lot previews being offset in some camera rotations
+- Fixed being unable to remove lots that are intersecting
+- Fixed a lot of issues when trying to move a map in a negative direction
+- Fixed impossible actions for wall-hanging paintings being available
+
 # 0.32.1
 *May 2, 2023*
 
