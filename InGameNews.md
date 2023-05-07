@@ -1,4 +1,4 @@
-Hi everyone!! If you've been playing Tiny Life for a while, and you're enjoying it, please consider **leaving a review on Steam**. Reviews help out a lot, and they help players decide whether they should also buy the game!
+Hi yall! If you've been playing Tiny Life for a while, and you're enjoying it, please consider [**leaving a review on Steam**](https://store.steampowered.com/app/1651490/Tiny_Life/). Reviews help the game and potential new players a lot!!
 
 ![](media/news/Reviews.png)
 
