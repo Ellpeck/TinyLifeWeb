@@ -1,7 +1,5 @@
-Tiny Life's Early Access launch has been incredible. Your responses have been lovely, and we're so excited for what the future of the game holds!!
+Hi everyone!! If you've been playing Tiny Life for a while, and you're enjoying it, please consider **leaving a review on Steam**. Reviews help out a lot, and they help players decide whether they should also buy the game!
 
 ![](media/news/Reviews.png)
 
-If you've been playing the game for a while, and you're enjoying it, please consider **leaving a review on Steam**. Reviews help out a lot, and they allow other players to decide more easily if they should buy the game or not. 
-
-Thanks everyone!! <3
+Overall, the launch has been incredible for us and the game. Your responses have been lovely, and we hope you're as excited as we are about what the future holds!! <3
