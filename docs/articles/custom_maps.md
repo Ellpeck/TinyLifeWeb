@@ -34,7 +34,7 @@ Before sharing your map with the community, there are some additional files that
 - `MyMapName.png` contains a screenshot of a prominent part of your map (or any other image) which will be displayed when creating a new save file. The game expects this file to have 4:1 aspect ratio, with the default maps' size being 512x128 pixels.
 - Optionally `MyMapNameSteamThumbnail.png`, which will be used as the preview image displayed in the Steam Workshop if you decide to share your map there.
 
-Optionally, you can put the three files into a `zip` archive to share with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
+Optionally, you can put the three (or four) files into a `zip` archive to share with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
 
 ## Editing or Updating Your Map
 If you want to update your map, either by adding additional content to it, or by fixing issues that you noticed, like incomplete roads or misplaced decorations, you can simply create a new save file and select your map's export.
