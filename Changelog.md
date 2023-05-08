@@ -1,3 +1,25 @@
+# 0.32.3
+*May 8, 2023*
+
+Improvements
+- Reduced Steam thumbnail sizes, which should mitigate upload issues for some people
+- Updated localizations
+
+Fixes
+- Fixed Steam usernames not being saved correctly for downloaded items
+- Fixed the usage of reserved file names being allowed on Windows
+- Fixed a rare crash when opening and closing the life goals menu too quickly
+- Fixed the fitness level 3 goal actually requiring fitness level 5 in the Gym Rat life goal
+- Fixed the log file not being able to be opened by other programs, causing a crash
+- Fixed a crash when trying to pick up a book from a deleted bookshelf
+- Fixed a crash when playing with a custom map that was removed from the game
+- Fixed romance with only partner sometimes counting as romance with someone else if the household was exported and then imported again
+- Fixed an exception when reading a skill book while quitting and then loading the game
+- Fixed being able to watch TV from the location we're standing if no other locations are available
+
+API
+- Harmony for mods is now optional to avoid issues on ARM devices. If you use Harmony, please return true on RequiresHarmony in your mod class.
+
 # 0.32.2
 *May 3, 2023*
 
