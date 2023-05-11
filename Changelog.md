@@ -1,3 +1,29 @@
+# 0.32.4
+*May 11, 2023*
+
+Additions
+- Added Czech translation thanks to [Pavlína Šeborová](https://steamcommunity.com/id/Paviinka/)
+- Added an accessibility setting to highlight Tinies in the world
+- Added woodworking recipes for some newer items like the changing table
+
+Improvements
+- Made pregnancy-based energy loss a bit less high
+- Don't display pronouns in places where they're not really useful
+- Show lot outlines when zoomed all the way out in Play and Build modes
+- Show lot type icons in the Visit Lot action name
+- Show skill description tooltips in job promotion requirements
+
+Fixes
+- Fixed some transitive genealogy calculations
+- Fixed a rare exception when pathfinding a very short car route
+- Fixed choice prompts not having a default selected element when using a gamepad
+- Fixed a rare crash when publishing items on the Steam workshop
+
+API
+- Easily allow mods to change the game's default textures through TextureHandler events
+- Allow for mods to extend the Person class through a protected constructor and various virtual methods
+- Allow for clothes to have an additional description in the character creator
+
 # 0.32.3
 *May 8, 2023*
 
