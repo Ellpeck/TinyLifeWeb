@@ -27,15 +27,21 @@ There's a few cheats not listed in the [cheats article](cheats.md) that are usef
 - `MoveMap [x section amount] [y section amount]` moves the map and all of its contents by a given amount of sections. This is useful if you want to add content beyond the top or left borders of the map where resizing doesn't add any additional space.
 
 ## Exporting Your Map
-To export your custom map, simply execute the `ExportCustomMap` cheat. This will reset some of the map's properties to default values, which includes normalization the skill level progress and relationships of everyone on the map. You can find your exported map in the [game directory's](game_dir.md) `Custom Maps` folder.
+To export your custom map, simply execute the `ExportCustomMap` cheat. This will reset some of the map's properties to default values, which includes normalization the skill level progress and relationships of everyone on the map. You can find your exported map in the [game folder's](game_dir.md) `Custom Maps` folder.
 
-Before sharing your map with the community, there are some additional files that are required to make the map work in-game:
+To complete your map's export, there are some additional files that are required to make the map work in-game:
 - `MyMapName.txt` contains the description of your map which will be displayed when creating a new save file in the game.
 - `MyMapName.png` contains a screenshot of a prominent part of your map (or any other image) which will be displayed when creating a new save file. The game expects this file to have 4:1 aspect ratio, with the default maps' size being 512x128 pixels.
 - Optionally `MyMapNameSteamThumbnail.png`, which will be used as the preview image displayed in the Steam Workshop if you decide to share your map there. The restrictions for this seem somewhat arbitrary, but it's best to keep the file size under 1 MB and the image size around 256x256 pixels.
 
-Optionally, you can put the three (or four) files into a `zip` archive to share with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
+Optionally, you can put the three (or four) files into a `zip` archive to share, which is required to share your map with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
 
+## Sharing Your Map
+
+To share your map on [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/), make sure that Steam is open in the background, and that your map's `zip` archive is in the `Custom Maps` folder. Then, go to the rightmost tab in the game's Options menu and select "Share Custom World on Steam Workshop", and then follow the instructions there.
+
+It's recommended that, in addition to Steam workshop, you also publish your map elsewhere, like on [the itch community](https://itch.io/board/1032686/mods), as not every player has access to Steam workshop.
+ 
 ## Editing or Updating Your Map
 If you want to update your map, either by adding additional content to it, or by fixing issues that you noticed, like incomplete roads or misplaced decorations, you can simply create a new save file and select your map's export.
 

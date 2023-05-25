@@ -37,5 +37,5 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
   - Pressing the up, down, left and right keys moves the current action spot's position and holding shift moves the spot's visual position instead
   - Pressing the page up and page down keys moves the spot's y offset.
   - The resulting values are printed to the console every time a modification is made, so you can copy them and paste them into your action spot code.
-- `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life directory (which can be accessed through the options menu) as `_Packed.png`.
+- `DumpTexture` saves the game's texture packer's entire texture into the Tiny Life folder (which can be accessed through the options menu) as `_Packed.png`.
 - There are various cheats that print organized debug information to the console, which can be useful for debugging and balancing mods. These include `TalkActions`, `AverageTalkActions`, `ActionPriorities`, `AverageActionPriorities`, `NeedStats`, `HouseholdStats`, `SkillStats`, and `ActionStats`.
