@@ -55,17 +55,15 @@ items:
     content: >-
       [JsonConverter(typeof(Tile.Converter))]
 
-      public class Tile : IPricedObject
+      public class Tile
     content.vb: >-
       <JsonConverter(GetType(Tile.Converter))>
 
-      Public Class Tile Implements IPricedObject
+      Public Class Tile
   inheritance:
   - System.Object
   derivedClasses:
   - TinyLife.World.GrassyAutoTile
-  implements:
-  - TinyLife.World.IPricedObject
   inheritedMembers:
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
@@ -728,17 +726,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nReturns the price that this object can be bought or sold for.\nNote that, like in the case of the <xref href=\"TinyLife.Objects.Painting\" data-throw-if-not-resolved=\"false\"></xref>, the returned price isn&apos;t necessarily the full price that the object can be sold for. Instead, the price returned here should be the price that this object has when bought or sold from the <xref href=\"TinyLife.Tools.FurnitureTool\" data-throw-if-not-resolved=\"false\"></xref> or similar.\n"
   example: []
   syntax:
     content: public virtual float GetPrice()
     return:
       type: System.Single
-      description: The object&apos;s price
     content.vb: Public Overridable Function GetPrice() As Single
   overload: TinyLife.World.Tile.GetPrice*
-  implements:
-  - TinyLife.World.IPricedObject.GetPrice
 - uid: TinyLife.World.Tile.OnNeighborChanged(TinyLife.World.Map,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.World.Tile.OnNeighborChanged(TinyLife.World.Map,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
   id: OnNeighborChanged(TinyLife.World.Map,Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
@@ -1013,14 +1007,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 289
+    startLine: 290
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nRegisters a new tile with the given settings.\n"
   example: []
   syntax:
-    content: public static void Register(string name, int price, Dictionary<Point, TextureRegion> textures, Point[] textureRegions, ColorScheme[] colors, float pathCostModifier = 1, bool canBuy = true, Tile.Category categories = Category.None, TextureRegion icon = null, Func<Direction2, Point[]> variations = null, int[] defaultColors = null, Type constructedType = null)
+    content: public static Tile[] Register(string name, int price, Dictionary<Point, TextureRegion> textures, Point[] textureRegions, ColorScheme[] colors, float pathCostModifier = 1, bool canBuy = true, Tile.Category categories = Category.None, TextureRegion icon = null, Func<Direction2, Point[]> variations = null, int[] defaultColors = null, Type constructedType = null)
     parameters:
     - id: name
       type: System.String
@@ -1058,7 +1052,10 @@ items:
     - id: constructedType
       type: System.Type
       description: The type that tiles should be constructed from, or null to construct <xref href="TinyLife.World.Tile" data-throw-if-not-resolved="false"></xref> instances.
-    content.vb: Public Shared Sub Register(name As String, price As Integer, textures As Dictionary(Of Point, TextureRegion), textureRegions As Point(), colors As ColorScheme(), pathCostModifier As Single = 1, canBuy As Boolean = True, categories As Tile.Category = Category.None, icon As TextureRegion = Nothing, variations As Func(Of Direction2, Point()) = Nothing, defaultColors As Integer() = Nothing, constructedType As Type = Nothing)
+    return:
+      type: TinyLife.World.Tile[]
+      description: The registered tiles.
+    content.vb: Public Shared Function Register(name As String, price As Integer, textures As Dictionary(Of Point, TextureRegion), textureRegions As Point(), colors As ColorScheme(), pathCostModifier As Single = 1, canBuy As Boolean = True, categories As Tile.Category = Category.None, icon As TextureRegion = Nothing, variations As Func(Of Direction2, Point()) = Nothing, defaultColors As Integer() = Nothing, constructedType As Type = Nothing) As Tile()
   overload: TinyLife.World.Tile.Register*
   nameWithType.vb: Tile.Register(String, Integer, Dictionary(Of Point, TextureRegion), Point(), ColorScheme(), Single, Boolean, Tile.Category, TextureRegion, Func(Of Direction2, Point()), Integer(), Type)
   fullName.vb: TinyLife.World.Tile.Register(String, Integer, System.Collections.Generic.Dictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point(), TinyLife.Utilities.ColorScheme(), Single, Boolean, TinyLife.World.Tile.Category, MLEM.Textures.TextureRegion, System.Func(Of MLEM.Misc.Direction2, Microsoft.Xna.Framework.Point()), Integer(), System.Type)
@@ -1295,12 +1292,6 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
-- uid: TinyLife.World.IPricedObject
-  commentId: T:TinyLife.World.IPricedObject
-  parent: TinyLife.World
-  name: IPricedObject
-  nameWithType: IPricedObject
-  fullName: TinyLife.World.IPricedObject
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -2322,22 +2313,6 @@ references:
   name: GetPrice
   nameWithType: Tile.GetPrice
   fullName: TinyLife.World.Tile.GetPrice
-- uid: TinyLife.World.IPricedObject.GetPrice
-  commentId: M:TinyLife.World.IPricedObject.GetPrice
-  parent: TinyLife.World.IPricedObject
-  name: GetPrice()
-  nameWithType: IPricedObject.GetPrice()
-  fullName: TinyLife.World.IPricedObject.GetPrice()
-  spec.csharp:
-  - uid: TinyLife.World.IPricedObject.GetPrice
-    name: GetPrice
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.IPricedObject.GetPrice
-    name: GetPrice
-  - name: (
-  - name: )
 - uid: TinyLife.World.GrassyAutoTile
   commentId: T:TinyLife.World.GrassyAutoTile
   parent: TinyLife.World
@@ -2608,4 +2583,22 @@ references:
     isExternal: true
   - name: (
   - name: )
+  - name: )
+- uid: TinyLife.World.Tile[]
+  isExternal: true
+  name: Tile[]
+  nameWithType: Tile[]
+  fullName: TinyLife.World.Tile[]
+  nameWithType.vb: Tile()
+  fullName.vb: TinyLife.World.Tile()
+  name.vb: Tile()
+  spec.csharp:
+  - uid: TinyLife.World.Tile
+    name: Tile
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: TinyLife.World.Tile
+    name: Tile
+  - name: (
   - name: )

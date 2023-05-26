@@ -11,6 +11,7 @@ items:
   - TinyLife.Goals.Job.AmountOfRaises
   - TinyLife.Goals.Job.CurrentHourlyPay
   - TinyLife.Goals.Job.DailyTasks
+  - TinyLife.Goals.Job.DaysOnVacation
   - TinyLife.Goals.Job.GetCoworkers
   - TinyLife.Goals.Job.GetCoworkersAtWork
   - TinyLife.Goals.Job.GetRaise
@@ -20,9 +21,11 @@ items:
   - TinyLife.Goals.Job.Performance
   - TinyLife.Goals.Job.Person
   - TinyLife.Goals.Job.RequiredPromotionPerformance
+  - TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
   - TinyLife.Goals.Job.Type
   - TinyLife.Goals.Job.Update(System.TimeSpan)
   - TinyLife.Goals.Job.UpdateWorking(TinyLife.Actions.WorkAction,System.TimeSpan,System.Single)
+  - TinyLife.Goals.Job.VacationDaysAvailable
   - TinyLife.Goals.Job.Validate(TinyLife.Objects.Person)
   langs:
   - csharp
@@ -42,7 +45,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nA job is a kind of work that a <xref href=\"TinyLife.Goals.Job.Person\" data-throw-if-not-resolved=\"false\"></xref> can have.\nThe person&apos;s current job is accessible using <xref href=\"TinyLife.Objects.Person.Job\" data-throw-if-not-resolved=\"false\"></xref>.\nA job instance is constructed from its underlying <xref href=\"TinyLife.Goals.JobType\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA job is a kind of work that a <xref href=\"TinyLife.Goals.Job.Person\" data-throw-if-not-resolved=\"false\"></xref> can have.\nThe person&apos;s current jobs are accessible using <xref href=\"TinyLife.Objects.Person.Jobs\" data-throw-if-not-resolved=\"false\"></xref>.\nA job instance is constructed from its underlying <xref href=\"TinyLife.Goals.JobType\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
@@ -401,6 +404,86 @@ items:
       type: System.Single
     content.vb: Public ReadOnly Property CurrentHourlyPay As Single
   overload: TinyLife.Goals.Job.CurrentHourlyPay*
+- uid: TinyLife.Goals.Job.VacationDaysAvailable
+  commentId: F:TinyLife.Goals.Job.VacationDaysAvailable
+  id: VacationDaysAvailable
+  parent: TinyLife.Goals.Job
+  langs:
+  - csharp
+  - vb
+  name: VacationDaysAvailable
+  nameWithType: Job.VacationDaysAvailable
+  fullName: TinyLife.Goals.Job.VacationDaysAvailable
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Goals/Job.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: VacationDaysAvailable
+    path: ../TinyLife/Goals/Job.cs
+    startLine: 75
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nThe amount of vacation days currently available.\n"
+  example: []
+  syntax:
+    content: >-
+      [DataMember]
+
+      public int VacationDaysAvailable
+    return:
+      type: System.Int32
+    content.vb: >-
+      <DataMember>
+
+      Public VacationDaysAvailable As Integer
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+- uid: TinyLife.Goals.Job.DaysOnVacation
+  commentId: P:TinyLife.Goals.Job.DaysOnVacation
+  id: DaysOnVacation
+  parent: TinyLife.Goals.Job
+  langs:
+  - csharp
+  - vb
+  name: DaysOnVacation
+  nameWithType: Job.DaysOnVacation
+  fullName: TinyLife.Goals.Job.DaysOnVacation
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Goals/Job.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: DaysOnVacation
+    path: ../TinyLife/Goals/Job.cs
+    startLine: 80
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nThe amount of days remaining on the current vacation. If this value is 0, this job is not currently on vacation.\nUse <xref href=\"TinyLife.Goals.Job.StartVacation(System.Int32%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref> to edit this value.\n"
+  example: []
+  syntax:
+    content: >-
+      [DataMember]
+
+      public int DaysOnVacation { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: >-
+      <DataMember>
+
+      Public Property DaysOnVacation As Integer
+  overload: TinyLife.Goals.Job.DaysOnVacation*
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
 - uid: TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)
   commentId: M:TinyLife.Goals.Job.#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)
   id: '#ctor(TinyLife.Goals.JobType,TinyLife.Objects.Person,System.Int32)'
@@ -419,7 +502,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Goals/Job.cs
-    startLine: 81
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -460,7 +543,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Goals/Job.cs
-    startLine: 94
+    startLine: 107
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -492,7 +575,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateWorking
     path: ../TinyLife/Goals/Job.cs
-    startLine: 113
+    startLine: 153
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -533,7 +616,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddPerformance
     path: ../TinyLife/Goals/Job.cs
-    startLine: 146
+    startLine: 186
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -568,7 +651,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLevel
     path: ../TinyLife/Goals/Job.cs
-    startLine: 172
+    startLine: 212
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -606,7 +689,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRaise
     path: ../TinyLife/Goals/Job.cs
-    startLine: 214
+    startLine: 254
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -637,7 +720,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasRequiredPromotionSkills
     path: ../TinyLife/Goals/Job.cs
-    startLine: 233
+    startLine: 273
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -668,7 +751,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCoworkers
     path: ../TinyLife/Goals/Job.cs
-    startLine: 245
+    startLine: 285
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -699,7 +782,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCoworkersAtWork
     path: ../TinyLife/Goals/Job.cs
-    startLine: 253
+    startLine: 293
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -730,7 +813,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Goals/Job.cs
-    startLine: 261
+    startLine: 301
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -746,17 +829,55 @@ items:
       description: false if the object is not valid, true otherwise
     content.vb: Public Function Validate(person As Person) As Boolean
   overload: TinyLife.Goals.Job.Validate*
+- uid: TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+  commentId: M:TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+  id: StartVacation(System.Int32,System.Single)
+  parent: TinyLife.Goals.Job
+  langs:
+  - csharp
+  - vb
+  name: StartVacation(int, float)
+  nameWithType: Job.StartVacation(int, float)
+  fullName: TinyLife.Goals.Job.StartVacation(int, float)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Goals/Job.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: StartVacation
+    path: ../TinyLife/Goals/Job.cs
+    startLine: 320
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: "\nStarts a vacation for the given amount of <code data-dev-comment-type=\"paramref\" class=\"paramref\">days</code> with the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">payModifier</code>.\n"
+  example: []
+  syntax:
+    content: public void StartVacation(int days, float payModifier = 1)
+    parameters:
+    - id: days
+      type: System.Int32
+      description: The amount of days.
+    - id: payModifier
+      type: System.Single
+      description: The amount that the daily pay on vacation should be multiplied with, defaults to 1.
+    content.vb: Public Sub StartVacation(days As Integer, payModifier As Single = 1)
+  overload: TinyLife.Goals.Job.StartVacation*
+  nameWithType.vb: Job.StartVacation(Integer, Single)
+  fullName.vb: TinyLife.Goals.Job.StartVacation(Integer, Single)
+  name.vb: StartVacation(Integer, Single)
 references:
 - uid: TinyLife.Goals.Job.Person
   commentId: P:TinyLife.Goals.Job.Person
   name: Person
   nameWithType: Job.Person
   fullName: TinyLife.Goals.Job.Person
-- uid: TinyLife.Objects.Person.Job
-  commentId: P:TinyLife.Objects.Person.Job
-  name: Job
-  nameWithType: Person.Job
-  fullName: TinyLife.Objects.Person.Job
+- uid: TinyLife.Objects.Person.Jobs
+  commentId: F:TinyLife.Objects.Person.Jobs
+  name: Jobs
+  nameWithType: Person.Jobs
+  fullName: TinyLife.Objects.Person.Jobs
 - uid: TinyLife.Goals.JobType
   commentId: T:TinyLife.Goals.JobType
   parent: TinyLife.Goals
@@ -1519,6 +1640,51 @@ references:
   name: CurrentHourlyPay
   nameWithType: Job.CurrentHourlyPay
   fullName: TinyLife.Goals.Job.CurrentHourlyPay
+- uid: TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+  commentId: M:TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: StartVacation(int, float)
+  nameWithType: Job.StartVacation(int, float)
+  fullName: TinyLife.Goals.Job.StartVacation(int, float)
+  nameWithType.vb: Job.StartVacation(Integer, Single)
+  fullName.vb: TinyLife.Goals.Job.StartVacation(Integer, Single)
+  name.vb: StartVacation(Integer, Single)
+  spec.csharp:
+  - uid: TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+    name: StartVacation
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
+    name: StartVacation
+  - name: (
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: TinyLife.Goals.Job.DaysOnVacation*
+  commentId: Overload:TinyLife.Goals.Job.DaysOnVacation
+  name: DaysOnVacation
+  nameWithType: Job.DaysOnVacation
+  fullName: TinyLife.Goals.Job.DaysOnVacation
 - uid: TinyLife.Goals.Job.#ctor*
   commentId: Overload:TinyLife.Goals.Job.#ctor
   name: Job
@@ -1872,3 +2038,8 @@ references:
   name: Validate
   nameWithType: Job.Validate
   fullName: TinyLife.Goals.Job.Validate
+- uid: TinyLife.Goals.Job.StartVacation*
+  commentId: Overload:TinyLife.Goals.Job.StartVacation
+  name: StartVacation
+  nameWithType: Job.StartVacation
+  fullName: TinyLife.Goals.Job.StartVacation

@@ -1,3 +1,51 @@
+# 0.33.0
+*May 26, 2023*
+
+![](media/changelog/0.33.0.png)
+
+> The Quality of Life Update
+
+Read about this update in last week's post [on itch](https://ellpeck.itch.io/tiny-life/devlog/532785/community-showcase-and-future-plans-early-access-launch-postmortem) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3717203461059432062).
+
+Additions
+- Added the ability to invite visiting Tinies into your house (they shouldn't enter otherwise)
+- Added the ability to take vacation days and family leave
+- Added ColorCo Modular Curtains
+- Added Turkish translation by Archura Localization Group
+
+Improvements
+- Made adults take leftovers from the fridge rather than cooking new food when asked for food
+- Added some more modern and hair colors
+- Moved some computer actions into subcategories
+- Disable the AI for a little bit when a manual action is started
+- Handle mod initialization issues more gracefully
+- Made babies not lose social effectiveness when using a social multiple times in a row
+- Made some clothes intentions unavailable for babies
+- Bold some text in the in-game hints to make it easier to skim
+- Allow Tinies to do inappropriate things if they're close to the lot's household members
+- Made people more likely to put down items before doing things
+- Improved the City Dweller reward personality by causing it to give discounts on public lots
+- Allow potties to get dirty
+
+Fixes
+- Fixed babies being able to have sophisticated emotions
+- Fixed mods being able to add objects to incorrect map sections
+- Fixed households not automatically getting a job if there is a primary school student
+- Fixed Play action displaying as "too sad" for every object if too sad
+- Fixed Tinies deleted from the character creator not being removed from relationship panels
+- Fixed still being able to order food and drinks at the café with no money
+- Fixed being able to fool around while holding something
+- Fixed a rare exception when baking food
+
+API
+- Removed IPricedObject interface
+- Made more Register methods return the registered objects
+- Allow mods to specify an issue tracker URL
+- Added an event for when the play mode tool stats panel updates
+- Added support for having multiple jobs at the same time
+- Added SaveHandler.OnSaveLoadError event
+- Added OnGetPrice event for food items
+
 # 0.32.4
 *May 11, 2023*
 

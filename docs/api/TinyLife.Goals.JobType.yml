@@ -39,7 +39,7 @@ items:
   - TinyLife.Goals.JobType.Scientist
   - TinyLife.Goals.JobType.SourceString
   - TinyLife.Goals.JobType.Teacher
-  - TinyLife.Goals.JobType.ToScheduleString(System.DayOfWeek)
+  - TinyLife.Goals.JobType.ToScheduleString(System.Nullable{System.TimeSpan})
   - TinyLife.Goals.JobType.Types
   - TinyLife.Goals.JobType.UpdateWorking(TinyLife.Goals.Job,TinyLife.Actions.WorkAction,System.TimeSpan,System.Single)
   - TinyLife.Goals.JobType.WorkHours
@@ -902,11 +902,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsTimeToWork
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 217
+    startLine: 216
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nReturns whether the given time (or the game&apos;s current time) is in the bounds of <xref href=\"TinyLife.Goals.JobType.WorkHours\" data-throw-if-not-resolved=\"false\"></xref> and outside of the bounds of <xref href=\"TinyLife.Goals.JobType.OffWorkDays\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this method returns true, <xref href=\"TinyLife.Actions.WorkAction\" data-throw-if-not-resolved=\"false\"></xref> can be started.\n"
+  summary: "\nReturns whether the given time (or the game&apos;s current time) is in the bounds of <xref href=\"TinyLife.Goals.JobType.WorkHours\" data-throw-if-not-resolved=\"false\"></xref> and outside of the bounds of <xref href=\"TinyLife.Goals.JobType.OffWorkDays\" data-throw-if-not-resolved=\"false\"></xref>. Note that this method does not check additional criteria like whether a person is on vacation, based on <xref href=\"TinyLife.Goals.Job.DaysOnVacation\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public virtual bool IsTimeToWork(TimeSpan time)
@@ -919,16 +919,16 @@ items:
       description: true if it is time to work, false otherwise
     content.vb: Public Overridable Function IsTimeToWork(time As TimeSpan) As Boolean
   overload: TinyLife.Goals.JobType.IsTimeToWork*
-- uid: TinyLife.Goals.JobType.ToScheduleString(System.DayOfWeek)
-  commentId: M:TinyLife.Goals.JobType.ToScheduleString(System.DayOfWeek)
-  id: ToScheduleString(System.DayOfWeek)
+- uid: TinyLife.Goals.JobType.ToScheduleString(System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.Goals.JobType.ToScheduleString(System.Nullable{System.TimeSpan})
+  id: ToScheduleString(System.Nullable{System.TimeSpan})
   parent: TinyLife.Goals.JobType
   langs:
   - csharp
   - vb
-  name: ToScheduleString(DayOfWeek)
-  nameWithType: JobType.ToScheduleString(DayOfWeek)
-  fullName: TinyLife.Goals.JobType.ToScheduleString(System.DayOfWeek)
+  name: ToScheduleString(TimeSpan?)
+  nameWithType: JobType.ToScheduleString(TimeSpan?)
+  fullName: TinyLife.Goals.JobType.ToScheduleString(System.TimeSpan?)
   type: Method
   source:
     remote:
@@ -937,21 +937,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToScheduleString
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 226
+    startLine: 225
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
   summary: "\nReturns a string representation of the schedule.\nThe string includes a line that states the <xref href=\"TinyLife.Goals.JobType.WorkHours\" data-throw-if-not-resolved=\"false\"></xref> and a line that states the <xref href=\"TinyLife.Goals.JobType.OffWorkDays\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public virtual string ToScheduleString(DayOfWeek weekday)
+    content: public virtual string ToScheduleString(TimeSpan? currentTime = null)
     parameters:
-    - id: weekday
-      type: System.DayOfWeek
+    - id: currentTime
+      type: System.Nullable{System.TimeSpan}
     return:
       type: System.String
       description: A string representation of this job&apos;s schedule
-    content.vb: Public Overridable Function ToScheduleString(weekday As DayOfWeek) As String
+    content.vb: Public Overridable Function ToScheduleString(currentTime As TimeSpan? = Nothing) As String
   overload: TinyLife.Goals.JobType.ToScheduleString*
 - uid: TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
   commentId: M:TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
@@ -971,7 +971,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDisplayName
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 240
+    startLine: 239
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -1009,7 +1009,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRequiredPromotionSkills
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 252
+    startLine: 251
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -1044,7 +1044,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnWorkStartsInAnHour
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 267
+    startLine: 266
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
@@ -1076,11 +1076,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnWorkHoursOver
     path: ../TinyLife/Goals/JobType.cs
-    startLine: 278
+    startLine: 277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Goals
-  summary: "\nA method that is called when the work hours for the given <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> instance are over for this job.\nNote that this method is also called if the person didn&apos;t go to work, or left early.\nBy default, the <xref href=\"TinyLife.Goals.JobType.DailyTasks\" data-throw-if-not-resolved=\"false\"></xref> are reset.\n"
+  summary: "\nA method that is called when the work hours for the given <xref href=\"TinyLife.Goals.Job\" data-throw-if-not-resolved=\"false\"></xref> instance are over for this job.\nNote that this method is also called if the person didn&apos;t go to work, is on vacation, or left early.\nBy default, the <xref href=\"TinyLife.Goals.JobType.DailyTasks\" data-throw-if-not-resolved=\"false\"></xref> are reset.\n"
   example: []
   syntax:
     content: public virtual void OnWorkHoursOver(Job job)
@@ -2464,6 +2464,11 @@ references:
   name: OffWorkDays
   nameWithType: JobType.OffWorkDays
   fullName: TinyLife.Goals.JobType.OffWorkDays
+- uid: TinyLife.Goals.Job.DaysOnVacation
+  commentId: P:TinyLife.Goals.Job.DaysOnVacation
+  name: DaysOnVacation
+  nameWithType: Job.DaysOnVacation
+  fullName: TinyLife.Goals.Job.DaysOnVacation
 - uid: TinyLife.Goals.JobType.IsTimeToWork*
   commentId: Overload:TinyLife.Goals.JobType.IsTimeToWork
   name: IsTimeToWork
@@ -2482,33 +2487,25 @@ references:
   name: ToScheduleString
   nameWithType: JobType.ToScheduleString
   fullName: TinyLife.Goals.JobType.ToScheduleString
-- uid: TinyLife.Goals.JobType.GetDisplayName*
-  commentId: Overload:TinyLife.Goals.JobType.GetDisplayName
-  name: GetDisplayName
-  nameWithType: JobType.GetDisplayName
-  fullName: TinyLife.Goals.JobType.GetDisplayName
-- uid: System.Nullable{System.Int32}
-  commentId: T:System.Nullable{System.Int32}
+- uid: System.Nullable{System.TimeSpan}
+  commentId: T:System.Nullable{System.TimeSpan}
   parent: System
   definition: System.Nullable`1
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int?
-  nameWithType: int?
-  fullName: int?
-  nameWithType.vb: Integer?
-  fullName.vb: Integer?
-  name.vb: Integer?
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan?
+  nameWithType: TimeSpan?
+  fullName: System.TimeSpan?
   spec.csharp:
-  - uid: System.Int32
-    name: int
+  - uid: System.TimeSpan
+    name: TimeSpan
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
   - name: '?'
   spec.vb:
-  - uid: System.Int32
-    name: Integer
+  - uid: System.TimeSpan
+    name: TimeSpan
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
   - name: '?'
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
@@ -2538,6 +2535,34 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.Goals.JobType.GetDisplayName*
+  commentId: Overload:TinyLife.Goals.JobType.GetDisplayName
+  name: GetDisplayName
+  nameWithType: JobType.GetDisplayName
+  fullName: TinyLife.Goals.JobType.GetDisplayName
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
 - uid: TinyLife.Goals.JobType.GetRequiredPromotionSkills*
   commentId: Overload:TinyLife.Goals.JobType.GetRequiredPromotionSkills
   name: GetRequiredPromotionSkills

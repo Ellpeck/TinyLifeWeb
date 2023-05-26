@@ -8,7 +8,7 @@ items:
   - TinyLife.Skills.FoodType.#ctor(System.String,System.Int32,System.Int32,System.Single,TinyLife.Skills.FoodType.FoodIntolerance,TinyLife.Skills.FoodType.IngredientSource,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.Skills.FoodType.AdditionalObject
   - TinyLife.Skills.FoodType.AllIntolerances
-  - TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+  - TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
   - TinyLife.Skills.FoodType.CanCreateFunc
   - TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person,TinyLife.Objects.FoodTypedItem,System.Boolean)
   - TinyLife.Skills.FoodType.CanEatFunc
@@ -19,16 +19,17 @@ items:
   - TinyLife.Skills.FoodType.Container
   - TinyLife.Skills.FoodType.CustomTextureFunc
   - TinyLife.Skills.FoodType.DisplayName
-  - TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
+  - TinyLife.Skills.FoodType.GetActions(TinyLife.Objects.Person,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Single,TinyLife.Skills.SkillType,System.Boolean)
   - TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   - TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
-  - TinyLife.Skills.FoodType.GetPrice(System.Int32)
+  - TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
   - TinyLife.Skills.FoodType.GetTexture(System.Int32)
   - TinyLife.Skills.FoodType.Intolerances
   - TinyLife.Skills.FoodType.InvokeOnEaten(TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem)
   - TinyLife.Skills.FoodType.Name
   - TinyLife.Skills.FoodType.OnEaten
   - TinyLife.Skills.FoodType.OnFoodEaten
+  - TinyLife.Skills.FoodType.OnGetPrice
   - TinyLife.Skills.FoodType.Price
   - TinyLife.Skills.FoodType.Register(TinyLife.Skills.FoodType)
   - TinyLife.Skills.FoodType.RequiredSkill
@@ -167,6 +168,35 @@ items:
     return:
       type: System.Action{TinyLife.Actions.Action,TinyLife.Objects.FoodTypedItem,TinyLife.Skills.FoodType}
     content.vb: Public Shared Event OnFoodEaten As Action(Of Action, FoodTypedItem, FoodType)
+- uid: TinyLife.Skills.FoodType.OnGetPrice
+  commentId: E:TinyLife.Skills.FoodType.OnGetPrice
+  id: OnGetPrice
+  parent: TinyLife.Skills.FoodType
+  langs:
+  - csharp
+  - vb
+  name: OnGetPrice
+  nameWithType: FoodType.OnGetPrice
+  fullName: TinyLife.Skills.FoodType.OnGetPrice
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Skills/FoodType.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnGetPrice
+    path: ../TinyLife/Skills/FoodType.cs
+    startLine: 55
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  summary: "\nAn event that is invoked in <xref href=\"TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person%2cSystem.Int32%2cSystem.Single%2cSystem.Single%40%2cSystem.Nullable%7bSystem.Single%7d%40)\" data-throw-if-not-resolved=\"false\"></xref>, which can be used to modify the original and final price of a food type.\n"
+  example: []
+  syntax:
+    content: public static event FoodType.GetPriceDelegate OnGetPrice
+    return:
+      type: TinyLife.Skills.FoodType.GetPriceDelegate
+    content.vb: Public Shared Event OnGetPrice As FoodType.GetPriceDelegate
 - uid: TinyLife.Skills.FoodType.Name
   commentId: F:TinyLife.Skills.FoodType.Name
   id: Name
@@ -185,7 +215,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 143
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -214,7 +244,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredSkillLevel
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 147
+    startLine: 151
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -243,11 +273,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Price
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 151
+    startLine: 156
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nThe price that creating this food type has\n"
+  summary: "\nThe default price that creating this food type has.\nUse <xref href=\"TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person%2cSystem.Int32%2cSystem.Single%2cSystem.Single%40%2cSystem.Nullable%7bSystem.Single%7d%40)\" data-throw-if-not-resolved=\"false\"></xref> to get the price for a given serving size as well as the modified, final price.\n"
   example: []
   syntax:
     content: public readonly int Price
@@ -272,7 +302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SaturationModifier
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 155
+    startLine: 160
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -301,7 +331,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Color
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 159
+    startLine: 164
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -330,7 +360,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Sources
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 163
+    startLine: 168
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -359,7 +389,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intolerances
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 167
+    startLine: 172
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -388,7 +418,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredSkill
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 173
+    startLine: 178
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -419,7 +449,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdditionalObject
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 179
+    startLine: 184
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -450,7 +480,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Container
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 183
+    startLine: 188
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -481,7 +511,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 189
+    startLine: 194
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -512,7 +542,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEatFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 194
+    startLine: 199
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -543,11 +573,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCreateFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 199
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nAn optional <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref>-style function that allows passing additional conditions to <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this is null, which is the default value, no additional checks are done in <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nAn optional <xref href=\"TinyLife.Actions.ActionType.CanExecuteDelegate\" data-throw-if-not-resolved=\"false\"></xref>-style function that allows passing additional conditions to <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this is null, which is the default value, no additional checks are done in <xref href=\"TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Int32%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public Func<(ActionInfo Info, bool Automatic, int ServingSize, float PriceMarkup), CanExecuteResult> CanCreateFunc { get; init; }
@@ -574,7 +604,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CustomTextureFunc
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 203
+    startLine: 208
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -605,7 +635,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanHaveCandle
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 207
+    startLine: 212
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -634,7 +664,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 211
+    startLine: 216
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -665,7 +695,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SourceString
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 213
+    startLine: 218
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -698,7 +728,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 225
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -733,16 +763,16 @@ items:
   nameWithType.vb: FoodType.New(String, Integer, Integer, Single, FoodType.FoodIntolerance, FoodType.IngredientSource, Color?)
   fullName.vb: TinyLife.Skills.FoodType.New(String, Integer, Integer, Single, TinyLife.Skills.FoodType.FoodIntolerance, TinyLife.Skills.FoodType.IngredientSource, Microsoft.Xna.Framework.Color?)
   name.vb: New(String, Integer, Integer, Single, FoodIntolerance, IngredientSource, Color?)
-- uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
-  commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
-  id: GetPrice(System.Int32)
+- uid: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+  commentId: M:TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+  id: GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: GetPrice(int)
-  nameWithType: FoodType.GetPrice(int)
-  fullName: TinyLife.Skills.FoodType.GetPrice(int)
+  name: GetPrice(Person, int, float, out float, out float?)
+  nameWithType: FoodType.GetPrice(Person, int, float, out float, out float?)
+  fullName: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person, int, float, out float, out float?)
   type: Method
   source:
     remote:
@@ -751,26 +781,35 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 241
+    startLine: 250
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nReturns the price of this food type, based on the amount of servings provided\n"
+  summary: "\nReturns the price of this food type, based on the amount of servings provided, as well as the <xref href=\"TinyLife.Skills.FoodType.OnGetPrice\" data-throw-if-not-resolved=\"false\"></xref> event.\n"
   example: []
   syntax:
-    content: public float GetPrice(int servingSize)
+    content: public void GetPrice(Person person, int servingSize, float markup, out float originalPrice, out float? modifiedPrice)
     parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person to get the price for.
     - id: servingSize
       type: System.Int32
       description: The amount of servings to get the price for
-    return:
+    - id: markup
       type: System.Single
-      description: The price for this food type
-    content.vb: Public Function GetPrice(servingSize As Integer) As Single
+      description: The price markup multiplier.
+    - id: originalPrice
+      type: System.Single
+      description: The original price that should be used if <code data-dev-comment-type="paramref" class="paramref">modifiedPrice</code> is unset.
+    - id: modifiedPrice
+      type: System.Nullable{System.Single}
+      description: The final price of the item, which is unset if the <code data-dev-comment-type="paramref" class="paramref">originalPrice</code> should be used.
+    content.vb: Public Sub GetPrice(person As Person, servingSize As Integer, markup As Single, originalPrice As Single, modifiedPrice As Single?)
   overload: TinyLife.Skills.FoodType.GetPrice*
-  nameWithType.vb: FoodType.GetPrice(Integer)
-  fullName.vb: TinyLife.Skills.FoodType.GetPrice(Integer)
-  name.vb: GetPrice(Integer)
+  nameWithType.vb: FoodType.GetPrice(Person, Integer, Single, Single, Single?)
+  fullName.vb: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person, Integer, Single, Single, Single?)
+  name.vb: GetPrice(Person, Integer, Single, Single, Single?)
 - uid: TinyLife.Skills.FoodType.Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
   id: Construct(TinyLife.World.Map,TinyLife.Skills.Quality,System.TimeSpan,System.Int32,TinyLife.Objects.Person,System.Nullable{System.Guid},System.Boolean)
@@ -789,7 +828,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Construct
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 257
+    startLine: 272
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -845,7 +884,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ConstructUnfinished
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 277
+    startLine: 292
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -901,7 +940,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanEat
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 294
+    startLine: 309
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -927,16 +966,16 @@ items:
   nameWithType.vb: FoodType.CanEat(Person, FoodTypedItem, Boolean)
   fullName.vb: TinyLife.Skills.FoodType.CanEat(TinyLife.Objects.Person, TinyLife.Objects.FoodTypedItem, Boolean)
   name.vb: CanEat(Person, FoodTypedItem, Boolean)
-- uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
-  commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
-  id: CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+- uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
+  commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
+  id: CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: CanCreate(ActionInfo, bool, int, float)
-  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float)
-  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float)
+  name: CanCreate(ActionInfo, bool, int, float, bool)
+  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float, bool)
+  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float, bool)
   type: Method
   source:
     remote:
@@ -945,14 +984,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanCreate
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 315
+    startLine: 331
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nReturns a <xref href=\"TinyLife.Actions.CanExecuteResult\" data-throw-if-not-resolved=\"false\"></xref> indicating whether an item with this food type can be created in some way.\nThis method also invokes <xref href=\"TinyLife.Skills.FoodType.CanCreateFunc\" data-throw-if-not-resolved=\"false\"></xref>, checks against the <xref href=\"TinyLife.Skills.FoodType.Price\" data-throw-if-not-resolved=\"false\"></xref> and checks for an object with the <xref href=\"TinyLife.Skills.FoodType.AdditionalObject\" data-throw-if-not-resolved=\"false\"></xref> category.\n"
+  summary: "\nReturns a <xref href=\"TinyLife.Actions.CanExecuteResult\" data-throw-if-not-resolved=\"false\"></xref> indicating whether an item with this food type can be created in some way.\nThis method also invokes <xref href=\"TinyLife.Skills.FoodType.CanCreateFunc\" data-throw-if-not-resolved=\"false\"></xref>, checks against <xref href=\"TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person%2cSystem.Int32%2cSystem.Single%2cSystem.Single%40%2cSystem.Nullable%7bSystem.Single%7d%40)\" data-throw-if-not-resolved=\"false\"></xref> and checks for an object with the <xref href=\"TinyLife.Skills.FoodType.AdditionalObject\" data-throw-if-not-resolved=\"false\"></xref> category.\n"
   example: []
   syntax:
-    content: public CanExecuteResult CanCreate(ActionInfo info, bool automatic, int servingSize, float priceMarkup)
+    content: public CanExecuteResult CanCreate(ActionInfo info, bool automatic, int servingSize, float priceMarkup, bool onlyCheckPrice = false)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
@@ -965,15 +1004,18 @@ items:
       description: The serving size that is being created.
     - id: priceMarkup
       type: System.Single
-      description: A price markup that the <xref href="TinyLife.Skills.FoodType.Price" data-throw-if-not-resolved="false"></xref> should be multiplied with.
+      description: A price markup that should be passed to <xref href="TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person%2cSystem.Int32%2cSystem.Single%2cSystem.Single%40%2cSystem.Nullable%7bSystem.Single%7d%40)" data-throw-if-not-resolved="false"></xref>.
+    - id: onlyCheckPrice
+      type: System.Boolean
+      description: Whether only the price should be checked and additional conditions, like the <xref href="TinyLife.Skills.FoodType.AdditionalObject" data-throw-if-not-resolved="false"></xref> should be ignored.
     return:
       type: TinyLife.Actions.CanExecuteResult
       description: A <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref> indicating whether this food item can be created.
-    content.vb: Public Function CanCreate(info As ActionInfo, automatic As Boolean, servingSize As Integer, priceMarkup As Single) As CanExecuteResult
+    content.vb: Public Function CanCreate(info As ActionInfo, automatic As Boolean, servingSize As Integer, priceMarkup As Single, onlyCheckPrice As Boolean = False) As CanExecuteResult
   overload: TinyLife.Skills.FoodType.CanCreate*
-  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single)
-  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single)
-  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single)
+  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single, Boolean)
+  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single, Boolean)
 - uid: TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
   commentId: M:TinyLife.Skills.FoodType.GetIntolerancesDescription(System.Boolean)
   id: GetIntolerancesDescription(System.Boolean)
@@ -992,7 +1034,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetIntolerancesDescription
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 337
+    startLine: 356
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1030,7 +1072,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InvokeOnEaten
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 352
+    startLine: 371
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1065,7 +1107,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTexture
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 378
+    startLine: 397
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1103,30 +1145,33 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 386
+    startLine: 406
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
-  summary: "\nRegisters a new <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> with the given settings\n"
+  summary: "\nRegisters a new <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> with the given settings.\n"
   example: []
   syntax:
-    content: public static void Register(FoodType type)
+    content: public static FoodType Register(FoodType type)
     parameters:
     - id: type
       type: TinyLife.Skills.FoodType
-      description: The food type to register
-    content.vb: Public Shared Sub Register(type As FoodType)
+      description: The food type to register.
+    return:
+      type: TinyLife.Skills.FoodType
+      description: The passed <code data-dev-comment-type="paramref" class="paramref">type</code>, for chaining.
+    content.vb: Public Shared Function Register(type As FoodType) As FoodType
   overload: TinyLife.Skills.FoodType.Register*
-- uid: TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
-  commentId: M:TinyLife.Skills.FoodType.GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
-  id: GetActions(System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Boolean,System.Single,TinyLife.Skills.SkillType)
+- uid: TinyLife.Skills.FoodType.GetActions(TinyLife.Objects.Person,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Single,TinyLife.Skills.SkillType,System.Boolean)
+  commentId: M:TinyLife.Skills.FoodType.GetActions(TinyLife.Objects.Person,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Single,TinyLife.Skills.SkillType,System.Boolean)
+  id: GetActions(TinyLife.Objects.Person,System.Int32,TinyLife.Skills.FoodType.IngredientSource,System.Single,TinyLife.Skills.SkillType,System.Boolean)
   parent: TinyLife.Skills.FoodType
   langs:
   - csharp
   - vb
-  name: GetActions(int, IngredientSource, bool, float, SkillType)
-  nameWithType: FoodType.GetActions(int, FoodType.IngredientSource, bool, float, SkillType)
-  fullName: TinyLife.Skills.FoodType.GetActions(int, TinyLife.Skills.FoodType.IngredientSource, bool, float, TinyLife.Skills.SkillType)
+  name: GetActions(Person, int, IngredientSource, float, SkillType, bool)
+  nameWithType: FoodType.GetActions(Person, int, FoodType.IngredientSource, float, SkillType, bool)
+  fullName: TinyLife.Skills.FoodType.GetActions(TinyLife.Objects.Person, int, TinyLife.Skills.FoodType.IngredientSource, float, TinyLife.Skills.SkillType, bool)
   type: Method
   source:
     remote:
@@ -1135,38 +1180,41 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActions
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 400
+    startLine: 422
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
   summary: "\nReturns a set of action varieties for all <xref href=\"TinyLife.Skills.FoodType\" data-throw-if-not-resolved=\"false\"></xref> objects that match the given predicate\n"
   example: []
   syntax:
-    content: public static IEnumerable<ActionVariety> GetActions(int servingSize, FoodType.IngredientSource source, bool checkConditions = true, float priceMarkup = 1, SkillType requiredSkill = null)
+    content: public static IEnumerable<ActionVariety> GetActions(Person person, int servingSize, FoodType.IngredientSource source, float priceMarkup = 1, SkillType requiredSkill = null, bool onlyCheckPrice = false)
     parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person executing the actions.
     - id: servingSize
       type: System.Int32
       description: The serving size that should be served when using the variety
     - id: source
       type: TinyLife.Skills.FoodType.IngredientSource
       description: The ingredient source to return actions for
-    - id: checkConditions
-      type: System.Boolean
-      description: Whether additional conditions like <xref href="TinyLife.Skills.FoodType.GetPrice(System.Int32)" data-throw-if-not-resolved="false"></xref> or the <xref href="TinyLife.Skills.FoodType.AdditionalObject" data-throw-if-not-resolved="false"></xref> should be checked.
     - id: priceMarkup
       type: System.Single
-      description: The amount that the <xref href="TinyLife.Skills.FoodType.GetPrice(System.Int32)" data-throw-if-not-resolved="false"></xref> should be multiplied by for display and condition checking.
+      description: The amount that the <xref href="TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person%2cSystem.Int32%2cSystem.Single%2cSystem.Single%40%2cSystem.Nullable%7bSystem.Single%7d%40)" data-throw-if-not-resolved="false"></xref> should be multiplied by for display and condition checking.
     - id: requiredSkill
       type: TinyLife.Skills.SkillType
       description: The required skill, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use <xref href="TinyLife.Skills.SkillType.Cooking" data-throw-if-not-resolved="false"></xref>.
+    - id: onlyCheckPrice
+      type: System.Boolean
+      description: Whether only the price should be checked and additional conditions, like the <xref href="TinyLife.Skills.FoodType.AdditionalObject" data-throw-if-not-resolved="false"></xref> should be ignored.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionVariety}
       description: A set of action varieties representing food types
-    content.vb: Public Shared Function GetActions(servingSize As Integer, source As FoodType.IngredientSource, checkConditions As Boolean = True, priceMarkup As Single = 1, requiredSkill As SkillType = Nothing) As IEnumerable(Of ActionVariety)
+    content.vb: Public Shared Function GetActions(person As Person, servingSize As Integer, source As FoodType.IngredientSource, priceMarkup As Single = 1, requiredSkill As SkillType = Nothing, onlyCheckPrice As Boolean = False) As IEnumerable(Of ActionVariety)
   overload: TinyLife.Skills.FoodType.GetActions*
-  nameWithType.vb: FoodType.GetActions(Integer, FoodType.IngredientSource, Boolean, Single, SkillType)
-  fullName.vb: TinyLife.Skills.FoodType.GetActions(Integer, TinyLife.Skills.FoodType.IngredientSource, Boolean, Single, TinyLife.Skills.SkillType)
-  name.vb: GetActions(Integer, IngredientSource, Boolean, Single, SkillType)
+  nameWithType.vb: FoodType.GetActions(Person, Integer, FoodType.IngredientSource, Single, SkillType, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.GetActions(TinyLife.Objects.Person, Integer, TinyLife.Skills.FoodType.IngredientSource, Single, TinyLife.Skills.SkillType, Boolean)
+  name.vb: GetActions(Person, Integer, IngredientSource, Single, SkillType, Boolean)
 - uid: TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   commentId: M:TinyLife.Skills.FoodType.GetAllContainers(System.Int32)
   id: GetAllContainers(System.Int32)
@@ -1185,7 +1233,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllContainers
     path: ../TinyLife/Skills/FoodType.cs
-    startLine: 431
+    startLine: 456
   assemblies:
   - Tiny Life
   namespace: TinyLife.Skills
@@ -1923,6 +1971,102 @@ references:
   - name: " "
   - name: T3
   - name: )
+- uid: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+  commentId: M:TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: GetPrice(Person, int, float, out float, out float?)
+  nameWithType: FoodType.GetPrice(Person, int, float, out float, out float?)
+  fullName: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person, int, float, out float, out float?)
+  nameWithType.vb: FoodType.GetPrice(Person, Integer, Single, Single, Single?)
+  fullName.vb: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person, Integer, Single, Single, Single?)
+  name.vb: GetPrice(Person, Integer, Single, Single, Single?)
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+    name: GetPrice
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - name: out
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - name: out
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType.GetPrice(TinyLife.Objects.Person,System.Int32,System.Single,System.Single@,System.Nullable{System.Single}@)
+    name: GetPrice
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+- uid: TinyLife.Skills.FoodType.GetPriceDelegate
+  commentId: T:TinyLife.Skills.FoodType.GetPriceDelegate
+  parent: TinyLife.Skills
+  name: FoodType.GetPriceDelegate
+  nameWithType: FoodType.GetPriceDelegate
+  fullName: TinyLife.Skills.FoodType.GetPriceDelegate
+  spec.csharp:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.GetPriceDelegate
+    name: GetPriceDelegate
+  spec.vb:
+  - uid: TinyLife.Skills.FoodType
+    name: FoodType
+  - name: .
+  - uid: TinyLife.Skills.FoodType.GetPriceDelegate
+    name: GetPriceDelegate
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -2471,18 +2615,18 @@ references:
   - name: " "
   - name: TResult
   - name: )
-- uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
-  commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+- uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
+  commentId: M:TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: CanCreate(ActionInfo, bool, int, float)
-  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float)
-  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float)
-  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single)
-  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single)
-  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single)
+  name: CanCreate(ActionInfo, bool, int, float, bool)
+  nameWithType: FoodType.CanCreate(ActionInfo, bool, int, float, bool)
+  fullName: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, bool, int, float, bool)
+  nameWithType.vb: FoodType.CanCreate(ActionInfo, Boolean, Integer, Single, Boolean)
+  fullName.vb: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo, Boolean, Integer, Single, Boolean)
+  name.vb: CanCreate(ActionInfo, Boolean, Integer, Single, Boolean)
   spec.csharp:
-  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
     name: CanCreate
   - name: (
   - uid: TinyLife.Actions.ActionInfo
@@ -2505,9 +2649,15 @@ references:
     name: float
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single)
+  - uid: TinyLife.Skills.FoodType.CanCreate(TinyLife.Actions.ActionInfo,System.Boolean,System.Int32,System.Single,System.Boolean)
     name: CanCreate
   - name: (
   - uid: TinyLife.Actions.ActionInfo
@@ -2530,6 +2680,12 @@ references:
     name: Single
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Skills.FoodType.CanCreateFunc*
   commentId: Overload:TinyLife.Skills.FoodType.CanCreateFunc
@@ -2833,11 +2989,45 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.Skills.FoodType.OnGetPrice
+  commentId: E:TinyLife.Skills.FoodType.OnGetPrice
+  name: OnGetPrice
+  nameWithType: FoodType.OnGetPrice
+  fullName: TinyLife.Skills.FoodType.OnGetPrice
 - uid: TinyLife.Skills.FoodType.GetPrice*
   commentId: Overload:TinyLife.Skills.FoodType.GetPrice
   name: GetPrice
   nameWithType: FoodType.GetPrice
   fullName: TinyLife.Skills.FoodType.GetPrice
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
+- uid: System.Nullable{System.Single}
+  commentId: T:System.Nullable{System.Single}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float?
+  nameWithType: float?
+  fullName: float?
+  nameWithType.vb: Single?
+  fullName.vb: Single?
+  name.vb: Single?
+  spec.csharp:
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  spec.vb:
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
 - uid: TinyLife.Objects.Food
   commentId: T:TinyLife.Objects.Food
   parent: TinyLife.Objects
@@ -2854,12 +3044,6 @@ references:
   name: Time
   nameWithType: Map.Time
   fullName: TinyLife.World.Map.Time
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
-  parent: TinyLife.Objects
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
 - uid: TinyLife.Goals.AutoGoalInfo
   commentId: T:TinyLife.Goals.AutoGoalInfo
   parent: TinyLife.Goals
@@ -3042,11 +3226,6 @@ references:
   name: CanCreateFunc
   nameWithType: FoodType.CanCreateFunc
   fullName: TinyLife.Skills.FoodType.CanCreateFunc
-- uid: TinyLife.Skills.FoodType.Price
-  commentId: F:TinyLife.Skills.FoodType.Price
-  name: Price
-  nameWithType: FoodType.Price
-  fullName: TinyLife.Skills.FoodType.Price
 - uid: TinyLife.Skills.FoodType.AdditionalObject
   commentId: P:TinyLife.Skills.FoodType.AdditionalObject
   name: AdditionalObject
@@ -3220,34 +3399,6 @@ references:
   name: Register
   nameWithType: FoodType.Register
   fullName: TinyLife.Skills.FoodType.Register
-- uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
-  commentId: M:TinyLife.Skills.FoodType.GetPrice(System.Int32)
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: GetPrice(int)
-  nameWithType: FoodType.GetPrice(int)
-  fullName: TinyLife.Skills.FoodType.GetPrice(int)
-  nameWithType.vb: FoodType.GetPrice(Integer)
-  fullName.vb: TinyLife.Skills.FoodType.GetPrice(Integer)
-  name.vb: GetPrice(Integer)
-  spec.csharp:
-  - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
-    name: GetPrice
-  - name: (
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Skills.FoodType.GetPrice(System.Int32)
-    name: GetPrice
-  - name: (
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: )
 - uid: TinyLife.Skills.FoodType.GetActions*
   commentId: Overload:TinyLife.Skills.FoodType.GetActions
   name: GetActions
