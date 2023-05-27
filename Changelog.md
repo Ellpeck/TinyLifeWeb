@@ -1,3 +1,10 @@
+# 0.33.1
+*May 27, 2023*
+
+Fixes
+- Fixed an occasional UI crash when exiting Play Mode
+- Fixed vacation days being awarded daily rather than weekly (embarrassing)
+
 # 0.33.0
 *May 26, 2023*
 
