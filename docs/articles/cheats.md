@@ -12,7 +12,8 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
   - `Gib` gives you 10,000 tiny bucks.
 - `ExtremelyFast` allows you to select the 15x speed option all the time, regardless of whether people in the active household are sleeping or out of town.
 - `Skill [name] [level]` changes the current person's skill level. You can find a list of all skill names [in the API docs](xref:TinyLife.Skills.SkillType).
-- `Job [name] [level]` stes the current person's job and job level.
+- `AddJob [name] [level]` adds the given job to the current person at the given level You can find a list of all job names [in the API docs](xref:TinyLife.Goals.JobType).
+  - `RemoveJob [name]` removes the given job from the current person.
 - `Die` kills the current person.
 - `Emotion [modifier name] [level] [seconds]` adds an emotion modifier to the current person. You can find a list of all emotion modifiers [in the API docs](xref:TinyLife.Emotions.EmotionModifier).
 - `Friendship [name without spaces] [percentage between -1 and 1]` sets the friendship level between the named partner and the current person to the given percentage.
@@ -28,6 +29,7 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `ShowDebugActions` will enable a set of debug actions you can always select in-game, including teleporting to a certain location, adding people to your household, and more.
 - `AgeUp` will cause the selected person to age up if possible.
 - `RemoveRandos` will remove any randomly generated people from the map and regenerate them.
+- `Pregnancy [amount of hours]` will make the selected Tiny pregnant with the given amount of hours before likely going into labor.
 
 ## Modding and debug cheats
 - `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. You can find out more about editing the world in the [custom maps tutorial](custom_maps.md).
