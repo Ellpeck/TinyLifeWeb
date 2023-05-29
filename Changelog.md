@@ -1,3 +1,17 @@
+# 0.33.2
+*May 29, 2023*
+
+Fixes
+- Fixed a rounding error in amount-based goals
+- Fixed an exception when trying to pick up a person that a Tiny doesn't know
+- Fixed children and babies repeatedly asking for food when food is already being prepared
+- Fixed an exception when adding a baby as the 8th household member
+- Fixed visitors leaving to do other things upon being invited in
+
+API
+- Added some more emote categories for better distinction
+- Added a warning for when the issue tracker URL for a mod isn't set
+
 # 0.33.1
 *May 27, 2023*
 
