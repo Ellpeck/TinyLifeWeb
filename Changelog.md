@@ -26,7 +26,7 @@ Fixes
 
 > The Quality of Life Update
 
-Read about this update in last week's post [on itch](https://ellpeck.itch.io/tiny-life/devlog/532785/community-showcase-and-future-plans-early-access-launch-postmortem) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3717203461059432062).
+Read about this update in last week's post [on the website](https://tinylifegame.com/devlogs/launch_postmortem/).
 
 Additions
 - Added the ability to invite visiting Tinies into your house (they shouldn't enter otherwise)
@@ -259,7 +259,7 @@ Fixes
 
 > Big Steps Towards Release
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/510006/0300-big-steps-towards-release) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6492542378896226821).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.30.0/).
 
 Additions
 - Added a few more decorative objects, including two lamps, cattails and lily pads
@@ -393,7 +393,7 @@ Fixes
 
 > Say Hi to the Demo
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/477028/0290-say-hi-to-the-demo) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6132247440463996085).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.29.0/).
 
 Additions
 - Added the Demoville world, including its community-made lots and households
@@ -481,7 +481,7 @@ Fixes
 
 > The Last Beta Update Ever
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/466033/0280-the-last-beta-update-ever) or [on Steam](https://store.steampowered.com/news/app/1651490/view/5891302324258788947).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.28.0/).
 
 Additions
 - Added jungle gym, coloring book, and festive tree objects
@@ -542,7 +542,7 @@ API
 
 > Trashy Techie Library
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/450800/0270-trashy-techie-library) or [on Steam](https://store.steampowered.com/news/app/1651490/view/5453324100721557422).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.27.0/).
 
 Additions
 - Added a double-sided bookshelf, a book cart, a small indoor trash can, an outdoor wheelie bin, a vertical planter box, and a simple nightstand
@@ -582,7 +582,7 @@ API
 
 > Lights, Camera, Music
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/441031/0260-lights-camera-music) or [on Steam](https://store.steampowered.com/news/app/1651490/view/6319138589415905559).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.26.0/).
 
 Additions
 - Added the first of many of [Leiss](https://leiss.bandcamp.com)'s songs for the Tiny Life Soundtrack
@@ -663,7 +663,7 @@ API
 
 > Water, Stuff and Skill Books
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/424507/0250-water-stuff-and-skill-books) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3360269804911051302).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.25.0/).
 
 Additions
 - Added the ability for primary school students to study at a bookshelf
@@ -734,7 +734,7 @@ Fixes
 
 > Undo, Redo, Fridge Achievements
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/409590/0240-undo-redo-fridge-achievements) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3370399657483457677).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.24.0/).
 
 Additions
 - Added the ability to store leftovers in the fridge
@@ -779,7 +779,7 @@ API
 
 > Job Choices, Aging Up and Furniture Fun
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/400497/0230-job-choices-aging-up-and-furniture-fun) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3344500789303904087).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.23.0/).
 
 Additions
 - Added choice prompts for jobs and students, which appear randomly and allow the player to influence the situation
@@ -926,7 +926,7 @@ Fixes
 
 > Two Years of Tiny Life: Cafés, Gamepad Controls and More
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/384666/0210-two-years-of-tiny-life-cafs-gamepad-controls-and-more) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3189123589808204255).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.21.0/).
 
 Additions
 - Added the ability to control the entire game using a gamepad
@@ -1047,7 +1047,7 @@ Fixes
 
 > The Children Update, it's finally here!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/355830/0200-the-children-update-its-finally-here) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3100171001731828571).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.20.0/).
 
 Additions
 - Added the Children age group, which includes several new gameplay features, including new interactable furniture items, school, homework and the start of parenting interactions
@@ -1132,7 +1132,7 @@ Fixes
 
 > Ui, Sound and Improvements Abound
 
-Happy new year! Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/330680/0190-ui-sound-and-improvements-abound) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3109171219652255208).
+Happy new year! Read the devlog [on the website](https://tinylifegame.com/devlogs/0.19.0/).
 
 Additions
 - Added carpet and puzzle piece floorings
@@ -1181,7 +1181,7 @@ API
 
 > Animations, Food and Sources
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/317472/0180-animations-food-and-sources) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3111419849470831533).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.18.0/).
 
 Additions
 - Added emotion sources that display when hovering over an emotion modifier
@@ -1264,7 +1264,7 @@ Fixes
 
 > Life Goals, Reward Personalities and Daily Tasks
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/303915/0170-life-goals-reward-personalities-and-daily-tasks) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4244072077610086379).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.17.0/).
 
 Additions
 - Added Life Goals
@@ -1325,7 +1325,7 @@ Fixes
 
 > Woodlands and Visitors
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/289260/0160-woodlands-and-visitors) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2949282742498975401).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.16.0/).
 
 Additions
 - Added the Woodlands Set with art by [faellynna](https://www.instagram.com/faellynna/), which includes a Woodworking skill and a large variety of new build mode items:
@@ -1382,7 +1382,7 @@ Fixes
 
 > Barbecue Trash Cleaning
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/277913/0150-barbecue-trash-cleaning) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2968419780808932932).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.15.0/).
 
 Additions
 - Added a barbecue and some grillable food items
@@ -1418,7 +1418,7 @@ Fixes
 
 > Lamps, Lot Movement, Speech Sounds!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/274082/0140-lamps-lot-movement-speech-sounds) or [on Steam](https://store.steampowered.com/news/app/1651490/view/4430963222678444595).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.14.0/).
 
 Additions
 - Added dynamic lighting and two lamps, a ceiling and a floor one
@@ -1470,7 +1470,7 @@ Fixes
 
 > Camera Rotation and a Larger Map!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/271199/0130-camera-rotation-and-a-larger-map) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2967291343236374275).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.13.0/).
 
 Additions
 - Added camera rotation, which can be used using the C key or the rotation buttons in the top right
@@ -1542,7 +1542,7 @@ Fixes
 
 > The Fitness Set
 
-Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/264773/0120-the-fitness-set) or [on Steam](https://store.steampowered.com/news/app/1651490/view/2990934608186477339).
+Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and read the devlog [on the website](https://tinylifegame.com/devlogs/0.12.0/).
 
 Additions
 - Added the Fitness Set, with art by [Tector](https://www.instagram.com/tector_pixel/), which includes a fitness skill and several new furniture and clothing items:
@@ -1575,7 +1575,7 @@ Fixes
 
 > More Actions, More Skills, More Personalities, More Pride!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/260838/0110-more-actions-more-skills-more-personalities-more-pride) or [on Steam](https://store.steampowered.com/news/app/1651490/view/3028088035178415265).
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.11.0/).
 
 Additions
 - Added a lot more social actions in various categories
