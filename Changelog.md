@@ -1,3 +1,54 @@
+# 0.34.0
+*June 25, 2023*
+
+![](media/changelog/0.34.0.png)
+
+> Of Bars, Brews and Progress Bars
+
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.34.0/).
+
+Additions
+- Added the ability to make drinks using the Mixology Kit
+- Added a Bar lot type with a bartender
+- Added the Dive Bar by the Lake lot by [AngelofAcid](https://steamcommunity.com/id/AngelofAcid/myworkshopfiles/?appid=1651490) to Maple Plains City
+- Added Now You See It All window and door
+- Added Solid Paint with Baseboard wallpaper and ColorCo Cute Cacti wallpaper
+- Added progress displays to some actions
+
+Improvements
+- Improved the lot staff tooltip to add more information
+- Made conversation partners walk back to the initiator if they walk away after being talked to
+- Made protein shakes also count towards the Drink Mixing skill
+- Allow selecting a Tiny in the active household by right-clicking them in the world
+- Improved lot visitation priorities for the AI
+- Some performance improvements for pathfinding
+- Allow daily goal for teachers to also be fulfilled through skill books
+- Display an open book texture when people are reading
+- Allow water tiles to connect to dirt paths as well
+- Pause the game while the notification history is open
+- Order lot employment menu by first name
+- Made gender options and clothes on randomly generated Tinies have a higher chance to be more consistent with Western
+  gender norms
+
+Fixes
+- Ensure vehicles are removed when an action is canceled or fails
+- Fixed children being unable to take days off school
+- Fixed the gnocchi being too cheap
+- Fixed "map unavailable" tooltip not being displayed when using a gamepad in the demo
+- Fixed the quality of baked goods being influenced by the cooking skill
+- Fixed lot staff sometimes not finding their lot and getting stuck
+- Fixed lots momentarily being invisible when a Tiny in the household goes home
+- Fixed sleeping in a crib causing an exception when the crib is removed
+- Fixed people only going to the corners of public lots when visiting, instead of the entrance
+- Fixed people being called to meal if they haven't been invited in yet
+- Fixed Perfect Painter life goal being available for children
+- Fixed work and school emotions displaying the wrong source
+
+API
+- Added the ability for lot types to define their own visitation hours
+- Added Map.OnEventsAttachable event
+- Added a basic style preference system for clothes
+
 # 0.33.2
 *May 29, 2023*
 

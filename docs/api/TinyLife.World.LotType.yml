@@ -5,13 +5,15 @@ items:
   id: LotType
   parent: TinyLife.World
   children:
-  - TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
+  - TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
+  - TinyLife.World.LotType.Bar
   - TinyLife.World.LotType.Cafe
   - TinyLife.World.LotType.CanExecuteAction
   - TinyLife.World.LotType.DisplayName
   - TinyLife.World.LotType.Employments
   - TinyLife.World.LotType.GenericPublicLot
-  - TinyLife.World.LotType.GetGroupVisitPriority(TinyLife.World.Lot,System.Int32)
+  - TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  - TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
   - TinyLife.World.LotType.GetVisitPriority
   - TinyLife.World.LotType.Gym
   - TinyLife.World.LotType.Icon
@@ -24,6 +26,7 @@ items:
   - TinyLife.World.LotType.RequiredFurniture
   - TinyLife.World.LotType.Residential
   - TinyLife.World.LotType.Types
+  - TinyLife.World.LotType.VisitHours
   langs:
   - csharp
   - vb
@@ -220,7 +223,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Library
     path: ../TinyLife/World/Lot.cs
-    startLine: 522
+    startLine: 524
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -229,33 +232,6 @@ items:
     return:
       type: TinyLife.World.LotType
     content.vb: Public Shared ReadOnly Library As LotType
-- uid: TinyLife.World.LotType.Gym
-  commentId: F:TinyLife.World.LotType.Gym
-  id: Gym
-  parent: TinyLife.World.LotType
-  langs:
-  - csharp
-  - vb
-  name: Gym
-  nameWithType: LotType.Gym
-  fullName: TinyLife.World.LotType.Gym
-  type: Field
-  source:
-    remote:
-      path: TinyLife/World/Lot.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Gym
-    path: ../TinyLife/World/Lot.cs
-    startLine: 536
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.World
-  syntax:
-    content: public static readonly LotType Gym
-    return:
-      type: TinyLife.World.LotType
-    content.vb: Public Shared ReadOnly Gym As LotType
 - uid: TinyLife.World.LotType.GenericPublicLot
   commentId: F:TinyLife.World.LotType.GenericPublicLot
   id: GenericPublicLot
@@ -274,7 +250,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GenericPublicLot
     path: ../TinyLife/World/Lot.cs
-    startLine: 548
+    startLine: 538
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -283,6 +259,60 @@ items:
     return:
       type: TinyLife.World.LotType
     content.vb: Public Shared ReadOnly GenericPublicLot As LotType
+- uid: TinyLife.World.LotType.Gym
+  commentId: F:TinyLife.World.LotType.Gym
+  id: Gym
+  parent: TinyLife.World.LotType
+  langs:
+  - csharp
+  - vb
+  name: Gym
+  nameWithType: LotType.Gym
+  fullName: TinyLife.World.LotType.Gym
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Lot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Gym
+    path: ../TinyLife/World/Lot.cs
+    startLine: 541
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly LotType Gym
+    return:
+      type: TinyLife.World.LotType
+    content.vb: Public Shared ReadOnly Gym As LotType
+- uid: TinyLife.World.LotType.Bar
+  commentId: F:TinyLife.World.LotType.Bar
+  id: Bar
+  parent: TinyLife.World.LotType
+  langs:
+  - csharp
+  - vb
+  name: Bar
+  nameWithType: LotType.Bar
+  fullName: TinyLife.World.LotType.Bar
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Lot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Bar
+    path: ../TinyLife/World/Lot.cs
+    startLine: 552
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly LotType Bar
+    return:
+      type: TinyLife.World.LotType
+    content.vb: Public Shared ReadOnly Bar As LotType
 - uid: TinyLife.World.LotType.Name
   commentId: F:TinyLife.World.LotType.Name
   id: Name
@@ -301,7 +331,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/World/Lot.cs
-    startLine: 555
+    startLine: 573
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -330,7 +360,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Icon
     path: ../TinyLife/World/Lot.cs
-    startLine: 559
+    startLine: 577
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -359,7 +389,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsResidential
     path: ../TinyLife/World/Lot.cs
-    startLine: 564
+    startLine: 582
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -388,7 +418,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RequiredFurniture
     path: ../TinyLife/World/Lot.cs
-    startLine: 569
+    startLine: 587
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -417,17 +447,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVisitPriority
     path: ../TinyLife/World/Lot.cs
-    startLine: 575
+    startLine: 593
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nA function that returns, for a <xref href=\"TinyLife.World.Lot\" data-throw-if-not-resolved=\"false\"></xref> with this lot type, and a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> trying ot visit the lot, how likely it is for the lot to be chosen.\nThe higher the return value is, the more likely it is for this lot to be chosen.\nFor reference, the &quot;Park&quot; lot type always returns 200.\n"
+  summary: "\nA function that returns, for a <xref href=\"TinyLife.World.Lot\" data-throw-if-not-resolved=\"false\"></xref> with this lot type, and a <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> trying ot visit the lot, how likely it is for the lot to be chosen. It is recommended to use a helper method like <xref href=\"TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot%2cSystem.Single%2cSystem.Int32)\" data-throw-if-not-resolved=\"false\"></xref>.\nThe higher the return value is, the more likely it is for this lot to be chosen.\nFor reference, the &quot;Park&quot; lot type always returns 200.\n"
   example: []
   syntax:
-    content: public readonly Func<Lot, Person, int> GetVisitPriority
+    content: public readonly Func<Lot, Person, float> GetVisitPriority
     return:
-      type: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32}
-    content.vb: Public ReadOnly GetVisitPriority As Func(Of Lot, Person, Integer)
+      type: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single}
+    content.vb: Public ReadOnly GetVisitPriority As Func(Of Lot, Person, Single)
 - uid: TinyLife.World.LotType.Employments
   commentId: P:TinyLife.World.LotType.Employments
   id: Employments
@@ -446,7 +476,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Employments
     path: ../TinyLife/World/Lot.cs
-    startLine: 580
+    startLine: 598
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -477,7 +507,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanExecuteAction
     path: ../TinyLife/World/Lot.cs
-    startLine: 585
+    startLine: 603
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -490,6 +520,37 @@ items:
       type: System.Func{TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Actions.CanExecuteResult}
     content.vb: Public Property CanExecuteAction As Func(Of ActionType, ActionInfo, Boolean, CanExecuteResult)
   overload: TinyLife.World.LotType.CanExecuteAction*
+- uid: TinyLife.World.LotType.VisitHours
+  commentId: P:TinyLife.World.LotType.VisitHours
+  id: VisitHours
+  parent: TinyLife.World.LotType
+  langs:
+  - csharp
+  - vb
+  name: VisitHours
+  nameWithType: LotType.VisitHours
+  fullName: TinyLife.World.LotType.VisitHours
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Lot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: VisitHours
+    path: ../TinyLife/World/Lot.cs
+    startLine: 608
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe visitation hours that this lot has, which is used in <xref href=\"TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot%2cTinyLife.Objects.Person%2cSystem.Nullable%7bSystem.TimeSpan%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\nThe default value for this property is 6 to 23.\n"
+  example: []
+  syntax:
+    content: public (int, int) VisitHours { get; init; }
+    parameters: []
+    return:
+      type: System.ValueTuple{System.Int32,System.Int32}
+    content.vb: Public Property VisitHours As (Integer, Integer)
+  overload: TinyLife.World.LotType.VisitHours*
 - uid: TinyLife.World.LotType.DisplayName
   commentId: P:TinyLife.World.LotType.DisplayName
   id: DisplayName
@@ -508,7 +569,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/World/Lot.cs
-    startLine: 590
+    startLine: 613
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -521,16 +582,16 @@ items:
       type: System.String
     content.vb: Public ReadOnly Property DisplayName As String
   overload: TinyLife.World.LotType.DisplayName*
-- uid: TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
-  commentId: M:TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
-  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])'
+- uid: TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
+  commentId: M:TinyLife.World.LotType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single},System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[])'
   parent: TinyLife.World.LotType
   langs:
   - csharp
   - vb
-  name: LotType(string, TextureRegion, bool, Func<Lot, Person, int>, params (Predicate<Furniture>, int, string)[])
-  nameWithType: LotType.LotType(string, TextureRegion, bool, Func<Lot, Person, int>, params (Predicate<Furniture>, int, string)[])
-  fullName: TinyLife.World.LotType.LotType(string, MLEM.Textures.TextureRegion, bool, System.Func<TinyLife.World.Lot, TinyLife.Objects.Person, int>, params (System.Predicate<TinyLife.Objects.Furniture>, int, string)[])
+  name: LotType(string, TextureRegion, bool, Func<Lot, Person, float>, params (Predicate<Furniture>, int, string)[])
+  nameWithType: LotType.LotType(string, TextureRegion, bool, Func<Lot, Person, float>, params (Predicate<Furniture>, int, string)[])
+  fullName: TinyLife.World.LotType.LotType(string, MLEM.Textures.TextureRegion, bool, System.Func<TinyLife.World.Lot, TinyLife.Objects.Person, float>, params (System.Predicate<TinyLife.Objects.Furniture>, int, string)[])
   type: Constructor
   source:
     remote:
@@ -539,14 +600,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Lot.cs
-    startLine: 600
+    startLine: 623
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nCreates a new lot type with the given settings\n"
   example: []
   syntax:
-    content: public LotType(string name, TextureRegion icon, bool isResidential, Func<Lot, Person, int> getVisitPriority, params (Predicate<Furniture>, int, string)[] requiredFurniture)
+    content: public LotType(string name, TextureRegion icon, bool isResidential, Func<Lot, Person, float> getVisitPriority, params (Predicate<Furniture>, int, string)[] requiredFurniture)
     parameters:
     - id: name
       type: System.String
@@ -558,16 +619,57 @@ items:
       type: System.Boolean
       description: Whether lots of this type should be considered residential
     - id: getVisitPriority
-      type: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32}
-      description: A function that returns this lot type&apos;s visitation priority
+      type: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single}
+      description: A function that returns this lot type&apos;s visitation priority. It&apos;s recommended to use a helper method like <xref href="TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot%2cSystem.Single%2cSystem.Int32)" data-throw-if-not-resolved="false"></xref>.
     - id: requiredFurniture
       type: System.ValueTuple{System.Predicate{TinyLife.Objects.Furniture},System.Int32,System.String}[]
       description: A set of furniture and amounts that have to be present on lots of this type, as well as an unlocalized name for the requirement
-    content.vb: Public Sub New(name As String, icon As TextureRegion, isResidential As Boolean, getVisitPriority As Func(Of Lot, Person, Integer), ParamArray requiredFurniture As (Predicate(Of Furniture), Integer, String)())
+    content.vb: Public Sub New(name As String, icon As TextureRegion, isResidential As Boolean, getVisitPriority As Func(Of Lot, Person, Single), ParamArray requiredFurniture As (Predicate(Of Furniture), Integer, String)())
   overload: TinyLife.World.LotType.#ctor*
-  nameWithType.vb: LotType.New(String, TextureRegion, Boolean, Func(Of Lot, Person, Integer), ParamArray (Predicate(Of Furniture), Integer, String)())
-  fullName.vb: TinyLife.World.LotType.New(String, MLEM.Textures.TextureRegion, Boolean, System.Func(Of TinyLife.World.Lot, TinyLife.Objects.Person, Integer), ParamArray (System.Predicate(Of TinyLife.Objects.Furniture), Integer, String)())
-  name.vb: New(String, TextureRegion, Boolean, Func(Of Lot, Person, Integer), ParamArray (Predicate(Of Furniture), Integer, String)())
+  nameWithType.vb: LotType.New(String, TextureRegion, Boolean, Func(Of Lot, Person, Single), ParamArray (Predicate(Of Furniture), Integer, String)())
+  fullName.vb: TinyLife.World.LotType.New(String, MLEM.Textures.TextureRegion, Boolean, System.Func(Of TinyLife.World.Lot, TinyLife.Objects.Person, Single), ParamArray (System.Predicate(Of TinyLife.Objects.Furniture), Integer, String)())
+  name.vb: New(String, TextureRegion, Boolean, Func(Of Lot, Person, Single), ParamArray (Predicate(Of Furniture), Integer, String)())
+- uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  id: GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  parent: TinyLife.World.LotType
+  langs:
+  - csharp
+  - vb
+  name: GetCurrentVisitPriority(Lot, Person, TimeSpan?)
+  nameWithType: LotType.GetCurrentVisitPriority(Lot, Person, TimeSpan?)
+  fullName: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot, TinyLife.Objects.Person, System.TimeSpan?)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Lot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetCurrentVisitPriority
+    path: ../TinyLife/World/Lot.cs
+    startLine: 638
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nReturns this lot&apos;s current visitation priority, which is a combination of the <xref href=\"TinyLife.World.LotType.GetVisitPriority\" data-throw-if-not-resolved=\"false\"></xref> function and this lot&apos;s <xref href=\"TinyLife.World.LotType.VisitHours\" data-throw-if-not-resolved=\"false\"></xref>. If the <code data-dev-comment-type=\"paramref\" class=\"paramref\">time</code> is outside of the <xref href=\"TinyLife.World.LotType.VisitHours\" data-throw-if-not-resolved=\"false\"></xref>, then the priority is reduced by 95%.\n"
+  example: []
+  syntax:
+    content: public float GetCurrentVisitPriority(Lot lot, Person person, TimeSpan? time = null)
+    parameters:
+    - id: lot
+      type: TinyLife.World.Lot
+      description: The lot.
+    - id: person
+      type: TinyLife.Objects.Person
+      description: The person whose visitation priority to query.
+    - id: time
+      type: System.Nullable{System.TimeSpan}
+      description: The current time, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use the <xref href="TinyLife.World.Map.Time" data-throw-if-not-resolved="false"></xref>.
+    return:
+      type: System.Single
+      description: The current visitation priority for the lot.
+    content.vb: Public Function GetCurrentVisitPriority(lot As Lot, person As Person, time As TimeSpan? = Nothing) As Single
+  overload: TinyLife.World.LotType.GetCurrentVisitPriority*
 - uid: TinyLife.World.LotType.Register(TinyLife.World.LotType)
   commentId: M:TinyLife.World.LotType.Register(TinyLife.World.LotType)
   id: Register(TinyLife.World.LotType)
@@ -586,7 +688,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Lot.cs
-    startLine: 612
+    startLine: 646
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -602,47 +704,50 @@ items:
       type: TinyLife.World.LotType
     content.vb: Public Shared Function Register(type As LotType) As LotType
   overload: TinyLife.World.LotType.Register*
-- uid: TinyLife.World.LotType.GetGroupVisitPriority(TinyLife.World.Lot,System.Int32)
-  commentId: M:TinyLife.World.LotType.GetGroupVisitPriority(TinyLife.World.Lot,System.Int32)
-  id: GetGroupVisitPriority(TinyLife.World.Lot,System.Int32)
+- uid: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+  commentId: M:TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+  id: GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
   parent: TinyLife.World.LotType
   langs:
   - csharp
   - vb
-  name: GetGroupVisitPriority(Lot, int)
-  nameWithType: LotType.GetGroupVisitPriority(Lot, int)
-  fullName: TinyLife.World.LotType.GetGroupVisitPriority(TinyLife.World.Lot, int)
+  name: GetScalingVisitPriority(Lot, float, int)
+  nameWithType: LotType.GetScalingVisitPriority(Lot, float, int)
+  fullName: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot, float, int)
   type: Method
   source:
     remote:
       path: TinyLife/World/Lot.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetGroupVisitPriority
+    id: GetScalingVisitPriority
     path: ../TinyLife/World/Lot.cs
-    startLine: 625
+    startLine: 659
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nA helper method intended to be used with <xref href=\"TinyLife.World.LotType.GetVisitPriority\" data-throw-if-not-resolved=\"false\"></xref> that increases the passed visit priority if there are already other people on the lot.\nThis method should be used for public lots to increase the likelihood of additional people visiting if the player visits the lot.\n"
+  summary: "\nA helper method intended to be used with <xref href=\"TinyLife.World.LotType.GetVisitPriority\" data-throw-if-not-resolved=\"false\"></xref> that scales the visitation priority with the amount of people that are currently on the lot, both from the current household and other households.\n"
   example: []
   syntax:
-    content: public static int GetGroupVisitPriority(Lot lot, int basePriority)
+    content: public static float GetScalingVisitPriority(Lot lot, float basePriority, int maxVisitors = 50)
     parameters:
     - id: lot
       type: TinyLife.World.Lot
-      description: The lot whose visit priority to query
+      description: The lot.
     - id: basePriority
+      type: System.Single
+      description: The base priority, which will be multiplied with the visitor scale factor.
+    - id: maxVisitors
       type: System.Int32
-      description: The base visit priority that the lot should have if no one is there already
+      description: The maximum amount of visitors the lot should be able to have before a priority of 0 is returned.
     return:
-      type: System.Int32
-      description: A visit priority affected by the amount of people on the lot
-    content.vb: Public Shared Function GetGroupVisitPriority(lot As Lot, basePriority As Integer) As Integer
-  overload: TinyLife.World.LotType.GetGroupVisitPriority*
-  nameWithType.vb: LotType.GetGroupVisitPriority(Lot, Integer)
-  fullName.vb: TinyLife.World.LotType.GetGroupVisitPriority(TinyLife.World.Lot, Integer)
-  name.vb: GetGroupVisitPriority(Lot, Integer)
+      type: System.Single
+      description: The scaling visit priority for the given <code data-dev-comment-type="paramref" class="paramref">lot</code>.
+    content.vb: Public Shared Function GetScalingVisitPriority(lot As Lot, basePriority As Single, maxVisitors As Integer = 50) As Single
+  overload: TinyLife.World.LotType.GetScalingVisitPriority*
+  nameWithType.vb: LotType.GetScalingVisitPriority(Lot, Single, Integer)
+  fullName.vb: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot, Single, Integer)
+  name.vb: GetScalingVisitPriority(Lot, Single, Integer)
 references:
 - uid: TinyLife.World.Lot
   commentId: T:TinyLife.World.Lot
@@ -1286,17 +1391,65 @@ references:
   - name: )
   - name: (
   - name: )
-- uid: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32}
-  commentId: T:System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Int32}
+- uid: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+  commentId: M:TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: GetScalingVisitPriority(Lot, float, int)
+  nameWithType: LotType.GetScalingVisitPriority(Lot, float, int)
+  fullName: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot, float, int)
+  nameWithType.vb: LotType.GetScalingVisitPriority(Lot, Single, Integer)
+  fullName.vb: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot, Single, Integer)
+  name.vb: GetScalingVisitPriority(Lot, Single, Integer)
+  spec.csharp:
+  - uid: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+    name: GetScalingVisitPriority
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.LotType.GetScalingVisitPriority(TinyLife.World.Lot,System.Single,System.Int32)
+    name: GetScalingVisitPriority
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single}
+  commentId: T:System.Func{TinyLife.World.Lot,TinyLife.Objects.Person,System.Single}
   parent: System
   definition: System.Func`3
   href: https://learn.microsoft.com/dotnet/api/system.func-3
-  name: Func<Lot, Person, int>
-  nameWithType: Func<Lot, Person, int>
-  fullName: System.Func<TinyLife.World.Lot, TinyLife.Objects.Person, int>
-  nameWithType.vb: Func(Of Lot, Person, Integer)
-  fullName.vb: System.Func(Of TinyLife.World.Lot, TinyLife.Objects.Person, Integer)
-  name.vb: Func(Of Lot, Person, Integer)
+  name: Func<Lot, Person, float>
+  nameWithType: Func<Lot, Person, float>
+  fullName: System.Func<TinyLife.World.Lot, TinyLife.Objects.Person, float>
+  nameWithType.vb: Func(Of Lot, Person, Single)
+  fullName.vb: System.Func(Of TinyLife.World.Lot, TinyLife.Objects.Person, Single)
+  name.vb: Func(Of Lot, Person, Single)
   spec.csharp:
   - uid: System.Func`3
     name: Func
@@ -1311,10 +1464,10 @@ references:
     name: Person
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: int
+  - uid: System.Single
+    name: float
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: '>'
   spec.vb:
   - uid: System.Func`3
@@ -1332,10 +1485,10 @@ references:
     name: Person
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: Integer
+  - uid: System.Single
+    name: Single
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
 - uid: System.Func`3
   commentId: T:System.Func`3
@@ -1550,6 +1703,130 @@ references:
   - name: " "
   - name: TResult
   - name: )
+- uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: GetCurrentVisitPriority(Lot, Person, TimeSpan?)
+  nameWithType: LotType.GetCurrentVisitPriority(Lot, Person, TimeSpan?)
+  fullName: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot, TinyLife.Objects.Person, System.TimeSpan?)
+  spec.csharp:
+  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+    name: GetCurrentVisitPriority
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+    name: GetCurrentVisitPriority
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  - name: )
+- uid: TinyLife.World.LotType.VisitHours*
+  commentId: Overload:TinyLife.World.LotType.VisitHours
+  name: VisitHours
+  nameWithType: LotType.VisitHours
+  fullName: TinyLife.World.LotType.VisitHours
+- uid: System.ValueTuple{System.Int32,System.Int32}
+  commentId: T:System.ValueTuple{System.Int32,System.Int32}
+  parent: System
+  definition: System.ValueTuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: (int Start, int End)
+  nameWithType: (int Start, int End)
+  fullName: (int Start, int End)
+  nameWithType.vb: (Start As Integer, End As Integer)
+  fullName.vb: (Start As Integer, End As Integer)
+  name.vb: (Start As Integer, End As Integer)
+  spec.csharp:
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Start
+    name: Start
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.start
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.End
+    name: End
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.end
+  - name: )
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Start
+    name: Start
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.start
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.End
+    name: End
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.end
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.ValueTuple`2
+  commentId: T:System.ValueTuple`2
+  name: (T1, T2)
+  nameWithType: (T1, T2)
+  fullName: (T1, T2)
+  spec.csharp:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+  spec.vb:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
 - uid: TinyLife.World.LotType.Icon
   commentId: F:TinyLife.World.LotType.Icon
   name: Icon
@@ -1573,6 +1850,85 @@ references:
   nameWithType.vb: LotType.New
   fullName.vb: TinyLife.World.LotType.New
   name.vb: New
+- uid: TinyLife.World.LotType.GetVisitPriority
+  commentId: F:TinyLife.World.LotType.GetVisitPriority
+  name: GetVisitPriority
+  nameWithType: LotType.GetVisitPriority
+  fullName: TinyLife.World.LotType.GetVisitPriority
+- uid: TinyLife.World.LotType.VisitHours
+  commentId: P:TinyLife.World.LotType.VisitHours
+  name: VisitHours
+  nameWithType: LotType.VisitHours
+  fullName: TinyLife.World.LotType.VisitHours
+- uid: TinyLife.World.Map.Time
+  commentId: P:TinyLife.World.Map.Time
+  name: Time
+  nameWithType: Map.Time
+  fullName: TinyLife.World.Map.Time
+- uid: TinyLife.World.LotType.GetCurrentVisitPriority*
+  commentId: Overload:TinyLife.World.LotType.GetCurrentVisitPriority
+  name: GetCurrentVisitPriority
+  nameWithType: LotType.GetCurrentVisitPriority
+  fullName: TinyLife.World.LotType.GetCurrentVisitPriority
+- uid: System.Nullable{System.TimeSpan}
+  commentId: T:System.Nullable{System.TimeSpan}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan?
+  nameWithType: TimeSpan?
+  fullName: System.TimeSpan?
+  spec.csharp:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+  spec.vb:
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: '?'
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.World.LotType.Types
   commentId: F:TinyLife.World.LotType.Types
   name: Types
@@ -1583,16 +1939,11 @@ references:
   name: Register
   nameWithType: LotType.Register
   fullName: TinyLife.World.LotType.Register
-- uid: TinyLife.World.LotType.GetVisitPriority
-  commentId: F:TinyLife.World.LotType.GetVisitPriority
-  name: GetVisitPriority
-  nameWithType: LotType.GetVisitPriority
-  fullName: TinyLife.World.LotType.GetVisitPriority
-- uid: TinyLife.World.LotType.GetGroupVisitPriority*
-  commentId: Overload:TinyLife.World.LotType.GetGroupVisitPriority
-  name: GetGroupVisitPriority
-  nameWithType: LotType.GetGroupVisitPriority
-  fullName: TinyLife.World.LotType.GetGroupVisitPriority
+- uid: TinyLife.World.LotType.GetScalingVisitPriority*
+  commentId: Overload:TinyLife.World.LotType.GetScalingVisitPriority
+  name: GetScalingVisitPriority
+  nameWithType: LotType.GetScalingVisitPriority
+  fullName: TinyLife.World.LotType.GetScalingVisitPriority
 - uid: System.Int32
   commentId: T:System.Int32
   parent: System
