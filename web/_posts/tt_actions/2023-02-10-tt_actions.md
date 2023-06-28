@@ -6,7 +6,7 @@ steam: "https://store.steampowered.com/news/app/1651490/view/3676662189784689005
 
 Hi everyone! I'm Ell, the creator and lead developer of Tiny Life, and this is a new sort of series of devlogs that we're starting. We're calling it **Tiny Technicalities**, because it's meant to give you a little look behind the scenes of Tiny Life development, including explanations about the graphics, music, the AI, build mode, play mode and so on.
 
-If you think you'd be up for more Tiny Technicalities after reading this first edition, please let us know by liking this post, leaving a comment, or letting us know on [Twitter](https://twitter.com/TinyLifeGame) or [the Discord server](https://ellpeck.de/discord).
+If you think you'd be up for more Tiny Technicalities after reading this first edition, please let us know by liking this post, leaving a comment, or letting us know on [Twitter](https://twitter.com/TinyLifeGame) or [the Discord server](https://link.tinylifegame.com/discordweb).
 
 # What's in an Action?
 Have you ever wondered, while playing, what Tinies get up to under the hood of their lovely "Read book" or "Eat food" actions? Well, as it turns out, quite a lot goes on there, because the AI is pretty complex, and the ways that an action can play out are much more plentiful than you might think.
@@ -77,6 +77,6 @@ As you can see, actions are much more complicated and require much more thought 
 
 ![](programmerhumor-io-programming-memes-debugging-memes-1ad7a6061f91b39.png)
 
-As we said at the top, please let us know whether you'd like to see more Tiny Technicalities! In the future, we'd also like to include actual code snippets and dig deeper into how certain systems are designed. If you have requests for what sort of stuff you're curious about, feel free to let us know on [Twitter](https://twitter.com/TinyLifeGame) or [the Discord server](https://ellpeck.de/discord).
+As we said at the top, please let us know whether you'd like to see more Tiny Technicalities! In the future, we'd also like to include actual code snippets and dig deeper into how certain systems are designed. If you have requests for what sort of stuff you're curious about, feel free to let us know on [Twitter](https://twitter.com/TinyLifeGame) or [the Discord server](https://link.tinylifegame.com/discordweb).
 
 Thanks so much for reading, and have a lovely day!

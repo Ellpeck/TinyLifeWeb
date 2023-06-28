@@ -4,7 +4,7 @@ itch: "https://ellpeck.itch.io/tiny-life/devlog/517055/tiny-technicalities-the-p
 steam: "https://store.steampowered.com/news/app/1651490/view/5306971121503255286"
 ---
 
-*Before we get started: A super cool announcement is happening next week, so if you don't want to miss out, be sure to subscribe to the [mailing list](https://tinylifegame.com/subscribe), follow us on [Twitter](https://twitter.com/TinyLifeGame), or join the [Discord server](https://link.tinylifegame.com/discord)!*
+*Before we get started: A super cool announcement is happening next week, so if you don't want to miss out, be sure to subscribe to the [mailing list](https://tinylifegame.com/subscribe), follow us on [Twitter](https://twitter.com/TinyLifeGame), or join the [Discord server](https://link.tinylifegame.com/discordweb)!*
 
 Yesterday, we released what we lovingly called *The Pronoun Update™*, which contains plenty of improvements and bug fixes and one important new feature: the ability to set custom pronouns for each Tiny you create.
 
@@ -24,7 +24,7 @@ Now, let's talk about this update and why it's both very cool and kind of a bumm
 
 Tiny Life now stores a Tiny's pronouns along with their first and last name, and displays them in situations where it might be helpful to a person talking about or referring to them. For example, in the relationship panel, Tinies will now be listed along with their pronouns.
 
-This system makes it a lot easier for content creators, as well as players talking to their friends, to refer to Tinies without having to keep saying their names or use gender-neutral pronouns. It's also a great opportunity for queer people (or just players who want to create queer Tinies in general) to express their Tinies' identity in a more immediately obvious and easy-to-understand way. Of course, a cis Tiny just displays their pronouns the same way, just like we're starting to see more and more on websites like Twitter, LinkedIn and Instagram, as well as on places like the [Ellpeck Games Discord server](https://link.tinylifegame.com/discord).
+This system makes it a lot easier for content creators, as well as players talking to their friends, to refer to Tinies without having to keep saying their names or use gender-neutral pronouns. It's also a great opportunity for queer people (or just players who want to create queer Tinies in general) to express their Tinies' identity in a more immediately obvious and easy-to-understand way. Of course, a cis Tiny just displays their pronouns the same way, just like we're starting to see more and more on websites like Twitter, LinkedIn and Instagram, as well as on places like the [Ellpeck Games Discord server](https://link.tinylifegame.com/discordweb).
 
 ## What It's Not
 

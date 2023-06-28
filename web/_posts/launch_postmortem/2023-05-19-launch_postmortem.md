@@ -10,7 +10,7 @@ We'd like to take this post to thank everyone for their overwhelming support, an
 
 # Some Beautiful Community Creations
 
-Honestly, we've been absolutely overwhelmed with the stuff that yall have created. There are already mods with clothes and furniture, custom maps with beautiful scenery, and gorgeous-looking lots and households. We'll be showing off some of the ones here that we found most impressive, but of course, you can check out the [Steam workshop](https://link.tinylifegame.com/workshop) and the [Discord server](https://link.tinylifegame.com/discord) for yourself to see all of it.
+Honestly, we've been absolutely overwhelmed with the stuff that yall have created. There are already mods with clothes and furniture, custom maps with beautiful scenery, and gorgeous-looking lots and households. We'll be showing off some of the ones here that we found most impressive, but of course, you can check out the [Steam workshop](https://link.tinylifegame.com/workshop) and the [Discord server](https://link.tinylifegame.com/discordweb) for yourself to see all of it.
 
 This is an incredible custom map called [Foolshope](https://steamcommunity.com/sharedfiles/filedetails/?id=2976923398&searchtext=) by user v_dcc. Just *look at the detail*! It's so cute.
 

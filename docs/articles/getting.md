@@ -1,5 +1,5 @@
 # Getting Custom Content
-You can get custom lots, households and mods from [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/), [the Discord server](https://link.tinylifegame.com/discord) and more.
+You can get custom lots, households and mods from [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/), [the Discord server](https://link.tinylifegame.com/discordweb) and more.
 
 ## Installing from Steam workshop
 To install a mod or other custom content from the Steam workshop, all you have to do is select the item you want to install, and then press the big green "Subscribe" button! After a few seconds or after restarting the game, the item should appear in-game.
