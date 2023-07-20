@@ -1,0 +1,15 @@
+steps:
+  build-web:
+    image: ruby:latest
+    commands:
+      - cd web && bundle && bundle exec jekyll build
+  deploy-web:
+    image: debian:latest
+    when:
+      - event: [push, manual]
+        branch: main
+    commands:
+      - rm -rfv /var/www/tinylifegame/*
+      - cp -rv web/_site/. /var/www/tinylifegame
+    volumes:
+      - /var/www/tinylifegame:/var/www/tinylifegame
