@@ -54,24 +54,32 @@ items:
   - TinyLife.World.Map.GetTilesAround(Microsoft.Xna.Framework.Vector2,System.Int32,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   - TinyLife.World.Map.GetWallBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.GetWalls(MLEM.Misc.RectangleF)
+  - TinyLife.World.Map.Info
+  - TinyLife.World.Map.IsActive
+  - TinyLife.World.Map.IsCurrent
   - TinyLife.World.Map.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.IsInBounds(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   - TinyLife.World.Map.IsRoad(Microsoft.Xna.Framework.Point)
-  - TinyLife.World.Map.LoadStaticMap(System.String,System.Boolean,System.Action{System.String},System.Action{System.Single})
+  - TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.MailToSend
   - TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
   - TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point)
+  - TinyLife.World.Map.MinorUpdateMinutes
   - TinyLife.World.Map.MoveEverything(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Rectangle,System.Boolean,TinyLife.World.Tile)
+  - TinyLife.World.Map.Neighborhood
   - TinyLife.World.Map.OnCameraRotationChanged(MLEM.Misc.Direction2,MLEM.Misc.Direction2)
+  - TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.World.Map.OnEventsAttachable
   - TinyLife.World.Map.OnObjectAdded
   - TinyLife.World.Map.OnObjectRemoved
   - TinyLife.World.Map.OnUpdate
+  - TinyLife.World.Map.PassiveUpdateMinutes
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PostValidate(System.Action{System.String},System.Action{System.Single})
+  - TinyLife.World.Map.PrepareForPermanentRemoval
   - TinyLife.World.Map.RemoveHousehold(TinyLife.World.Household)
   - TinyLife.World.Map.RemoveLight(TinyLife.Objects.Light)
   - TinyLife.World.Map.RemoveLot(TinyLife.World.Lot)
@@ -85,8 +93,9 @@ items:
   - TinyLife.World.Map.StaticVersion
   - TinyLife.World.Map.Time
   - TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
+  - TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+  - TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
   langs:
   - csharp
@@ -102,7 +111,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Map
     path: ../TinyLife/World/Map.cs
-    startLine: 38
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -158,7 +167,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RoadRadius
     path: ../TinyLife/World/Map.cs
-    startLine: 45
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -169,6 +178,64 @@ items:
     return:
       type: System.Int32
     content.vb: Public Const RoadRadius As Integer = 2
+- uid: TinyLife.World.Map.MinorUpdateMinutes
+  commentId: F:TinyLife.World.Map.MinorUpdateMinutes
+  id: MinorUpdateMinutes
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: MinorUpdateMinutes
+  nameWithType: Map.MinorUpdateMinutes
+  fullName: TinyLife.World.Map.MinorUpdateMinutes
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: MinorUpdateMinutes
+    path: ../TinyLife/World/Map.cs
+    startLine: 53
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe amount of minutes of in-game time that have to pass before an <xref href=\"TinyLife.Objects.IUpdatingObject\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"TinyLife.Objects.IUpdatingObject.UpdateMode.Minor\" data-throw-if-not-resolved=\"false\"></xref> is updated.\n"
+  example: []
+  syntax:
+    content: public const float MinorUpdateMinutes = 5
+    return:
+      type: System.Single
+    content.vb: Public Const MinorUpdateMinutes As Single = 5
+- uid: TinyLife.World.Map.PassiveUpdateMinutes
+  commentId: F:TinyLife.World.Map.PassiveUpdateMinutes
+  id: PassiveUpdateMinutes
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: PassiveUpdateMinutes
+  nameWithType: Map.PassiveUpdateMinutes
+  fullName: TinyLife.World.Map.PassiveUpdateMinutes
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: PassiveUpdateMinutes
+    path: ../TinyLife/World/Map.cs
+    startLine: 57
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe amount of minutes of in-game time that have to pass before an <xref href=\"TinyLife.Objects.IUpdatingObject\" data-throw-if-not-resolved=\"false\"></xref> with the <xref href=\"TinyLife.Objects.IUpdatingObject.UpdateMode.MajorIfActive\" data-throw-if-not-resolved=\"false\"></xref> is updated while this map isn&apos;t <xref href=\"TinyLife.World.Map.IsActive\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public const float PassiveUpdateMinutes = 10
+    return:
+      type: System.Single
+    content.vb: Public Const PassiveUpdateMinutes As Single = 10
 - uid: TinyLife.World.Map.OnEventsAttachable
   commentId: E:TinyLife.World.Map.OnEventsAttachable
   id: OnEventsAttachable
@@ -187,7 +254,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEventsAttachable
     path: ../TinyLife/World/Map.cs
-    startLine: 51
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -216,11 +283,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnUpdate
     path: ../TinyLife/World/Map.cs
-    startLine: 88
+    startLine: 101
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nAn event that is invoked when this map is updated in <xref href=\"TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>\nThis event can be subscribed to using <xref href=\"TinyLife.World.Map.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nAn event that is invoked when this map is updated in <xref href=\"TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>.\nThis event can be subscribed to using <xref href=\"TinyLife.World.Map.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public event UpdateDelegate OnUpdate
@@ -245,7 +312,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnObjectAdded
     path: ../TinyLife/World/Map.cs
-    startLine: 93
+    startLine: 106
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -274,7 +341,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnObjectRemoved
     path: ../TinyLife/World/Map.cs
-    startLine: 98
+    startLine: 111
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -303,7 +370,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MailToSend
     path: ../TinyLife/World/Map.cs
-    startLine: 104
+    startLine: 117
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -342,7 +409,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdoptableChildren
     path: ../TinyLife/World/Map.cs
-    startLine: 109
+    startLine: 122
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -373,7 +440,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SizeInSections
     path: ../TinyLife/World/Map.cs
-    startLine: 120
+    startLine: 133
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -414,7 +481,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Size
     path: ../TinyLife/World/Map.cs
-    startLine: 134
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -445,7 +512,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StaticVersion
     path: ../TinyLife/World/Map.cs
-    startLine: 148
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -486,7 +553,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Time
     path: ../TinyLife/World/Map.cs
-    startLine: 153
+    startLine: 166
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -499,6 +566,130 @@ items:
       type: System.TimeSpan
     content.vb: Public ReadOnly Property Time As TimeSpan
   overload: TinyLife.World.Map.Time*
+- uid: TinyLife.World.Map.Info
+  commentId: P:TinyLife.World.Map.Info
+  id: Info
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: Info
+  nameWithType: Map.Info
+  fullName: TinyLife.World.Map.Info
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Info
+    path: ../TinyLife/World/Map.cs
+    startLine: 170
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThis map&apos;s <xref href=\"TinyLife.PerSaveOptions.MapInfo\" data-throw-if-not-resolved=\"false\"></xref>, which includes its name and whether it is custom.\n"
+  example: []
+  syntax:
+    content: public PerSaveOptions.MapInfo Info { get; }
+    parameters: []
+    return:
+      type: TinyLife.PerSaveOptions.MapInfo
+    content.vb: Public Property Info As PerSaveOptions.MapInfo
+  overload: TinyLife.World.Map.Info*
+- uid: TinyLife.World.Map.Neighborhood
+  commentId: P:TinyLife.World.Map.Neighborhood
+  id: Neighborhood
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: Neighborhood
+  nameWithType: Map.Neighborhood
+  fullName: TinyLife.World.Map.Neighborhood
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Neighborhood
+    path: ../TinyLife/World/Map.cs
+    startLine: 175
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe set of all maps that are loaded together as part of the same save, including this map.\nDuring gameplay, this collection is the same as <xref href=\"TinyLife.GameImpl.CurrentMaps\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public ICollection<Map> Neighborhood { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+    content.vb: Public Property Neighborhood As ICollection(Of Map)
+  overload: TinyLife.World.Map.Neighborhood*
+- uid: TinyLife.World.Map.IsCurrent
+  commentId: P:TinyLife.World.Map.IsCurrent
+  id: IsCurrent
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: IsCurrent
+  nameWithType: Map.IsCurrent
+  fullName: TinyLife.World.Map.IsCurrent
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsCurrent
+    path: ../TinyLife/World/Map.cs
+    startLine: 179
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nWhether this map is current. This returns whether this map is the same as <xref href=\"TinyLife.GameImpl.CurrentMap\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public bool IsCurrent { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsCurrent As Boolean
+  overload: TinyLife.World.Map.IsCurrent*
+- uid: TinyLife.World.Map.IsActive
+  commentId: P:TinyLife.World.Map.IsActive
+  id: IsActive
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: IsActive
+  nameWithType: Map.IsActive
+  fullName: TinyLife.World.Map.IsActive
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsActive
+    path: ../TinyLife/World/Map.cs
+    startLine: 183
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nWhether this map is active. An active map is one that is either current (<xref href=\"TinyLife.World.Map.IsCurrent\" data-throw-if-not-resolved=\"false\"></xref>), or that has members of the <xref href=\"TinyLife.GameImpl.CurrentHousehold\" data-throw-if-not-resolved=\"false\"></xref> on it.\n"
+  example: []
+  syntax:
+    content: public bool IsActive { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+    content.vb: Public ReadOnly Property IsActive As Boolean
+  overload: TinyLife.World.Map.IsActive*
 - uid: TinyLife.World.Map.#ctor(Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.World.Map.#ctor(Microsoft.Xna.Framework.Point)
   id: '#ctor(Microsoft.Xna.Framework.Point)'
@@ -517,7 +708,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Map.cs
-    startLine: 193
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -552,7 +743,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Finalize
     path: ../TinyLife/World/Map.cs
-    startLine: 198
+    startLine: 235
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -582,7 +773,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/World/Map.cs
-    startLine: 209
+    startLine: 246
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -623,7 +814,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/World/Map.cs
-    startLine: 254
+    startLine: 373
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -676,7 +867,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDepth
     path: ../TinyLife/World/Map.cs
-    startLine: 550
+    startLine: 669
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -726,7 +917,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsInBounds
     path: ../TinyLife/World/Map.cs
-    startLine: 561
+    startLine: 680
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -761,7 +952,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRoad
     path: ../TinyLife/World/Map.cs
-    startLine: 570
+    startLine: 689
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -793,7 +984,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsRoad
     path: ../TinyLife/World/Map.cs
-    startLine: 580
+    startLine: 699
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -828,7 +1019,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClosestRoads
     path: ../TinyLife/World/Map.cs
-    startLine: 590
+    startLine: 709
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -869,7 +1060,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoads
     path: ../TinyLife/World/Map.cs
-    startLine: 600
+    startLine: 719
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -900,7 +1091,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClosestRoadsidePosition
     path: ../TinyLife/World/Map.cs
-    startLine: 611
+    startLine: 730
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -938,7 +1129,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTilesAround
     path: ../TinyLife/World/Map.cs
-    startLine: 628
+    startLine: 747
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -988,7 +1179,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClosestEmptyTile
     path: ../TinyLife/World/Map.cs
-    startLine: 655
+    startLine: 774
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1038,7 +1229,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomTile
     path: ../TinyLife/World/Map.cs
-    startLine: 673
+    startLine: 792
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1073,6 +1264,50 @@ items:
   nameWithType.vb: Map.GetRandomTile(Random, Vector2, Integer, Boolean, Boolean, Predicate(Of Point))
   fullName.vb: TinyLife.World.Map.GetRandomTile(System.Random, Microsoft.Xna.Framework.Vector2, Integer, Boolean, Boolean, System.Predicate(Of Microsoft.Xna.Framework.Point))
   name.vb: GetRandomTile(Random, Vector2, Integer, Boolean, Boolean, Predicate(Of Point))
+- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  id: ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: ValidateEarly(MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ValidateEarly
+    path: ../TinyLife/World/Map.cs
+    startLine: 821
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThis method is called when this object is loaded from disk, before <xref href=\"TinyLife.World.Map.Validate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> is called.\nWhen called on a map, early section and object validation occurs.\n"
+  example: []
+  syntax:
+    content: public void ValidateEarly(PerSaveOptions.MapInfo info, ICollection<Map> neighborhood, Action<string> setState, Action<float> setProgress)
+    parameters:
+    - id: info
+      type: TinyLife.PerSaveOptions.MapInfo
+      description: The <xref href="TinyLife.PerSaveOptions.MapInfo" data-throw-if-not-resolved="false"></xref> to assign to this map.
+    - id: neighborhood
+      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+      description: The <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> to assign to this map.
+    - id: setState
+      type: System.Action{System.String}
+      description: An action that accepts the current state of the loading process.
+    - id: setProgress
+      type: System.Action{System.Single}
+      description: An action that accepts the progress of the current state of the loading process.
+    content.vb: Public Sub ValidateEarly(info As PerSaveOptions.MapInfo, neighborhood As ICollection(Of Map), setState As Action(Of String), setProgress As Action(Of Single))
+  overload: TinyLife.World.Map.ValidateEarly*
+  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: ValidateEarly(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
 - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
   commentId: M:TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
   id: Validate(System.Action{System.String},System.Action{System.Single})
@@ -1091,11 +1326,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/World/Map.cs
-    startLine: 701
+    startLine: 844
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThis method is called when this object is loaded from disk.\nWhen called on a map, each <xref href=\"TinyLife.World.MapSection\" data-throw-if-not-resolved=\"false\"></xref> is validated, and roads and rooms are generated.\nNote that <xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> is not called as part of this method.\n"
+  summary: "\nThis method is called when this object is loaded from disk, between <xref href=\"TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo%2cSystem.Collections.Generic.ICollection%7bTinyLife.World.Map%7d%2cSystem.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\nWhen called on a map, it causes all objects to be validated, roads to be generated, outdated information to be removed, and more.\n"
   example: []
   syntax:
     content: public void Validate(Action<string> setState, Action<float> setProgress)
@@ -1129,11 +1364,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PostValidate
     path: ../TinyLife/World/Map.cs
-    startLine: 759
+    startLine: 890
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThis method is called when this object is loaded from disk, after <xref href=\"TinyLife.World.Map.Validate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> has already been called.\nWhen called on a map, post-load preloads like pathfinding pre-generation occurs, as well as <xref href=\"TinyLife.World.Map.UpdateExternalPeople(System.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThis method is called when this object is loaded from disk, after <xref href=\"TinyLife.World.Map.Validate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> has already been called.\nWhen called on a map, post-load preloads like pathfinding pre-generation occurs.\n"
   example: []
   syntax:
     content: public void PostValidate(Action<string> setState, Action<float> setProgress)
@@ -1167,7 +1402,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoom
     path: ../TinyLife/World/Map.cs
-    startLine: 777
+    startLine: 906
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1202,7 +1437,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLot
     path: ../TinyLife/World/Map.cs
-    startLine: 791
+    startLine: 920
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1237,7 +1472,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLot
     path: ../TinyLife/World/Map.cs
-    startLine: 802
+    startLine: 931
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1272,7 +1507,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLot
     path: ../TinyLife/World/Map.cs
-    startLine: 815
+    startLine: 944
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1307,7 +1542,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLot
     path: ../TinyLife/World/Map.cs
-    startLine: 825
+    startLine: 954
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1339,7 +1574,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveLot
     path: ../TinyLife/World/Map.cs
-    startLine: 833
+    startLine: 962
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1371,7 +1606,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLots
     path: ../TinyLife/World/Map.cs
-    startLine: 852
+    startLine: 981
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1402,7 +1637,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddWall
     path: ../TinyLife/World/Map.cs
-    startLine: 863
+    startLine: 992
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1440,7 +1675,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddWall
     path: ../TinyLife/World/Map.cs
-    startLine: 874
+    startLine: 1003
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1475,7 +1710,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveWall
     path: ../TinyLife/World/Map.cs
-    startLine: 884
+    startLine: 1013
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1510,7 +1745,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWallBetween
     path: ../TinyLife/World/Map.cs
-    startLine: 900
+    startLine: 1029
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1548,7 +1783,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTile
     path: ../TinyLife/World/Map.cs
-    startLine: 914
+    startLine: 1043
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1583,7 +1818,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetTile
     path: ../TinyLife/World/Map.cs
-    startLine: 924
+    startLine: 1053
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1618,7 +1853,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 940
+    startLine: 1069
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1650,7 +1885,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 950
+    startLine: 1079
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1685,7 +1920,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoofs
     path: ../TinyLife/World/Map.cs
-    startLine: 965
+    startLine: 1094
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1720,7 +1955,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 978
+    startLine: 1107
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1752,7 +1987,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetObjects
     path: ../TinyLife/World/Map.cs
-    startLine: 989
+    startLine: 1118
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1793,7 +2028,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1005
+    startLine: 1134
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1834,7 +2069,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1017
+    startLine: 1146
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1866,7 +2101,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1042
+    startLine: 1173
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1899,7 +2134,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPeople
     path: ../TinyLife/World/Map.cs
-    startLine: 1062
+    startLine: 1202
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1930,7 +2165,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1074
+    startLine: 1214
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1965,7 +2200,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1087
+    startLine: 1227
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2000,7 +2235,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1100
+    startLine: 1240
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2035,7 +2270,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1110
+    startLine: 1250
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2067,7 +2302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHouseholds
     path: ../TinyLife/World/Map.cs
-    startLine: 1118
+    startLine: 1258
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2098,7 +2333,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSection
     path: ../TinyLife/World/Map.cs
-    startLine: 1128
+    startLine: 1268
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2133,7 +2368,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSections
     path: ../TinyLife/World/Map.cs
-    startLine: 1143
+    startLine: 1283
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2174,7 +2409,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSections
     path: ../TinyLife/World/Map.cs
-    startLine: 1153
+    startLine: 1293
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2215,7 +2450,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkDirtyForPathfinding
     path: ../TinyLife/World/Map.cs
-    startLine: 1174
+    startLine: 1314
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2247,7 +2482,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPathCost
     path: ../TinyLife/World/Map.cs
-    startLine: 1195
+    startLine: 1335
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2288,7 +2523,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanWalkBetween
     path: ../TinyLife/World/Map.cs
-    startLine: 1217
+    startLine: 1357
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2329,7 +2564,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsFreeSpot
     path: ../TinyLife/World/Map.cs
-    startLine: 1226
+    startLine: 1366
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2364,7 +2599,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDeadPerson
     path: ../TinyLife/World/Map.cs
-    startLine: 1236
+    startLine: 1376
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2399,7 +2634,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlaySound
     path: ../TinyLife/World/Map.cs
-    startLine: 1256
+    startLine: 1396
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2452,7 +2687,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlaySound
     path: ../TinyLife/World/Map.cs
-    startLine: 1273
+    startLine: 1413
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2505,7 +2740,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClosestFreeExitPoint
     path: ../TinyLife/World/Map.cs
-    startLine: 1292
+    startLine: 1434
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2540,7 +2775,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetExitRoads
     path: ../TinyLife/World/Map.cs
-    startLine: 1303
+    startLine: 1445
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2571,7 +2806,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWalls
     path: ../TinyLife/World/Map.cs
-    startLine: 1318
+    startLine: 1460
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2606,7 +2841,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ApplyCameraRotation
     path: ../TinyLife/World/Map.cs
-    startLine: 1338
+    startLine: 1480
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2650,7 +2885,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ApplyInverseCameraRotation
     path: ../TinyLife/World/Map.cs
-    startLine: 1354
+    startLine: 1496
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2688,7 +2923,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCameraRotationChanged
     path: ../TinyLife/World/Map.cs
-    startLine: 1369
+    startLine: 1511
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2705,6 +2940,41 @@ items:
       description: ''
     content.vb: Public Sub OnCameraRotationChanged(oldRotation As Direction2, newRotation As Direction2)
   overload: TinyLife.World.Map.OnCameraRotationChanged*
+- uid: TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  commentId: M:TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  id: OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnCurrentGameMapChanged(Map, Map)
+  nameWithType: Map.OnCurrentGameMapChanged(Map, Map)
+  fullName: TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map, TinyLife.World.Map)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnCurrentGameMapChanged
+    path: ../TinyLife/World/Map.cs
+    startLine: 1535
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThis method is invoked when the game&apos;s <xref href=\"TinyLife.GameImpl.CurrentMap\" data-throw-if-not-resolved=\"false\"></xref> is changed, ie when the camera is moved to a different map.\n"
+  example: []
+  syntax:
+    content: public void OnCurrentGameMapChanged(Map oldMap, Map newMap)
+    parameters:
+    - id: oldMap
+      type: TinyLife.World.Map
+      description: The previous map.
+    - id: newMap
+      type: TinyLife.World.Map
+      description: The new map.
+    content.vb: Public Sub OnCurrentGameMapChanged(oldMap As Map, newMap As Map)
+  overload: TinyLife.World.Map.OnCurrentGameMapChanged*
 - uid: TinyLife.World.Map.AddLight(TinyLife.Objects.Light)
   commentId: M:TinyLife.World.Map.AddLight(TinyLife.Objects.Light)
   id: AddLight(TinyLife.Objects.Light)
@@ -2723,7 +2993,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLight
     path: ../TinyLife/World/Map.cs
-    startLine: 1392
+    startLine: 1553
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2755,7 +3025,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveLight
     path: ../TinyLife/World/Map.cs
-    startLine: 1401
+    startLine: 1562
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2787,7 +3057,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveEverything
     path: ../TinyLife/World/Map.cs
-    startLine: 1413
+    startLine: 1574
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2831,7 +3101,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidateExistingRooms
     path: ../TinyLife/World/Map.cs
-    startLine: 1489
+    startLine: 1650
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2866,7 +3136,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddNewRoomsAndValidateExisting
     path: ../TinyLife/World/Map.cs
-    startLine: 1508
+    startLine: 1669
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2907,7 +3177,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRegularVisitors
     path: ../TinyLife/World/Map.cs
-    startLine: 1562
+    startLine: 1723
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2920,40 +3190,6 @@ items:
       description: This map&apos;s regular visitors
     content.vb: Public Function GetRegularVisitors() As IEnumerable(Of Person)
   overload: TinyLife.World.Map.GetRegularVisitors*
-- uid: TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-  id: UpdateExternalPeople(System.Action{System.Single})
-  parent: TinyLife.World.Map
-  langs:
-  - csharp
-  - vb
-  name: UpdateExternalPeople(Action<float>)
-  nameWithType: Map.UpdateExternalPeople(Action<float>)
-  fullName: TinyLife.World.Map.UpdateExternalPeople(System.Action<float>)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/World/Map.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: UpdateExternalPeople
-    path: ../TinyLife/World/Map.cs
-    startLine: 1574
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.World
-  summary: "\nUpdates this map&apos;s regular visitors, based on the <xref href=\"TinyLife.PerSaveOptions.MaxRegularVisitors\" data-throw-if-not-resolved=\"false\"></xref> value, and also assigns random people to empty <xref href=\"TinyLife.World.LotEmployment\" data-throw-if-not-resolved=\"false\"></xref> slots.\nThis method does three things: It removes visitors that have been added into the world by the player (through household imports),\nit removes visitors if the current number of visitors is greater than the maximum,\nand it attempts to add new visitors if it is lower than the maximum and <xref href=\"TinyLife.World.LotEmployment\" data-throw-if-not-resolved=\"false\"></xref> people in empty slots.\nThis method is called automatically in variouos locations.\n"
-  example: []
-  syntax:
-    content: public void UpdateExternalPeople(Action<float> setProgress = null)
-    parameters:
-    - id: setProgress
-      type: System.Action{System.Single}
-    content.vb: Public Sub UpdateExternalPeople(setProgress As Action(Of Single) = Nothing)
-  overload: TinyLife.World.Map.UpdateExternalPeople*
-  nameWithType.vb: Map.UpdateExternalPeople(Action(Of Single))
-  fullName.vb: TinyLife.World.Map.UpdateExternalPeople(System.Action(Of Single))
-  name.vb: UpdateExternalPeople(Action(Of Single))
 - uid: TinyLife.World.Map.GetAllLotEmployments
   commentId: M:TinyLife.World.Map.GetAllLotEmployments
   id: GetAllLotEmployments
@@ -2972,7 +3208,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllLotEmployments
     path: ../TinyLife/World/Map.cs
-    startLine: 1657
+    startLine: 1733
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3003,7 +3239,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkTileDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1670
+    startLine: 1746
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3035,7 +3271,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkObjectDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1686
+    startLine: 1762
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3058,16 +3294,44 @@ items:
   nameWithType.vb: Map.MarkObjectDirtyForDrawing(MapObject, MapSection, Boolean)
   fullName.vb: TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject, TinyLife.World.MapSection, Boolean)
   name.vb: MarkObjectDirtyForDrawing(MapObject, MapSection, Boolean)
-- uid: TinyLife.World.Map.LoadStaticMap(System.String,System.Boolean,System.Action{System.String},System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.LoadStaticMap(System.String,System.Boolean,System.Action{System.String},System.Action{System.Single})
-  id: LoadStaticMap(System.String,System.Boolean,System.Action{System.String},System.Action{System.Single})
+- uid: TinyLife.World.Map.PrepareForPermanentRemoval
+  commentId: M:TinyLife.World.Map.PrepareForPermanentRemoval
+  id: PrepareForPermanentRemoval
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: LoadStaticMap(string, bool, Action<string>, Action<float>)
-  nameWithType: Map.LoadStaticMap(string, bool, Action<string>, Action<float>)
-  fullName: TinyLife.World.Map.LoadStaticMap(string, bool, System.Action<string>, System.Action<float>)
+  name: PrepareForPermanentRemoval()
+  nameWithType: Map.PrepareForPermanentRemoval()
+  fullName: TinyLife.World.Map.PrepareForPermanentRemoval()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: PrepareForPermanentRemoval
+    path: ../TinyLife/World/Map.cs
+    startLine: 1786
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nPrepares this map for permanent removal, moving all people on this map to their original positions (including their home location if it is on another map and their lot employment map if they have one), and calls <xref href=\"TinyLife.Objects.Person.PrepareForPermanentRemoval\" data-throw-if-not-resolved=\"false\"></xref> on all remaining people.\n"
+  example: []
+  syntax:
+    content: public void PrepareForPermanentRemoval()
+    content.vb: Public Sub PrepareForPermanentRemoval()
+  overload: TinyLife.World.Map.PrepareForPermanentRemoval*
+- uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  id: LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: LoadStaticMap(MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.LoadStaticMap(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
   type: Method
   source:
     remote:
@@ -3076,21 +3340,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LoadStaticMap
     path: ../TinyLife/World/Map.cs
-    startLine: 2243
+    startLine: 2371
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nLoads a static map with the given name from the game&apos;s content directory.\nNote that the map is not post-validated (<xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>).\n"
   example: []
   syntax:
-    content: public static Map LoadStaticMap(string name, bool custom, Action<string> setState, Action<float> setProgress)
+    content: public static Map LoadStaticMap(PerSaveOptions.MapInfo info, ICollection<Map> neighborhood, Action<string> setState, Action<float> setProgress)
     parameters:
-    - id: name
-      type: System.String
-      description: The name of the static map to load.
-    - id: custom
-      type: System.Boolean
-      description: Whether the map is in the custom maps directory (or a default map).
+    - id: info
+      type: TinyLife.PerSaveOptions.MapInfo
+      description: The <xref href="TinyLife.PerSaveOptions.MapInfo" data-throw-if-not-resolved="false"></xref> of the static map to load.
+    - id: neighborhood
+      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+      description: The <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> of the static map to load.
     - id: setState
       type: System.Action{System.String}
       description: An action that accepts the current state of the loading process.
@@ -3100,11 +3364,11 @@ items:
     return:
       type: TinyLife.World.Map
       description: The static map that was loaded.
-    content.vb: Public Shared Function LoadStaticMap(name As String, custom As Boolean, setState As Action(Of String), setProgress As Action(Of Single)) As Map
+    content.vb: Public Shared Function LoadStaticMap(info As PerSaveOptions.MapInfo, neighborhood As ICollection(Of Map), setState As Action(Of String), setProgress As Action(Of Single)) As Map
   overload: TinyLife.World.Map.LoadStaticMap*
-  nameWithType.vb: Map.LoadStaticMap(String, Boolean, Action(Of String), Action(Of Single))
-  fullName.vb: TinyLife.World.Map.LoadStaticMap(String, Boolean, System.Action(Of String), System.Action(Of Single))
-  name.vb: LoadStaticMap(String, Boolean, Action(Of String), Action(Of Single))
+  nameWithType.vb: Map.LoadStaticMap(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: LoadStaticMap(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
 - uid: TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   commentId: M:TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   id: IsLotHidden(TinyLife.World.Lot)
@@ -3123,7 +3387,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsLotHidden
     path: ../TinyLife/World/Map.cs
-    startLine: 2298
+    startLine: 2427
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3158,7 +3422,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMapSampler
     path: ../TinyLife/World/Map.cs
-    startLine: 2316
+    startLine: 2445
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3171,6 +3435,44 @@ items:
       description: The sampler state to use when rendering the map.
     content.vb: Public Shared Function GetMapSampler() As SamplerState
   overload: TinyLife.World.Map.GetMapSampler*
+- uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  id: UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Map.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: UpdateExternalPeople
+    path: ../TinyLife/World/Map.cs
+    startLine: 2456
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nUpdates the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">maps</code>&apos; regular visitors, based on the <xref href=\"TinyLife.PerSaveOptions.MaxRegularVisitors\" data-throw-if-not-resolved=\"false\"></xref> value, and also assigns random people to empty <xref href=\"TinyLife.World.LotEmployment\" data-throw-if-not-resolved=\"false\"></xref> slots.\nThis method does three things: It removes visitors that have been added into the world by the player (through household imports),\nit removes visitors if the current number of visitors is greater than the maximum,\nand it attempts to add new visitors if it is lower than the maximum and <xref href=\"TinyLife.World.LotEmployment\" data-throw-if-not-resolved=\"false\"></xref> people in empty slots.\nThis method is called automatically in various locations.\n"
+  example: []
+  syntax:
+    content: public static void UpdateExternalPeople(ICollection<Map> maps, Action<string> setState = null, Action<float> setProgress = null)
+    parameters:
+    - id: maps
+      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+    - id: setState
+      type: System.Action{System.String}
+    - id: setProgress
+      type: System.Action{System.Single}
+    content.vb: Public Shared Sub UpdateExternalPeople(maps As ICollection(Of Map), setState As Action(Of String) = Nothing, setProgress As Action(Of Single) = Nothing)
+  overload: TinyLife.World.Map.UpdateExternalPeople*
+  nameWithType.vb: Map.UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
 references:
 - uid: TinyLife.World.MapSection
   commentId: T:TinyLife.World.MapSection
@@ -3784,6 +4086,55 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
+- uid: TinyLife.Objects.IUpdatingObject
+  commentId: T:TinyLife.Objects.IUpdatingObject
+  parent: TinyLife.Objects
+  name: IUpdatingObject
+  nameWithType: IUpdatingObject
+  fullName: TinyLife.Objects.IUpdatingObject
+- uid: TinyLife.Objects.IUpdatingObject.UpdateMode.Minor
+  commentId: F:TinyLife.Objects.IUpdatingObject.UpdateMode.Minor
+  name: Minor
+  nameWithType: IUpdatingObject.UpdateMode.Minor
+  fullName: TinyLife.Objects.IUpdatingObject.UpdateMode.Minor
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+- uid: TinyLife.Objects.IUpdatingObject.UpdateMode.MajorIfActive
+  commentId: F:TinyLife.Objects.IUpdatingObject.UpdateMode.MajorIfActive
+  name: MajorIfActive
+  nameWithType: IUpdatingObject.UpdateMode.MajorIfActive
+  fullName: TinyLife.Objects.IUpdatingObject.UpdateMode.MajorIfActive
+- uid: TinyLife.World.Map.IsActive
+  commentId: P:TinyLife.World.Map.IsActive
+  name: IsActive
+  nameWithType: Map.IsActive
+  fullName: TinyLife.World.Map.IsActive
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
   parent: TinyLife.World
@@ -4034,23 +4385,6 @@ references:
   - uid: TinyLife.Objects.MapObject
     name: MapObject
   - name: )
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
 - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
   commentId: M:TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
   name: RemoveObject(MapObject)
@@ -4288,6 +4622,139 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
+- uid: TinyLife.PerSaveOptions.MapInfo
+  commentId: T:TinyLife.PerSaveOptions.MapInfo
+  parent: TinyLife
+  name: PerSaveOptions.MapInfo
+  nameWithType: PerSaveOptions.MapInfo
+  fullName: TinyLife.PerSaveOptions.MapInfo
+  spec.csharp:
+  - uid: TinyLife.PerSaveOptions
+    name: PerSaveOptions
+  - name: .
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+  spec.vb:
+  - uid: TinyLife.PerSaveOptions
+    name: PerSaveOptions
+  - name: .
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+- uid: TinyLife.World.Map.Info*
+  commentId: Overload:TinyLife.World.Map.Info
+  name: Info
+  nameWithType: Map.Info
+  fullName: TinyLife.World.Map.Info
+- uid: TinyLife
+  commentId: N:TinyLife
+  name: TinyLife
+  nameWithType: TinyLife
+  fullName: TinyLife
+- uid: TinyLife.GameImpl.CurrentMaps
+  commentId: P:TinyLife.GameImpl.CurrentMaps
+  name: CurrentMaps
+  nameWithType: GameImpl.CurrentMaps
+  fullName: TinyLife.GameImpl.CurrentMaps
+- uid: TinyLife.World.Map.Neighborhood*
+  commentId: Overload:TinyLife.World.Map.Neighborhood
+  name: Neighborhood
+  nameWithType: Map.Neighborhood
+  fullName: TinyLife.World.Map.Neighborhood
+- uid: System.Collections.Generic.ICollection{TinyLife.World.Map}
+  commentId: T:System.Collections.Generic.ICollection{TinyLife.World.Map}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<Map>
+  nameWithType: ICollection<Map>
+  fullName: System.Collections.Generic.ICollection<TinyLife.World.Map>
+  nameWithType.vb: ICollection(Of Map)
+  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.World.Map)
+  name.vb: ICollection(Of Map)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: TinyLife.GameImpl.CurrentMap
+  commentId: P:TinyLife.GameImpl.CurrentMap
+  name: CurrentMap
+  nameWithType: GameImpl.CurrentMap
+  fullName: TinyLife.GameImpl.CurrentMap
+- uid: TinyLife.World.Map.IsCurrent*
+  commentId: Overload:TinyLife.World.Map.IsCurrent
+  name: IsCurrent
+  nameWithType: Map.IsCurrent
+  fullName: TinyLife.World.Map.IsCurrent
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: TinyLife.World.Map.IsCurrent
+  commentId: P:TinyLife.World.Map.IsCurrent
+  name: IsCurrent
+  nameWithType: Map.IsCurrent
+  fullName: TinyLife.World.Map.IsCurrent
+- uid: TinyLife.GameImpl.CurrentHousehold
+  commentId: P:TinyLife.GameImpl.CurrentHousehold
+  name: CurrentHousehold
+  nameWithType: GameImpl.CurrentHousehold
+  fullName: TinyLife.GameImpl.CurrentHousehold
+- uid: TinyLife.World.Map.IsActive*
+  commentId: Overload:TinyLife.World.Map.IsActive
+  name: IsActive
+  nameWithType: Map.IsActive
+  fullName: TinyLife.World.Map.IsActive
 - uid: TinyLife.World.Map.#ctor*
   commentId: Overload:TinyLife.World.Map.#ctor
   name: Map
@@ -4328,17 +4795,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.single
-  name: float
-  nameWithType: float
-  fullName: float
-  nameWithType.vb: Single
-  fullName.vb: Single
-  name.vb: Single
 - uid: Microsoft.Xna.Framework.Graphics.RenderTarget2D
   commentId: T:Microsoft.Xna.Framework.Graphics.RenderTarget2D
   parent: Microsoft.Xna.Framework.Graphics
@@ -4382,17 +4838,6 @@ references:
   name: SpriteBatch
   nameWithType: SpriteBatch
   fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
 - uid: System.Nullable{MLEM.Misc.RectangleF}
   commentId: T:System.Nullable{MLEM.Misc.RectangleF}
   parent: System
@@ -4803,11 +5248,84 @@ references:
   name: Random
   nameWithType: Random
   fullName: System.Random
-- uid: TinyLife.World.Map.Validate*
-  commentId: Overload:TinyLife.World.Map.Validate
-  name: Validate
-  nameWithType: Map.Validate
-  fullName: TinyLife.World.Map.Validate
+- uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Validate(Action<string>, Action<float>)
+  nameWithType: Map.Validate(Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.Validate(System.Action<string>, System.Action<float>)
+  nameWithType.vb: Map.Validate(Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.Validate(System.Action(Of String), System.Action(Of Single))
+  name.vb: Validate(Action(Of String), Action(Of Single))
+  spec.csharp:
+  - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+    name: Validate
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+    name: Validate
+  - name: (
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.World.Map.Neighborhood
+  commentId: P:TinyLife.World.Map.Neighborhood
+  name: Neighborhood
+  nameWithType: Map.Neighborhood
+  fullName: TinyLife.World.Map.Neighborhood
+- uid: TinyLife.World.Map.ValidateEarly*
+  commentId: Overload:TinyLife.World.Map.ValidateEarly
+  name: ValidateEarly
+  nameWithType: Map.ValidateEarly
+  fullName: TinyLife.World.Map.ValidateEarly
 - uid: System.Action{System.String}
   commentId: T:System.Action{System.String}
   parent: System
@@ -4878,20 +5396,34 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
+- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Validate(Action<string>, Action<float>)
-  nameWithType: Map.Validate(Action<string>, Action<float>)
-  fullName: TinyLife.World.Map.Validate(System.Action<string>, System.Action<float>)
-  nameWithType.vb: Map.Validate(Action(Of String), Action(Of Single))
-  fullName.vb: TinyLife.World.Map.Validate(System.Action(Of String), System.Action(Of Single))
-  name.vb: Validate(Action(Of String), Action(Of Single))
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ValidateEarly(MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: ValidateEarly(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
   spec.csharp:
-  - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
-    name: Validate
+  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: ValidateEarly
   - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: '>'
+  - name: ','
+  - name: " "
   - uid: System.Action`1
     name: Action
     isExternal: true
@@ -4916,9 +5448,25 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
-    name: Validate
+  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: ValidateEarly
   - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: )
+  - name: ','
+  - name: " "
   - uid: System.Action`1
     name: Action
     isExternal: true
@@ -4946,48 +5494,11 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   - name: )
-- uid: TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: UpdateExternalPeople(Action<float>)
-  nameWithType: Map.UpdateExternalPeople(Action<float>)
-  fullName: TinyLife.World.Map.UpdateExternalPeople(System.Action<float>)
-  nameWithType.vb: Map.UpdateExternalPeople(Action(Of Single))
-  fullName.vb: TinyLife.World.Map.UpdateExternalPeople(System.Action(Of Single))
-  name.vb: UpdateExternalPeople(Action(Of Single))
-  spec.csharp:
-  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-    name: UpdateExternalPeople
-  - name: (
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: '>'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Action{System.Single})
-    name: UpdateExternalPeople
-  - name: (
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  - name: )
+- uid: TinyLife.World.Map.Validate*
+  commentId: Overload:TinyLife.World.Map.Validate
+  name: Validate
+  nameWithType: Map.Validate
+  fullName: TinyLife.World.Map.Validate
 - uid: TinyLife.World.Map.PostValidate*
   commentId: Overload:TinyLife.World.Map.PostValidate
   name: PostValidate
@@ -5900,6 +6411,11 @@ references:
   name: OnCameraRotationChanged
   nameWithType: Map.OnCameraRotationChanged
   fullName: TinyLife.World.Map.OnCameraRotationChanged
+- uid: TinyLife.World.Map.OnCurrentGameMapChanged*
+  commentId: Overload:TinyLife.World.Map.OnCurrentGameMapChanged
+  name: OnCurrentGameMapChanged
+  nameWithType: Map.OnCurrentGameMapChanged
+  fullName: TinyLife.World.Map.OnCurrentGameMapChanged
 - uid: TinyLife.Objects.Light.Position
   commentId: P:TinyLife.Objects.Light.Position
   name: Position
@@ -6019,22 +6535,12 @@ references:
   name: GetRegularVisitors
   nameWithType: Map.GetRegularVisitors
   fullName: TinyLife.World.Map.GetRegularVisitors
-- uid: TinyLife.PerSaveOptions.MaxRegularVisitors
-  commentId: F:TinyLife.PerSaveOptions.MaxRegularVisitors
-  name: MaxRegularVisitors
-  nameWithType: PerSaveOptions.MaxRegularVisitors
-  fullName: TinyLife.PerSaveOptions.MaxRegularVisitors
 - uid: TinyLife.World.LotEmployment
   commentId: T:TinyLife.World.LotEmployment
   parent: TinyLife.World
   name: LotEmployment
   nameWithType: LotEmployment
   fullName: TinyLife.World.LotEmployment
-- uid: TinyLife.World.Map.UpdateExternalPeople*
-  commentId: Overload:TinyLife.World.Map.UpdateExternalPeople
-  name: UpdateExternalPeople
-  nameWithType: Map.UpdateExternalPeople
-  fullName: TinyLife.World.Map.UpdateExternalPeople
 - uid: TinyLife.World.LotEmployment.MapWideEmployments
   commentId: F:TinyLife.World.LotEmployment.MapWideEmployments
   name: MapWideEmployments
@@ -6171,22 +6677,31 @@ references:
   name: MarkObjectDirtyForDrawing
   nameWithType: Map.MarkObjectDirtyForDrawing
   fullName: TinyLife.World.Map.MarkObjectDirtyForDrawing
+- uid: TinyLife.Objects.Person.PrepareForPermanentRemoval
+  commentId: M:TinyLife.Objects.Person.PrepareForPermanentRemoval
+  name: PrepareForPermanentRemoval()
+  nameWithType: Person.PrepareForPermanentRemoval()
+  fullName: TinyLife.Objects.Person.PrepareForPermanentRemoval()
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.PrepareForPermanentRemoval
+    name: PrepareForPermanentRemoval
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.PrepareForPermanentRemoval
+    name: PrepareForPermanentRemoval
+  - name: (
+  - name: )
+- uid: TinyLife.World.Map.PrepareForPermanentRemoval*
+  commentId: Overload:TinyLife.World.Map.PrepareForPermanentRemoval
+  name: PrepareForPermanentRemoval
+  nameWithType: Map.PrepareForPermanentRemoval
+  fullName: TinyLife.World.Map.PrepareForPermanentRemoval
 - uid: TinyLife.World.Map.LoadStaticMap*
   commentId: Overload:TinyLife.World.Map.LoadStaticMap
   name: LoadStaticMap
   nameWithType: Map.LoadStaticMap
   fullName: TinyLife.World.Map.LoadStaticMap
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: TinyLife.GameImpl.IsLotVisible(TinyLife.World.Lot)
   commentId: M:TinyLife.GameImpl.IsLotVisible(TinyLife.World.Lot)
   name: IsLotVisible(Lot)
@@ -6233,3 +6748,13 @@ references:
   name: GetMapSampler
   nameWithType: Map.GetMapSampler
   fullName: TinyLife.World.Map.GetMapSampler
+- uid: TinyLife.PerSaveOptions.MaxRegularVisitors
+  commentId: F:TinyLife.PerSaveOptions.MaxRegularVisitors
+  name: MaxRegularVisitors
+  nameWithType: PerSaveOptions.MaxRegularVisitors
+  fullName: TinyLife.PerSaveOptions.MaxRegularVisitors
+- uid: TinyLife.World.Map.UpdateExternalPeople*
+  commentId: Overload:TinyLife.World.Map.UpdateExternalPeople
+  name: UpdateExternalPeople
+  nameWithType: Map.UpdateExternalPeople
+  fullName: TinyLife.World.Map.UpdateExternalPeople

@@ -1,3 +1,54 @@
+# 0.35.0
+*July 20, 2023*
+
+![](media/changelog/0.35.0.png)
+
+> Multiple Maps and Fabulous Phones
+
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.35.0/).
+
+Additions
+- Added the ability for saves to have multiple worlds in them, as well as the ability to travel between them
+- Added mobile and landline phones, as well as the ability to use them to invite people over
+- Aded a bills breakdown list to the notification
+- Added Creative Kid life goal
+- Added two new achievements
+- Added thought bubbles which display in some situations, like when sleeping
+- Added the ability to use emoji in text (currently only pasting is supported, not direct input through the operating system's emoji keyboard)
+
+Improvements
+- Stagger minor object updates for much improved overall performance in play mode and less lag spikes
+- Display a notification when meeting new people at work or school
+- Improved the mod list view in the game options
+- Allow using up and down arrow buttons to navigate the cheat history
+- Made some more baby actions emotion-dependent
+- Made Tinies wait to be invited in when they visit so that they don't go jogging randomly
+- Improved mail delivery order so that the mail deliverer doesn't wander aimlessly through the world
+- Made the notification display and history menu slightly wider
+- Display weekday separations in the notification history menu
+- Allow changing the cheats keybind in the options
+- Nerfed painting sale prices slightly again
+- Cleaned up the debug menu
+- Improved achievement names
+
+Fixes
+- Fixed Steam icon being missing from Steam notifications
+- Fixed outdated rooms causing a crash when making a map smaller
+- Fixed counters and fences rendering ghostly when a lot preview is created
+- Fixed another genealogy issue when having children
+- Fixed flower grass connecting to paths incorrectly
+- Fixed being able to ask babies to taste child food
+- Fixed main menu warnings being displayed again when exiting to the main menu
+- Fixed doors opening visually for people who have not been invited in
+- Fixed an exception when trying to do an inappropriate action on a lot without a household
+- Fixed front door calculations taking into account trash bins as well as mailboxes
+- Fixed some strings, like family-focused, not splitting properly due to length
+
+API
+- Due to the addition of the ability to have multiple maps, action infos now have a current map and a goal map, rather than just a single map
+- Updating objects now have three updating states: always minor, major if the map is active, and always major
+- Allow mods to interact with the game's SaveData when saving and loading through new events in SaveHandler
+
 # 0.34.0
 *June 25, 2023*
 

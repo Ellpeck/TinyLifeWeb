@@ -7,14 +7,15 @@ items:
   children:
   - TinyLife.Actions.ActionInfo.ActionLocation
   - TinyLife.Actions.ActionInfo.ActionSpot
-  - TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
-  - TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+  - TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  - TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Actions.ActionInfo.AddAuxiliaryObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
+  - TinyLife.Actions.ActionInfo.CurrentMap
   - TinyLife.Actions.ActionInfo.FromActionInfo(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean)
-  - TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Point)
-  - TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
-  - TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,System.Guid,Microsoft.Xna.Framework.Vector2)
+  - TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  - TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.Objects.MapObject)
+  - TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.World.Map,System.Guid,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.Person)
   - TinyLife.Actions.ActionInfo.GetActionObject``1(System.Boolean)
   - TinyLife.Actions.ActionInfo.GetInvolvedActionSpot(TinyLife.Objects.Furniture)
@@ -22,8 +23,8 @@ items:
   - TinyLife.Actions.ActionInfo.GetInvolvedObject``1(TinyLife.Objects.ObjectCategory,System.Boolean,System.Boolean,System.Func{``0,System.Boolean})
   - TinyLife.Actions.ActionInfo.GetInvolvedObjectIds
   - TinyLife.Actions.ActionInfo.GetInvolvedObjects``1(TinyLife.Objects.ObjectCategory,System.Boolean,System.Boolean)
+  - TinyLife.Actions.ActionInfo.GoalMap
   - TinyLife.Actions.ActionInfo.Lot
-  - TinyLife.Actions.ActionInfo.Map
   - TinyLife.Actions.ActionInfo.Person
   - TinyLife.Actions.ActionInfo.ToFreeActionSpot(TinyLife.Objects.ObjectCategory)
   - TinyLife.Actions.ActionInfo.Validate(TinyLife.Objects.Person)
@@ -132,7 +133,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThe location that this action should be executed in.\nNote that, for manually executed actions, this is always the world position that the mouse was in.\nFor automatically executed actions, this is often the <xref href=\"TinyLife.Actions.ActionInfo.GetActionObject%60%601(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>&apos;s location or an offset based on the <xref href=\"TinyLife.Actions.ActionInfo.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe location on the <xref href=\"TinyLife.Actions.ActionInfo.GoalMap\" data-throw-if-not-resolved=\"false\"></xref> that this action should be executed in.\nNote that, for manually executed actions, this is always the world position that the mouse was in.\nFor automatically executed actions, this is often the <xref href=\"TinyLife.Actions.ActionInfo.GetActionObject%60%601(System.Boolean)\" data-throw-if-not-resolved=\"false\"></xref>&apos;s location or an offset based on the <xref href=\"TinyLife.Actions.ActionInfo.ActionSpot\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
@@ -183,37 +184,68 @@ items:
       type: TinyLife.Objects.ActionSpot
     content.vb: Public Property ActionSpot As ActionSpot
   overload: TinyLife.Actions.ActionInfo.ActionSpot*
-- uid: TinyLife.Actions.ActionInfo.Map
-  commentId: P:TinyLife.Actions.ActionInfo.Map
-  id: Map
+- uid: TinyLife.Actions.ActionInfo.CurrentMap
+  commentId: P:TinyLife.Actions.ActionInfo.CurrentMap
+  id: CurrentMap
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: Map
-  nameWithType: ActionInfo.Map
-  fullName: TinyLife.Actions.ActionInfo.Map
+  name: CurrentMap
+  nameWithType: ActionInfo.CurrentMap
+  fullName: TinyLife.Actions.ActionInfo.CurrentMap
   type: Property
   source:
     remote:
       path: TinyLife/Actions/ActionInfo.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Map
+    id: CurrentMap
     path: ../TinyLife/Actions/ActionInfo.cs
     startLine: 39
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nThe <xref href=\"TinyLife.Actions.ActionInfo.Map\" data-throw-if-not-resolved=\"false\"></xref> that the action is executed on\n"
+  summary: "\nThe <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref> that the action is currently being executed on, which returns the <xref href=\"TinyLife.Actions.ActionInfo.Person\" data-throw-if-not-resolved=\"false\"></xref>&apos;s <xref href=\"TinyLife.Objects.MapObject.Map\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Map Map { get; }
+    content: public Map CurrentMap { get; }
     parameters: []
     return:
       type: TinyLife.World.Map
-    content.vb: Public ReadOnly Property Map As Map
-  overload: TinyLife.Actions.ActionInfo.Map*
+    content.vb: Public ReadOnly Property CurrentMap As Map
+  overload: TinyLife.Actions.ActionInfo.CurrentMap*
+- uid: TinyLife.Actions.ActionInfo.GoalMap
+  commentId: P:TinyLife.Actions.ActionInfo.GoalMap
+  id: GoalMap
+  parent: TinyLife.Actions.ActionInfo
+  langs:
+  - csharp
+  - vb
+  name: GoalMap
+  nameWithType: ActionInfo.GoalMap
+  fullName: TinyLife.Actions.ActionInfo.GoalMap
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Actions/ActionInfo.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GoalMap
+    path: ../TinyLife/Actions/ActionInfo.cs
+    startLine: 43
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: "\nThe <xref href=\"TinyLife.World.Map\" data-throw-if-not-resolved=\"false\"></xref> that this action&apos;s action object, action wall and other key action components are expected to be on. This is essentially the map that the <xref href=\"TinyLife.Actions.ActionInfo.Person\" data-throw-if-not-resolved=\"false\"></xref> should do most of the action on.\n"
+  example: []
+  syntax:
+    content: public Map GoalMap { get; set; }
+    parameters: []
+    return:
+      type: TinyLife.World.Map
+    content.vb: Public Property GoalMap As Map
+  overload: TinyLife.Actions.ActionInfo.GoalMap*
 - uid: TinyLife.Actions.ActionInfo.Lot
   commentId: P:TinyLife.Actions.ActionInfo.Lot
   id: Lot
@@ -232,7 +264,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Lot
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 43
+    startLine: 56
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -263,11 +295,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActionObject
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 75
+    startLine: 91
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns the object that this action is related to, or null if there is none or the object isn&apos;t of the given type.\nIf this action is related to a <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref> and <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code> is <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref>, the wall is returned. Otherwise, the involved <xref href=\"TinyLife.Objects.MapObject\" data-throw-if-not-resolved=\"false\"></xref> is returned, if it matches <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code>.\n"
+  summary: "\nReturns the object that this action is related to, or null if there is none or the object isn&apos;t of the given type, or isn&apos;t on the <xref href=\"TinyLife.Actions.ActionInfo.GoalMap\" data-throw-if-not-resolved=\"false\"></xref>.\nIf this action is related to a <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref> and <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code> is <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref>, the wall is returned. Otherwise, the involved <xref href=\"TinyLife.Objects.MapObject\" data-throw-if-not-resolved=\"false\"></xref> is returned, if it matches <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code>.\n"
   example: []
   syntax:
     content: public T GetActionObject<T>(bool alsoReturnFake = true)
@@ -279,22 +311,22 @@ items:
       description: The type that the action object is expected to be of
     return:
       type: '{T}'
-      description: The action object, or null if there is none or the type does not match
+      description: The action object, or null if there is none on the <xref href="TinyLife.Actions.ActionInfo.GoalMap" data-throw-if-not-resolved="false"></xref> or the type does not match
     content.vb: Public Function GetActionObject(Of T)(alsoReturnFake As Boolean = True) As T
   overload: TinyLife.Actions.ActionInfo.GetActionObject*
   nameWithType.vb: ActionInfo.GetActionObject(Of T)(Boolean)
   fullName.vb: TinyLife.Actions.ActionInfo.GetActionObject(Of T)(Boolean)
   name.vb: GetActionObject(Of T)(Boolean)
-- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
-  id: AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  id: AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: AddAuxiliaryLocation(Vector2)
-  nameWithType: ActionInfo.AddAuxiliaryLocation(Vector2)
-  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+  name: AddAuxiliaryLocation(Map, Vector2)
+  nameWithType: ActionInfo.AddAuxiliaryLocation(Map, Vector2)
+  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
   type: Method
   source:
     remote:
@@ -303,32 +335,35 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddAuxiliaryLocation
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 96
+    startLine: 113
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nAdds an additional location that, along with <xref href=\"TinyLife.Actions.ActionInfo.ActionLocation\" data-throw-if-not-resolved=\"false\"></xref>, is involved in this action.\nAdding an auxiliary location causes <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedLocations\" data-throw-if-not-resolved=\"false\"></xref> to consider it.\n"
   example: []
   syntax:
-    content: public bool AddAuxiliaryLocation(Vector2 location)
+    content: public bool AddAuxiliaryLocation(Map map, Vector2 location)
     parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The map to add the location on.
     - id: location
       type: Microsoft.Xna.Framework.Vector2
       description: The location to add.
     return:
       type: System.Boolean
-    content.vb: Public Function AddAuxiliaryLocation(location As Vector2) As Boolean
+    content.vb: Public Function AddAuxiliaryLocation(map As Map, location As Vector2) As Boolean
   overload: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation*
-- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
-  id: AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  id: AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: AddAuxiliaryLocation(Point)
-  nameWithType: ActionInfo.AddAuxiliaryLocation(Point)
-  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+  name: AddAuxiliaryLocation(Map, Point)
+  nameWithType: ActionInfo.AddAuxiliaryLocation(Map, Point)
+  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map, Microsoft.Xna.Framework.Point)
   type: Method
   source:
     remote:
@@ -337,21 +372,24 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddAuxiliaryLocation
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 108
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nAdds an additional location that, along with <xref href=\"TinyLife.Actions.ActionInfo.ActionLocation\" data-throw-if-not-resolved=\"false\"></xref>, is involved in this action.\nAdding an auxiliary location causes <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedLocations\" data-throw-if-not-resolved=\"false\"></xref> to consider it.\n"
   example: []
   syntax:
-    content: public bool AddAuxiliaryLocation(Point location)
+    content: public bool AddAuxiliaryLocation(Map map, Point location)
     parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The map to add the location on.
     - id: location
       type: Microsoft.Xna.Framework.Point
       description: The location to add.
     return:
       type: System.Boolean
-    content.vb: Public Function AddAuxiliaryLocation(location As Point) As Boolean
+    content.vb: Public Function AddAuxiliaryLocation(map As Map, location As Point) As Boolean
   overload: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation*
 - uid: TinyLife.Actions.ActionInfo.GetInvolvedLocations
   commentId: M:TinyLife.Actions.ActionInfo.GetInvolvedLocations
@@ -371,18 +409,18 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetInvolvedLocations
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 116
+    startLine: 134
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns all of the locations that are involved in this action information, including the <xref href=\"TinyLife.Actions.ActionInfo.ActionLocation\" data-throw-if-not-resolved=\"false\"></xref> and any auxiliary locations added by <xref href=\"TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nReturns all of the locations that are involved in this action information, including the <xref href=\"TinyLife.Actions.ActionInfo.ActionLocation\" data-throw-if-not-resolved=\"false\"></xref> and any auxiliary locations added by <xref href=\"TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map%2cMicrosoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public IEnumerable<Vector2> GetInvolvedLocations()
+    content: public IEnumerable<(Map, Vector2)> GetInvolvedLocations()
     return:
-      type: System.Collections.Generic.IEnumerable{Microsoft.Xna.Framework.Vector2}
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Map,Microsoft.Xna.Framework.Vector2}}
       description: This action&apos;s involved locations.
-    content.vb: Public Function GetInvolvedLocations() As IEnumerable(Of Vector2)
+    content.vb: Public Function GetInvolvedLocations() As IEnumerable(Of (Map, Vector2))
   overload: TinyLife.Actions.ActionInfo.GetInvolvedLocations*
 - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
   commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
@@ -402,11 +440,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddAuxiliaryObject
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 132
+    startLine: 151
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nAdds an additional object that, along with the <xref href=\"TinyLife.Actions.ActionInfo.actionObject\" data-throw-if-not-resolved=\"false\"></xref>, is involved in this action.\nAdding an auxiliary object causes <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to consider it, as well as <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to be called for it.\n"
+  summary: "\nAdds an additional object that, along with the <xref href=\"TinyLife.Actions.ActionInfo.actionObject\" data-throw-if-not-resolved=\"false\"></xref>, is involved in this action.\nAdding an auxiliary object causes <xref href=\"TinyLife.Actions.ActionInfo.GetInvolvedObjects%60%601(TinyLife.Objects.ObjectCategory%2cSystem.Boolean%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to consider it, as well as <xref href=\"TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to be called for it.\nAuxiliary objects can be on the <xref href=\"TinyLife.Actions.ActionInfo.CurrentMap\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.Actions.ActionInfo.GoalMap\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public bool AddAuxiliaryObject(MapObject o, ActionSpot spot = null)
@@ -439,7 +477,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetInvolvedObjects
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 153
+    startLine: 172
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -486,7 +524,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetInvolvedObject
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 172
+    startLine: 191
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -536,7 +574,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetInvolvedActionSpot
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 191
+    startLine: 210
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -571,7 +609,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToFreeActionSpot
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 212
+    startLine: 231
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -606,7 +644,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetInvolvedObjectIds
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 224
+    startLine: 243
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -637,7 +675,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 240
+    startLine: 259
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -653,16 +691,16 @@ items:
       type: System.Boolean
     content.vb: Public Function Validate(person As Person) As Boolean
   overload: TinyLife.Actions.ActionInfo.Validate*
-- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
-  id: FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  id: FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: FromLocation(Person, Vector2)
-  nameWithType: ActionInfo.FromLocation(Person, Vector2)
-  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, Microsoft.Xna.Framework.Vector2)
+  name: FromLocation(Person, Map, Vector2)
+  nameWithType: ActionInfo.FromLocation(Person, Map, Vector2)
+  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
   type: Method
   source:
     remote:
@@ -671,36 +709,39 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromLocation
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 311
+    startLine: 331
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> based on the given location (and no objects)\n"
   example: []
   syntax:
-    content: public static ActionInfo FromLocation(Person person, Vector2 location)
+    content: public static ActionInfo FromLocation(Person person, Map map, Vector2 location)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
       description: The person that this action info should be related to
+    - id: map
+      type: TinyLife.World.Map
+      description: The <xref href="TinyLife.Actions.ActionInfo.GoalMap" data-throw-if-not-resolved="false"></xref> that this action info should have.
     - id: location
       type: Microsoft.Xna.Framework.Vector2
       description: The location that this action info should have
     return:
       type: TinyLife.Actions.ActionInfo
       description: A new action info with the given data
-    content.vb: Public Shared Function FromLocation(person As Person, location As Vector2) As ActionInfo
+    content.vb: Public Shared Function FromLocation(person As Person, map As Map, location As Vector2) As ActionInfo
   overload: TinyLife.Actions.ActionInfo.FromLocation*
-- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Point)
-  id: FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  id: FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Point)
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: FromLocation(Person, Point)
-  nameWithType: ActionInfo.FromLocation(Person, Point)
-  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, Microsoft.Xna.Framework.Point)
+  name: FromLocation(Person, Map, Point)
+  nameWithType: ActionInfo.FromLocation(Person, Map, Point)
+  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, TinyLife.World.Map, Microsoft.Xna.Framework.Point)
   type: Method
   source:
     remote:
@@ -709,36 +750,39 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromLocation
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 322
+    startLine: 343
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> based on the given location (and no objects).\nThis is a helper method that calls <xref href=\"TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person%2cMicrosoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref> with the center of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">location</code>.\n"
+  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> based on the given location (and no objects).\nThis is a helper method that calls <xref href=\"TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref> with the center of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">location</code>.\n"
   example: []
   syntax:
-    content: public static ActionInfo FromLocation(Person person, Point location)
+    content: public static ActionInfo FromLocation(Person person, Map map, Point location)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
       description: The person that this action info should be related to
+    - id: map
+      type: TinyLife.World.Map
+      description: The <xref href="TinyLife.Actions.ActionInfo.GoalMap" data-throw-if-not-resolved="false"></xref> that this action info should have.
     - id: location
       type: Microsoft.Xna.Framework.Point
       description: The location that this action info should have
     return:
       type: TinyLife.Actions.ActionInfo
       description: A new action info with the given data
-    content.vb: Public Shared Function FromLocation(person As Person, location As Point) As ActionInfo
+    content.vb: Public Shared Function FromLocation(person As Person, map As Map, location As Point) As ActionInfo
   overload: TinyLife.Actions.ActionInfo.FromLocation*
-- uid: TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,System.Guid,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,System.Guid,Microsoft.Xna.Framework.Vector2)
-  id: FromObjectGeneric(TinyLife.Objects.Person,System.Guid,Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.World.Map,System.Guid,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.World.Map,System.Guid,Microsoft.Xna.Framework.Vector2)
+  id: FromObjectGeneric(TinyLife.Objects.Person,TinyLife.World.Map,System.Guid,Microsoft.Xna.Framework.Vector2)
   parent: TinyLife.Actions.ActionInfo
   langs:
   - csharp
   - vb
-  name: FromObjectGeneric(Person, Guid, Vector2)
-  nameWithType: ActionInfo.FromObjectGeneric(Person, Guid, Vector2)
-  fullName: TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person, System.Guid, Microsoft.Xna.Framework.Vector2)
+  name: FromObjectGeneric(Person, Map, Guid, Vector2)
+  nameWithType: ActionInfo.FromObjectGeneric(Person, Map, Guid, Vector2)
+  fullName: TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person, TinyLife.World.Map, System.Guid, Microsoft.Xna.Framework.Vector2)
   type: Method
   source:
     remote:
@@ -747,18 +791,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromObjectGeneric
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 333
+    startLine: 355
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> basd on the given object&apos;s <xref href=\"TinyLife.Objects.MapObject.Id\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>, but no object spot.\n"
+  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> based on the given object&apos;s <xref href=\"TinyLife.Objects.MapObject.Id\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>, but no object spot.\n"
   example: []
   syntax:
-    content: public static ActionInfo FromObjectGeneric(Person person, Guid objectId, Vector2 objectPosition)
+    content: public static ActionInfo FromObjectGeneric(Person person, Map map, Guid objectId, Vector2 objectPosition)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
       description: The person that this action info should be related to.
+    - id: map
+      type: TinyLife.World.Map
+      description: The <xref href="TinyLife.Actions.ActionInfo.GoalMap" data-throw-if-not-resolved="false"></xref> that this action info should have.
     - id: objectId
       type: System.Guid
       description: The <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> of the object that this action info should have.
@@ -768,7 +815,7 @@ items:
     return:
       type: TinyLife.Actions.ActionInfo
       description: A new action info with the given data.
-    content.vb: Public Shared Function FromObjectGeneric(person As Person, objectId As Guid, objectPosition As Vector2) As ActionInfo
+    content.vb: Public Shared Function FromObjectGeneric(person As Person, map As Map, objectId As Guid, objectPosition As Vector2) As ActionInfo
   overload: TinyLife.Actions.ActionInfo.FromObjectGeneric*
 - uid: TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.Objects.MapObject)
   commentId: M:TinyLife.Actions.ActionInfo.FromObjectGeneric(TinyLife.Objects.Person,TinyLife.Objects.MapObject)
@@ -788,11 +835,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromObjectGeneric
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 343
+    startLine: 365
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> basd on the given object, but no object spot\n"
+  summary: "\nReturns a new <xref href=\"TinyLife.Actions.ActionInfo\" data-throw-if-not-resolved=\"false\"></xref> based on the given object, but no object spot\n"
   example: []
   syntax:
     content: public static ActionInfo FromObjectGeneric(Person person, MapObject obj)
@@ -826,7 +873,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromSelf
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 352
+    startLine: 374
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -861,7 +908,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FromActionInfo
     path: ../TinyLife/Actions/ActionInfo.cs
-    startLine: 363
+    startLine: 385
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1516,6 +1563,11 @@ references:
   - name: .
   - uid: TinyLife.Objects
     name: Objects
+- uid: TinyLife.Actions.ActionInfo.GoalMap
+  commentId: P:TinyLife.Actions.ActionInfo.GoalMap
+  name: GoalMap
+  nameWithType: ActionInfo.GoalMap
+  fullName: TinyLife.Actions.ActionInfo.GoalMap
 - uid: TinyLife.Actions.ActionInfo.GetActionObject``1(System.Boolean)
   commentId: M:TinyLife.Actions.ActionInfo.GetActionObject``1(System.Boolean)
   isExternal: true
@@ -1610,22 +1662,23 @@ references:
   name: ActionSpot
   nameWithType: ActionSpot
   fullName: TinyLife.Objects.ActionSpot
-- uid: TinyLife.Actions.ActionInfo.Map
-  commentId: P:TinyLife.Actions.ActionInfo.Map
-  name: Map
-  nameWithType: ActionInfo.Map
-  fullName: TinyLife.Actions.ActionInfo.Map
-- uid: TinyLife.Actions.ActionInfo.Map*
-  commentId: Overload:TinyLife.Actions.ActionInfo.Map
-  name: Map
-  nameWithType: ActionInfo.Map
-  fullName: TinyLife.Actions.ActionInfo.Map
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
   parent: TinyLife.World
   name: Map
   nameWithType: Map
   fullName: TinyLife.World.Map
+- uid: TinyLife.Objects.MapObject.Map
+  commentId: P:TinyLife.Objects.MapObject.Map
+  parent: TinyLife.Objects.MapObject
+  name: Map
+  nameWithType: MapObject.Map
+  fullName: TinyLife.Objects.MapObject.Map
+- uid: TinyLife.Actions.ActionInfo.CurrentMap*
+  commentId: Overload:TinyLife.Actions.ActionInfo.CurrentMap
+  name: CurrentMap
+  nameWithType: ActionInfo.CurrentMap
+  fullName: TinyLife.Actions.ActionInfo.CurrentMap
 - uid: TinyLife.World
   commentId: N:TinyLife.World
   name: TinyLife.World
@@ -1643,6 +1696,17 @@ references:
   - name: .
   - uid: TinyLife.World
     name: World
+- uid: TinyLife.Objects.MapObject
+  commentId: T:TinyLife.Objects.MapObject
+  parent: TinyLife.Objects
+  name: MapObject
+  nameWithType: MapObject
+  fullName: TinyLife.Objects.MapObject
+- uid: TinyLife.Actions.ActionInfo.GoalMap*
+  commentId: Overload:TinyLife.Actions.ActionInfo.GoalMap
+  name: GoalMap
+  nameWithType: ActionInfo.GoalMap
+  fullName: TinyLife.Actions.ActionInfo.GoalMap
 - uid: TinyLife.Actions.ActionInfo.ActionLocation
   commentId: F:TinyLife.Actions.ActionInfo.ActionLocation
   name: ActionLocation
@@ -1665,12 +1729,6 @@ references:
   name: Wall
   nameWithType: Wall
   fullName: TinyLife.World.Wall
-- uid: TinyLife.Objects.MapObject
-  commentId: T:TinyLife.Objects.MapObject
-  parent: TinyLife.Objects
-  name: MapObject
-  nameWithType: MapObject
-  fullName: TinyLife.Objects.MapObject
 - uid: TinyLife.Actions.ActionInfo.GetActionObject*
   commentId: Overload:TinyLife.Actions.ActionInfo.GetActionObject
   name: GetActionObject
@@ -1724,46 +1782,62 @@ references:
   name: Point
   nameWithType: Point
   fullName: Microsoft.Xna.Framework.Point
-- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   isExternal: true
-  name: AddAuxiliaryLocation(Vector2)
-  nameWithType: ActionInfo.AddAuxiliaryLocation(Vector2)
-  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+  name: AddAuxiliaryLocation(Map, Vector2)
+  nameWithType: ActionInfo.AddAuxiliaryLocation(Map, Vector2)
+  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
   spec.csharp:
-  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
     name: AddAuxiliaryLocation
   - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
     name: AddAuxiliaryLocation
   - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
   - name: )
-- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
   isExternal: true
-  name: AddAuxiliaryLocation(Point)
-  nameWithType: ActionInfo.AddAuxiliaryLocation(Point)
-  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+  name: AddAuxiliaryLocation(Map, Point)
+  nameWithType: ActionInfo.AddAuxiliaryLocation(Map, Point)
+  fullName: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map, Microsoft.Xna.Framework.Point)
   spec.csharp:
-  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
     name: AddAuxiliaryLocation
   - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Point
     name: Point
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Actions.ActionInfo.AddAuxiliaryLocation(TinyLife.World.Map,Microsoft.Xna.Framework.Point)
     name: AddAuxiliaryLocation
   - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Point
     name: Point
     isExternal: true
@@ -1773,26 +1847,32 @@ references:
   name: GetInvolvedLocations
   nameWithType: ActionInfo.GetInvolvedLocations
   fullName: TinyLife.Actions.ActionInfo.GetInvolvedLocations
-- uid: System.Collections.Generic.IEnumerable{Microsoft.Xna.Framework.Vector2}
-  commentId: T:System.Collections.Generic.IEnumerable{Microsoft.Xna.Framework.Vector2}
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Map,Microsoft.Xna.Framework.Vector2}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Map,Microsoft.Xna.Framework.Vector2}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<Vector2>
-  nameWithType: IEnumerable<Vector2>
-  fullName: System.Collections.Generic.IEnumerable<Microsoft.Xna.Framework.Vector2>
-  nameWithType.vb: IEnumerable(Of Vector2)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of Microsoft.Xna.Framework.Vector2)
-  name.vb: IEnumerable(Of Vector2)
+  name: IEnumerable<(Map, Vector2)>
+  nameWithType: IEnumerable<(Map, Vector2)>
+  fullName: System.Collections.Generic.IEnumerable<(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)>
+  nameWithType.vb: IEnumerable(Of (Map, Vector2))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (TinyLife.World.Map, Microsoft.Xna.Framework.Vector2))
+  name.vb: IEnumerable(Of (Map, Vector2))
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: )
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
@@ -1802,9 +1882,15 @@ references:
   - name: (
   - name: Of
   - name: " "
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: )
   - name: )
 - uid: System.Collections.Generic.IEnumerable`1
   commentId: T:System.Collections.Generic.IEnumerable`1
@@ -1998,6 +2084,11 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
+- uid: TinyLife.Actions.ActionInfo.CurrentMap
+  commentId: P:TinyLife.Actions.ActionInfo.CurrentMap
+  name: CurrentMap
+  nameWithType: ActionInfo.CurrentMap
+  fullName: TinyLife.Actions.ActionInfo.CurrentMap
 - uid: TinyLife.Actions.ActionInfo.GetInvolvedActionSpot(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Actions.ActionInfo.GetInvolvedActionSpot(TinyLife.Objects.Furniture)
   name: GetInvolvedActionSpot(Furniture)
@@ -2401,18 +2492,22 @@ references:
   name: FromLocation
   nameWithType: ActionInfo.FromLocation
   fullName: TinyLife.Actions.ActionInfo.FromLocation
-- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  commentId: M:TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   isExternal: true
-  name: FromLocation(Person, Vector2)
-  nameWithType: ActionInfo.FromLocation(Person, Vector2)
-  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, Microsoft.Xna.Framework.Vector2)
+  name: FromLocation(Person, Map, Vector2)
+  nameWithType: ActionInfo.FromLocation(Person, Map, Vector2)
+  fullName: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person, TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
   spec.csharp:
-  - uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
     name: FromLocation
   - name: (
   - uid: TinyLife.Objects.Person
     name: Person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -2420,11 +2515,15 @@ references:
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Actions.ActionInfo.FromLocation(TinyLife.Objects.Person,TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
     name: FromLocation
   - name: (
   - uid: TinyLife.Objects.Person
     name: Person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2

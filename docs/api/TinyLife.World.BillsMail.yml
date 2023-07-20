@@ -5,9 +5,10 @@ items:
   id: BillsMail
   parent: TinyLife.World
   children:
-  - TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Single)
-  - TinyLife.World.BillsMail.Amount
+  - TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Collections.Generic.Dictionary{System.String,System.Single})
+  - TinyLife.World.BillsMail.Bills
   - TinyLife.World.BillsMail.OnReceived
+  - TinyLife.World.BillsMail.Total
   langs:
   - csharp
   - vb
@@ -22,7 +23,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BillsMail
     path: ../TinyLife/World/Mail.cs
-    startLine: 123
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -57,55 +58,86 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.World.BillsMail.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.World.BillsMail.Amount
-  commentId: F:TinyLife.World.BillsMail.Amount
-  id: Amount
+- uid: TinyLife.World.BillsMail.Bills
+  commentId: F:TinyLife.World.BillsMail.Bills
+  id: Bills
   parent: TinyLife.World.BillsMail
   langs:
   - csharp
   - vb
-  name: Amount
-  nameWithType: BillsMail.Amount
-  fullName: TinyLife.World.BillsMail.Amount
+  name: Bills
+  nameWithType: BillsMail.Bills
+  fullName: TinyLife.World.BillsMail.Bills
   type: Field
   source:
     remote:
       path: TinyLife/World/Mail.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Amount
+    id: Bills
     path: ../TinyLife/World/Mail.cs
-    startLine: 129
+    startLine: 130
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThe amount of tiny bucks that needs to be paid by the receiving household\n"
+  summary: "\nThe amount of tiny bucks that needs to be paid by the receiving household, based on <xref href=\"TinyLife.World.Lot.GetWeeklyBills\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: >-
       [DataMember]
 
-      public readonly float Amount
+      public readonly Dictionary<string, float> Bills
     return:
-      type: System.Single
+      type: System.Collections.Generic.Dictionary{System.String,System.Single}
     content.vb: >-
       <DataMember>
 
-      Public ReadOnly Amount As Single
+      Public ReadOnly Bills As Dictionary(Of String, Single)
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
-- uid: TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Single)
-  commentId: M:TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Single)
-  id: '#ctor(TinyLife.World.Map,System.Guid,System.Single)'
+- uid: TinyLife.World.BillsMail.Total
+  commentId: P:TinyLife.World.BillsMail.Total
+  id: Total
   parent: TinyLife.World.BillsMail
   langs:
   - csharp
   - vb
-  name: BillsMail(Map, Guid, float)
-  nameWithType: BillsMail.BillsMail(Map, Guid, float)
-  fullName: TinyLife.World.BillsMail.BillsMail(TinyLife.World.Map, System.Guid, float)
+  name: Total
+  nameWithType: BillsMail.Total
+  fullName: TinyLife.World.BillsMail.Total
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/Mail.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Total
+    path: ../TinyLife/World/Mail.cs
+    startLine: 134
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe total amount of bills that this bills mail has, based on <xref href=\"TinyLife.World.BillsMail.Bills\" data-throw-if-not-resolved=\"false\"></xref> values.\n"
+  example: []
+  syntax:
+    content: public float Total { get; }
+    parameters: []
+    return:
+      type: System.Single
+    content.vb: Public ReadOnly Property Total As Single
+  overload: TinyLife.World.BillsMail.Total*
+- uid: TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Collections.Generic.Dictionary{System.String,System.Single})
+  commentId: M:TinyLife.World.BillsMail.#ctor(TinyLife.World.Map,System.Guid,System.Collections.Generic.Dictionary{System.String,System.Single})
+  id: '#ctor(TinyLife.World.Map,System.Guid,System.Collections.Generic.Dictionary{System.String,System.Single})'
+  parent: TinyLife.World.BillsMail
+  langs:
+  - csharp
+  - vb
+  name: BillsMail(Map, Guid, Dictionary<string, float>)
+  nameWithType: BillsMail.BillsMail(Map, Guid, Dictionary<string, float>)
+  fullName: TinyLife.World.BillsMail.BillsMail(TinyLife.World.Map, System.Guid, System.Collections.Generic.Dictionary<string, float>)
   type: Constructor
   source:
     remote:
@@ -114,14 +146,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Mail.cs
-    startLine: 137
+    startLine: 142
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nCreates a new bills mail with the given settings\n"
   example: []
   syntax:
-    content: public BillsMail(Map map, Guid receivingLot, float amount)
+    content: public BillsMail(Map map, Guid receivingLot, Dictionary<string, float> bills)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -129,14 +161,14 @@ items:
     - id: receivingLot
       type: System.Guid
       description: The <xref href="TinyLife.World.Lot.Id" data-throw-if-not-resolved="false"></xref> of the lot that should receive this mail
-    - id: amount
-      type: System.Single
-      description: The amount of tiny bucks that needs to be paid by the receiving household
-    content.vb: Public Sub New(map As Map, receivingLot As Guid, amount As Single)
+    - id: bills
+      type: System.Collections.Generic.Dictionary{System.String,System.Single}
+      description: The amount of tiny bucks that needs to be paid by the receiving household, based on <xref href="TinyLife.World.Lot.GetWeeklyBills" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Sub New(map As Map, receivingLot As Guid, bills As Dictionary(Of String, Single))
   overload: TinyLife.World.BillsMail.#ctor*
-  nameWithType.vb: BillsMail.New(Map, Guid, Single)
-  fullName.vb: TinyLife.World.BillsMail.New(TinyLife.World.Map, System.Guid, Single)
-  name.vb: New(Map, Guid, Single)
+  nameWithType.vb: BillsMail.New(Map, Guid, Dictionary(Of String, Single))
+  fullName.vb: TinyLife.World.BillsMail.New(TinyLife.World.Map, System.Guid, System.Collections.Generic.Dictionary(Of String, Single))
+  name.vb: New(Map, Guid, Dictionary(Of String, Single))
 - uid: TinyLife.World.BillsMail.OnReceived
   commentId: M:TinyLife.World.BillsMail.OnReceived
   id: OnReceived
@@ -155,7 +187,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnReceived
     path: ../TinyLife/World/Mail.cs
-    startLine: 142
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -844,6 +876,149 @@ references:
   - name: .
   - uid: TinyLife.Utilities
     name: Utilities
+- uid: TinyLife.World.Lot.GetWeeklyBills
+  commentId: M:TinyLife.World.Lot.GetWeeklyBills
+  name: GetWeeklyBills()
+  nameWithType: Lot.GetWeeklyBills()
+  fullName: TinyLife.World.Lot.GetWeeklyBills()
+  spec.csharp:
+  - uid: TinyLife.World.Lot.GetWeeklyBills
+    name: GetWeeklyBills
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Lot.GetWeeklyBills
+    name: GetWeeklyBills
+  - name: (
+  - name: )
+- uid: System.Collections.Generic.Dictionary{System.String,System.Single}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Single}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, float>
+  nameWithType: Dictionary<string, float>
+  fullName: System.Collections.Generic.Dictionary<string, float>
+  nameWithType.vb: Dictionary(Of String, Single)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, Single)
+  name.vb: Dictionary(Of String, Single)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.World.BillsMail.Bills
+  commentId: F:TinyLife.World.BillsMail.Bills
+  name: Bills
+  nameWithType: BillsMail.Bills
+  fullName: TinyLife.World.BillsMail.Bills
+- uid: TinyLife.World.BillsMail.Total*
+  commentId: Overload:TinyLife.World.BillsMail.Total
+  name: Total
+  nameWithType: BillsMail.Total
+  fullName: TinyLife.World.BillsMail.Total
 - uid: System.Single
   commentId: T:System.Single
   parent: System
