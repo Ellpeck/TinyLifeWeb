@@ -61,7 +61,7 @@ items:
   - TinyLife.World.Map.IsInBounds(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   - TinyLife.World.Map.IsRoad(Microsoft.Xna.Framework.Point)
-  - TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  - TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.MailToSend
   - TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
@@ -95,7 +95,7 @@ items:
   - TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
-  - TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  - TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
   langs:
   - csharp
@@ -622,11 +622,11 @@ items:
   summary: "\nThe set of all maps that are loaded together as part of the same save, including this map.\nDuring gameplay, this collection is the same as <xref href=\"TinyLife.GameImpl.CurrentMaps\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public ICollection<Map> Neighborhood { get; }
+    content: public Dictionary<string, Map> Neighborhood { get; }
     parameters: []
     return:
-      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
-    content.vb: Public Property Neighborhood As ICollection(Of Map)
+      type: System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map}
+    content.vb: Public Property Neighborhood As Dictionary(Of String, Map)
   overload: TinyLife.World.Map.Neighborhood*
 - uid: TinyLife.World.Map.IsCurrent
   commentId: P:TinyLife.World.Map.IsCurrent
@@ -1264,16 +1264,16 @@ items:
   nameWithType.vb: Map.GetRandomTile(Random, Vector2, Integer, Boolean, Boolean, Predicate(Of Point))
   fullName.vb: TinyLife.World.Map.GetRandomTile(System.Random, Microsoft.Xna.Framework.Vector2, Integer, Boolean, Boolean, System.Predicate(Of Microsoft.Xna.Framework.Point))
   name.vb: GetRandomTile(Random, Vector2, Integer, Boolean, Boolean, Predicate(Of Point))
-- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  id: ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  id: ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: ValidateEarly(MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  name: ValidateEarly(MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary<string, TinyLife.World.Map>, System.Action<string>, System.Action<float>)
   type: Method
   source:
     remote:
@@ -1289,13 +1289,13 @@ items:
   summary: "\nThis method is called when this object is loaded from disk, before <xref href=\"TinyLife.World.Map.Validate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> is called.\nWhen called on a map, early section and object validation occurs.\n"
   example: []
   syntax:
-    content: public void ValidateEarly(PerSaveOptions.MapInfo info, ICollection<Map> neighborhood, Action<string> setState, Action<float> setProgress)
+    content: public void ValidateEarly(PerSaveOptions.MapInfo info, Dictionary<string, Map> neighborhood, Action<string> setState, Action<float> setProgress)
     parameters:
     - id: info
       type: TinyLife.PerSaveOptions.MapInfo
       description: The <xref href="TinyLife.PerSaveOptions.MapInfo" data-throw-if-not-resolved="false"></xref> to assign to this map.
     - id: neighborhood
-      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+      type: System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map}
       description: The <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> to assign to this map.
     - id: setState
       type: System.Action{System.String}
@@ -1303,11 +1303,11 @@ items:
     - id: setProgress
       type: System.Action{System.Single}
       description: An action that accepts the progress of the current state of the loading process.
-    content.vb: Public Sub ValidateEarly(info As PerSaveOptions.MapInfo, neighborhood As ICollection(Of Map), setState As Action(Of String), setProgress As Action(Of Single))
+    content.vb: Public Sub ValidateEarly(info As PerSaveOptions.MapInfo, neighborhood As Dictionary(Of String, Map), setState As Action(Of String), setProgress As Action(Of Single))
   overload: TinyLife.World.Map.ValidateEarly*
-  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
-  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
-  name.vb: ValidateEarly(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary(Of String, TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: ValidateEarly(MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
 - uid: TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
   commentId: M:TinyLife.World.Map.Validate(System.Action{System.String},System.Action{System.Single})
   id: Validate(System.Action{System.String},System.Action{System.Single})
@@ -1330,7 +1330,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThis method is called when this object is loaded from disk, between <xref href=\"TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo%2cSystem.Collections.Generic.ICollection%7bTinyLife.World.Map%7d%2cSystem.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\nWhen called on a map, it causes all objects to be validated, roads to be generated, outdated information to be removed, and more.\n"
+  summary: "\nThis method is called when this object is loaded from disk, between <xref href=\"TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo%2cSystem.Collections.Generic.Dictionary%7bSystem.String%2cTinyLife.World.Map%7d%2cSystem.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\nWhen called on a map, it causes all objects to be validated, roads to be generated, outdated information to be removed, and more.\n"
   example: []
   syntax:
     content: public void Validate(Action<string> setState, Action<float> setProgress)
@@ -3322,16 +3322,16 @@ items:
     content: public void PrepareForPermanentRemoval()
     content.vb: Public Sub PrepareForPermanentRemoval()
   overload: TinyLife.World.Map.PrepareForPermanentRemoval*
-- uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  id: LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+- uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  id: LoadStaticMap(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: LoadStaticMap(MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  nameWithType: Map.LoadStaticMap(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  fullName: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  name: LoadStaticMap(MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  nameWithType: Map.LoadStaticMap(PerSaveOptions.MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary<string, TinyLife.World.Map>, System.Action<string>, System.Action<float>)
   type: Method
   source:
     remote:
@@ -3347,13 +3347,13 @@ items:
   summary: "\nLoads a static map with the given name from the game&apos;s content directory.\nNote that the map is not post-validated (<xref href=\"TinyLife.World.Map.PostValidate(System.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)\" data-throw-if-not-resolved=\"false\"></xref>).\n"
   example: []
   syntax:
-    content: public static Map LoadStaticMap(PerSaveOptions.MapInfo info, ICollection<Map> neighborhood, Action<string> setState, Action<float> setProgress)
+    content: public static Map LoadStaticMap(PerSaveOptions.MapInfo info, Dictionary<string, Map> neighborhood, Action<string> setState, Action<float> setProgress)
     parameters:
     - id: info
       type: TinyLife.PerSaveOptions.MapInfo
       description: The <xref href="TinyLife.PerSaveOptions.MapInfo" data-throw-if-not-resolved="false"></xref> of the static map to load.
     - id: neighborhood
-      type: System.Collections.Generic.ICollection{TinyLife.World.Map}
+      type: System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map}
       description: The <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> of the static map to load.
     - id: setState
       type: System.Action{System.String}
@@ -3364,11 +3364,11 @@ items:
     return:
       type: TinyLife.World.Map
       description: The static map that was loaded.
-    content.vb: Public Shared Function LoadStaticMap(info As PerSaveOptions.MapInfo, neighborhood As ICollection(Of Map), setState As Action(Of String), setProgress As Action(Of Single)) As Map
+    content.vb: Public Shared Function LoadStaticMap(info As PerSaveOptions.MapInfo, neighborhood As Dictionary(Of String, Map), setState As Action(Of String), setProgress As Action(Of Single)) As Map
   overload: TinyLife.World.Map.LoadStaticMap*
-  nameWithType.vb: Map.LoadStaticMap(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
-  fullName.vb: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
-  name.vb: LoadStaticMap(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  nameWithType.vb: Map.LoadStaticMap(PerSaveOptions.MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary(Of String, TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: LoadStaticMap(MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
 - uid: TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   commentId: M:TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   id: IsLotHidden(TinyLife.World.Lot)
@@ -4660,64 +4660,82 @@ references:
   name: Neighborhood
   nameWithType: Map.Neighborhood
   fullName: TinyLife.World.Map.Neighborhood
-- uid: System.Collections.Generic.ICollection{TinyLife.World.Map}
-  commentId: T:System.Collections.Generic.ICollection{TinyLife.World.Map}
+- uid: System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map}
   parent: System.Collections.Generic
-  definition: System.Collections.Generic.ICollection`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
-  name: ICollection<Map>
-  nameWithType: ICollection<Map>
-  fullName: System.Collections.Generic.ICollection<TinyLife.World.Map>
-  nameWithType.vb: ICollection(Of Map)
-  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.World.Map)
-  name.vb: ICollection(Of Map)
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, Map>
+  nameWithType: Dictionary<string, Map>
+  fullName: System.Collections.Generic.Dictionary<string, TinyLife.World.Map>
+  nameWithType.vb: Dictionary(Of String, Map)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, TinyLife.World.Map)
+  name.vb: Dictionary(Of String, Map)
   spec.csharp:
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: TinyLife.World.Map
     name: Map
   - name: '>'
   spec.vb:
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: (
   - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
   - name: " "
   - uid: TinyLife.World.Map
     name: Map
   - name: )
-- uid: System.Collections.Generic.ICollection`1
-  commentId: T:System.Collections.Generic.ICollection`1
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
-  name: ICollection<T>
-  nameWithType: ICollection<T>
-  fullName: System.Collections.Generic.ICollection<T>
-  nameWithType.vb: ICollection(Of T)
-  fullName.vb: System.Collections.Generic.ICollection(Of T)
-  name.vb: ICollection(Of T)
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
   spec.csharp:
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: <
-  - name: T
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
   - name: '>'
   spec.vb:
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: (
   - name: Of
   - name: " "
-  - name: T
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
   - name: )
 - uid: TinyLife.GameImpl.CurrentMap
   commentId: P:TinyLife.GameImpl.CurrentMap
@@ -5396,29 +5414,35 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+- uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
-  name: ValidateEarly(MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection<Map>, Action<string>, Action<float>)
-  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
-  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
-  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
-  name.vb: ValidateEarly(MapInfo, ICollection(Of Map), Action(Of String), Action(Of Single))
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: ValidateEarly(MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  nameWithType: Map.ValidateEarly(PerSaveOptions.MapInfo, Dictionary<string, Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary<string, TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  nameWithType.vb: Map.ValidateEarly(PerSaveOptions.MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo, System.Collections.Generic.Dictionary(Of String, TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: ValidateEarly(MapInfo, Dictionary(Of String, Map), Action(Of String), Action(Of Single))
   spec.csharp:
-  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
     name: ValidateEarly
   - name: (
   - uid: TinyLife.PerSaveOptions.MapInfo
     name: MapInfo
   - name: ','
   - name: " "
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: TinyLife.World.Map
     name: Map
   - name: '>'
@@ -5448,19 +5472,25 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  - uid: TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
     name: ValidateEarly
   - name: (
   - uid: TinyLife.PerSaveOptions.MapInfo
     name: MapInfo
   - name: ','
   - name: " "
-  - uid: System.Collections.Generic.ICollection`1
-    name: ICollection
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: (
   - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
   - name: " "
   - uid: TinyLife.World.Map
     name: Map
@@ -6758,3 +6788,62 @@ references:
   name: UpdateExternalPeople
   nameWithType: Map.UpdateExternalPeople
   fullName: TinyLife.World.Map.UpdateExternalPeople
+- uid: System.Collections.Generic.ICollection{TinyLife.World.Map}
+  commentId: T:System.Collections.Generic.ICollection{TinyLife.World.Map}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<Map>
+  nameWithType: ICollection<Map>
+  fullName: System.Collections.Generic.ICollection<TinyLife.World.Map>
+  nameWithType.vb: ICollection(Of Map)
+  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.World.Map)
+  name.vb: ICollection(Of Map)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )

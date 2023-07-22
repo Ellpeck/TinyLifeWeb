@@ -1,3 +1,19 @@
+# 0.35.1
+*July 22, 2023*
+
+Improvements
+- Clarified popup that displays when the game crashed
+- Improved path cost modifiers for tiles slightly
+- Clarified map selection in new game menu for multi-maps
+
+Fixes
+- Fixed an occasional crash when trying to import a household
+- Fixed a crash when validating lot employments on an old custom map
+- Fixed an exception when picking up a person that was deleted
+
+API
+- Also use dictionaries for map neighborhood
+
 # 0.35.0
 *July 20, 2023*
 
