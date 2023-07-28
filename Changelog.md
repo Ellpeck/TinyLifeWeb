@@ -1,3 +1,17 @@
+# 0.35.2
+*July 28, 2023*
+
+Additions
+- Added ambient leaf particles that occasionally fall from trees
+
+Improvements
+- Made furniture storage amount display easier to read, and display it even when no items are stored
+
+Fixes
+- Fixed a crash when multiple objects are removed while updating
+- Fixed being able to enter build mode while on another map
+- Fixed border tile selection being incorrect, causing weird looking paths in Demoville
+
 # 0.35.1
 *July 22, 2023*
 

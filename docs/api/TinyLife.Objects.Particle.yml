@@ -7,6 +7,7 @@ items:
   children:
   - TinyLife.Objects.Particle.#ctor(MLEM.Animations.SpriteAnimation,System.TimeSpan,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Objects.Particle.#ctor(MLEM.Textures.TextureRegion,System.TimeSpan,Microsoft.Xna.Framework.Vector2)
+  - TinyLife.Objects.Particle.AmbientFallingLeaves
   - TinyLife.Objects.Particle.Animation
   - TinyLife.Objects.Particle.CameraMotion
   - TinyLife.Objects.Particle.CameraOffset
@@ -20,6 +21,8 @@ items:
   - TinyLife.Objects.Particle.Gravity
   - TinyLife.Objects.Particle.IgnoreParentDrawPos
   - TinyLife.Objects.Particle.Motion
+  - TinyLife.Objects.Particle.OnParticleUpdate
+  - TinyLife.Objects.Particle.OnUpdate
   - TinyLife.Objects.Particle.ParentInfo
   - TinyLife.Objects.Particle.Position
   - TinyLife.Objects.Particle.Scale
@@ -43,7 +46,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Particle
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 17
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -64,6 +67,60 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Objects.Particle.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Objects.Particle.AmbientFallingLeaves
+  commentId: F:TinyLife.Objects.Particle.AmbientFallingLeaves
+  id: AmbientFallingLeaves
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: AmbientFallingLeaves
+  nameWithType: Particle.AmbientFallingLeaves
+  fullName: TinyLife.Objects.Particle.AmbientFallingLeaves
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Particle.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: AmbientFallingLeaves
+    path: ../TinyLife/Objects/Particle.cs
+    startLine: 22
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly Dictionary<FurnitureType, (float MinSpawnHeight, float MaxSpawnHeight, float MinSpawnX, float MaxSpawnX, float Chance)> AmbientFallingLeaves
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}}
+    content.vb: Public Shared ReadOnly AmbientFallingLeaves As Dictionary(Of FurnitureType, (MinSpawnHeight As Single, MaxSpawnHeight As Single, MinSpawnX As Single, MaxSpawnX As Single, Chance As Single))
+- uid: TinyLife.Objects.Particle.OnParticleUpdate
+  commentId: E:TinyLife.Objects.Particle.OnParticleUpdate
+  id: OnParticleUpdate
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: OnParticleUpdate
+  nameWithType: Particle.OnParticleUpdate
+  fullName: TinyLife.Objects.Particle.OnParticleUpdate
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Objects/Particle.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnParticleUpdate
+    path: ../TinyLife/Objects/Particle.cs
+    startLine: 29
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static event ObjectUpdateDelegate<Particle> OnParticleUpdate
+    return:
+      type: TinyLife.World.ObjectUpdateDelegate{TinyLife.Objects.Particle}
+    content.vb: Public Shared Event OnParticleUpdate As ObjectUpdateDelegate(Of Particle)
 - uid: TinyLife.Objects.Particle.Friction
   commentId: F:TinyLife.Objects.Particle.Friction
   id: Friction
@@ -82,7 +139,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Friction
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 24
+    startLine: 38
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -111,7 +168,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeToLive
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 28
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -140,7 +197,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Position
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 32
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -169,7 +226,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Motion
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 36
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -198,7 +255,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepthPosOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 40
+    startLine: 54
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -227,7 +284,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepthOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 44
+    startLine: 58
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -256,11 +313,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 48
+    startLine: 62
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe amount of tiles that this particle&apos;s display position is offset by, from its <xref href=\"TinyLife.Objects.Particle.Position\" data-throw-if-not-resolved=\"false\"></xref>\n"
+  summary: "\nThe amount of draw space pixels that this particle&apos;s display position is offset by, from its <xref href=\"TinyLife.Objects.Particle.Position\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
     content: public Vector2 DrawOffset
@@ -285,7 +342,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Scale
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 52
+    startLine: 66
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -314,7 +371,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Gravity
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 56
+    startLine: 70
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -343,11 +400,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CameraMotion
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 62
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe motion that this particle&apos;s <xref href=\"TinyLife.Objects.Particle.CameraOffset\" data-throw-if-not-resolved=\"false\"></xref> is moved by every update frame.\nIf <xref href=\"TinyLife.Objects.Particle.Gravity\" data-throw-if-not-resolved=\"false\"></xref> is set, this value is modified by <xref href=\"TinyLife.Objects.Particle.Gravity\" data-throw-if-not-resolved=\"false\"></xref> every update frame as well.\nThis value is not affected by <xref href=\"TinyLife.Objects.Particle.Friction\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe motion that this particle&apos;s <xref href=\"TinyLife.Objects.Particle.CameraOffset\" data-throw-if-not-resolved=\"false\"></xref> is moved by every update frame.\nIf <xref href=\"TinyLife.Objects.Particle.Gravity\" data-throw-if-not-resolved=\"false\"></xref> is set, this value is modified every update frame as well.\nThis value is not affected by <xref href=\"TinyLife.Objects.Particle.Friction\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public Vector2 CameraMotion
@@ -372,11 +429,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CameraOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 66
+    startLine: 81
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe offset from this particle&apos;s <xref href=\"TinyLife.Objects.Particle.Position\" data-throw-if-not-resolved=\"false\"></xref> that is added in visual space only, using <xref href=\"TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe offset from this particle&apos;s <xref href=\"TinyLife.Objects.Particle.Position\" data-throw-if-not-resolved=\"false\"></xref> that is added in visual space only, without camera rotation taken into account.\nIf <xref href=\"TinyLife.Objects.Particle.CameraMotion\" data-throw-if-not-resolved=\"false\"></xref> is set, this value is modified every update frame as well.\n"
   example: []
   syntax:
     content: public Vector2 CameraOffset
@@ -401,7 +458,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentInfo
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 70
+    startLine: 85
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -430,7 +487,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IgnoreParentDrawPos
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 74
+    startLine: 89
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -459,7 +516,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateWhenPaused
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 79
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -488,7 +545,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Color
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 83
+    startLine: 98
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -517,7 +574,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpriteEffects
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 87
+    startLine: 102
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -546,7 +603,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ForceOutside
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 92
+    startLine: 107
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -557,6 +614,33 @@ items:
     return:
       type: System.Boolean
     content.vb: Public ForceOutside As Boolean
+- uid: TinyLife.Objects.Particle.OnUpdate
+  commentId: F:TinyLife.Objects.Particle.OnUpdate
+  id: OnUpdate
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: OnUpdate
+  nameWithType: Particle.OnUpdate
+  fullName: TinyLife.Objects.Particle.OnUpdate
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Particle.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnUpdate
+    path: ../TinyLife/Objects/Particle.cs
+    startLine: 108
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public ObjectUpdateDelegateNoPhase<Particle> OnUpdate
+    return:
+      type: TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
+    content.vb: Public OnUpdate As ObjectUpdateDelegateNoPhase(Of Particle)
 - uid: TinyLife.Objects.Particle.Animation
   commentId: F:TinyLife.Objects.Particle.Animation
   id: Animation
@@ -575,7 +659,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Animation
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 97
+    startLine: 113
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -604,7 +688,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeLived
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 102
+    startLine: 118
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -633,7 +717,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 110
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -674,7 +758,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 119
+    startLine: 135
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -715,7 +799,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 131
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -756,7 +840,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 157
+    startLine: 178
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -791,7 +875,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Spawn
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 174
+    startLine: 195
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1255,6 +1339,287 @@ references:
   - name: .
   - uid: TinyLife.Utilities
     name: Utilities
+- uid: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<FurnitureType, (float MinSpawnHeight, float MaxSpawnHeight, float MinSpawnX, float MaxSpawnX, float Chance)>
+  nameWithType: Dictionary<FurnitureType, (float MinSpawnHeight, float MaxSpawnHeight, float MinSpawnX, float MaxSpawnX, float Chance)>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Objects.FurnitureType, (float MinSpawnHeight, float MaxSpawnHeight, float MinSpawnX, float MaxSpawnX, float Chance)>
+  nameWithType.vb: Dictionary(Of FurnitureType, (MinSpawnHeight As Single, MaxSpawnHeight As Single, MinSpawnX As Single, MaxSpawnX As Single, Chance As Single))
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Objects.FurnitureType, (MinSpawnHeight As Single, MaxSpawnHeight As Single, MinSpawnX As Single, MaxSpawnX As Single, Chance As Single))
+  name.vb: Dictionary(Of FurnitureType, (MinSpawnHeight As Single, MaxSpawnHeight As Single, MinSpawnX As Single, MaxSpawnX As Single, Chance As Single))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+  - name: ','
+  - name: " "
+  - name: (
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MinSpawnHeight
+    name: MinSpawnHeight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.minspawnheight
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MaxSpawnHeight
+    name: MaxSpawnHeight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.maxspawnheight
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MinSpawnX
+    name: MinSpawnX
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.minspawnx
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MaxSpawnX
+    name: MaxSpawnX
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.maxspawnx
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.chance
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.FurnitureType
+    name: FurnitureType
+  - name: ','
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MinSpawnHeight
+    name: MinSpawnHeight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.minspawnheight
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MaxSpawnHeight
+    name: MaxSpawnHeight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.maxspawnheight
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MinSpawnX
+    name: MinSpawnX
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.minspawnx
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.MaxSpawnX
+    name: MaxSpawnX
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.maxspawnx
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.single,system.single,system.single,system.single,system.single-.chance
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.World.ObjectUpdateDelegate{TinyLife.Objects.Particle}
+  commentId: T:TinyLife.World.ObjectUpdateDelegate{TinyLife.Objects.Particle}
+  parent: TinyLife.World
+  definition: TinyLife.World.ObjectUpdateDelegate`1
+  name: ObjectUpdateDelegate<Particle>
+  nameWithType: ObjectUpdateDelegate<Particle>
+  fullName: TinyLife.World.ObjectUpdateDelegate<TinyLife.Objects.Particle>
+  nameWithType.vb: ObjectUpdateDelegate(Of Particle)
+  fullName.vb: TinyLife.World.ObjectUpdateDelegate(Of TinyLife.Objects.Particle)
+  name.vb: ObjectUpdateDelegate(Of Particle)
+  spec.csharp:
+  - uid: TinyLife.World.ObjectUpdateDelegate`1
+    name: ObjectUpdateDelegate
+  - name: <
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.World.ObjectUpdateDelegate`1
+    name: ObjectUpdateDelegate
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+  - name: )
+- uid: TinyLife.World.ObjectUpdateDelegate`1
+  commentId: T:TinyLife.World.ObjectUpdateDelegate`1
+  name: ObjectUpdateDelegate<T>
+  nameWithType: ObjectUpdateDelegate<T>
+  fullName: TinyLife.World.ObjectUpdateDelegate<T>
+  nameWithType.vb: ObjectUpdateDelegate(Of T)
+  fullName.vb: TinyLife.World.ObjectUpdateDelegate(Of T)
+  name.vb: ObjectUpdateDelegate(Of T)
+  spec.csharp:
+  - uid: TinyLife.World.ObjectUpdateDelegate`1
+    name: ObjectUpdateDelegate
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.World.ObjectUpdateDelegate`1
+    name: ObjectUpdateDelegate
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: TinyLife.World
+  commentId: N:TinyLife.World
+  name: TinyLife.World
+  nameWithType: TinyLife.World
+  fullName: TinyLife.World
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.World
+    name: World
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.World
+    name: World
 - uid: TinyLife.Objects.Particle.Motion
   commentId: F:TinyLife.Objects.Particle.Motion
   name: Motion
@@ -1515,28 +1880,11 @@ references:
   name: Friction
   nameWithType: Particle.Friction
   fullName: TinyLife.Objects.Particle.Friction
-- uid: TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)
-  isExternal: true
-  name: ToVisualY(Vector2)
-  nameWithType: Extensions.ToVisualY(Vector2)
-  fullName: TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)
-  spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)
-    name: ToVisualY
-  - name: (
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Utilities.Extensions.ToVisualY(Microsoft.Xna.Framework.Vector2)
-    name: ToVisualY
-  - name: (
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: )
+- uid: TinyLife.Objects.Particle.CameraMotion
+  commentId: F:TinyLife.Objects.Particle.CameraMotion
+  name: CameraMotion
+  nameWithType: Particle.CameraMotion
+  fullName: TinyLife.Objects.Particle.CameraMotion
 - uid: TinyLife.Objects.Particle.ParentInfo
   commentId: F:TinyLife.Objects.Particle.ParentInfo
   name: ParentInfo
@@ -1622,6 +1970,54 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics
     name: Graphics
     isExternal: true
+- uid: TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
+  commentId: T:TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
+  parent: TinyLife.World
+  definition: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+  name: ObjectUpdateDelegateNoPhase<Particle>
+  nameWithType: ObjectUpdateDelegateNoPhase<Particle>
+  fullName: TinyLife.World.ObjectUpdateDelegateNoPhase<TinyLife.Objects.Particle>
+  nameWithType.vb: ObjectUpdateDelegateNoPhase(Of Particle)
+  fullName.vb: TinyLife.World.ObjectUpdateDelegateNoPhase(Of TinyLife.Objects.Particle)
+  name.vb: ObjectUpdateDelegateNoPhase(Of Particle)
+  spec.csharp:
+  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+    name: ObjectUpdateDelegateNoPhase
+  - name: <
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+    name: ObjectUpdateDelegateNoPhase
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+  - name: )
+- uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+  commentId: T:TinyLife.World.ObjectUpdateDelegateNoPhase`1
+  name: ObjectUpdateDelegateNoPhase<T>
+  nameWithType: ObjectUpdateDelegateNoPhase<T>
+  fullName: TinyLife.World.ObjectUpdateDelegateNoPhase<T>
+  nameWithType.vb: ObjectUpdateDelegateNoPhase(Of T)
+  fullName.vb: TinyLife.World.ObjectUpdateDelegateNoPhase(Of T)
+  name.vb: ObjectUpdateDelegateNoPhase(Of T)
+  spec.csharp:
+  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+    name: ObjectUpdateDelegateNoPhase
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
+    name: ObjectUpdateDelegateNoPhase
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Objects.Particle.#ctor*
   commentId: Overload:TinyLife.Objects.Particle.#ctor
   name: Particle
@@ -1682,23 +2078,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: TinyLife.World
-  commentId: N:TinyLife.World
-  name: TinyLife.World
-  nameWithType: TinyLife.World
-  fullName: TinyLife.World
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.World
-    name: World
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.World
-    name: World
 - uid: TinyLife.Objects.Particle.Draw*
   commentId: Overload:TinyLife.Objects.Particle.Draw
   name: Draw
