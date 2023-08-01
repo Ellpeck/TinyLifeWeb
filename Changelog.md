@@ -1,3 +1,12 @@
+# 0.35.3
+*August 1, 2023*
+
+Fixes
+- Fixed an exception when loading very old saves, or saves with corrupted options
+- Fixed being able to open the world switch menu using a gamepad when only one world is present
+- Fixed a crash when a Tiny dies in another world
+- Fixed a rare exception when trying to visit a lot in another world
+
 # 0.35.2
 *July 28, 2023*
 
