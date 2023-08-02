@@ -1,3 +1,11 @@
+# 0.35.4
+*August 2, 2023*
+
+This one's a little embarrassing. Sorry everyone!
+
+Fixes
+- Fixed a crash when creating a new save. 
+
 # 0.35.3
 *August 1, 2023*
 
