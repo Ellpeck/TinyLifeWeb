@@ -5,11 +5,23 @@ when:
       - "Changelog.md"
       - "InGameNews.md"
 steps:
-  build-docs:
+  build:
     image: mcr.microsoft.com/dotnet/sdk:7.0.305
     commands:
       - cd docs && dotnet tool restore && dotnet docfx
-  deploy-docs:
+  preview:
+    image: woodpeckerci/plugin-surge-preview
+    when:
+      event: pull_request
+    settings:
+      path: docs/_site
+      surge_token:
+        from_secret: surge_token
+      forge_type: github
+      forge_url: https://github.com
+      forge_repo_token:
+        from_secret: github_token
+  deploy:
     image: debian:latest
     when:
       event: [push, manual]

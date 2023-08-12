@@ -1,11 +1,23 @@
 when:
   path: "web/**"
 steps:
-  build-web:
+  build:
     image: ruby:latest
     commands:
       - cd web && bundle && bundle exec jekyll build
-  deploy-web:
+  preview:
+    image: woodpeckerci/plugin-surge-preview
+    when:
+      event: pull_request
+    settings:
+      path: web/_site
+      surge_token:
+        from_secret: surge_token
+      forge_type: github
+      forge_url: https://github.com
+      forge_repo_token:
+        from_secret: github_token
+  deploy:
     image: debian:latest
     when:
       - event: [push, manual]
