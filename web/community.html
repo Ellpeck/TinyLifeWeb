@@ -16,30 +16,33 @@ summary: A fun simulation game where you mess with people's lives
     {% for section in site.data.community-sections %}
         <div class="community-section">
             <h2 id="{{ section.slug }}">{{ section.name }}</h2>
-            <p>
-                {{ section.desc }}
-                <br><span class="text-muted">The slug for this section is <code>{{ section.slug }}</code>.</span>
-            </p>
+            <p>{{ section.desc }}</p>
 
             {% assign any = false %}
             {% for content in site.data.community-content %}
                 {% if content.section == section.slug %}
-                    <div class="community-content">
-                        <div class="community-content-box">
-                            <div class="community-content-box-content">
-                                <h4 class="community-title">{{ content.name }}</h4>
-                                <div class="community-author text-muted">Created by {{ content.author }}</div>
-                                <div class="community-desc">{{ content.desc }}</div>
-                                <div>
-                                    {% for link in content.links %}
-                                        <a href="{{ link[1] }}">{{ link[0] }}</a>
-                                        {% unless forloop.last %}
-                                            &ndash;
-                                        {% endunless %}
-                                    {% endfor %}
-                                </div>
+                    <div class="community-content-box">
+                        {% if section.images %}
+                            <img src="/media/community/{{ content.slug }}.png" alt="An image showing off {{ content.name }}" width="100%">
+                        {% endif %}
+                        {% if section.embeds %}
+                            <div class="video-embed">
+                                <iframe src="{{ content.embed }}" title="{{ content.name }} Embed" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
-                            <img id="{{ content.slug }}" src="/media/community/{{ content.slug }}.png" alt="An image showing off {{ content.name }}" width="100%">
+                        {% endif %}
+
+                        <div class="community-content-box-content">
+                            <h4 class="community-title">{{ content.name }}</h4>
+                            <div class="community-author text-muted">Created by {{ content.author }}</div>
+                            <div class="community-desc">{{ content.desc }}</div>
+                            <div>
+                                {% for link in content.links %}
+                                    <a href="{{ link[1] }}">{{ link[0] }}</a>
+                                    {% unless forloop.last %}
+                                        &ndash;
+                                    {% endunless %}
+                                {% endfor %}
+                            </div>
                         </div>
                     </div>
                     {% assign any = true %}
