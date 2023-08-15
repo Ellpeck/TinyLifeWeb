@@ -1,3 +1,51 @@
+# 0.36.0
+*August 15, 2023*
+
+![](media/changelog/0.36.0.png)
+
+> Retro Rarities and Stopped Starvation
+
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.36.0/).
+
+Additions
+- Added the Retro Rarities set with art by [clovedove](https://clovedove.tumblr.com/), which includes various new furniture and clothing items in a retro style
+- Added ambient firefly particles to forested areas
+- Added two new funky wallpapers
+- Added large concrete tiles tile
+
+Improvements
+- Display variation textures for concrete, roads and dirt paths
+- Increased default and allowed regular visitor amounts
+- Added emotions for babies following adults and cleaning up babies
+- Added emotions for babies reading story books and adults helping them
+- Display custom content info in multi-map selection options menu
+- Improved unemployment display in relationship infos
+- Link new community showcase site in custom content menus
+- Localized exported household, person and lot names
+- Improved friendship and romance string displays in relationship panel
+- Allow the espresso machine to break
+- Improved passive update timing for unplayed maps
+
+Fixes
+- Fixed jungle gym not being obstructed by roofs
+- Fixed debug teleport action not working if the person is on the same map
+- Fixed content not being properly validated when lots are exported
+- Fixed various issues when adding additional maps to the current save
+- Fixed tile grid being hidden behind multi-layer tiles
+- Fixed depth positions of scaled particles on parents
+- Fixed people not finding out someone's job when meeting them at work
+- Fixed moving to a new lot causing the household to be added on the wrong map occasionally
+- Fixed unpaid bills info displaying for inactive households
+- Fixed skill achievements not working due to baby skills
+- Fixed being unable to go home on a different map if standing in the same location as the home lot
+- Fixed people not fully reaching their destinations on high speeds, causing subsequent actions to fail
+- Fixed regular visitors failing to appear at their jobs, causing them to get fired regularly
+
+API
+- Made Walk and Drive actions typeless
+- Allow roofs to have multiple layers and colors
+- Allow actions to be enqueued as priority by the AI
+
 # 0.35.4
 *August 2, 2023*
 
