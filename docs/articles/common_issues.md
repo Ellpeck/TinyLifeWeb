@@ -34,6 +34,3 @@ The following issues are known bugs in the game and will be fixed in a future up
 
 ### My Tinies automatically get assigned wrong genealogies
 Transitive genealogies are automatically calculated in the character creator. For example, adding a parent and a child for a Tiny automatically causes them to have a grandparent/grandchild relationship. The current implementation of this system may contain some oversights causing incorrect transitive genealogies to be calculated automatically. To fix this issue temporarily and be able to set your own genealogies manually, you can enable the `IgnoreTransitive` [cheat](cheats.md).
-
-### Tinies are entering my house without my permission
-This is the way that Tinies visiting a lot currently works. There's no way to disable this behavior right now, but you can select your front door and lock it for other Tinies, which means they won't be able to enter your house anymore. In the future, we plan on making it so that Tinies have to be invited into your house to be allowed to enter.
