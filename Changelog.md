@@ -1,3 +1,17 @@
+# 0.36.1
+*August 25, 2023*
+
+We're taking a development break for a few weeks! This is a little bugfix update to tide yall over, though. ❤️
+
+Improvements
+- Avoid people bunching up when visiting a household by choosing a unique goal location
+
+Fixes
+- Fixed being unable to select disabled build mode buttons using a gamepad
+- Fixed an exception when a social action fails due to a missing partner
+- Fixed children being unable to complete the Friend of Everyone life goal
+- Fixed people repeatedly trying to prepare food when failing
+
 # 0.36.0
 *August 15, 2023*
 
