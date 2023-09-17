@@ -1,3 +1,17 @@
+# 0.36.2
+*September 17, 2023*
+
+Improvements
+- Display character creator and build mode tooltips immediately
+- Only display leaving notification if a person was invited in
+
+Fixes
+- Fixed a crash when creating a new save file without saving
+- Fixed a concurrent modification issue when adding maps to a save
+- Fixed roofs not being validated properly, causing crashes when previewing lots
+- Fixed being unable to mop a puddle on natural ground indoors
+- Fixed chatting not working correctly with people on other maps
+
 # 0.36.1
 *August 25, 2023*
 
