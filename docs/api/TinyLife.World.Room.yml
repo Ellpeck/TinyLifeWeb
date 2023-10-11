@@ -7,14 +7,16 @@ items:
   children:
   - TinyLife.World.Room.Center
   - TinyLife.World.Room.CoveredSections
+  - TinyLife.World.Room.Floor
   - TinyLife.World.Room.FullyRoofed
   - TinyLife.World.Room.GetConnectedRooms(TinyLife.Objects.Person)
   - TinyLife.World.Room.GetDecorativeRating
   - TinyLife.World.Room.GetLights
   - TinyLife.World.Room.GetObjects``1
+  - TinyLife.World.Room.GetStairs
   - TinyLife.World.Room.GetWalls(System.Boolean)
   - TinyLife.World.Room.HasOpeningsToOutside
-  - TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point})
+  - TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point},System.Int32)
   - TinyLife.World.Room.Map
   - TinyLife.World.Room.Tiles
   - TinyLife.World.Room.Validate
@@ -28,7 +30,7 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Room
     path: ../TinyLife/World/Room.cs
@@ -67,7 +69,7 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Map
     path: ../TinyLife/World/Room.cs
@@ -82,6 +84,35 @@ items:
     return:
       type: TinyLife.World.Map
     content.vb: Public ReadOnly Map As Map
+- uid: TinyLife.World.Room.Floor
+  commentId: F:TinyLife.World.Room.Floor
+  id: Floor
+  parent: TinyLife.World.Room
+  langs:
+  - csharp
+  - vb
+  name: Floor
+  nameWithType: Room.Floor
+  fullName: TinyLife.World.Room.Floor
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Room.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Floor
+    path: ../TinyLife/World/Room.cs
+    startLine: 21
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nThe floor that this room is on.\n"
+  example: []
+  syntax:
+    content: public readonly int Floor
+    return:
+      type: System.Int32
+    content.vb: Public ReadOnly Floor As Integer
 - uid: TinyLife.World.Room.Center
   commentId: F:TinyLife.World.Room.Center
   id: Center
@@ -96,11 +127,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Center
     path: ../TinyLife/World/Room.cs
-    startLine: 22
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -125,11 +156,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Tiles
     path: ../TinyLife/World/Room.cs
-    startLine: 26
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -154,11 +185,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CoveredSections
     path: ../TinyLife/World/Room.cs
-    startLine: 30
+    startLine: 34
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -183,15 +214,15 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FullyRoofed
     path: ../TinyLife/World/Room.cs
-    startLine: 36
+    startLine: 40
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nA property that stores whether this room is fully roofed, that is, whether all of its <xref href=\"TinyLife.World.Room.Tiles\" data-throw-if-not-resolved=\"false\"></xref> are covered by a <xref href=\"TinyLife.World.Roof\" data-throw-if-not-resolved=\"false\"></xref>.\nThis property is evaluated automatically in <xref href=\"TinyLife.World.Room.Validate\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nA property that stores whether this room is fully roofed, that is, whether all of its <xref href=\"TinyLife.World.Room.Tiles\" data-throw-if-not-resolved=\"false\"></xref> are covered by a <xref href=\"TinyLife.World.Roof\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"TinyLife.World.Tile\" data-throw-if-not-resolved=\"false\"></xref> or another room that is fully roofed.\nThis property is evaluated automatically in <xref href=\"TinyLife.World.Room.Validate\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
     content: public bool FullyRoofed { get; }
@@ -214,11 +245,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasOpeningsToOutside
     path: ../TinyLife/World/Room.cs
-    startLine: 41
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -231,44 +262,47 @@ items:
       type: System.Boolean
     content.vb: Public Property HasOpeningsToOutside As Boolean
   overload: TinyLife.World.Room.HasOpeningsToOutside*
-- uid: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point})
-  commentId: M:TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point})
-  id: IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point})
+- uid: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point},System.Int32)
+  commentId: M:TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point},System.Int32)
+  id: IsSameRoom(System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point},System.Int32)
   parent: TinyLife.World.Room
   langs:
   - csharp
   - vb
-  name: IsSameRoom(ICollection<Point>)
-  nameWithType: Room.IsSameRoom(ICollection<Point>)
-  fullName: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection<Microsoft.Xna.Framework.Point>)
+  name: IsSameRoom(ICollection<Point>, int)
+  nameWithType: Room.IsSameRoom(ICollection<Point>, int)
+  fullName: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection<Microsoft.Xna.Framework.Point>, int)
   type: Method
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsSameRoom
     path: ../TinyLife/World/Room.cs
-    startLine: 58
+    startLine: 64
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: "\nReturns whether this room has the same covered <xref href=\"TinyLife.World.Room.Tiles\" data-throw-if-not-resolved=\"false\"></xref> as the given collection\n"
   example: []
   syntax:
-    content: public bool IsSameRoom(ICollection<Point> tiles)
+    content: public bool IsSameRoom(ICollection<Point> tiles, int floor)
     parameters:
     - id: tiles
       type: System.Collections.Generic.ICollection{Microsoft.Xna.Framework.Point}
-      description: The tiles to query
+      description: The tiles to query.
+    - id: floor
+      type: System.Int32
+      description: The floor to query.
     return:
       type: System.Boolean
       description: true if the covered tiles are the same, false otherwise
-    content.vb: Public Function IsSameRoom(tiles As ICollection(Of Point)) As Boolean
+    content.vb: Public Function IsSameRoom(tiles As ICollection(Of Point), floor As Integer) As Boolean
   overload: TinyLife.World.Room.IsSameRoom*
-  nameWithType.vb: Room.IsSameRoom(ICollection(Of Point))
-  fullName.vb: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection(Of Microsoft.Xna.Framework.Point))
-  name.vb: IsSameRoom(ICollection(Of Point))
+  nameWithType.vb: Room.IsSameRoom(ICollection(Of Point), Integer)
+  fullName.vb: TinyLife.World.Room.IsSameRoom(System.Collections.Generic.ICollection(Of Microsoft.Xna.Framework.Point), Integer)
+  name.vb: IsSameRoom(ICollection(Of Point), Integer)
 - uid: TinyLife.World.Room.Validate
   commentId: M:TinyLife.World.Room.Validate
   id: Validate
@@ -283,15 +317,15 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/World/Room.cs
-    startLine: 68
+    startLine: 74
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nThis method is called in <xref href=\"TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point%5b%5d%2cTinyLife.Tools.UndoableAction%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to ensure that this room is still valid\n"
+  summary: "\nThis method is called in <xref href=\"TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point%5b%5d%2cSystem.Int32%2cTinyLife.Tools.UndoableAction%2cSystem.Boolean)\" data-throw-if-not-resolved=\"false\"></xref> to ensure that this room is still valid\n"
   example: []
   syntax:
     content: public bool Validate()
@@ -314,11 +348,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWalls
     path: ../TinyLife/World/Room.cs
-    startLine: 111
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -338,6 +372,37 @@ items:
   nameWithType.vb: Room.GetWalls(Boolean)
   fullName.vb: TinyLife.World.Room.GetWalls(Boolean)
   name.vb: GetWalls(Boolean)
+- uid: TinyLife.World.Room.GetStairs
+  commentId: M:TinyLife.World.Room.GetStairs
+  id: GetStairs
+  parent: TinyLife.World.Room
+  langs:
+  - csharp
+  - vb
+  name: GetStairs()
+  nameWithType: Room.GetStairs()
+  fullName: TinyLife.World.Room.GetStairs()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Room.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetStairs
+    path: ../TinyLife/World/Room.cs
+    startLine: 145
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nReturns all of the stairs that are present in this room. This includes only stairs whose bottom positions are part of the room.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<Stairs> GetStairs()
+    return:
+      type: System.Collections.Generic.IEnumerable{TinyLife.World.Stairs}
+      description: The stairs in this room.
+    content.vb: Public Function GetStairs() As IEnumerable(Of Stairs)
+  overload: TinyLife.World.Room.GetStairs*
 - uid: TinyLife.World.Room.GetObjects``1
   commentId: M:TinyLife.World.Room.GetObjects``1
   id: GetObjects``1
@@ -352,11 +417,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetObjects
     path: ../TinyLife/World/Room.cs
-    startLine: 135
+    startLine: 160
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -388,11 +453,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLights
     path: ../TinyLife/World/Room.cs
-    startLine: 154
+    startLine: 175
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -419,11 +484,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDecorativeRating
     path: ../TinyLife/World/Room.cs
-    startLine: 170
+    startLine: 191
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -450,11 +515,11 @@ items:
   source:
     remote:
       path: TinyLife/World/Room.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetConnectedRooms
     path: ../TinyLife/World/Room.cs
-    startLine: 187
+    startLine: 208
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -827,6 +892,17 @@ references:
   name: Map
   nameWithType: Map
   fullName: TinyLife.World.Map
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: TinyLife.World.Room.Tiles
   commentId: F:TinyLife.World.Room.Tiles
   name: Tiles
@@ -1010,6 +1086,12 @@ references:
   name: Roof
   nameWithType: Roof
   fullName: TinyLife.World.Roof
+- uid: TinyLife.World.Tile
+  commentId: T:TinyLife.World.Tile
+  parent: TinyLife.World
+  name: Tile
+  nameWithType: Tile
+  fullName: TinyLife.World.Tile
 - uid: TinyLife.World.Room.Validate
   commentId: M:TinyLife.World.Room.Validate
   name: Validate()
@@ -1117,18 +1199,18 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],TinyLife.Tools.UndoableAction,System.Boolean)
-  commentId: M:TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],TinyLife.Tools.UndoableAction,System.Boolean)
+- uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
+  commentId: M:TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: AddNewRoomsAndValidateExisting(Point[], UndoableAction, bool)
-  nameWithType: Map.AddNewRoomsAndValidateExisting(Point[], UndoableAction, bool)
-  fullName: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[], TinyLife.Tools.UndoableAction, bool)
-  nameWithType.vb: Map.AddNewRoomsAndValidateExisting(Point(), UndoableAction, Boolean)
-  fullName.vb: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point(), TinyLife.Tools.UndoableAction, Boolean)
-  name.vb: AddNewRoomsAndValidateExisting(Point(), UndoableAction, Boolean)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: AddNewRoomsAndValidateExisting(Point[], int, UndoableAction, bool)
+  nameWithType: Map.AddNewRoomsAndValidateExisting(Point[], int, UndoableAction, bool)
+  fullName: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[], int, TinyLife.Tools.UndoableAction, bool)
+  nameWithType.vb: Map.AddNewRoomsAndValidateExisting(Point(), Integer, UndoableAction, Boolean)
+  fullName.vb: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point(), Integer, TinyLife.Tools.UndoableAction, Boolean)
+  name.vb: AddNewRoomsAndValidateExisting(Point(), Integer, UndoableAction, Boolean)
   spec.csharp:
-  - uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],TinyLife.Tools.UndoableAction,System.Boolean)
+  - uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
     name: AddNewRoomsAndValidateExisting
   - name: (
   - uid: Microsoft.Xna.Framework.Point
@@ -1136,6 +1218,12 @@ references:
     isExternal: true
   - name: '['
   - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: ','
   - name: " "
   - uid: TinyLife.Tools.UndoableAction
@@ -1148,7 +1236,7 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],TinyLife.Tools.UndoableAction,System.Boolean)
+  - uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
     name: AddNewRoomsAndValidateExisting
   - name: (
   - uid: Microsoft.Xna.Framework.Point
@@ -1156,6 +1244,12 @@ references:
     isExternal: true
   - name: (
   - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: ','
   - name: " "
   - uid: TinyLife.Tools.UndoableAction
@@ -1251,6 +1345,42 @@ references:
   - name: Of
   - name: " "
   - name: T
+  - name: )
+- uid: TinyLife.World.Room.GetStairs*
+  commentId: Overload:TinyLife.World.Room.GetStairs
+  name: GetStairs
+  nameWithType: Room.GetStairs
+  fullName: TinyLife.World.Room.GetStairs
+- uid: System.Collections.Generic.IEnumerable{TinyLife.World.Stairs}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.World.Stairs}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Stairs>
+  nameWithType: IEnumerable<Stairs>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.World.Stairs>
+  nameWithType.vb: IEnumerable(Of Stairs)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.World.Stairs)
+  name.vb: IEnumerable(Of Stairs)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: TinyLife.World.Stairs
+    name: Stairs
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Stairs
+    name: Stairs
   - name: )
 - uid: TinyLife.Objects.MapObject
   commentId: T:TinyLife.Objects.MapObject
@@ -1367,17 +1497,6 @@ references:
   name: GetDecorativeRating
   nameWithType: Room.GetDecorativeRating
   fullName: TinyLife.World.Room.GetDecorativeRating
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int
-  nameWithType: int
-  fullName: int
-  nameWithType.vb: Integer
-  fullName.vb: Integer
-  name.vb: Integer
 - uid: TinyLife.World.Room
   commentId: T:TinyLife.World.Room
   parent: TinyLife.World

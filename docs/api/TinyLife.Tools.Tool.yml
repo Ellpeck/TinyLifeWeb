@@ -13,9 +13,9 @@ items:
   - TinyLife.Tools.Tool.Closed
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
   - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  - TinyLife.Tools.Tool.CurrentFloor
   - TinyLife.Tools.Tool.DisplayAsTab
   - TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  - TinyLife.Tools.Tool.ForceWallsUp
   - TinyLife.Tools.Tool.GetMouseCursor
   - TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   - TinyLife.Tools.Tool.Input
@@ -38,6 +38,7 @@ items:
   - TinyLife.Tools.Tool.RemoveTool
   - TinyLife.Tools.Tool.SelectedObject
   - TinyLife.Tools.Tool.SelectedRoof
+  - TinyLife.Tools.Tool.SelectedStairs
   - TinyLife.Tools.Tool.SelectedWall
   - TinyLife.Tools.Tool.ShouldHighlightSelectedObject(System.Object)
   - TinyLife.Tools.Tool.Texture
@@ -52,7 +53,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Tool
     path: ../TinyLife/Tools/Tool.cs
@@ -68,6 +69,7 @@ items:
   inheritance:
   - System.Object
   derivedClasses:
+  - TinyLife.Tools.FenceTool
   - TinyLife.Tools.FurnitureTool
   - TinyLife.Tools.LotTool
   - TinyLife.Tools.MoveLotTool
@@ -76,6 +78,7 @@ items:
   - TinyLife.Tools.PlayModeTool
   - TinyLife.Tools.RemoveTool
   - TinyLife.Tools.RoofTool
+  - TinyLife.Tools.StairsTool
   - TinyLife.Tools.TileTool
   - TinyLife.Tools.WallpaperTool
   - TinyLife.Tools.WallTool
@@ -103,7 +106,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveTool
     path: ../TinyLife/Tools/Tool.cs
@@ -132,7 +135,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveTool
     path: ../TinyLife/Tools/Tool.cs
@@ -161,7 +164,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayModeTool
     path: ../TinyLife/Tools/Tool.cs
@@ -190,7 +193,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BuildTools
     path: ../TinyLife/Tools/Tool.cs
@@ -219,7 +222,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SelectedObject
     path: ../TinyLife/Tools/Tool.cs
@@ -250,7 +253,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SelectedWall
     path: ../TinyLife/Tools/Tool.cs
@@ -258,14 +261,14 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
-  summary: "\nThe <xref href=\"TinyLife.World.Wall\" data-throw-if-not-resolved=\"false\"></xref> that is currently below the mouse, or null if there is none.\nThis object selection mechanic uses pixel-perfect collision based on the wall&apos;s rendered texture.\n"
+  summary: "\nThe <xref href=\"TinyLife.Objects.WallLike\" data-throw-if-not-resolved=\"false\"></xref> that is currently below the mouse, or null if there is none.\nThis object selection mechanic uses pixel-perfect collision based on the wall&apos;s rendered texture.\n"
   example: []
   syntax:
-    content: public static Wall SelectedWall { get; }
+    content: public static WallLike SelectedWall { get; }
     parameters: []
     return:
-      type: TinyLife.World.Wall
-    content.vb: Public Shared ReadOnly Property SelectedWall As Wall
+      type: TinyLife.Objects.WallLike
+    content.vb: Public Shared ReadOnly Property SelectedWall As WallLike
   overload: TinyLife.Tools.Tool.SelectedWall*
 - uid: TinyLife.Tools.Tool.SelectedRoof
   commentId: P:TinyLife.Tools.Tool.SelectedRoof
@@ -281,7 +284,7 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SelectedRoof
     path: ../TinyLife/Tools/Tool.cs
@@ -298,6 +301,37 @@ items:
       type: TinyLife.World.Roof
     content.vb: Public Shared ReadOnly Property SelectedRoof As Roof
   overload: TinyLife.Tools.Tool.SelectedRoof*
+- uid: TinyLife.Tools.Tool.SelectedStairs
+  commentId: P:TinyLife.Tools.Tool.SelectedStairs
+  id: SelectedStairs
+  parent: TinyLife.Tools.Tool
+  langs:
+  - csharp
+  - vb
+  name: SelectedStairs
+  nameWithType: Tool.SelectedStairs
+  fullName: TinyLife.Tools.Tool.SelectedStairs
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Tools/Tool.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: SelectedStairs
+    path: ../TinyLife/Tools/Tool.cs
+    startLine: 68
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nThe <xref href=\"TinyLife.World.Stairs\" data-throw-if-not-resolved=\"false\"></xref> object that is currently below the mouse, or <a href=\"https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null\">null</a> is there is none.\nThis object selection mechanic uses pixel-perfect collision based on the stairs&apos; rendered texture.\n"
+  example: []
+  syntax:
+    content: public static Stairs SelectedStairs { get; }
+    parameters: []
+    return:
+      type: TinyLife.World.Stairs
+    content.vb: Public Shared ReadOnly Property SelectedStairs As Stairs
+  overload: TinyLife.Tools.Tool.SelectedStairs*
 - uid: TinyLife.Tools.Tool.IsRotateCwPressed
   commentId: P:TinyLife.Tools.Tool.IsRotateCwPressed
   id: IsRotateCwPressed
@@ -312,11 +346,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsRotateCwPressed
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 68
+    startLine: 73
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -343,11 +377,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsRotateCcwPressed
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 73
+    startLine: 78
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -374,11 +408,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsCopyPressed
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 77
+    startLine: 82
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -405,11 +439,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnOpened
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 82
+    startLine: 87
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -434,11 +468,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnClosed
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 86
+    startLine: 91
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -463,11 +497,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnUpdate
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 90
+    startLine: 95
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -492,11 +526,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnDraw
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 94
+    startLine: 99
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -521,11 +555,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnInitBuildModeUi
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 98
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -550,11 +584,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Input
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 101
+    startLine: 106
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -580,11 +614,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Map
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 103
+    startLine: 108
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -611,11 +645,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Money
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 105
+    startLine: 110
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -628,6 +662,37 @@ items:
       type: System.Single
     content.vb: Protected Shared Property Money As Single
   overload: TinyLife.Tools.Tool.Money*
+- uid: TinyLife.Tools.Tool.CurrentFloor
+  commentId: P:TinyLife.Tools.Tool.CurrentFloor
+  id: CurrentFloor
+  parent: TinyLife.Tools.Tool
+  langs:
+  - csharp
+  - vb
+  name: CurrentFloor
+  nameWithType: Tool.CurrentFloor
+  fullName: TinyLife.Tools.Tool.CurrentFloor
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Tools/Tool.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CurrentFloor
+    path: ../TinyLife/Tools/Tool.cs
+    startLine: 115
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: "\nThe floor that the game&apos;s camera is currently focused on.\nFor the active lot, all floors that are above the current floor are hidden, and all floors below the current floor are always displayed.\n"
+  example: []
+  syntax:
+    content: protected static int CurrentFloor { get; }
+    parameters: []
+    return:
+      type: System.Int32
+    content.vb: Protected Shared ReadOnly Property CurrentFloor As Integer
+  overload: TinyLife.Tools.Tool.CurrentFloor*
 - uid: TinyLife.Tools.Tool.Texture
   commentId: F:TinyLife.Tools.Tool.Texture
   id: Texture
@@ -642,11 +707,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Texture
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 113
+    startLine: 120
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -671,11 +736,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayAsTab
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 117
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -700,11 +765,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MousePos
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 122
+    startLine: 129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -729,11 +794,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 129
+    startLine: 136
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -767,11 +832,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InitBuildModeUi
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 140
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -802,11 +867,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Opened
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 148
+    startLine: 155
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -830,11 +895,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Closed
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 175
+    startLine: 182
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -858,11 +923,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 186
+    startLine: 193
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -890,11 +955,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 207
+    startLine: 214
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -925,11 +990,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMouseCursor
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 216
+    startLine: 223
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -942,37 +1007,6 @@ items:
       description: The cursor type
     content.vb: Public Overridable Function GetMouseCursor() As CursorType
   overload: TinyLife.Tools.Tool.GetMouseCursor*
-- uid: TinyLife.Tools.Tool.ForceWallsUp
-  commentId: M:TinyLife.Tools.Tool.ForceWallsUp
-  id: ForceWallsUp
-  parent: TinyLife.Tools.Tool
-  langs:
-  - csharp
-  - vb
-  name: ForceWallsUp()
-  nameWithType: Tool.ForceWallsUp()
-  fullName: TinyLife.Tools.Tool.ForceWallsUp()
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: ForceWallsUp
-    path: ../TinyLife/Tools/Tool.cs
-    startLine: 225
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: "\nReturns whether the <xref href=\"TinyLife.WallDisplay\" data-throw-if-not-resolved=\"false\"></xref> should be forcibly changed by this tool.\nIf it shouldn&apos;t be changed, null should be returned. Otherwise, the required <xref href=\"TinyLife.WallDisplay\" data-throw-if-not-resolved=\"false\"></xref> should be returned.\n"
-  example: []
-  syntax:
-    content: public virtual WallDisplay? ForceWallsUp()
-    return:
-      type: System.Nullable{TinyLife.WallDisplay}
-      description: The required wall display, or null if the default should be used
-    content.vb: Public Overridable Function ForceWallsUp() As WallDisplay?
-  overload: TinyLife.Tools.Tool.ForceWallsUp*
 - uid: TinyLife.Tools.Tool.CanSwitchGameModes
   commentId: M:TinyLife.Tools.Tool.CanSwitchGameModes
   id: CanSwitchGameModes
@@ -987,11 +1021,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanSwitchGameModes
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 233
+    startLine: 231
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1018,11 +1052,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanUndoRedo
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 241
+    startLine: 239
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1049,11 +1083,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 251
+    startLine: 249
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1064,7 +1098,7 @@ items:
     parameters:
     - id: obj
       type: System.Object
-      description: The selected object, which can be a <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref> or a <xref href="TinyLife.World.Wall" data-throw-if-not-resolved="false"></xref>.
+      description: The selected object, which can be a <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref> or a <xref href="TinyLife.Objects.WallLike" data-throw-if-not-resolved="false"></xref>.
     return:
       type: System.Boolean
       description: Whether or not the selected object should be highlighted
@@ -1087,11 +1121,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnButtonCreated
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 259
+    startLine: 257
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1119,11 +1153,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsOnLot
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 266
+    startLine: 264
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1154,11 +1188,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ColorSelection
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 284
+    startLine: 282
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1198,11 +1232,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ColorSelection
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 305
+    startLine: 303
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1242,11 +1276,11 @@ items:
   source:
     remote:
       path: TinyLife/Tools/Tool.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BuildModeButton
     path: ../TinyLife/Tools/Tool.cs
-    startLine: 344
+    startLine: 342
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -1796,17 +1830,28 @@ references:
   - name: .
   - uid: TinyLife.Objects
     name: Objects
-- uid: TinyLife.World.Wall
-  commentId: T:TinyLife.World.Wall
-  parent: TinyLife.World
-  name: Wall
-  nameWithType: Wall
-  fullName: TinyLife.World.Wall
+- uid: TinyLife.Objects.WallLike
+  commentId: T:TinyLife.Objects.WallLike
+  parent: TinyLife.Objects
+  name: WallLike
+  nameWithType: WallLike
+  fullName: TinyLife.Objects.WallLike
 - uid: TinyLife.Tools.Tool.SelectedWall*
   commentId: Overload:TinyLife.Tools.Tool.SelectedWall
   name: SelectedWall
   nameWithType: Tool.SelectedWall
   fullName: TinyLife.Tools.Tool.SelectedWall
+- uid: TinyLife.World.Roof
+  commentId: T:TinyLife.World.Roof
+  parent: TinyLife.World
+  name: Roof
+  nameWithType: Roof
+  fullName: TinyLife.World.Roof
+- uid: TinyLife.Tools.Tool.SelectedRoof*
+  commentId: Overload:TinyLife.Tools.Tool.SelectedRoof
+  name: SelectedRoof
+  nameWithType: Tool.SelectedRoof
+  fullName: TinyLife.Tools.Tool.SelectedRoof
 - uid: TinyLife.World
   commentId: N:TinyLife.World
   name: TinyLife.World
@@ -1824,17 +1869,17 @@ references:
   - name: .
   - uid: TinyLife.World
     name: World
-- uid: TinyLife.World.Roof
-  commentId: T:TinyLife.World.Roof
+- uid: TinyLife.World.Stairs
+  commentId: T:TinyLife.World.Stairs
   parent: TinyLife.World
-  name: Roof
-  nameWithType: Roof
-  fullName: TinyLife.World.Roof
-- uid: TinyLife.Tools.Tool.SelectedRoof*
-  commentId: Overload:TinyLife.Tools.Tool.SelectedRoof
-  name: SelectedRoof
-  nameWithType: Tool.SelectedRoof
-  fullName: TinyLife.Tools.Tool.SelectedRoof
+  name: Stairs
+  nameWithType: Stairs
+  fullName: TinyLife.World.Stairs
+- uid: TinyLife.Tools.Tool.SelectedStairs*
+  commentId: Overload:TinyLife.Tools.Tool.SelectedStairs
+  name: SelectedStairs
+  nameWithType: Tool.SelectedStairs
+  fullName: TinyLife.Tools.Tool.SelectedStairs
 - uid: TinyLife.Tools.Tool.IsRotateCcwPressed
   commentId: P:TinyLife.Tools.Tool.IsRotateCcwPressed
   parent: TinyLife.Tools.Tool
@@ -2377,6 +2422,27 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
+- uid: TinyLife.Options.CurrentFloor
+  commentId: F:TinyLife.Options.CurrentFloor
+  name: CurrentFloor
+  nameWithType: Options.CurrentFloor
+  fullName: TinyLife.Options.CurrentFloor
+- uid: TinyLife.Tools.Tool.CurrentFloor*
+  commentId: Overload:TinyLife.Tools.Tool.CurrentFloor
+  name: CurrentFloor
+  nameWithType: Tool.CurrentFloor
+  fullName: TinyLife.Tools.Tool.CurrentFloor
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: MLEM.Textures.TextureRegion
   commentId: T:MLEM.Textures.TextureRegion
   parent: MLEM.Textures
@@ -2854,65 +2920,6 @@ references:
   - name: .
   - uid: TinyLife.Uis
     name: Uis
-- uid: TinyLife.WallDisplay
-  commentId: T:TinyLife.WallDisplay
-  parent: TinyLife
-  name: WallDisplay
-  nameWithType: WallDisplay
-  fullName: TinyLife.WallDisplay
-- uid: TinyLife.Tools.Tool.ForceWallsUp*
-  commentId: Overload:TinyLife.Tools.Tool.ForceWallsUp
-  name: ForceWallsUp
-  nameWithType: Tool.ForceWallsUp
-  fullName: TinyLife.Tools.Tool.ForceWallsUp
-- uid: System.Nullable{TinyLife.WallDisplay}
-  commentId: T:System.Nullable{TinyLife.WallDisplay}
-  parent: System
-  definition: System.Nullable`1
-  name: WallDisplay?
-  nameWithType: WallDisplay?
-  fullName: TinyLife.WallDisplay?
-  spec.csharp:
-  - uid: TinyLife.WallDisplay
-    name: WallDisplay
-  - name: '?'
-  spec.vb:
-  - uid: TinyLife.WallDisplay
-    name: WallDisplay
-  - name: '?'
-- uid: TinyLife
-  commentId: N:TinyLife
-  name: TinyLife
-  nameWithType: TinyLife
-  fullName: TinyLife
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
 - uid: TinyLife.GameImpl.CanSwitchGameModes
   commentId: M:TinyLife.GameImpl.CanSwitchGameModes
   name: CanSwitchGameModes()
@@ -3564,6 +3571,34 @@ references:
     name: IEnumerable
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
   - name: (
   - name: Of
   - name: " "

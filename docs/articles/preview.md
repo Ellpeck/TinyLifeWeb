@@ -1,6 +1,6 @@
 ﻿# About Preview Versions
 
-Occasionally, we publish preview versions of upcoming Tiny Life versions on a different Steam branch. We use previews to test upcoming features and changes publicly, while still allowing players to easily revert to a more stable version. 
+Occasionally, we publish preview versions of upcoming Tiny Life versions on a different Steam branch, as well as on itch. We use previews to test upcoming features and changes publicly, while still allowing players to easily revert to a more stable version.
 
 When deciding to try out a Tiny Life preview version, please keep in mind that they contain **unfinished** and possibly **buggy content** that might change before the version is officially released. This means that we recommend using a **separate save file** when playing with a preview version.
 
@@ -16,4 +16,6 @@ To select the preview branch on Steam for the demo or the Early Access version, 
 The preview branch will always have the most up-to-date version of the game, including full releases. This means that you can stay on this branch permanently if you always want to play with preview versions.
 
 ## Previews on itch
-Preview versions are currently not available on itch. If enough people are interested, we might also make them available on itch in the future, so please let us know if this is something you want.
+Preview versions are available as normal Tiny Life builds on itch.
+
+For managing what version you want to use when playing, we recommend installing the [itch app](https://itch.io/app), which allows selecting a game version to use.

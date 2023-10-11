@@ -5,11 +5,12 @@ items:
   id: Gravestone
   parent: TinyLife.Objects
   children:
-  - TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  - TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Gravestone.DeadPerson
   - TinyLife.Objects.Gravestone.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
   - TinyLife.Objects.Gravestone.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.Gravestone.Reason
+  - TinyLife.Objects.Gravestone.Validate
   langs:
   - csharp
   - vb
@@ -20,7 +21,7 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Gravestone
     path: ../TinyLife/Objects/Gravestone.cs
@@ -70,7 +71,6 @@ items:
   - TinyLife.Objects.Furniture.ParentObjectSpotId
   - TinyLife.Objects.Furniture.ParentFurnitureId
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
-  - TinyLife.Objects.Furniture.Validate
   - TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
   - TinyLife.Objects.Furniture.GetCategories(TinyLife.Objects.Person)
   - TinyLife.Objects.Furniture.OnAdded
@@ -86,14 +86,16 @@ items:
   - TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.Furniture.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.Furniture.ModifyActionCategories(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Collections.Generic.List{System.String})
-  - TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
-  - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
+  - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
+  - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.Furniture.GetPrice
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.Person,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.Person,System.Boolean)
   - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Wall})
+  - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetOccupants(TinyLife.Objects.ObjectCategory,System.Boolean)
@@ -121,6 +123,7 @@ items:
   - TinyLife.Objects.MapObject.OnUpdate
   - TinyLife.Objects.MapObject.OnGetHoverInfo
   - TinyLife.Objects.MapObject.Position
+  - TinyLife.Objects.MapObject.Floor
   - TinyLife.Objects.MapObject.Id
   - TinyLife.Objects.MapObject.Map
   - TinyLife.Objects.MapObject.CurrentLot
@@ -132,9 +135,10 @@ items:
   - TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
+  - TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.DoUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData(System.String,System.Object)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
@@ -150,7 +154,7 @@ items:
   extensionMethods:
   - TinyLife.Objects.Gravestone.TinyLife.Utilities.Extensions.JsonCopy``1
 - uid: TinyLife.Objects.Gravestone.DeadPerson
-  commentId: P:TinyLife.Objects.Gravestone.DeadPerson
+  commentId: F:TinyLife.Objects.Gravestone.DeadPerson
   id: DeadPerson
   parent: TinyLife.Objects.Gravestone
   langs:
@@ -159,27 +163,35 @@ items:
   name: DeadPerson
   nameWithType: Gravestone.DeadPerson
   fullName: TinyLife.Objects.Gravestone.DeadPerson
-  type: Property
+  type: Field
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DeadPerson
     path: ../TinyLife/Objects/Gravestone.cs
-    startLine: 16
+    startLine: 17
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nThe <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> that is &quot;stored&quot; in this gravestone.\nNote that the actual dead person is stored in <xref href=\"TinyLife.World.Map.GetDeadPerson(System.Guid)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nThe <xref href=\"TinyLife.Objects.Person\" data-throw-if-not-resolved=\"false\"></xref> that is stored in this gravestone.\nA set of all people stored in gravestones on a map can be gathered using <xref href=\"TinyLife.World.Map.GetStoredDeadPeople\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Person DeadPerson { get; set; }
-    parameters: []
+    content: >-
+      [DataMember]
+
+      public Person DeadPerson
     return:
       type: TinyLife.Objects.Person
-    content.vb: Public Property DeadPerson As Person
-  overload: TinyLife.Objects.Gravestone.DeadPerson*
+    content.vb: >-
+      <DataMember>
+
+      Public DeadPerson As Person
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
 - uid: TinyLife.Objects.Gravestone.Reason
   commentId: F:TinyLife.Objects.Gravestone.Reason
   id: Reason
@@ -194,11 +206,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Reason
     path: ../TinyLife/Objects/Gravestone.cs
-    startLine: 24
+    startLine: 22
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -219,32 +231,32 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
-- uid: TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)'
+- uid: TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
+  commentId: M:TinyLife.Objects.Gravestone.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
+  id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)'
   parent: TinyLife.Objects.Gravestone
   langs:
   - csharp
   - vb
-  name: Gravestone(Guid, FurnitureType, int[], Map, Vector2)
-  nameWithType: Gravestone.Gravestone(Guid, FurnitureType, int[], Map, Vector2)
-  fullName: TinyLife.Objects.Gravestone.Gravestone(System.Guid, TinyLife.Objects.FurnitureType, int[], TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
+  name: Gravestone(Guid, FurnitureType, int[], Map, Vector2, float)
+  nameWithType: Gravestone.Gravestone(Guid, FurnitureType, int[], Map, Vector2, float)
+  fullName: TinyLife.Objects.Gravestone.Gravestone(System.Guid, TinyLife.Objects.FurnitureType, int[], TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, float)
   type: Constructor
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Gravestone.cs
-    startLine: 29
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nCreates a new furniture instance.\nBy default, this is done using <xref href=\"TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bSystem.Guid%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  summary: "\nCreates a new furniture instance.\nBy default, this is done using <xref href=\"TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Nullable%7bSystem.Guid%7d)\" data-throw-if-not-resolved=\"false\"></xref>.\n"
   example: []
   syntax:
-    content: public Gravestone(Guid id, FurnitureType type, int[] colors, Map map, Vector2 pos)
+    content: public Gravestone(Guid id, FurnitureType type, int[] colors, Map map, Vector2 pos, float floor)
     parameters:
     - id: id
       type: System.Guid
@@ -261,11 +273,14 @@ items:
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
       description: The position that the furniture should have
-    content.vb: Public Sub New(id As Guid, type As FurnitureType, colors As Integer(), map As Map, pos As Vector2)
+    - id: floor
+      type: System.Single
+      description: The floor that this object is on.
+    content.vb: Public Sub New(id As Guid, type As FurnitureType, colors As Integer(), map As Map, pos As Vector2, floor As Single)
   overload: TinyLife.Objects.Gravestone.#ctor*
-  nameWithType.vb: Gravestone.New(Guid, FurnitureType, Integer(), Map, Vector2)
-  fullName.vb: TinyLife.Objects.Gravestone.New(System.Guid, TinyLife.Objects.FurnitureType, Integer(), TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
-  name.vb: New(Guid, FurnitureType, Integer(), Map, Vector2)
+  nameWithType.vb: Gravestone.New(Guid, FurnitureType, Integer(), Map, Vector2, Single)
+  fullName.vb: TinyLife.Objects.Gravestone.New(System.Guid, TinyLife.Objects.FurnitureType, Integer(), TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Single)
+  name.vb: New(Guid, FurnitureType, Integer(), Map, Vector2, Single)
 - uid: TinyLife.Objects.Gravestone.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
   commentId: M:TinyLife.Objects.Gravestone.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
   id: GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
@@ -280,11 +295,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDescription
     path: ../TinyLife/Objects/Gravestone.cs
-    startLine: 33
+    startLine: 32
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -305,6 +320,38 @@ items:
   nameWithType.vb: Gravestone.GetDescription(List(Of String), Boolean)
   fullName.vb: TinyLife.Objects.Gravestone.GetDescription(System.Collections.Generic.List(Of String), Boolean)
   name.vb: GetDescription(List(Of String), Boolean)
+- uid: TinyLife.Objects.Gravestone.Validate
+  commentId: M:TinyLife.Objects.Gravestone.Validate
+  id: Validate
+  parent: TinyLife.Objects.Gravestone
+  langs:
+  - csharp
+  - vb
+  name: Validate()
+  nameWithType: Gravestone.Validate()
+  fullName: TinyLife.Objects.Gravestone.Validate()
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Gravestone.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Validate
+    path: ../TinyLife/Objects/Gravestone.cs
+    startLine: 39
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nThis method is called when this object is loaded from disk.\nReturning false on this method causes the object to be removed from the map.\nBy default, this method invokes <xref href=\"TinyLife.Objects.MapObject.OnValidated\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.MapObject.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public override bool Validate()
+    return:
+      type: System.Boolean
+      description: false if the object is not valid, true otherwise
+    content.vb: Public Overrides Function Validate() As Boolean
+  overridden: TinyLife.Objects.Furniture.Validate
+  overload: TinyLife.Objects.Gravestone.Validate*
 - uid: TinyLife.Objects.Gravestone.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.Objects.Gravestone.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   id: GetPathCostModifier(Microsoft.Xna.Framework.Point)
@@ -319,15 +366,15 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Gravestone.cs
-      branch: 0.36.2-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPathCostModifier
     path: ../TinyLife/Objects/Gravestone.cs
-    startLine: 40
+    startLine: 56
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nReturns a modifier that indicates the &quot;cost&quot; for pathfinding over this object.\nIf this object is a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> object, it has to have the <xref href=\"TinyLife.Objects.ObjectCategory.NonColliding\" data-throw-if-not-resolved=\"false\"></xref> category for the returned value to have an effect.\nNote that, if this object moves, <xref href=\"TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point)\" data-throw-if-not-resolved=\"false\"></xref> should be invoked for its previous and resulting <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, this method returns 0, meaning no additional pathfinding cost is added.\n"
+  summary: "\nReturns a modifier that indicates the &quot;cost&quot; for pathfinding over this object.\nIf this object is a <xref href=\"TinyLife.Objects.Furniture\" data-throw-if-not-resolved=\"false\"></xref> object, it has to have the <xref href=\"TinyLife.Objects.ObjectCategory.NonColliding\" data-throw-if-not-resolved=\"false\"></xref> category for the returned value to have an effect.\nNote that, if this object moves, <xref href=\"TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point%2cSystem.Int32)\" data-throw-if-not-resolved=\"false\"></xref> should be invoked for its previous and resulting <xref href=\"TinyLife.Objects.MapObject.Position\" data-throw-if-not-resolved=\"false\"></xref>.\nBy default, this method returns 0, meaning no additional pathfinding cost is added.\n"
   example: []
   syntax:
     content: public override float GetPathCostModifier(Point position)
@@ -648,22 +695,6 @@ references:
     name: Item
     isExternal: true
   - name: )
-  - name: )
-- uid: TinyLife.Objects.Furniture.Validate
-  commentId: M:TinyLife.Objects.Furniture.Validate
-  parent: TinyLife.Objects.Furniture
-  name: Validate()
-  nameWithType: Furniture.Validate()
-  fullName: TinyLife.Objects.Furniture.Validate()
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.Validate
-    name: Validate
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.Validate
-    name: Validate
-  - name: (
   - name: )
 - uid: TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
   commentId: M:TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
@@ -1245,15 +1276,19 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: )
   - name: )
-- uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
+  commentId: M:TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  name: MoveToMap(Map, Vector2)
-  nameWithType: Furniture.MoveToMap(Map, Vector2)
-  fullName: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: MoveToMap(Map, Vector2, float)
+  nameWithType: Furniture.MoveToMap(Map, Vector2, float)
+  fullName: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, float)
+  nameWithType.vb: Furniture.MoveToMap(Map, Vector2, Single)
+  fullName.vb: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Single)
+  name.vb: MoveToMap(Map, Vector2, Single)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
     name: MoveToMap
   - name: (
   - uid: TinyLife.World.Map
@@ -1263,9 +1298,15 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
     name: MoveToMap
   - name: (
   - uid: TinyLife.World.Map
@@ -1275,43 +1316,65 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
+  commentId: M:TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  name: OnPositionChanged(Vector2)
-  nameWithType: Furniture.OnPositionChanged(Vector2)
-  fullName: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: OnPositionChanged(Vector2, float)
+  nameWithType: Furniture.OnPositionChanged(Vector2, float)
+  fullName: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2, float)
+  nameWithType.vb: Furniture.OnPositionChanged(Vector2, Single)
+  fullName.vb: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2, Single)
+  name.vb: OnPositionChanged(Vector2, Single)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
     name: OnPositionChanged
   - name: (
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2)
+  - uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
     name: OnPositionChanged
   - name: (
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
-  commentId: M:TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+- uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.Objects.Furniture
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.object
-  name: Draw(GameTime, object, Vector2, Vector2, Color?, Direction2, int[], float, bool, ParentInfo, float, bool, List<Item>)
-  nameWithType: Furniture.Draw(GameTime, object, Vector2, Vector2, Color?, Direction2, int[], float, bool, ParentInfo, float, bool, List<StaticSpriteBatch.Item>)
-  fullName: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime, object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, MLEM.Misc.Direction2, int[], float, bool, TinyLife.Objects.ParentInfo, float, bool, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
-  nameWithType.vb: Furniture.Draw(GameTime, Object, Vector2, Vector2, Color?, Direction2, Integer(), Single, Boolean, ParentInfo, Single, Boolean, List(Of StaticSpriteBatch.Item))
-  fullName.vb: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime, Object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, MLEM.Misc.Direction2, Integer(), Single, Boolean, TinyLife.Objects.ParentInfo, Single, Boolean, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
-  name.vb: Draw(GameTime, Object, Vector2, Vector2, Color?, Direction2, Integer(), Single, Boolean, ParentInfo, Single, Boolean, List(Of Item))
+  name: Draw(GameTime, object, Vector2, float, Vector2, Color?, Direction2, int[], float, bool, ParentInfo, float, bool, List<Item>)
+  nameWithType: Furniture.Draw(GameTime, object, Vector2, float, Vector2, Color?, Direction2, int[], float, bool, ParentInfo, float, bool, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime, object, Microsoft.Xna.Framework.Vector2, float, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, MLEM.Misc.Direction2, int[], float, bool, TinyLife.Objects.ParentInfo, float, bool, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Furniture.Draw(GameTime, Object, Vector2, Single, Vector2, Color?, Direction2, Integer(), Single, Boolean, ParentInfo, Single, Boolean, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime, Object, Microsoft.Xna.Framework.Vector2, Single, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, MLEM.Misc.Direction2, Integer(), Single, Boolean, TinyLife.Objects.ParentInfo, Single, Boolean, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: Draw(GameTime, Object, Vector2, Single, Vector2, Color?, Direction2, Integer(), Single, Boolean, ParentInfo, Single, Boolean, List(Of Item))
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
@@ -1328,6 +1391,12 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1393,7 +1462,7 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - uid: TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Misc.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
@@ -1410,6 +1479,12 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1619,6 +1694,148 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Wall})
+  commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Wall})
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: GetWallsInTheWay(Vector2, float, Direction2, ICollection<Wall>)
+  nameWithType: Furniture.GetWallsInTheWay(Vector2, float, Direction2, ICollection<Wall>)
+  fullName: TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2, float, MLEM.Misc.Direction2, System.Collections.Generic.ICollection<TinyLife.World.Wall>)
+  nameWithType.vb: Furniture.GetWallsInTheWay(Vector2, Single, Direction2, ICollection(Of Wall))
+  fullName.vb: TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2, Single, MLEM.Misc.Direction2, System.Collections.Generic.ICollection(Of TinyLife.World.Wall))
+  name.vb: GetWallsInTheWay(Vector2, Single, Direction2, ICollection(Of Wall))
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Wall})
+    name: GetWallsInTheWay
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Wall
+    name: Wall
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.GetWallsInTheWay(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Wall})
+    name: GetWallsInTheWay
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Wall
+    name: Wall
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Roof})
+  commentId: M:TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Roof})
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: GetRoofingInTheWay(Vector2, int, Direction2, ICollection<Roof>)
+  nameWithType: Furniture.GetRoofingInTheWay(Vector2, int, Direction2, ICollection<Roof>)
+  fullName: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2, int, MLEM.Misc.Direction2, System.Collections.Generic.ICollection<TinyLife.World.Roof>)
+  nameWithType.vb: Furniture.GetRoofingInTheWay(Vector2, Integer, Direction2, ICollection(Of Roof))
+  fullName.vb: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2, Integer, MLEM.Misc.Direction2, System.Collections.Generic.ICollection(Of TinyLife.World.Roof))
+  name.vb: GetRoofingInTheWay(Vector2, Integer, Direction2, ICollection(Of Roof))
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Roof})
+    name: GetRoofingInTheWay
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Roof
+    name: Roof
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Collections.Generic.ICollection{TinyLife.World.Roof})
+    name: GetRoofingInTheWay
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Roof
+    name: Roof
+  - name: )
   - name: )
 - uid: TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
@@ -2344,6 +2561,12 @@ references:
   name: Position
   nameWithType: MapObject.Position
   fullName: TinyLife.Objects.MapObject.Position
+- uid: TinyLife.Objects.MapObject.Floor
+  commentId: P:TinyLife.Objects.MapObject.Floor
+  parent: TinyLife.Objects.MapObject
+  name: Floor
+  nameWithType: MapObject.Floor
+  fullName: TinyLife.Objects.MapObject.Floor
 - uid: TinyLife.Objects.MapObject.Id
   commentId: P:TinyLife.Objects.MapObject.Id
   parent: TinyLife.Objects.MapObject
@@ -2505,6 +2728,39 @@ references:
   - uid: TinyLife.Objects.ObjectCategory
     name: ObjectCategory
   - name: )
+- uid: TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  name: CanCrossBetween(Point, Point)
+  nameWithType: MapObject.CanCrossBetween(Point, Point)
+  fullName: TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point, Microsoft.Xna.Framework.Point)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+    name: CanCrossBetween
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.CanCrossBetween(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point)
+    name: CanCrossBetween
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: )
 - uid: TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   commentId: M:TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.Objects.MapObject
@@ -2643,19 +2899,19 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+- uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
   parent: TinyLife.Objects.MapObject
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.object
-  name: DrawColumns(Map, Vector2, object, Vector2, TextureRegion, Color, float, Point, List<Item>, bool, ParentInfo, float, SpriteEffects, bool, bool, bool)
-  nameWithType: MapObject.DrawColumns(Map, Vector2, object, Vector2, TextureRegion, Color, float, Point, List<StaticSpriteBatch.Item>, bool, ParentInfo, float, SpriteEffects, bool, bool, bool)
-  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, object, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, float, Microsoft.Xna.Framework.Point, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>, bool, TinyLife.Objects.ParentInfo, float, Microsoft.Xna.Framework.Graphics.SpriteEffects, bool, bool, bool)
-  nameWithType.vb: MapObject.DrawColumns(Map, Vector2, Object, Vector2, TextureRegion, Color, Single, Point, List(Of StaticSpriteBatch.Item), Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
-  fullName.vb: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Object, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, Single, Microsoft.Xna.Framework.Point, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item), Boolean, TinyLife.Objects.ParentInfo, Single, Microsoft.Xna.Framework.Graphics.SpriteEffects, Boolean, Boolean, Boolean)
-  name.vb: DrawColumns(Map, Vector2, Object, Vector2, TextureRegion, Color, Single, Point, List(Of Item), Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: DrawColumns(Map, Vector2, float, object, Vector2, TextureRegion, Color, float, Point, List<Item>, bool, ParentInfo, float, SpriteEffects, bool, bool, bool)
+  nameWithType: MapObject.DrawColumns(Map, Vector2, float, object, Vector2, TextureRegion, Color, float, Point, List<StaticSpriteBatch.Item>, bool, ParentInfo, float, SpriteEffects, bool, bool, bool)
+  fullName: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, float, object, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, float, Microsoft.Xna.Framework.Point, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>, bool, TinyLife.Objects.ParentInfo, float, Microsoft.Xna.Framework.Graphics.SpriteEffects, bool, bool, bool)
+  nameWithType.vb: MapObject.DrawColumns(Map, Vector2, Single, Object, Vector2, TextureRegion, Color, Single, Point, List(Of StaticSpriteBatch.Item), Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
+  fullName.vb: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Single, Object, Microsoft.Xna.Framework.Vector2, MLEM.Textures.TextureRegion, Microsoft.Xna.Framework.Color, Single, Microsoft.Xna.Framework.Point, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item), Boolean, TinyLife.Objects.ParentInfo, Single, Microsoft.Xna.Framework.Graphics.SpriteEffects, Boolean, Boolean, Boolean)
+  name.vb: DrawColumns(Map, Vector2, Single, Object, Vector2, TextureRegion, Color, Single, Point, List(Of Item), Boolean, ParentInfo, Single, SpriteEffects, Boolean, Boolean, Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
   - name: (
   - uid: TinyLife.World.Map
@@ -2665,6 +2921,12 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: ','
   - name: " "
   - uid: System.Object
@@ -2749,7 +3011,7 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
+  - uid: TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean,System.Boolean,System.Boolean)
     name: DrawColumns
   - name: (
   - uid: TinyLife.World.Map
@@ -2759,6 +3021,12 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: ','
   - name: " "
   - uid: System.Object
@@ -3432,36 +3700,21 @@ references:
   name: Person
   nameWithType: Person
   fullName: TinyLife.Objects.Person
-- uid: TinyLife.World.Map.GetDeadPerson(System.Guid)
-  commentId: M:TinyLife.World.Map.GetDeadPerson(System.Guid)
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.guid
-  name: GetDeadPerson(Guid)
-  nameWithType: Map.GetDeadPerson(Guid)
-  fullName: TinyLife.World.Map.GetDeadPerson(System.Guid)
+- uid: TinyLife.World.Map.GetStoredDeadPeople
+  commentId: M:TinyLife.World.Map.GetStoredDeadPeople
+  name: GetStoredDeadPeople()
+  nameWithType: Map.GetStoredDeadPeople()
+  fullName: TinyLife.World.Map.GetStoredDeadPeople()
   spec.csharp:
-  - uid: TinyLife.World.Map.GetDeadPerson(System.Guid)
-    name: GetDeadPerson
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
   - name: (
-  - uid: System.Guid
-    name: Guid
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.guid
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Map.GetDeadPerson(System.Guid)
-    name: GetDeadPerson
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
   - name: (
-  - uid: System.Guid
-    name: Guid
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.guid
   - name: )
-- uid: TinyLife.Objects.Gravestone.DeadPerson*
-  commentId: Overload:TinyLife.Objects.Gravestone.DeadPerson
-  name: DeadPerson
-  nameWithType: Gravestone.DeadPerson
-  fullName: TinyLife.Objects.Gravestone.DeadPerson
 - uid: TinyLife.Objects.DeathReason
   commentId: T:TinyLife.Objects.DeathReason
   parent: TinyLife.Objects
@@ -3469,7 +3722,7 @@ references:
   nameWithType: DeathReason
   fullName: TinyLife.Objects.DeathReason
 - uid: TinyLife.Objects.Gravestone.DeadPerson
-  commentId: P:TinyLife.Objects.Gravestone.DeadPerson
+  commentId: F:TinyLife.Objects.Gravestone.DeadPerson
   name: DeadPerson
   nameWithType: Gravestone.DeadPerson
   fullName: TinyLife.Objects.Gravestone.DeadPerson
@@ -3531,6 +3784,17 @@ references:
   name: Vector2
   nameWithType: Vector2
   fullName: Microsoft.Xna.Framework.Vector2
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
 - uid: TinyLife.World
   commentId: N:TinyLife.World
   name: TinyLife.World
@@ -3749,6 +4013,27 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.Furniture.Validate
+  commentId: M:TinyLife.Objects.Furniture.Validate
+  parent: TinyLife.Objects.Furniture
+  name: Validate()
+  nameWithType: Furniture.Validate()
+  fullName: TinyLife.Objects.Furniture.Validate()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.Validate
+    name: Validate
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.Validate
+    name: Validate
+  - name: (
+  - name: )
+- uid: TinyLife.Objects.Gravestone.Validate*
+  commentId: Overload:TinyLife.Objects.Gravestone.Validate
+  name: Validate
+  nameWithType: Gravestone.Validate
+  fullName: TinyLife.Objects.Gravestone.Validate
 - uid: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   parent: TinyLife.Objects.MapObject
@@ -3784,14 +4069,3 @@ references:
   name: Point
   nameWithType: Point
   fullName: Microsoft.Xna.Framework.Point
-- uid: System.Single
-  commentId: T:System.Single
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.single
-  name: float
-  nameWithType: float
-  fullName: float
-  nameWithType.vb: Single
-  fullName.vb: Single
-  name.vb: Single

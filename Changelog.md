@@ -1,3 +1,58 @@
+# 0.37.0-pre.1
+*October 11, 2023*
+
+*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+
+Additions
+- Added the ability to build additional floors on lots, allowing up to 5 floors in the full game, and 2 in the demo
+- Added a proper wall-like fencing system, including a new metal fence, and marked furniture-style fences as obsolete for future removal from the game
+- Added a wide three-layer shelf, a small stack of books, and a rhombus rug
+- Added a proper sand tile, which looks a lot better than the yellow dirt path color
+- Added the ability to play online games with specific other tinies
+- Added the ability to adopt babies as well
+- Added a few more hair and skin colors
+
+Improvements
+- Allow chatting on the phone with multiple people at once
+- Allow inviting over multiple people at once
+- Made the AI choose from available people based on their relationship
+- Paths at the borders of the map will now also count as exit points
+- Improved auto-tile visuals, and made path colors auto-tile with each other
+- Persist object repair progress between attempts
+- Display thought bubbles when reading
+- Allow people with lot employments to visit when being asked
+- Display a person's age on their tooltip
+- Snap wall-attached furniture to appropriate walls automatically in build mode
+- Start jobs off with an active vacation day so that work doesn't start immediately
+- Allow adoptive parents to take parental leave as well
+- Allow undoing using ctrl+shift+z as well
+- Display vehicle ownership as a tooltip
+- Automatically create a save backup when game version or mods change
+- Display destroy particles for walls and tiles on higher floors
+- Display a wide new game button when there are no saves, rather than graying out the load button
+- Inverted default steam cloud behavior, causing newly created saves to be cloud synced by default
+
+Fixes
+- Fixed out-of-town actions counting as visible for babies
+- Fixed the tile tool having visual issues in some camera rotations
+- Fixed an exception when an enqueued social action has no valid partner
+- Fixed collisions not updating correctly when moving some furniture
+- Fixed undoing a room deletion not restoring the room correctly
+- Fixed an exception when a person stops having a lot employment and then tries to go home
+- Fixed a crash when a lot has no free tiles around the front door
+- Fixed mods with broken localizations crashing the game on startup
+- Fixed interior walls not displaying as down straight after placement
+- Fixed people autonomously reading skill books that don't interest them
+- Fixed regular visitors being deleted from maps removed from saves
+- Fixed moving lots allowing roofs to be out of bounds
+- Fixed a crash when loading an invalid save file in the demo
+
+API
+- Added MultiActionHandler initialize event
+- Replaced action varieties with a new system, action arguments, which allows multiple arguments to be passed at once
+- Allow adding more actions to the set of actions used by the Clean Everything action
+- Dead people are now stored in their gravestone, rather than on the map the gravestone was first on
+
 # 0.36.2
 *September 17, 2023*
 
@@ -80,7 +135,7 @@ API
 This one's a little embarrassing. Sorry everyone!
 
 Fixes
-- Fixed a crash when creating a new save. 
+- Fixed a crash when creating a new save.
 
 # 0.35.3
 *August 1, 2023*
