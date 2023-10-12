@@ -1,3 +1,17 @@
+# 0.37.0-pre.2
+*October 12, 2023*
+
+*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+
+Improvements
+- Display an info that the game needs to be restarted when enabling or disabling mods
+- Remove roofs that intersect with newly created rooms
+
+Fixes
+- Catch any validation exceptions for map objects
+- Fixed fairy lights crashing when not on a wall
+- Fixed newly created rooms blocking stairs with tiles
+
 # 0.37.0-pre.1
 *October 11, 2023*
 
