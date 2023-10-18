@@ -1,3 +1,20 @@
+# 0.37.0-pre.3
+*October 18, 2023*
+
+*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+
+Additions
+- Added Simplified Chinese translation, courtesy of [Zhao Huaye](https://space.bilibili.com/67102871). Thanks so much for your hard work!
+
+Improvements
+- Use the natural placement sound for water objects
+- Use newer masters of Leiss' soundtrack, which also includes some  previously missing bits
+- Changed the furniture tool's name and icon to "Objects" to accommodate the fact that it also contains plants and other decorations
+- Reduced the time it takes for new Steam subscriptions to be reflected in the game
+
+Fixes
+- Fixed wall-related undos and redos not correctly restoring old rooms
+
 # 0.37.0-pre.2
 *October 12, 2023*
 

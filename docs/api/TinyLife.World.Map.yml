@@ -10,7 +10,6 @@ items:
   - TinyLife.World.Map.AddLight(TinyLife.Objects.Light)
   - TinyLife.World.Map.AddLot(Microsoft.Xna.Framework.Rectangle)
   - TinyLife.World.Map.AddLot(TinyLife.World.Lot)
-  - TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
   - TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
   - TinyLife.World.Map.AddRoad(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.AddRoof(TinyLife.World.Roof)
@@ -102,7 +101,7 @@ items:
   - TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.Validate(System.Boolean,System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.ValidateEarly(TinyLife.PerSaveOptions.MapInfo,System.Collections.Generic.Dictionary{System.String,TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
-  - TinyLife.World.Map.ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
+  - TinyLife.World.Map.ValidateRooms(Microsoft.Xna.Framework.Point,System.Int32)
   langs:
   - csharp
   - vb
@@ -3350,85 +3349,47 @@ items:
   nameWithType.vb: Map.MoveEverything(Point, Rectangle, Boolean, Tile)
   fullName.vb: TinyLife.World.Map.MoveEverything(Microsoft.Xna.Framework.Point, Microsoft.Xna.Framework.Rectangle, Boolean, TinyLife.World.Tile)
   name.vb: MoveEverything(Point, Rectangle, Boolean, Tile)
-- uid: TinyLife.World.Map.ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
-  commentId: M:TinyLife.World.Map.ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
-  id: ValidateExistingRooms(Microsoft.Xna.Framework.Point[])
+- uid: TinyLife.World.Map.ValidateRooms(Microsoft.Xna.Framework.Point,System.Int32)
+  commentId: M:TinyLife.World.Map.ValidateRooms(Microsoft.Xna.Framework.Point,System.Int32)
+  id: ValidateRooms(Microsoft.Xna.Framework.Point,System.Int32)
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: ValidateExistingRooms(params Point[])
-  nameWithType: Map.ValidateExistingRooms(params Point[])
-  fullName: TinyLife.World.Map.ValidateExistingRooms(params Microsoft.Xna.Framework.Point[])
+  name: ValidateRooms(Point, int)
+  nameWithType: Map.ValidateRooms(Point, int)
+  fullName: TinyLife.World.Map.ValidateRooms(Microsoft.Xna.Framework.Point, int)
   type: Method
   source:
     remote:
       path: TinyLife/World/Map.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: ValidateExistingRooms
+    id: ValidateRooms
     path: ../TinyLife/World/Map.cs
-    startLine: 1855
+    startLine: 1860
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: "\nRemoves all outdated rooms on this map after calling their <xref href=\"TinyLife.World.Room.Validate\" data-throw-if-not-resolved=\"false\"></xref> methods.\n"
+  summary: "\nAdds new <xref href=\"TinyLife.World.Room\" data-throw-if-not-resolved=\"false\"></xref> objects to the given positions if there are valid rooms present, and validates additional rooms, checking for whether they should still exist.\n"
   example: []
   syntax:
-    content: public void ValidateExistingRooms(params Point[] positions)
+    content: public Room ValidateRooms(Point position, int floor)
     parameters:
-    - id: positions
-      type: Microsoft.Xna.Framework.Point[]
-      description: The positions around which to validate rooms
-    content.vb: Public Sub ValidateExistingRooms(ParamArray positions As Point())
-  overload: TinyLife.World.Map.ValidateExistingRooms*
-  nameWithType.vb: Map.ValidateExistingRooms(ParamArray Point())
-  fullName.vb: TinyLife.World.Map.ValidateExistingRooms(ParamArray Microsoft.Xna.Framework.Point())
-  name.vb: ValidateExistingRooms(ParamArray Point())
-- uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
-  commentId: M:TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
-  id: AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[],System.Int32,TinyLife.Tools.UndoableAction,System.Boolean)
-  parent: TinyLife.World.Map
-  langs:
-  - csharp
-  - vb
-  name: AddNewRoomsAndValidateExisting(Point[], int, UndoableAction, bool)
-  nameWithType: Map.AddNewRoomsAndValidateExisting(Point[], int, UndoableAction, bool)
-  fullName: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point[], int, TinyLife.Tools.UndoableAction, bool)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/World/Map.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: AddNewRoomsAndValidateExisting
-    path: ../TinyLife/World/Map.cs
-    startLine: 1877
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.World
-  summary: "\nAdds new <xref href=\"TinyLife.World.Room\" data-throw-if-not-resolved=\"false\"></xref> objects to the given positions if there are valid rooms present, and validates additional rooms, checking for whether they should still exists.\n"
-  example: []
-  syntax:
-    content: public void AddNewRoomsAndValidateExisting(Point[] positions, int floor, UndoableAction action, bool editWorld = false)
-    parameters:
-    - id: positions
-      type: Microsoft.Xna.Framework.Point[]
-      description: The positions that should be inspected for possible rooms.
+    - id: position
+      type: Microsoft.Xna.Framework.Point
+      description: The position that should be inspected for possible rooms.
     - id: floor
       type: System.Int32
       description: The floor that should be inspected for possible rooms.
-    - id: action
-      type: TinyLife.Tools.UndoableAction
-      description: The undoable action that this method should add its actions to. If this method should be executed immediately, use the <xref href="TinyLife.Tools.UndoableAction" data-throw-if-not-resolved="false"></xref> immediate constructor.
-    - id: editWorld
-      type: System.Boolean
-      description: Whether the world should be edited when adding new rooms, which involves adding concrete floors and a roof to new rooms.
-    content.vb: Public Sub AddNewRoomsAndValidateExisting(positions As Point(), floor As Integer, action As UndoableAction, editWorld As Boolean = False)
-  overload: TinyLife.World.Map.AddNewRoomsAndValidateExisting*
-  nameWithType.vb: Map.AddNewRoomsAndValidateExisting(Point(), Integer, UndoableAction, Boolean)
-  fullName.vb: TinyLife.World.Map.AddNewRoomsAndValidateExisting(Microsoft.Xna.Framework.Point(), Integer, TinyLife.Tools.UndoableAction, Boolean)
-  name.vb: AddNewRoomsAndValidateExisting(Point(), Integer, UndoableAction, Boolean)
+    return:
+      type: TinyLife.World.Room
+      description: If a new room was added, the added room, otherwise <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+    content.vb: Public Function ValidateRooms(position As Point, floor As Integer) As Room
+  overload: TinyLife.World.Map.ValidateRooms*
+  nameWithType.vb: Map.ValidateRooms(Point, Integer)
+  fullName.vb: TinyLife.World.Map.ValidateRooms(Microsoft.Xna.Framework.Point, Integer)
+  name.vb: ValidateRooms(Point, Integer)
 - uid: TinyLife.World.Map.GetRegularVisitors
   commentId: M:TinyLife.World.Map.GetRegularVisitors
   id: GetRegularVisitors
@@ -3447,7 +3408,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRegularVisitors
     path: ../TinyLife/World/Map.cs
-    startLine: 1941
+    startLine: 1909
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3478,7 +3439,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllLotEmployments
     path: ../TinyLife/World/Map.cs
-    startLine: 1951
+    startLine: 1919
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3509,7 +3470,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkGroundTileDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1964
+    startLine: 1932
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3541,7 +3502,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkObjectDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1980
+    startLine: 1948
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3582,7 +3543,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PrepareForPermanentRemoval
     path: ../TinyLife/World/Map.cs
-    startLine: 2011
+    startLine: 1979
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3610,7 +3571,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LoadStaticMap
     path: ../TinyLife/World/Map.cs
-    startLine: 2596
+    startLine: 2566
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3645,7 +3606,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsLotHidden
     path: ../TinyLife/World/Map.cs
-    startLine: 2640
+    startLine: 2610
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3680,7 +3641,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMapSampler
     path: ../TinyLife/World/Map.cs
-    startLine: 2658
+    startLine: 2628
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3711,7 +3672,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateExternalPeople
     path: ../TinyLife/World/Map.cs
-    startLine: 2669
+    startLine: 2639
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3749,7 +3710,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVisibleWorldArea
     path: ../TinyLife/World/Map.cs
-    startLine: 2763
+    startLine: 2733
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -6922,74 +6883,11 @@ references:
   name: MoveEverything
   nameWithType: Map.MoveEverything
   fullName: TinyLife.World.Map.MoveEverything
-- uid: TinyLife.World.Room.Validate
-  commentId: M:TinyLife.World.Room.Validate
-  name: Validate()
-  nameWithType: Room.Validate()
-  fullName: TinyLife.World.Room.Validate()
-  spec.csharp:
-  - uid: TinyLife.World.Room.Validate
-    name: Validate
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.Room.Validate
-    name: Validate
-  - name: (
-  - name: )
-- uid: TinyLife.World.Map.ValidateExistingRooms*
-  commentId: Overload:TinyLife.World.Map.ValidateExistingRooms
-  name: ValidateExistingRooms
-  nameWithType: Map.ValidateExistingRooms
-  fullName: TinyLife.World.Map.ValidateExistingRooms
-- uid: Microsoft.Xna.Framework.Point[]
-  isExternal: true
-  name: Point[]
-  nameWithType: Point[]
-  fullName: Microsoft.Xna.Framework.Point[]
-  nameWithType.vb: Point()
-  fullName.vb: Microsoft.Xna.Framework.Point()
-  name.vb: Point()
-  spec.csharp:
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: '['
-  - name: ']'
-  spec.vb:
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: (
-  - name: )
-- uid: TinyLife.Tools.UndoableAction
-  commentId: T:TinyLife.Tools.UndoableAction
-  parent: TinyLife.Tools
-  name: UndoableAction
-  nameWithType: UndoableAction
-  fullName: TinyLife.Tools.UndoableAction
-- uid: TinyLife.World.Map.AddNewRoomsAndValidateExisting*
-  commentId: Overload:TinyLife.World.Map.AddNewRoomsAndValidateExisting
-  name: AddNewRoomsAndValidateExisting
-  nameWithType: Map.AddNewRoomsAndValidateExisting
-  fullName: TinyLife.World.Map.AddNewRoomsAndValidateExisting
-- uid: TinyLife.Tools
-  commentId: N:TinyLife.Tools
-  name: TinyLife.Tools
-  nameWithType: TinyLife.Tools
-  fullName: TinyLife.Tools
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Tools
-    name: Tools
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Tools
-    name: Tools
+- uid: TinyLife.World.Map.ValidateRooms*
+  commentId: Overload:TinyLife.World.Map.ValidateRooms
+  name: ValidateRooms
+  nameWithType: Map.ValidateRooms
+  fullName: TinyLife.World.Map.ValidateRooms
 - uid: TinyLife.World.Map.GetPeople
   commentId: M:TinyLife.World.Map.GetPeople
   name: GetPeople()
