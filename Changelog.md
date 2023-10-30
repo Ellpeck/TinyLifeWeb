@@ -1,3 +1,19 @@
+# 0.37.1
+*October 30, 2023*
+
+Improvements
+- Also show people's age in their tooltip when there's no relationship yet
+- Don't cancel repairing objects when uncomfortable
+
+Fixes
+- Fixed the tile tool not being able to flood when there are no tiles on a level yet
+- Fixed walls not drawing their shadow gradient on higher floors
+- Fixed being able to have leading and trailing spaces in various names
+- Fixed not being able to ask lot staff to leave when invited
+- Fixed being able to order from lot staff when invited
+- Fixed particles from rooms above rendering on lower floors
+- Fixed a crash when loading a demo save in the full game for the first time
+
 # 0.37.0
 *October 25, 2023*
 
