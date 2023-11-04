@@ -1,3 +1,19 @@
+# 0.37.2
+*November 4, 2023*
+
+Additions
+- Added the ability to apply wallpaper to the areas below stairs
+
+Improvements
+- Increase the size of various previews in build mode
+- Improved depth calculations for wallpaper and tiles
+
+Fixes
+- Fixed wallpaper and tile previews rendering incorrectly in build mode
+- Fixed a rare crash when people with map-wide lot employments visit other maps
+- Fixed people with lot employments visiting other maps causing them to get stuck
+- Fixed a birthday notification being displayed for adults even though they can't age up
+
 # 0.37.1
 *October 30, 2023*
 

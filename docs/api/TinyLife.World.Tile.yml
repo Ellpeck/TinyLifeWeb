@@ -15,6 +15,7 @@ items:
   - TinyLife.World.Tile.Draw(Microsoft.Xna.Framework.GameTime,System.Object,TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean)
   - TinyLife.World.Tile.DrawUi(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Single)
   - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
+  - TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
   - TinyLife.World.Tile.GetPrice
   - TinyLife.World.Tile.GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
   - TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
@@ -656,7 +657,7 @@ items:
   summary: "\nDraws this tile at the given position in the world using a <xref href=\"Microsoft.Xna.Framework.Graphics.SpriteBatch\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"MLEM.Graphics.StaticSpriteBatch\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public virtual bool Draw(GameTime time, object batch, Map map, Point pos, int floor, Vector2 drawPos, float depth, float scale, ICollection<StaticSpriteBatch.Item> items, bool hasStaticContext)
+    content: public virtual bool Draw(GameTime time, object batch, Map map, Point pos, int floor, Vector2 drawPos, float scale, float depthOffset, ICollection<StaticSpriteBatch.Item> items, bool hasStaticContext)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
@@ -676,12 +677,11 @@ items:
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
       description: The position, in screen space, to draw at.
-    - id: depth
-      type: System.Single
-      description: The depth to use for drawing.
     - id: scale
       type: System.Single
       description: The scale to draw the tile with.
+    - id: depthOffset
+      type: System.Single
     - id: items
       type: System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item}
       description: The <xref href="MLEM.Graphics.StaticSpriteBatch.Item" data-throw-if-not-resolved="false"></xref> collection that added items can optionally be added to.
@@ -691,7 +691,7 @@ items:
     return:
       type: System.Boolean
       description: Whether this tile was fully drawn. If the <code data-dev-comment-type="paramref" class="paramref">batch</code> is a <xref href="MLEM.Graphics.StaticSpriteBatch" data-throw-if-not-resolved="false"></xref> and false is returned, this tile will be marked as an animated tile, causing it to draw every frame.
-    content.vb: Public Overridable Function Draw(time As GameTime, batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, depth As Single, scale As Single, items As ICollection(Of StaticSpriteBatch.Item), hasStaticContext As Boolean) As Boolean
+    content.vb: Public Overridable Function Draw(time As GameTime, batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, scale As Single, depthOffset As Single, items As ICollection(Of StaticSpriteBatch.Item), hasStaticContext As Boolean) As Boolean
   overload: TinyLife.World.Tile.Draw*
   nameWithType.vb: Tile.Draw(GameTime, Object, Map, Point, Integer, Vector2, Single, Single, ICollection(Of StaticSpriteBatch.Item), Boolean)
   fullName.vb: TinyLife.World.Tile.Draw(Microsoft.Xna.Framework.GameTime, Object, TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Vector2, Single, Single, System.Collections.Generic.ICollection(Of MLEM.Graphics.StaticSpriteBatch.Item), Boolean)
@@ -721,7 +721,7 @@ items:
   summary: "\nDraws this tile on the given ui element, in ui space\n"
   example: []
   syntax:
-    content: public virtual void DrawUi(Element e, GameTime time, SpriteBatch batch, float drawScale = 0.4)
+    content: public virtual void DrawUi(Element e, GameTime time, SpriteBatch batch, float drawScale)
     parameters:
     - id: e
       type: MLEM.Ui.Elements.Element
@@ -734,8 +734,8 @@ items:
       description: The sprite batch to use for drawing
     - id: drawScale
       type: System.Single
-      description: The scale to draw the tile with. Defaults to 0.4.
-    content.vb: Public Overridable Sub DrawUi(e As Element, time As GameTime, batch As SpriteBatch, drawScale As Single = 0.4)
+      description: The scale to draw the tile with.
+    content.vb: Public Overridable Sub DrawUi(e As Element, time As GameTime, batch As SpriteBatch, drawScale As Single)
   overload: TinyLife.World.Tile.DrawUi*
   nameWithType.vb: Tile.DrawUi(Element, GameTime, SpriteBatch, Single)
   fullName.vb: TinyLife.World.Tile.DrawUi(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Single)
@@ -903,50 +903,6 @@ items:
       description: The texture to display at the location.
     content.vb: Protected Function GetVariationTexture(direction As Direction2, pos As Point) As Point
   overload: TinyLife.World.Tile.GetVariationTexture*
-- uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-  commentId: M:TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-  id: GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-  parent: TinyLife.World.Tile
-  langs:
-  - csharp
-  - vb
-  name: GetVisualOffset(Direction2, int, int)
-  nameWithType: Tile.GetVisualOffset(Direction2, int, int)
-  fullName: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, int, int)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/World/Tile.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetVisualOffset
-    path: ../TinyLife/World/Tile.cs
-    startLine: 261
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.World
-  summary: "\nReturns the visual offset of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">x</code> and <code data-dev-comment-type=\"paramref\" class=\"paramref\">y</code> values, based on the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">direction</code>, which is usually the game&apos;s <xref href=\"TinyLife.Options.CameraRotation\" data-throw-if-not-resolved=\"false\"></xref>.\n"
-  example: []
-  syntax:
-    content: protected static Point GetVisualOffset(Direction2 direction, int x, int y)
-    parameters:
-    - id: direction
-      type: MLEM.Misc.Direction2
-      description: The rotation.
-    - id: x
-      type: System.Int32
-      description: The x coordinate to offset.
-    - id: y
-      type: System.Int32
-      description: The y coordinate to offset.
-    return:
-      type: Microsoft.Xna.Framework.Point
-      description: The visual offset.
-    content.vb: Protected Shared Function GetVisualOffset(direction As Direction2, x As Integer, y As Integer) As Point
-  overload: TinyLife.World.Tile.GetVisualOffset*
-  nameWithType.vb: Tile.GetVisualOffset(Direction2, Integer, Integer)
-  fullName.vb: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, Integer, Integer)
-  name.vb: GetVisualOffset(Direction2, Integer, Integer)
 - uid: TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
   commentId: M:TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
   id: Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
@@ -965,7 +921,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 286
+    startLine: 270
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1036,7 +992,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 306
+    startLine: 290
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1107,7 +1063,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 330
+    startLine: 314
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1163,6 +1119,99 @@ items:
   nameWithType.vb: Tile.Register(String, Integer, Dictionary(Of Point, TextureRegion), Point(), ColorScheme(), Single, Boolean, Tile.Category, TextureRegion, Func(Of Direction2, Point()), Integer(), Func(Of Point, Single), Type)
   fullName.vb: TinyLife.World.Tile.Register(String, Integer, System.Collections.Generic.Dictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point(), TinyLife.Utilities.ColorScheme(), Single, Boolean, TinyLife.World.Tile.Category, MLEM.Textures.TextureRegion, System.Func(Of MLEM.Misc.Direction2, Microsoft.Xna.Framework.Point()), Integer(), System.Func(Of Microsoft.Xna.Framework.Point, Single), System.Type)
   name.vb: Register(String, Integer, Dictionary(Of Point, TextureRegion), Point(), ColorScheme(), Single, Boolean, Category, TextureRegion, Func(Of Direction2, Point()), Integer(), Func(Of Point, Single), Type)
+- uid: TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  commentId: M:TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  id: GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  parent: TinyLife.World.Tile
+  langs:
+  - csharp
+  - vb
+  name: GetDepth(Map, Vector2, float, float, bool)
+  nameWithType: Tile.GetDepth(Map, Vector2, float, float, bool)
+  fullName: TinyLife.World.Tile.GetDepth(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, float, float, bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Tile.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetDepth
+    path: ../TinyLife/World/Tile.cs
+    startLine: 338
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nGets the depth that should be used for drawing a <xref href=\"TinyLife.World.Tile\" data-throw-if-not-resolved=\"false\"></xref> at the given position\n"
+  example: []
+  syntax:
+    content: public static float GetDepth(Map map, Vector2 worldPos, float floor, float offset = 0, bool borderOffset = true)
+    parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The map to get depth on.
+    - id: worldPos
+      type: Microsoft.Xna.Framework.Vector2
+      description: The position to get depth for, in tile coordinates
+    - id: floor
+      type: System.Single
+      description: The floor to get depth for.
+    - id: offset
+      type: System.Single
+    - id: borderOffset
+      type: System.Boolean
+      description: Whether the map border offset should be applied to the camera rotation using <xref href="TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2%2cSystem.Boolean%2cSystem.Nullable%7bMLEM.Misc.Direction2%7d)" data-throw-if-not-resolved="false"></xref>.
+    return:
+      type: System.Single
+      description: The depth to pass to the draw call
+    content.vb: Public Shared Function GetDepth(map As Map, worldPos As Vector2, floor As Single, offset As Single = 0, borderOffset As Boolean = True) As Single
+  overload: TinyLife.World.Tile.GetDepth*
+  nameWithType.vb: Tile.GetDepth(Map, Vector2, Single, Single, Boolean)
+  fullName.vb: TinyLife.World.Tile.GetDepth(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Single, Single, Boolean)
+  name.vb: GetDepth(Map, Vector2, Single, Single, Boolean)
+- uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+  id: GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+  parent: TinyLife.World.Tile
+  langs:
+  - csharp
+  - vb
+  name: GetVisualOffset(Direction2, int, int)
+  nameWithType: Tile.GetVisualOffset(Direction2, int, int)
+  fullName: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, int, int)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Tile.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetVisualOffset
+    path: ../TinyLife/World/Tile.cs
+    startLine: 350
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: "\nReturns the visual offset of the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">x</code> and <code data-dev-comment-type=\"paramref\" class=\"paramref\">y</code> values, based on the given <code data-dev-comment-type=\"paramref\" class=\"paramref\">direction</code>, which is usually the game&apos;s <xref href=\"TinyLife.Options.CameraRotation\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: protected static Point GetVisualOffset(Direction2 direction, int x, int y)
+    parameters:
+    - id: direction
+      type: MLEM.Misc.Direction2
+      description: The rotation.
+    - id: x
+      type: System.Int32
+      description: The x coordinate to offset.
+    - id: y
+      type: System.Int32
+      description: The y coordinate to offset.
+    return:
+      type: Microsoft.Xna.Framework.Point
+      description: The visual offset.
+    content.vb: Protected Shared Function GetVisualOffset(direction As Direction2, x As Integer, y As Integer) As Point
+  overload: TinyLife.World.Tile.GetVisualOffset*
+  nameWithType.vb: Tile.GetVisualOffset(Direction2, Integer, Integer)
+  fullName.vb: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, Integer, Integer)
+  name.vb: GetVisualOffset(Direction2, Integer, Integer)
 references:
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
@@ -2718,16 +2767,6 @@ references:
   - uid: MLEM.Misc
     name: Misc
     isExternal: true
-- uid: TinyLife.Options.CameraRotation
-  commentId: F:TinyLife.Options.CameraRotation
-  name: CameraRotation
-  nameWithType: Options.CameraRotation
-  fullName: TinyLife.Options.CameraRotation
-- uid: TinyLife.World.Tile.GetVisualOffset*
-  commentId: Overload:TinyLife.World.Tile.GetVisualOffset
-  name: GetVisualOffset
-  nameWithType: Tile.GetVisualOffset
-  fullName: TinyLife.World.Tile.GetVisualOffset
 - uid: TinyLife.World.Tile.Register*
   commentId: Overload:TinyLife.World.Tile.Register
   name: Register
@@ -2900,3 +2939,68 @@ references:
     name: Tile
   - name: (
   - name: )
+- uid: TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
+  commentId: M:TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: ApplyCameraRotation(Vector2, bool, Direction2?)
+  nameWithType: Map.ApplyCameraRotation(Vector2, bool, Direction2?)
+  fullName: TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2, bool, MLEM.Misc.Direction2?)
+  nameWithType.vb: Map.ApplyCameraRotation(Vector2, Boolean, Direction2?)
+  fullName.vb: TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2, Boolean, MLEM.Misc.Direction2?)
+  name.vb: ApplyCameraRotation(Vector2, Boolean, Direction2?)
+  spec.csharp:
+  - uid: TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
+    name: ApplyCameraRotation
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Misc.Direction2})
+    name: ApplyCameraRotation
+  - name: (
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: '?'
+  - name: )
+- uid: TinyLife.World.Tile.GetDepth*
+  commentId: Overload:TinyLife.World.Tile.GetDepth
+  name: GetDepth
+  nameWithType: Tile.GetDepth
+  fullName: TinyLife.World.Tile.GetDepth
+- uid: TinyLife.Options.CameraRotation
+  commentId: F:TinyLife.Options.CameraRotation
+  name: CameraRotation
+  nameWithType: Options.CameraRotation
+  fullName: TinyLife.Options.CameraRotation
+- uid: TinyLife.World.Tile.GetVisualOffset*
+  commentId: Overload:TinyLife.World.Tile.GetVisualOffset
+  name: GetVisualOffset
+  nameWithType: Tile.GetVisualOffset
+  fullName: TinyLife.World.Tile.GetVisualOffset

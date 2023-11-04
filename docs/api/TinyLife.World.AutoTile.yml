@@ -60,10 +60,11 @@ items:
   - TinyLife.World.Tile.GetPrice
   - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
   - TinyLife.World.Tile.GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
-  - TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
   - TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
   - TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme[],System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Int32[],System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
   - TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point[],TinyLife.Utilities.ColorScheme[],System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point[]},System.Int32[],System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
+  - TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  - TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -156,7 +157,7 @@ items:
   summary: "\nDraws this tile at the given position in the world using a <xref href=\"Microsoft.Xna.Framework.Graphics.SpriteBatch\" data-throw-if-not-resolved=\"false\"></xref> or <xref href=\"MLEM.Graphics.StaticSpriteBatch\" data-throw-if-not-resolved=\"false\"></xref>\n"
   example: []
   syntax:
-    content: public override bool Draw(GameTime time, object batch, Map map, Point pos, int floor, Vector2 drawPos, float depth, float scale, ICollection<StaticSpriteBatch.Item> items, bool hasStaticContext)
+    content: public override bool Draw(GameTime time, object batch, Map map, Point pos, int floor, Vector2 drawPos, float scale, float depthOffset, ICollection<StaticSpriteBatch.Item> items, bool hasStaticContext)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
@@ -176,12 +177,11 @@ items:
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
       description: The position, in screen space, to draw at.
-    - id: depth
-      type: System.Single
-      description: The depth to use for drawing.
     - id: scale
       type: System.Single
       description: The scale to draw the tile with.
+    - id: depthOffset
+      type: System.Single
     - id: items
       type: System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item}
       description: The <xref href="MLEM.Graphics.StaticSpriteBatch.Item" data-throw-if-not-resolved="false"></xref> collection that added items can optionally be added to.
@@ -191,7 +191,7 @@ items:
     return:
       type: System.Boolean
       description: Whether this tile was fully drawn. If the <code data-dev-comment-type="paramref" class="paramref">batch</code> is a <xref href="MLEM.Graphics.StaticSpriteBatch" data-throw-if-not-resolved="false"></xref> and false is returned, this tile will be marked as an animated tile, causing it to draw every frame.
-    content.vb: Public Overrides Function Draw(time As GameTime, batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, depth As Single, scale As Single, items As ICollection(Of StaticSpriteBatch.Item), hasStaticContext As Boolean) As Boolean
+    content.vb: Public Overrides Function Draw(time As GameTime, batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, scale As Single, depthOffset As Single, items As ICollection(Of StaticSpriteBatch.Item), hasStaticContext As Boolean) As Boolean
   overridden: TinyLife.World.Tile.Draw(Microsoft.Xna.Framework.GameTime,System.Object,TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean)
   overload: TinyLife.World.AutoTile.Draw*
   nameWithType.vb: AutoTile.Draw(GameTime, Object, Map, Point, Integer, Vector2, Single, Single, ICollection(Of StaticSpriteBatch.Item), Boolean)
@@ -317,7 +317,7 @@ items:
   summary: "\nDraws the auto-tile border.\n"
   example: []
   syntax:
-    content: protected void DrawBorder(object batch, Map map, Point pos, int floor, Vector2 drawPos, float depth, float scale, ICollection<StaticSpriteBatch.Item> items, (Func<int, TextureRegion> Texture, Color Color)? bestBorderTile = null)
+    content: protected void DrawBorder(object batch, Map map, Point pos, int floor, Vector2 drawPos, float scale, float depthOffset, ICollection<StaticSpriteBatch.Item> items, (Func<int, TextureRegion> Texture, Color Color)? bestBorderTile = null)
     parameters:
     - id: batch
       type: System.Object
@@ -334,19 +334,18 @@ items:
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
       description: The position, in screen space, to draw at.
-    - id: depth
-      type: System.Single
-      description: The depth to use for drawing.
     - id: scale
       type: System.Single
       description: The scale to draw the tile with.
+    - id: depthOffset
+      type: System.Single
     - id: items
       type: System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item}
       description: The <xref href="MLEM.Graphics.StaticSpriteBatch.Item" data-throw-if-not-resolved="false"></xref> collection that added items can optionally be added to.
     - id: bestBorderTile
       type: System.Nullable{System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color}}
       description: A function to return the best tile to use as this tile&apos;s border tile when rendering.
-    content.vb: Protected Sub DrawBorder(batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, depth As Single, scale As Single, items As ICollection(Of StaticSpriteBatch.Item), bestBorderTile As (Texture As Func(Of Integer, TextureRegion), Color As Color)? = Nothing)
+    content.vb: Protected Sub DrawBorder(batch As Object, map As Map, pos As Point, floor As Integer, drawPos As Vector2, scale As Single, depthOffset As Single, items As ICollection(Of StaticSpriteBatch.Item), bestBorderTile As (Texture As Func(Of Integer, TextureRegion), Color As Color)? = Nothing)
   overload: TinyLife.World.AutoTile.DrawBorder*
   nameWithType.vb: AutoTile.DrawBorder(Object, Map, Point, Integer, Vector2, Single, Single, ICollection(Of StaticSpriteBatch.Item), (Texture As Func(Of Integer, TextureRegion), Color As Color)?)
   fullName.vb: TinyLife.World.AutoTile.DrawBorder(Object, TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Vector2, Single, Single, System.Collections.Generic.ICollection(Of MLEM.Graphics.StaticSpriteBatch.Item), (Texture As System.Func(Of Integer, MLEM.Textures.TextureRegion), Color As Microsoft.Xna.Framework.Color)?)
@@ -731,57 +730,6 @@ references:
   - uid: Microsoft.Xna.Framework.Point
     name: Point
     isExternal: true
-  - name: )
-- uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-  commentId: M:TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-  parent: TinyLife.World.Tile
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: GetVisualOffset(Direction2, int, int)
-  nameWithType: Tile.GetVisualOffset(Direction2, int, int)
-  fullName: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, int, int)
-  nameWithType.vb: Tile.GetVisualOffset(Direction2, Integer, Integer)
-  fullName.vb: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, Integer, Integer)
-  name.vb: GetVisualOffset(Direction2, Integer, Integer)
-  spec.csharp:
-  - uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-    name: GetVisualOffset
-  - name: (
-  - uid: MLEM.Misc.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
-    name: GetVisualOffset
-  - name: (
-  - uid: MLEM.Misc.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
 - uid: TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
   commentId: M:TinyLife.World.Tile.Register(System.String,System.Int32,System.Collections.Generic.Dictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,TinyLife.Utilities.ColorScheme,System.Single,System.Boolean,TinyLife.World.Tile.Category,MLEM.Textures.TextureRegion,System.Func{MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Point}},System.Nullable{System.Int32},System.Func{Microsoft.Xna.Framework.Point,System.Single},System.Type)
@@ -1499,6 +1447,128 @@ references:
     name: Type
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: )
+- uid: TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  commentId: M:TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+  parent: TinyLife.World.Tile
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: GetDepth(Map, Vector2, float, float, bool)
+  nameWithType: Tile.GetDepth(Map, Vector2, float, float, bool)
+  fullName: TinyLife.World.Tile.GetDepth(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, float, float, bool)
+  nameWithType.vb: Tile.GetDepth(Map, Vector2, Single, Single, Boolean)
+  fullName.vb: TinyLife.World.Tile.GetDepth(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, Single, Single, Boolean)
+  name.vb: GetDepth(Map, Vector2, Single, Single, Boolean)
+  spec.csharp:
+  - uid: TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+    name: GetDepth
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
+    name: GetDepth
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+  parent: TinyLife.World.Tile
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: GetVisualOffset(Direction2, int, int)
+  nameWithType: Tile.GetVisualOffset(Direction2, int, int)
+  fullName: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, int, int)
+  nameWithType.vb: Tile.GetVisualOffset(Direction2, Integer, Integer)
+  fullName.vb: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2, Integer, Integer)
+  name.vb: GetVisualOffset(Direction2, Integer, Integer)
+  spec.csharp:
+  - uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+    name: GetVisualOffset
+  - name: (
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Tile.GetVisualOffset(MLEM.Misc.Direction2,System.Int32,System.Int32)
+    name: GetVisualOffset
+  - name: (
+  - uid: MLEM.Misc.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
