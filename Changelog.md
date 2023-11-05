@@ -1,3 +1,15 @@
+# 0.37.3
+*November 5, 2023*
+
+Fixes
+- Fixed 0.37.2's new depth implementation breaking rugs
+- Fixed being unable to apply wallpaper to walls on lower floors if they're close to the border of the lot
+- Fixed wallpaper on roofs intersecting with walls incorrectly
+- Fixed all lights on upper floors drawing incorrectly if they have a camera offset
+
+API
+- Integrate furniture ceiling and floor attachment into the ParentInfo system
+
 # 0.37.2
 *November 4, 2023*
 
