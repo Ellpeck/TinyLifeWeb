@@ -1,3 +1,11 @@
+# 0.37.4
+*November 6, 2023*
+
+We've been making some changes to how tiles and wallpaper draw in the world, and it turns out that it caused a lot of issues that we neglected to test for. This is a really embarrassing one, though. Sorry everyone!
+
+Fixes
+- Fixed auto-tiles and water tiles straight up not working
+
 # 0.37.3
 *November 5, 2023*
 
