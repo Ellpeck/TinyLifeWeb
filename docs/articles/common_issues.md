@@ -12,13 +12,13 @@ To do so, make sure that you have Steam running, and then go into the Load Game 
 While Steam Cloud storage is enabled for a save file, it will automatically be uploaded whenever the game is saved, and newer versions will automatically be downloaded every time you launch the game.
 
 ### I get an error or crash with mods installed
-For issues that only happen with mods, please contact the mods' developers. 
+**For issues that only happen with mods, please contact the mods' developers.** You can narrow down which mod is causing an issue by looking at the [log file](game_dir.md) or by uninstalling mods until the issue stops happening. Most mods have a button to open their issue tracker in their description, which you can find in the rightmost tab of the game's options menu.
 
-When reporting an issue to Tiny Life developers, please make sure that you have **no mods installed** or that the issue also occurs without any mods installed. 
+When reporting an issue to Tiny Life developers, please make sure that you have **no mods installed** at the time that the issues occur. You can also disable the loading of mods in the rightmost tab of the game's options menu if you don't want to uninstall your mods to reproduce an issue.
 
 ### The game won't start correctly
 This can have multiple reasons:
-- If you played older versions of the demo in Spanish, there might be outdated data in your `Options.json` file. Please delete it by navigating to the [game folder](https://docs.tinylifegame.com/articles/game_dir.html), which is located at `%LocalAppData%\Tiny Life` on Windows.
+- If you played older versions of the demo in Spanish, there might be outdated data in your `Options.json` file. Please delete it by navigating to the [game folder](game_dir.md), which is located at `%LocalAppData%\Tiny Life` on Windows.
 - When downloading the game from itch, make sure to **extract the zip archive** before starting the game executable within it.
 - Some ARM-based distributions of Linux and Mac (like newer MacBooks that use Apple Silicon) don't support Tiny Life without installing additional tools (like [Rosetta](https://en.wikipedia.org/wiki/Rosetta_(software)) or [QEMU](https://www.qemu.org/)) to translate instructions correctly. You might have to do additional research to figure out what these are for your device.
 - Some older operating system versions don't support Tiny Life, which currently runs on .NET 7. Unfortunately, especially Mac is known for having very short lifecycles for supported versions. To see if your operating system version is supported by .NET 7, you can take a look at [the official list](https://github.com/dotnet/core/blob/main/release-notes/7.0/supported-os.md).
