@@ -1,3 +1,24 @@
+# 0.37.5
+*November 18, 2023*
+
+In preparation for the Steam Autumn Sale, here's a bugfix update that addresses a lot of common issues!
+
+Improvements
+- Try to avoid walking over lots to get to a goal
+- Only allow toggling newspaper deliveries at your home lot's mailbox
+- Allow painting low-level paintings with higher skill level too
+- Put an upper bound on flood filling tiles to avoid issues when creating custom worlds
+
+Fixes
+- Fixed being unable to jog on dirt paths
+- Fixed fireflies spawning out of bounds
+- Fixed lights from particles staying around when switching the viewed map
+- Fixed being able to place furniture in fences
+- Fixed people being able to put down babies on empty tiles on higher floors
+- Fixed notification history lag when closing
+- Fixed help action exception when a partner is missing
+- Fixed an exception when genetic influences have no hair
+
 # 0.37.4
 *November 6, 2023*
 
