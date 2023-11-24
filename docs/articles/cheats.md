@@ -1,4 +1,4 @@
-# Testing Cheats
+# Cheats
 You can open up the game's cheat menu by pressing the `F1` key. Here is a list of some of the more useful cheats for mod development and testing. Keep in mind that `[arguments]` need to be replaced with your custom value, and the brackets `[]` need to be omitted.
 
 ## In-game cheats
