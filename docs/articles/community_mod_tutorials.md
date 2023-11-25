@@ -5,4 +5,7 @@ Of course, please take care when using these resources, as their content may be 
 
 If you're interested in having your content added to this page, please let us know on [the Discord server](https://link.tinylifegame.com/discordweb) or [submit a pull request](https://github.com/Ellpeck/TinyLifeWeb/blob/main/docs/articles/community_mod_tutorials.md).
 
-*There's nothing here yet...*
+## McChicky's Tutorials
+McChicky's tutorials have easy-to-follow descriptions and lots of screenshots, so they're especially recommended for people just starting out with Tiny Life modding.
+- [Creating a Basic Hair Mod from Scratch](https://docs.google.com/document/d/e/2PACX-1vShsxqDFy4TqvOG_eq5kpD5gnMvCJ4to0CdC_PnFHjfPTdVJIDMPbdsqVqI-hPHuMeYXMQitesvSbQ7/pub)
+- [Creating Multi-Colored Hair](https://docs.google.com/document/d/e/2PACX-1vRKkXlBlPozVQHQBdkihDJZLxwKQHyiHYJxXDjV05Q70ietByleY6DipTgfG0jaYftxSD92JeoPmDoj/pub)
