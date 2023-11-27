@@ -9,3 +9,4 @@ If you're interested in having your content added to this page, please let us kn
 McChicky's tutorials have easy-to-follow descriptions and lots of screenshots, so they're especially recommended for people just starting out with Tiny Life modding.
 - [Creating a Basic Hair Mod from Scratch](https://docs.google.com/document/d/e/2PACX-1vShsxqDFy4TqvOG_eq5kpD5gnMvCJ4to0CdC_PnFHjfPTdVJIDMPbdsqVqI-hPHuMeYXMQitesvSbQ7/pub)
 - [Creating Multi-Colored Hair](https://docs.google.com/document/d/e/2PACX-1vRKkXlBlPozVQHQBdkihDJZLxwKQHyiHYJxXDjV05Q70ietByleY6DipTgfG0jaYftxSD92JeoPmDoj/pub)
+- [Understanding the Tiny Life Docs through Clothing Accessories](https://docs.google.com/document/d/e/2PACX-1vTQRMeR2eNb74xLGVZk_2JkFC_WhhchmopujRBUVHrU8GZCGYUltfML9-neQVnmaKuv4Co_souSH6Ve/pub)
