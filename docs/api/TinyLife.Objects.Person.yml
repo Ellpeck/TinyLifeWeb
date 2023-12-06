@@ -9,7 +9,7 @@ items:
   - TinyLife.Objects.Person.ActionQueue
   - TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
   - TinyLife.Objects.Person.AddJob(TinyLife.Goals.JobType,System.Int32)
-  - TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
+  - TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
   - TinyLife.Objects.Person.Age
   - TinyLife.Objects.Person.AgeGroups
   - TinyLife.Objects.Person.AllActions
@@ -58,6 +58,7 @@ items:
   - TinyLife.Objects.Person.GetCategories(TinyLife.Objects.Person)
   - TinyLife.Objects.Person.GetCurrentGoals
   - TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
+  - TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
   - TinyLife.Objects.Person.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Person.GetFreeTalkingSpots(TinyLife.Objects.Person)
   - TinyLife.Objects.Person.GetHeldActionInfo
@@ -119,7 +120,6 @@ items:
   - TinyLife.Objects.Person.LotVisitCooldown
   - TinyLife.Objects.Person.LowerEmotion(TinyLife.Emotions.EmotionType,System.Single,System.Single)
   - TinyLife.Objects.Person.LowerEmotionModifier(TinyLife.Emotions.EmotionModifier,System.Single,System.Single)
-  - TinyLife.Objects.Person.MaxRecentActionsAmount
   - TinyLife.Objects.Person.Memories
   - TinyLife.Objects.Person.Money
   - TinyLife.Objects.Person.MoveToMap(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
@@ -142,7 +142,9 @@ items:
   - TinyLife.Objects.Person.OnEmotionModifiersChanged
   - TinyLife.Objects.Person.OnGetCurrentGoals
   - TinyLife.Objects.Person.OnGetEfficiencyModifier
+  - TinyLife.Objects.Person.OnGetEmotionSkillBoost
   - TinyLife.Objects.Person.OnGetPassiveActionPriority
+  - TinyLife.Objects.Person.OnGetPersonalitySkillBoost
   - TinyLife.Objects.Person.OnGetWalkSpeed
   - TinyLife.Objects.Person.OnJobChanged
   - TinyLife.Objects.Person.OnLifeGoalChanged
@@ -166,7 +168,7 @@ items:
   - TinyLife.Objects.Person.RemoveEmotion(TinyLife.Emotions.EmotionModifier)
   - TinyLife.Objects.Person.RemoveHeldObject``1
   - TinyLife.Objects.Person.RemoveJob(TinyLife.Goals.JobType)
-  - TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
+  - TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   - TinyLife.Objects.Person.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.Person.RestoreNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
   - TinyLife.Objects.Person.RestoreNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
@@ -212,11 +214,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Person
     path: ../TinyLife/Objects/Person.cs
-    startLine: 44
+    startLine: 45
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -284,35 +286,6 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Objects.Person.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Objects.Person.MaxRecentActionsAmount
-  commentId: F:TinyLife.Objects.Person.MaxRecentActionsAmount
-  id: MaxRecentActionsAmount
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: MaxRecentActionsAmount
-  nameWithType: Person.MaxRecentActionsAmount
-  fullName: TinyLife.Objects.Person.MaxRecentActionsAmount
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: MaxRecentActionsAmount
-    path: ../TinyLife/Objects/Person.cs
-    startLine: 49
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: "\nThe maximum amount of recent actions that is stored in <xref href=\"TinyLife.Objects.Person.RecentActions\" data-throw-if-not-resolved=\"false\"></xref>\n"
-  example: []
-  syntax:
-    content: public const int MaxRecentActionsAmount = 200
-    return:
-      type: System.Int32
-    content.vb: Public Const MaxRecentActionsAmount As Integer = 200
 - uid: TinyLife.Objects.Person.DefaultWalkSpeed
   commentId: F:TinyLife.Objects.Person.DefaultWalkSpeed
   id: DefaultWalkSpeed
@@ -327,11 +300,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DefaultWalkSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 53
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -356,11 +329,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AgeGroups
     path: ../TinyLife/Objects/Person.cs
-    startLine: 58
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -385,11 +358,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpeakSounds
     path: ../TinyLife/Objects/Person.cs
-    startLine: 62
+    startLine: 59
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -414,11 +387,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpeakStyles
     path: ../TinyLife/Objects/Person.cs
-    startLine: 66
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -443,11 +416,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VoiceStyles
     path: ../TinyLife/Objects/Person.cs
-    startLine: 70
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -472,11 +445,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawSize
     path: ../TinyLife/Objects/Person.cs
-    startLine: 75
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -503,11 +476,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 93
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -535,11 +508,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentActions
     path: ../TinyLife/Objects/Person.cs
-    startLine: 115
+    startLine: 112
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -574,11 +547,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ActionQueue
     path: ../TinyLife/Objects/Person.cs
-    startLine: 122
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -613,11 +586,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AllActions
     path: ../TinyLife/Objects/Person.cs
-    startLine: 126
+    startLine: 123
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -644,11 +617,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Needs
     path: ../TinyLife/Objects/Person.cs
-    startLine: 132
+    startLine: 129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -683,11 +656,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Skills
     path: ../TinyLife/Objects/Person.cs
-    startLine: 138
+    startLine: 135
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -722,11 +695,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Relationships
     path: ../TinyLife/Objects/Person.cs
-    startLine: 144
+    startLine: 141
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -761,11 +734,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Outfits
     path: ../TinyLife/Objects/Person.cs
-    startLine: 150
+    startLine: 147
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -804,11 +777,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PersonalityTypes
     path: ../TinyLife/Objects/Person.cs
-    startLine: 156
+    startLine: 153
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -843,11 +816,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EmotionModifiers
     path: ../TinyLife/Objects/Person.cs
-    startLine: 162
+    startLine: 159
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -882,11 +855,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Projects
     path: ../TinyLife/Objects/Person.cs
-    startLine: 168
+    startLine: 165
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -907,45 +880,6 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
-- uid: TinyLife.Objects.Person.RecentActions
-  commentId: F:TinyLife.Objects.Person.RecentActions
-  id: RecentActions
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: RecentActions
-  nameWithType: Person.RecentActions
-  fullName: TinyLife.Objects.Person.RecentActions
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: RecentActions
-    path: ../TinyLife/Objects/Person.cs
-    startLine: 175
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: "\nThe <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref> of actions that this person has done recently, in order that they have been done in, with the most recent action being at the end of the list.\nNote that the size of this list never exceeds <xref href=\"TinyLife.Objects.Person.MaxRecentActionsAmount\" data-throw-if-not-resolved=\"false\"></xref>.\nCompleted actions are added to this queue automatically.\n"
-  example: []
-  syntax:
-    content: >-
-      [DataMember]
-
-      public readonly List<ActionType> RecentActions
-    return:
-      type: System.Collections.Generic.List{TinyLife.Actions.ActionType}
-    content.vb: >-
-      <DataMember>
-
-      Public ReadOnly RecentActions As List(Of ActionType)
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
 - uid: TinyLife.Objects.Person.Memories
   commentId: F:TinyLife.Objects.Person.Memories
   id: Memories
@@ -960,27 +894,31 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Memories
     path: ../TinyLife/Objects/Person.cs
-    startLine: 181
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: "\nA set of <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> instances that this person currently has or tracks.\nTo edit and query this collection easily, <xref href=\"TinyLife.Objects.Person.AddMemory%60%601(TinyLife.Goals.MemoryType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Nullable%7bSystem.TimeSpan%7d)\" data-throw-if-not-resolved=\"false\"></xref>/>, <xref href=\"TinyLife.Objects.Person.GetMemories%60%601(TinyLife.Goals.MemoryType)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.Person.GetTimeSinceMemory%60%601(TinyLife.Goals.MemoryType%2cSystem.Func%7b%60%600%2cSystem.Boolean%7d)\" data-throw-if-not-resolved=\"false\"></xref> can be used.\n"
+  summary: "\nA set of <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> instances that this person currently has or tracks.\nTo edit and query this collection easily, <xref href=\"TinyLife.Objects.Person.AddMemory%60%601(TinyLife.Goals.MemoryType%2cTinyLife.Actions.ActionInfo%2cSystem.Int32%2cSystem.Nullable%7bSystem.TimeSpan%7d)\" data-throw-if-not-resolved=\"false\"></xref>/>, <xref href=\"TinyLife.Objects.Person.GetMemories%60%601(TinyLife.Goals.MemoryType)\" data-throw-if-not-resolved=\"false\"></xref> and <xref href=\"TinyLife.Objects.Person.GetTimeSinceMemory%60%601(TinyLife.Goals.MemoryType%2cSystem.Func%7b%60%600%2cSystem.Boolean%7d)\" data-throw-if-not-resolved=\"false\"></xref> can be used.\n"
   example: []
   syntax:
     content: >-
       [DataMember]
 
-      public readonly List<Memory> Memories
+      [JsonConverter(typeof(Person.MemoriesConverter))]
+
+      public readonly Dictionary<string, List<Memory>> Memories
     return:
-      type: System.Collections.Generic.List{TinyLife.Goals.Memory}
+      type: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{TinyLife.Goals.Memory}}
     content.vb: >-
       <DataMember>
 
-      Public ReadOnly Memories As List(Of Memory)
+      <JsonConverter(GetType(Person.MemoriesConverter))>
+
+      Public ReadOnly Memories As Dictionary(Of String, List(Of Memory))
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -999,11 +937,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Jobs
     path: ../TinyLife/Objects/Person.cs
-    startLine: 187
+    startLine: 177
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1038,11 +976,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FirstName
     path: ../TinyLife/Objects/Person.cs
-    startLine: 193
+    startLine: 183
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1077,11 +1015,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LastName
     path: ../TinyLife/Objects/Person.cs
-    startLine: 198
+    startLine: 188
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1116,11 +1054,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Pronouns
     path: ../TinyLife/Objects/Person.cs
-    startLine: 203
+    startLine: 193
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1155,11 +1093,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FullName
     path: ../TinyLife/Objects/Person.cs
-    startLine: 207
+    startLine: 197
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1186,11 +1124,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FullNamePronouns
     path: ../TinyLife/Objects/Person.cs
-    startLine: 211
+    startLine: 201
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1217,11 +1155,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VoiceStyle
     path: ../TinyLife/Objects/Person.cs
-    startLine: 225
+    startLine: 215
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1256,11 +1194,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VoicePitch
     path: ../TinyLife/Objects/Person.cs
-    startLine: 231
+    startLine: 221
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1295,11 +1233,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Rotation
     path: ../TinyLife/Objects/Person.cs
-    startLine: 235
+    startLine: 225
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1326,11 +1264,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Household
     path: ../TinyLife/Objects/Person.cs
-    startLine: 246
+    startLine: 236
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1357,11 +1295,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentEmote
     path: ../TinyLife/Objects/Person.cs
-    startLine: 260
+    startLine: 250
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1388,11 +1326,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentSpeakStyle
     path: ../TinyLife/Objects/Person.cs
-    startLine: 265
+    startLine: 255
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1419,11 +1357,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LastVisitedLot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 271
+    startLine: 261
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1450,11 +1388,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LotVisitCooldown
     path: ../TinyLife/Objects/Person.cs
-    startLine: 287
+    startLine: 277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1495,11 +1433,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WasInvitedIn
     path: ../TinyLife/Objects/Person.cs
-    startLine: 293
+    startLine: 283
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1538,11 +1476,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Job
     path: ../TinyLife/Objects/Person.cs
-    startLine: 297
+    startLine: 287
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1592,11 +1530,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Emotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 302
+    startLine: 292
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1623,11 +1561,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EmotionAmount
     path: ../TinyLife/Objects/Person.cs
-    startLine: 312
+    startLine: 302
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1654,11 +1592,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentRoomDecorativeRating
     path: ../TinyLife/Objects/Person.cs
-    startLine: 322
+    startLine: 312
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1685,11 +1623,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LastBedSleptIn
     path: ../TinyLife/Objects/Person.cs
-    startLine: 327
+    startLine: 317
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1728,11 +1666,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsMoving
     path: ../TinyLife/Objects/Person.cs
-    startLine: 332
+    startLine: 322
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1759,11 +1697,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LotEmployment
     path: ../TinyLife/Objects/Person.cs
-    startLine: 338
+    startLine: 328
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1802,11 +1740,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentOutfitIndex
     path: ../TinyLife/Objects/Person.cs
-    startLine: 343
+    startLine: 333
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1843,11 +1781,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 348
+    startLine: 338
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1874,11 +1812,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsCurrentHousehold
     path: ../TinyLife/Objects/Person.cs
-    startLine: 350
+    startLine: 340
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1905,11 +1843,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LifeSpan
     path: ../TinyLife/Objects/Person.cs
-    startLine: 354
+    startLine: 344
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1936,11 +1874,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HomeLot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 356
+    startLine: 346
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1967,11 +1905,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Money
     path: ../TinyLife/Objects/Person.cs
-    startLine: 358
+    startLine: 348
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1998,11 +1936,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsRegularVisitor
     path: ../TinyLife/Objects/Person.cs
-    startLine: 369
+    startLine: 359
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2029,11 +1967,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Age
     path: ../TinyLife/Objects/Person.cs
-    startLine: 373
+    startLine: 363
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2060,11 +1998,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LifeGoal
     path: ../TinyLife/Objects/Person.cs
-    startLine: 386
+    startLine: 376
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2091,11 +2029,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Description
     path: ../TinyLife/Objects/Person.cs
-    startLine: 399
+    startLine: 389
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2130,11 +2068,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsDead
     path: ../TinyLife/Objects/Person.cs
-    startLine: 405
+    startLine: 395
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2169,11 +2107,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentAgeDays
     path: ../TinyLife/Objects/Person.cs
-    startLine: 411
+    startLine: 401
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2208,11 +2146,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DaysLived
     path: ../TinyLife/Objects/Person.cs
-    startLine: 417
+    startLine: 407
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2247,11 +2185,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RandomlyGenerated
     path: ../TinyLife/Objects/Person.cs
-    startLine: 421
+    startLine: 411
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2292,11 +2230,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisuallyOccupiedSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 429
+    startLine: 419
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2323,11 +2261,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupiedFurniture
     path: ../TinyLife/Objects/Person.cs
-    startLine: 440
+    startLine: 430
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2354,11 +2292,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentPose
     path: ../TinyLife/Objects/Person.cs
-    startLine: 449
+    startLine: 439
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2393,11 +2331,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WornLayers
     path: ../TinyLife/Objects/Person.cs
-    startLine: 456
+    startLine: 446
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2432,11 +2370,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AnimateHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 461
+    startLine: 451
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2461,11 +2399,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HeldObjectRotation
     path: ../TinyLife/Objects/Person.cs
-    startLine: 467
+    startLine: 457
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2490,11 +2428,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AnimationSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 472
+    startLine: 462
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2519,11 +2457,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Tint
     path: ../TinyLife/Objects/Person.cs
-    startLine: 477
+    startLine: 467
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2548,11 +2486,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisualPosition
     path: ../TinyLife/Objects/Person.cs
-    startLine: 483
+    startLine: 473
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2579,11 +2517,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DiaperDirty
     path: ../TinyLife/Objects/Person.cs
-    startLine: 491
+    startLine: 481
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2622,11 +2560,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PregnancyAbility
     path: ../TinyLife/Objects/Person.cs
-    startLine: 496
+    startLine: 486
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2661,11 +2599,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Portrait
     path: ../TinyLife/Objects/Person.cs
-    startLine: 501
+    startLine: 491
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2692,11 +2630,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PregnancyHoursRemaining
     path: ../TinyLife/Objects/Person.cs
-    startLine: 531
+    startLine: 521
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2737,11 +2675,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PregnancyPartner
     path: ../TinyLife/Objects/Person.cs
-    startLine: 537
+    startLine: 527
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2782,11 +2720,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsInLabor
     path: ../TinyLife/Objects/Person.cs
-    startLine: 544
+    startLine: 534
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2825,11 +2763,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsPregnant
     path: ../TinyLife/Objects/Person.cs
-    startLine: 549
+    startLine: 539
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2856,11 +2794,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsAllowedToDie
     path: ../TinyLife/Objects/Person.cs
-    startLine: 554
+    startLine: 544
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2887,11 +2825,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PhoneColors
     path: ../TinyLife/Objects/Person.cs
-    startLine: 563
+    startLine: 553
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2912,6 +2850,37 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Objects.Person.RecentActions
+  commentId: P:TinyLife.Objects.Person.RecentActions
+  id: RecentActions
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: RecentActions
+  nameWithType: Person.RecentActions
+  fullName: TinyLife.Objects.Person.RecentActions
+  type: Property
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: RecentActions
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 558
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nA set of <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> instances of the <xref href=\"TinyLife.Goals.MemoryType.ActionDone\" data-throw-if-not-resolved=\"false\"></xref> types that this person has recently done.\nThe last three or fewer instances of any given <xref href=\"TinyLife.Actions.ActionType\" data-throw-if-not-resolved=\"false\"></xref> will be returned as part of this collection.\n"
+  example: []
+  syntax:
+    content: public IEnumerable<(ActionType Type, Memory Memory)> RecentActions { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}}
+    content.vb: Public ReadOnly Property RecentActions As IEnumerable(Of (Type As ActionType, Memory As Memory))
+  overload: TinyLife.Objects.Person.RecentActions*
 - uid: TinyLife.Objects.Person.CurrentMode
   commentId: P:TinyLife.Objects.Person.CurrentMode
   id: CurrentMode
@@ -2926,11 +2895,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentMode
     path: ../TinyLife/Objects/Person.cs
-    startLine: 566
+    startLine: 574
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2959,11 +2928,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionsChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 580
+    startLine: 588
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2988,11 +2957,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnNewSkillLearned
     path: ../TinyLife/Objects/Person.cs
-    startLine: 585
+    startLine: 593
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3017,11 +2986,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnJobChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 590
+    startLine: 598
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3046,11 +3015,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEmotionModifiersChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 595
+    startLine: 603
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3075,11 +3044,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEmotionChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 600
+    startLine: 608
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3104,11 +3073,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetEfficiencyModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 606
+    startLine: 614
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3119,6 +3088,64 @@ items:
     return:
       type: TinyLife.Objects.Person.EfficiencyModifierDelegate
     content.vb: Public Event OnGetEfficiencyModifier As Person.EfficiencyModifierDelegate
+- uid: TinyLife.Objects.Person.OnGetPersonalitySkillBoost
+  commentId: E:TinyLife.Objects.Person.OnGetPersonalitySkillBoost
+  id: OnGetPersonalitySkillBoost
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: OnGetPersonalitySkillBoost
+  nameWithType: Person.OnGetPersonalitySkillBoost
+  fullName: TinyLife.Objects.Person.OnGetPersonalitySkillBoost
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnGetPersonalitySkillBoost
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 619
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nAn event that is invoked at the end of <xref href=\"TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)\" data-throw-if-not-resolved=\"false\"></xref>, after the default personality skill boost is evaluated.\nThis event can be subscribed to using <xref href=\"TinyLife.Objects.MapObject.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public event Person.SkillBoostDelegate OnGetPersonalitySkillBoost
+    return:
+      type: TinyLife.Objects.Person.SkillBoostDelegate
+    content.vb: Public Event OnGetPersonalitySkillBoost As Person.SkillBoostDelegate
+- uid: TinyLife.Objects.Person.OnGetEmotionSkillBoost
+  commentId: E:TinyLife.Objects.Person.OnGetEmotionSkillBoost
+  id: OnGetEmotionSkillBoost
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: OnGetEmotionSkillBoost
+  nameWithType: Person.OnGetEmotionSkillBoost
+  fullName: TinyLife.Objects.Person.OnGetEmotionSkillBoost
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnGetEmotionSkillBoost
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 624
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nAn event that is invoked at the end of <xref href=\"TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)\" data-throw-if-not-resolved=\"false\"></xref>, after the default emotion skill boost is evaluated.\nThis event can be subscribed to using <xref href=\"TinyLife.Objects.MapObject.OnEventsAttachable\" data-throw-if-not-resolved=\"false\"></xref>.\n"
+  example: []
+  syntax:
+    content: public event Person.SkillBoostDelegate OnGetEmotionSkillBoost
+    return:
+      type: TinyLife.Objects.Person.SkillBoostDelegate
+    content.vb: Public Event OnGetEmotionSkillBoost As Person.SkillBoostDelegate
 - uid: TinyLife.Objects.Person.OnGetWalkSpeed
   commentId: E:TinyLife.Objects.Person.OnGetWalkSpeed
   id: OnGetWalkSpeed
@@ -3133,11 +3160,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetWalkSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 612
+    startLine: 630
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3162,11 +3189,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetPassiveActionPriority
     path: ../TinyLife/Objects/Person.cs
-    startLine: 618
+    startLine: 636
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3191,11 +3218,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionInitialized
     path: ../TinyLife/Objects/Person.cs
-    startLine: 623
+    startLine: 641
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3220,11 +3247,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionsCompleted
     path: ../TinyLife/Objects/Person.cs
-    startLine: 628
+    startLine: 646
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3249,11 +3276,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionUpdated
     path: ../TinyLife/Objects/Person.cs
-    startLine: 633
+    startLine: 651
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3278,11 +3305,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnOutfitChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 638
+    startLine: 656
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3307,11 +3334,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetCurrentGoals
     path: ../TinyLife/Objects/Person.cs
-    startLine: 644
+    startLine: 662
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3336,11 +3363,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnLifeGoalChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 649
+    startLine: 667
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3365,11 +3392,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 655
+    startLine: 673
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3394,11 +3421,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnChangeFriendship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 661
+    startLine: 679
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3423,11 +3450,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnChangeRomance
     path: ../TinyLife/Objects/Person.cs
-    startLine: 667
+    startLine: 685
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3452,11 +3479,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Person.cs
-    startLine: 717
+    startLine: 736
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3503,11 +3530,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Finalize
     path: ../TinyLife/Objects/Person.cs
-    startLine: 723
+    startLine: 742
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3533,11 +3560,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/Person.cs
-    startLine: 728
+    startLine: 747
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3576,11 +3603,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1052
+    startLine: 1077
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3623,11 +3650,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1097
+    startLine: 1122
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3655,11 +3682,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCategories
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1165
+    startLine: 1202
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3691,11 +3718,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intersects
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1170
+    startLine: 1207
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3727,11 +3754,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHoverInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1175
+    startLine: 1212
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3760,11 +3787,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpotInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1195
+    startLine: 1232
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3799,11 +3826,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCameraRotationChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1208
+    startLine: 1245
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3835,11 +3862,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FocusCameraOnEvent
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1219
+    startLine: 1256
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3875,11 +3902,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1240
+    startLine: 1277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3925,11 +3952,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1254
+    startLine: 1291
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3966,11 +3993,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1267
+    startLine: 1308
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4001,11 +4028,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1274
+    startLine: 1315
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4043,11 +4070,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveToMap
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1336
+    startLine: 1376
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4088,11 +4115,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PrepareForPermanentRemoval
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1354
+    startLine: 1394
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4116,11 +4143,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisitLot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1368
+    startLine: 1408
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4148,11 +4175,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawUi
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1385
+    startLine: 1425
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4192,11 +4219,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRelationship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1396
+    startLine: 1436
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4233,11 +4260,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChangeFriendship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1421
+    startLine: 1461
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4271,11 +4298,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChangeRomance
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1473
+    startLine: 1513
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4309,11 +4336,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayEmote
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1506
+    startLine: 1546
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4353,11 +4380,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StopEmoting
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1517
+    startLine: 1557
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4381,11 +4408,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Speak
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1528
+    startLine: 1568
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4422,11 +4449,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StopSpeaking
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1538
+    startLine: 1578
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4450,11 +4477,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayEmoteAndSpeak
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1555
+    startLine: 1595
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4494,11 +4521,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeTalkingSpots
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1565
+    startLine: 1605
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4528,11 +4555,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1585
+    startLine: 1625
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4575,11 +4602,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyFreeActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1616
+    startLine: 1656
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4625,11 +4652,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyFreeActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1634
+    startLine: 1674
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4675,11 +4702,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsCloseForTalking
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1646
+    startLine: 1686
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4716,11 +4743,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1658
+    startLine: 1698
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4751,11 +4778,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNeedPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1667
+    startLine: 1707
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4786,11 +4813,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1679
+    startLine: 1719
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4830,11 +4857,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1715
+    startLine: 1755
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4877,11 +4904,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkill
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1726
+    startLine: 1766
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4918,11 +4945,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillTotalPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1745
+    startLine: 1785
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4953,11 +4980,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillPointPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1755
+    startLine: 1795
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4988,11 +5015,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillLevel
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1765
+    startLine: 1805
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5023,11 +5050,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasSkillLevel
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1775
+    startLine: 1815
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5064,11 +5091,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GainSkill
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1787
+    startLine: 1827
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5110,11 +5137,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepleteNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1807
+    startLine: 1847
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5151,11 +5178,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasPersonality
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1818
+    startLine: 1858
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5186,11 +5213,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EnqueueAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1832
+    startLine: 1872
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5241,11 +5268,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CancelAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1863
+    startLine: 1903
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5285,11 +5312,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1879
+    startLine: 1919
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5325,11 +5352,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1897
+    startLine: 1937
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5375,11 +5402,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1910
+    startLine: 1950
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5413,11 +5440,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1923
+    startLine: 1963
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5450,11 +5477,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldActionInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1937
+    startLine: 1977
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5481,11 +5508,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToCreatedByString
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1946
+    startLine: 1986
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5512,11 +5539,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Die
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1954
+    startLine: 1994
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5546,11 +5573,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2052
+    startLine: 2092
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5596,11 +5623,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2075
+    startLine: 2115
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5631,11 +5658,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LowerEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2096
+    startLine: 2136
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5675,11 +5702,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LowerEmotionModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2115
+    startLine: 2155
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5719,11 +5746,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasEmotionModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2131
+    startLine: 2171
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5754,11 +5781,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWalkSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2140
+    startLine: 2180
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5785,11 +5812,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetEfficiencyModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2175
+    startLine: 2215
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5832,11 +5859,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasHouseholdMember
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2229
+    startLine: 2255
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5867,11 +5894,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasHouseholdMember
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2234
+    startLine: 2260
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5901,11 +5928,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetProjects
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2244
+    startLine: 2270
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5939,11 +5966,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetProject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2254
+    startLine: 2280
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5980,11 +6007,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StartProject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2263
+    startLine: 2289
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6015,11 +6042,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPassiveActionPriority
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2275
+    startLine: 2301
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6050,11 +6077,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2297
+    startLine: 2323
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6085,11 +6112,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCurrentOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2309
+    startLine: 2335
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6120,11 +6147,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCurrentOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2325
+    startLine: 2351
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6155,11 +6182,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetNewId
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2340
+    startLine: 2366
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6196,11 +6223,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsIdMatch
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2395
+    startLine: 2421
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6231,11 +6258,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsIdMatch
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2405
+    startLine: 2431
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6266,11 +6293,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPersonalitySkillBoost
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2415
+    startLine: 2441
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6287,6 +6314,41 @@ items:
       description: A modifier that skills should be boosted by
     content.vb: Public Overridable Function GetPersonalitySkillBoost(skill As SkillType) As Single
   overload: TinyLife.Objects.Person.GetPersonalitySkillBoost*
+- uid: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  commentId: M:TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  id: GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GetEmotionSkillBoost(SkillType)
+  nameWithType: Person.GetEmotionSkillBoost(SkillType)
+  fullName: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetEmotionSkillBoost
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 2463
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: "\nReturns a modifier that skills with the given <xref href=\"TinyLife.Skills.SkillType\" data-throw-if-not-resolved=\"false\"></xref> should be boosted by, based on this person&apos;s current <xref href=\"TinyLife.Objects.Person.Emotion\" data-throw-if-not-resolved=\"false\"></xref>.\nThis method is used by <xref href=\"TinyLife.Objects.Person.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)\" data-throw-if-not-resolved=\"false\"></xref>, and is also used to display the emotion image in the skills menu.\n"
+  example: []
+  syntax:
+    content: public virtual float GetEmotionSkillBoost(SkillType skill)
+    parameters:
+    - id: skill
+      type: TinyLife.Skills.SkillType
+      description: ''
+    return:
+      type: System.Single
+      description: ''
+    content.vb: Public Overridable Function GetEmotionSkillBoost(skill As SkillType) As Single
+  overload: TinyLife.Objects.Person.GetEmotionSkillBoost*
 - uid: TinyLife.Objects.Person.GetCurrentGoals
   commentId: M:TinyLife.Objects.Person.GetCurrentGoals
   id: GetCurrentGoals
@@ -6301,11 +6363,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCurrentGoals
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2435
+    startLine: 2487
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6332,11 +6394,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EarnMoney
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2461
+    startLine: 2513
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6356,32 +6418,32 @@ items:
   nameWithType.vb: Person.EarnMoney(Single, Object)
   fullName.vb: TinyLife.Objects.Person.EarnMoney(Single, Object)
   name.vb: EarnMoney(Single, Object)
-- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
-  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
-  id: AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
+- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
+  id: AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
   parent: TinyLife.Objects.Person
   langs:
   - csharp
   - vb
-  name: AddMemory<T>(MemoryType, ActionInfo, bool, TimeSpan?)
-  nameWithType: Person.AddMemory<T>(MemoryType, ActionInfo, bool, TimeSpan?)
-  fullName: TinyLife.Objects.Person.AddMemory<T>(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, bool, System.TimeSpan?)
+  name: AddMemory<T>(MemoryType, ActionInfo, int, TimeSpan?)
+  nameWithType: Person.AddMemory<T>(MemoryType, ActionInfo, int, TimeSpan?)
+  fullName: TinyLife.Objects.Person.AddMemory<T>(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, int, System.TimeSpan?)
   type: Method
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2474
+    startLine: 2526
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nAdds a <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> to the <xref href=\"TinyLife.Objects.Person.Memories\" data-throw-if-not-resolved=\"false\"></xref> list of this person.\n"
   example: []
   syntax:
-    content: 'public virtual T AddMemory<T>(MemoryType type, ActionInfo info, bool replace = true, TimeSpan? timeOccured = null) where T : Memory'
+    content: 'public virtual T AddMemory<T>(MemoryType type, ActionInfo info, int toKeep = 0, TimeSpan? timeOccured = null) where T : Memory'
     parameters:
     - id: type
       type: TinyLife.Goals.MemoryType
@@ -6389,9 +6451,9 @@ items:
     - id: info
       type: TinyLife.Actions.ActionInfo
       description: The action info to attach to this memory, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use <xref href="TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.Person)" data-throw-if-not-resolved="false"></xref>.
-    - id: replace
-      type: System.Boolean
-      description: Whether existing instances of the given <code data-dev-comment-type="paramref" class="paramref">type</code> should be replaced by this memory.
+    - id: toKeep
+      type: System.Int32
+      description: An amount of memories of the given <code data-dev-comment-type="paramref" class="paramref">type</code> to keep, also counting the newly added one. Oldest memories will be removed first.
     - id: timeOccured
       type: System.Nullable{System.TimeSpan}
       description: The time that this memory occured on, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use <xref href="TinyLife.World.Map.Time" data-throw-if-not-resolved="false"></xref>.
@@ -6400,11 +6462,11 @@ items:
     return:
       type: '{T}'
       description: The added memory.
-    content.vb: Public Overridable Function AddMemory(Of T As Memory)(type As MemoryType, info As ActionInfo, replace As Boolean = True, timeOccured As TimeSpan? = Nothing) As T
+    content.vb: Public Overridable Function AddMemory(Of T As Memory)(type As MemoryType, info As ActionInfo, toKeep As Integer = 0, timeOccured As TimeSpan? = Nothing) As T
   overload: TinyLife.Objects.Person.AddMemory*
-  nameWithType.vb: Person.AddMemory(Of T)(MemoryType, ActionInfo, Boolean, TimeSpan?)
-  fullName.vb: TinyLife.Objects.Person.AddMemory(Of T)(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, Boolean, System.TimeSpan?)
-  name.vb: AddMemory(Of T)(MemoryType, ActionInfo, Boolean, TimeSpan?)
+  nameWithType.vb: Person.AddMemory(Of T)(MemoryType, ActionInfo, Integer, TimeSpan?)
+  fullName.vb: TinyLife.Objects.Person.AddMemory(Of T)(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, Integer, System.TimeSpan?)
+  name.vb: AddMemory(Of T)(MemoryType, ActionInfo, Integer, TimeSpan?)
 - uid: TinyLife.Objects.Person.GetMemories``1(TinyLife.Goals.MemoryType)
   commentId: M:TinyLife.Objects.Person.GetMemories``1(TinyLife.Goals.MemoryType)
   id: GetMemories``1(TinyLife.Goals.MemoryType)
@@ -6419,11 +6481,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMemories
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2487
+    startLine: 2538
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6445,36 +6507,39 @@ items:
   nameWithType.vb: Person.GetMemories(Of T)(MemoryType)
   fullName.vb: TinyLife.Objects.Person.GetMemories(Of T)(TinyLife.Goals.MemoryType)
   name.vb: GetMemories(Of T)(MemoryType)
-- uid: TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
-  commentId: M:TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
-  id: RemoveMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
+- uid: TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
+  commentId: M:TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
+  id: RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   parent: TinyLife.Objects.Person
   langs:
   - csharp
   - vb
-  name: RemoveMemory<T>(MemoryType, Func<T, bool>)
-  nameWithType: Person.RemoveMemory<T>(MemoryType, Func<T, bool>)
-  fullName: TinyLife.Objects.Person.RemoveMemory<T>(TinyLife.Goals.MemoryType, System.Func<T, bool>)
+  name: RemoveMemory<T>(MemoryType, int, Func<T, bool>)
+  nameWithType: Person.RemoveMemory<T>(MemoryType, int, Func<T, bool>)
+  fullName: TinyLife.Objects.Person.RemoveMemory<T>(TinyLife.Goals.MemoryType, int, System.Func<T, bool>)
   type: Method
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2497
+    startLine: 2549
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: "\nRemoves all <xref href=\"TinyLife.Goals.Memory\" data-throw-if-not-resolved=\"false\"></xref> instances of the given type <code data-dev-comment-type=\"typeparamref\" class=\"typeparamref\">T</code> and <xref href=\"TinyLife.Goals.MemoryType\" data-throw-if-not-resolved=\"false\"></xref> from this person&apos;s <xref href=\"TinyLife.Objects.Person.Memories\" data-throw-if-not-resolved=\"false\"></xref> collection, and returns the amount of memories removed.\n"
   example: []
   syntax:
-    content: 'public virtual int RemoveMemory<T>(MemoryType type, Func<T, bool> condition = null) where T : Memory'
+    content: 'public virtual int RemoveMemory<T>(MemoryType type, int toKeep = 0, Func<T, bool> condition = null) where T : Memory'
     parameters:
     - id: type
       type: TinyLife.Goals.MemoryType
       description: The memory type to match.
+    - id: toKeep
+      type: System.Int32
+      description: An amount of memories of the given <code data-dev-comment-type="paramref" class="paramref">type</code> to keep. Oldest memories will be removed first.
     - id: condition
       type: System.Func{{T},System.Boolean}
       description: An additional condition to determine whether memories should be included in the search.
@@ -6483,11 +6548,11 @@ items:
     return:
       type: System.Int32
       description: How many memories were removed.
-    content.vb: Public Overridable Function RemoveMemory(Of T As Memory)(type As MemoryType, condition As Func(Of T, Boolean) = Nothing) As Integer
+    content.vb: Public Overridable Function RemoveMemory(Of T As Memory)(type As MemoryType, toKeep As Integer = 0, condition As Func(Of T, Boolean) = Nothing) As Integer
   overload: TinyLife.Objects.Person.RemoveMemory*
-  nameWithType.vb: Person.RemoveMemory(Of T)(MemoryType, Func(Of T, Boolean))
-  fullName.vb: TinyLife.Objects.Person.RemoveMemory(Of T)(TinyLife.Goals.MemoryType, System.Func(Of T, Boolean))
-  name.vb: RemoveMemory(Of T)(MemoryType, Func(Of T, Boolean))
+  nameWithType.vb: Person.RemoveMemory(Of T)(MemoryType, Integer, Func(Of T, Boolean))
+  fullName.vb: TinyLife.Objects.Person.RemoveMemory(Of T)(TinyLife.Goals.MemoryType, Integer, System.Func(Of T, Boolean))
+  name.vb: RemoveMemory(Of T)(MemoryType, Integer, Func(Of T, Boolean))
 - uid: TinyLife.Objects.Person.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
   commentId: M:TinyLife.Objects.Person.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
   id: GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
@@ -6502,11 +6567,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTimeSinceMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2508
+    startLine: 2579
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6545,11 +6610,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTimeSinceMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2527
+    startLine: 2598
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6585,11 +6650,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GoToExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2540
+    startLine: 2611
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6616,11 +6681,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2553
+    startLine: 2624
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6660,11 +6725,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetPregnancyStatus
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2573
+    startLine: 2644
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6701,11 +6766,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetAnimationsFromLooks
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2593
+    startLine: 2664
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6729,11 +6794,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ImportAtExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2605
+    startLine: 2676
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6761,11 +6826,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GoToRandomHomeLocation
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2617
+    startLine: 2688
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6789,11 +6854,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldDrawHeldItem
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2636
+    startLine: 2707
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6820,11 +6885,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldItemDrawOffset
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2647
+    startLine: 2718
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6857,11 +6922,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldItemDepthOffset
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2675
+    startLine: 2746
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6888,11 +6953,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPivot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2686
+    startLine: 2757
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6919,11 +6984,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanExecuteAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2698
+    startLine: 2769
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6963,11 +7028,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetValidClothes
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2750
+    startLine: 2821
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6998,11 +7063,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanApplyPersonality
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2762
+    startLine: 2833
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7032,11 +7097,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasRecentlyFailed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2775
+    startLine: 2846
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7073,11 +7138,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveToMapExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2786
+    startLine: 2857
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7111,11 +7176,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GenerateAnimationGroup
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2803
+    startLine: 2874
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7158,11 +7223,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawLooks
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2841
+    startLine: 2912
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7211,11 +7276,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateAnimations
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2864
+    startLine: 2935
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7249,11 +7314,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionCompleted
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2883
+    startLine: 2954
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7284,11 +7349,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2962
+    startLine: 3031
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7331,11 +7396,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InitializeAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2975
+    startLine: 3044
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7363,11 +7428,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnAgeChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2985
+    startLine: 3054
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7395,11 +7460,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidateClothes
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3071
+    startLine: 3140
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7423,11 +7488,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomSpeakSound
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3205
+    startLine: 3285
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7470,11 +7535,11 @@ items:
   source:
     remote:
       path: TinyLife/Objects/Person.cs
-      branch: 0.37.5-dev
+      branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Create
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3233
+    startLine: 3313
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -9236,22 +9301,6 @@ references:
   - name: .
   - uid: TinyLife.Utilities
     name: Utilities
-- uid: TinyLife.Objects.Person.RecentActions
-  commentId: F:TinyLife.Objects.Person.RecentActions
-  name: RecentActions
-  nameWithType: Person.RecentActions
-  fullName: TinyLife.Objects.Person.RecentActions
-- uid: System.Int32
-  commentId: T:System.Int32
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int
-  nameWithType: int
-  fullName: int
-  nameWithType.vb: Integer
-  fullName.vb: Integer
-  name.vb: Integer
 - uid: TinyLife.Objects.Person.GetWalkSpeed
   commentId: M:TinyLife.Objects.Person.GetWalkSpeed
   name: GetWalkSpeed()
@@ -10836,82 +10885,23 @@ references:
   - name: .
   - uid: TinyLife.Goals
     name: Goals
-- uid: TinyLife.Actions.ActionType
-  commentId: T:TinyLife.Actions.ActionType
-  parent: TinyLife.Actions
-  name: ActionType
-  nameWithType: ActionType
-  fullName: TinyLife.Actions.ActionType
-- uid: TinyLife.Objects.Person.MaxRecentActionsAmount
-  commentId: F:TinyLife.Objects.Person.MaxRecentActionsAmount
-  name: MaxRecentActionsAmount
-  nameWithType: Person.MaxRecentActionsAmount
-  fullName: TinyLife.Objects.Person.MaxRecentActionsAmount
-- uid: System.Collections.Generic.List{TinyLife.Actions.ActionType}
-  commentId: T:System.Collections.Generic.List{TinyLife.Actions.ActionType}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<ActionType>
-  nameWithType: List<ActionType>
-  fullName: System.Collections.Generic.List<TinyLife.Actions.ActionType>
-  nameWithType.vb: List(Of ActionType)
-  fullName.vb: System.Collections.Generic.List(Of TinyLife.Actions.ActionType)
-  name.vb: List(Of ActionType)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-  - name: )
-- uid: TinyLife.Actions
-  commentId: N:TinyLife.Actions
-  name: TinyLife.Actions
-  nameWithType: TinyLife.Actions
-  fullName: TinyLife.Actions
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
 - uid: TinyLife.Goals.Memory
   commentId: T:TinyLife.Goals.Memory
   name: Memory
   nameWithType: Memory
   fullName: TinyLife.Goals.Memory
-- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
-  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
+- uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: AddMemory<T>(MemoryType, ActionInfo, bool, TimeSpan?)
-  nameWithType: Person.AddMemory<T>(MemoryType, ActionInfo, bool, TimeSpan?)
-  fullName: TinyLife.Objects.Person.AddMemory<T>(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, bool, System.TimeSpan?)
-  nameWithType.vb: Person.AddMemory(Of T)(MemoryType, ActionInfo, Boolean, TimeSpan?)
-  fullName.vb: TinyLife.Objects.Person.AddMemory(Of T)(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, Boolean, System.TimeSpan?)
-  name.vb: AddMemory(Of T)(MemoryType, ActionInfo, Boolean, TimeSpan?)
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: AddMemory<T>(MemoryType, ActionInfo, int, TimeSpan?)
+  nameWithType: Person.AddMemory<T>(MemoryType, ActionInfo, int, TimeSpan?)
+  fullName: TinyLife.Objects.Person.AddMemory<T>(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, int, System.TimeSpan?)
+  nameWithType.vb: Person.AddMemory(Of T)(MemoryType, ActionInfo, Integer, TimeSpan?)
+  fullName.vb: TinyLife.Objects.Person.AddMemory(Of T)(TinyLife.Goals.MemoryType, TinyLife.Actions.ActionInfo, Integer, System.TimeSpan?)
+  name.vb: AddMemory(Of T)(MemoryType, ActionInfo, Integer, TimeSpan?)
   spec.csharp:
-  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
+  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
     name: AddMemory
   - name: <
   - name: T
@@ -10925,10 +10915,10 @@ references:
     name: ActionInfo
   - name: ','
   - name: " "
-  - uid: System.Boolean
-    name: bool
+  - uid: System.Int32
+    name: int
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: ','
   - name: " "
   - uid: System.TimeSpan
@@ -10938,7 +10928,7 @@ references:
   - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Boolean,System.Nullable{System.TimeSpan})
+  - uid: TinyLife.Objects.Person.AddMemory``1(TinyLife.Goals.MemoryType,TinyLife.Actions.ActionInfo,System.Int32,System.Nullable{System.TimeSpan})
     name: AddMemory
   - name: (
   - name: Of
@@ -10954,10 +10944,10 @@ references:
     name: ActionInfo
   - name: ','
   - name: " "
-  - uid: System.Boolean
-    name: Boolean
+  - uid: System.Int32
+    name: Integer
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: ','
   - name: " "
   - uid: System.TimeSpan
@@ -11060,18 +11050,29 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   - name: )
-- uid: System.Collections.Generic.List{TinyLife.Goals.Memory}
-  commentId: T:System.Collections.Generic.List{TinyLife.Goals.Memory}
+- uid: System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{TinyLife.Goals.Memory}}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{TinyLife.Goals.Memory}}
   parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<Memory>
-  nameWithType: List<Memory>
-  fullName: System.Collections.Generic.List<TinyLife.Goals.Memory>
-  nameWithType.vb: List(Of Memory)
-  fullName.vb: System.Collections.Generic.List(Of TinyLife.Goals.Memory)
-  name.vb: List(Of Memory)
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, List<Memory>>
+  nameWithType: Dictionary<string, List<Memory>>
+  fullName: System.Collections.Generic.Dictionary<string, System.Collections.Generic.List<TinyLife.Goals.Memory>>
+  nameWithType.vb: Dictionary(Of String, List(Of Memory))
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, System.Collections.Generic.List(Of TinyLife.Goals.Memory))
+  name.vb: Dictionary(Of String, List(Of Memory))
   spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: System.Collections.Generic.List`1
     name: List
     isExternal: true
@@ -11080,7 +11081,21 @@ references:
   - uid: TinyLife.Goals.Memory
     name: Memory
   - name: '>'
+  - name: '>'
   spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
   - uid: System.Collections.Generic.List`1
     name: List
     isExternal: true
@@ -11090,6 +11105,7 @@ references:
   - name: " "
   - uid: TinyLife.Goals.Memory
     name: Memory
+  - name: )
   - name: )
 - uid: TinyLife.Objects.Person.AddJob(TinyLife.Goals.JobType,System.Int32)
   commentId: M:TinyLife.Objects.Person.AddJob(TinyLife.Goals.JobType,System.Int32)
@@ -11386,6 +11402,23 @@ references:
   name: CurrentEmote
   nameWithType: Person.CurrentEmote
   fullName: TinyLife.Objects.Person.CurrentEmote
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
 - uid: TinyLife.Objects.Person.CurrentSpeakStyle*
   commentId: Overload:TinyLife.Objects.Person.CurrentSpeakStyle
   name: CurrentSpeakStyle
@@ -11540,6 +11573,17 @@ references:
   name: EmotionAmount
   nameWithType: Person.EmotionAmount
   fullName: TinyLife.Objects.Person.EmotionAmount
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   name: DecorativeRating
@@ -12556,6 +12600,85 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: (
   - name: )
+- uid: TinyLife.Goals.MemoryType.ActionDone
+  commentId: F:TinyLife.Goals.MemoryType.ActionDone
+  name: ActionDone
+  nameWithType: MemoryType.ActionDone
+  fullName: TinyLife.Goals.MemoryType.ActionDone
+- uid: TinyLife.Actions.ActionType
+  commentId: T:TinyLife.Actions.ActionType
+  parent: TinyLife.Actions
+  name: ActionType
+  nameWithType: ActionType
+  fullName: TinyLife.Actions.ActionType
+- uid: TinyLife.Objects.Person.RecentActions*
+  commentId: Overload:TinyLife.Objects.Person.RecentActions
+  name: RecentActions
+  nameWithType: Person.RecentActions
+  fullName: TinyLife.Objects.Person.RecentActions
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<(ActionType Type, Memory Memory)>
+  nameWithType: IEnumerable<(ActionType Type, Memory Memory)>
+  fullName: System.Collections.Generic.IEnumerable<(TinyLife.Actions.ActionType Type, TinyLife.Goals.Memory Memory)>
+  nameWithType.vb: IEnumerable(Of (Type As ActionType, Memory As Memory))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (Type As TinyLife.Actions.ActionType, Memory As TinyLife.Goals.Memory))
+  name.vb: IEnumerable(Of (Type As ActionType, Memory As Memory))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}.Type
+    name: Type
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actiontype,tinylife.goals.memory-.type
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Goals.Memory
+    name: Memory
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}.Memory
+    name: Memory
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actiontype,tinylife.goals.memory-.memory
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}.Type
+    name: Type
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actiontype,tinylife.goals.memory-.type
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.ActionType,TinyLife.Goals.Memory}.Memory
+    name: Memory
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.actiontype,tinylife.goals.memory-.memory
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Goals.Memory
+    name: Memory
+  - name: )
+  - name: )
 - uid: TinyLife.Objects.Person.CurrentMode*
   commentId: Overload:TinyLife.Objects.Person.CurrentMode
   name: CurrentMode
@@ -12746,6 +12869,62 @@ references:
   - name: .
   - uid: TinyLife.Objects.Person.EfficiencyModifierDelegate
     name: EfficiencyModifierDelegate
+- uid: TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
+  commentId: M:TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
+  name: GetPersonalitySkillBoost(SkillType)
+  nameWithType: Person.GetPersonalitySkillBoost(SkillType)
+  fullName: TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
+    name: GetPersonalitySkillBoost
+  - name: (
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
+    name: GetPersonalitySkillBoost
+  - name: (
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+  - name: )
+- uid: TinyLife.Objects.Person.SkillBoostDelegate
+  commentId: T:TinyLife.Objects.Person.SkillBoostDelegate
+  parent: TinyLife.Objects
+  name: Person.SkillBoostDelegate
+  nameWithType: Person.SkillBoostDelegate
+  fullName: TinyLife.Objects.Person.SkillBoostDelegate
+  spec.csharp:
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: .
+  - uid: TinyLife.Objects.Person.SkillBoostDelegate
+    name: SkillBoostDelegate
+  spec.vb:
+  - uid: TinyLife.Objects.Person
+    name: Person
+  - name: .
+  - uid: TinyLife.Objects.Person.SkillBoostDelegate
+    name: SkillBoostDelegate
+- uid: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  commentId: M:TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  name: GetEmotionSkillBoost(SkillType)
+  nameWithType: Person.GetEmotionSkillBoost(SkillType)
+  fullName: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+    name: GetEmotionSkillBoost
+  - name: (
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
+    name: GetEmotionSkillBoost
+  - name: (
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+  - name: )
 - uid: TinyLife.Objects.Person.WalkSpeedDelegate
   commentId: T:TinyLife.Objects.Person.WalkSpeedDelegate
   parent: TinyLife.Objects
@@ -14899,6 +15078,11 @@ references:
   name: GetPersonalitySkillBoost
   nameWithType: Person.GetPersonalitySkillBoost
   fullName: TinyLife.Objects.Person.GetPersonalitySkillBoost
+- uid: TinyLife.Objects.Person.GetEmotionSkillBoost*
+  commentId: Overload:TinyLife.Objects.Person.GetEmotionSkillBoost
+  name: GetEmotionSkillBoost
+  nameWithType: Person.GetEmotionSkillBoost
+  fullName: TinyLife.Objects.Person.GetEmotionSkillBoost
 - uid: TinyLife.Goals.GoalSet
   commentId: T:TinyLife.Goals.GoalSet
   parent: TinyLife.Goals

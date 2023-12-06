@@ -1,3 +1,51 @@
+# 0.38.0
+*December 6, 2023*
+
+![](media/changelog/0.38.0.png)
+
+> Get Cozy Indoors and Lock Out Your Friends
+
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.38.0/).
+
+Additions
+- Added various clutter items, including jars, palettes, washing up stuff, book stacks, sandbox decor
+- Added various outdoor decorations, including sunflowers and clover patches
+- Added five new wallpapers and three new tiles
+- Added the poetic genius life goal
+- Added the ability to disallow friends and strangers visiting by selecting a home lot's front door
+
+Improvements
+- Display a warning when mods haven't been tested on the current game version
+- Display other maps as part of the main menu background
+- Display the influence of an emotion on a skill in the skill tab
+- Improved depth calculations for big ground objects like rugs
+- Display a dropdown in the pronoun selection area that suggests default pronouns
+- Slightly rebalanced skill item quality outcomes
+- Display when a person is currently on vacation in their job tab
+- Only start new jobs with an active vacation day if they should be at work immediately when getting the job
+
+Fixes
+- Fixed mod error notification not being localized fully
+- Fixed tooltips for missing lot conditions not being displayed when using a gamepad
+- Fixed the name of the in-game hint for multiple floors being missing
+- Fixed people claiming beds on other people's home lots
+- Fixed TVs with more than one layer looking incorrect when displaying content
+- Fixed the ability to load saves that don't have per-save options files
+- Fixed lots at map borders causing a crash
+- Fixed a crash when having an invalid language selected in the options
+- Fixed being able to watch TV on different floors
+- Fixed being entirely unable to order from lot staff
+- Fixed the running animation showing while still stationary when jogging
+
+API
+- Added Mod.TestedVersionRange, a new property that mods are expected to implement, which allows specifying a SemVer version range of Tiny Life versions that the mod has successfully been tested with
+- Overhauled the memories system to allow for multiple memories of each type to be present
+- Updated to .NET 8
+- Generified pathfinding code to allow using it for non-Person objects
+- Allow launching into a save directly using the --save or --load argument
+- Allow using the --ansi argument to include console colors in log files for modders
+- Mods are now loaded in order of their DLL's name
+
 # 0.37.5
 *November 18, 2023*
 
