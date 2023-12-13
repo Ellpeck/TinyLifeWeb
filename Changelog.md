@@ -1,3 +1,22 @@
+# 0.38.1
+*December 13, 2023*
+
+Additions
+- Added an in-game hint that warns players about deadly emotions
+- Added the ability to easily change people's pronouns by selecting them
+
+Improvements
+- Rebalanced painting sale prices a bit
+- Disallow visitors entirely outside of lot visitation hours
+- Made energy and hygiene loss a bit lower when woodworking
+
+Fixes
+- Fixed the modern crib not showing its front
+- Fixed a crash when undoing actions related to furniture and roofing
+- Fixed people entering town in cars appearing to teleport
+- Fixed a rare exception when changing the amount of household members while pathfinding is in progress
+- Fixed lot staff idling around objects on lots other than their work lot
+
 # 0.38.0
 *December 6, 2023*
 
