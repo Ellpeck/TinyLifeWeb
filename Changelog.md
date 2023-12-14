@@ -1,3 +1,9 @@
+# 0.38.2
+*December 14, 2023*
+
+Fixes
+- Fixed an error when people try to visit a lot while none are within visitation hours
+
 # 0.38.1
 *December 13, 2023*
 
@@ -182,7 +188,7 @@ Improvements
 - Display a wide new game button when there are no saves, rather than graying out the load button
 - Inverted default steam cloud behavior, causing newly created saves to be cloud synced by default
 - Use the natural placement sound for water objects
-- Use newer masters of Leiss' soundtrack, which also includes some  previously missing bits
+- Use newer masters of Leiss' soundtrack, which also includes some previously missing bits
 - Changed the furniture tool's name and icon to "Objects" to accommodate the fact that it also contains plants and other decorations
 - Reduced the time it takes for new Steam subscriptions to be reflected in the game
 - Display an info that the game needs to be restarted when enabling or disabling mods
@@ -223,7 +229,7 @@ Additions
 
 Improvements
 - Use the natural placement sound for water objects
-- Use newer masters of Leiss' soundtrack, which also includes some  previously missing bits
+- Use newer masters of Leiss' soundtrack, which also includes some previously missing bits
 - Changed the furniture tool's name and icon to "Objects" to accommodate the fact that it also contains plants and other decorations
 - Reduced the time it takes for new Steam subscriptions to be reflected in the game
 
