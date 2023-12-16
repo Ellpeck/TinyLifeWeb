@@ -1,3 +1,17 @@
+# 0.38.3-pre.1
+*December 16, 2023*
+
+*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+
+Improvements
+- Made people automatically discard items (put them down or put them away) before starting actions that they need empty hands for
+
+Fixes
+- Fixed people getting stuck on stairs when canceling an action sometimes
+
+API
+- Added some UI initialization events
+
 # 0.38.2
 *December 14, 2023*
 
