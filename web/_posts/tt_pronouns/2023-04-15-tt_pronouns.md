@@ -4,8 +4,6 @@ itch: "https://ellpeck.itch.io/tiny-life/devlog/517055/tiny-technicalities-the-p
 steam: "https://store.steampowered.com/news/app/1651490/view/5306971121503255286"
 ---
 
-*Before we get started: A super cool announcement is happening next week, so if you don't want to miss out, be sure to subscribe to the [mailing list](https://tinylifegame.com/subscribe), follow us on [Twitter](https://twitter.com/TinyLifeGame), or join the [Discord server](https://link.tinylifegame.com/discordweb)!*
-
 Yesterday, we released what we lovingly called *The Pronoun Update™*, which contains plenty of improvements and bug fixes and one important new feature: the ability to set custom pronouns for each Tiny you create.
 
 ![](0.31.0.png)
@@ -13,8 +11,6 @@ Yesterday, we released what we lovingly called *The Pronoun Update™*, which co
 A few days before that, we published a little [twitter Thread](https://twitter.com/TinyLifeGame/status/1643587758135418880) about our intentions with this update, as well as our future plans in relation to this feature. Now, I'd like to take some time to expand on this a bit, and explain why this feature is only releasing now, and why it's so... lackluster in its current implementation.
 
 ## Pronouns and Politics
-
-*Edit: I overhauled this section to sound less aggressive, which the old phrasing did despite my intentions. You can read the previous phrasing [here](https://gist.github.com/Ellpeck/7a2c18dc4f6051079413e920441b6ddc).*
 
 The politics of gender and pronouns are very complicated, and I'll be trying not to get into them in this post. In my opinion, this debate should have a very simple conclusion: people should get to be who they want to be. That includes their gender identity, the appearance of their body, the pronouns they wish to be addressed with, the name they wish to have, and the way they wish to dress and otherwise express themselves. When developing Tiny Life, I take the steps that I hope accomplish this goal the best for everyone, regardless of whether they're cis or genderqueer.
 
@@ -100,6 +96,24 @@ Well... the bottom line is this: gender is not a simple yes-or-no answer. In fac
 
 All of that being said, I hope you enjoyed this post as a little peek behind the curtain of what we've been thinking about for the last few weeks and months. We hope you enjoy *The Pronoun Update™*, and we hope you look forward to the game's release, its future features, and the future of the pronouns and their customizability.
 
-Also, as we said at the top, be sure to keep an eye out for an exciting announcement next week!
+## An Addendum: What About Traditional Pronouns?
+
+Ever since I initially published this post, a lot of people have been asking a simple question that, frankly, I don't know why I didn't answer in the post originally:
+
+> Why is gender-neutral language always used in-game?
+>
+> Why don't you just implement the grammatically correct use of a few traditional pronouns, as well as a gender-neutral option, for the time being?
+
+Frankly, this comes down to the same thing that most of the other issues came down to: It's, surprisingly, much more complicated than you'd expect, and it doesn't end up seeming all great as a "quick solution", because it just wouldn't be one.
+
+Let's use our trusty old friend German again as a little example of just how complex even a set of two traditional pronouns (masculine and feminine) can get in a deceptively simple sentence: "Their friend is visiting them."
+
+In the English version of this sentence, the pronouns the friend uses aren't mentioned, because they simply don't have to be. This means that we just have to have two versions of the sentence for masculine and feminine pronouns: "His friend is visiting him" and "Her friend is visiting him". In a language like German, however, the gender of the friend has to be stated explicitly, and so we get four options for this sentence alone: "Sein Freund besucht ihn", "Seine Freundin besucht ihn", "Ihr Freund besucht sie", and "Ihre Freundin besucht sie". Notice that this isn't a simple one-word swap or ending change, either: A lot of the other parts of the sentence will change based on the genders of them and their friend.
+
+And all of this has us still keeping in mind that there are languages with much more complicated, gendered features, like gendered verbs and adjectives, which would also have to be accounted for.
+
+A lot of implementations of pronouns and gender in games will get around issues like this by just using phrasings that are as generalized as possible to avoid having to deal with all the intricacies. The trouble with that is that, in a lot of languages other than English, it will end up sounding a lot more, or equally, clunky than a blanket gender-neutral version.
+
+All in all, we've decided to embrace the clunk as a sign of societal progress that hasn't fully made it into the space of linguistics quite yet. 
 
 Ell ❤️
