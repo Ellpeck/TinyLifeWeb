@@ -1,7 +1,23 @@
+# 0.38.3
+*December 19, 2023*
+
+Changes that weren't included in preview versions are written in **bold**.
+
+Improvements
+- Made people automatically discard items (put them down or put them away) before starting actions that they need empty hands for
+
+Fixes
+- Fixed people getting stuck on stairs when canceling an action sometimes
+- **Fixed a rare exception when pathfinding upstairs**
+
+API
+- Added some UI initialization events
+- **Expose ModLoader.LoadedMods**
+
 # 0.38.3-pre.1
 *December 16, 2023*
 
-*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).
 
 Improvements
 - Made people automatically discard items (put them down or put them away) before starting actions that they need empty hands for
@@ -167,7 +183,7 @@ Fixes
 
 Read the devlog [on the website](https://tinylifegame.com/devlogs/0.37.0/).
 
-*Changes that weren't included in preview versions are written in **bold**.*
+Changes that weren't included in preview versions are written in **bold**.
 
 Additions
 - Added the ability to build additional floors on lots, allowing up to 5 floors in the full game, and 2 in the demo
@@ -236,7 +252,7 @@ API
 # 0.37.0-pre.3
 *October 18, 2023*
 
-*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).
 
 Additions
 - Added Simplified Chinese translation, courtesy of [Zhao Huaye](https://space.bilibili.com/67102871). Thanks so much for your hard work!
@@ -253,7 +269,7 @@ Fixes
 # 0.37.0-pre.2
 *October 12, 2023*
 
-*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).
 
 Improvements
 - Display an info that the game needs to be restarted when enabling or disabling mods
@@ -267,7 +283,7 @@ Fixes
 # 0.37.0-pre.1
 *October 11, 2023*
 
-*This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).*
+This is a preview version. If you want to try it out, you can find more info on [the documentation](https://docs.tinylifegame.com/articles/preview.html).
 
 Additions
 - Added the ability to build additional floors on lots, allowing up to 5 floors in the full game, and 2 in the demo
