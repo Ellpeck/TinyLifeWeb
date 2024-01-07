@@ -1,3 +1,31 @@
+# 0.38.4
+*January 7, 2024*
+
+Additions
+- Added pantyhose and semi-transparent pantyhose leg accessories
+- Added leggings for adults and children
+
+Improvements
+- Automatically populate Steam item descriptions with data from the shared item
+- Use the household split panel when inviting someone into your household
+- Made it more difficult to die from being too brewed
+- Display untested mods info as a proper warning popup so players miss it less easily
+- Removed the name "Nazi" from the naming database. Being a reasonably popular middle-eastern/asian name, it was part of the database of popular international names Tiny Life used. Because of obvious connotations, we've decided to remove it.
+
+Fixes
+- Fixed an issue where Tinies with partners that aren't in the world are inconsistently marked as single
+- Fixed an error when trying to move a Tiny to their home location but there aren't any empty spaces around
+- Fixed being able to change your pronouns in a language that doesn't include them
+- Fixed Tinies thinking they'd reached their destination already when being on a different floor
+- Fixed being able to add the same map to the list of maps in a save twice, causing a crash
+- Fixed an exception when putting down a painting on the easel you're about to start a new painting on
+- Fixed being able to walk through stairs in certain situations
+
+API
+- Added leg accessory clothing category
+- Allow mods to add custom names to name collections
+- Added GetRooms methods to Map and Lot
+
 # 0.38.3
 *December 19, 2023*
 
