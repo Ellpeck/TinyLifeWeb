@@ -1,3 +1,44 @@
+# 0.39.0
+*February 2, 2024*
+
+![](media/changelog/0.39.0.png)
+
+> An Upgrade to Your Tiny Life
+
+Read the devlog [on the website](https://tinylifegame.com/devlogs/0.39.0/).
+
+Additions
+- Added the tinkering skill and the ability to discover upgrades
+- Added the ability to upgrade various furniture items
+- Added a variation of the wooden stairs that doesn't have wallpaper
+
+Improvements
+- Improved the visual style of the character creator
+- Made the family-focused personality's emotions also take close friends into account
+- Only allow admitting to romance with someone else for seven days after it happened
+- Renamed "Add a Little Something" to "Enhance Flavor"
+- Made energy loss and the chance of splinters lower when woodworking
+- Made people not stand in the same spot when multiple people visit a lot at the same time
+- Improved the Tiny Bucks logo to be more easily decipherable as TB
+
+Fixes
+- Fixed the furniture tool considering possible parent objects on different floors
+- Fixed moving to a different map not moving people there correctly
+- Fixed a crash when moving ceiling-hung objects out of bounds using the furniture tool
+- Fixed the same map being able to be in a save twice
+- Fixed help actions not working correctly when the person is being held
+- Fixed notifications not being able to be dismissed when clicking their icon
+- Fixed object selection not working correctly on higher floors
+- Fixed objects at map borders causing a crash when checking for free interaction spots
+- Fixed an exception when the sink or baby is missing while cleaning up a baby
+- Fixed objects still being highlighted while placing stairs
+- Fixed collision issues with stairs
+
+API
+- Game content initialized through static constructors is now explicitly loaded in order. If a mod disrupts the order by accessing content earlier than expected, a warning is emitted.
+- Made TestedVersionRange property mandatory for mods
+- Refactored particle and light property names to be more consistent
+
 # 0.38.4
 *January 7, 2024*
 

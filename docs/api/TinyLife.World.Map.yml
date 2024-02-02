@@ -22,7 +22,7 @@ items:
   - TinyLife.World.Map.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean,System.Nullable{MLEM.Misc.RectangleF},System.Nullable{Microsoft.Xna.Framework.Matrix},Microsoft.Xna.Framework.Graphics.RenderTarget2D,System.Boolean)
   - TinyLife.World.Map.Finalize
   - TinyLife.World.Map.GetAllLotEmployments
-  - TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+  - TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   - TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   - TinyLife.World.Map.GetClosestRoads(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetClosestRoadsidePosition(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Vector2)
@@ -46,7 +46,7 @@ items:
   - TinyLife.World.Map.GetRoofs(MLEM.Misc.RectangleF)
   - TinyLife.World.Map.GetRoom(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetRooms(MLEM.Misc.RectangleF)
-  - TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point)
+  - TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
   - TinyLife.World.Map.GetSections(MLEM.Misc.RectangleF,System.Int32)
   - TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetStairs(MLEM.Misc.RectangleF,System.Boolean)
@@ -1282,16 +1282,16 @@ items:
   nameWithType.vb: Map.GetTilesAround(Vector2, Single, Integer, Boolean, Boolean, Boolean, Predicate(Of Point))
   fullName.vb: TinyLife.World.Map.GetTilesAround(Microsoft.Xna.Framework.Vector2, Single, Integer, Boolean, Boolean, Boolean, System.Predicate(Of Microsoft.Xna.Framework.Point))
   name.vb: GetTilesAround(Vector2, Single, Integer, Boolean, Boolean, Boolean, Predicate(Of Point))
-- uid: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-  commentId: M:TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
-  id: GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean)
+- uid: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
+  commentId: M:TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
+  id: GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: GetClosestEmptyTile(Vector2, float, int, bool, bool, bool, bool)
-  nameWithType: Map.GetClosestEmptyTile(Vector2, float, int, bool, bool, bool, bool)
-  fullName: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2, float, int, bool, bool, bool, bool)
+  name: GetClosestEmptyTile(Vector2, float, int, bool, bool, bool, bool, Predicate<Point>)
+  nameWithType: Map.GetClosestEmptyTile(Vector2, float, int, bool, bool, bool, bool, Predicate<Point>)
+  fullName: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2, float, int, bool, bool, bool, bool, System.Predicate<Microsoft.Xna.Framework.Point>)
   type: Method
   source:
     remote:
@@ -1310,7 +1310,7 @@ items:
     An empty tile is a tile that has no <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref> instances on it.
   example: []
   syntax:
-    content: public Point? GetClosestEmptyTile(Vector2 pos, float floor, int radius = 2, bool ignorePeople = true, bool hasToBeOnLot = false, bool sameRoom = false, bool hasToBeNonnull = true)
+    content: public Point? GetClosestEmptyTile(Vector2 pos, float floor, int radius = 2, bool ignorePeople = true, bool hasToBeOnLot = false, bool sameRoom = false, bool hasToBeNonnull = true, Predicate<Point> valid = null)
     parameters:
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
@@ -1333,14 +1333,16 @@ items:
     - id: hasToBeNonnull
       type: System.Boolean
       description: Whether the tile has to be nonnull, ie air tiles on higher levels should not be included.
+    - id: valid
+      type: System.Predicate{Microsoft.Xna.Framework.Point}
     return:
       type: System.Nullable{Microsoft.Xna.Framework.Point}
       description: The closest empty tile, or null if there isn't one
-    content.vb: Public Function GetClosestEmptyTile(pos As Vector2, floor As Single, radius As Integer = 2, ignorePeople As Boolean = True, hasToBeOnLot As Boolean = False, sameRoom As Boolean = False, hasToBeNonnull As Boolean = True) As Point?
+    content.vb: Public Function GetClosestEmptyTile(pos As Vector2, floor As Single, radius As Integer = 2, ignorePeople As Boolean = True, hasToBeOnLot As Boolean = False, sameRoom As Boolean = False, hasToBeNonnull As Boolean = True, valid As Predicate(Of Point) = Nothing) As Point?
   overload: TinyLife.World.Map.GetClosestEmptyTile*
-  nameWithType.vb: Map.GetClosestEmptyTile(Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean)
-  fullName.vb: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean)
-  name.vb: GetClosestEmptyTile(Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean)
+  nameWithType.vb: Map.GetClosestEmptyTile(Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean, Predicate(Of Point))
+  fullName.vb: TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean, System.Predicate(Of Microsoft.Xna.Framework.Point))
+  name.vb: GetClosestEmptyTile(Vector2, Single, Integer, Boolean, Boolean, Boolean, Boolean, Predicate(Of Point))
 - uid: TinyLife.World.Map.GetRandomTile(System.Random,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   commentId: M:TinyLife.World.Map.GetRandomTile(System.Random,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   id: GetRandomTile(System.Random,Microsoft.Xna.Framework.Vector2,System.Int32,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
@@ -1359,7 +1361,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomTile
     path: ../TinyLife/World/Map.cs
-    startLine: 892
+    startLine: 894
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1421,7 +1423,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidateEarly
     path: ../TinyLife/World/Map.cs
-    startLine: 920
+    startLine: 922
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1468,7 +1470,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/World/Map.cs
-    startLine: 944
+    startLine: 946
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1512,7 +1514,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PostValidate
     path: ../TinyLife/World/Map.cs
-    startLine: 1002
+    startLine: 1004
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1553,7 +1555,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoom
     path: ../TinyLife/World/Map.cs
-    startLine: 1019
+    startLine: 1021
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1594,7 +1596,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRooms
     path: ../TinyLife/World/Map.cs
-    startLine: 1027
+    startLine: 1029
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1625,7 +1627,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLot
     path: ../TinyLife/World/Map.cs
-    startLine: 1038
+    startLine: 1040
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1663,7 +1665,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLot
     path: ../TinyLife/World/Map.cs
-    startLine: 1049
+    startLine: 1051
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1701,7 +1703,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLot
     path: ../TinyLife/World/Map.cs
-    startLine: 1062
+    startLine: 1064
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1736,7 +1738,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLot
     path: ../TinyLife/World/Map.cs
-    startLine: 1072
+    startLine: 1074
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1768,7 +1770,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveLot
     path: ../TinyLife/World/Map.cs
-    startLine: 1080
+    startLine: 1082
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1800,7 +1802,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLots
     path: ../TinyLife/World/Map.cs
-    startLine: 1099
+    startLine: 1101
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1831,7 +1833,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddWall
     path: ../TinyLife/World/Map.cs
-    startLine: 1110
+    startLine: 1112
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1869,7 +1871,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveWall
     path: ../TinyLife/World/Map.cs
-    startLine: 1120
+    startLine: 1122
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1904,7 +1906,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWallBetween
     path: ../TinyLife/World/Map.cs
-    startLine: 1137
+    startLine: 1139
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1953,7 +1955,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTile
     path: ../TinyLife/World/Map.cs
-    startLine: 1153
+    startLine: 1155
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1997,7 +1999,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetTile
     path: ../TinyLife/World/Map.cs
-    startLine: 1164
+    startLine: 1166
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2038,7 +2040,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 1182
+    startLine: 1184
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2070,7 +2072,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 1196
+    startLine: 1198
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2111,7 +2113,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoofs
     path: ../TinyLife/World/Map.cs
-    startLine: 1211
+    startLine: 1213
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2146,7 +2148,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveRoof
     path: ../TinyLife/World/Map.cs
-    startLine: 1224
+    startLine: 1226
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2178,7 +2180,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetObjects
     path: ../TinyLife/World/Map.cs
-    startLine: 1238
+    startLine: 1240
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2219,7 +2221,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1254
+    startLine: 1256
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2263,7 +2265,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1266
+    startLine: 1268
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2273,12 +2275,14 @@ items:
     Note that, if the object's <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> is already present on this map, this method will cause an exception.
   example: []
   syntax:
-    content: public void AddObject(MapObject obj)
+    content: public MapObject AddObject(MapObject obj)
     parameters:
     - id: obj
       type: TinyLife.Objects.MapObject
       description: The object to add to this map
-    content.vb: Public Sub AddObject(obj As MapObject)
+    return:
+      type: TinyLife.Objects.MapObject
+    content.vb: Public Function AddObject(obj As MapObject) As MapObject
   overload: TinyLife.World.Map.AddObject*
 - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
   commentId: M:TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
@@ -2298,7 +2302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveObject
     path: ../TinyLife/World/Map.cs
-    startLine: 1293
+    startLine: 1296
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2337,7 +2341,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPeople
     path: ../TinyLife/World/Map.cs
-    startLine: 1321
+    startLine: 1324
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2368,7 +2372,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1333
+    startLine: 1336
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2403,7 +2407,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1346
+    startLine: 1349
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2438,7 +2442,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1359
+    startLine: 1362
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2473,7 +2477,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveHousehold
     path: ../TinyLife/World/Map.cs
-    startLine: 1369
+    startLine: 1372
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2505,7 +2509,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHouseholds
     path: ../TinyLife/World/Map.cs
-    startLine: 1377
+    startLine: 1380
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2518,16 +2522,16 @@ items:
       description: This map's households
     content.vb: Public Function GetHouseholds() As IEnumerable(Of Household)
   overload: TinyLife.World.Map.GetHouseholds*
-- uid: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point)
-  id: GetSection(Microsoft.Xna.Framework.Point)
+- uid: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
+  commentId: M:TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
+  id: GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: GetSection(Point)
-  nameWithType: Map.GetSection(Point)
-  fullName: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point)
+  name: GetSection(Point, bool)
+  nameWithType: Map.GetSection(Point, bool)
+  fullName: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point, bool)
   type: Method
   source:
     remote:
@@ -2536,23 +2540,28 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSection
     path: ../TinyLife/World/Map.cs
-    startLine: 1387
+    startLine: 1390
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: Returns the <xref href="TinyLife.World.MapSection" data-throw-if-not-resolved="false"></xref> at the given tile position
   example: []
   syntax:
-    content: public MapSection GetSection(Point pos)
+    content: public MapSection GetSection(Point pos, bool clamp = false)
     parameters:
     - id: pos
       type: Microsoft.Xna.Framework.Point
       description: The tile position
+    - id: clamp
+      type: System.Boolean
     return:
       type: TinyLife.World.MapSection
       description: The section at that position
-    content.vb: Public Function GetSection(pos As Point) As MapSection
+    content.vb: Public Function GetSection(pos As Point, clamp As Boolean = False) As MapSection
   overload: TinyLife.World.Map.GetSection*
+  nameWithType.vb: Map.GetSection(Point, Boolean)
+  fullName.vb: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point, Boolean)
+  name.vb: GetSection(Point, Boolean)
 - uid: TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
   commentId: M:TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
   id: GetSections(Microsoft.Xna.Framework.Point,System.Int32)
@@ -2571,7 +2580,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSections
     path: ../TinyLife/World/Map.cs
-    startLine: 1402
+    startLine: 1408
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2612,7 +2621,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSections
     path: ../TinyLife/World/Map.cs
-    startLine: 1412
+    startLine: 1418
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2653,7 +2662,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkDirtyForPathfinding
     path: ../TinyLife/World/Map.cs
-    startLine: 1434
+    startLine: 1440
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2696,7 +2705,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPathCost
     path: ../TinyLife/World/Map.cs
-    startLine: 1457
+    startLine: 1463
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2749,7 +2758,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanWalkBetween
     path: ../TinyLife/World/Map.cs
-    startLine: 1481
+    startLine: 1487
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2804,7 +2813,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsFreeSpot
     path: ../TinyLife/World/Map.cs
-    startLine: 1491
+    startLine: 1497
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2845,7 +2854,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetStoredDeadPeople
     path: ../TinyLife/World/Map.cs
-    startLine: 1500
+    startLine: 1506
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2876,7 +2885,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlaySound
     path: ../TinyLife/World/Map.cs
-    startLine: 1522
+    startLine: 1528
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2937,7 +2946,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlaySound
     path: ../TinyLife/World/Map.cs
-    startLine: 1538
+    startLine: 1544
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2995,7 +3004,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetClosestFreeExitPoint
     path: ../TinyLife/World/Map.cs
-    startLine: 1558
+    startLine: 1564
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3030,7 +3039,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetExitPoints
     path: ../TinyLife/World/Map.cs
-    startLine: 1568
+    startLine: 1574
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3061,7 +3070,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWalls
     path: ../TinyLife/World/Map.cs
-    startLine: 1597
+    startLine: 1603
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3104,7 +3113,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetStairs
     path: ../TinyLife/World/Map.cs
-    startLine: 1617
+    startLine: 1623
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3144,7 +3153,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddStairs
     path: ../TinyLife/World/Map.cs
-    startLine: 1631
+    startLine: 1636
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3176,7 +3185,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveStairs
     path: ../TinyLife/World/Map.cs
-    startLine: 1643
+    startLine: 1648
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3211,7 +3220,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ApplyCameraRotation
     path: ../TinyLife/World/Map.cs
-    startLine: 1660
+    startLine: 1665
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3255,7 +3264,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ApplyInverseCameraRotation
     path: ../TinyLife/World/Map.cs
-    startLine: 1676
+    startLine: 1681
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3293,7 +3302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCameraRotationChanged
     path: ../TinyLife/World/Map.cs
-    startLine: 1691
+    startLine: 1696
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3331,7 +3340,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCurrentGameMapChanged
     path: ../TinyLife/World/Map.cs
-    startLine: 1715
+    startLine: 1720
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3366,19 +3375,21 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddLight
     path: ../TinyLife/World/Map.cs
-    startLine: 1733
+    startLine: 1738
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: Adds the given light to the world at its <xref href="TinyLife.Objects.Light.Position" data-throw-if-not-resolved="false"></xref>
   example: []
   syntax:
-    content: public void AddLight(Light light)
+    content: public Light AddLight(Light light)
     parameters:
     - id: light
       type: TinyLife.Objects.Light
       description: The light to add
-    content.vb: Public Sub AddLight(light As Light)
+    return:
+      type: TinyLife.Objects.Light
+    content.vb: Public Function AddLight(light As Light) As Light
   overload: TinyLife.World.Map.AddLight*
 - uid: TinyLife.World.Map.RemoveLight(TinyLife.Objects.Light)
   commentId: M:TinyLife.World.Map.RemoveLight(TinyLife.Objects.Light)
@@ -3398,7 +3409,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveLight
     path: ../TinyLife/World/Map.cs
-    startLine: 1744
+    startLine: 1750
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3432,7 +3443,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveEverything
     path: ../TinyLife/World/Map.cs
-    startLine: 1756
+    startLine: 1762
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3476,7 +3487,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidateRooms
     path: ../TinyLife/World/Map.cs
-    startLine: 1852
+    startLine: 1858
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3517,7 +3528,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRegularVisitors
     path: ../TinyLife/World/Map.cs
-    startLine: 1901
+    startLine: 1907
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3553,7 +3564,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAllLotEmployments
     path: ../TinyLife/World/Map.cs
-    startLine: 1911
+    startLine: 1917
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3587,7 +3598,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkGroundTileDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1924
+    startLine: 1930
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3622,7 +3633,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MarkObjectDirtyForDrawing
     path: ../TinyLife/World/Map.cs
-    startLine: 1940
+    startLine: 1946
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3666,7 +3677,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PrepareForPermanentRemoval
     path: ../TinyLife/World/Map.cs
-    startLine: 1971
+    startLine: 1977
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3694,7 +3705,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LoadStaticMap
     path: ../TinyLife/World/Map.cs
-    startLine: 2598
+    startLine: 2605
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3732,7 +3743,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsLotHidden
     path: ../TinyLife/World/Map.cs
-    startLine: 2642
+    startLine: 2649
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3772,7 +3783,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMapSampler
     path: ../TinyLife/World/Map.cs
-    startLine: 2660
+    startLine: 2667
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3806,7 +3817,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateExternalPeople
     path: ../TinyLife/World/Map.cs
-    startLine: 2671
+    startLine: 2678
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -3853,7 +3864,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVisibleWorldArea
     path: ../TinyLife/World/Map.cs
-    startLine: 2765
+    startLine: 2772
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -5808,7 +5819,7 @@ references:
   fullName: TinyLife.World.Lot
 - uid: TinyLife.World.Map.GetClosestEmptyTile*
   commentId: Overload:TinyLife.World.Map.GetClosestEmptyTile
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetClosestEmptyTile_Microsoft_Xna_Framework_Vector2_System_Single_System_Int32_System_Boolean_System_Boolean_System_Boolean_System_Boolean_
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetClosestEmptyTile_Microsoft_Xna_Framework_Vector2_System_Single_System_Int32_System_Boolean_System_Boolean_System_Boolean_System_Boolean_System_Predicate_Microsoft_Xna_Framework_Point__
   name: GetClosestEmptyTile
   nameWithType: Map.GetClosestEmptyTile
   fullName: TinyLife.World.Map.GetClosestEmptyTile
@@ -6608,7 +6619,7 @@ references:
   - name: )
 - uid: TinyLife.World.Map.GetSection*
   commentId: Overload:TinyLife.World.Map.GetSection
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetSection_Microsoft_Xna_Framework_Point_
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetSection_Microsoft_Xna_Framework_Point_System_Boolean_
   name: GetSection
   nameWithType: Map.GetSection
   fullName: TinyLife.World.Map.GetSection

@@ -9,6 +9,8 @@ items:
   - TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
   - TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,MLEM.Misc.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.AddChild``1(TinyLife.Objects.FurnitureType,MLEM.Misc.Direction2,System.Int32[],System.Nullable{System.Guid},System.Nullable{Microsoft.Xna.Framework.Vector2})
+  - TinyLife.Objects.Furniture.AppliedUpgrades
+  - TinyLife.Objects.Furniture.ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
   - TinyLife.Objects.Furniture.AreUtilitiesDisabled
   - TinyLife.Objects.Furniture.Area
   - TinyLife.Objects.Furniture.AttachedWall
@@ -26,6 +28,7 @@ items:
   - TinyLife.Objects.Furniture.DrawUi(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Ui.Elements.Element,System.Single,System.Int32[])
   - TinyLife.Objects.Furniture.GetActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ActionSpot,MLEM.Misc.Direction2)
   - TinyLife.Objects.Furniture.GetAiPriority(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
+  - TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
   - TinyLife.Objects.Furniture.GetCategories(TinyLife.Objects.Person)
   - TinyLife.Objects.Furniture.GetChildren``1
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
@@ -42,6 +45,7 @@ items:
   - TinyLife.Objects.Furniture.GetRestoreNeedModifier(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Misc.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Misc.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
+  - TinyLife.Objects.Furniture.HasFullUpgrade(TinyLife.Objects.Upgrade)
   - TinyLife.Objects.Furniture.HideFromDraw
   - TinyLife.Objects.Furniture.Intersects(MLEM.Misc.RectangleF)
   - TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
@@ -51,12 +55,14 @@ items:
   - TinyLife.Objects.Furniture.NotifyNeighbors
   - TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   - TinyLife.Objects.Furniture.OnAdded
+  - TinyLife.Objects.Furniture.OnAppliedUpgrade
   - TinyLife.Objects.Furniture.OnDirty
   - TinyLife.Objects.Furniture.OnGetDescription
   - TinyLife.Objects.Furniture.OnGetDirty
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
   - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
+  - TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
   - TinyLife.Objects.Furniture.OnRemoved
   - TinyLife.Objects.Furniture.OnSetCreator
   - TinyLife.Objects.Furniture.ParentFurniture
@@ -94,7 +100,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Furniture
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 32
+    startLine: 30
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -188,7 +194,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Random
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 38
+    startLine: 36
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -220,7 +226,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetDescription
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 45
+    startLine: 43
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -254,7 +260,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnSetCreator
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 51
+    startLine: 49
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -288,7 +294,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetDirty
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 56
+    startLine: 54
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -320,7 +326,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnDirty
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 61
+    startLine: 59
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -334,6 +340,33 @@ items:
     return:
       type: System.Action
     content.vb: Public Event OnDirty As Action
+- uid: TinyLife.Objects.Furniture.OnAppliedUpgrade
+  commentId: E:TinyLife.Objects.Furniture.OnAppliedUpgrade
+  id: OnAppliedUpgrade
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: OnAppliedUpgrade
+  nameWithType: Furniture.OnAppliedUpgrade
+  fullName: TinyLife.Objects.Furniture.OnAppliedUpgrade
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnAppliedUpgrade
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 61
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public event Action<AppliedUpgrade> OnAppliedUpgrade
+    return:
+      type: System.Action{TinyLife.Objects.AppliedUpgrade}
+    content.vb: Public Event OnAppliedUpgrade As Action(Of AppliedUpgrade)
 - uid: TinyLife.Objects.Furniture.DisplayName
   commentId: P:TinyLife.Objects.Furniture.DisplayName
   id: DisplayName
@@ -352,7 +385,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 68
+    startLine: 69
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -387,7 +420,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentInfo
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 71
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -422,7 +455,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Visibility
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 88
+    startLine: 89
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -460,7 +493,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 94
+    startLine: 95
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -477,6 +510,43 @@ items:
       <DataMember>
 
       Public ReadOnly Type As FurnitureType
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+- uid: TinyLife.Objects.Furniture.AppliedUpgrades
+  commentId: F:TinyLife.Objects.Furniture.AppliedUpgrades
+  id: AppliedUpgrades
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: AppliedUpgrades
+  nameWithType: Furniture.AppliedUpgrades
+  fullName: TinyLife.Objects.Furniture.AppliedUpgrades
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: AppliedUpgrades
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 98
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: >-
+      [DataMember]
+
+      public readonly Dictionary<string, AppliedUpgrade> AppliedUpgrades
+    return:
+      type: System.Collections.Generic.Dictionary{System.String,TinyLife.Objects.AppliedUpgrade}
+    content.vb: >-
+      <DataMember>
+
+      Public ReadOnly AppliedUpgrades As Dictionary(Of String, AppliedUpgrade)
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -499,7 +569,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Rotation
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 101
+    startLine: 106
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -541,7 +611,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentFurniture
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 106
+    startLine: 111
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -575,7 +645,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentObjectSpot
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 111
+    startLine: 116
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -609,7 +679,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Colors
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 117
+    startLine: 122
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -651,7 +721,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Area
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 121
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -682,7 +752,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DevaluedThroughUse
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 127
+    startLine: 132
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -728,7 +798,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AreUtilitiesDisabled
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 132
+    startLine: 137
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -762,7 +832,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsStatic
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 137
+    startLine: 142
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -805,7 +875,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreatorId
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 143
+    startLine: 148
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -855,7 +925,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Quality
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 151
+    startLine: 156
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -903,7 +973,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanBeDirty
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 156
+    startLine: 161
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -937,7 +1007,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Dirty
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 161
+    startLine: 166
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -971,7 +1041,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CustomPrice
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 173
+    startLine: 178
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1017,7 +1087,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Creator
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 178
+    startLine: 183
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1051,7 +1121,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AttachedWall
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 183
+    startLine: 188
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1085,7 +1155,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HideFromDraw
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 187
+    startLine: 192
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1116,7 +1186,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisualRotation
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 214
+    startLine: 219
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1150,7 +1220,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentObjectSpotId
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 218
+    startLine: 223
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1195,7 +1265,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentFurnitureId
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 223
+    startLine: 228
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1240,7 +1310,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 241
+    startLine: 246
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1293,7 +1363,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 252
+    startLine: 257
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1344,7 +1414,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 268
+    startLine: 273
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1381,7 +1451,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intersects
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 303
+    startLine: 314
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1420,7 +1490,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCategories
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 308
+    startLine: 319
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1456,7 +1526,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnAdded
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 313
+    startLine: 324
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1488,7 +1558,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRemoved
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 320
+    startLine: 331
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1520,7 +1590,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAiPriority
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 327
+    startLine: 338
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1566,7 +1636,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanExecuteAction
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 343
+    startLine: 354
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1617,7 +1687,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionCompleted
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 350
+    startLine: 361
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1664,7 +1734,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ActionUpdate
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 360
+    startLine: 371
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1717,7 +1787,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpotInfo
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 380
+    startLine: 391
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1756,7 +1826,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHoverInfo
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 386
+    startLine: 397
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1792,7 +1862,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetEfficiencyModifier
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 415
+    startLine: 426
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1850,7 +1920,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRestoreNeedModifier
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 425
+    startLine: 438
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1887,6 +1957,52 @@ items:
   nameWithType.vb: Furniture.GetRestoreNeedModifier(Person, ActionInfo, Boolean, NeedType)
   fullName.vb: TinyLife.Objects.Furniture.GetRestoreNeedModifier(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, Boolean, TinyLife.NeedType)
   name.vb: GetRestoreNeedModifier(Person, ActionInfo, Boolean, NeedType)
+- uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  commentId: M:TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  id: OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: OnRandomQuality(Person, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
+  nameWithType: Furniture.OnRandomQuality(Person, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
+  fullName: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, bool, TinyLife.Skills.SkillType, System.Random, bool, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnRandomQuality
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 450
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: public override void OnRandomQuality(Person person, ActionInfo info, bool isAuxiliary, SkillType skill, Random random, bool alwaysAllowAverage, Dictionary<Quality, float> weights)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+    - id: isAuxiliary
+      type: System.Boolean
+    - id: skill
+      type: TinyLife.Skills.SkillType
+    - id: random
+      type: System.Random
+    - id: alwaysAllowAverage
+      type: System.Boolean
+    - id: weights
+      type: System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+    content.vb: Public Overrides Sub OnRandomQuality(person As Person, info As ActionInfo, isAuxiliary As Boolean, skill As SkillType, random As Random, alwaysAllowAverage As Boolean, weights As Dictionary(Of Quality, Single))
+  overridden: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  overload: TinyLife.Objects.Furniture.OnRandomQuality*
+  nameWithType.vb: Furniture.OnRandomQuality(Person, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
+  fullName.vb: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Skills.SkillType, System.Random, Boolean, System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: OnRandomQuality(Person, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
 - uid: TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
   id: IsFreeSpot(Microsoft.Xna.Framework.Point)
@@ -1905,7 +2021,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsFreeSpot
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 435
+    startLine: 466
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1946,7 +2062,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 441
+    startLine: 472
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1988,7 +2104,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ModifyActionCategories
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 447
+    startLine: 478
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2036,7 +2152,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveToMap
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 455
+    startLine: 486
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2081,7 +2197,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnPositionChanged
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 463
+    startLine: 494
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2125,7 +2241,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 487
+    startLine: 518
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2199,7 +2315,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPrice
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 498
+    startLine: 529
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2230,7 +2346,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDescription
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 511
+    startLine: 542
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2271,7 +2387,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDecorativeRating
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 545
+    startLine: 576
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2309,7 +2425,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDirty
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 556
+    startLine: 587
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2349,7 +2465,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCreator
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 583
+    startLine: 622
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2387,7 +2503,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnPlacedInBuildMode
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 597
+    startLine: 636
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2428,7 +2544,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWallsInTheWay
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 614
+    startLine: 653
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2480,7 +2596,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRoofingInTheWay
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 647
+    startLine: 686
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2515,6 +2631,99 @@ items:
   nameWithType.vb: Furniture.GetRoofingInTheWay(Vector2, Integer, Direction2, Single, ICollection(Of Roof))
   fullName.vb: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2, Integer, MLEM.Misc.Direction2, Single, System.Collections.Generic.ICollection(Of TinyLife.World.Roof))
   name.vb: GetRoofingInTheWay(Vector2, Integer, Direction2, Single, ICollection(Of Roof))
+- uid: TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
+  commentId: M:TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
+  id: GetAppliedUpgrade(TinyLife.Objects.Upgrade)
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: GetAppliedUpgrade(Upgrade)
+  nameWithType: Furniture.GetAppliedUpgrade(Upgrade)
+  fullName: TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetAppliedUpgrade
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 704
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public virtual AppliedUpgrade GetAppliedUpgrade(Upgrade upgrade)
+    parameters:
+    - id: upgrade
+      type: TinyLife.Objects.Upgrade
+    return:
+      type: TinyLife.Objects.AppliedUpgrade
+    content.vb: Public Overridable Function GetAppliedUpgrade(upgrade As Upgrade) As AppliedUpgrade
+  overload: TinyLife.Objects.Furniture.GetAppliedUpgrade*
+- uid: TinyLife.Objects.Furniture.ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
+  commentId: M:TinyLife.Objects.Furniture.ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
+  id: ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: ApplyUpgrade(AppliedUpgrade)
+  nameWithType: Furniture.ApplyUpgrade(AppliedUpgrade)
+  fullName: TinyLife.Objects.Furniture.ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ApplyUpgrade
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 710
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public virtual bool ApplyUpgrade(AppliedUpgrade upgrade)
+    parameters:
+    - id: upgrade
+      type: TinyLife.Objects.AppliedUpgrade
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable Function ApplyUpgrade(upgrade As AppliedUpgrade) As Boolean
+  overload: TinyLife.Objects.Furniture.ApplyUpgrade*
+- uid: TinyLife.Objects.Furniture.HasFullUpgrade(TinyLife.Objects.Upgrade)
+  commentId: M:TinyLife.Objects.Furniture.HasFullUpgrade(TinyLife.Objects.Upgrade)
+  id: HasFullUpgrade(TinyLife.Objects.Upgrade)
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: HasFullUpgrade(Upgrade)
+  nameWithType: Furniture.HasFullUpgrade(Upgrade)
+  fullName: TinyLife.Objects.Furniture.HasFullUpgrade(TinyLife.Objects.Upgrade)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Furniture.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: HasFullUpgrade
+    path: ../TinyLife/Objects/Furniture.cs
+    startLine: 719
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public virtual bool HasFullUpgrade(Upgrade upgrade)
+    parameters:
+    - id: upgrade
+      type: TinyLife.Objects.Upgrade
+    return:
+      type: System.Boolean
+    content.vb: Public Overridable Function HasFullUpgrade(upgrade As Upgrade) As Boolean
+  overload: TinyLife.Objects.Furniture.HasFullUpgrade*
 - uid: TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
   id: OnNeighborChanged(TinyLife.Objects.Furniture)
@@ -2533,7 +2742,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnNeighborChanged
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 669
+    startLine: 729
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2568,7 +2777,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawUi
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 680
+    startLine: 740
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2618,7 +2827,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetOccupants
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 694
+    startLine: 754
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2629,7 +2838,7 @@ items:
     parameters:
     - id: context
       type: TinyLife.Objects.ObjectCategory
-      description: The context for the <xref href="TinyLife.Objects.ActionSpot" data-throw-if-not-resolved="false"></xref> to support for it to be included in the search.
+      description: The context for the <xref href="TinyLife.Objects.ActionSpot" data-throw-if-not-resolved="false"></xref> to support for it to be included in the search. Note that, if this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the spots' <xref href="TinyLife.Objects.ActionSpot.CategoryRestriction" data-throw-if-not-resolved="false"></xref> will not be applied.
     - id: visualOnly
       type: System.Boolean
       description: Whether only occupants that occupy a spot visually, using <xref href="TinyLife.Objects.Person.VisuallyOccupiedSpot" data-throw-if-not-resolved="false"></xref>, should be returned.
@@ -2659,7 +2868,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpots
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 707
+    startLine: 767
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2676,7 +2885,7 @@ items:
       description: The person to query free action spots for
     - id: context
       type: TinyLife.Objects.ObjectCategory
-      description: The object category that this action spot needs to have
+      description: The object category that this action spot needs to have. Note that, if this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the spots' <xref href="TinyLife.Objects.ActionSpot.CategoryRestriction" data-throw-if-not-resolved="false"></xref> will not be applied.
     return:
       type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.ActionSpot,MLEM.Misc.Direction2}}
       description: A set of action spots and the directions which they're free in
@@ -2700,7 +2909,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpot
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 728
+    startLine: 788
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2738,7 +2947,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetActionSpotInfo
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 741
+    startLine: 801
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2779,7 +2988,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeObjectSpot
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 753
+    startLine: 813
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2820,7 +3029,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetParent
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 767
+    startLine: 827
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2860,7 +3069,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UnlinkParentsAndChildren
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 782
+    startLine: 842
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2888,7 +3097,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveAndUnlink
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 793
+    startLine: 853
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2919,7 +3128,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetChildren
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 803
+    startLine: 863
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -2958,7 +3167,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 817
+    startLine: 877
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3011,7 +3220,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 834
+    startLine: 894
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3057,7 +3266,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 850
+    startLine: 910
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3108,7 +3317,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 864
+    startLine: 924
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3149,7 +3358,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 875
+    startLine: 935
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3184,7 +3393,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: NotifyNeighbors
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 888
+    startLine: 948
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3215,7 +3424,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetNewId
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 903
+    startLine: 963
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5027,6 +5236,67 @@ references:
   name: Action
   nameWithType: Action
   fullName: System.Action
+- uid: System.Action{TinyLife.Objects.AppliedUpgrade}
+  commentId: T:System.Action{TinyLife.Objects.AppliedUpgrade}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<AppliedUpgrade>
+  nameWithType: Action<AppliedUpgrade>
+  fullName: System.Action<TinyLife.Objects.AppliedUpgrade>
+  nameWithType.vb: Action(Of AppliedUpgrade)
+  fullName.vb: System.Action(Of TinyLife.Objects.AppliedUpgrade)
+  name.vb: Action(Of AppliedUpgrade)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: TinyLife.Objects.AppliedUpgrade
+    name: AppliedUpgrade
+    href: TinyLife.Objects.AppliedUpgrade.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.AppliedUpgrade
+    name: AppliedUpgrade
+    href: TinyLife.Objects.AppliedUpgrade.html
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Objects.FurnitureType.GetDisplayName(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Objects.FurnitureType.GetDisplayName(TinyLife.Objects.Furniture)
   href: TinyLife.Objects.FurnitureType.html#TinyLife_Objects_FurnitureType_GetDisplayName_TinyLife_Objects_Furniture_
@@ -5120,6 +5390,122 @@ references:
   name: Visibility
   nameWithType: Visibility
   fullName: TinyLife.Objects.Visibility
+- uid: System.Collections.Generic.Dictionary{System.String,TinyLife.Objects.AppliedUpgrade}
+  commentId: T:System.Collections.Generic.Dictionary{System.String,TinyLife.Objects.AppliedUpgrade}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<string, AppliedUpgrade>
+  nameWithType: Dictionary<string, AppliedUpgrade>
+  fullName: System.Collections.Generic.Dictionary<string, TinyLife.Objects.AppliedUpgrade>
+  nameWithType.vb: Dictionary(Of String, AppliedUpgrade)
+  fullName.vb: System.Collections.Generic.Dictionary(Of String, TinyLife.Objects.AppliedUpgrade)
+  name.vb: Dictionary(Of String, AppliedUpgrade)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AppliedUpgrade
+    name: AppliedUpgrade
+    href: TinyLife.Objects.AppliedUpgrade.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AppliedUpgrade
+    name: AppliedUpgrade
+    href: TinyLife.Objects.AppliedUpgrade.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: MLEM.Misc.Direction2
   commentId: T:MLEM.Misc.Direction2
   parent: MLEM.Misc
@@ -5977,43 +6363,6 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics
     name: Graphics
     isExternal: true
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.MapObject.Validate
   commentId: M:TinyLife.Objects.MapObject.Validate
   parent: TinyLife.Objects.MapObject
@@ -7055,6 +7404,178 @@ references:
   name: TinyLife
   nameWithType: TinyLife
   fullName: TinyLife
+- uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  commentId: M:TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_Person_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  name: OnRandomQuality(Person, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
+  nameWithType: MapObject.OnRandomQuality(Person, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
+  fullName: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, bool, TinyLife.Skills.SkillType, System.Random, bool, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>)
+  nameWithType.vb: MapObject.OnRandomQuality(Person, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
+  fullName.vb: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Skills.SkillType, System.Random, Boolean, System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: OnRandomQuality(Person, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+    name: OnRandomQuality
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_Person_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.Person,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+    name: OnRandomQuality
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_Person_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  - name: (
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.Furniture.OnRandomQuality*
+  commentId: Overload:TinyLife.Objects.Furniture.OnRandomQuality
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_Person_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  name: OnRandomQuality
+  nameWithType: Furniture.OnRandomQuality
+  fullName: TinyLife.Objects.Furniture.OnRandomQuality
+- uid: System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<Quality, float>
+  nameWithType: Dictionary<Quality, float>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>
+  nameWithType.vb: Dictionary(Of Quality, Single)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)
+  name.vb: Dictionary(Of Quality, Single)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
 - uid: TinyLife.Objects.ObjectCategory.NonColliding
   commentId: F:TinyLife.Objects.ObjectCategory.NonColliding
   href: TinyLife.Objects.ObjectCategory.html#TinyLife_Objects_ObjectCategory_NonColliding
@@ -7991,6 +8512,38 @@ references:
     name: Roof
     href: TinyLife.World.Roof.html
   - name: )
+- uid: TinyLife.Objects.Furniture.GetAppliedUpgrade*
+  commentId: Overload:TinyLife.Objects.Furniture.GetAppliedUpgrade
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetAppliedUpgrade_TinyLife_Objects_Upgrade_
+  name: GetAppliedUpgrade
+  nameWithType: Furniture.GetAppliedUpgrade
+  fullName: TinyLife.Objects.Furniture.GetAppliedUpgrade
+- uid: TinyLife.Objects.Upgrade
+  commentId: T:TinyLife.Objects.Upgrade
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Upgrade.html
+  name: Upgrade
+  nameWithType: Upgrade
+  fullName: TinyLife.Objects.Upgrade
+- uid: TinyLife.Objects.AppliedUpgrade
+  commentId: T:TinyLife.Objects.AppliedUpgrade
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.AppliedUpgrade.html
+  name: AppliedUpgrade
+  nameWithType: AppliedUpgrade
+  fullName: TinyLife.Objects.AppliedUpgrade
+- uid: TinyLife.Objects.Furniture.ApplyUpgrade*
+  commentId: Overload:TinyLife.Objects.Furniture.ApplyUpgrade
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_ApplyUpgrade_TinyLife_Objects_AppliedUpgrade_
+  name: ApplyUpgrade
+  nameWithType: Furniture.ApplyUpgrade
+  fullName: TinyLife.Objects.Furniture.ApplyUpgrade
+- uid: TinyLife.Objects.Furniture.HasFullUpgrade*
+  commentId: Overload:TinyLife.Objects.Furniture.HasFullUpgrade
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_HasFullUpgrade_TinyLife_Objects_Upgrade_
+  name: HasFullUpgrade
+  nameWithType: Furniture.HasFullUpgrade
+  fullName: TinyLife.Objects.Furniture.HasFullUpgrade
 - uid: TinyLife.Objects.Furniture.NotifyNeighbors
   commentId: M:TinyLife.Objects.Furniture.NotifyNeighbors
   parent: TinyLife.Objects.Furniture
@@ -8036,6 +8589,12 @@ references:
   name: ActionSpot
   nameWithType: ActionSpot
   fullName: TinyLife.Objects.ActionSpot
+- uid: TinyLife.Objects.ActionSpot.CategoryRestriction
+  commentId: F:TinyLife.Objects.ActionSpot.CategoryRestriction
+  href: TinyLife.Objects.ActionSpot.html#TinyLife_Objects_ActionSpot_CategoryRestriction
+  name: CategoryRestriction
+  nameWithType: ActionSpot.CategoryRestriction
+  fullName: TinyLife.Objects.ActionSpot.CategoryRestriction
 - uid: TinyLife.Objects.Person.VisuallyOccupiedSpot
   commentId: P:TinyLife.Objects.Person.VisuallyOccupiedSpot
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_VisuallyOccupiedSpot

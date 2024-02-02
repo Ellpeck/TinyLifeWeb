@@ -9,13 +9,10 @@ items:
   - TinyLife.Objects.Particle.#ctor(MLEM.Textures.TextureRegion,System.TimeSpan,Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Particle.AmbientFallingLeaves
   - TinyLife.Objects.Particle.Animation
-  - TinyLife.Objects.Particle.CameraMotion
-  - TinyLife.Objects.Particle.CameraOffset
   - TinyLife.Objects.Particle.Color
   - TinyLife.Objects.Particle.DepthOffset
   - TinyLife.Objects.Particle.DepthPosOffset
   - TinyLife.Objects.Particle.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  - TinyLife.Objects.Particle.DrawOffset
   - TinyLife.Objects.Particle.Floor
   - TinyLife.Objects.Particle.ForceOutside
   - TinyLife.Objects.Particle.Friction
@@ -32,12 +29,15 @@ items:
   - TinyLife.Objects.Particle.Remove
   - TinyLife.Objects.Particle.Scale
   - TinyLife.Objects.Particle.ScaleFunction
+  - TinyLife.Objects.Particle.ScreenPosOffset
   - TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
   - TinyLife.Objects.Particle.SpriteEffects
   - TinyLife.Objects.Particle.TimeLived
   - TinyLife.Objects.Particle.TimeToLive
   - TinyLife.Objects.Particle.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.Particle.UpdateWhenPaused
+  - TinyLife.Objects.Particle.VisualMotion
+  - TinyLife.Objects.Particle.VisualWorldOffset
   langs:
   - csharp
   - vb
@@ -103,7 +103,7 @@ items:
   summary: >-
     A set of conditions for <xref href="TinyLife.Objects.FurnitureType" data-throw-if-not-resolved="false"></xref> instances that should optionally display the falling leaves particles that default trees do.
 
-    The minimum and maximum spawn heights and horizontal coordinates are in relation to the furniture's position in the world, with all offsets being multiplied by <xref href="TinyLife.World.Tile.Width" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.World.Tile.Height" data-throw-if-not-resolved="false"></xref>.
+    The minimum and maximum spawn heights and horizontal coordinates are in relation to the furniture's position in the world, with all offsets being multiplied by Tile.Width or Tile.Height.
 
     To add additional furniture that displays falling leaves, simply add to this collection.
   example: []
@@ -286,35 +286,6 @@ items:
     return:
       type: Microsoft.Xna.Framework.Vector2
     content.vb: Public Motion As Vector2
-- uid: TinyLife.Objects.Particle.DepthPosOffset
-  commentId: F:TinyLife.Objects.Particle.DepthPosOffset
-  id: DepthPosOffset
-  parent: TinyLife.Objects.Particle
-  langs:
-  - csharp
-  - vb
-  name: DepthPosOffset
-  nameWithType: Particle.DepthPosOffset
-  fullName: TinyLife.Objects.Particle.DepthPosOffset
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/Particle.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: DepthPosOffset
-    path: ../TinyLife/Objects/Particle.cs
-    startLine: 67
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: The amount of tiles that this particle's depth display calculation is offset by, from its <xref href="TinyLife.Objects.Particle.Position" data-throw-if-not-resolved="false"></xref>
-  example: []
-  syntax:
-    content: public Vector2 DepthPosOffset
-    return:
-      type: Microsoft.Xna.Framework.Vector2
-    content.vb: Public DepthPosOffset As Vector2
 - uid: TinyLife.Objects.Particle.DepthOffset
   commentId: F:TinyLife.Objects.Particle.DepthOffset
   id: DepthOffset
@@ -333,7 +304,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepthOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 71
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -344,35 +315,6 @@ items:
     return:
       type: System.Single
     content.vb: Public DepthOffset As Single
-- uid: TinyLife.Objects.Particle.DrawOffset
-  commentId: F:TinyLife.Objects.Particle.DrawOffset
-  id: DrawOffset
-  parent: TinyLife.Objects.Particle
-  langs:
-  - csharp
-  - vb
-  name: DrawOffset
-  nameWithType: Particle.DrawOffset
-  fullName: TinyLife.Objects.Particle.DrawOffset
-  type: Field
-  source:
-    remote:
-      path: TinyLife/Objects/Particle.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: DrawOffset
-    path: ../TinyLife/Objects/Particle.cs
-    startLine: 75
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: The amount of draw space pixels that this particle's display position is offset by, from its <xref href="TinyLife.Objects.Particle.Position" data-throw-if-not-resolved="false"></xref>
-  example: []
-  syntax:
-    content: public Vector2 DrawOffset
-    return:
-      type: Microsoft.Xna.Framework.Vector2
-    content.vb: Public DrawOffset As Vector2
 - uid: TinyLife.Objects.Particle.ScaleFunction
   commentId: F:TinyLife.Objects.Particle.ScaleFunction
   id: ScaleFunction
@@ -391,7 +333,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ScaleFunction
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 79
+    startLine: 71
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -420,7 +362,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Gravity
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 83
+    startLine: 75
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -431,72 +373,121 @@ items:
     return:
       type: System.Single
     content.vb: Public Gravity As Single
-- uid: TinyLife.Objects.Particle.CameraMotion
-  commentId: F:TinyLife.Objects.Particle.CameraMotion
-  id: CameraMotion
+- uid: TinyLife.Objects.Particle.VisualMotion
+  commentId: F:TinyLife.Objects.Particle.VisualMotion
+  id: VisualMotion
   parent: TinyLife.Objects.Particle
   langs:
   - csharp
   - vb
-  name: CameraMotion
-  nameWithType: Particle.CameraMotion
-  fullName: TinyLife.Objects.Particle.CameraMotion
+  name: VisualMotion
+  nameWithType: Particle.VisualMotion
+  fullName: TinyLife.Objects.Particle.VisualMotion
   type: Field
   source:
     remote:
       path: TinyLife/Objects/Particle.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CameraMotion
+    id: VisualMotion
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 89
+    startLine: 81
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    The motion that this particle's <xref href="TinyLife.Objects.Particle.CameraOffset" data-throw-if-not-resolved="false"></xref> is moved by every update frame.
+    The motion that this particle's <xref href="TinyLife.Objects.Particle.VisualWorldOffset" data-throw-if-not-resolved="false"></xref> is moved by every update frame.
 
     If <xref href="TinyLife.Objects.Particle.Gravity" data-throw-if-not-resolved="false"></xref> is set, this value is modified every update frame as well.
 
     This value is not affected by <xref href="TinyLife.Objects.Particle.Friction" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public Vector2 CameraMotion
+    content: public Vector2 VisualMotion
     return:
       type: Microsoft.Xna.Framework.Vector2
-    content.vb: Public CameraMotion As Vector2
-- uid: TinyLife.Objects.Particle.CameraOffset
-  commentId: F:TinyLife.Objects.Particle.CameraOffset
-  id: CameraOffset
+    content.vb: Public VisualMotion As Vector2
+- uid: TinyLife.Objects.Particle.VisualWorldOffset
+  commentId: F:TinyLife.Objects.Particle.VisualWorldOffset
+  id: VisualWorldOffset
   parent: TinyLife.Objects.Particle
   langs:
   - csharp
   - vb
-  name: CameraOffset
-  nameWithType: Particle.CameraOffset
-  fullName: TinyLife.Objects.Particle.CameraOffset
+  name: VisualWorldOffset
+  nameWithType: Particle.VisualWorldOffset
+  fullName: TinyLife.Objects.Particle.VisualWorldOffset
   type: Field
   source:
     remote:
       path: TinyLife/Objects/Particle.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: CameraOffset
+    id: VisualWorldOffset
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 94
+    startLine: 82
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: >-
-    The offset from this particle's <xref href="TinyLife.Objects.Particle.Position" data-throw-if-not-resolved="false"></xref> that is added in visual space only, without camera rotation taken into account.
-
-    If <xref href="TinyLife.Objects.Particle.CameraMotion" data-throw-if-not-resolved="false"></xref> is set, this value is modified every update frame as well.
-  example: []
   syntax:
-    content: public Vector2 CameraOffset
+    content: public Vector2 VisualWorldOffset
     return:
       type: Microsoft.Xna.Framework.Vector2
-    content.vb: Public CameraOffset As Vector2
+    content.vb: Public VisualWorldOffset As Vector2
+- uid: TinyLife.Objects.Particle.ScreenPosOffset
+  commentId: F:TinyLife.Objects.Particle.ScreenPosOffset
+  id: ScreenPosOffset
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: ScreenPosOffset
+  nameWithType: Particle.ScreenPosOffset
+  fullName: TinyLife.Objects.Particle.ScreenPosOffset
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Particle.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: ScreenPosOffset
+    path: ../TinyLife/Objects/Particle.cs
+    startLine: 83
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public Vector2 ScreenPosOffset
+    return:
+      type: Microsoft.Xna.Framework.Vector2
+    content.vb: Public ScreenPosOffset As Vector2
+- uid: TinyLife.Objects.Particle.DepthPosOffset
+  commentId: F:TinyLife.Objects.Particle.DepthPosOffset
+  id: DepthPosOffset
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: DepthPosOffset
+  nameWithType: Particle.DepthPosOffset
+  fullName: TinyLife.Objects.Particle.DepthPosOffset
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Objects/Particle.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: DepthPosOffset
+    path: ../TinyLife/Objects/Particle.cs
+    startLine: 84
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public Vector2 DepthPosOffset
+    return:
+      type: Microsoft.Xna.Framework.Vector2
+    content.vb: Public DepthPosOffset As Vector2
 - uid: TinyLife.Objects.Particle.ParentInfo
   commentId: F:TinyLife.Objects.Particle.ParentInfo
   id: ParentInfo
@@ -515,7 +506,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ParentInfo
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 98
+    startLine: 88
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -544,7 +535,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IgnoreParentDrawPos
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 102
+    startLine: 92
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -573,7 +564,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateWhenPaused
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 107
+    startLine: 97
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -605,7 +596,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Color
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 111
+    startLine: 101
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -634,7 +625,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpriteEffects
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 115
+    startLine: 105
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -663,7 +654,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ForceOutside
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 120
+    startLine: 110
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -695,7 +686,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnUpdate
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 125
+    startLine: 115
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -727,14 +718,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Light
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 130
+    startLine: 120
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
     The light that this particle should display, which is automatically added and removed from the <xref href="TinyLife.Objects.Particle.Map" data-throw-if-not-resolved="false"></xref>.
 
-    The light's <xref href="TinyLife.Objects.Light.Scale" data-throw-if-not-resolved="false"></xref> will be set to this particle's <xref href="TinyLife.Objects.Particle.Scale" data-throw-if-not-resolved="false"></xref> automatically.
+    The light's <xref href="TinyLife.Objects.Light.Scale" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.Light.Position" data-throw-if-not-resolved="false"></xref> will be set automatically based on this particle.
   example: []
   syntax:
     content: public Light Light
@@ -759,7 +750,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Scale
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 134
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -790,7 +781,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Animation
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 139
+    startLine: 129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -819,7 +810,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TimeLived
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 144
+    startLine: 134
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -851,7 +842,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 153
+    startLine: 143
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -895,7 +886,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 163
+    startLine: 153
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -939,7 +930,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 176
+    startLine: 166
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -980,7 +971,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 212
+    startLine: 204
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1015,7 +1006,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Remove
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 223
+    startLine: 215
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1043,7 +1034,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRemoved
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 231
+    startLine: 223
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1071,7 +1062,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnAdded
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 239
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1099,7 +1090,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Spawn
     path: ../TinyLife/Objects/Particle.cs
-    startLine: 251
+    startLine: 241
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -1601,20 +1592,6 @@ references:
   name: FurnitureType
   nameWithType: FurnitureType
   fullName: TinyLife.Objects.FurnitureType
-- uid: TinyLife.World.Tile.Width
-  commentId: P:TinyLife.World.Tile.Width
-  parent: TinyLife.World.Tile
-  href: TinyLife.World.Tile.html#TinyLife_World_Tile_Width
-  name: Width
-  nameWithType: Tile.Width
-  fullName: TinyLife.World.Tile.Width
-- uid: TinyLife.World.Tile.Height
-  commentId: P:TinyLife.World.Tile.Height
-  parent: TinyLife.World.Tile
-  href: TinyLife.World.Tile.html#TinyLife_World_Tile_Height
-  name: Height
-  nameWithType: Tile.Height
-  fullName: TinyLife.World.Tile.Height
 - uid: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}}
   commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,System.ValueTuple{System.Single,System.Single,System.Single,System.Single,System.Single}}
   parent: System.Collections.Generic
@@ -1762,13 +1739,6 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   - name: )
-- uid: TinyLife.World.Tile
-  commentId: T:TinyLife.World.Tile
-  parent: TinyLife.World
-  href: TinyLife.World.Tile.html
-  name: Tile
-  nameWithType: Tile
-  fullName: TinyLife.World.Tile
 - uid: System.Collections.Generic.Dictionary`2
   commentId: T:System.Collections.Generic.Dictionary`2
   isExternal: true
@@ -1840,28 +1810,6 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: TinyLife.World
-  commentId: N:TinyLife.World
-  href: TinyLife.html
-  name: TinyLife.World
-  nameWithType: TinyLife.World
-  fullName: TinyLife.World
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.World
-    name: World
-    href: TinyLife.World.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.World
-    name: World
-    href: TinyLife.World.html
 - uid: TinyLife.Objects.Particle
   commentId: T:TinyLife.Objects.Particle
   href: TinyLife.Objects.Particle.html
@@ -1976,6 +1924,28 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.World
+  commentId: N:TinyLife.World
+  href: TinyLife.html
+  name: TinyLife.World
+  nameWithType: TinyLife.World
+  fullName: TinyLife.World
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.World
+    name: World
+    href: TinyLife.World.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.World
+    name: World
+    href: TinyLife.World.html
 - uid: TinyLife.Objects.Particle.Motion
   commentId: F:TinyLife.Objects.Particle.Motion
   href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Motion
@@ -2189,12 +2159,12 @@ references:
   - uid: MLEM.Misc
     name: Misc
     isExternal: true
-- uid: TinyLife.Objects.Particle.CameraOffset
-  commentId: F:TinyLife.Objects.Particle.CameraOffset
-  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_CameraOffset
-  name: CameraOffset
-  nameWithType: Particle.CameraOffset
-  fullName: TinyLife.Objects.Particle.CameraOffset
+- uid: TinyLife.Objects.Particle.VisualWorldOffset
+  commentId: F:TinyLife.Objects.Particle.VisualWorldOffset
+  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_VisualWorldOffset
+  name: VisualWorldOffset
+  nameWithType: Particle.VisualWorldOffset
+  fullName: TinyLife.Objects.Particle.VisualWorldOffset
 - uid: TinyLife.Objects.Particle.Gravity
   commentId: F:TinyLife.Objects.Particle.Gravity
   href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Gravity
@@ -2207,12 +2177,6 @@ references:
   name: Friction
   nameWithType: Particle.Friction
   fullName: TinyLife.Objects.Particle.Friction
-- uid: TinyLife.Objects.Particle.CameraMotion
-  commentId: F:TinyLife.Objects.Particle.CameraMotion
-  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_CameraMotion
-  name: CameraMotion
-  nameWithType: Particle.CameraMotion
-  fullName: TinyLife.Objects.Particle.CameraMotion
 - uid: TinyLife.Objects.Particle.ParentInfo
   commentId: F:TinyLife.Objects.Particle.ParentInfo
   href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_ParentInfo
@@ -2375,12 +2339,12 @@ references:
   name: Scale
   nameWithType: Light.Scale
   fullName: TinyLife.Objects.Light.Scale
-- uid: TinyLife.Objects.Particle.Scale
-  commentId: P:TinyLife.Objects.Particle.Scale
-  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Scale
-  name: Scale
-  nameWithType: Particle.Scale
-  fullName: TinyLife.Objects.Particle.Scale
+- uid: TinyLife.Objects.Light.Position
+  commentId: P:TinyLife.Objects.Light.Position
+  href: TinyLife.Objects.Light.html#TinyLife_Objects_Light_Position
+  name: Position
+  nameWithType: Light.Position
+  fullName: TinyLife.Objects.Light.Position
 - uid: TinyLife.Objects.Light
   commentId: T:TinyLife.Objects.Light
   parent: TinyLife.Objects
