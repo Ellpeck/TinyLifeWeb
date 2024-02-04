@@ -1,3 +1,17 @@
+# 0.39.1
+*February 4, 2024*
+
+Improvements
+- Display a roadmap information box about household selection area colors
+
+Fixes
+- Fixed the MonoGame About link in the credits
+- Fixed mods not being able to register actions correctly
+
+API
+- Reverted static constructor game content loading change from 0.39.0
+- Added code documentation for changes since 0.38.0
+
 # 0.39.0
 *February 2, 2024*
 
