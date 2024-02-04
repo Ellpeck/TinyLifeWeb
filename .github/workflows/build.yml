@@ -1,4 +1,7 @@
-on: [push, pull_request]
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+  push:
 jobs:
   web:
     runs-on: ubuntu-latest
@@ -17,6 +20,15 @@ jobs:
           bundler-cache: true
       - name: Build
         run: cd web && bundle exec jekyll build
+        
+      - name: Preview
+        if: github.event_name == 'pull_request'
+        uses: afc163/surge-preview@v1
+        with:
+          surge_token: ${{ secrets.SURGE_TOKEN }}
+          dist: web/_site
+          teardown: true
+          build: echo # see https://github.com/afc163/surge-preview/issues/231
       
       # this is a beautiful way to deploy a website and i will not take any criticism
       - name: Deploy
@@ -40,6 +52,15 @@ jobs:
           dotnet-version: 7.0.305
       - name: Build
         run: cd docs && dotnet tool restore && dotnet docfx
+        
+      - name: Preview
+        if: github.event_name == 'pull_request'
+        uses: afc163/surge-preview@v1
+        with:
+          surge_token: ${{ secrets.SURGE_TOKEN }}
+          dist: docs/_site
+          teardown: true
+          build: echo # see https://github.com/afc163/surge-preview/issues/231
       
       # this is a beautiful way to deploy a website and i will not take any criticism
       - name: Deploy
