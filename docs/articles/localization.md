@@ -39,6 +39,9 @@ Strings that begin with `Overrides` are part of the overrides section, which is 
 - `HasGenderedPronouns` determines whether the pronoun customization menu, as well as Tinies' pronouns, should be displayed in-game. Set this to `false` for languages that don't have gendered pronouns, or languages that don't have pronouns at all. **Do not change this value for any other reason.**
 
 ## Notes for Specific Languages
+### Dutch
+- The singular and plural for Tinies is "Tiny" and "Tiny's", respectively.
+
 ### English
 - The names of achievements in the English versions are references to popular culture. In other languages, they can be pretty much anything else, including popular culture references that make sense in the context of the language, provided they also abide by the information above.
 
