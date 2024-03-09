@@ -5,8 +5,9 @@ items:
   id: Household
   parent: TinyLife.World
   children:
-  - TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot)
+  - TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot,System.Boolean)
   - TinyLife.World.Household.Add(TinyLife.Objects.Person)
+  - TinyLife.World.Household.AddedThroughPopulating
   - TinyLife.World.Household.AreUtilitiesDisabled(System.Nullable{System.TimeSpan})
   - TinyLife.World.Household.ClothesStorage
   - TinyLife.World.Household.DefaultMoney
@@ -16,15 +17,19 @@ items:
   - TinyLife.World.Household.DisallowStrangersVisiting
   - TinyLife.World.Household.Export(System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.World.Household.FurnitureStorage
+  - TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  - TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
   - TinyLife.World.Household.GetAverageFriendshipTo(TinyLife.Objects.Person)
-  - TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
+  - TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  - TinyLife.World.Household.HasBeenPlayed
   - TinyLife.World.Household.HasMember(System.Guid)
-  - TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean)
+  - TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean,System.Boolean)
   - TinyLife.World.Household.IsCurrent
   - TinyLife.World.Household.Lot
   - TinyLife.World.Household.Members
   - TinyLife.World.Household.Money
   - TinyLife.World.Household.Name
+  - TinyLife.World.Household.RandomConstellations
   - TinyLife.World.Household.Remove(TinyLife.Objects.Person,System.Boolean)
   - TinyLife.World.Household.TotalMemberAmount
   - TinyLife.World.Household.UnopenedMail
@@ -44,7 +49,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Household
     path: ../TinyLife/World/Household.cs
-    startLine: 19
+    startLine: 21
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -100,7 +105,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DefaultMoney
     path: ../TinyLife/World/Household.cs
-    startLine: 26
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -114,6 +119,33 @@ items:
     return:
       type: System.Single
     content.vb: Public Const DefaultMoney As Single = 30000
+- uid: TinyLife.World.Household.RandomConstellations
+  commentId: F:TinyLife.World.Household.RandomConstellations
+  id: RandomConstellations
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: RandomConstellations
+  nameWithType: Household.RandomConstellations
+  fullName: TinyLife.World.Household.RandomConstellations
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Household.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: RandomConstellations
+    path: ../TinyLife/World/Household.cs
+    startLine: 30
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly List<Household.RandomConstellation> RandomConstellations
+    return:
+      type: System.Collections.Generic.List{TinyLife.World.Household.RandomConstellation}
+    content.vb: Public Shared ReadOnly RandomConstellations As List(Of Household.RandomConstellation)
 - uid: TinyLife.World.Household.FurnitureStorage
   commentId: F:TinyLife.World.Household.FurnitureStorage
   id: FurnitureStorage
@@ -132,7 +164,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FurnitureStorage
     path: ../TinyLife/World/Household.cs
-    startLine: 33
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -174,7 +206,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ClothesStorage
     path: ../TinyLife/World/Household.cs
-    startLine: 39
+    startLine: 73
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -216,7 +248,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UnopenedMail
     path: ../TinyLife/World/Household.cs
-    startLine: 45
+    startLine: 79
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -240,6 +272,43 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.Household.AddedThroughPopulating
+  commentId: F:TinyLife.World.Household.AddedThroughPopulating
+  id: AddedThroughPopulating
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: AddedThroughPopulating
+  nameWithType: Household.AddedThroughPopulating
+  fullName: TinyLife.World.Household.AddedThroughPopulating
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Household.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: AddedThroughPopulating
+    path: ../TinyLife/World/Household.cs
+    startLine: 81
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: >-
+      [DataMember]
+
+      public readonly bool AddedThroughPopulating
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <DataMember>
+
+      Public ReadOnly AddedThroughPopulating As Boolean
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
 - uid: TinyLife.World.Household.Money
   commentId: P:TinyLife.World.Household.Money
   id: Money
@@ -258,7 +327,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Money
     path: ../TinyLife/World/Household.cs
-    startLine: 50
+    startLine: 86
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -299,7 +368,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Members
     path: ../TinyLife/World/Household.cs
-    startLine: 58
+    startLine: 94
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -330,7 +399,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Lot
     path: ../TinyLife/World/Household.cs
-    startLine: 76
+    startLine: 112
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -364,7 +433,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/World/Household.cs
-    startLine: 81
+    startLine: 117
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -398,7 +467,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsCurrent
     path: ../TinyLife/World/Household.cs
-    startLine: 85
+    startLine: 121
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -429,7 +498,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Description
     path: ../TinyLife/World/Household.cs
-    startLine: 90
+    startLine: 126
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -468,7 +537,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisallowNewspapers
     path: ../TinyLife/World/Household.cs
-    startLine: 96
+    startLine: 132
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -510,7 +579,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisallowFriendsVisiting
     path: ../TinyLife/World/Household.cs
-    startLine: 101
+    startLine: 137
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -549,7 +618,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisallowStrangersVisiting
     path: ../TinyLife/World/Household.cs
-    startLine: 106
+    startLine: 142
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -588,7 +657,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TotalMemberAmount
     path: ../TinyLife/World/Household.cs
-    startLine: 110
+    startLine: 146
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -601,16 +670,53 @@ items:
       type: System.Int32
     content.vb: Public ReadOnly Property TotalMemberAmount As Integer
   overload: TinyLife.World.Household.TotalMemberAmount*
-- uid: TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot)
-  commentId: M:TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot)
-  id: '#ctor(TinyLife.World.Map,TinyLife.World.Lot)'
+- uid: TinyLife.World.Household.HasBeenPlayed
+  commentId: F:TinyLife.World.Household.HasBeenPlayed
+  id: HasBeenPlayed
   parent: TinyLife.World.Household
   langs:
   - csharp
   - vb
-  name: Household(Map, Lot)
-  nameWithType: Household.Household(Map, Lot)
-  fullName: TinyLife.World.Household.Household(TinyLife.World.Map, TinyLife.World.Lot)
+  name: HasBeenPlayed
+  nameWithType: Household.HasBeenPlayed
+  fullName: TinyLife.World.Household.HasBeenPlayed
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/Household.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: HasBeenPlayed
+    path: ../TinyLife/World/Household.cs
+    startLine: 152
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: >-
+      [DataMember]
+
+      public bool HasBeenPlayed
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <DataMember>
+
+      Public HasBeenPlayed As Boolean
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+- uid: TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot,System.Boolean)
+  commentId: M:TinyLife.World.Household.#ctor(TinyLife.World.Map,TinyLife.World.Lot,System.Boolean)
+  id: '#ctor(TinyLife.World.Map,TinyLife.World.Lot,System.Boolean)'
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: Household(Map, Lot, bool)
+  nameWithType: Household.Household(Map, Lot, bool)
+  fullName: TinyLife.World.Household.Household(TinyLife.World.Map, TinyLife.World.Lot, bool)
   type: Constructor
   source:
     remote:
@@ -619,14 +725,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Household.cs
-    startLine: 133
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
   summary: Creates a new household on the given map and lot
   example: []
   syntax:
-    content: public Household(Map lotMap, Lot lot)
+    content: public Household(Map lotMap, Lot lot, bool addedThroughPopulating = false)
     parameters:
     - id: lotMap
       type: TinyLife.World.Map
@@ -634,11 +740,13 @@ items:
     - id: lot
       type: TinyLife.World.Lot
       description: The lot that this household should own (can be null)
-    content.vb: Public Sub New(lotMap As Map, lot As Lot)
+    - id: addedThroughPopulating
+      type: System.Boolean
+    content.vb: Public Sub New(lotMap As Map, lot As Lot, addedThroughPopulating As Boolean = False)
   overload: TinyLife.World.Household.#ctor*
-  nameWithType.vb: Household.New(Map, Lot)
-  fullName.vb: TinyLife.World.Household.New(TinyLife.World.Map, TinyLife.World.Lot)
-  name.vb: New(Map, Lot)
+  nameWithType.vb: Household.New(Map, Lot, Boolean)
+  fullName.vb: TinyLife.World.Household.New(TinyLife.World.Map, TinyLife.World.Lot, Boolean)
+  name.vb: New(Map, Lot, Boolean)
 - uid: TinyLife.World.Household.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   commentId: M:TinyLife.World.Household.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -657,7 +765,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/World/Household.cs
-    startLine: 144
+    startLine: 183
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -698,7 +806,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Add
     path: ../TinyLife/World/Household.cs
-    startLine: 161
+    startLine: 200
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -730,7 +838,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Remove
     path: ../TinyLife/World/Household.cs
-    startLine: 173
+    startLine: 212
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -768,7 +876,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasMember
     path: ../TinyLife/World/Household.cs
-    startLine: 186
+    startLine: 225
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -803,7 +911,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAverageFriendshipTo
     path: ../TinyLife/World/Household.cs
-    startLine: 197
+    startLine: 236
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -841,7 +949,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/World/Household.cs
-    startLine: 207
+    startLine: 246
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -875,7 +983,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Export
     path: ../TinyLife/World/Household.cs
-    startLine: 224
+    startLine: 264
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -901,16 +1009,16 @@ items:
   nameWithType.vb: Household.Export(Boolean, Boolean, Boolean)
   fullName.vb: TinyLife.World.Household.Export(Boolean, Boolean, Boolean)
   name.vb: Export(Boolean, Boolean, Boolean)
-- uid: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean)
-  commentId: M:TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean)
-  id: Import(TinyLife.World.ExportedHousehold,System.Boolean)
+- uid: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean,System.Boolean)
+  id: Import(TinyLife.World.ExportedHousehold,System.Boolean,System.Boolean)
   parent: TinyLife.World.Household
   langs:
   - csharp
   - vb
-  name: Import(ExportedHousehold, bool)
-  nameWithType: Household.Import(ExportedHousehold, bool)
-  fullName: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold, bool)
+  name: Import(ExportedHousehold, bool, bool)
+  nameWithType: Household.Import(ExportedHousehold, bool, bool)
+  fullName: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold, bool, bool)
   type: Method
   source:
     remote:
@@ -919,7 +1027,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Import
     path: ../TinyLife/World/Household.cs
-    startLine: 234
+    startLine: 274
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -929,7 +1037,7 @@ items:
     Note that existing <xref href="TinyLife.World.Household.Members" data-throw-if-not-resolved="false"></xref> are not removed or replaced beforehand.
   example: []
   syntax:
-    content: public void Import(ExportedHousehold household, bool useExistingVisitors = false)
+    content: public void Import(ExportedHousehold household, bool useExistingVisitors = false, bool updateExternalPeople = true)
     parameters:
     - id: household
       type: TinyLife.World.ExportedHousehold
@@ -937,11 +1045,13 @@ items:
     - id: useExistingVisitors
       type: System.Boolean
       description: Whether existing visitors should be used, if they exist, instead of the exported household's members
-    content.vb: Public Sub Import(household As ExportedHousehold, useExistingVisitors As Boolean = False)
+    - id: updateExternalPeople
+      type: System.Boolean
+    content.vb: Public Sub Import(household As ExportedHousehold, useExistingVisitors As Boolean = False, updateExternalPeople As Boolean = True)
   overload: TinyLife.World.Household.Import*
-  nameWithType.vb: Household.Import(ExportedHousehold, Boolean)
-  fullName.vb: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold, Boolean)
-  name.vb: Import(ExportedHousehold, Boolean)
+  nameWithType.vb: Household.Import(ExportedHousehold, Boolean, Boolean)
+  fullName.vb: TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold, Boolean, Boolean)
+  name.vb: Import(ExportedHousehold, Boolean, Boolean)
 - uid: TinyLife.World.Household.AreUtilitiesDisabled(System.Nullable{System.TimeSpan})
   commentId: M:TinyLife.World.Household.AreUtilitiesDisabled(System.Nullable{System.TimeSpan})
   id: AreUtilitiesDisabled(System.Nullable{System.TimeSpan})
@@ -960,7 +1070,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AreUtilitiesDisabled
     path: ../TinyLife/World/Household.cs
-    startLine: 279
+    startLine: 321
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -980,47 +1090,111 @@ items:
       description: Whether utilites are disabled
     content.vb: Public Function AreUtilitiesDisabled(time As TimeSpan? = Nothing) As Boolean
   overload: TinyLife.World.Household.AreUtilitiesDisabled*
-- uid: TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
-  commentId: M:TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
-  id: HasAdult(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
+- uid: TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
+  commentId: M:TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
+  id: GetAgeGroups(System.Collections.Generic.IEnumerable{TinyLife.Objects.Person})
   parent: TinyLife.World.Household
   langs:
   - csharp
   - vb
-  name: HasAdult(IEnumerable<Person>)
-  nameWithType: Household.HasAdult(IEnumerable<Person>)
-  fullName: TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable<TinyLife.Objects.Person>)
+  name: GetAgeGroups(IEnumerable<Person>)
+  nameWithType: Household.GetAgeGroups(IEnumerable<Person>)
+  fullName: TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable<TinyLife.Objects.Person>)
   type: Method
   source:
     remote:
       path: TinyLife/World/Household.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: HasAdult
+    id: GetAgeGroups
     path: ../TinyLife/World/Household.cs
-    startLine: 293
+    startLine: 329
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: >-
-    Returns whether the current household is sufficiently completed.
-
-    A household is completed if it contains at least one member who is an <xref href="TinyLife.Objects.AgeGroup.Adult" data-throw-if-not-resolved="false"></xref>.
-  example: []
   syntax:
-    content: public static bool HasAdult(IEnumerable<Person> members)
+    content: public static AgeGroup GetAgeGroups(IEnumerable<Person> members)
     parameters:
     - id: members
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Person}
-      description: The members that constitute the household.
     return:
-      type: System.Boolean
-      description: Whether the household is complete.
-    content.vb: Public Shared Function HasAdult(members As IEnumerable(Of Person)) As Boolean
-  overload: TinyLife.World.Household.HasAdult*
-  nameWithType.vb: Household.HasAdult(IEnumerable(Of Person))
-  fullName.vb: TinyLife.World.Household.HasAdult(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Person))
-  name.vb: HasAdult(IEnumerable(Of Person))
+      type: TinyLife.Objects.AgeGroup
+    content.vb: Public Shared Function GetAgeGroups(members As IEnumerable(Of Person)) As AgeGroup
+  overload: TinyLife.World.Household.GetAgeGroups*
+  nameWithType.vb: Household.GetAgeGroups(IEnumerable(Of Person))
+  fullName.vb: TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Person))
+  name.vb: GetAgeGroups(IEnumerable(Of Person))
+- uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  commentId: M:TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  id: Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Relation>)
+  nameWithType: Household.Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Household.Relation>)
+  fullName: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List<TinyLife.Objects.AgeGroup>, System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Household.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Generate
+    path: ../TinyLife/World/Household.cs
+    startLine: 333
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static IEnumerable<Person> Generate(Map map, Random random, List<AgeGroup> ages, Dictionary<(int Person, int Other), Household.Relation> relations)
+    parameters:
+    - id: map
+      type: TinyLife.World.Map
+    - id: random
+      type: System.Random
+    - id: ages
+      type: System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
+    - id: relations
+      type: System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
+    return:
+      type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Person}
+    content.vb: Public Shared Function Generate(map As Map, random As Random, ages As List(Of AgeGroup), relations As Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)) As IEnumerable(Of Person)
+  overload: TinyLife.World.Household.Generate*
+  nameWithType.vb: Household.Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation))
+  fullName.vb: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation))
+  name.vb: Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Relation))
+- uid: TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  commentId: M:TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  id: GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: GetMatchingConstellations(AgeGroup)
+  nameWithType: Household.GetMatchingConstellations(AgeGroup)
+  fullName: TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Household.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetMatchingConstellations
+    path: ../TinyLife/World/Household.cs
+    startLine: 378
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static IEnumerable<(Household.RandomConstellation Constellation, float MatchPercentage)> GetMatchingConstellations(AgeGroup ages)
+    parameters:
+    - id: ages
+      type: TinyLife.Objects.AgeGroup
+    return:
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
+    content.vb: Public Shared Function GetMatchingConstellations(ages As AgeGroup) As IEnumerable(Of (Constellation As Household.RandomConstellation, MatchPercentage As Single))
+  overload: TinyLife.World.Household.GetMatchingConstellations*
 references:
 - uid: TinyLife.Objects.Person
   commentId: T:TinyLife.Objects.Person
@@ -1738,6 +1912,112 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
+- uid: System.Collections.Generic.List{TinyLife.World.Household.RandomConstellation}
+  commentId: T:System.Collections.Generic.List{TinyLife.World.Household.RandomConstellation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Household.RandomConstellation>
+  nameWithType: List<Household.RandomConstellation>
+  fullName: System.Collections.Generic.List<TinyLife.World.Household.RandomConstellation>
+  nameWithType.vb: List(Of Household.RandomConstellation)
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.World.Household.RandomConstellation)
+  name.vb: List(Of Household.RandomConstellation)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomConstellation
+    name: RandomConstellation
+    href: TinyLife.World.Household.RandomConstellation.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomConstellation
+    name: RandomConstellation
+    href: TinyLife.World.Household.RandomConstellation.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.Furniture
   commentId: T:TinyLife.Objects.Furniture
   parent: TinyLife.Objects
@@ -1806,43 +2086,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.WornClothes
   commentId: T:TinyLife.Objects.WornClothes
   parent: TinyLife.Objects
@@ -1923,34 +2166,17 @@ references:
     name: Mail
     href: TinyLife.World.Mail.html
   - name: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: TinyLife.World.Household.Money*
   commentId: Overload:TinyLife.World.Household.Money
   href: TinyLife.World.Household.html#TinyLife_World_Household_Money
@@ -2072,17 +2298,6 @@ references:
   name: IsCurrent
   nameWithType: Household.IsCurrent
   fullName: TinyLife.World.Household.IsCurrent
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
 - uid: TinyLife.Actions.ActionType.ToggleNewspapers
   commentId: F:TinyLife.Actions.ActionType.ToggleNewspapers
   href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_ToggleNewspapers
@@ -2114,7 +2329,7 @@ references:
   name.vb: Integer
 - uid: TinyLife.World.Household.#ctor*
   commentId: Overload:TinyLife.World.Household.#ctor
-  href: TinyLife.World.Household.html#TinyLife_World_Household__ctor_TinyLife_World_Map_TinyLife_World_Lot_
+  href: TinyLife.World.Household.html#TinyLife_World_Household__ctor_TinyLife_World_Map_TinyLife_World_Lot_System_Boolean_
   name: Household
   nameWithType: Household.Household
   fullName: TinyLife.World.Household.Household
@@ -2312,7 +2527,7 @@ references:
   fullName: TinyLife.World.Household.Export
 - uid: TinyLife.World.Household.Import*
   commentId: Overload:TinyLife.World.Household.Import
-  href: TinyLife.World.Household.html#TinyLife_World_Household_Import_TinyLife_World_ExportedHousehold_System_Boolean_
+  href: TinyLife.World.Household.html#TinyLife_World_Household_Import_TinyLife_World_ExportedHousehold_System_Boolean_System_Boolean_
   name: Import
   nameWithType: Household.Import
   fullName: TinyLife.World.Household.Import
@@ -2388,15 +2603,269 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: TinyLife.Objects.AgeGroup.Adult
-  commentId: F:TinyLife.Objects.AgeGroup.Adult
-  href: TinyLife.Objects.AgeGroup.html#TinyLife_Objects_AgeGroup_Adult
-  name: Adult
-  nameWithType: AgeGroup.Adult
-  fullName: TinyLife.Objects.AgeGroup.Adult
-- uid: TinyLife.World.Household.HasAdult*
-  commentId: Overload:TinyLife.World.Household.HasAdult
-  href: TinyLife.World.Household.html#TinyLife_World_Household_HasAdult_System_Collections_Generic_IEnumerable_TinyLife_Objects_Person__
-  name: HasAdult
-  nameWithType: Household.HasAdult
-  fullName: TinyLife.World.Household.HasAdult
+- uid: TinyLife.World.Household.GetAgeGroups*
+  commentId: Overload:TinyLife.World.Household.GetAgeGroups
+  href: TinyLife.World.Household.html#TinyLife_World_Household_GetAgeGroups_System_Collections_Generic_IEnumerable_TinyLife_Objects_Person__
+  name: GetAgeGroups
+  nameWithType: Household.GetAgeGroups
+  fullName: TinyLife.World.Household.GetAgeGroups
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.AgeGroup.html
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
+- uid: TinyLife.World.Household.Generate*
+  commentId: Overload:TinyLife.World.Household.Generate
+  href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_Objects_AgeGroup__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
+  name: Generate
+  nameWithType: Household.Generate
+  fullName: TinyLife.World.Household.Generate
+- uid: System.Random
+  commentId: T:System.Random
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.random
+  name: Random
+  nameWithType: Random
+  fullName: System.Random
+- uid: System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
+  commentId: T:System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<AgeGroup>
+  nameWithType: List<AgeGroup>
+  fullName: System.Collections.Generic.List<TinyLife.Objects.AgeGroup>
+  nameWithType.vb: List(Of AgeGroup)
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup)
+  name.vb: List(Of AgeGroup)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
+  commentId: T:System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<(int Person, int Other), Household.Relation>
+  nameWithType: Dictionary<(int Person, int Other), Household.Relation>
+  fullName: System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>
+  nameWithType.vb: Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)
+  fullName.vb: System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation)
+  name.vb: Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: (
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.person
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Other
+    name: Other
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.other
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.Relation
+    name: Relation
+    href: TinyLife.World.Household.Relation.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.person
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Int32,System.Int32}.Other
+    name: Other
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.int32,system.int32-.other
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.Relation
+    name: Relation
+    href: TinyLife.World.Household.Relation.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: TinyLife.World.Household.GetMatchingConstellations*
+  commentId: Overload:TinyLife.World.Household.GetMatchingConstellations
+  href: TinyLife.World.Household.html#TinyLife_World_Household_GetMatchingConstellations_TinyLife_Objects_AgeGroup_
+  name: GetMatchingConstellations
+  nameWithType: Household.GetMatchingConstellations
+  fullName: TinyLife.World.Household.GetMatchingConstellations
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<(Household.RandomConstellation Constellation, float MatchPercentage)>
+  nameWithType: IEnumerable<(Household.RandomConstellation Constellation, float MatchPercentage)>
+  fullName: System.Collections.Generic.IEnumerable<(TinyLife.World.Household.RandomConstellation Constellation, float MatchPercentage)>
+  nameWithType.vb: IEnumerable(Of (Constellation As Household.RandomConstellation, MatchPercentage As Single))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (Constellation As TinyLife.World.Household.RandomConstellation, MatchPercentage As Single))
+  name.vb: IEnumerable(Of (Constellation As Household.RandomConstellation, MatchPercentage As Single))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: (
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomConstellation
+    name: RandomConstellation
+    href: TinyLife.World.Household.RandomConstellation.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}.Constellation
+    name: Constellation
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.world.household.randomconstellation,system.single-.constellation
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}.MatchPercentage
+    name: MatchPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.world.household.randomconstellation,system.single-.matchpercentage
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}.Constellation
+    name: Constellation
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.world.household.randomconstellation,system.single-.constellation
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomConstellation
+    name: RandomConstellation
+    href: TinyLife.World.Household.RandomConstellation.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}.MatchPercentage
+    name: MatchPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.world.household.randomconstellation,system.single-.matchpercentage
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )

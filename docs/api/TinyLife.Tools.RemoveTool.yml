@@ -7,7 +7,7 @@ items:
   children:
   - TinyLife.Tools.RemoveTool.#ctor
   - TinyLife.Tools.RemoveTool.CanUndoRedo
-  - TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   - TinyLife.Tools.RemoveTool.GetMouseCursor
   - TinyLife.Tools.RemoveTool.PlayDestroySound
   - TinyLife.Tools.RemoveTool.RemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
@@ -20,7 +20,7 @@ items:
   - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.Furniture)
   - TinyLife.Tools.RemoveTool.SpawnDestroyParticles(TinyLife.Objects.WallLike)
   - TinyLife.Tools.RemoveTool.StoreOrRemoveFurniture(TinyLife.Objects.Furniture,TinyLife.Tools.UndoableAction)
-  - TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
+  - TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   langs:
   - csharp
   - vb
@@ -77,6 +77,7 @@ items:
   - TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   - TinyLife.Tools.Tool.Opened
   - TinyLife.Tools.Tool.Closed
+  - TinyLife.Tools.Tool.CanPlaceForTooltip
   - TinyLife.Tools.Tool.CanSwitchGameModes
   - TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
   - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
@@ -122,16 +123,16 @@ items:
   nameWithType.vb: RemoveTool.New()
   fullName.vb: TinyLife.Tools.RemoveTool.New()
   name.vb: New()
-- uid: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
-  id: Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  id: Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: Update(GameTime)
-  nameWithType: RemoveTool.Update(GameTime)
-  fullName: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime)
+  name: Update(GameTime, bool)
+  nameWithType: RemoveTool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime, bool)
   type: Method
   source:
     remote:
@@ -150,24 +151,29 @@ items:
     By default, this method updates the <xref href="TinyLife.Tools.Tool.MousePos" data-throw-if-not-resolved="false"></xref> and invokes <xref href="TinyLife.Tools.Tool.OnUpdate" data-throw-if-not-resolved="false"></xref>, and also manages the <xref href="TinyLife.Tools.UndoRedoStack" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override void Update(GameTime time)
+    content: public override void Update(GameTime time, bool cursorOnUi)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
       description: The game's time
-    content.vb: Public Overrides Sub Update(time As GameTime)
-  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+    - id: cursorOnUi
+      type: System.Boolean
+    content.vb: Public Overrides Sub Update(time As GameTime, cursorOnUi As Boolean)
+  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   overload: TinyLife.Tools.RemoveTool.Update*
-- uid: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  nameWithType.vb: RemoveTool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.RemoveTool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
+- uid: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  commentId: M:TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   parent: TinyLife.Tools.RemoveTool
   langs:
   - csharp
   - vb
-  name: Draw(GameTime, SpriteBatch)
-  nameWithType: RemoveTool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  name: Draw(GameTime, SpriteBatch, bool)
+  nameWithType: RemoveTool.Draw(GameTime, SpriteBatch, bool)
+  fullName: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
   type: Method
   source:
     remote:
@@ -176,19 +182,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 53
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: >-
     This method is called every draw frame for the <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref>.
 
-    Note that this method is only called if the mouse is not hovering over any ui elements.
-
     By default, this method invokes <xref href="TinyLife.Tools.Tool.OnDraw" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override void Draw(GameTime time, SpriteBatch batch)
+    content: public override void Draw(GameTime time, SpriteBatch batch, bool cursorOnUi)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
@@ -196,9 +200,14 @@ items:
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
       description: The sprite batch used for drawing
-    content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch)
-  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    - id: cursorOnUi
+      type: System.Boolean
+    content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, cursorOnUi As Boolean)
+  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   overload: TinyLife.Tools.RemoveTool.Draw*
+  nameWithType.vb: RemoveTool.Draw(GameTime, SpriteBatch, Boolean)
+  fullName.vb: TinyLife.Tools.RemoveTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
+  name.vb: Draw(GameTime, SpriteBatch, Boolean)
 - uid: TinyLife.Tools.RemoveTool.GetMouseCursor
   commentId: M:TinyLife.Tools.RemoveTool.GetMouseCursor
   id: GetMouseCursor
@@ -217,7 +226,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMouseCursor
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 62
+    startLine: 66
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -252,7 +261,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanUndoRedo
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 67
+    startLine: 71
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -284,7 +293,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 72
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -326,7 +335,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveRoof
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 149
+    startLine: 153
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -364,7 +373,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveStairs
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 172
+    startLine: 176
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -399,7 +408,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveWall
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 187
+    startLine: 191
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -434,7 +443,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveNonGroundTile
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 217
+    startLine: 221
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -478,7 +487,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 250
+    startLine: 254
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -519,7 +528,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StoreOrRemoveFurniture
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 279
+    startLine: 283
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -560,7 +569,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayDestroySound
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 308
+    startLine: 312
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -588,7 +597,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpawnDestroyParticles
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 317
+    startLine: 321
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -623,7 +632,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpawnDestroyParticles
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 327
+    startLine: 331
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -658,7 +667,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SpawnDestroyParticles
     path: ../TinyLife/Tools/RemoveTool.cs
-    startLine: 347
+    startLine: 351
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -961,6 +970,25 @@ references:
   - uid: TinyLife.Tools.Tool.Closed
     name: Closed
     href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  - name: (
+  - name: )
+- uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+  commentId: M:TinyLife.Tools.Tool.CanPlaceForTooltip
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
+  name: CanPlaceForTooltip()
+  nameWithType: Tool.CanPlaceForTooltip()
+  fullName: TinyLife.Tools.Tool.CanPlaceForTooltip()
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
   - name: (
   - name: )
 - uid: TinyLife.Tools.Tool.CanSwitchGameModes
@@ -1709,35 +1737,50 @@ references:
   name: UndoRedoStack
   nameWithType: UndoRedoStack
   fullName: TinyLife.Tools.UndoRedoStack
-- uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   parent: TinyLife.Tools.Tool
   isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
-  name: Update(GameTime)
-  nameWithType: Tool.Update(GameTime)
-  fullName: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
+  name: Update(GameTime, bool)
+  nameWithType: Tool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime, bool)
+  nameWithType.vb: Tool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
     name: Update
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
     name: Update
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Tools.RemoveTool.Update*
   commentId: Overload:TinyLife.Tools.RemoveTool.Update
-  href: TinyLife.Tools.RemoveTool.html#TinyLife_Tools_RemoveTool_Update_Microsoft_Xna_Framework_GameTime_
+  href: TinyLife.Tools.RemoveTool.html#TinyLife_Tools_RemoveTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   name: Update
   nameWithType: RemoveTool.Update
   fullName: TinyLife.Tools.RemoveTool.Update
@@ -1748,6 +1791,17 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: Microsoft.Xna.Framework
   commentId: N:Microsoft.Xna.Framework
   isExternal: true
@@ -1778,18 +1832,21 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
-- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   parent: TinyLife.Tools.Tool
   isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
-  name: Draw(GameTime, SpriteBatch)
-  nameWithType: Tool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
+  name: Draw(GameTime, SpriteBatch, bool)
+  nameWithType: Tool.Draw(GameTime, SpriteBatch, bool)
+  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
+  nameWithType.vb: Tool.Draw(GameTime, SpriteBatch, Boolean)
+  fullName.vb: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
+  name.vb: Draw(GameTime, SpriteBatch, Boolean)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
     name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1799,11 +1856,17 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
     name: SpriteBatch
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
     name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1813,10 +1876,16 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
     name: SpriteBatch
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Tools.RemoveTool.Draw*
   commentId: Overload:TinyLife.Tools.RemoveTool.Draw
-  href: TinyLife.Tools.RemoveTool.html#TinyLife_Tools_RemoveTool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  href: TinyLife.Tools.RemoveTool.html#TinyLife_Tools_RemoveTool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   name: Draw
   nameWithType: RemoveTool.Draw
   fullName: TinyLife.Tools.RemoveTool.Draw
@@ -1986,17 +2055,6 @@ references:
   name: CanUndoRedo
   nameWithType: RemoveTool.CanUndoRedo
   fullName: TinyLife.Tools.RemoveTool.CanUndoRedo
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
 - uid: TinyLife.GameImpl.IsCursorOnUi
   commentId: M:TinyLife.GameImpl.IsCursorOnUi
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_IsCursorOnUi

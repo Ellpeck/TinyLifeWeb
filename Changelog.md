@@ -1,3 +1,62 @@
+# 0.40.0
+*March 9, 2024*
+
+![](media/changelog/0.40.0.png)
+
+> Lunar Grove and Populated Homes
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.40.0/).**
+
+Additions
+- Added Lunar Grove, a lovely secluded forest town with buildings contributed by the lovely [Plumbella](https://www.youtube.com/@Plumbella)
+- Added the ability for empty homes to be populated automatically with exported or randomly generated households during gameplay
+- Added a backup management screen that allows creating, removing and restoring save backups from within the game
+- Added on-screen camera zoom buttons
+- Added a few new cakes
+
+Improvements
+- Display some important notifications as splashes in the center of the screen
+- Display the reason an object can't be placed in build mode as a tooltip
+- Display achievement progress in the achievements menu
+- Improved the look of tooltips
+- Made some foods incompatible for people who are pregnant
+- Display food restrictions when they apply, rather than when they don't
+- Moved chair spots slightly closer to their parent objects
+- Disallow children from visiting a strange household with no children in it
+- Made people discard their held item automatically before going out of town
+- Display relationship levels in the people selection menu
+- Avoid households with more household members also receiving more visitors
+- Display which items were changed in the steam content notification
+- Made people go on parental leave automatically if necessary when giving birth
+- Made people stay at home and on lots longer
+- Don't require a table for children to do homework
+- Display rooms on lower floors a bit darker to make depth clearer for open floor sections
+- Highlight the selected person more thoroughly compared to other people when using the highlight tinies option
+- Display an auto-save indicator at the top of the screen
+
+Fixes
+- Fixed doors opening for people on different floors
+- Fixed people being allowed to use doors when they weren't invited in
+- Fixed the Maple Plains City Campers' Lane 2 living room area being inaccessible in new saves
+- Fixed a rare crash when loading a save with complex fencing setups
+- Fixed existing work relationships not improving if the ai relationships option is off
+- Fixed a rogue black pixel in the rhombus rug
+- Fixed the ability to make the UI scale so large that reverting was impossible
+- Fixed depth rendering issues for people with a lot of clothes layers equipped
+- Fixed UI blinking briefly when a person is selected using right-click
+- Fixed mail carriers and trash collectors not going home after their route is done
+- Fixed children being able to apply furniture upgrades
+- Fixed outfit previews in the character creator ignoring hidden layers
+- Fixed the cheat history storing empty strings when invoking an empty cheat
+- Fixed lots being marked as visited when walking over them, causing people to stick around lots they weren't meant to
+- Fixed removing maps from saves causing people to spawn at map borders and getting stuck
+
+API
+- Added SimpleBehavior action, an action type that allows easily creating behavior-based actions without a custom class
+- Improved the way special action types, like talk actions and project actions, are constructed
+- Game content initialized through static constructors is now explicitly loaded in order. If a mod disrupts the order by accessing content earlier than expected, a warning is emitted.
+- Generified the color system to allow all objects with colors to have a color map and default colors
+
 # 0.39.1
 *February 4, 2024*
 
@@ -19,7 +78,7 @@ API
 
 > An Upgrade to Your Tiny Life
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.39.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.39.0/).**
 
 Additions
 - Added the tinkering skill and the ability to discover upgrades
@@ -143,7 +202,7 @@ Fixes
 
 > Get Cozy Indoors and Lock Out Your Friends
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.38.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.38.0/).**
 
 Additions
 - Added various clutter items, including jars, palettes, washing up stuff, book stacks, sandbox decor
@@ -264,7 +323,7 @@ Fixes
 
 > Multiple Floors and Fences Galore
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.37.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.37.0/).**
 
 Changes that weren't included in preview versions are written in **bold**.
 
@@ -453,7 +512,7 @@ Fixes
 
 > Retro Rarities and Stopped Starvation
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.36.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.36.0/).**
 
 Additions
 - Added the Retro Rarities set with art by [clovedove](https://clovedove.tumblr.com/), which includes various new furniture and clothing items in a retro style
@@ -548,7 +607,7 @@ API
 
 > Multiple Maps and Fabulous Phones
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.35.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.35.0/).**
 
 Additions
 - Added the ability for saves to have multiple worlds in them, as well as the ability to travel between them
@@ -599,7 +658,7 @@ API
 
 > Of Bars, Brews and Progress Bars
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.34.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.34.0/).**
 
 Additions
 - Added the ability to make drinks using the Mixology Kit
@@ -904,7 +963,7 @@ Fixes
 
 > Big Steps Towards Release
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.30.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.30.0/).**
 
 Additions
 - Added a few more decorative objects, including two lamps, cattails and lily pads
@@ -1038,7 +1097,7 @@ Fixes
 
 > Say Hi to the Demo
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.29.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.29.0/).**
 
 Additions
 - Added the Demoville world, including its community-made lots and households
@@ -1126,7 +1185,7 @@ Fixes
 
 > The Last Beta Update Ever
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.28.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.28.0/).**
 
 Additions
 - Added jungle gym, coloring book, and festive tree objects
@@ -1187,7 +1246,7 @@ API
 
 > Trashy Techie Library
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.27.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.27.0/).**
 
 Additions
 - Added a double-sided bookshelf, a book cart, a small indoor trash can, an outdoor wheelie bin, a vertical planter box, and a simple nightstand
@@ -1227,7 +1286,7 @@ API
 
 > Lights, Camera, Music
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.26.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.26.0/).**
 
 Additions
 - Added the first of many of [Leiss](https://leiss.bandcamp.com)'s songs for the Tiny Life Soundtrack
@@ -1308,7 +1367,7 @@ API
 
 > Water, Stuff and Skill Books
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.25.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.25.0/).**
 
 Additions
 - Added the ability for primary school students to study at a bookshelf
@@ -1379,7 +1438,7 @@ Fixes
 
 > Undo, Redo, Fridge Achievements
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.24.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.24.0/).**
 
 Additions
 - Added the ability to store leftovers in the fridge
@@ -1424,7 +1483,7 @@ API
 
 > Job Choices, Aging Up and Furniture Fun
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.23.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.23.0/).**
 
 Additions
 - Added choice prompts for jobs and students, which appear randomly and allow the player to influence the situation
@@ -1571,7 +1630,7 @@ Fixes
 
 > Two Years of Tiny Life: Cafés, Gamepad Controls and More
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.21.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.21.0/).**
 
 Additions
 - Added the ability to control the entire game using a gamepad
@@ -1692,7 +1751,7 @@ Fixes
 
 > The Children Update, it's finally here!
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.20.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.20.0/).**
 
 Additions
 - Added the Children age group, which includes several new gameplay features, including new interactable furniture items, school, homework and the start of parenting interactions
@@ -1777,7 +1836,7 @@ Fixes
 
 > Ui, Sound and Improvements Abound
 
-Happy new year! Read the devlog [on the website](https://tinylifegame.com/devlogs/0.19.0/).
+Happy new year! **Read the devlog [on the website](https://tinylifegame.com/devlogs/0.19.0/).**
 
 Additions
 - Added carpet and puzzle piece floorings
@@ -1826,7 +1885,7 @@ API
 
 > Animations, Food and Sources
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.18.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.18.0/).**
 
 Additions
 - Added emotion sources that display when hovering over an emotion modifier
@@ -1909,7 +1968,7 @@ Fixes
 
 > Life Goals, Reward Personalities and Daily Tasks
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.17.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.17.0/).**
 
 Additions
 - Added Life Goals
@@ -1970,7 +2029,7 @@ Fixes
 
 > Woodlands and Visitors
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.16.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.16.0/).**
 
 Additions
 - Added the Woodlands Set with art by [faellynna](https://www.instagram.com/faellynna/), which includes a Woodworking skill and a large variety of new build mode items:
@@ -2027,7 +2086,7 @@ Fixes
 
 > Barbecue Trash Cleaning
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.15.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.15.0/).**
 
 Additions
 - Added a barbecue and some grillable food items
@@ -2063,7 +2122,7 @@ Fixes
 
 > Lamps, Lot Movement, Speech Sounds!
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.14.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.14.0/).**
 
 Additions
 - Added dynamic lighting and two lamps, a ceiling and a floor one
@@ -2115,7 +2174,7 @@ Fixes
 
 > Camera Rotation and a Larger Map!
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.13.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.13.0/).**
 
 Additions
 - Added camera rotation, which can be used using the C key or the rotation buttons in the top right
@@ -2187,7 +2246,7 @@ Fixes
 
 > The Fitness Set
 
-Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and read the devlog [on the website](https://tinylifegame.com/devlogs/0.12.0/).
+Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and **read the devlog [on the website](https://tinylifegame.com/devlogs/0.12.0/).**
 
 Additions
 - Added the Fitness Set, with art by [Tector](https://www.instagram.com/tector_pixel/), which includes a fitness skill and several new furniture and clothing items:
@@ -2220,7 +2279,7 @@ Fixes
 
 > More Actions, More Skills, More Personalities, More Pride!
 
-Read the devlog [on the website](https://tinylifegame.com/devlogs/0.11.0/).
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.11.0/).**
 
 Additions
 - Added a lot more social actions in various categories
@@ -2257,7 +2316,7 @@ Fixes
 
 > In-depth writing skill and more AI depth!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/256150/0101-in-depth-writing-skill-and-more-ai-depth).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/256150/0101-in-depth-writing-skill-and-more-ai-depth).**
 
 Additions
 - Added an option that causes people in unplayed households to do skill building activities automatically (if their personality or existing skills allow it)
@@ -2280,7 +2339,7 @@ Fixes
 
 > New colors, clothes and many fixes!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/254608/0100-new-colors-clothes-and-many-fixes).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/254608/0100-new-colors-clothes-and-many-fixes).**
 
 Additions
 - Added two new tops, four new bottoms, and four new hairstyles
@@ -2310,7 +2369,7 @@ API
 
 > Kick Out Your Annoying Aunt and Sofas
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/248431/090-kick-out-your-annoying-aunt-and-sofas).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/248431/090-kick-out-your-annoying-aunt-and-sofas).**
 
 Additions
 - Added new furniture: A sofa, a coffee table, and a bathroom sink
@@ -2352,7 +2411,7 @@ Fixes
 
 > Mail Carriers, Bills and New Screenshots
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/236301/080-mail-carriers-bills-and-new-screenshots).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/236301/080-mail-carriers-bills-and-new-screenshots).**
 
 Additions
 - Added a mail carrier that delivers mails daily
@@ -2377,7 +2436,7 @@ Fixes
 
 > Breaking Furniture, Programming, and Many Improvements!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/223659/070-breaking-furniture-programming-and-many-improvements).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/223659/070-breaking-furniture-programming-and-many-improvements).**
 
 Additions
 - Added food quality, which is influenced by the cooking skill
@@ -2427,7 +2486,7 @@ API
 
 > Romance, Sounds and a Lot More!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/216521/060-romance-sounds-and-a-lot-more).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/216521/060-romance-sounds-and-a-lot-more).**
 
 Additions
 - Added romance, romantic interactions and the Frisky emotion
@@ -2476,7 +2535,7 @@ Improvements
 
 > Emotions!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/212031/050-emotions).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/212031/050-emotions).**
 
 Additions
 - Added emotions
@@ -2504,7 +2563,7 @@ Fixes
 # 0.4.0
 > Consequences! Death!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/210682/040-consequences-death).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/210682/040-consequences-death).**
 
 Additions
 - Added low need consequences:
@@ -2524,7 +2583,7 @@ Improvements
 # 0.3.1
 > Jobs! Hyperspeed!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/206044/031-jobs-hyperspeed).**
 
 Additions
 - Added jobs: You can get a job at the computer and earn money by going to work
@@ -2542,7 +2601,7 @@ API
 # 0.3.0
 > More skills, more stuff to do!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/203072/030-more-skills-more-stuff-to-do).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/203072/030-more-skills-more-stuff-to-do).**
 
 Additions
 - New skills: Painting, charisma and humor
@@ -2557,7 +2616,7 @@ Improvements
 # 0.2.3
 > Personality Types!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/201694/023-personality-types).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/201694/023-personality-types).**
 
 Additions
 - Added painting and selling paintings
@@ -2577,7 +2636,7 @@ API
 # 0.2.2
 > Nicer menus, more mod abilities!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/199801/022-nicer-menus-more-mod-abilities).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/199801/022-nicer-menus-more-mod-abilities).**
 
 Additions
 - Added mod list and "Open Game Folder" button to Options menu
@@ -2597,7 +2656,7 @@ Fixes
 # 0.2.0
 > Custom Mods!
 
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/198831/020-custom-mods).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/198831/020-custom-mods).**
 
 Additions
 - Added the ability to create mods!
@@ -2626,7 +2685,7 @@ Fixes
 - Fixed being able to cheat money by deleting rooms
 
 # 0.1.1
-Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/193425/version-011).
+**Read the devlog [on itch](https://ellpeck.itch.io/tiny-life/devlog/193425/version-011).**
 
 Additions
 - Added gridless placement by holding the alt key

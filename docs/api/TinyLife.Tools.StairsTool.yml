@@ -6,10 +6,10 @@ items:
   parent: TinyLife.Tools
   children:
   - TinyLife.Tools.StairsTool.#ctor
-  - TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   - TinyLife.Tools.StairsTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   - TinyLife.Tools.StairsTool.ShouldHighlightSelectedObject(System.Object)
-  - TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime)
+  - TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   langs:
   - csharp
   - vb
@@ -66,6 +66,7 @@ items:
   - TinyLife.Tools.Tool.Opened
   - TinyLife.Tools.Tool.Closed
   - TinyLife.Tools.Tool.GetMouseCursor
+  - TinyLife.Tools.Tool.CanPlaceForTooltip
   - TinyLife.Tools.Tool.CanSwitchGameModes
   - TinyLife.Tools.Tool.CanUndoRedo
   - TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
@@ -112,16 +113,16 @@ items:
   nameWithType.vb: StairsTool.New()
   fullName.vb: TinyLife.Tools.StairsTool.New()
   name.vb: New()
-- uid: TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime)
-  id: Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  id: Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   parent: TinyLife.Tools.StairsTool
   langs:
   - csharp
   - vb
-  name: Update(GameTime)
-  nameWithType: StairsTool.Update(GameTime)
-  fullName: TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime)
+  name: Update(GameTime, bool)
+  nameWithType: StairsTool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime, bool)
   type: Method
   source:
     remote:
@@ -140,24 +141,29 @@ items:
     By default, this method updates the <xref href="TinyLife.Tools.Tool.MousePos" data-throw-if-not-resolved="false"></xref> and invokes <xref href="TinyLife.Tools.Tool.OnUpdate" data-throw-if-not-resolved="false"></xref>, and also manages the <xref href="TinyLife.Tools.UndoRedoStack" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override void Update(GameTime time)
+    content: public override void Update(GameTime time, bool cursorOnUi)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
       description: The game's time
-    content.vb: Public Overrides Sub Update(time As GameTime)
-  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+    - id: cursorOnUi
+      type: System.Boolean
+    content.vb: Public Overrides Sub Update(time As GameTime, cursorOnUi As Boolean)
+  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   overload: TinyLife.Tools.StairsTool.Update*
-- uid: TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  nameWithType.vb: StairsTool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.StairsTool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
+- uid: TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  commentId: M:TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   parent: TinyLife.Tools.StairsTool
   langs:
   - csharp
   - vb
-  name: Draw(GameTime, SpriteBatch)
-  nameWithType: StairsTool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  name: Draw(GameTime, SpriteBatch, bool)
+  nameWithType: StairsTool.Draw(GameTime, SpriteBatch, bool)
+  fullName: TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
   type: Method
   source:
     remote:
@@ -166,19 +172,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Tools/StairsTool.cs
-    startLine: 74
+    startLine: 76
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: >-
     This method is called every draw frame for the <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref>.
 
-    Note that this method is only called if the mouse is not hovering over any ui elements.
-
     By default, this method invokes <xref href="TinyLife.Tools.Tool.OnDraw" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override void Draw(GameTime time, SpriteBatch batch)
+    content: public override void Draw(GameTime time, SpriteBatch batch, bool cursorOnUi)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
@@ -186,9 +190,14 @@ items:
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
       description: The sprite batch used for drawing
-    content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch)
-  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    - id: cursorOnUi
+      type: System.Boolean
+    content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, cursorOnUi As Boolean)
+  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   overload: TinyLife.Tools.StairsTool.Draw*
+  nameWithType.vb: StairsTool.Draw(GameTime, SpriteBatch, Boolean)
+  fullName.vb: TinyLife.Tools.StairsTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
+  name.vb: Draw(GameTime, SpriteBatch, Boolean)
 - uid: TinyLife.Tools.StairsTool.ShouldHighlightSelectedObject(System.Object)
   commentId: M:TinyLife.Tools.StairsTool.ShouldHighlightSelectedObject(System.Object)
   id: ShouldHighlightSelectedObject(System.Object)
@@ -207,7 +216,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldHighlightSelectedObject
     path: ../TinyLife/Tools/StairsTool.cs
-    startLine: 91
+    startLine: 95
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -249,7 +258,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InitBuildModeUi
     path: ../TinyLife/Tools/StairsTool.cs
-    startLine: 96
+    startLine: 100
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
@@ -527,6 +536,25 @@ references:
   - uid: TinyLife.Tools.Tool.GetMouseCursor
     name: GetMouseCursor
     href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_GetMouseCursor
+  - name: (
+  - name: )
+- uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+  commentId: M:TinyLife.Tools.Tool.CanPlaceForTooltip
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
+  name: CanPlaceForTooltip()
+  nameWithType: Tool.CanPlaceForTooltip()
+  fullName: TinyLife.Tools.Tool.CanPlaceForTooltip()
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
   - name: (
   - name: )
 - uid: TinyLife.Tools.Tool.CanSwitchGameModes
@@ -1294,35 +1322,50 @@ references:
   name: UndoRedoStack
   nameWithType: UndoRedoStack
   fullName: TinyLife.Tools.UndoRedoStack
-- uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
-  commentId: M:TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+- uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   parent: TinyLife.Tools.Tool
   isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
-  name: Update(GameTime)
-  nameWithType: Tool.Update(GameTime)
-  fullName: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
+  name: Update(GameTime, bool)
+  nameWithType: Tool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime, bool)
+  nameWithType.vb: Tool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
     name: Update
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime)
+  - uid: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
     name: Update
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Tools.StairsTool.Update*
   commentId: Overload:TinyLife.Tools.StairsTool.Update
-  href: TinyLife.Tools.StairsTool.html#TinyLife_Tools_StairsTool_Update_Microsoft_Xna_Framework_GameTime_
+  href: TinyLife.Tools.StairsTool.html#TinyLife_Tools_StairsTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   name: Update
   nameWithType: StairsTool.Update
   fullName: TinyLife.Tools.StairsTool.Update
@@ -1333,6 +1376,17 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: Microsoft.Xna.Framework
   commentId: N:Microsoft.Xna.Framework
   isExternal: true
@@ -1363,18 +1417,21 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
-- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   parent: TinyLife.Tools.Tool
   isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
-  name: Draw(GameTime, SpriteBatch)
-  nameWithType: Tool.Draw(GameTime, SpriteBatch)
-  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
+  name: Draw(GameTime, SpriteBatch, bool)
+  nameWithType: Tool.Draw(GameTime, SpriteBatch, bool)
+  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
+  nameWithType.vb: Tool.Draw(GameTime, SpriteBatch, Boolean)
+  fullName.vb: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
+  name.vb: Draw(GameTime, SpriteBatch, Boolean)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
     name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1384,11 +1441,17 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
     name: SpriteBatch
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
     name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1398,10 +1461,16 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
     name: SpriteBatch
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Tools.StairsTool.Draw*
   commentId: Overload:TinyLife.Tools.StairsTool.Draw
-  href: TinyLife.Tools.StairsTool.html#TinyLife_Tools_StairsTool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  href: TinyLife.Tools.StairsTool.html#TinyLife_Tools_StairsTool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
   name: Draw
   nameWithType: StairsTool.Draw
   fullName: TinyLife.Tools.StairsTool.Draw
@@ -1519,17 +1588,6 @@ references:
   name: ShouldHighlightSelectedObject
   nameWithType: StairsTool.ShouldHighlightSelectedObject
   fullName: TinyLife.Tools.StairsTool.ShouldHighlightSelectedObject
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
   href: TinyLife.html

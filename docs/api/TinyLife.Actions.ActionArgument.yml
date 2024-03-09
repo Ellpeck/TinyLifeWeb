@@ -14,13 +14,13 @@ items:
   - TinyLife.Actions.ActionArgument.CustomLayout
   - TinyLife.Actions.ActionArgument.Description
   - TinyLife.Actions.ActionArgument.DisplayName
-  - TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult})
+  - TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Boolean)
   - TinyLife.Actions.ActionArgument.GetDisplayName
   - TinyLife.Actions.ActionArgument.GetPassivePriority(TinyLife.Objects.Person)
   - TinyLife.Actions.ActionArgument.ImageLayout(System.Single,MLEM.Ui.Elements.Element.DrawCallback,MLEM.Misc.Padding)
   - TinyLife.Actions.ActionArgument.Name
   - TinyLife.Actions.ActionArgument.PassivePriority
-  - TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
+  - TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
   - TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
   langs:
   - csharp
@@ -289,7 +289,7 @@ items:
 
     If this action is set, the <xref href="MLEM.Ui.Elements.Group" data-throw-if-not-resolved="false"></xref> or its main <xref href="MLEM.Ui.Elements.Button" data-throw-if-not-resolved="false"></xref> can be modified to look different (or removed) based on this variety.
 
-    Predefined custom layouts such as <xref href="TinyLife.Actions.ActionArgument.ImageLayout(System.Single%2cMLEM.Ui.Elements.Element.DrawCallback%2cMLEM.Misc.Padding)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)" data-throw-if-not-resolved="false"></xref> can be found statically in this class.
+    Predefined custom layouts such as <xref href="TinyLife.Actions.ActionArgument.ImageLayout(System.Single%2cMLEM.Ui.Elements.Element.DrawCallback%2cMLEM.Misc.Padding)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person%2cTinyLife.Objects.Person%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> can be found statically in this class.
   example: []
   syntax:
     content: public Action<(Group Group, Button Button, Image Tickmark, Tooltip Tooltip)> CustomLayout
@@ -517,16 +517,16 @@ items:
       description: The passive priority of this action variety
     content.vb: Public Function GetPassivePriority(person As Person) As Single
   overload: TinyLife.Actions.ActionArgument.GetPassivePriority*
-- uid: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult})
-  commentId: M:TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult})
-  id: FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult})
+- uid: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Boolean)
+  commentId: M:TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Boolean)
+  id: FreePeople(TinyLife.Actions.ActionInfo,System.Boolean,System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Boolean)
   parent: TinyLife.Actions.ActionArgument
   langs:
   - csharp
   - vb
-  name: FreePeople(ActionInfo, bool, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult>)
-  nameWithType: ActionArgument.FreePeople(ActionInfo, bool, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult>)
-  fullName: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo, bool, System.Func<(TinyLife.Actions.ActionInfo Info, TinyLife.Objects.Person Other, bool Automatic), TinyLife.Actions.CanExecuteResult>)
+  name: FreePeople(ActionInfo, bool, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult>, bool)
+  nameWithType: ActionArgument.FreePeople(ActionInfo, bool, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult>, bool)
+  fullName: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo, bool, System.Func<(TinyLife.Actions.ActionInfo Info, TinyLife.Objects.Person Other, bool Automatic), TinyLife.Actions.CanExecuteResult>, bool)
   type: Method
   source:
     remote:
@@ -547,7 +547,7 @@ items:
     This method is used for actions like <xref href="TinyLife.Actions.ActionType.AskToTaste" data-throw-if-not-resolved="false"></xref>, where a person can be selected to interact with from a variety menu.
   example: []
   syntax:
-    content: public static IEnumerable<ActionArgument> FreePeople(ActionInfo info, bool automatic, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult> canExecute = null)
+    content: public static IEnumerable<ActionArgument> FreePeople(ActionInfo info, bool automatic, Func<(ActionInfo Info, Person Other, bool Automatic), CanExecuteResult> canExecute = null, bool showRelationship = true)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
@@ -558,14 +558,16 @@ items:
     - id: canExecute
       type: System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Person,System.Boolean},TinyLife.Actions.CanExecuteResult}
       description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref>-esque function that determines whether a given person should be included.
+    - id: showRelationship
+      type: System.Boolean
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionArgument}
       description: A set of action varieties that represents the free people around.
-    content.vb: Public Shared Function FreePeople(info As ActionInfo, automatic As Boolean, canExecute As Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult) = Nothing) As IEnumerable(Of ActionArgument)
+    content.vb: Public Shared Function FreePeople(info As ActionInfo, automatic As Boolean, canExecute As Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult) = Nothing, showRelationship As Boolean = True) As IEnumerable(Of ActionArgument)
   overload: TinyLife.Actions.ActionArgument.FreePeople*
-  nameWithType.vb: ActionArgument.FreePeople(ActionInfo, Boolean, Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult))
-  fullName.vb: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo, Boolean, System.Func(Of (Info As TinyLife.Actions.ActionInfo, Other As TinyLife.Objects.Person, Automatic As Boolean), TinyLife.Actions.CanExecuteResult))
-  name.vb: FreePeople(ActionInfo, Boolean, Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult))
+  nameWithType.vb: ActionArgument.FreePeople(ActionInfo, Boolean, Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult), Boolean)
+  fullName.vb: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo, Boolean, System.Func(Of (Info As TinyLife.Actions.ActionInfo, Other As TinyLife.Objects.Person, Automatic As Boolean), TinyLife.Actions.CanExecuteResult), Boolean)
+  name.vb: FreePeople(ActionInfo, Boolean, Func(Of (Info As ActionInfo, Other As Person, Automatic As Boolean), CanExecuteResult), Boolean)
 - uid: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
   commentId: M:TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
   id: StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
@@ -657,16 +659,16 @@ items:
   nameWithType.vb: ActionArgument.ImageLayout(Single, Element.DrawCallback, Padding)
   fullName.vb: TinyLife.Actions.ActionArgument.ImageLayout(Single, MLEM.Ui.Elements.Element.DrawCallback, MLEM.Misc.Padding)
   name.vb: ImageLayout(Single, DrawCallback, Padding)
-- uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
-  id: PortraitLayout(TinyLife.Objects.Person)
+- uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
+  commentId: M:TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
+  id: PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
   parent: TinyLife.Actions.ActionArgument
   langs:
   - csharp
   - vb
-  name: PortraitLayout(Person)
-  nameWithType: ActionArgument.PortraitLayout(Person)
-  fullName: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
+  name: PortraitLayout(Person, Person, bool)
+  nameWithType: ActionArgument.PortraitLayout(Person, Person, bool)
+  fullName: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person, TinyLife.Objects.Person, bool)
   type: Method
   source:
     remote:
@@ -682,16 +684,23 @@ items:
   summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionArgument.CustomLayout" data-throw-if-not-resolved="false"></xref> that creates a layout that includes the <xref href="TinyLife.Objects.Person.Portrait" data-throw-if-not-resolved="false"></xref> of the given <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> in the center bottom.
   example: []
   syntax:
-    content: public static Action<(Group Group, Button Button, Image Tickmark, Tooltip Tooltip)> PortraitLayout(Person person)
+    content: public static Action<(Group Group, Button Button, Image Tickmark, Tooltip Tooltip)> PortraitLayout(Person person, Person otherPerson, bool showRelationship)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+    - id: otherPerson
+      type: TinyLife.Objects.Person
       description: The person to create the portrait layout for
+    - id: showRelationship
+      type: System.Boolean
     return:
       type: System.Action{System.ValueTuple{MLEM.Ui.Elements.Group,MLEM.Ui.Elements.Button,MLEM.Ui.Elements.Image,MLEM.Ui.Elements.Tooltip}}
       description: An action that can be fed into <xref href="TinyLife.Actions.ActionArgument.CustomLayout" data-throw-if-not-resolved="false"></xref>
-    content.vb: Public Shared Function PortraitLayout(person As Person) As Action(Of (Group As Group, Button As Button, Tickmark As Image, Tooltip As Tooltip))
+    content.vb: Public Shared Function PortraitLayout(person As Person, otherPerson As Person, showRelationship As Boolean) As Action(Of (Group As Group, Button As Button, Tickmark As Image, Tooltip As Tooltip))
   overload: TinyLife.Actions.ActionArgument.PortraitLayout*
+  nameWithType.vb: ActionArgument.PortraitLayout(Person, Person, Boolean)
+  fullName.vb: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person, TinyLife.Objects.Person, Boolean)
+  name.vb: PortraitLayout(Person, Person, Boolean)
 references:
 - uid: TinyLife.Actions.ActionType
   commentId: T:TinyLife.Actions.ActionType
@@ -1777,29 +1786,55 @@ references:
     name: Padding
     isExternal: true
   - name: )
-- uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
-  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_
-  name: PortraitLayout(Person)
-  nameWithType: ActionArgument.PortraitLayout(Person)
-  fullName: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
+- uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
+  commentId: M:TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
+  isExternal: true
+  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_TinyLife_Objects_Person_System_Boolean_
+  name: PortraitLayout(Person, Person, bool)
+  nameWithType: ActionArgument.PortraitLayout(Person, Person, bool)
+  fullName: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person, TinyLife.Objects.Person, bool)
+  nameWithType.vb: ActionArgument.PortraitLayout(Person, Person, Boolean)
+  fullName.vb: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person, TinyLife.Objects.Person, Boolean)
+  name.vb: PortraitLayout(Person, Person, Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
+  - uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
     name: PortraitLayout
-    href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_
+    href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_TinyLife_Objects_Person_System_Boolean_
   - name: (
   - uid: TinyLife.Objects.Person
     name: Person
     href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person)
+  - uid: TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.Person,TinyLife.Objects.Person,System.Boolean)
     name: PortraitLayout
-    href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_
+    href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_TinyLife_Objects_Person_System_Boolean_
   - name: (
   - uid: TinyLife.Objects.Person
     name: Person
     href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: System.Action{System.ValueTuple{MLEM.Ui.Elements.Group,MLEM.Ui.Elements.Button,MLEM.Ui.Elements.Image,MLEM.Ui.Elements.Tooltip}}
   commentId: T:System.Action{System.ValueTuple{MLEM.Ui.Elements.Group,MLEM.Ui.Elements.Button,MLEM.Ui.Elements.Image,MLEM.Ui.Elements.Tooltip}}
@@ -2125,7 +2160,7 @@ references:
   fullName: TinyLife.Actions.ActionType.AskToTaste
 - uid: TinyLife.Actions.ActionArgument.FreePeople*
   commentId: Overload:TinyLife.Actions.ActionArgument.FreePeople
-  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_FreePeople_TinyLife_Actions_ActionInfo_System_Boolean_System_Func_System_ValueTuple_TinyLife_Actions_ActionInfo_TinyLife_Objects_Person_System_Boolean__TinyLife_Actions_CanExecuteResult__
+  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_FreePeople_TinyLife_Actions_ActionInfo_System_Boolean_System_Func_System_ValueTuple_TinyLife_Actions_ActionInfo_TinyLife_Objects_Person_System_Boolean__TinyLife_Actions_CanExecuteResult__System_Boolean_
   name: FreePeople
   nameWithType: ActionArgument.FreePeople
   fullName: TinyLife.Actions.ActionArgument.FreePeople
@@ -2565,7 +2600,7 @@ references:
   fullName: TinyLife.Objects.Person.Portrait
 - uid: TinyLife.Actions.ActionArgument.PortraitLayout*
   commentId: Overload:TinyLife.Actions.ActionArgument.PortraitLayout
-  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_
+  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_PortraitLayout_TinyLife_Objects_Person_TinyLife_Objects_Person_System_Boolean_
   name: PortraitLayout
   nameWithType: ActionArgument.PortraitLayout
   fullName: TinyLife.Actions.ActionArgument.PortraitLayout

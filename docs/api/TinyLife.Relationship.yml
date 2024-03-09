@@ -6,6 +6,7 @@ items:
   parent: TinyLife
   children:
   - TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Int32,System.Nullable{System.TimeSpan})
+  - TinyLife.Relationship.CreateBars(MLEM.Ui.Anchor,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)
   - TinyLife.Relationship.CreatePanel(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Relationship.Dating
   - TinyLife.Relationship.FriendDisplayString
@@ -32,7 +33,7 @@ items:
   - TinyLife.Relationship.RomanceLevel
   - TinyLife.Relationship.RomancePercentage
   - TinyLife.Relationship.RomanceType
-  - TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean)
+  - TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean,System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType},System.Collections.Generic.ICollection{TinyLife.Objects.Person})
   - TinyLife.Relationship.TryingForBaby
   - TinyLife.Relationship.Type
   - TinyLife.Relationship.Validate(TinyLife.Objects.Person)
@@ -955,16 +956,16 @@ items:
   nameWithType.vb: Relationship.ResetToStatic(Boolean, Boolean)
   fullName.vb: TinyLife.Relationship.ResetToStatic(Boolean, Boolean)
   name.vb: ResetToStatic(Boolean, Boolean)
-- uid: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean)
-  commentId: M:TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean)
-  id: SetGenealogy(TinyLife.GenealogyType,System.Boolean)
+- uid: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean,System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType},System.Collections.Generic.ICollection{TinyLife.Objects.Person})
+  commentId: M:TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean,System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType},System.Collections.Generic.ICollection{TinyLife.Objects.Person})
+  id: SetGenealogy(TinyLife.GenealogyType,System.Boolean,System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType},System.Collections.Generic.ICollection{TinyLife.Objects.Person})
   parent: TinyLife.Relationship
   langs:
   - csharp
   - vb
-  name: SetGenealogy(GenealogyType, bool)
-  nameWithType: Relationship.SetGenealogy(GenealogyType, bool)
-  fullName: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType, bool)
+  name: SetGenealogy(GenealogyType, bool, Action<Person, Relationship, GenealogyType>, ICollection<Person>)
+  nameWithType: Relationship.SetGenealogy(GenealogyType, bool, Action<Person, Relationship, GenealogyType>, ICollection<Person>)
+  fullName: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType, bool, System.Action<TinyLife.Objects.Person, TinyLife.Relationship, TinyLife.GenealogyType>, System.Collections.Generic.ICollection<TinyLife.Objects.Person>)
   type: Method
   source:
     remote:
@@ -980,7 +981,7 @@ items:
   summary: Sets this relationship's <xref href="TinyLife.Relationship.Genealogy" data-throw-if-not-resolved="false"></xref> and this <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s relationship's <xref href="TinyLife.Relationship.Genealogy" data-throw-if-not-resolved="false"></xref>, additionally updating all transitive relationships' genealogies using <xref href="TinyLife.Utilities.Extensions.GetTransitive(TinyLife.GenealogyType%2cTinyLife.GenealogyType)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public void SetGenealogy(GenealogyType genealogy, bool overwriteExistingTransitive)
+    content: public void SetGenealogy(GenealogyType genealogy, bool overwriteExistingTransitive, Action<Person, Relationship, GenealogyType> onGenealogyChanged = null, ICollection<Person> possibleAdditionalPeople = null)
     parameters:
     - id: genealogy
       type: TinyLife.GenealogyType
@@ -988,11 +989,15 @@ items:
     - id: overwriteExistingTransitive
       type: System.Boolean
       description: Whether the genealogies of existing transitive relationships should be updated, even if they are already set to a non-<xref href="TinyLife.GenealogyType.Unrelated" data-throw-if-not-resolved="false"></xref> relationship.
-    content.vb: Public Sub SetGenealogy(genealogy As GenealogyType, overwriteExistingTransitive As Boolean)
+    - id: onGenealogyChanged
+      type: System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType}
+    - id: possibleAdditionalPeople
+      type: System.Collections.Generic.ICollection{TinyLife.Objects.Person}
+    content.vb: Public Sub SetGenealogy(genealogy As GenealogyType, overwriteExistingTransitive As Boolean, onGenealogyChanged As Action(Of Person, Relationship, GenealogyType) = Nothing, possibleAdditionalPeople As ICollection(Of Person) = Nothing)
   overload: TinyLife.Relationship.SetGenealogy*
-  nameWithType.vb: Relationship.SetGenealogy(GenealogyType, Boolean)
-  fullName.vb: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType, Boolean)
-  name.vb: SetGenealogy(GenealogyType, Boolean)
+  nameWithType.vb: Relationship.SetGenealogy(GenealogyType, Boolean, Action(Of Person, Relationship, GenealogyType), ICollection(Of Person))
+  fullName.vb: TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType, Boolean, System.Action(Of TinyLife.Objects.Person, TinyLife.Relationship, TinyLife.GenealogyType), System.Collections.Generic.ICollection(Of TinyLife.Objects.Person))
+  name.vb: SetGenealogy(GenealogyType, Boolean, Action(Of Person, Relationship, GenealogyType), ICollection(Of Person))
 - uid: TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Int32,System.Nullable{System.TimeSpan})
   commentId: M:TinyLife.Relationship.AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Int32,System.Nullable{System.TimeSpan})
   id: AddMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Int32,System.Nullable{System.TimeSpan})
@@ -1011,7 +1016,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddMemory
     path: ../TinyLife/Relationship.cs
-    startLine: 311
+    startLine: 315
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1060,7 +1065,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMemories
     path: ../TinyLife/Relationship.cs
-    startLine: 325
+    startLine: 329
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1103,7 +1108,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveMemory
     path: ../TinyLife/Relationship.cs
-    startLine: 340
+    startLine: 344
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1152,7 +1157,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTimeSinceMemory
     path: ../TinyLife/Relationship.cs
-    startLine: 355
+    startLine: 359
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1201,7 +1206,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreatePanel
     path: ../TinyLife/Relationship.cs
-    startLine: 374
+    startLine: 378
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -1230,6 +1235,50 @@ items:
       description: A <xref href="MLEM.Ui.Elements.Group" data-throw-if-not-resolved="false"></xref> that contains the <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> created.
     content.vb: Public Shared Function CreatePanel(person As Person, otherPerson As Person, relationship As Relationship, size As Vector2) As Group
   overload: TinyLife.Relationship.CreatePanel*
+- uid: TinyLife.Relationship.CreateBars(MLEM.Ui.Anchor,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)
+  commentId: M:TinyLife.Relationship.CreateBars(MLEM.Ui.Anchor,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)
+  id: CreateBars(MLEM.Ui.Anchor,TinyLife.Objects.Person,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2,System.Single,System.Boolean)
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: CreateBars(Anchor, Person, Relationship, Vector2, float, bool)
+  nameWithType: Relationship.CreateBars(Anchor, Person, Relationship, Vector2, float, bool)
+  fullName: TinyLife.Relationship.CreateBars(MLEM.Ui.Anchor, TinyLife.Objects.Person, TinyLife.Relationship, Microsoft.Xna.Framework.Vector2, float, bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Relationship.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CreateBars
+    path: ../TinyLife/Relationship.cs
+    startLine: 392
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: public static Group CreateBars(Anchor anchor, Person person, Relationship relationship, Vector2 size, float barHeight = 10, bool showText = true)
+    parameters:
+    - id: anchor
+      type: MLEM.Ui.Anchor
+    - id: person
+      type: TinyLife.Objects.Person
+    - id: relationship
+      type: TinyLife.Relationship
+    - id: size
+      type: Microsoft.Xna.Framework.Vector2
+    - id: barHeight
+      type: System.Single
+    - id: showText
+      type: System.Boolean
+    return:
+      type: MLEM.Ui.Elements.Group
+    content.vb: Public Shared Function CreateBars(anchor As Anchor, person As Person, relationship As Relationship, size As Vector2, barHeight As Single = 10, showText As Boolean = True) As Group
+  overload: TinyLife.Relationship.CreateBars*
+  nameWithType.vb: Relationship.CreateBars(Anchor, Person, Relationship, Vector2, Single, Boolean)
+  fullName.vb: TinyLife.Relationship.CreateBars(MLEM.Ui.Anchor, TinyLife.Objects.Person, TinyLife.Relationship, Microsoft.Xna.Framework.Vector2, Single, Boolean)
+  name.vb: CreateBars(Anchor, Person, Relationship, Vector2, Single, Boolean)
 - uid: TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
   commentId: M:TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
   id: PopulateTooltip(TinyLife.Objects.Person,TinyLife.Objects.Person,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
@@ -1248,7 +1297,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PopulateTooltip
     path: ../TinyLife/Relationship.cs
-    startLine: 413
+    startLine: 432
   assemblies:
   - Tiny Life
   namespace: TinyLife
@@ -2808,10 +2857,164 @@ references:
   fullName: TinyLife.GenealogyType.Unrelated
 - uid: TinyLife.Relationship.SetGenealogy*
   commentId: Overload:TinyLife.Relationship.SetGenealogy
-  href: TinyLife.Relationship.html#TinyLife_Relationship_SetGenealogy_TinyLife_GenealogyType_System_Boolean_
+  href: TinyLife.Relationship.html#TinyLife_Relationship_SetGenealogy_TinyLife_GenealogyType_System_Boolean_System_Action_TinyLife_Objects_Person_TinyLife_Relationship_TinyLife_GenealogyType__System_Collections_Generic_ICollection_TinyLife_Objects_Person__
   name: SetGenealogy
   nameWithType: Relationship.SetGenealogy
   fullName: TinyLife.Relationship.SetGenealogy
+- uid: System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType}
+  commentId: T:System.Action{TinyLife.Objects.Person,TinyLife.Relationship,TinyLife.GenealogyType}
+  parent: System
+  definition: System.Action`3
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<Person, Relationship, GenealogyType>
+  nameWithType: Action<Person, Relationship, GenealogyType>
+  fullName: System.Action<TinyLife.Objects.Person, TinyLife.Relationship, TinyLife.GenealogyType>
+  nameWithType.vb: Action(Of Person, Relationship, GenealogyType)
+  fullName.vb: System.Action(Of TinyLife.Objects.Person, TinyLife.Relationship, TinyLife.GenealogyType)
+  name.vb: Action(Of Person, Relationship, GenealogyType)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Relationship
+    name: Relationship
+    href: TinyLife.Relationship.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.GenealogyType
+    name: GenealogyType
+    href: TinyLife.GenealogyType.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Relationship
+    name: Relationship
+    href: TinyLife.Relationship.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.GenealogyType
+    name: GenealogyType
+    href: TinyLife.GenealogyType.html
+  - name: )
+- uid: System.Collections.Generic.ICollection{TinyLife.Objects.Person}
+  commentId: T:System.Collections.Generic.ICollection{TinyLife.Objects.Person}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<Person>
+  nameWithType: ICollection<Person>
+  fullName: System.Collections.Generic.ICollection<TinyLife.Objects.Person>
+  nameWithType.vb: ICollection(Of Person)
+  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.Objects.Person)
+  name.vb: ICollection(Of Person)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: )
+- uid: System.Action`3
+  commentId: T:System.Action`3
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-3
+  name: Action<T1, T2, T3>
+  nameWithType: Action<T1, T2, T3>
+  fullName: System.Action<T1, T2, T3>
+  nameWithType.vb: Action(Of T1, T2, T3)
+  fullName.vb: System.Action(Of T1, T2, T3)
+  name.vb: Action(Of T1, T2, T3)
+  spec.csharp:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`3
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-3
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Goals.Memory
   commentId: T:TinyLife.Goals.Memory
   href: TinyLife.Goals.Memory.html
@@ -3175,6 +3378,41 @@ references:
   - name: .
   - uid: Microsoft.Xna.Framework
     name: Framework
+    isExternal: true
+- uid: TinyLife.Relationship.CreateBars*
+  commentId: Overload:TinyLife.Relationship.CreateBars
+  href: TinyLife.Relationship.html#TinyLife_Relationship_CreateBars_MLEM_Ui_Anchor_TinyLife_Objects_Person_TinyLife_Relationship_Microsoft_Xna_Framework_Vector2_System_Single_System_Boolean_
+  name: CreateBars
+  nameWithType: Relationship.CreateBars
+  fullName: TinyLife.Relationship.CreateBars
+- uid: MLEM.Ui.Anchor
+  commentId: T:MLEM.Ui.Anchor
+  parent: MLEM.Ui
+  isExternal: true
+  name: Anchor
+  nameWithType: Anchor
+  fullName: MLEM.Ui.Anchor
+- uid: MLEM.Ui
+  commentId: N:MLEM.Ui
+  isExternal: true
+  name: MLEM.Ui
+  nameWithType: MLEM.Ui
+  fullName: MLEM.Ui
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
     isExternal: true
 - uid: TinyLife.Relationship.OnRelationshipTooltip
   commentId: E:TinyLife.Relationship.OnRelationshipTooltip
