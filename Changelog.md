@@ -1,3 +1,13 @@
+# 0.40.1
+*March 10, 2024*
+
+In yesterday's update, we made a last minute change to lot visitation behavior that we thought was minor but turned out to break a lot of things. Oops?
+
+Fixes
+- Fixed played people also having to be invited in, causing them to be unable to visit lots
+- Fixed home lots not counting as visited when first spawning on them, causing people to be unable to find objects on them
+- Fixed players having to use the visit lot action for people to be able to see objects on lots
+
 # 0.40.0
 *March 9, 2024*
 
