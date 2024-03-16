@@ -3,14 +3,12 @@
 Tiny Life features the ability to create custom maps that you can share with the community. This includes setting down custom lots, households, and environment decorations. Creating custom maps in this way is a lot more involved than creating custom households or lots, so this tutorial explains everything you need to know.
 
 ## Getting Started
-To get started, simply create a new save file that'll serve as the basis for your new map. If you want to create a completely custom map, you'll have to delete everything that is on the default map you chose.
-
-There's a set of required [cheats](cheats.md) that you have to enable to be able to create custom maps. You can open the cheat menu with the `F1` key.
-- `EditWorld` allows you to place build mode items outside the current lot. When this cheat is enabled, the New Game menu also shows an additional map called "Empty Map". This map is a simple starting point for creating a custom map.
+To get started, there's a set of required [cheats](cheats.md) that you have to enable to be able to create custom maps. You can open the cheat menu with the `F1` key.
+- `EditWorld` allows you to place build mode items outside the current lot.
 - `ShowNonBuyable` allows you to access hidden build mode items, like decorative power poles, road tiles, and more.
 - `IgnorePlacementRules` to allow placing some hidden items like power lines in the proper place.
 
-Now, you can get started editing the map to make it your own!
+Next, simply create a new save file that'll serve as the basis for your new map. You can use the map called "Empty Map" that should now be available as a simple starting point. Now, you can get started editing the map to make it your own!
 
 ## Caveats
 There's a few engine details that you'll have to pay attention to when creating custom maps. Currently, these aren't enforced in the game, so ignoring them might lead to unexpected results.
