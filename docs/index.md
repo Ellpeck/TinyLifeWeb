@@ -5,4 +5,4 @@ Welcome to the Tiny Life Developer Docs! On here, you can find the full modding 
 ## Contributing
 If you found an error in the game's API or its documentation, please feel free to [submit an issue](https://github.com/Ellpeck/TinyLifeWeb/issues). 
 
-Since the API documentation is generated automatically, the `docs/api` directory on the repository should not be edited through pull requests.
+Since the API documentation is generated automatically, the `docs/api` directory in the repository should not be edited through pull requests.
