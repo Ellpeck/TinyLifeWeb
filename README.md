@@ -1,15 +1,5 @@
 ![The Tiny Life banner](https://raw.githubusercontent.com/Ellpeck/TinyLifeWeb/main/docs/media/banner.png)
 
-Welcome to the Tiny Life Modding API! On [the site](https://docs.tinylifegame.com), you can find the full modding API documentation, a bunch of modding tutorials, as well as an online version of the game's changelog.
+This is the repository for the [Tiny Life website](https://tinylifegame.com), which you can find in the `web` directory, as well as the [Tiny Life Developer Docs](https://docs.tinylifegame.com), which you can find in the `docs` directory.
 
-# What next?
-- To install a mod, custom lot or custom household, check out the [custom content installation](https://docs.tinylifegame.com/articles/getting.html) tutorial.
-- To create your first mod, check out the [modding basics](https://docs.tinylifegame.com/articles/mod_basics.html) tutorial or the [example mod](https://github.com/Ellpeck/TinyLifeExampleMod).
-- This site features a web version of the modding API's [documentation](https://docs.tinylifegame.com/api/TinyLife.html) as well, which is a verbatim copy of the XML documentation that you can find in the API's source.
-
-# Contributing
-If you've made a mod for Tiny Life before, and you think you know what you're doing, you can help others by contributing your own tutorial articles or improving existing ones. You can get started doing so by [submitting a pull request](https://github.com/Ellpeck/TinyLifeWeb/pulls). 
-
-If you found an error in the game's API or its documentation, you can also [submit an issue](https://github.com/Ellpeck/TinyLifeWeb/issues).
-
-Thank you for supporting Tiny Life's custom content community!
+Additional documentation for various parts of the game and its development can be found on [the wiki](https://wiki.tinylifegame.com), as well.
