@@ -1,3 +1,58 @@
+# 0.41.0
+*April 14, 2024*
+
+![](media/changelog/0.41.0.png)
+
+> Huge New Set, Babysitters, Museums, More Stings, and More
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.41.0/).**
+
+Additions
+- Added the Contemporary Complements set with art by [Gindew](https://linktr.ee/redgindew), which includes a large amount of new furniture items, art pieces, and more
+- Added the ability to hire a one-off babysitter using the phone
+- Added a museum lot type, along with a museum curator lot staff, and the ability to view art pieces
+- Added a new voice type, the soft voice, by [Jason Hall](https://linktr.ee/jason11818)
+- Added event sting sound effects for various important events by [Jamal Green](https://www.jamalgreenmusic.com/)
+- Added the ability to adopt someone as a parent
+- Added the ability to set a height offset for roofs, allowing more advanced roof layouts
+- Added cute little ambient bee particles around flowers and flower bushes
+
+Improvements
+- Improved center position when rotating the camera on higher floors
+- Also allow storing furniture in the household storage while on the cursor
+- Made it take much longer for family-focused people to miss their family
+- Made people get uncomfortable if they eat the same food too often
+- Display roadmap and wiki links in the main menu
+- Made people discard their held item before sleeping
+- Slightly decrease the size of the controls hints by default
+- Made the money change overlay more prominent
+- Allow making UI scale much smaller on high-res screens
+- Made lot staff types have icons
+- Move all furniture to its correct parent object spot position on load
+- Cull roof filler walls that aren't visible
+- Improved skill gain speed of the communication skill
+- Display a tooltip when hovering over lots, rather than having to guess the type by the lot's outline color
+- Improved the styling of in-world tooltips for the gamepad cursor
+
+Fixes
+- Fixed a bed that only has the current person in it saying you're not romantic enough with them
+- Fixed TVs close to map borders causing an exception when trying to watch
+- Fixed being unable to start interactions with people on different floors
+- Fixed a crash when selecting a tile that is out of bounds
+- Fixed an exception when opening a people selection menu from a small map
+- Fixed content not being selected when switching furniture tabs using a gamepad
+- Fixed gamepad tooltips being in the corner of the screen for one frame
+- Fixed the played household's held furniture items being deleted when loading the game
+- Fixed roof filler walls z-fighting when moving the camera
+- Fixed a rogue wallpaper pixel being visible on gabled roofs in some camera rotations
+- Fixed babies being unable to eat when the only seat is on a different floor
+- Fixed people turning a weird direction sometimes when interacting with big furniture items
+- Fixed ordering from staff not failing when the staff can't be reached, causing far-away interactions
+
+API
+- Localizers: the verbose log now displays mismatched newline characters between localizations
+- Added a proper README to the API
+
 # 0.40.1
 *March 10, 2024*
 

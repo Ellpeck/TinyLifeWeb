@@ -48,6 +48,7 @@ items:
   - TinyLife.Objects.Person.EmotionAmount
   - TinyLife.Objects.Person.EmotionModifiers
   - TinyLife.Objects.Person.EnqueueAction``1(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
+  - TinyLife.Objects.Person.FaceObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
   - TinyLife.Objects.Person.Finalize
   - TinyLife.Objects.Person.FirstName
   - TinyLife.Objects.Person.FocusCameraOnEvent(System.Boolean,System.Boolean)
@@ -56,8 +57,10 @@ items:
   - TinyLife.Objects.Person.GainSkill(TinyLife.Skills.SkillType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
   - TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.Person.GetAction``1(System.Guid,System.Boolean)
+  - TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Person.GetCategories(TinyLife.Objects.Person)
   - TinyLife.Objects.Person.GetCurrentGoals
+  - TinyLife.Objects.Person.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
   - TinyLife.Objects.Person.GetEfficiencyModifier(System.Single,TinyLife.Actions.ActionInfo,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.Person.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
   - TinyLife.Objects.Person.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -68,6 +71,7 @@ items:
   - TinyLife.Objects.Person.GetHeldObject``1(System.Boolean)
   - TinyLife.Objects.Person.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   - TinyLife.Objects.Person.GetMemories``1(TinyLife.Goals.MemoryType)
+  - TinyLife.Objects.Person.GetMemories``2(System.Collections.Generic.IDictionary{``0,TinyLife.Goals.MemoryType})
   - TinyLife.Objects.Person.GetNeed(TinyLife.NeedType)
   - TinyLife.Objects.Person.GetNeedPercentage(TinyLife.NeedType)
   - TinyLife.Objects.Person.GetPassiveActionPriority(TinyLife.Actions.ActionType)
@@ -140,6 +144,7 @@ items:
   - TinyLife.Objects.Person.OnChangeRomance
   - TinyLife.Objects.Person.OnEmotionChanged
   - TinyLife.Objects.Person.OnEmotionModifiersChanged
+  - TinyLife.Objects.Person.OnGetAiPriorityForObject
   - TinyLife.Objects.Person.OnGetCurrentGoals
   - TinyLife.Objects.Person.OnGetEfficiencyModifier
   - TinyLife.Objects.Person.OnGetEmotionSkillBoost
@@ -249,6 +254,7 @@ items:
   - TinyLife.Objects.MapObject.OnDraw
   - TinyLife.Objects.MapObject.OnUpdate
   - TinyLife.Objects.MapObject.OnGetHoverInfo
+  - TinyLife.Objects.MapObject.OnGetDebugLines
   - TinyLife.Objects.MapObject.Position
   - TinyLife.Objects.MapObject.Floor
   - TinyLife.Objects.MapObject.Visibility
@@ -1461,7 +1467,7 @@ items:
   summary: >-
     The amount of time that has to pass before this person can visit another lot.
 
-    If LastVisitedLot is set using <xref href="TinyLife.Objects.Person.VisitLot(TinyLife.World.Lot)" data-throw-if-not-resolved="false"></xref>, this value will be set to 2 hours or 4 hours of in-game time, based on whether the visited lot is their home lot or not.
+    If <xref href="TinyLife.Objects.Person.VisitingLot" data-throw-if-not-resolved="false"></xref> is set using <xref href="TinyLife.Objects.Person.VisitLot(TinyLife.World.Lot)" data-throw-if-not-resolved="false"></xref>, this value will be set to 2 hours or 4 hours of in-game time, based on whether the visited lot is their home lot or not.
   example: []
   syntax:
     content: >-
@@ -1506,7 +1512,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: Whether this person was already invited in to their LastVisitedLot.
+  summary: Whether this person was already invited in to their <xref href="TinyLife.Objects.Person.VisitingLot" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: >-
@@ -3045,10 +3051,12 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RelationshipInterestingness
     path: ../TinyLife/Objects/Person.cs
-    startLine: 558
+    startLine: 561
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Returns the "interestingness" of this person's <xref href="TinyLife.Objects.Person.Relationships" data-throw-if-not-resolved="false"></xref>, which is the sum of the absolute values of all relationships' <xref href="TinyLife.Relationship.FriendLevel" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Relationship.RomanceLevel" data-throw-if-not-resolved="false"></xref> values. This can be used for sorting by how interesting a person is for keepign around rather than deleting.
+  example: []
   syntax:
     content: public float RelationshipInterestingness { get; }
     parameters: []
@@ -3074,7 +3082,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CurrentMode
     path: ../TinyLife/Objects/Person.cs
-    startLine: 561
+    startLine: 564
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3112,7 +3120,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionsChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 575
+    startLine: 578
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3144,7 +3152,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnNewSkillLearned
     path: ../TinyLife/Objects/Person.cs
-    startLine: 580
+    startLine: 583
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3176,7 +3184,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnJobChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 585
+    startLine: 588
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3208,7 +3216,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEmotionModifiersChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 590
+    startLine: 593
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3240,7 +3248,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnEmotionChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 595
+    startLine: 598
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3272,7 +3280,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetEfficiencyModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 601
+    startLine: 604
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3306,7 +3314,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetPersonalitySkillBoost
     path: ../TinyLife/Objects/Person.cs
-    startLine: 606
+    startLine: 609
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3338,7 +3346,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetEmotionSkillBoost
     path: ../TinyLife/Objects/Person.cs
-    startLine: 611
+    startLine: 614
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3370,7 +3378,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetWalkSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 617
+    startLine: 620
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3404,7 +3412,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetPassiveActionPriority
     path: ../TinyLife/Objects/Person.cs
-    startLine: 623
+    startLine: 626
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3420,6 +3428,38 @@ items:
     return:
       type: TinyLife.Objects.Person.PassiveActionPriorityDelegate
     content.vb: Public Event OnGetPassiveActionPriority As Person.PassiveActionPriorityDelegate
+- uid: TinyLife.Objects.Person.OnGetAiPriorityForObject
+  commentId: E:TinyLife.Objects.Person.OnGetAiPriorityForObject
+  id: OnGetAiPriorityForObject
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: OnGetAiPriorityForObject
+  nameWithType: Person.OnGetAiPriorityForObject
+  fullName: TinyLife.Objects.Person.OnGetAiPriorityForObject
+  type: Event
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: OnGetAiPriorityForObject
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 631
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    A delegate that can optionally be used to modify the AI priority for a given object in <xref href="TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject%2cTinyLife.Objects.ObjectCategory)" data-throw-if-not-resolved="false"></xref>.
+
+    This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public event Person.AiPriorityForObjectDelegate OnGetAiPriorityForObject
+    return:
+      type: TinyLife.Objects.Person.AiPriorityForObjectDelegate
+    content.vb: Public Event OnGetAiPriorityForObject As Person.AiPriorityForObjectDelegate
 - uid: TinyLife.Objects.Person.OnActionInitialized
   commentId: E:TinyLife.Objects.Person.OnActionInitialized
   id: OnActionInitialized
@@ -3438,7 +3478,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionInitialized
     path: ../TinyLife/Objects/Person.cs
-    startLine: 628
+    startLine: 636
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3470,7 +3510,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionsCompleted
     path: ../TinyLife/Objects/Person.cs
-    startLine: 633
+    startLine: 641
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3502,7 +3542,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionUpdated
     path: ../TinyLife/Objects/Person.cs
-    startLine: 638
+    startLine: 646
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3534,7 +3574,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnOutfitChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 643
+    startLine: 651
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3566,7 +3606,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnGetCurrentGoals
     path: ../TinyLife/Objects/Person.cs
-    startLine: 649
+    startLine: 657
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3600,7 +3640,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnLifeGoalChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 654
+    startLine: 662
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3632,7 +3672,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 660
+    startLine: 668
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3666,7 +3706,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnChangeFriendship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 666
+    startLine: 674
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3700,7 +3740,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnChangeRomance
     path: ../TinyLife/Objects/Person.cs
-    startLine: 672
+    startLine: 680
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3734,7 +3774,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnMemoriesChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 677
+    startLine: 685
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3766,7 +3806,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Objects/Person.cs
-    startLine: 730
+    startLine: 738
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3817,7 +3857,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Finalize
     path: ../TinyLife/Objects/Person.cs
-    startLine: 736
+    startLine: 744
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3847,7 +3887,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/Objects/Person.cs
-    startLine: 741
+    startLine: 749
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3893,7 +3933,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Draw
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1072
+    startLine: 1084
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3943,7 +3983,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1117
+    startLine: 1129
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3980,7 +4020,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCategories
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1196
+    startLine: 1208
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4016,7 +4056,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Intersects
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1201
+    startLine: 1213
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4055,7 +4095,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHoverInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1206
+    startLine: 1218
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4073,6 +4113,48 @@ items:
     content.vb: Public Overrides Sub GetHoverInfo(tooltip As Tooltip)
   overridden: TinyLife.Objects.MapObject.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   overload: TinyLife.Objects.Person.GetHoverInfo*
+- uid: TinyLife.Objects.Person.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  commentId: M:TinyLife.Objects.Person.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  id: GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GetDebugLines(GameImpl, List<string>)
+  nameWithType: Person.GetDebugLines(GameImpl, List<string>)
+  fullName: TinyLife.Objects.Person.GetDebugLines(TinyLife.GameImpl, System.Collections.Generic.List<string>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetDebugLines
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 1238
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Returns the debug lines that should be displayed in <xref href="TinyLife.Debug" data-throw-if-not-resolved="false"></xref> when hovering over this object.
+
+    By default, <xref href="TinyLife.Objects.MapObject.OnGetDebugLines" data-throw-if-not-resolved="false"></xref> is invoked, and the id and position of this object are appended to the list of lines.
+  example: []
+  syntax:
+    content: public override void GetDebugLines(GameImpl game, List<string> lines)
+    parameters:
+    - id: game
+      type: TinyLife.GameImpl
+      description: The game.
+    - id: lines
+      type: System.Collections.Generic.List{System.String}
+      description: The list of lines to append debug lines to.
+    content.vb: Public Overrides Sub GetDebugLines(game As GameImpl, lines As List(Of String))
+  overridden: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  overload: TinyLife.Objects.Person.GetDebugLines*
+  nameWithType.vb: Person.GetDebugLines(GameImpl, List(Of String))
+  fullName.vb: TinyLife.Objects.Person.GetDebugLines(TinyLife.GameImpl, System.Collections.Generic.List(Of String))
+  name.vb: GetDebugLines(GameImpl, List(Of String))
 - uid: TinyLife.Objects.Person.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.Person.GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
   id: GetFreeActionSpotInfo(TinyLife.Objects.Person,TinyLife.Objects.ObjectCategory)
@@ -4091,7 +4173,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeActionSpotInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1226
+    startLine: 1258
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4130,7 +4212,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnCameraRotationChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1239
+    startLine: 1271
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4169,7 +4251,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FocusCameraOnEvent
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1250
+    startLine: 1282
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4212,7 +4294,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1271
+    startLine: 1303
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4265,7 +4347,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1285
+    startLine: 1317
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4306,7 +4388,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveJob
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1302
+    startLine: 1334
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4341,7 +4423,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResetToStatic
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1309
+    startLine: 1341
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4383,7 +4465,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveToMap
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1370
+    startLine: 1405
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4428,7 +4510,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PrepareForPermanentRemoval
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1388
+    startLine: 1423
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4459,7 +4541,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisitLot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1402
+    startLine: 1437
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4494,7 +4576,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawUi
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1420
+    startLine: 1455
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4538,7 +4620,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRelationship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1431
+    startLine: 1466
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4582,7 +4664,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChangeFriendship
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1456
+    startLine: 1491
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4623,7 +4705,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChangeRomance
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1508
+    startLine: 1545
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4664,7 +4746,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayEmote
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1541
+    startLine: 1580
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4708,7 +4790,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StopEmoting
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1552
+    startLine: 1591
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4736,7 +4818,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Speak
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1563
+    startLine: 1602
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4777,7 +4859,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StopSpeaking
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1573
+    startLine: 1612
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4805,7 +4887,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayEmoteAndSpeak
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1590
+    startLine: 1629
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4852,7 +4934,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeTalkingSpots
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1600
+    startLine: 1639
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4886,7 +4968,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1620
+    startLine: 1659
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4940,7 +5022,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyFreeActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1651
+    startLine: 1690
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -4993,7 +5075,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OccupyFreeActionSpot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1669
+    startLine: 1708
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5046,7 +5128,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsCloseForTalking
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1681
+    startLine: 1720
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5090,7 +5172,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1693
+    startLine: 1732
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5125,7 +5207,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetNeedPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1702
+    startLine: 1741
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5160,7 +5242,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1714
+    startLine: 1753
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5207,7 +5289,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RestoreNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1750
+    startLine: 1789
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5259,7 +5341,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkill
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1761
+    startLine: 1800
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5303,7 +5385,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillTotalPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1780
+    startLine: 1819
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5341,7 +5423,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillPointPercentage
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1790
+    startLine: 1829
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5379,7 +5461,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetSkillLevel
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1800
+    startLine: 1839
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5417,7 +5499,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasSkillLevel
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1810
+    startLine: 1849
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5458,7 +5540,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GainSkill
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1822
+    startLine: 1861
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5507,7 +5589,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DepleteNeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1842
+    startLine: 1881
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5551,7 +5633,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasPersonality
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1853
+    startLine: 1892
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5586,7 +5668,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EnqueueAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1867
+    startLine: 1906
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5641,7 +5723,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CancelAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1887
+    startLine: 1926
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5688,7 +5770,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1903
+    startLine: 1942
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5731,7 +5813,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1921
+    startLine: 1960
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5784,7 +5866,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1934
+    startLine: 1973
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5825,7 +5907,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveHeldObject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1947
+    startLine: 1986
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5862,7 +5944,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldActionInfo
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1961
+    startLine: 2000
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5896,7 +5978,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToCreatedByString
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1970
+    startLine: 2009
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5927,7 +6009,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Die
     path: ../TinyLife/Objects/Person.cs
-    startLine: 1978
+    startLine: 2017
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -5961,7 +6043,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2076
+    startLine: 2117
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6011,7 +6093,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2099
+    startLine: 2140
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6046,7 +6128,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LowerEmotion
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2120
+    startLine: 2161
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6093,7 +6175,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LowerEmotionModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2139
+    startLine: 2180
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6140,7 +6222,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasEmotionModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2155
+    startLine: 2196
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6175,7 +6257,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWalkSpeed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2164
+    startLine: 2205
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6209,7 +6291,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetEfficiencyModifier
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2199
+    startLine: 2240
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6259,7 +6341,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasHouseholdMember
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2239
+    startLine: 2288
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6294,7 +6376,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasHouseholdMember
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2244
+    startLine: 2293
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6329,7 +6411,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetProjects
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2254
+    startLine: 2303
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6370,7 +6452,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetProject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2264
+    startLine: 2313
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6411,7 +6493,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: StartProject
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2273
+    startLine: 2322
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6446,7 +6528,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPassiveActionPriority
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2285
+    startLine: 2334
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6468,6 +6550,47 @@ items:
       description: The action's passive priority
     content.vb: Public Overridable Function GetPassiveActionPriority(type As ActionType) As Single
   overload: TinyLife.Objects.Person.GetPassiveActionPriority*
+- uid: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  commentId: M:TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  id: GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GetAiPriorityForObject(MapObject, ObjectCategory)
+  nameWithType: Person.GetAiPriorityForObject(MapObject, ObjectCategory)
+  fullName: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject, TinyLife.Objects.ObjectCategory)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetAiPriorityForObject
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 2364
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Returns the AI priority for the given <code class="paramref">obj</code> and the given <code class="paramref">categories</code>.
+
+    This method checks the <xref href="TinyLife.Objects.MapObject.GetAiPriority(TinyLife.Objects.Person%2cTinyLife.Objects.ObjectCategory)" data-throw-if-not-resolved="false"></xref> method, as well as any <xref href="TinyLife.Objects.Person.LotEmployment" data-throw-if-not-resolved="false"></xref>-speciifc AI priorities, and invokes the <xref href="TinyLife.Objects.Person.OnGetAiPriorityForObject" data-throw-if-not-resolved="false"></xref> event.
+  example: []
+  syntax:
+    content: public virtual float GetAiPriorityForObject(MapObject obj, ObjectCategory categories)
+    parameters:
+    - id: obj
+      type: TinyLife.Objects.MapObject
+      description: The object.
+    - id: categories
+      type: TinyLife.Objects.ObjectCategory
+      description: The categories.
+    return:
+      type: System.Single
+      description: The AI priority for the object.
+    content.vb: Public Overridable Function GetAiPriorityForObject(obj As MapObject, categories As ObjectCategory) As Single
+  overload: TinyLife.Objects.Person.GetAiPriorityForObject*
 - uid: TinyLife.Objects.Person.GetRandomOutfit(TinyLife.Objects.ClothesIntention)
   commentId: M:TinyLife.Objects.Person.GetRandomOutfit(TinyLife.Objects.ClothesIntention)
   id: GetRandomOutfit(TinyLife.Objects.ClothesIntention)
@@ -6486,7 +6609,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2307
+    startLine: 2382
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6521,7 +6644,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCurrentOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2319
+    startLine: 2394
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6561,7 +6684,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetCurrentOutfit
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2335
+    startLine: 2410
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6599,7 +6722,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetNewId
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2350
+    startLine: 2425
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6643,7 +6766,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsIdMatch
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2405
+    startLine: 2480
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6681,7 +6804,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: IsIdMatch
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2415
+    startLine: 2490
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6701,6 +6824,45 @@ items:
       description: Whether any of this person's id match
     content.vb: Public Function IsIdMatch(id As Guid) As Boolean
   overload: TinyLife.Objects.Person.IsIdMatch*
+- uid: TinyLife.Objects.Person.FaceObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
+  commentId: M:TinyLife.Objects.Person.FaceObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
+  id: FaceObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: FaceObject(MapObject, ActionSpot)
+  nameWithType: Person.FaceObject(MapObject, ActionSpot)
+  fullName: TinyLife.Objects.Person.FaceObject(TinyLife.Objects.MapObject, TinyLife.Objects.ActionSpot)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: FaceObject
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 2499
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    A utility method that causes this person&gt; to face in the direction of the given <code class="paramref">obj</code> (and optionally its specific <xref href="TinyLife.Objects.ActionSpot" data-throw-if-not-resolved="false"></xref>).
+
+    This method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if this person is occupying a furniture object, or if they're standing in the same location as the <code class="paramref">obj</code>.
+  example: []
+  syntax:
+    content: public bool FaceObject(MapObject obj, ActionSpot spot = null)
+    parameters:
+    - id: obj
+      type: TinyLife.Objects.MapObject
+    - id: spot
+      type: TinyLife.Objects.ActionSpot
+    return:
+      type: System.Boolean
+      description: Whether it was possible to face in the object's direction.
+    content.vb: Public Function FaceObject(obj As MapObject, spot As ActionSpot = Nothing) As Boolean
+  overload: TinyLife.Objects.Person.FaceObject*
 - uid: TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
   commentId: M:TinyLife.Objects.Person.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
   id: GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
@@ -6719,7 +6881,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPersonalitySkillBoost
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2425
+    startLine: 2523
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6757,7 +6919,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetEmotionSkillBoost
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2447
+    startLine: 2545
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6795,7 +6957,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetCurrentGoals
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2471
+    startLine: 2569
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6829,7 +6991,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EarnMoney
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2497
+    startLine: 2595
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6870,7 +7032,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2510
+    startLine: 2608
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6919,7 +7081,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetMemories
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2522
+    startLine: 2620
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -6941,6 +7103,47 @@ items:
   nameWithType.vb: Person.GetMemories(Of T)(MemoryType)
   fullName.vb: TinyLife.Objects.Person.GetMemories(Of T)(TinyLife.Goals.MemoryType)
   name.vb: GetMemories(Of T)(MemoryType)
+- uid: TinyLife.Objects.Person.GetMemories``2(System.Collections.Generic.IDictionary{``0,TinyLife.Goals.MemoryType})
+  commentId: M:TinyLife.Objects.Person.GetMemories``2(System.Collections.Generic.IDictionary{``0,TinyLife.Goals.MemoryType})
+  id: GetMemories``2(System.Collections.Generic.IDictionary{``0,TinyLife.Goals.MemoryType})
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GetMemories<TKey, TMem>(IDictionary<TKey, MemoryType>)
+  nameWithType: Person.GetMemories<TKey, TMem>(IDictionary<TKey, MemoryType>)
+  fullName: TinyLife.Objects.Person.GetMemories<TKey, TMem>(System.Collections.Generic.IDictionary<TKey, TinyLife.Goals.MemoryType>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Objects/Person.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetMemories
+    path: ../TinyLife/Objects/Person.cs
+    startLine: 2629
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: Returns all <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instances that this person currently tracks that match the given set of <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: 'public virtual IEnumerable<(TKey Key, TMem Memory)> GetMemories<TKey, TMem>(IDictionary<TKey, MemoryType> types) where TMem : Memory'
+    parameters:
+    - id: types
+      type: System.Collections.Generic.IDictionary{{TKey},TinyLife.Goals.MemoryType}
+      description: The memory types to match.
+    typeParameters:
+    - id: TKey
+    - id: TMem
+    return:
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{{TKey},{TMem}}}
+      description: The memories of the given types.
+    content.vb: Public Overridable Function GetMemories(Of TKey, TMem As Memory)(types As IDictionary(Of TKey, MemoryType)) As IEnumerable(Of (Key As TKey, Memory As TMem))
+  overload: TinyLife.Objects.Person.GetMemories*
+  nameWithType.vb: Person.GetMemories(Of TKey, TMem)(IDictionary(Of TKey, MemoryType))
+  fullName.vb: TinyLife.Objects.Person.GetMemories(Of TKey, TMem)(System.Collections.Generic.IDictionary(Of TKey, TinyLife.Goals.MemoryType))
+  name.vb: GetMemories(Of TKey, TMem)(IDictionary(Of TKey, MemoryType))
 - uid: TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   commentId: M:TinyLife.Objects.Person.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   id: RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
@@ -6959,7 +7162,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2533
+    startLine: 2640
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7005,7 +7208,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTimeSinceMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2561
+    startLine: 2668
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7051,7 +7254,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetTimeSinceMemory
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2580
+    startLine: 2687
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7094,7 +7297,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GoToExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2593
+    startLine: 2700
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7125,7 +7328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2607
+    startLine: 2715
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7169,7 +7372,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetPregnancyStatus
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2627
+    startLine: 2735
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7210,7 +7413,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetAnimationsFromLooks
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2647
+    startLine: 2755
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7238,7 +7441,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ImportAtExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2659
+    startLine: 2767
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7270,7 +7473,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GoToRandomHomeLocation
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2671
+    startLine: 2779
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7301,7 +7504,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldDrawHeldItem
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2693
+    startLine: 2801
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7332,7 +7535,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldItemDrawOffset
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2704
+    startLine: 2812
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7369,7 +7572,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetHeldItemDepthOffset
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2732
+    startLine: 2840
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7400,7 +7603,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetPivot
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2743
+    startLine: 2851
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7431,7 +7634,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanExecuteAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2755
+    startLine: 2863
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7478,7 +7681,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetValidClothes
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2812
+    startLine: 2920
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7513,7 +7716,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CanApplyPersonality
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2824
+    startLine: 2932
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7550,7 +7753,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HasRecentlyFailed
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2837
+    startLine: 2945
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7594,7 +7797,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveToMapExitRoad
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2848
+    startLine: 2956
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7632,7 +7835,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GenerateAnimationGroup
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2865
+    startLine: 2973
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7679,7 +7882,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawLooks
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2903
+    startLine: 3011
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7732,7 +7935,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateAnimations
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2926
+    startLine: 3034
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7770,7 +7973,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnActionCompleted
     path: ../TinyLife/Objects/Person.cs
-    startLine: 2945
+    startLine: 3053
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7808,7 +8011,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpdateAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3022
+    startLine: 3130
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7855,7 +8058,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InitializeAction
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3035
+    startLine: 3143
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7887,7 +8090,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnAgeChanged
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3045
+    startLine: 3153
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7919,7 +8122,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ValidateClothes
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3131
+    startLine: 3239
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7950,7 +8153,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetRandomSpeakSound
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3283
+    startLine: 3391
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -7997,7 +8200,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Create
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3311
+    startLine: 3419
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -8056,7 +8259,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DrawUi
     path: ../TinyLife/Objects/Person.cs
-    startLine: 3396
+    startLine: 3504
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -8216,6 +8419,13 @@ references:
   name: OnGetHoverInfo
   nameWithType: MapObject.OnGetHoverInfo
   fullName: TinyLife.Objects.MapObject.OnGetHoverInfo
+- uid: TinyLife.Objects.MapObject.OnGetDebugLines
+  commentId: E:TinyLife.Objects.MapObject.OnGetDebugLines
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnGetDebugLines
+  name: OnGetDebugLines
+  nameWithType: MapObject.OnGetDebugLines
+  fullName: TinyLife.Objects.MapObject.OnGetDebugLines
 - uid: TinyLife.Objects.MapObject.Position
   commentId: P:TinyLife.Objects.MapObject.Position
   parent: TinyLife.Objects.MapObject
@@ -12523,6 +12733,12 @@ references:
   name: VisitingLot
   nameWithType: Person.VisitingLot
   fullName: TinyLife.Objects.Person.VisitingLot
+- uid: TinyLife.Objects.Person.VisitingLot
+  commentId: P:TinyLife.Objects.Person.VisitingLot
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_VisitingLot
+  name: VisitingLot
+  nameWithType: Person.VisitingLot
+  fullName: TinyLife.Objects.Person.VisitingLot
 - uid: TinyLife.Objects.Person.LotVisitCooldown*
   commentId: Overload:TinyLife.Objects.Person.LotVisitCooldown
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_LotVisitCooldown
@@ -13803,6 +14019,24 @@ references:
     href: TinyLife.Goals.Memory.html
   - name: )
   - name: )
+- uid: TinyLife.Objects.Person.Relationships
+  commentId: F:TinyLife.Objects.Person.Relationships
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Relationships
+  name: Relationships
+  nameWithType: Person.Relationships
+  fullName: TinyLife.Objects.Person.Relationships
+- uid: TinyLife.Relationship.FriendLevel
+  commentId: P:TinyLife.Relationship.FriendLevel
+  href: TinyLife.Relationship.html#TinyLife_Relationship_FriendLevel
+  name: FriendLevel
+  nameWithType: Relationship.FriendLevel
+  fullName: TinyLife.Relationship.FriendLevel
+- uid: TinyLife.Relationship.RomanceLevel
+  commentId: P:TinyLife.Relationship.RomanceLevel
+  href: TinyLife.Relationship.html#TinyLife_Relationship_RomanceLevel
+  name: RomanceLevel
+  nameWithType: Relationship.RomanceLevel
+  fullName: TinyLife.Relationship.RomanceLevel
 - uid: TinyLife.Objects.Person.RelationshipInterestingness*
   commentId: Overload:TinyLife.Objects.Person.RelationshipInterestingness
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_RelationshipInterestingness
@@ -14173,6 +14407,63 @@ references:
   - uid: TinyLife.Objects.Person.PassiveActionPriorityDelegate
     name: PassiveActionPriorityDelegate
     href: TinyLife.Objects.Person.PassiveActionPriorityDelegate.html
+- uid: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  commentId: M:TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetAiPriorityForObject_TinyLife_Objects_MapObject_TinyLife_Objects_ObjectCategory_
+  name: GetAiPriorityForObject(MapObject, ObjectCategory)
+  nameWithType: Person.GetAiPriorityForObject(MapObject, ObjectCategory)
+  fullName: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject, TinyLife.Objects.ObjectCategory)
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+    name: GetAiPriorityForObject
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetAiPriorityForObject_TinyLife_Objects_MapObject_TinyLife_Objects_ObjectCategory_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    href: TinyLife.Objects.ObjectCategory.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+    name: GetAiPriorityForObject
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetAiPriorityForObject_TinyLife_Objects_MapObject_TinyLife_Objects_ObjectCategory_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    href: TinyLife.Objects.ObjectCategory.html
+  - name: )
+- uid: TinyLife.Objects.Person.AiPriorityForObjectDelegate
+  commentId: T:TinyLife.Objects.Person.AiPriorityForObjectDelegate
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Person.html
+  name: Person.AiPriorityForObjectDelegate
+  nameWithType: Person.AiPriorityForObjectDelegate
+  fullName: TinyLife.Objects.Person.AiPriorityForObjectDelegate
+  spec.csharp:
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: .
+  - uid: TinyLife.Objects.Person.AiPriorityForObjectDelegate
+    name: AiPriorityForObjectDelegate
+    href: TinyLife.Objects.Person.AiPriorityForObjectDelegate.html
+  spec.vb:
+  - uid: TinyLife.Objects.Person
+    name: Person
+    href: TinyLife.Objects.Person.html
+  - name: .
+  - uid: TinyLife.Objects.Person.AiPriorityForObjectDelegate
+    name: AiPriorityForObjectDelegate
+    href: TinyLife.Objects.Person.AiPriorityForObjectDelegate.html
 - uid: System.Action
   commentId: T:System.Action
   parent: System
@@ -15336,6 +15627,115 @@ references:
   - uid: MLEM.Ui.Elements
     name: Elements
     isExternal: true
+- uid: TinyLife.Debug
+  commentId: T:TinyLife.Debug
+  href: TinyLife.Debug.html
+  name: Debug
+  nameWithType: Debug
+  fullName: TinyLife.Debug
+- uid: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  commentId: M:TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetDebugLines_TinyLife_GameImpl_System_Collections_Generic_List_System_String__
+  name: GetDebugLines(GameImpl, List<string>)
+  nameWithType: MapObject.GetDebugLines(GameImpl, List<string>)
+  fullName: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl, System.Collections.Generic.List<string>)
+  nameWithType.vb: MapObject.GetDebugLines(GameImpl, List(Of String))
+  fullName.vb: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl, System.Collections.Generic.List(Of String))
+  name.vb: GetDebugLines(GameImpl, List(Of String))
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+    name: GetDebugLines
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetDebugLines_TinyLife_GameImpl_System_Collections_Generic_List_System_String__
+  - name: (
+  - uid: TinyLife.GameImpl
+    name: GameImpl
+    href: TinyLife.GameImpl.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
+    name: GetDebugLines
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetDebugLines_TinyLife_GameImpl_System_Collections_Generic_List_System_String__
+  - name: (
+  - uid: TinyLife.GameImpl
+    name: GameImpl
+    href: TinyLife.GameImpl.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.Person.GetDebugLines*
+  commentId: Overload:TinyLife.Objects.Person.GetDebugLines
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetDebugLines_TinyLife_GameImpl_System_Collections_Generic_List_System_String__
+  name: GetDebugLines
+  nameWithType: Person.GetDebugLines
+  fullName: TinyLife.Objects.Person.GetDebugLines
+- uid: TinyLife.GameImpl
+  commentId: T:TinyLife.GameImpl
+  parent: TinyLife
+  href: TinyLife.GameImpl.html
+  name: GameImpl
+  nameWithType: GameImpl
+  fullName: TinyLife.GameImpl
+- uid: System.Collections.Generic.List{System.String}
+  commentId: T:System.Collections.Generic.List{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<string>
+  nameWithType: List<string>
+  fullName: System.Collections.Generic.List<string>
+  nameWithType.vb: List(Of String)
+  fullName.vb: System.Collections.Generic.List(Of String)
+  name.vb: List(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
 - uid: TinyLife.Actions.ActionInfo
   commentId: T:TinyLife.Actions.ActionInfo
   parent: TinyLife.Actions
@@ -15569,12 +15969,6 @@ references:
   name: MoveToMap
   nameWithType: Person.MoveToMap
   fullName: TinyLife.Objects.Person.MoveToMap
-- uid: TinyLife.Objects.Person.Relationships
-  commentId: F:TinyLife.Objects.Person.Relationships
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Relationships
-  name: Relationships
-  nameWithType: Person.Relationships
-  fullName: TinyLife.Objects.Person.Relationships
 - uid: TinyLife.Objects.Person.PrepareForPermanentRemoval*
   commentId: Overload:TinyLife.Objects.Person.PrepareForPermanentRemoval
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_PrepareForPermanentRemoval
@@ -15605,12 +15999,6 @@ references:
   name: GetRelationship
   nameWithType: Person.GetRelationship
   fullName: TinyLife.Objects.Person.GetRelationship
-- uid: TinyLife.Relationship.FriendLevel
-  commentId: P:TinyLife.Relationship.FriendLevel
-  href: TinyLife.Relationship.html#TinyLife_Relationship_FriendLevel
-  name: FriendLevel
-  nameWithType: Relationship.FriendLevel
-  fullName: TinyLife.Relationship.FriendLevel
 - uid: TinyLife.Objects.Particle
   commentId: T:TinyLife.Objects.Particle
   href: TinyLife.Objects.Particle.html
@@ -15629,12 +16017,6 @@ references:
   name: ChangeFriendship
   nameWithType: Person.ChangeFriendship
   fullName: TinyLife.Objects.Person.ChangeFriendship
-- uid: TinyLife.Relationship.RomanceLevel
-  commentId: P:TinyLife.Relationship.RomanceLevel
-  href: TinyLife.Relationship.html#TinyLife_Relationship_RomanceLevel
-  name: RomanceLevel
-  nameWithType: Relationship.RomanceLevel
-  fullName: TinyLife.Relationship.RomanceLevel
 - uid: TinyLife.Objects.Person.ChangeRomance*
   commentId: Overload:TinyLife.Objects.Person.ChangeRomance
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_ChangeRomance_TinyLife_Objects_Person_System_Single_
@@ -16432,6 +16814,18 @@ references:
   name: GetPassiveActionPriority
   nameWithType: Person.GetPassiveActionPriority
   fullName: TinyLife.Objects.Person.GetPassiveActionPriority
+- uid: TinyLife.Objects.Person.OnGetAiPriorityForObject
+  commentId: E:TinyLife.Objects.Person.OnGetAiPriorityForObject
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_OnGetAiPriorityForObject
+  name: OnGetAiPriorityForObject
+  nameWithType: Person.OnGetAiPriorityForObject
+  fullName: TinyLife.Objects.Person.OnGetAiPriorityForObject
+- uid: TinyLife.Objects.Person.GetAiPriorityForObject*
+  commentId: Overload:TinyLife.Objects.Person.GetAiPriorityForObject
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetAiPriorityForObject_TinyLife_Objects_MapObject_TinyLife_Objects_ObjectCategory_
+  name: GetAiPriorityForObject
+  nameWithType: Person.GetAiPriorityForObject
+  fullName: TinyLife.Objects.Person.GetAiPriorityForObject
 - uid: TinyLife.Objects.ClothesIntention
   commentId: T:TinyLife.Objects.ClothesIntention
   parent: TinyLife.Objects
@@ -16653,6 +17047,12 @@ references:
     name: Person
     href: TinyLife.Objects.Person.html
   - name: )
+- uid: TinyLife.Objects.Person.FaceObject*
+  commentId: Overload:TinyLife.Objects.Person.FaceObject
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_FaceObject_TinyLife_Objects_MapObject_TinyLife_Objects_ActionSpot_
+  name: FaceObject
+  nameWithType: Person.FaceObject
+  fullName: TinyLife.Objects.Person.FaceObject
 - uid: TinyLife.Objects.Person.GetPersonalitySkillBoost*
   commentId: Overload:TinyLife.Objects.Person.GetPersonalitySkillBoost
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GetPersonalitySkillBoost_TinyLife_Skills_SkillType_
@@ -16908,6 +17308,138 @@ references:
   - name: Of
   - name: " "
   - name: T
+  - name: )
+- uid: System.Collections.Generic.IDictionary{{TKey},TinyLife.Goals.MemoryType}
+  commentId: T:System.Collections.Generic.IDictionary{``0,TinyLife.Goals.MemoryType}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IDictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, MemoryType>
+  nameWithType: IDictionary<TKey, MemoryType>
+  fullName: System.Collections.Generic.IDictionary<TKey, TinyLife.Goals.MemoryType>
+  nameWithType.vb: IDictionary(Of TKey, MemoryType)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TinyLife.Goals.MemoryType)
+  name.vb: IDictionary(Of TKey, MemoryType)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Goals.MemoryType
+    name: MemoryType
+    href: TinyLife.Goals.MemoryType.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Goals.MemoryType
+    name: MemoryType
+    href: TinyLife.Goals.MemoryType.html
+  - name: )
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{{TKey},{TMem}}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{``0,``1}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<(TKey Key, TMem Memory)>
+  nameWithType: IEnumerable<(TKey Key, TMem Memory)>
+  fullName: System.Collections.Generic.IEnumerable<(TKey Key, TMem Memory)>
+  nameWithType.vb: IEnumerable(Of (Key As TKey, Memory As TMem))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (Key As TKey, Memory As TMem))
+  name.vb: IEnumerable(Of (Key As TKey, Memory As TMem))
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: (
+  - name: TKey
+  - name: " "
+  - uid: System.ValueTuple{``0,``1}.Key
+    name: Key
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple---0,--1-.key
+  - name: ','
+  - name: " "
+  - name: TMem
+  - name: " "
+  - uid: System.ValueTuple{``0,``1}.Memory
+    name: Memory
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple---0,--1-.memory
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{``0,``1}.Key
+    name: Key
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple---0,--1-.key
+  - name: " "
+  - name: As
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{``0,``1}.Memory
+    name: Memory
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple---0,--1-.memory
+  - name: " "
+  - name: As
+  - name: " "
+  - name: TMem
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.IDictionary`2
+  commentId: T:System.Collections.Generic.IDictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  name: IDictionary<TKey, TValue>
+  nameWithType: IDictionary<TKey, TValue>
+  fullName: System.Collections.Generic.IDictionary<TKey, TValue>
+  nameWithType.vb: IDictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.IDictionary(Of TKey, TValue)
+  name.vb: IDictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IDictionary`2
+    name: IDictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.idictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
   - name: )
 - uid: TinyLife.Objects.Person.RemoveMemory*
   commentId: Overload:TinyLife.Objects.Person.RemoveMemory

@@ -6,12 +6,16 @@ items:
   parent: TinyLife.World
   children:
   - TinyLife.World.LotEmployment.Instance.#ctor(TinyLife.Objects.Person,TinyLife.World.Map,TinyLife.World.Lot,TinyLife.World.LotEmployment,System.Boolean)
-  - TinyLife.World.LotEmployment.Instance.Lot
+  - TinyLife.World.LotEmployment.Instance.EmploymentLot
+  - TinyLife.World.LotEmployment.Instance.FinishWork(System.Boolean)
+  - TinyLife.World.LotEmployment.Instance.IsAtWork
   - TinyLife.World.LotEmployment.Instance.Map
   - TinyLife.World.LotEmployment.Instance.SetManually
   - TinyLife.World.LotEmployment.Instance.ShouldWorkRightNow
+  - TinyLife.World.LotEmployment.Instance.TimeAtWork
   - TinyLife.World.LotEmployment.Instance.Type
   - TinyLife.World.LotEmployment.Instance.Validate(TinyLife.Objects.Person)
+  - TinyLife.World.LotEmployment.Instance.WorkLot
   langs:
   - csharp
   - vb
@@ -26,7 +30,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Instance
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 208
+    startLine: 352
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -78,11 +82,11 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Map
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 214
+    startLine: 358
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: The map that this lot employment instance's <xref href="TinyLife.World.LotEmployment.Instance.Lot" data-throw-if-not-resolved="false"></xref> is on.
+  summary: The map that this lot employment instance's <xref href="TinyLife.World.Lot" data-throw-if-not-resolved="false"></xref> is on.
   example: []
   syntax:
     content: public Map Map { get; }
@@ -91,37 +95,74 @@ items:
       type: TinyLife.World.Map
     content.vb: Public ReadOnly Property Map As Map
   overload: TinyLife.World.LotEmployment.Instance.Map*
-- uid: TinyLife.World.LotEmployment.Instance.Lot
-  commentId: P:TinyLife.World.LotEmployment.Instance.Lot
-  id: Lot
+- uid: TinyLife.World.LotEmployment.Instance.EmploymentLot
+  commentId: P:TinyLife.World.LotEmployment.Instance.EmploymentLot
+  id: EmploymentLot
   parent: TinyLife.World.LotEmployment.Instance
   langs:
   - csharp
   - vb
-  name: Lot
-  nameWithType: LotEmployment.Instance.Lot
-  fullName: TinyLife.World.LotEmployment.Instance.Lot
+  name: EmploymentLot
+  nameWithType: LotEmployment.Instance.EmploymentLot
+  fullName: TinyLife.World.LotEmployment.Instance.EmploymentLot
   type: Property
   source:
     remote:
       path: TinyLife/World/LotEmployment.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: Lot
+    id: EmploymentLot
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 218
+    startLine: 363
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: The lot that this employment is active on
+  summary: >-
+    The lot that this employment is active on. If this is a map-wide employment, this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+
+    See <xref href="TinyLife.World.LotEmployment.Instance.WorkLot" data-throw-if-not-resolved="false"></xref> for the lot that this employment is currently working on.
   example: []
   syntax:
-    content: public Lot Lot { get; }
+    content: public Lot EmploymentLot { get; }
     parameters: []
     return:
       type: TinyLife.World.Lot
-    content.vb: Public ReadOnly Property Lot As Lot
-  overload: TinyLife.World.LotEmployment.Instance.Lot*
+    content.vb: Public ReadOnly Property EmploymentLot As Lot
+  overload: TinyLife.World.LotEmployment.Instance.EmploymentLot*
+- uid: TinyLife.World.LotEmployment.Instance.WorkLot
+  commentId: P:TinyLife.World.LotEmployment.Instance.WorkLot
+  id: WorkLot
+  parent: TinyLife.World.LotEmployment.Instance
+  langs:
+  - csharp
+  - vb
+  name: WorkLot
+  nameWithType: LotEmployment.Instance.WorkLot
+  fullName: TinyLife.World.LotEmployment.Instance.WorkLot
+  type: Property
+  source:
+    remote:
+      path: TinyLife/World/LotEmployment.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: WorkLot
+    path: ../TinyLife/World/LotEmployment.cs
+    startLine: 368
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    The lot that the person with this employment is working on.
+
+    If this is not a map-wide employment, <xref href="TinyLife.World.LotEmployment.Instance.EmploymentLot" data-throw-if-not-resolved="false"></xref> is always returned, even if this property has been overwritten.
+  example: []
+  syntax:
+    content: public Lot WorkLot { get; set; }
+    parameters: []
+    return:
+      type: TinyLife.World.Lot
+    content.vb: Public Property WorkLot As Lot
+  overload: TinyLife.World.LotEmployment.Instance.WorkLot*
 - uid: TinyLife.World.LotEmployment.Instance.Type
   commentId: P:TinyLife.World.LotEmployment.Instance.Type
   id: Type
@@ -140,7 +181,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Type
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 222
+    startLine: 375
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -171,7 +212,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetManually
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 235
+    startLine: 388
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -194,6 +235,87 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.LotEmployment.Instance.IsAtWork
+  commentId: F:TinyLife.World.LotEmployment.Instance.IsAtWork
+  id: IsAtWork
+  parent: TinyLife.World.LotEmployment.Instance
+  langs:
+  - csharp
+  - vb
+  name: IsAtWork
+  nameWithType: LotEmployment.Instance.IsAtWork
+  fullName: TinyLife.World.LotEmployment.Instance.IsAtWork
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/LotEmployment.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsAtWork
+    path: ../TinyLife/World/LotEmployment.cs
+    startLine: 394
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: Whether this lot employment's employee is currently at work.
+  example: []
+  syntax:
+    content: >-
+      [DataMember]
+
+      public bool IsAtWork
+    return:
+      type: System.Boolean
+    content.vb: >-
+      <DataMember>
+
+      Public IsAtWork As Boolean
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+- uid: TinyLife.World.LotEmployment.Instance.TimeAtWork
+  commentId: F:TinyLife.World.LotEmployment.Instance.TimeAtWork
+  id: TimeAtWork
+  parent: TinyLife.World.LotEmployment.Instance
+  langs:
+  - csharp
+  - vb
+  name: TimeAtWork
+  nameWithType: LotEmployment.Instance.TimeAtWork
+  fullName: TinyLife.World.LotEmployment.Instance.TimeAtWork
+  type: Field
+  source:
+    remote:
+      path: TinyLife/World/LotEmployment.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: TimeAtWork
+    path: ../TinyLife/World/LotEmployment.cs
+    startLine: 400
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    The amount of time that this lot employment's employee has been at work for.
+
+    If <xref href="TinyLife.World.LotEmployment.Instance.IsAtWork" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, this is <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: >-
+      [DataMember]
+
+      public TimeSpan TimeAtWork
+    return:
+      type: System.TimeSpan
+    content.vb: >-
+      <DataMember>
+
+      Public TimeAtWork As TimeSpan
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
 - uid: TinyLife.World.LotEmployment.Instance.#ctor(TinyLife.Objects.Person,TinyLife.World.Map,TinyLife.World.Lot,TinyLife.World.LotEmployment,System.Boolean)
   commentId: M:TinyLife.World.LotEmployment.Instance.#ctor(TinyLife.Objects.Person,TinyLife.World.Map,TinyLife.World.Lot,TinyLife.World.LotEmployment,System.Boolean)
   id: '#ctor(TinyLife.Objects.Person,TinyLife.World.Map,TinyLife.World.Lot,TinyLife.World.LotEmployment,System.Boolean)'
@@ -212,7 +334,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 259
+    startLine: 425
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -241,6 +363,44 @@ items:
   nameWithType.vb: LotEmployment.Instance.New(Person, Map, Lot, LotEmployment, Boolean)
   fullName.vb: TinyLife.World.LotEmployment.Instance.New(TinyLife.Objects.Person, TinyLife.World.Map, TinyLife.World.Lot, TinyLife.World.LotEmployment, Boolean)
   name.vb: New(Person, Map, Lot, LotEmployment, Boolean)
+- uid: TinyLife.World.LotEmployment.Instance.FinishWork(System.Boolean)
+  commentId: M:TinyLife.World.LotEmployment.Instance.FinishWork(System.Boolean)
+  id: FinishWork(System.Boolean)
+  parent: TinyLife.World.LotEmployment.Instance
+  langs:
+  - csharp
+  - vb
+  name: FinishWork(bool)
+  nameWithType: LotEmployment.Instance.FinishWork(bool)
+  fullName: TinyLife.World.LotEmployment.Instance.FinishWork(bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/LotEmployment.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: FinishWork
+    path: ../TinyLife/World/LotEmployment.cs
+    startLine: 438
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    A method that is invoked while this employment's employee is at work, when there is no more work to be done.
+
+    This method causes the appropriate money to be deducted and earned if <xref href="TinyLife.World.LotEmployment.ForHireOnce" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, and causes <xref href="TinyLife.World.LotEmployment.Instance.IsAtWork" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.LotEmployment.Instance.TimeAtWork" data-throw-if-not-resolved="false"></xref> to be set accordingly.
+  example: []
+  syntax:
+    content: public void FinishWork(bool notify = true)
+    parameters:
+    - id: notify
+      type: System.Boolean
+      description: Whether events should be invoked and the <xref href="TinyLife.World.LotEmployment.HourlyFee" data-throw-if-not-resolved="false"></xref> should be awarded.
+    content.vb: Public Sub FinishWork(notify As Boolean = True)
+  overload: TinyLife.World.LotEmployment.Instance.FinishWork*
+  nameWithType.vb: LotEmployment.Instance.FinishWork(Boolean)
+  fullName.vb: TinyLife.World.LotEmployment.Instance.FinishWork(Boolean)
+  name.vb: FinishWork(Boolean)
 - uid: TinyLife.World.LotEmployment.Instance.Validate(TinyLife.Objects.Person)
   commentId: M:TinyLife.World.LotEmployment.Instance.Validate(TinyLife.Objects.Person)
   id: Validate(TinyLife.Objects.Person)
@@ -259,7 +419,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Validate
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 273
+    startLine: 468
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -297,17 +457,17 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShouldWorkRightNow
     path: ../TinyLife/World/LotEmployment.cs
-    startLine: 285
+    startLine: 480
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: Returns whether the <xref href="TinyLife.World.Map.Time" data-throw-if-not-resolved="false"></xref> is in range of this <xref href="TinyLife.World.LotEmployment" data-throw-if-not-resolved="false"></xref>'s work hours and it is not <xref href="TinyLife.World.LotEmployment.IsFinished" data-throw-if-not-resolved="false"></xref>
+  summary: Returns whether the <xref href="TinyLife.World.Map.Time" data-throw-if-not-resolved="false"></xref> is in range of this <xref href="TinyLife.World.LotEmployment" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.World.LotEmployment.WorkHours" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.LotEmployment.OffWorkDays" data-throw-if-not-resolved="false"></xref> and it is not <xref href="TinyLife.World.LotEmployment.IsFinished" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public bool ShouldWorkRightNow()
     return:
       type: System.Boolean
-      description: Whether work needs to be done right now
+      description: Whether work needs to be done right now.
     content.vb: Public Function ShouldWorkRightNow() As Boolean
   overload: TinyLife.World.LotEmployment.Instance.ShouldWorkRightNow*
 references:
@@ -684,12 +844,13 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.World.LotEmployment.Instance.Lot
-  commentId: P:TinyLife.World.LotEmployment.Instance.Lot
-  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_Lot
+- uid: TinyLife.World.Lot
+  commentId: T:TinyLife.World.Lot
+  parent: TinyLife.World
+  href: TinyLife.World.Lot.html
   name: Lot
-  nameWithType: LotEmployment.Instance.Lot
-  fullName: TinyLife.World.LotEmployment.Instance.Lot
+  nameWithType: Lot
+  fullName: TinyLife.World.Lot
 - uid: TinyLife.World.LotEmployment.Instance.Map*
   commentId: Overload:TinyLife.World.LotEmployment.Instance.Map
   href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_Map
@@ -703,19 +864,30 @@ references:
   name: Map
   nameWithType: Map
   fullName: TinyLife.World.Map
-- uid: TinyLife.World.LotEmployment.Instance.Lot*
-  commentId: Overload:TinyLife.World.LotEmployment.Instance.Lot
-  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_Lot
-  name: Lot
-  nameWithType: LotEmployment.Instance.Lot
-  fullName: TinyLife.World.LotEmployment.Instance.Lot
-- uid: TinyLife.World.Lot
-  commentId: T:TinyLife.World.Lot
-  parent: TinyLife.World
-  href: TinyLife.World.Lot.html
-  name: Lot
-  nameWithType: Lot
-  fullName: TinyLife.World.Lot
+- uid: TinyLife.World.LotEmployment.Instance.WorkLot
+  commentId: P:TinyLife.World.LotEmployment.Instance.WorkLot
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_WorkLot
+  name: WorkLot
+  nameWithType: LotEmployment.Instance.WorkLot
+  fullName: TinyLife.World.LotEmployment.Instance.WorkLot
+- uid: TinyLife.World.LotEmployment.Instance.EmploymentLot*
+  commentId: Overload:TinyLife.World.LotEmployment.Instance.EmploymentLot
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_EmploymentLot
+  name: EmploymentLot
+  nameWithType: LotEmployment.Instance.EmploymentLot
+  fullName: TinyLife.World.LotEmployment.Instance.EmploymentLot
+- uid: TinyLife.World.LotEmployment.Instance.EmploymentLot
+  commentId: P:TinyLife.World.LotEmployment.Instance.EmploymentLot
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_EmploymentLot
+  name: EmploymentLot
+  nameWithType: LotEmployment.Instance.EmploymentLot
+  fullName: TinyLife.World.LotEmployment.Instance.EmploymentLot
+- uid: TinyLife.World.LotEmployment.Instance.WorkLot*
+  commentId: Overload:TinyLife.World.LotEmployment.Instance.WorkLot
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_WorkLot
+  name: WorkLot
+  nameWithType: LotEmployment.Instance.WorkLot
+  fullName: TinyLife.World.LotEmployment.Instance.WorkLot
 - uid: TinyLife.World.LotEmployment.Instance.Type*
   commentId: Overload:TinyLife.World.LotEmployment.Instance.Type
   href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_Type
@@ -833,6 +1005,27 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: TinyLife.World.LotEmployment.Instance.IsAtWork
+  commentId: F:TinyLife.World.LotEmployment.Instance.IsAtWork
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_IsAtWork
+  name: IsAtWork
+  nameWithType: LotEmployment.Instance.IsAtWork
+  fullName: TinyLife.World.LotEmployment.Instance.IsAtWork
+- uid: System.TimeSpan.Zero
+  commentId: F:System.TimeSpan.Zero
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan.zero
+  name: Zero
+  nameWithType: TimeSpan.Zero
+  fullName: System.TimeSpan.Zero
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
 - uid: TinyLife.World.LotEmployment.MapWideEmployments
   commentId: F:TinyLife.World.LotEmployment.MapWideEmployments
   href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_MapWideEmployments
@@ -877,6 +1070,30 @@ references:
   - uid: TinyLife.Objects
     name: Objects
     href: TinyLife.Objects.html
+- uid: TinyLife.World.LotEmployment.ForHireOnce
+  commentId: F:TinyLife.World.LotEmployment.ForHireOnce
+  href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_ForHireOnce
+  name: ForHireOnce
+  nameWithType: LotEmployment.ForHireOnce
+  fullName: TinyLife.World.LotEmployment.ForHireOnce
+- uid: TinyLife.World.LotEmployment.Instance.TimeAtWork
+  commentId: F:TinyLife.World.LotEmployment.Instance.TimeAtWork
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_TimeAtWork
+  name: TimeAtWork
+  nameWithType: LotEmployment.Instance.TimeAtWork
+  fullName: TinyLife.World.LotEmployment.Instance.TimeAtWork
+- uid: TinyLife.World.LotEmployment.HourlyFee
+  commentId: P:TinyLife.World.LotEmployment.HourlyFee
+  href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_HourlyFee
+  name: HourlyFee
+  nameWithType: LotEmployment.HourlyFee
+  fullName: TinyLife.World.LotEmployment.HourlyFee
+- uid: TinyLife.World.LotEmployment.Instance.FinishWork*
+  commentId: Overload:TinyLife.World.LotEmployment.Instance.FinishWork
+  href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_FinishWork_System_Boolean_
+  name: FinishWork
+  nameWithType: LotEmployment.Instance.FinishWork
+  fullName: TinyLife.World.LotEmployment.Instance.FinishWork
 - uid: TinyLife.World.LotEmployment.Instance.Validate*
   commentId: Overload:TinyLife.World.LotEmployment.Instance.Validate
   href: TinyLife.World.LotEmployment.Instance.html#TinyLife_World_LotEmployment_Instance_Validate_TinyLife_Objects_Person_
@@ -889,6 +1106,18 @@ references:
   name: Time
   nameWithType: Map.Time
   fullName: TinyLife.World.Map.Time
+- uid: TinyLife.World.LotEmployment.WorkHours
+  commentId: F:TinyLife.World.LotEmployment.WorkHours
+  href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_WorkHours
+  name: WorkHours
+  nameWithType: LotEmployment.WorkHours
+  fullName: TinyLife.World.LotEmployment.WorkHours
+- uid: TinyLife.World.LotEmployment.OffWorkDays
+  commentId: P:TinyLife.World.LotEmployment.OffWorkDays
+  href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_OffWorkDays
+  name: OffWorkDays
+  nameWithType: LotEmployment.OffWorkDays
+  fullName: TinyLife.World.LotEmployment.OffWorkDays
 - uid: TinyLife.World.LotEmployment.IsFinished
   commentId: P:TinyLife.World.LotEmployment.IsFinished
   href: TinyLife.World.LotEmployment.html#TinyLife_World_LotEmployment_IsFinished
