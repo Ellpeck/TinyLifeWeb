@@ -19,4 +19,4 @@ Tiny Life's official platforms include [the wiki](https://wiki.tinylifegame.com)
 
 # About this Policy
 
-This policy may be updated from time to time. Its change history can be found on the [GitHub repository](https://github.com/Ellpeck/TinyLifeWeb/commits/main/docs/articles/content_policy.md). If you have any questions about this policy, please don't hesitate to ask on [the Discord server](https://link.tinylifegame.com/discordweb).
+This policy may be updated from time to time. Its change history can be found on the [GitHub repository](https://github.com/Ellpeck/TinyLifeWeb/commits/main/web/_includes/content_policy.md). If you have any questions about this policy, please don't hesitate to ask on [the Discord server](https://link.tinylifegame.com/discordweb).
