@@ -1,3 +1,16 @@
+# 0.41.1
+*April 21, 2024*
+
+Additions
+- Added two new achievements, one of which is hidden
+
+Improvements
+- Made food expire immediately when thrown in the trash
+
+Fixes
+- Fixed a rare crash when adding a new map with lot employments set
+- Fixed an exception during payment when a babysitter has a life goal
+
 # 0.41.0
 *April 14, 2024*
 
