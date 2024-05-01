@@ -1,3 +1,33 @@
+# 0.41.2
+*May 1, 2024*
+
+Additions
+- Added a romantic action to ask other people about their reproductive abilities
+
+Improvements
+- Improved occasions that the Clean Everything action displays on
+- Lower the chance of people visiting residential lots further
+- Made it likelier for family members to visit each other
+- Allow disabling controls hints through the in-game hint about them
+- The pregnancy ability and voice style is now randomized when a baby is born, rather than selectable by the player
+- Cleaned up the relationships tooltip
+- Include the lot type and lot's covered areas as a tag when uploading a lot to the Steam workshop
+- Made babies gain communication skill even when someone else initiated an interaction with them
+- Increased the speed of reading skill gain again
+- Made babies gain communication skill when being helped with actions
+
+Fixes
+- Fixed being able to view art through walls
+- Fixed a rare exception when pathfinding to the current location
+- Fixed the credits menu not being gamepad scrollable
+- Fixed babies being unable to put down items if the only available parent object is on another floor
+- Fixed babies trying to follow adults who are on different floors
+- Fixed being unable to switch the viewed floor while following a person with the camera
+- Fixed the new bee particle being able to go through walls
+
+API
+- Shortened the game's log message prefix by removing the date and shortening the log level to its initial
+
 # 0.41.1
 *April 21, 2024*
 
