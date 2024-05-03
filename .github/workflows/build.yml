@@ -38,8 +38,13 @@ jobs:
         run: |
           curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i cloudflared.deb
           mkdir ~/.ssh && echo "${{ secrets.ELLBOT_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
-          rsync -rv --delete -e 'ssh -o "ProxyCommand cloudflared access ssh --hostname %h" -o "StrictHostKeyChecking=no"' web/_site/. ellbot@ssh.ellpeck.de:/var/www/tinylifegame          
-  
+          rsync -rv --delete -e 'ssh -o "ProxyCommand cloudflared access ssh --hostname %h" -o "StrictHostKeyChecking=no"' web/_site/. ellbot@ssh.ellpeck.de:/var/www/tinylifegame
+      - name: Purge Cloudflare cache
+        uses: NathanVaughn/actions-cloudflare-purge@v3.1.0
+        with:
+          cf_zone: ${{ secrets.CLOUDFLARE_ZONE }}
+          cf_auth: ${{ secrets.CLOUDFLARE_TOKEN }}
+      
   docs:
     runs-on: ubuntu-latest
     permissions:
@@ -73,3 +78,8 @@ jobs:
           curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && sudo dpkg -i cloudflared.deb
           mkdir ~/.ssh && echo "${{ secrets.ELLBOT_KEY }}" > ~/.ssh/id_rsa && chmod 600 ~/.ssh/id_rsa
           rsync -rv --delete -e 'ssh -o "ProxyCommand cloudflared access ssh --hostname %h" -o "StrictHostKeyChecking=no"' docs/_site/. ellbot@ssh.ellpeck.de:/var/www/tinylifedocs
+      - name: Purge Cloudflare cache
+        uses: NathanVaughn/actions-cloudflare-purge@v3.1.0
+        with:
+          cf_zone: ${{ secrets.CLOUDFLARE_ZONE }}
+          cf_auth: ${{ secrets.CLOUDFLARE_TOKEN }}
