@@ -1,5 +1,6 @@
 ---
 title: "Community Showcase and Future Plans (Early Access Launch Postmortem)"
+tags: [Community Showcase, Devlogs]
 itch: "https://ellpeck.itch.io/tiny-life/devlog/532785/community-showcase-and-future-plans-early-access-launch-postmortem"
 steam: "https://store.steampowered.com/news/app/1651490/view/3717203461059432062"
 ---

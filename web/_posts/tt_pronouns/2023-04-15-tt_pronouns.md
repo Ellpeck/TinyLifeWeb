@@ -1,5 +1,6 @@
 ---
 title: "Tiny Technicalities: The Pronoun Update™"
+tags: [Tiny Technicalities]
 itch: "https://ellpeck.itch.io/tiny-life/devlog/517055/tiny-technicalities-the-pronoun-update-and-an-announcement"
 steam: "https://store.steampowered.com/news/app/1651490/view/5306971121503255286"
 ---

@@ -1,5 +1,6 @@
 ---
 title: "Tiny Technicalities: What's in an Action?"
+tags: [Tiny Technicalities]
 itch: "https://ellpeck.itch.io/tiny-life/devlog/488226/tiny-technicalities-whats-in-an-action"
 steam: "https://store.steampowered.com/news/app/1651490/view/3676662189784689005"
 ---
