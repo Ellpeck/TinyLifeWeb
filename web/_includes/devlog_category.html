@@ -1,10 +1,13 @@
 <div class="devlogs">
-    <h2 class="devlog-category" id="{{ include.tag | slugify }}">{{ include.emoji }} {{ include.tag }}</h2>
+    {% assign slug = include.tag | slugify %}
+    <h2 class="devlog-category" id="{{ slug }}">{{ include.emoji }} {{ include.tag }}</h2>
     <p>{{ include.description }}</p>
 
-    {%- for post in site.posts -%}
+    {% assign total = 0 %}
+    {% for post in site.posts %}
         {%- if post.tags contains include.tag -%}
-            <div class="devlog">
+            {%- assign total = total | plus: 1 -%}
+            <div class="devlog devlog-{{ slug }}" {% if total > 6 %}hidden{% endif %}>
                 {%- if post.image -%}
                     {%- assign start = post.image | slice: 0, 4 -%}
                     {%- if start == "http" -%}
@@ -27,5 +30,15 @@
                 </div>
             </div>
         {%- endif -%}
-    {%- endfor -%}
+    {% endfor %}
+
+    {% if total > 6 %}
+        <button type="button" class="btn btn-link devlog-more" id="devlog-more-{{ slug }}">Show more</button>
+        <script>
+            $("#devlog-more-{{ slug }}").on("click", function () {
+                $(".devlog-{{ slug }}").removeAttr("hidden");
+                $(this).attr("hidden", true);
+            });
+        </script>
+    {% endif %}
 </div>
