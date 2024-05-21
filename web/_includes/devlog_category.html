@@ -5,12 +5,22 @@
     {% for post in site.posts %}
         {% if post.tags contains include.tag %}
             <div class="devlog">
+                {% if post.image %}
+                    {% assign start = post.image | slice: 0, 4 %}
+                    {% if start == "http" %}
+                        {% assign url = post.image %}
+                    {% else %}
+                        {% assign url = post.url | append: post.image %}
+                    {% endif %}
+                    <img src="{{ url }}" class="devlog-image" alt="Cover image for post {{ post.title }}">
+                {% endif %}
                 <h4 class="devlog-title">{{ post.title }}</h4>
-                <div class="devlog-date text-muted">{{ post.date | date_to_string }}</div>
+                <div class="text-muted">{{ post.date | date_to_string }}</div>
                 <div>
                     <a href="{{ post.url }}">Read this post</a> &ndash;
                     <a href="{{ post.itch }}">Read on itch</a> &ndash;
-                    <a href="{{ post.steam }}">Read on Steam</a></div>
+                    <a href="{{ post.steam }}">Read on Steam</a>
+                </div>
             </div>
         {% endif %}
     {% endfor %}
