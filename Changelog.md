@@ -1,3 +1,9 @@
+# 0.42.1
+*June 6, 2024*
+
+Fixes
+- Fixed the build mode preview panel snapping to the top when the controls hints overlay is disabled
+
 # 0.42.0
 *June 6, 2024*
 
