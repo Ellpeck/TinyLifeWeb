@@ -33,6 +33,6 @@ Transitive genealogies are automatically calculated in the character creator. Fo
 # My issue isn't listed here
 If your issue isn't listed here, it might mean that no one has encountered it yet, or it hasn't been reported by anyone yet. If that is the case, please **report it through [the feedback form](https://tinylifegame.com/bugreport)**. When doing so, please try to include as much information about the circumstances around it as possible.
 
-If the game launches correctly for you, you can also access the feedback form through the buttons on the main menu or the in-game pause menu, as this will automatically include some additional information.
+If the game launches correctly for you, you can also access the feedback form through the buttons on the main menu or the in-game pause menu, which will automatically fill out parts of the form for you.
 
 ![](../media/common_issues.png)
