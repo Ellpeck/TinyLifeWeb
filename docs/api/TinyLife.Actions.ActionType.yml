@@ -59,7 +59,7 @@ items:
   - TinyLife.Actions.ActionType.CanDoSocialAction(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.CanExecuteAll(TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Actions.ActionType.CanExecuteDelegate[])
   - TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{System.ValueTuple{TinyLife.Objects.Furniture,TinyLife.Objects.Furniture},System.Boolean},System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Nullable{TinyLife.Actions.CanExecuteResult},System.Boolean,System.Boolean)
-  - TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
+  - TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
   - TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,TinyLife.Objects.ObjectCategory,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Nullable{TinyLife.Actions.CanExecuteResult},System.Boolean,System.Boolean)
   - TinyLife.Actions.ActionType.CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.ActionType.CasualCompliment
@@ -72,6 +72,7 @@ items:
   - TinyLife.Actions.ActionType.ChatOnPhone
   - TinyLife.Actions.ActionType.ChatOnPhoneWith
   - TinyLife.Actions.ActionType.ChatWith
+  - TinyLife.Actions.ActionType.CheerUp
   - TinyLife.Actions.ActionType.Clean
   - TinyLife.Actions.ActionType.CleanDish
   - TinyLife.Actions.ActionType.CleanEverything
@@ -95,6 +96,7 @@ items:
   - TinyLife.Actions.ActionType.CreateApp
   - TinyLife.Actions.ActionType.CriticizeDeforestation
   - TinyLife.Actions.ActionType.CryAt
+  - TinyLife.Actions.ActionType.Daydream
   - TinyLife.Actions.ActionType.DebatePineappleOnPizza
   - TinyLife.Actions.ActionType.DebugAddToHousehold
   - TinyLife.Actions.ActionType.DebugDie
@@ -116,6 +118,7 @@ items:
   - TinyLife.Actions.ActionType.ExplainActivities
   - TinyLife.Actions.ActionType.ExpressFearOfCrowds
   - TinyLife.Actions.ActionType.ExpressPregnancyConcerns
+  - TinyLife.Actions.ActionType.FillNeedsElsewhere
   - TinyLife.Actions.ActionType.Flirt
   - TinyLife.Actions.ActionType.FlirtyJoke
   - TinyLife.Actions.ActionType.FollowAdult
@@ -134,7 +137,7 @@ items:
   - TinyLife.Actions.ActionType.GetJobPhone
   - TinyLife.Actions.ActionType.GetLeftovers
   - TinyLife.Actions.ActionType.GetPossibleArguments(TinyLife.Actions.ActionInfo,System.Boolean)
-  - TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.Person,TinyLife.Skills.SkillType)
+  - TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType)
   - TinyLife.Actions.ActionType.GetWater
   - TinyLife.Actions.ActionType.GoHere
   - TinyLife.Actions.ActionType.GoHome
@@ -541,7 +544,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: Creates a new <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref> instance of this <xref href="TinyLife.Actions.ActionType" data-throw-if-not-resolved="false"></xref>, including generating an array of <xref href="TinyLife.Actions.ActionArgument" data-throw-if-not-resolved="false"></xref> if none is passed through <code class="paramref">chosenArguments</code>. Whereas <xref href="TinyLife.Actions.ActionType.Construct%60%601(TinyLife.Actions.ActionInfo%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref> doesn't, this method also checks the <xref href="TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> method for whether the action can be constructed.
+  summary: Creates a new <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref> instance of this <xref href="TinyLife.Actions.ActionType" data-throw-if-not-resolved="false"></xref>, including generating an array of <xref href="TinyLife.Actions.ActionArgument" data-throw-if-not-resolved="false"></xref> if none is passed through <code class="paramref">chosenArguments</code>. Whereas <xref href="TinyLife.Actions.ActionType.Construct%60%601(TinyLife.Actions.ActionInfo%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref> doesn't, this method also checks the <xref href="TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> method for whether the action can be constructed.
   example: []
   syntax:
     content: 'public T ConstructFully<T>(ActionInfo info, bool automatic, bool force = false, params ActionArgument[] chosenArguments) where T : Action'
@@ -554,7 +557,7 @@ items:
       description: Whether the action is started automatically (or by the player).
     - id: force
       type: System.Boolean
-      description: Whether to force the action to be constructed, regardless of the result of <xref href="TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+      description: Whether to force the action to be constructed, regardless of the result of <xref href="TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
     - id: chosenArguments
       type: TinyLife.Actions.ActionArgument[]
       description: The action arguments chosen for construction.
@@ -790,7 +793,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebugTeleport
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 10
+    startLine: 11
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -817,7 +820,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebugDie
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 11
+    startLine: 12
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -844,7 +847,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebugAddToHousehold
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 12
+    startLine: 13
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -871,7 +874,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebugToggleBroken
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 13
+    startLine: 14
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -898,7 +901,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebugToggleDirty
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 15
+    startLine: 16
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -925,7 +928,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToggleUpgrade
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 19
+    startLine: 20
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -952,7 +955,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PassOut
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 25
+    startLine: 26
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -979,7 +982,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PeeSelf
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 26
+    startLine: 27
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1006,7 +1009,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Starve
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 27
+    startLine: 28
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1033,7 +1036,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BeAwayFromLotEmployment
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1060,7 +1063,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisitLotEmploymentLocation
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 37
+    startLine: 41
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1087,7 +1090,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DeliverMail
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 38
+    startLine: 42
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1114,7 +1117,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DeliverNewspaper
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 42
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1141,7 +1144,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Die
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 46
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1168,7 +1171,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CollectTrash
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 47
+    startLine: 51
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1195,7 +1198,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: VisitorGoHome
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 51
+    startLine: 55
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1222,7 +1225,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFoodSomewhereElse
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 59
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1249,7 +1252,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LotEmploymentIdle
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 60
+    startLine: 64
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1276,7 +1279,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PrepareOrder
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 63
+    startLine: 67
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1303,7 +1306,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WaitForOrder
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 64
+    startLine: 68
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1330,7 +1333,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFoodFromDisplayCase
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 65
+    startLine: 69
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1357,7 +1360,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AgeUp
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 66
+    startLine: 70
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1384,7 +1387,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CelebrateBirthday
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 69
+    startLine: 73
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1411,7 +1414,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WaitForInviteIn
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 70
+    startLine: 74
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1420,6 +1423,33 @@ items:
     return:
       type: TinyLife.Actions.ActionType
     content.vb: Public Shared ReadOnly WaitForInviteIn As ActionType
+- uid: TinyLife.Actions.ActionType.FillNeedsElsewhere
+  commentId: F:TinyLife.Actions.ActionType.FillNeedsElsewhere
+  id: FillNeedsElsewhere
+  parent: TinyLife.Actions.ActionType
+  langs:
+  - csharp
+  - vb
+  name: FillNeedsElsewhere
+  nameWithType: ActionType.FillNeedsElsewhere
+  fullName: TinyLife.Actions.ActionType.FillNeedsElsewhere
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/ActionType.Internal.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: FillNeedsElsewhere
+    path: ../TinyLife/Actions/ActionType.Internal.cs
+    startLine: 75
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  syntax:
+    content: public static readonly ActionType FillNeedsElsewhere
+    return:
+      type: TinyLife.Actions.ActionType
+    content.vb: Public Shared ReadOnly FillNeedsElsewhere As ActionType
 - uid: TinyLife.Actions.ActionType.HelpWithTraining
   commentId: F:TinyLife.Actions.ActionType.HelpWithTraining
   id: HelpWithTraining
@@ -1438,7 +1468,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HelpWithTraining
     path: ../TinyLife/Actions/ActionType.Internal.cs
-    startLine: 73
+    startLine: 83
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -1447,6 +1477,33 @@ items:
     return:
       type: TinyLife.Actions.ActionType
     content.vb: Public Shared ReadOnly HelpWithTraining As ActionType
+- uid: TinyLife.Actions.ActionType.Daydream
+  commentId: F:TinyLife.Actions.ActionType.Daydream
+  id: Daydream
+  parent: TinyLife.Actions.ActionType
+  langs:
+  - csharp
+  - vb
+  name: Daydream
+  nameWithType: ActionType.Daydream
+  fullName: TinyLife.Actions.ActionType.Daydream
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/ActionType.Internal.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Daydream
+    path: ../TinyLife/Actions/ActionType.Internal.cs
+    startLine: 87
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  syntax:
+    content: public static readonly ActionType Daydream
+    return:
+      type: TinyLife.Actions.ActionType
+    content.vb: Public Shared ReadOnly Daydream As ActionType
 - uid: TinyLife.Actions.ActionType.GoHere
   commentId: F:TinyLife.Actions.ActionType.GoHere
   id: GoHere
@@ -2815,7 +2872,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Repair
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 398
+    startLine: 402
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2842,7 +2899,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PayBills
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 412
+    startLine: 416
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2869,7 +2926,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PracticeWriting
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 426
+    startLine: 430
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2896,7 +2953,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WriteBook
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 434
+    startLine: 438
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2923,7 +2980,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SelfPublishBook
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 446
+    startLine: 450
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2950,7 +3007,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HaveBookPublished
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 447
+    startLine: 451
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -2977,7 +3034,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: LockDoor
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 448
+    startLine: 452
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3004,7 +3061,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdmireLgbtFlag
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 453
+    startLine: 457
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3031,7 +3088,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetWater
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 456
+    startLine: 460
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3058,7 +3115,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: WashHands
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 463
+    startLine: 467
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3085,7 +3142,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToggleLight
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 469
+    startLine: 473
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3112,7 +3169,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToggleAllLights
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 470
+    startLine: 474
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3139,7 +3196,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GrillFood
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 482
+    startLine: 486
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3166,7 +3223,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ThrowAway
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 491
+    startLine: 495
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3193,7 +3250,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Scrap
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 499
+    startLine: 503
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3220,7 +3277,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CleanEverything
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 505
+    startLine: 509
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3247,7 +3304,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Clean
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 516
+    startLine: 520
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3274,7 +3331,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Light
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 524
+    startLine: 528
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3301,7 +3358,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DoHomework
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 532
+    startLine: 536
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3328,7 +3385,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayWithToy
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 544
+    startLine: 548
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3355,7 +3412,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CookChildFood
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 556
+    startLine: 560
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3382,7 +3439,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayInSandbox
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 569
+    startLine: 573
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3409,7 +3466,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ShufflePuzzle
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 578
+    startLine: 582
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3436,7 +3493,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Puzzle
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 586
+    startLine: 590
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3463,7 +3520,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Store
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 594
+    startLine: 598
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3490,7 +3547,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFurnitureMail
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 605
+    startLine: 609
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3517,7 +3574,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ReadNewspaper
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 613
+    startLine: 617
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3544,7 +3601,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ReadJokes
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 621
+    startLine: 625
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3571,7 +3628,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BrewCoffee
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 629
+    startLine: 633
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3598,7 +3655,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MakeTea
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 638
+    startLine: 642
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3625,7 +3682,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TinkerWith
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 647
+    startLine: 651
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3652,7 +3709,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdmireFood
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 664
+    startLine: 668
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3679,7 +3736,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddALittleSomething
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 672
+    startLine: 676
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3706,7 +3763,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RunAround
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 686
+    startLine: 690
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3733,7 +3790,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Rummage
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 695
+    startLine: 699
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3760,7 +3817,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddCandle
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 702
+    startLine: 706
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3787,7 +3844,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BlowOutCandles
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 708
+    startLine: 712
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3814,7 +3871,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PutInFridge
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 712
+    startLine: 716
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3841,7 +3898,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakeFromFridge
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 726
+    startLine: 730
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3868,7 +3925,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CleanOutFridge
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 729
+    startLine: 733
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3895,7 +3952,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetLeftovers
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 736
+    startLine: 740
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3922,7 +3979,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AdoptChild
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 743
+    startLine: 747
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3949,7 +4006,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResearchBusinessPlans
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 751
+    startLine: 755
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -3976,7 +4033,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PracticeSalesPitch
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 765
+    startLine: 769
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4003,7 +4060,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ReadSkillBook
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 773
+    startLine: 777
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4030,7 +4087,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToggleNewspapers
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 782
+    startLine: 786
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4057,7 +4114,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ToggleVisitors
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 787
+    startLine: 791
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4084,7 +4141,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakeOutTrash
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 794
+    startLine: 798
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4111,7 +4168,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PlayOnJungleGym
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 806
+    startLine: 810
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4138,7 +4195,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ColorColoringBook
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 815
+    startLine: 819
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4165,7 +4222,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CollectSunlight
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 824
+    startLine: 828
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4192,7 +4249,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GoJogging
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 827
+    startLine: 831
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4219,7 +4276,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MoveHere
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 835
+    startLine: 839
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4246,7 +4303,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChatOnPhone
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 841
+    startLine: 845
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4273,7 +4330,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChatOnPhoneWith
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 848
+    startLine: 852
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4300,7 +4357,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetPhoneColor
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 853
+    startLine: 857
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4327,7 +4384,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetJobPhone
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 857
+    startLine: 861
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4354,7 +4411,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: QuitJobPhone
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 858
+    startLine: 862
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4381,7 +4438,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakeVacationDayPhone
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 868
+    startLine: 872
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4408,7 +4465,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HireBabysitter
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 878
+    startLine: 882
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4435,7 +4492,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InviteOver
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 896
+    startLine: 901
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4462,7 +4519,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ChangePronouns
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 912
+    startLine: 917
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4489,7 +4546,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InvestigateRocks
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 915
+    startLine: 920
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4516,7 +4573,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TravelToMap
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 923
+    startLine: 928
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4543,7 +4600,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PsychSelfUp
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 927
+    startLine: 932
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4570,7 +4627,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ReadBabyBook
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 931
+    startLine: 936
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4597,7 +4654,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Potty
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 943
+    startLine: 948
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4624,7 +4681,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UseDiaper
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 955
+    startLine: 960
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4651,7 +4708,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: FollowAdult
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 963
+    startLine: 968
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4678,7 +4735,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HaveBaby
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 980
+    startLine: 985
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4705,7 +4762,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HaveAbortion
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 988
+    startLine: 993
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4732,7 +4789,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakePregnancyTest
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 991
+    startLine: 996
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4759,7 +4816,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakeOutOfCrib
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 998
+    startLine: 1003
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4786,7 +4843,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SleepInCrib
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 1007
+    startLine: 1012
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4813,7 +4870,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: MakeDrinks
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 1021
+    startLine: 1026
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4840,7 +4897,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UpgradeFurniture
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 1029
+    startLine: 1034
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4867,7 +4924,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ResearchUpgrades
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 1034
+    startLine: 1039
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -4894,7 +4951,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TakeEmotionShower
     path: ../TinyLife/Actions/ActionType.Misc.cs
-    startLine: 1038
+    startLine: 1043
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5083,7 +5140,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Talk
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 14
+    startLine: 15
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5110,7 +5167,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutDay
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 18
+    startLine: 19
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5137,7 +5194,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TellEngagingStory
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 23
+    startLine: 24
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5164,7 +5221,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TellStory
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 28
+    startLine: 29
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5191,7 +5248,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutWork
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 32
+    startLine: 33
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5218,7 +5275,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutNeighborhood
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 40
+    startLine: 41
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5245,7 +5302,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutOutdoors
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 45
+    startLine: 46
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5272,7 +5329,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutFood
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 49
+    startLine: 50
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5299,7 +5356,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DiscussWorkoutRegimen
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 53
+    startLine: 54
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5326,7 +5383,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CompareMuscleSize
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 62
+    startLine: 63
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5353,7 +5410,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GushAboutPartner
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 71
+    startLine: 72
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5380,7 +5437,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutGamingRig
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 79
+    startLine: 80
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5407,7 +5464,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutComputerSpecs
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 84
+    startLine: 85
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5434,7 +5491,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BoastAboutPagesWritten
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 89
+    startLine: 90
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5461,7 +5518,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: PoseMathPuzzle
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 97
+    startLine: 98
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5488,7 +5545,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ExpressFearOfCrowds
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 102
+    startLine: 103
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5515,7 +5572,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutNaps
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 107
+    startLine: 108
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5542,7 +5599,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutWatchingTv
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 113
+    startLine: 114
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5569,7 +5626,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: InviteToHousehold
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 118
+    startLine: 119
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5596,7 +5653,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskToTellStory
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 123
+    startLine: 124
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5623,7 +5680,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ComplainAboutAdults
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 129
+    startLine: 130
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5650,7 +5707,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ComplainAboutParent
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 134
+    startLine: 135
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5677,7 +5734,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutCartoons
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 139
+    startLine: 140
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5704,7 +5761,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutSchool
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 144
+    startLine: 145
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5731,7 +5788,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutFavoriteToys
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 149
+    startLine: 150
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5758,7 +5815,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutFamilyWellbeing
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 154
+    startLine: 155
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5785,7 +5842,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutFamily
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 162
+    startLine: 163
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5812,7 +5869,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DebatePineappleOnPizza
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 170
+    startLine: 171
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5839,7 +5896,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DiscussFineDining
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 176
+    startLine: 177
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5866,7 +5923,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutSpicyFood
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 181
+    startLine: 182
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5893,7 +5950,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskMedicalHistory
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 186
+    startLine: 187
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5920,7 +5977,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutNatureWalks
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 191
+    startLine: 192
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5947,7 +6004,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CriticizeDeforestation
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 196
+    startLine: 197
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -5974,7 +6031,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DiscussNpP
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 201
+    startLine: 202
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6001,7 +6058,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: BragAboutComputer
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 206
+    startLine: 207
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6028,7 +6085,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DiscussHomeAutomation
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 211
+    startLine: 212
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6055,7 +6112,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskIfSingle
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 216
+    startLine: 217
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6082,7 +6139,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SuggestThriftstores
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 229
+    startLine: 230
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6109,7 +6166,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: EnthuseAboutCoupons
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 236
+    startLine: 237
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6136,7 +6193,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutBestSpots
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 241
+    startLine: 242
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6163,7 +6220,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TalkAboutBestToy
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 246
+    startLine: 247
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6190,7 +6247,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: TeachLifeLesson
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 251
+    startLine: 252
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6217,7 +6274,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: HowYouveGrown
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 257
+    startLine: 258
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6244,7 +6301,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ComparePhysicalFeatures
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 262
+    startLine: 263
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6271,7 +6328,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutCareerDreams
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 270
+    startLine: 271
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6298,7 +6355,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AskAboutParenting
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 276
+    startLine: 277
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6325,7 +6382,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ExplainActivities
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 287
+    startLine: 288
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6352,7 +6409,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: ExpressPregnancyConcerns
     path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
-    startLine: 294
+    startLine: 295
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
@@ -6361,6 +6418,33 @@ items:
     return:
       type: TinyLife.Actions.ActionType
     content.vb: Public Shared ReadOnly ExpressPregnancyConcerns As ActionType
+- uid: TinyLife.Actions.ActionType.CheerUp
+  commentId: F:TinyLife.Actions.ActionType.CheerUp
+  id: CheerUp
+  parent: TinyLife.Actions.ActionType
+  langs:
+  - csharp
+  - vb
+  name: CheerUp
+  nameWithType: ActionType.CheerUp
+  fullName: TinyLife.Actions.ActionType.CheerUp
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Actions/ActionType.Social.Friendly.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: CheerUp
+    path: ../TinyLife/Actions/ActionType.Social.Friendly.cs
+    startLine: 304
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  syntax:
+    content: public static readonly ActionType CheerUp
+    return:
+      type: TinyLife.Actions.ActionType
+    content.vb: Public Shared ReadOnly CheerUp As ActionType
 - uid: TinyLife.Actions.ActionType.TellJoke
   commentId: F:TinyLife.Actions.ActionType.TellJoke
   id: TellJoke
@@ -9046,16 +9130,16 @@ items:
   nameWithType.vb: ActionType.CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of (Parent As Furniture, Item As Furniture), Boolean), Func(Of Furniture, Boolean), CanExecuteResult?, Boolean, Boolean)
   fullName.vb: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo, System.Func(Of (Parent As TinyLife.Objects.Furniture, Item As TinyLife.Objects.Furniture), Boolean), System.Func(Of TinyLife.Objects.Furniture, Boolean), TinyLife.Actions.CanExecuteResult?, Boolean, Boolean)
   name.vb: CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of (Parent As Furniture, Item As Furniture), Boolean), Func(Of Furniture, Boolean), CanExecuteResult?, Boolean, Boolean)
-- uid: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
-  commentId: M:TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
-  id: CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
+- uid: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
+  commentId: M:TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
+  id: CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean},System.Boolean)
   parent: TinyLife.Actions.ActionType
   langs:
   - csharp
   - vb
-  name: CanPickUpOrIsHoldingForTarget(ActionInfo, Func<Furniture, bool>, Func<(Person Person, Furniture Item), bool>, bool)
-  nameWithType: ActionType.CanPickUpOrIsHoldingForTarget(ActionInfo, Func<Furniture, bool>, Func<(Person Person, Furniture Item), bool>, bool)
-  fullName: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo, System.Func<TinyLife.Objects.Furniture, bool>, System.Func<(TinyLife.Objects.Person Person, TinyLife.Objects.Furniture Item), bool>, bool)
+  name: CanPickUpOrIsHoldingForTarget(ActionInfo, Func<Furniture, bool>, Func<(PersonLike Person, Furniture Item), bool>, bool)
+  nameWithType: ActionType.CanPickUpOrIsHoldingForTarget(ActionInfo, Func<Furniture, bool>, Func<(PersonLike Person, Furniture Item), bool>, bool)
+  fullName: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo, System.Func<TinyLife.Objects.Furniture, bool>, System.Func<(TinyLife.Objects.PersonLike Person, TinyLife.Objects.Furniture Item), bool>, bool)
   type: Method
   source:
     remote:
@@ -9076,7 +9160,7 @@ items:
     This helper method is useful in cases like <xref href="TinyLife.Actions.ActionType.AskToTaste" data-throw-if-not-resolved="false"></xref>, where the action should be allowed if the person is holding a food plate and clicking a chair, or if a person is clicking the food plate itself.
   example: []
   syntax:
-    content: public static CanExecuteResult CanPickUpOrIsHoldingForTarget(ActionInfo info, Func<Furniture, bool> isAllowed, Func<(Person Person, Furniture Item), bool> isPersonAllowed = null, bool allowAnyInvolved = false)
+    content: public static CanExecuteResult CanPickUpOrIsHoldingForTarget(ActionInfo info, Func<Furniture, bool> isAllowed, Func<(PersonLike Person, Furniture Item), bool> isPersonAllowed = null, bool allowAnyInvolved = false)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
@@ -9085,7 +9169,7 @@ items:
       type: System.Func{TinyLife.Objects.Furniture,System.Boolean}
       description: A predicate that checks if the given item is the one searched for
     - id: isPersonAllowed
-      type: System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean}
+      type: System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean}
       description: Whether the object that the required item should be a child of, or placed onto, is correct
     - id: allowAnyInvolved
       type: System.Boolean
@@ -9093,11 +9177,11 @@ items:
     return:
       type: TinyLife.Actions.CanExecuteResult
       description: A result that represents the validity of the action
-    content.vb: Public Shared Function CanPickUpOrIsHoldingForTarget(info As ActionInfo, isAllowed As Func(Of Furniture, Boolean), isPersonAllowed As Func(Of (Person As Person, Item As Furniture), Boolean) = Nothing, allowAnyInvolved As Boolean = False) As CanExecuteResult
+    content.vb: Public Shared Function CanPickUpOrIsHoldingForTarget(info As ActionInfo, isAllowed As Func(Of Furniture, Boolean), isPersonAllowed As Func(Of (Person As PersonLike, Item As Furniture), Boolean) = Nothing, allowAnyInvolved As Boolean = False) As CanExecuteResult
   overload: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget*
-  nameWithType.vb: ActionType.CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of Furniture, Boolean), Func(Of (Person As Person, Item As Furniture), Boolean), Boolean)
-  fullName.vb: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo, System.Func(Of TinyLife.Objects.Furniture, Boolean), System.Func(Of (Person As TinyLife.Objects.Person, Item As TinyLife.Objects.Furniture), Boolean), Boolean)
-  name.vb: CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of Furniture, Boolean), Func(Of (Person As Person, Item As Furniture), Boolean), Boolean)
+  nameWithType.vb: ActionType.CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of Furniture, Boolean), Func(Of (Person As PersonLike, Item As Furniture), Boolean), Boolean)
+  fullName.vb: TinyLife.Actions.ActionType.CanPickUpOrIsHoldingForTarget(TinyLife.Actions.ActionInfo, System.Func(Of TinyLife.Objects.Furniture, Boolean), System.Func(Of (Person As TinyLife.Objects.PersonLike, Item As TinyLife.Objects.Furniture), Boolean), Boolean)
+  name.vb: CanPickUpOrIsHoldingForTarget(ActionInfo, Func(Of Furniture, Boolean), Func(Of (Person As PersonLike, Item As Furniture), Boolean), Boolean)
 - uid: TinyLife.Actions.ActionType.CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
   commentId: M:TinyLife.Actions.ActionType.CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
   id: CanPlaceHeldItem(TinyLife.Actions.ActionInfo,System.Boolean)
@@ -9205,7 +9289,7 @@ items:
   summary: >-
     A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines if the action is executed manually, the given <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref>'s person has the <xref href="TinyLife.PersonalityType.Mean" data-throw-if-not-resolved="false"></xref> personality type, or if the interaction partner has the <xref href="TinyLife.RelationshipType.Disliked" data-throw-if-not-resolved="false"></xref> relationship type (or lower).
 
-    If the person's current <xref href="TinyLife.Objects.Person.Emotion" data-throw-if-not-resolved="false"></xref> is <xref href="TinyLife.Emotions.EmotionType.Angry" data-throw-if-not-resolved="false"></xref>, this method also returns <xref href="TinyLife.Actions.CanExecuteResult.Valid" data-throw-if-not-resolved="false"></xref>.
+    If the person's current <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref> is <xref href="TinyLife.Emotions.EmotionType.Angry" data-throw-if-not-resolved="false"></xref>, this method also returns <xref href="TinyLife.Actions.CanExecuteResult.Valid" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public static CanExecuteResult IsDislikedOrMean(ActionInfo info, bool automatic)
@@ -9294,7 +9378,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines if the <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> has any of the given <code class="paramref">emotions</code>, and returns a <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref> to indicate as such.
+  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines if the <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> has any of the given <code class="paramref">emotions</code>, and returns a <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref> to indicate as such.
   example: []
   syntax:
     content: public static CanExecuteResult IsNotEmotional(ActionInfo info, params EmotionType[] emotions)
@@ -9339,7 +9423,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines if the person is not holding an item or a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>.
+  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines if the person is not holding an item or a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public static CanExecuteResult IsEmptyHanded(ActionInfo info, bool automatic)
@@ -9647,7 +9731,7 @@ items:
   summary: >-
     A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether a person can invoke a sexual activity.
 
-    A <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> can invoke such an activity iff they're not a <xref href="TinyLife.Objects.AgeGroup.Child" data-throw-if-not-resolved="false"></xref> and <code class="paramref">automatic</code> is either false or the person is not asexual (<xref href="TinyLife.PersonalityType.Asexual" data-throw-if-not-resolved="false"></xref>).
+    A <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> can invoke such an activity iff they're not a <xref href="TinyLife.Objects.AgeGroup.Child" data-throw-if-not-resolved="false"></xref> and <code class="paramref">automatic</code> is either false or the person is not asexual (<xref href="TinyLife.PersonalityType.Asexual" data-throw-if-not-resolved="false"></xref>).
   example: []
   syntax:
     content: public static CanExecuteResult CanBeSexual(ActionInfo info, bool automatic)
@@ -9688,7 +9772,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether an action info's <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.World.Household" data-throw-if-not-resolved="false"></xref> has space for another household member.
+  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether an action info's <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.World.Household" data-throw-if-not-resolved="false"></xref> has space for another household member.
   example: []
   syntax:
     content: public static CanExecuteResult HasSpaceInHousehold(ActionInfo info, bool automatic)
@@ -9729,7 +9813,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether an action info's <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> is not currently pregnant.
+  summary: A helper method intended to be used with <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether an action info's <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> is not currently pregnant.
   example: []
   syntax:
     content: public static CanExecuteResult IsNotPregnant(ActionInfo info, bool automatic)
@@ -9748,16 +9832,16 @@ items:
   nameWithType.vb: ActionType.IsNotPregnant(ActionInfo, Boolean)
   fullName.vb: TinyLife.Actions.ActionType.IsNotPregnant(TinyLife.Actions.ActionInfo, Boolean)
   name.vb: IsNotPregnant(ActionInfo, Boolean)
-- uid: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.Person,TinyLife.Skills.SkillType)
-  commentId: M:TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.Person,TinyLife.Skills.SkillType)
-  id: GetSkillPriorityMod(TinyLife.Objects.Person,TinyLife.Skills.SkillType)
+- uid: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType)
+  commentId: M:TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType)
+  id: GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType)
   parent: TinyLife.Actions.ActionType
   langs:
   - csharp
   - vb
-  name: GetSkillPriorityMod(Person, SkillType)
-  nameWithType: ActionType.GetSkillPriorityMod(Person, SkillType)
-  fullName: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.Person, TinyLife.Skills.SkillType)
+  name: GetSkillPriorityMod(PersonLike, SkillType)
+  nameWithType: ActionType.GetSkillPriorityMod(PersonLike, SkillType)
+  fullName: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike, TinyLife.Skills.SkillType)
   type: Method
   source:
     remote:
@@ -9778,10 +9862,10 @@ items:
     The modifier returned can be multiplied with a constant, default passive priority.
   example: []
   syntax:
-    content: public static float GetSkillPriorityMod(Person person, SkillType skill)
+    content: public static float GetSkillPriorityMod(PersonLike person, SkillType skill)
     parameters:
     - id: person
-      type: TinyLife.Objects.Person
+      type: TinyLife.Objects.PersonLike
       description: The person to execute an action.
     - id: skill
       type: TinyLife.Skills.SkillType
@@ -9789,7 +9873,7 @@ items:
     return:
       type: System.Single
       description: A modifier that is between 0 and 1, based on whether the person's personality or existing skills boost or require the passed skill.
-    content.vb: Public Shared Function GetSkillPriorityMod(person As Person, skill As SkillType) As Single
+    content.vb: Public Shared Function GetSkillPriorityMod(person As PersonLike, skill As SkillType) As Single
   overload: TinyLife.Actions.ActionType.GetSkillPriorityMod*
 references:
 - uid: TinyLife.Actions.Action
@@ -10498,20 +10582,21 @@ references:
   - name: (
   - name: )
   - name: )
-- uid: TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
-  commentId: M:TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+- uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
   name: CanExecuteAction(ActionType, ActionInfo, bool)
-  nameWithType: Person.CanExecuteAction(ActionType, ActionInfo, bool)
-  fullName: TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool)
-  nameWithType.vb: Person.CanExecuteAction(ActionType, ActionInfo, Boolean)
-  fullName.vb: TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean)
+  nameWithType: PersonLike.CanExecuteAction(ActionType, ActionInfo, bool)
+  fullName: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool)
+  nameWithType.vb: PersonLike.CanExecuteAction(ActionType, ActionInfo, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean)
   name.vb: CanExecuteAction(ActionType, ActionInfo, Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
     name: CanExecuteAction
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
   - name: (
   - uid: TinyLife.Actions.ActionType
     name: ActionType
@@ -10529,9 +10614,9 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Person.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
     name: CanExecuteAction
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
   - name: (
   - uid: TinyLife.Actions.ActionType
     name: ActionType
@@ -10565,6 +10650,35 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  href: TinyLife.html
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
 - uid: TinyLife.Actions.Action.GetDisplayName
   commentId: M:TinyLife.Actions.Action.GetDisplayName
   parent: TinyLife.Actions.Action
@@ -11135,28 +11249,6 @@ references:
     name: CanExecuteResult
     href: TinyLife.Actions.CanExecuteResult.html
   - name: '?'
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  href: TinyLife.html
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
 - uid: System.Func`2
   commentId: T:System.Func`2
   isExternal: true
@@ -11304,17 +11396,17 @@ references:
   name: AskToTaste
   nameWithType: ActionType.AskToTaste
   fullName: TinyLife.Actions.ActionType.AskToTaste
-- uid: System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean}
-  commentId: T:System.Func{System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture},System.Boolean}
+- uid: System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean}
+  commentId: T:System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Boolean}
   parent: System
   definition: System.Func`2
   href: https://learn.microsoft.com/dotnet/api/system.func-2
-  name: Func<(Person Person, Furniture Item), bool>
-  nameWithType: Func<(Person Person, Furniture Item), bool>
-  fullName: System.Func<(TinyLife.Objects.Person Person, TinyLife.Objects.Furniture Item), bool>
-  nameWithType.vb: Func(Of (Person As Person, Item As Furniture), Boolean)
-  fullName.vb: System.Func(Of (Person As TinyLife.Objects.Person, Item As TinyLife.Objects.Furniture), Boolean)
-  name.vb: Func(Of (Person As Person, Item As Furniture), Boolean)
+  name: Func<(PersonLike Person, Furniture Item), bool>
+  nameWithType: Func<(PersonLike Person, Furniture Item), bool>
+  fullName: System.Func<(TinyLife.Objects.PersonLike Person, TinyLife.Objects.Furniture Item), bool>
+  nameWithType.vb: Func(Of (Person As PersonLike, Item As Furniture), Boolean)
+  fullName.vb: System.Func(Of (Person As TinyLife.Objects.PersonLike, Item As TinyLife.Objects.Furniture), Boolean)
+  name.vb: Func(Of (Person As PersonLike, Item As Furniture), Boolean)
   spec.csharp:
   - uid: System.Func`2
     name: Func
@@ -11322,22 +11414,22 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
   - name: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture}.Person
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Person
     name: Person
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.furniture-.person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.person
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.Furniture
     name: Furniture
     href: TinyLife.Objects.Furniture.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture}.Item
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Item
     name: Item
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.furniture-.item
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.item
   - name: )
   - name: ','
   - name: " "
@@ -11355,20 +11447,20 @@ references:
   - name: Of
   - name: " "
   - name: (
-  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture}.Person
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Person
     name: Person
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.furniture-.person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.person
   - name: " "
   - name: As
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.Person,TinyLife.Objects.Furniture}.Item
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Item
     name: Item
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.person,tinylife.objects.furniture-.item
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.item
   - name: " "
   - name: As
   - name: " "
@@ -11425,12 +11517,13 @@ references:
   name: Disliked
   nameWithType: RelationshipType.Disliked
   fullName: TinyLife.RelationshipType.Disliked
-- uid: TinyLife.Objects.Person.Emotion
-  commentId: P:TinyLife.Objects.Person.Emotion
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Emotion
+- uid: TinyLife.Objects.PersonLike.Emotion
+  commentId: P:TinyLife.Objects.PersonLike.Emotion
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Emotion
   name: Emotion
-  nameWithType: Person.Emotion
-  fullName: TinyLife.Objects.Person.Emotion
+  nameWithType: PersonLike.Emotion
+  fullName: TinyLife.Objects.PersonLike.Emotion
 - uid: TinyLife.Emotions.EmotionType.Angry
   commentId: F:TinyLife.Emotions.EmotionType.Angry
   href: TinyLife.Emotions.EmotionType.html#TinyLife_Emotions_EmotionType_Angry
@@ -11492,13 +11585,6 @@ references:
   name: IsReadyForRomance
   nameWithType: ActionType.IsReadyForRomance
   fullName: TinyLife.Actions.ActionType.IsReadyForRomance
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Person.html
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
 - uid: System.ArgumentOutOfRangeException
   commentId: T:System.ArgumentOutOfRangeException
   isExternal: true
@@ -11714,7 +11800,7 @@ references:
   fullName: TinyLife.PerSaveOptions.AiSkillBuilding
 - uid: TinyLife.Actions.ActionType.GetSkillPriorityMod*
   commentId: Overload:TinyLife.Actions.ActionType.GetSkillPriorityMod
-  href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_GetSkillPriorityMod_TinyLife_Objects_Person_TinyLife_Skills_SkillType_
+  href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_GetSkillPriorityMod_TinyLife_Objects_PersonLike_TinyLife_Skills_SkillType_
   name: GetSkillPriorityMod
   nameWithType: ActionType.GetSkillPriorityMod
   fullName: TinyLife.Actions.ActionType.GetSkillPriorityMod

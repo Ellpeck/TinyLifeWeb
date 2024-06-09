@@ -5,8 +5,8 @@ items:
   id: EmotionModifier
   parent: TinyLife.Emotions
   children:
-  - TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.Int32})
-  - TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
+  - TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.Int32})
+  - TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
   - TinyLife.Emotions.EmotionModifier.AbortionEmotions
   - TinyLife.Emotions.EmotionModifier.AcquaintanceDied
   - TinyLife.Emotions.EmotionModifier.AdmiredFood
@@ -49,6 +49,7 @@ items:
   - TinyLife.Emotions.EmotionModifier.Condition
   - TinyLife.Emotions.EmotionModifier.CreativelyInspired
   - TinyLife.Emotions.EmotionModifier.DarkRoom
+  - TinyLife.Emotions.EmotionModifier.DaydreamEmotions
   - TinyLife.Emotions.EmotionModifier.Demoted
   - TinyLife.Emotions.EmotionModifier.DiaperRash
   - TinyLife.Emotions.EmotionModifier.DirtyConversationPartner
@@ -87,7 +88,6 @@ items:
   - TinyLife.Emotions.EmotionModifier.FunSchoolDay
   - TinyLife.Emotions.EmotionModifier.FunnyCartoons
   - TinyLife.Emotions.EmotionModifier.FunnyNewspaperJoke
-  - TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
   - TinyLife.Emotions.EmotionModifier.GetDisplayName(TinyLife.Emotions.EmotionModifier.Instance)
   - TinyLife.Emotions.EmotionModifier.GoodChildFood
   - TinyLife.Emotions.EmotionModifier.GoodFood
@@ -104,6 +104,7 @@ items:
   - TinyLife.Emotions.EmotionModifier.HadToGetFoodSomewhereElse
   - TinyLife.Emotions.EmotionModifier.HomeworkHelp
   - TinyLife.Emotions.EmotionModifier.Icon
+  - TinyLife.Emotions.EmotionModifier.IfHasPersonality(TinyLife.Objects.PersonLike,TinyLife.PersonalityType,System.Func{System.Double})
   - TinyLife.Emotions.EmotionModifier.InspiredByPride
   - TinyLife.Emotions.EmotionModifier.InspiringIdeas
   - TinyLife.Emotions.EmotionModifier.InspiringLibraryInfo
@@ -114,6 +115,7 @@ items:
   - TinyLife.Emotions.EmotionModifier.IntrovertedHomeLong
   - TinyLife.Emotions.EmotionModifier.IntrovertedOverstimulated
   - TinyLife.Emotions.EmotionModifier.IntrovertedStrangerDanger
+  - TinyLife.Emotions.EmotionModifier.IsObjectAround``1(TinyLife.Objects.PersonLike,System.Int32,System.Func{``0,System.Boolean})
   - TinyLife.Emotions.EmotionModifier.JobChoicePromptFailed
   - TinyLife.Emotions.EmotionModifier.JobChoicePromptFailedPerformance
   - TinyLife.Emotions.EmotionModifier.JobChoicePromptSuccess
@@ -233,11 +235,11 @@ items:
   - Tiny Life
   namespace: TinyLife.Emotions
   summary: >-
-    An emotion modifier stores information about a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>'s current or past actions or events that influenced their <xref href="TinyLife.Objects.Person.Emotion" data-throw-if-not-resolved="false"></xref> in some way.
+    An emotion modifier stores information about a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>'s current or past actions or events that influenced their <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref> in some way.
 
-    Each emotion modifier contributes to the person's emotion, and the emotion modifier with the highest combined <xref href="TinyLife.Emotions.EmotionModifier.Instance.Amount" data-throw-if-not-resolved="false"></xref> determines the person's <xref href="TinyLife.Objects.Person.Emotion" data-throw-if-not-resolved="false"></xref>.
+    Each emotion modifier contributes to the person's emotion, and the emotion modifier with the highest combined <xref href="TinyLife.Emotions.EmotionModifier.Instance.Amount" data-throw-if-not-resolved="false"></xref> determines the person's <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref>.
 
-    Emotion modifiers can be applied automatically using <xref href="TinyLife.Emotions.EmotionModifier.Condition" data-throw-if-not-resolved="false"></xref> or manually using <xref href="TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier%2cSystem.Int32%2cSystem.TimeSpan%2cTinyLife.Emotions.IEmotionSource%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+    Emotion modifiers can be applied automatically using <xref href="TinyLife.Emotions.EmotionModifier.Condition" data-throw-if-not-resolved="false"></xref> or manually using <xref href="TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier%2cSystem.Int32%2cSystem.TimeSpan%2cTinyLife.Emotions.IEmotionSource%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: >-
@@ -5581,6 +5583,33 @@ items:
     return:
       type: TinyLife.Emotions.EmotionModifier
     content.vb: Public Shared ReadOnly BadPaintingAdvice As EmotionModifier
+- uid: TinyLife.Emotions.EmotionModifier.DaydreamEmotions
+  commentId: F:TinyLife.Emotions.EmotionModifier.DaydreamEmotions
+  id: DaydreamEmotions
+  parent: TinyLife.Emotions.EmotionModifier
+  langs:
+  - csharp
+  - vb
+  name: DaydreamEmotions
+  nameWithType: EmotionModifier.DaydreamEmotions
+  fullName: TinyLife.Emotions.EmotionModifier.DaydreamEmotions
+  type: Field
+  source:
+    remote:
+      path: TinyLife/Emotions/EmotionModifier.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: DaydreamEmotions
+    path: ../TinyLife/Emotions/EmotionModifier.cs
+    startLine: 248
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Emotions
+  syntax:
+    content: public static readonly (EmotionModifier Modifier, int Weight)[] DaydreamEmotions
+    return:
+      type: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}[]
+    content.vb: Public Shared ReadOnly DaydreamEmotions As (Modifier As EmotionModifier, Weight As Integer)()
 - uid: TinyLife.Emotions.EmotionModifier.Name
   commentId: F:TinyLife.Emotions.EmotionModifier.Name
   id: Name
@@ -5599,7 +5628,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Name
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 350
+    startLine: 357
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5628,7 +5657,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Icon
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 354
+    startLine: 361
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5657,14 +5686,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Emotion
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 359
+    startLine: 366
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
   summary: >-
     The <xref href="TinyLife.Emotions.EmotionType" data-throw-if-not-resolved="false"></xref> that this emotion modifier is set to cause (if the <xref href="TinyLife.Emotions.EmotionModifier.Instance.Amount" data-throw-if-not-resolved="false"></xref> is high enough).
 
-    To retrieve this value for a specific person, <xref href="TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)" data-throw-if-not-resolved="false"></xref> should be used.
+    To retrieve this value for a specific person, <xref href="TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)" data-throw-if-not-resolved="false"></xref> should be used.
   example: []
   syntax:
     content: public readonly EmotionType Emotion
@@ -5689,22 +5718,22 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Condition
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 365
+    startLine: 372
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
   summary: >-
     An (optional) condition that has to be met for this emotion modifier to be applied to a person.
 
-    If this value is non-null, and the value returned by this function is greater than zero, this emotion modifier will be applied to a <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> with the <xref href="TinyLife.Emotions.EmotionModifier.Instance.Amount" data-throw-if-not-resolved="false"></xref> set to the return value.
+    If this value is non-null, and the value returned by this function is greater than zero, this emotion modifier will be applied to a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> with the <xref href="TinyLife.Emotions.EmotionModifier.Instance.Amount" data-throw-if-not-resolved="false"></xref> set to the return value.
 
-    If this value is not set, the emotion modifier has to be applied manually using <xref href="TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier%2cSystem.Int32%2cSystem.TimeSpan%2cTinyLife.Emotions.IEmotionSource%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+    If this value is not set, the emotion modifier has to be applied manually using <xref href="TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier%2cSystem.Int32%2cSystem.TimeSpan%2cTinyLife.Emotions.IEmotionSource%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public readonly Func<Person, (IEmotionSource, int)> Condition
+    content: public readonly Func<PersonLike, (IEmotionSource, int)> Condition
     return:
-      type: System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
-    content.vb: Public ReadOnly Condition As Func(Of Person, (IEmotionSource, Integer))
+      type: System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
+    content.vb: Public ReadOnly Condition As Func(Of PersonLike, (IEmotionSource, Integer))
 - uid: TinyLife.Emotions.EmotionModifier.DisplayName
   commentId: P:TinyLife.Emotions.EmotionModifier.DisplayName
   id: DisplayName
@@ -5723,7 +5752,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: DisplayName
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 372
+    startLine: 379
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5759,7 +5788,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnRanOut
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 376
+    startLine: 383
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5790,7 +5819,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: OnConditionUnmet
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 380
+    startLine: 387
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5803,16 +5832,16 @@ items:
       type: System.Action{TinyLife.Emotions.EmotionModifier.Instance}
     content.vb: Public Property OnConditionUnmet As Action(Of EmotionModifier.Instance)
   overload: TinyLife.Emotions.EmotionModifier.OnConditionUnmet*
-- uid: TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
-  commentId: M:TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
-  id: '#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})'
+- uid: TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
+  commentId: M:TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}})'
   parent: TinyLife.Emotions.EmotionModifier
   langs:
   - csharp
   - vb
-  name: EmotionModifier(string, TextureRegion, EmotionType, Func<Person, (IEmotionSource, int)>)
-  nameWithType: EmotionModifier.EmotionModifier(string, TextureRegion, EmotionType, Func<Person, (IEmotionSource, int)>)
-  fullName: TinyLife.Emotions.EmotionModifier.EmotionModifier(string, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func<TinyLife.Objects.Person, (TinyLife.Emotions.IEmotionSource, int)>)
+  name: EmotionModifier(string, TextureRegion, EmotionType, Func<PersonLike, (IEmotionSource, int)>)
+  nameWithType: EmotionModifier.EmotionModifier(string, TextureRegion, EmotionType, Func<PersonLike, (IEmotionSource, int)>)
+  fullName: TinyLife.Emotions.EmotionModifier.EmotionModifier(string, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func<TinyLife.Objects.PersonLike, (TinyLife.Emotions.IEmotionSource, int)>)
   type: Constructor
   source:
     remote:
@@ -5821,14 +5850,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 389
+    startLine: 396
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
   summary: Creates a new emotion modifier with the given settings
   example: []
   syntax:
-    content: public EmotionModifier(string name, TextureRegion icon, EmotionType emotion, Func<Person, (IEmotionSource, int)> condition = null)
+    content: public EmotionModifier(string name, TextureRegion icon, EmotionType emotion, Func<PersonLike, (IEmotionSource, int)> condition = null)
     parameters:
     - id: name
       type: System.String
@@ -5840,23 +5869,23 @@ items:
       type: TinyLife.Emotions.EmotionType
       description: The modifier's resulting emotion type
     - id: condition
-      type: System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
+      type: System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
       description: An optional condition for this modifier
-    content.vb: Public Sub New(name As String, icon As TextureRegion, emotion As EmotionType, condition As Func(Of Person, (IEmotionSource, Integer)) = Nothing)
+    content.vb: Public Sub New(name As String, icon As TextureRegion, emotion As EmotionType, condition As Func(Of PersonLike, (IEmotionSource, Integer)) = Nothing)
   overload: TinyLife.Emotions.EmotionModifier.#ctor*
-  nameWithType.vb: EmotionModifier.New(String, TextureRegion, EmotionType, Func(Of Person, (IEmotionSource, Integer)))
-  fullName.vb: TinyLife.Emotions.EmotionModifier.New(String, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func(Of TinyLife.Objects.Person, (TinyLife.Emotions.IEmotionSource, Integer)))
-  name.vb: New(String, TextureRegion, EmotionType, Func(Of Person, (IEmotionSource, Integer)))
-- uid: TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.Int32})
-  commentId: M:TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.Int32})
-  id: '#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.Person,System.Int32})'
+  nameWithType.vb: EmotionModifier.New(String, TextureRegion, EmotionType, Func(Of PersonLike, (IEmotionSource, Integer)))
+  fullName.vb: TinyLife.Emotions.EmotionModifier.New(String, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func(Of TinyLife.Objects.PersonLike, (TinyLife.Emotions.IEmotionSource, Integer)))
+  name.vb: New(String, TextureRegion, EmotionType, Func(Of PersonLike, (IEmotionSource, Integer)))
+- uid: TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.Int32})
+  commentId: M:TinyLife.Emotions.EmotionModifier.#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.Int32})
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,TinyLife.Emotions.EmotionType,System.Func{TinyLife.Objects.PersonLike,System.Int32})'
   parent: TinyLife.Emotions.EmotionModifier
   langs:
   - csharp
   - vb
-  name: EmotionModifier(string, TextureRegion, EmotionType, Func<Person, int>)
-  nameWithType: EmotionModifier.EmotionModifier(string, TextureRegion, EmotionType, Func<Person, int>)
-  fullName: TinyLife.Emotions.EmotionModifier.EmotionModifier(string, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func<TinyLife.Objects.Person, int>)
+  name: EmotionModifier(string, TextureRegion, EmotionType, Func<PersonLike, int>)
+  nameWithType: EmotionModifier.EmotionModifier(string, TextureRegion, EmotionType, Func<PersonLike, int>)
+  fullName: TinyLife.Emotions.EmotionModifier.EmotionModifier(string, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func<TinyLife.Objects.PersonLike, int>)
   type: Constructor
   source:
     remote:
@@ -5865,14 +5894,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 403
+    startLine: 410
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
   summary: Creates a new emotion modifier with the given settings
   example: []
   syntax:
-    content: public EmotionModifier(string name, TextureRegion icon, EmotionType emotion, Func<Person, int> condition)
+    content: public EmotionModifier(string name, TextureRegion icon, EmotionType emotion, Func<PersonLike, int> condition)
     parameters:
     - id: name
       type: System.String
@@ -5884,51 +5913,13 @@ items:
       type: TinyLife.Emotions.EmotionType
       description: The modifier's resulting emotion type
     - id: condition
-      type: System.Func{TinyLife.Objects.Person,System.Int32}
+      type: System.Func{TinyLife.Objects.PersonLike,System.Int32}
       description: An optional condition for this modifier
-    content.vb: Public Sub New(name As String, icon As TextureRegion, emotion As EmotionType, condition As Func(Of Person, Integer))
+    content.vb: Public Sub New(name As String, icon As TextureRegion, emotion As EmotionType, condition As Func(Of PersonLike, Integer))
   overload: TinyLife.Emotions.EmotionModifier.#ctor*
-  nameWithType.vb: EmotionModifier.New(String, TextureRegion, EmotionType, Func(Of Person, Integer))
-  fullName.vb: TinyLife.Emotions.EmotionModifier.New(String, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func(Of TinyLife.Objects.Person, Integer))
-  name.vb: New(String, TextureRegion, EmotionType, Func(Of Person, Integer))
-- uid: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
-  id: GetCausedEmotion(TinyLife.Objects.Person)
-  parent: TinyLife.Emotions.EmotionModifier
-  langs:
-  - csharp
-  - vb
-  name: GetCausedEmotion(Person)
-  nameWithType: EmotionModifier.GetCausedEmotion(Person)
-  fullName: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
-  type: Method
-  source:
-    remote:
-      path: TinyLife/Emotions/EmotionModifier.cs
-      branch: main
-      repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetCausedEmotion
-    path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 412
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Emotions
-  summary: >-
-    Returns the emotion that is actually caused in the passed <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref>, which is either <xref href="TinyLife.Emotions.EmotionModifier.Emotion" data-throw-if-not-resolved="false"></xref> or a context-dependent override.
-
-    Specifically, this method returns <xref href="TinyLife.Emotions.EmotionType.Happy" data-throw-if-not-resolved="false"></xref> instead of <xref href="TinyLife.Emotions.EmotionType.Frisky" data-throw-if-not-resolved="false"></xref> for a person who is asexual (<xref href="TinyLife.PersonalityType.Asexual" data-throw-if-not-resolved="false"></xref>).
-  example: []
-  syntax:
-    content: public EmotionType GetCausedEmotion(Person person)
-    parameters:
-    - id: person
-      type: TinyLife.Objects.Person
-      description: ''
-    return:
-      type: TinyLife.Emotions.EmotionType
-      description: ''
-    content.vb: Public Function GetCausedEmotion(person As Person) As EmotionType
-  overload: TinyLife.Emotions.EmotionModifier.GetCausedEmotion*
+  nameWithType.vb: EmotionModifier.New(String, TextureRegion, EmotionType, Func(Of PersonLike, Integer))
+  fullName.vb: TinyLife.Emotions.EmotionModifier.New(String, MLEM.Textures.TextureRegion, TinyLife.Emotions.EmotionType, System.Func(Of TinyLife.Objects.PersonLike, Integer))
+  name.vb: New(String, TextureRegion, EmotionType, Func(Of PersonLike, Integer))
 - uid: TinyLife.Emotions.EmotionModifier.GetDisplayName(TinyLife.Emotions.EmotionModifier.Instance)
   commentId: M:TinyLife.Emotions.EmotionModifier.GetDisplayName(TinyLife.Emotions.EmotionModifier.Instance)
   id: GetDisplayName(TinyLife.Emotions.EmotionModifier.Instance)
@@ -5947,7 +5938,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDisplayName
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 428
+    startLine: 420
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -5986,7 +5977,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/Emotions/EmotionModifier.cs
-    startLine: 441
+    startLine: 433
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
@@ -6003,20 +5994,117 @@ items:
       description: The modifier, for chaining
     content.vb: Public Shared Function Register(modifier As EmotionModifier) As EmotionModifier
   overload: TinyLife.Emotions.EmotionModifier.Register*
+- uid: TinyLife.Emotions.EmotionModifier.IfHasPersonality(TinyLife.Objects.PersonLike,TinyLife.PersonalityType,System.Func{System.Double})
+  commentId: M:TinyLife.Emotions.EmotionModifier.IfHasPersonality(TinyLife.Objects.PersonLike,TinyLife.PersonalityType,System.Func{System.Double})
+  id: IfHasPersonality(TinyLife.Objects.PersonLike,TinyLife.PersonalityType,System.Func{System.Double})
+  parent: TinyLife.Emotions.EmotionModifier
+  langs:
+  - csharp
+  - vb
+  name: IfHasPersonality(PersonLike, PersonalityType, Func<double>)
+  nameWithType: EmotionModifier.IfHasPersonality(PersonLike, PersonalityType, Func<double>)
+  fullName: TinyLife.Emotions.EmotionModifier.IfHasPersonality(TinyLife.Objects.PersonLike, TinyLife.PersonalityType, System.Func<double>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Emotions/EmotionModifier.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IfHasPersonality
+    path: ../TinyLife/Emotions/EmotionModifier.cs
+    startLine: 448
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Emotions
+  summary: >-
+    A helper method that returns the given <code class="paramref">value</code> if the given <code class="paramref">person</code> has the given personality <code class="paramref">type</code>.
+
+    This method is intended to be used for the <xref href="TinyLife.Emotions.EmotionModifier.Condition" data-throw-if-not-resolved="false"></xref> of an emotion modifier.
+  example: []
+  syntax:
+    content: public static (IEmotionSource, int) IfHasPersonality(PersonLike person, PersonalityType type, Func<double> value)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person.
+    - id: type
+      type: TinyLife.PersonalityType
+      description: The personality they should have.
+    - id: value
+      type: System.Func{System.Double}
+      description: The value that is returned if they have it.
+    return:
+      type: System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}
+    content.vb: Public Shared Function IfHasPersonality(person As PersonLike, type As PersonalityType, value As Func(Of Double)) As (IEmotionSource, Integer)
+  overload: TinyLife.Emotions.EmotionModifier.IfHasPersonality*
+  nameWithType.vb: EmotionModifier.IfHasPersonality(PersonLike, PersonalityType, Func(Of Double))
+  fullName.vb: TinyLife.Emotions.EmotionModifier.IfHasPersonality(TinyLife.Objects.PersonLike, TinyLife.PersonalityType, System.Func(Of Double))
+  name.vb: IfHasPersonality(PersonLike, PersonalityType, Func(Of Double))
+- uid: TinyLife.Emotions.EmotionModifier.IsObjectAround``1(TinyLife.Objects.PersonLike,System.Int32,System.Func{``0,System.Boolean})
+  commentId: M:TinyLife.Emotions.EmotionModifier.IsObjectAround``1(TinyLife.Objects.PersonLike,System.Int32,System.Func{``0,System.Boolean})
+  id: IsObjectAround``1(TinyLife.Objects.PersonLike,System.Int32,System.Func{``0,System.Boolean})
+  parent: TinyLife.Emotions.EmotionModifier
+  langs:
+  - csharp
+  - vb
+  name: IsObjectAround<T>(PersonLike, int, Func<T, bool>)
+  nameWithType: EmotionModifier.IsObjectAround<T>(PersonLike, int, Func<T, bool>)
+  fullName: TinyLife.Emotions.EmotionModifier.IsObjectAround<T>(TinyLife.Objects.PersonLike, int, System.Func<T, bool>)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/Emotions/EmotionModifier.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: IsObjectAround
+    path: ../TinyLife/Emotions/EmotionModifier.cs
+    startLine: 461
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Emotions
+  summary: >-
+    Returns whether an object with the given type <code class="typeparamref">T</code> that matches the given <code class="paramref">condition</code> is around.
+
+    An object counts as "around" for the purpose of emotion modifiers if it is either in the same room as the <code class="paramref">person</code>, or within the given <code class="paramref">outdoorsRange</code> of the person's position.
+  example: []
+  syntax:
+    content: 'public static bool IsObjectAround<T>(PersonLike person, int outdoorsRange, Func<T, bool> condition = null) where T : MapObject'
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person.
+    - id: outdoorsRange
+      type: System.Int32
+      description: The outdoors range.
+    - id: condition
+      type: System.Func{{T},System.Boolean}
+      description: The condition that the object should match. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, all objects of the given type <code class="typeparamref">T</code> are taken into account.
+    typeParameters:
+    - id: T
+      description: The type that the object needs to have.
+    return:
+      type: System.Boolean
+      description: Whether a matching object is around.
+    content.vb: Public Shared Function IsObjectAround(Of T As MapObject)(person As PersonLike, outdoorsRange As Integer, condition As Func(Of T, Boolean) = Nothing) As Boolean
+  overload: TinyLife.Emotions.EmotionModifier.IsObjectAround*
+  nameWithType.vb: EmotionModifier.IsObjectAround(Of T)(PersonLike, Integer, Func(Of T, Boolean))
+  fullName.vb: TinyLife.Emotions.EmotionModifier.IsObjectAround(Of T)(TinyLife.Objects.PersonLike, Integer, System.Func(Of T, Boolean))
+  name.vb: IsObjectAround(Of T)(PersonLike, Integer, Func(Of T, Boolean))
 references:
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
   parent: TinyLife.Objects
-  href: TinyLife.Objects.Person.html
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
-- uid: TinyLife.Objects.Person.Emotion
-  commentId: P:TinyLife.Objects.Person.Emotion
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Emotion
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: TinyLife.Objects.PersonLike.Emotion
+  commentId: P:TinyLife.Objects.PersonLike.Emotion
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Emotion
   name: Emotion
-  nameWithType: Person.Emotion
-  fullName: TinyLife.Objects.Person.Emotion
+  nameWithType: PersonLike.Emotion
+  fullName: TinyLife.Objects.PersonLike.Emotion
 - uid: TinyLife.Emotions.EmotionModifier.Instance.Amount
   commentId: F:TinyLife.Emotions.EmotionModifier.Instance.Amount
   href: TinyLife.Emotions.EmotionModifier.Instance.html#TinyLife_Emotions_EmotionModifier_Instance_Amount
@@ -6029,20 +6117,21 @@ references:
   name: Condition
   nameWithType: EmotionModifier.Condition
   fullName: TinyLife.Emotions.EmotionModifier.Condition
-- uid: TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
-  commentId: M:TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
+- uid: TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
   name: AddEmotion(EmotionModifier, int, TimeSpan, IEmotionSource, bool)
-  nameWithType: Person.AddEmotion(EmotionModifier, int, TimeSpan, IEmotionSource, bool)
-  fullName: TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier, int, System.TimeSpan, TinyLife.Emotions.IEmotionSource, bool)
-  nameWithType.vb: Person.AddEmotion(EmotionModifier, Integer, TimeSpan, IEmotionSource, Boolean)
-  fullName.vb: TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier, Integer, System.TimeSpan, TinyLife.Emotions.IEmotionSource, Boolean)
+  nameWithType: PersonLike.AddEmotion(EmotionModifier, int, TimeSpan, IEmotionSource, bool)
+  fullName: TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier, int, System.TimeSpan, TinyLife.Emotions.IEmotionSource, bool)
+  nameWithType.vb: PersonLike.AddEmotion(EmotionModifier, Integer, TimeSpan, IEmotionSource, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier, Integer, System.TimeSpan, TinyLife.Emotions.IEmotionSource, Boolean)
   name.vb: AddEmotion(EmotionModifier, Integer, TimeSpan, IEmotionSource, Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
+  - uid: TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
     name: AddEmotion
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
   - name: (
   - uid: TinyLife.Emotions.EmotionModifier
     name: EmotionModifier
@@ -6072,9 +6161,9 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Person.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
+  - uid: TinyLife.Objects.PersonLike.AddEmotion(TinyLife.Emotions.EmotionModifier,System.Int32,System.TimeSpan,TinyLife.Emotions.IEmotionSource,System.Boolean)
     name: AddEmotion
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
   - name: (
   - uid: TinyLife.Emotions.EmotionModifier
     name: EmotionModifier
@@ -6629,6 +6718,63 @@ references:
     href: TinyLife.Emotions.EmotionModifier.html
   - name: (
   - name: )
+- uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}[]
+  isExternal: true
+  href: TinyLife.Emotions.EmotionModifier.html
+  name: (EmotionModifier Modifier, int Weight)[]
+  nameWithType: (EmotionModifier Modifier, int Weight)[]
+  fullName: (TinyLife.Emotions.EmotionModifier Modifier, int Weight)[]
+  nameWithType.vb: (Modifier As EmotionModifier, Weight As Integer)()
+  fullName.vb: (Modifier As TinyLife.Emotions.EmotionModifier, Weight As Integer)()
+  name.vb: (Modifier As EmotionModifier, Weight As Integer)()
+  spec.csharp:
+  - name: (
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    href: TinyLife.Emotions.EmotionModifier.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}.Modifier
+    name: Modifier
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.emotions.emotionmodifier,system.int32-.modifier
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}.Weight
+    name: Weight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.emotions.emotionmodifier,system.int32-.weight
+  - name: )
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}.Modifier
+    name: Modifier
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.emotions.emotionmodifier,system.int32-.modifier
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    href: TinyLife.Emotions.EmotionModifier.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}.Weight
+    name: Weight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.emotions.emotionmodifier,system.int32-.weight
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: (
+  - name: )
 - uid: System.String
   commentId: T:System.String
   parent: System
@@ -6676,50 +6822,51 @@ references:
   name: EmotionType
   nameWithType: EmotionType
   fullName: TinyLife.Emotions.EmotionType
-- uid: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
-  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_GetCausedEmotion_TinyLife_Objects_Person_
-  name: GetCausedEmotion(Person)
-  nameWithType: EmotionModifier.GetCausedEmotion(Person)
-  fullName: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
+- uid: TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
+  commentId: M:TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetCausedEmotion_TinyLife_Emotions_EmotionModifier_
+  name: GetCausedEmotion(EmotionModifier)
+  nameWithType: PersonLike.GetCausedEmotion(EmotionModifier)
+  fullName: TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
   spec.csharp:
-  - uid: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
+  - uid: TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
     name: GetCausedEmotion
-    href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_GetCausedEmotion_TinyLife_Objects_Person_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetCausedEmotion_TinyLife_Emotions_EmotionModifier_
   - name: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    href: TinyLife.Emotions.EmotionModifier.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Emotions.EmotionModifier.GetCausedEmotion(TinyLife.Objects.Person)
+  - uid: TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
     name: GetCausedEmotion
-    href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_GetCausedEmotion_TinyLife_Objects_Person_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetCausedEmotion_TinyLife_Emotions_EmotionModifier_
   - name: (
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Emotions.EmotionModifier
+    name: EmotionModifier
+    href: TinyLife.Emotions.EmotionModifier.html
   - name: )
-- uid: System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
-  commentId: T:System.Func{TinyLife.Objects.Person,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
+- uid: System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
+  commentId: T:System.Func{TinyLife.Objects.PersonLike,System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}}
   parent: System
   definition: System.Func`2
   href: https://learn.microsoft.com/dotnet/api/system.func-2
-  name: Func<Person, (IEmotionSource, int)>
-  nameWithType: Func<Person, (IEmotionSource, int)>
-  fullName: System.Func<TinyLife.Objects.Person, (TinyLife.Emotions.IEmotionSource, int)>
-  nameWithType.vb: Func(Of Person, (IEmotionSource, Integer))
-  fullName.vb: System.Func(Of TinyLife.Objects.Person, (TinyLife.Emotions.IEmotionSource, Integer))
-  name.vb: Func(Of Person, (IEmotionSource, Integer))
+  name: Func<PersonLike, (IEmotionSource, int)>
+  nameWithType: Func<PersonLike, (IEmotionSource, int)>
+  fullName: System.Func<TinyLife.Objects.PersonLike, (TinyLife.Emotions.IEmotionSource, int)>
+  nameWithType.vb: Func(Of PersonLike, (IEmotionSource, Integer))
+  fullName.vb: System.Func(Of TinyLife.Objects.PersonLike, (TinyLife.Emotions.IEmotionSource, Integer))
+  name.vb: Func(Of PersonLike, (IEmotionSource, Integer))
   spec.csharp:
   - uid: System.Func`2
     name: Func
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - name: (
@@ -6742,9 +6889,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - name: (
@@ -7034,33 +7181,33 @@ references:
   fullName: TinyLife.Emotions.EmotionModifier.OnConditionUnmet
 - uid: TinyLife.Emotions.EmotionModifier.#ctor*
   commentId: Overload:TinyLife.Emotions.EmotionModifier.#ctor
-  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier__ctor_System_String_MLEM_Textures_TextureRegion_TinyLife_Emotions_EmotionType_System_Func_TinyLife_Objects_Person_System_ValueTuple_TinyLife_Emotions_IEmotionSource_System_Int32___
+  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier__ctor_System_String_MLEM_Textures_TextureRegion_TinyLife_Emotions_EmotionType_System_Func_TinyLife_Objects_PersonLike_System_ValueTuple_TinyLife_Emotions_IEmotionSource_System_Int32___
   name: EmotionModifier
   nameWithType: EmotionModifier.EmotionModifier
   fullName: TinyLife.Emotions.EmotionModifier.EmotionModifier
   nameWithType.vb: EmotionModifier.New
   fullName.vb: TinyLife.Emotions.EmotionModifier.New
   name.vb: New
-- uid: System.Func{TinyLife.Objects.Person,System.Int32}
-  commentId: T:System.Func{TinyLife.Objects.Person,System.Int32}
+- uid: System.Func{TinyLife.Objects.PersonLike,System.Int32}
+  commentId: T:System.Func{TinyLife.Objects.PersonLike,System.Int32}
   parent: System
   definition: System.Func`2
   href: https://learn.microsoft.com/dotnet/api/system.func-2
-  name: Func<Person, int>
-  nameWithType: Func<Person, int>
-  fullName: System.Func<TinyLife.Objects.Person, int>
-  nameWithType.vb: Func(Of Person, Integer)
-  fullName.vb: System.Func(Of TinyLife.Objects.Person, Integer)
-  name.vb: Func(Of Person, Integer)
+  name: Func<PersonLike, int>
+  nameWithType: Func<PersonLike, int>
+  fullName: System.Func<TinyLife.Objects.PersonLike, int>
+  nameWithType.vb: Func(Of PersonLike, Integer)
+  fullName.vb: System.Func(Of TinyLife.Objects.PersonLike, Integer)
+  name.vb: Func(Of PersonLike, Integer)
   spec.csharp:
   - uid: System.Func`2
     name: Func
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - uid: System.Int32
@@ -7076,9 +7223,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - uid: System.Int32
@@ -7086,36 +7233,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
-- uid: TinyLife.Emotions.EmotionModifier.Emotion
-  commentId: F:TinyLife.Emotions.EmotionModifier.Emotion
-  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_Emotion
-  name: Emotion
-  nameWithType: EmotionModifier.Emotion
-  fullName: TinyLife.Emotions.EmotionModifier.Emotion
-- uid: TinyLife.Emotions.EmotionType.Happy
-  commentId: F:TinyLife.Emotions.EmotionType.Happy
-  href: TinyLife.Emotions.EmotionType.html#TinyLife_Emotions_EmotionType_Happy
-  name: Happy
-  nameWithType: EmotionType.Happy
-  fullName: TinyLife.Emotions.EmotionType.Happy
-- uid: TinyLife.Emotions.EmotionType.Frisky
-  commentId: F:TinyLife.Emotions.EmotionType.Frisky
-  href: TinyLife.Emotions.EmotionType.html#TinyLife_Emotions_EmotionType_Frisky
-  name: Frisky
-  nameWithType: EmotionType.Frisky
-  fullName: TinyLife.Emotions.EmotionType.Frisky
-- uid: TinyLife.PersonalityType.Asexual
-  commentId: F:TinyLife.PersonalityType.Asexual
-  href: TinyLife.PersonalityType.html#TinyLife_PersonalityType_Asexual
-  name: Asexual
-  nameWithType: PersonalityType.Asexual
-  fullName: TinyLife.PersonalityType.Asexual
-- uid: TinyLife.Emotions.EmotionModifier.GetCausedEmotion*
-  commentId: Overload:TinyLife.Emotions.EmotionModifier.GetCausedEmotion
-  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_GetCausedEmotion_TinyLife_Objects_Person_
-  name: GetCausedEmotion
-  nameWithType: EmotionModifier.GetCausedEmotion
-  fullName: TinyLife.Emotions.EmotionModifier.GetCausedEmotion
 - uid: TinyLife.Emotions.EmotionModifier.DisplayName
   commentId: P:TinyLife.Emotions.EmotionModifier.DisplayName
   href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_DisplayName
@@ -7153,3 +7270,208 @@ references:
   name: Register
   nameWithType: EmotionModifier.Register
   fullName: TinyLife.Emotions.EmotionModifier.Register
+- uid: TinyLife.Emotions.EmotionModifier.IfHasPersonality*
+  commentId: Overload:TinyLife.Emotions.EmotionModifier.IfHasPersonality
+  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_IfHasPersonality_TinyLife_Objects_PersonLike_TinyLife_PersonalityType_System_Func_System_Double__
+  name: IfHasPersonality
+  nameWithType: EmotionModifier.IfHasPersonality
+  fullName: TinyLife.Emotions.EmotionModifier.IfHasPersonality
+- uid: TinyLife.PersonalityType
+  commentId: T:TinyLife.PersonalityType
+  parent: TinyLife
+  href: TinyLife.PersonalityType.html
+  name: PersonalityType
+  nameWithType: PersonalityType
+  fullName: TinyLife.PersonalityType
+- uid: System.Func{System.Double}
+  commentId: T:System.Func{System.Double}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<double>
+  nameWithType: Func<double>
+  fullName: System.Func<double>
+  nameWithType.vb: Func(Of Double)
+  fullName.vb: System.Func(Of Double)
+  name.vb: Func(Of Double)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - uid: System.Double
+    name: double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Double
+    name: Double
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.double
+  - name: )
+- uid: System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}
+  commentId: T:System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}
+  parent: System
+  definition: System.ValueTuple`2
+  href: TinyLife.Emotions.IEmotionSource.html
+  name: (IEmotionSource, int)
+  nameWithType: (IEmotionSource, int)
+  fullName: (TinyLife.Emotions.IEmotionSource, int)
+  nameWithType.vb: (IEmotionSource, Integer)
+  fullName.vb: (TinyLife.Emotions.IEmotionSource, Integer)
+  name.vb: (IEmotionSource, Integer)
+  spec.csharp:
+  - name: (
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - name: (
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: TinyLife
+  commentId: N:TinyLife
+  href: TinyLife.html
+  name: TinyLife
+  nameWithType: TinyLife
+  fullName: TinyLife
+- uid: System.Func`1
+  commentId: T:System.Func`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<TResult>
+  nameWithType: Func<TResult>
+  fullName: System.Func<TResult>
+  nameWithType.vb: Func(Of TResult)
+  fullName.vb: System.Func(Of TResult)
+  name.vb: Func(Of TResult)
+  spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: System.ValueTuple`2
+  commentId: T:System.ValueTuple`2
+  name: (T1, T2)
+  nameWithType: (T1, T2)
+  fullName: (T1, T2)
+  spec.csharp:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+  spec.vb:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: TinyLife.Emotions.EmotionModifier.IsObjectAround*
+  commentId: Overload:TinyLife.Emotions.EmotionModifier.IsObjectAround
+  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_IsObjectAround__1_TinyLife_Objects_PersonLike_System_Int32_System_Func___0_System_Boolean__
+  name: IsObjectAround
+  nameWithType: EmotionModifier.IsObjectAround
+  fullName: TinyLife.Emotions.EmotionModifier.IsObjectAround
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
+- uid: System.Func{{T},System.Boolean}
+  commentId: T:System.Func{``0,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, bool>
+  nameWithType: Func<T, bool>
+  fullName: System.Func<T, bool>
+  nameWithType.vb: Func(Of T, Boolean)
+  fullName.vb: System.Func(Of T, Boolean)
+  name.vb: Func(Of T, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean

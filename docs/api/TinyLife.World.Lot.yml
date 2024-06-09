@@ -10,14 +10,15 @@ items:
   - TinyLife.World.Lot.Area
   - TinyLife.World.Lot.CanImport(TinyLife.World.ExportedLot)
   - TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IEnumerable{TinyLife.Objects.AgeGroup},System.Func{System.Int32,System.Int32,System.Boolean})
-  - TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.Person})
+  - TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.PersonLike})
   - TinyLife.World.Lot.CanOccupy(System.ValueTuple{System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}})
-  - TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.Person)
+  - TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.PersonLike)
+  - TinyLife.World.Lot.Clear(System.Boolean,System.Boolean)
   - TinyLife.World.Lot.Export
   - TinyLife.World.Lot.GetCoveredArea
   - TinyLife.World.Lot.GetDefaultTile
   - TinyLife.World.Lot.GetFrontDoor
-  - TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.Person)
+  - TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.PersonLike)
   - TinyLife.World.Lot.GetObjects``1
   - TinyLife.World.Lot.GetPrice
   - TinyLife.World.Lot.GetRoofs
@@ -711,16 +712,16 @@ items:
       description: The lot's front door, or null if there is none.
     content.vb: Public Function GetFrontDoor() As (Wall As Wall, OutdoorPos As Vector2)
   overload: TinyLife.World.Lot.GetFrontDoor*
-- uid: TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.Person)
-  commentId: M:TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.Person)
-  id: GetHomeLocation(TinyLife.Objects.Person)
+- uid: TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.PersonLike)
+  id: GetHomeLocation(TinyLife.Objects.PersonLike)
   parent: TinyLife.World.Lot
   langs:
   - csharp
   - vb
-  name: GetHomeLocation(Person)
-  nameWithType: Lot.GetHomeLocation(Person)
-  fullName: TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.Person)
+  name: GetHomeLocation(PersonLike)
+  nameWithType: Lot.GetHomeLocation(PersonLike)
+  fullName: TinyLife.World.Lot.GetHomeLocation(TinyLife.Objects.PersonLike)
   type: Method
   source:
     remote:
@@ -734,20 +735,20 @@ items:
   - Tiny Life
   namespace: TinyLife.World
   summary: >-
-    Returns the home location of the given <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> on this lot.
+    Returns the home location of the given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> on this lot.
 
-    The home position is the position of the front door, or the closest border position to the passed <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> otherwise.
+    The home position is the position of the front door, or the closest border position to the passed <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> otherwise.
   example: []
   syntax:
-    content: public Vector2 GetHomeLocation(Person person)
+    content: public Vector2 GetHomeLocation(PersonLike person)
     parameters:
     - id: person
-      type: TinyLife.Objects.Person
+      type: TinyLife.Objects.PersonLike
       description: The person whose home location to retrieve
     return:
       type: Microsoft.Xna.Framework.Vector2
       description: The person's home location on this lot
-    content.vb: Public Function GetHomeLocation(person As Person) As Vector2
+    content.vb: Public Function GetHomeLocation(person As PersonLike) As Vector2
   overload: TinyLife.World.Lot.GetHomeLocation*
 - uid: TinyLife.World.Lot.GetPrice
   commentId: M:TinyLife.World.Lot.GetPrice
@@ -969,16 +970,16 @@ items:
       description: The area that this lot covers
     content.vb: Public Function GetCoveredArea() As RectangleF
   overload: TinyLife.World.Lot.GetCoveredArea*
-- uid: TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.Person)
-  commentId: M:TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.Person)
-  id: CanVisitRightNow(TinyLife.Objects.Person)
+- uid: TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.PersonLike)
+  id: CanVisitRightNow(TinyLife.Objects.PersonLike)
   parent: TinyLife.World.Lot
   langs:
   - csharp
   - vb
-  name: CanVisitRightNow(Person)
-  nameWithType: Lot.CanVisitRightNow(Person)
-  fullName: TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.Person)
+  name: CanVisitRightNow(PersonLike)
+  nameWithType: Lot.CanVisitRightNow(PersonLike)
+  fullName: TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.PersonLike)
   type: Method
   source:
     remote:
@@ -994,18 +995,18 @@ items:
   summary: >-
     Determines whether the given <code class="paramref">person</code> can automatically choose to visit this lot right now.
 
-    Various data is considered, including the <xref href="TinyLife.World.Household.DisallowFriendsVisiting" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.Household.DisallowStrangersVisiting" data-throw-if-not-resolved="false"></xref> settings, as well as this lot's <xref href="TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot%2cTinyLife.Objects.Person%2cSystem.Nullable%7bSystem.TimeSpan%7d)" data-throw-if-not-resolved="false"></xref>.
+    Various data is considered, including the <xref href="TinyLife.World.Household.DisallowFriendsVisiting" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.Household.DisallowStrangersVisiting" data-throw-if-not-resolved="false"></xref> settings, as well as this lot's <xref href="TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot%2cTinyLife.Objects.PersonLike%2cSystem.Nullable%7bSystem.TimeSpan%7d)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public bool CanVisitRightNow(Person person)
+    content: public bool CanVisitRightNow(PersonLike person)
     parameters:
     - id: person
-      type: TinyLife.Objects.Person
+      type: TinyLife.Objects.PersonLike
       description: The person.
     return:
       type: System.Boolean
       description: Whether the person can automatically visit this lot right now.
-    content.vb: Public Function CanVisitRightNow(person As Person) As Boolean
+    content.vb: Public Function CanVisitRightNow(person As PersonLike) As Boolean
   overload: TinyLife.World.Lot.CanVisitRightNow*
 - uid: TinyLife.World.Lot.HasBasicAmenities
   commentId: M:TinyLife.World.Lot.HasBasicAmenities
@@ -1079,16 +1080,16 @@ items:
   nameWithType.vb: Lot.CanOccupy((List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)))
   fullName.vb: TinyLife.World.Lot.CanOccupy((System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation)))
   name.vb: CanOccupy((List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Relation)))
-- uid: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.Person})
-  commentId: M:TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.Person})
-  id: CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.Person})
+- uid: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.PersonLike})
+  commentId: M:TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.PersonLike})
+  id: CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.PersonLike})
   parent: TinyLife.World.Lot
   langs:
   - csharp
   - vb
-  name: CanOccupy(IList<Person>)
-  nameWithType: Lot.CanOccupy(IList<Person>)
-  fullName: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList<TinyLife.Objects.Person>)
+  name: CanOccupy(IList<PersonLike>)
+  nameWithType: Lot.CanOccupy(IList<PersonLike>)
+  fullName: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList<TinyLife.Objects.PersonLike>)
   type: Method
   source:
     remote:
@@ -1104,19 +1105,19 @@ items:
   summary: Whether the given set of household members can occupy this lot.
   example: []
   syntax:
-    content: public bool CanOccupy(IList<Person> householdMembers)
+    content: public bool CanOccupy(IList<PersonLike> householdMembers)
     parameters:
     - id: householdMembers
-      type: System.Collections.Generic.IList{TinyLife.Objects.Person}
+      type: System.Collections.Generic.IList{TinyLife.Objects.PersonLike}
       description: The household members.
     return:
       type: System.Boolean
       description: Whether the household can occupy this lot.
-    content.vb: Public Function CanOccupy(householdMembers As IList(Of Person)) As Boolean
+    content.vb: Public Function CanOccupy(householdMembers As IList(Of PersonLike)) As Boolean
   overload: TinyLife.World.Lot.CanOccupy*
-  nameWithType.vb: Lot.CanOccupy(IList(Of Person))
-  fullName.vb: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList(Of TinyLife.Objects.Person))
-  name.vb: CanOccupy(IList(Of Person))
+  nameWithType.vb: Lot.CanOccupy(IList(Of PersonLike))
+  fullName.vb: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList(Of TinyLife.Objects.PersonLike))
+  name.vb: CanOccupy(IList(Of PersonLike))
 - uid: TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IEnumerable{TinyLife.Objects.AgeGroup},System.Func{System.Int32,System.Int32,System.Boolean})
   commentId: M:TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IEnumerable{TinyLife.Objects.AgeGroup},System.Func{System.Int32,System.Int32,System.Boolean})
   id: CanOccupy(System.Collections.Generic.IEnumerable{TinyLife.Objects.AgeGroup},System.Func{System.Int32,System.Int32,System.Boolean})
@@ -1192,6 +1193,44 @@ items:
       description: A combined flag that represents the ages that can potentially occupy this lot.
     content.vb: Public Function GetValidOccupyingAges() As AgeGroup
   overload: TinyLife.World.Lot.GetValidOccupyingAges*
+- uid: TinyLife.World.Lot.Clear(System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.Lot.Clear(System.Boolean,System.Boolean)
+  id: Clear(System.Boolean,System.Boolean)
+  parent: TinyLife.World.Lot
+  langs:
+  - csharp
+  - vb
+  name: Clear(bool, bool)
+  nameWithType: Lot.Clear(bool, bool)
+  fullName: TinyLife.World.Lot.Clear(bool, bool)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Lot.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: Clear
+    path: ../TinyLife/World/Lot.cs
+    startLine: 515
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: Clears this lot, removing all objects from it.
+  example: []
+  syntax:
+    content: public void Clear(bool force, bool unlinkParentsAndChildren)
+    parameters:
+    - id: force
+      type: System.Boolean
+      description: Whether objects that have the <xref href="TinyLife.Objects.ObjectCategory.NonSellable" data-throw-if-not-resolved="false"></xref> category should also be removed.
+    - id: unlinkParentsAndChildren
+      type: System.Boolean
+      description: Whether the <xref href="TinyLife.Objects.Furniture.UnlinkParentsAndChildren" data-throw-if-not-resolved="false"></xref> method should be called for any <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> removed from this lot.
+    content.vb: Public Sub Clear(force As Boolean, unlinkParentsAndChildren As Boolean)
+  overload: TinyLife.World.Lot.Clear*
+  nameWithType.vb: Lot.Clear(Boolean, Boolean)
+  fullName.vb: TinyLife.World.Lot.Clear(Boolean, Boolean)
+  name.vb: Clear(Boolean, Boolean)
 references:
 - uid: TinyLife.Tools.LotTool
   commentId: T:TinyLife.Tools.LotTool
@@ -2492,16 +2531,16 @@ references:
   - name: " "
   - name: T2
   - name: )
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
   parent: TinyLife.Objects
-  href: TinyLife.Objects.Person.html
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
 - uid: TinyLife.World.Lot.GetHomeLocation*
   commentId: Overload:TinyLife.World.Lot.GetHomeLocation
-  href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetHomeLocation_TinyLife_Objects_Person_
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetHomeLocation_TinyLife_Objects_PersonLike_
   name: GetHomeLocation
   nameWithType: Lot.GetHomeLocation
   fullName: TinyLife.World.Lot.GetHomeLocation
@@ -2697,26 +2736,26 @@ references:
   name: DisallowStrangersVisiting
   nameWithType: Household.DisallowStrangersVisiting
   fullName: TinyLife.World.Household.DisallowStrangersVisiting
-- uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
-  commentId: M:TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+- uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.PersonLike,System.Nullable{System.TimeSpan})
+  commentId: M:TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.PersonLike,System.Nullable{System.TimeSpan})
   isExternal: true
-  href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_Person_System_Nullable_System_TimeSpan__
-  name: GetCurrentVisitPriority(Lot, Person, TimeSpan?)
-  nameWithType: LotType.GetCurrentVisitPriority(Lot, Person, TimeSpan?)
-  fullName: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot, TinyLife.Objects.Person, System.TimeSpan?)
+  href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_PersonLike_System_Nullable_System_TimeSpan__
+  name: GetCurrentVisitPriority(Lot, PersonLike, TimeSpan?)
+  nameWithType: LotType.GetCurrentVisitPriority(Lot, PersonLike, TimeSpan?)
+  fullName: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot, TinyLife.Objects.PersonLike, System.TimeSpan?)
   spec.csharp:
-  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.PersonLike,System.Nullable{System.TimeSpan})
     name: GetCurrentVisitPriority
-    href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_Person_System_Nullable_System_TimeSpan__
+    href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_PersonLike_System_Nullable_System_TimeSpan__
   - name: (
   - uid: TinyLife.World.Lot
     name: Lot
     href: TinyLife.World.Lot.html
   - name: ','
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - uid: System.TimeSpan
@@ -2726,18 +2765,18 @@ references:
   - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.Person,System.Nullable{System.TimeSpan})
+  - uid: TinyLife.World.LotType.GetCurrentVisitPriority(TinyLife.World.Lot,TinyLife.Objects.PersonLike,System.Nullable{System.TimeSpan})
     name: GetCurrentVisitPriority
-    href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_Person_System_Nullable_System_TimeSpan__
+    href: TinyLife.World.LotType.html#TinyLife_World_LotType_GetCurrentVisitPriority_TinyLife_World_Lot_TinyLife_Objects_PersonLike_System_Nullable_System_TimeSpan__
   - name: (
   - uid: TinyLife.World.Lot
     name: Lot
     href: TinyLife.World.Lot.html
   - name: ','
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
   - uid: System.TimeSpan
@@ -2748,7 +2787,7 @@ references:
   - name: )
 - uid: TinyLife.World.Lot.CanVisitRightNow*
   commentId: Overload:TinyLife.World.Lot.CanVisitRightNow
-  href: TinyLife.World.Lot.html#TinyLife_World_Lot_CanVisitRightNow_TinyLife_Objects_Person_
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_CanVisitRightNow_TinyLife_Objects_PersonLike_
   name: CanVisitRightNow
   nameWithType: Lot.CanVisitRightNow
   fullName: TinyLife.World.Lot.CanVisitRightNow
@@ -2926,26 +2965,26 @@ references:
     href: TinyLife.World.Household.Relation.html
   - name: )
   - name: )
-- uid: System.Collections.Generic.IList{TinyLife.Objects.Person}
-  commentId: T:System.Collections.Generic.IList{TinyLife.Objects.Person}
+- uid: System.Collections.Generic.IList{TinyLife.Objects.PersonLike}
+  commentId: T:System.Collections.Generic.IList{TinyLife.Objects.PersonLike}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IList`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
-  name: IList<Person>
-  nameWithType: IList<Person>
-  fullName: System.Collections.Generic.IList<TinyLife.Objects.Person>
-  nameWithType.vb: IList(Of Person)
-  fullName.vb: System.Collections.Generic.IList(Of TinyLife.Objects.Person)
-  name.vb: IList(Of Person)
+  name: IList<PersonLike>
+  nameWithType: IList<PersonLike>
+  fullName: System.Collections.Generic.IList<TinyLife.Objects.PersonLike>
+  nameWithType.vb: IList(Of PersonLike)
+  fullName.vb: System.Collections.Generic.IList(Of TinyLife.Objects.PersonLike)
+  name.vb: IList(Of PersonLike)
   spec.csharp:
   - uid: System.Collections.Generic.IList`1
     name: IList
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ilist-1
   - name: <
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.IList`1
@@ -2955,9 +2994,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.Person
-    name: Person
-    href: TinyLife.Objects.Person.html
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
   - name: )
 - uid: System.Collections.Generic.IList`1
   commentId: T:System.Collections.Generic.IList`1
@@ -3132,3 +3171,28 @@ references:
   name: GetValidOccupyingAges
   nameWithType: Lot.GetValidOccupyingAges
   fullName: TinyLife.World.Lot.GetValidOccupyingAges
+- uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  commentId: M:TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+  parent: TinyLife.Objects.Furniture
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_UnlinkParentsAndChildren
+  name: UnlinkParentsAndChildren()
+  nameWithType: Furniture.UnlinkParentsAndChildren()
+  fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren()
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_UnlinkParentsAndChildren
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
+    name: UnlinkParentsAndChildren
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_UnlinkParentsAndChildren
+  - name: (
+  - name: )
+- uid: TinyLife.World.Lot.Clear*
+  commentId: Overload:TinyLife.World.Lot.Clear
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_Clear_System_Boolean_System_Boolean_
+  name: Clear
+  nameWithType: Lot.Clear
+  fullName: TinyLife.World.Lot.Clear
