@@ -1,3 +1,66 @@
+# 0.42.0
+*June 6, 2024*
+
+![](media/changelog/0.42.0.png)
+
+> Plenty of Personalities and Different Difficulties
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.42.0/).**
+
+Additions
+- Added the Homebody, Daydreamer, Cheerful and Brave personalities
+- Added the ability to set the game's difficulty level between Chill, Normal and Intense modes in the gameplay options. Difficulty influences skill building, relationship gain, need reduction, and more.
+
+Improvements
+- Increased the maximum amount of personalities for adults from 2 to 3, and for children from 1 to 2. To edit the personalities of your existing Tinies, you can use the `EditPerson` [cheat](https://docs.tinylifegame.com/articles/cheats.html).
+- Improved the way that lot staff chooses objects to prepare orders with
+- Improved random generation style choices to make them a bit more consistent
+- Make clear what exactly is missing when trying to exit the character creator
+- Improved performance when adding and removing objects, walls, stairs, roofs and lights
+- Made more specific emotion types with the same amount be prioritized over Happy, Uncomfortable and Fine
+- Various actions now take a randomized amount of time, rather than a fixed amount
+- Order personality types by name
+- Made Tinies that live on lots with missing amenities automatically leave town to fill their needs elsewhere if they're unplayed
+- Don't automatically generate a babysitter for a map when none are needed yet
+- Change the baby's last name automatically when adopting or having one
+- Scroll the color selection menu if necessary to avoid UI elements overlapping each other
+- Made emergency food delivery only occur in the Chill difficulty
+- Display a Tiny's pronouns and reproductive abilities in their About tab
+- Made children not immediately eat food they made on the child stove
+- Only focus the camera on dying people if at least one household member knows them
+- Made the chance of fooling around failing lower the higher the romance level is
+- Made the Illusion of Bridge debug object be only the ground part, rather than the ground and fence. Fences can now be placed on top to allow more variety in bridge styles.
+
+Fixes
+- Fixed an exception when a possible romantic partner is removed during an action
+- Fixed the bar in Maple Plains City being inaccessible for ordering
+- Fixed an exception when no valid position to order or view art from is found
+- Fixed an issue where the game would sometimes stick around after closing
+- Fixed babies being able to get some child-and-up emotions
+- Fixed controls hint options box not having a correct default value
+- Fixed people being able to put babies down through walls
+- Fixed mean people not having higher success chances in social actions if their charisma skill is higher
+- Fixed large objects escaping their build mode buttons
+- Fixed various personality types not counting for both partners of an interaction
+- Fixed chatting on the computer displaying friendship particles on the other person
+- Fixed relationship bars in action argument menus being mouseable
+- Fixed multiple outfits being generated for adoptable children, even if they don't match their intentions
+- Fixed lot previous working incorrectly with auto-tiles like paths and water
+- Fixed children being able to hire a babysitter
+- Fixed Tinies leaving public lots immediately when asked to visit sometimes
+- Fixed bees still going through walls
+- Fixed babies not being able to interact with other babies
+- Fixed getting unbalanced diet emotions from drinks
+
+API
+- Split Person out into Person and PersonLike to allow for mods and future game content to feature other person-like objects like animals, and allow actions, personality types and more to be restricted to specific PersonLike types
+- Made some more helper and extension methods public
+- Made actions have the ability to last a random amount of time easily
+- Allow specifying emotes directly, rather than just categories
+- Added events for selection handler selection changes
+- More aggressively ensure that mods only use their assigned Harmony instances
+- Fixed Harmony not working correctly due to an incompatibility with .NET 8
+
 # 0.41.2
 *May 1, 2024*
 
