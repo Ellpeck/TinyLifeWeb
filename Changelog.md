@@ -1,3 +1,23 @@
+# 0.42.2
+*June 15, 2024*
+
+Additions
+- Added an accessibility setting that pauses the game when the interaction menu is open
+
+Improvements
+- Don't allow the jungle gym to be close to walls
+- Roofs on the same floor are now hidden when the walls are fully down
+- Steam Workshop item tags are now updated when updating an existing item
+
+Fixes
+- Fixed lot previews throwing an exception on small maps
+- Fixed tall objects like trees being drawn behind walls on higher floors
+- Fixed pathfinding exceptions not being handled gracefully, causing the game to crash
+
+API
+- Added construction events for furniture and action types
+- Made various additional API methods public
+
 # 0.42.1
 *June 6, 2024*
 
