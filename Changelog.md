@@ -1,3 +1,12 @@
+# 0.42.3
+*June 17, 2024*
+
+Improvements
+- Allow selecting multiple maps immediately when starting a new game
+
+Fixes
+- Fixed being unable to hire babysitters on maps that didn't already have one prior to 0.42.0
+
 # 0.42.2
 *June 15, 2024*
 
