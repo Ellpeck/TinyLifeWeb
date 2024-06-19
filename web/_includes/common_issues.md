@@ -2,6 +2,13 @@
 
 If you're struggling with solving any of these issues yourself, feel free to ask for help in [the Discord server](https://link.tinylifegame.com/discordweb).
 
+# A Tiny is stuck or stopped taking care of their needs
+There's a rare bug going around where Tinies who are regular visitors or from a different household will get stuck and stop taking care of their needs. There are several steps you can take to fix these Tinies:
+- First of all, please **dump their data** and share it through [the feedback form](https://tinylifegame.com/bugreport) so we can get this issue fixed. You can dump their data through the `DumpObjectInfo` [cheat](https://docs.tinylifegame.com/articles/cheats.html) or, with the `ShowDebugActions` cheat enabled, by selecting "Dump Info" on them. Instead, you can also share the entire [save file](https://docs.tinylifegame.com/articles/game_dir.html) through the feedback form before fixing them.
+- Reset their action queue using the `ClearActions` [cheat](https://docs.tinylifegame.com/articles/cheats.html) or, with the `ShowDebugActions` cheat enabled, by selecting "Clear Actions" on them.
+- Force them to go home using the `GoHome` [cheat](https://docs.tinylifegame.com/articles/cheats.html) or, with the `ShowDebugActions` cheat enabled, by selecting "Force Go Home" on them.
+- Reset their location entirely using the `ResetLocation` [cheat](https://docs.tinylifegame.com/articles/cheats.html) or, with the `ShowDebugActions` cheat enabled, by selecting "Reset Location" on them.
+
 # My save files aren't synchronized through Steam Cloud
 Cloud storage in Tiny Life has to be enabled individually for each save file that you want to back up and synchronize.
 

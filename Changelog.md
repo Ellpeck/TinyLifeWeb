@@ -1,3 +1,9 @@
+# 0.42.4
+*June 19, 2024*
+
+Additions
+- Added various additional debugging [cheats](https://docs.tinylifegame.com/articles/cheats.html) and debug actions to help players debug common issues
+
 # 0.42.3
 *June 17, 2024*
 
