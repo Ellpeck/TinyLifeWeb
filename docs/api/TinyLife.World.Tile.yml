@@ -13,7 +13,7 @@ items:
   - TinyLife.World.Tile.Colors
   - TinyLife.World.Tile.Draw(Microsoft.Xna.Framework.GameTime,System.Object,TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,System.Func{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile})
   - TinyLife.World.Tile.DrawUi(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Single)
-  - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
+  - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
   - TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
   - TinyLife.World.Tile.GetPrice
   - TinyLife.World.Tile.GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
@@ -744,16 +744,16 @@ items:
   nameWithType.vb: Tile.OnNeighborChanged(Map, Point, Point, Integer)
   fullName.vb: TinyLife.World.Tile.OnNeighborChanged(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Microsoft.Xna.Framework.Point, Integer)
   name.vb: OnNeighborChanged(Map, Point, Point, Integer)
-- uid: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
-  commentId: M:TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
-  id: GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile)
+- uid: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
+  commentId: M:TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
+  id: GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
   parent: TinyLife.World.Tile
   langs:
   - csharp
   - vb
-  name: GetAutoTileBorder(Map, Point, int, Point, Tile)
-  nameWithType: Tile.GetAutoTileBorder(Map, Point, int, Point, Tile)
-  fullName: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int, Microsoft.Xna.Framework.Point, TinyLife.World.Tile)
+  name: GetAutoTileBorder(Map, Point, int, Point, Tile, int)
+  nameWithType: Tile.GetAutoTileBorder(Map, Point, int, Point, Tile, int)
+  fullName: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, int)
   type: Method
   source:
     remote:
@@ -762,7 +762,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetAutoTileBorder
     path: ../TinyLife/World/Tile.cs
-    startLine: 222
+    startLine: 223
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -772,7 +772,7 @@ items:
     By default, this method returns values only for some basegame tiles.
   example: []
   syntax:
-    content: public virtual (Func<int, TextureRegion> Texture, Color Color, float Priority)? GetAutoTileBorder(Map map, Point pos, int floor, Point neighbor, Tile neighborTile)
+    content: public virtual (Func<int, TextureRegion> Texture, Color Color, float Priority)? GetAutoTileBorder(Map map, Point pos, int floor, Point neighbor, Tile neighborTile, int layer)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -785,18 +785,21 @@ items:
       description: The floor that this tile is on.
     - id: neighbor
       type: Microsoft.Xna.Framework.Point
-      description: The position of the neighbor tile.
+      description: The position of the neighbor tile querying the auto tile border on this tile.
     - id: neighborTile
       type: TinyLife.World.Tile
-      description: The neighbor tile.
+      description: The neighbor tile querying the auto tile border on this tile.
+    - id: layer
+      type: System.Int32
+      description: The layer of the border being drawn. By default, tiles use layer 0 for regular borders, and layer 1 for special borders, like the little "cliff" that displays on water tiles.
     return:
       type: System.Nullable{System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}}
       description: The texture, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to draw no auto-tile border.
-    content.vb: Public Overridable Function GetAutoTileBorder(map As Map, pos As Point, floor As Integer, neighbor As Point, neighborTile As Tile) As (Texture As Func(Of Integer, TextureRegion), Color As Color, Priority As Single)?
+    content.vb: Public Overridable Function GetAutoTileBorder(map As Map, pos As Point, floor As Integer, neighbor As Point, neighborTile As Tile, layer As Integer) As (Texture As Func(Of Integer, TextureRegion), Color As Color, Priority As Single)?
   overload: TinyLife.World.Tile.GetAutoTileBorder*
-  nameWithType.vb: Tile.GetAutoTileBorder(Map, Point, Integer, Point, Tile)
-  fullName.vb: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point, TinyLife.World.Tile)
-  name.vb: GetAutoTileBorder(Map, Point, Integer, Point, Tile)
+  nameWithType.vb: Tile.GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer)
+  fullName.vb: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, Integer)
+  name.vb: GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer)
 - uid: TinyLife.World.Tile.GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.World.Tile.GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
   id: GetVariationTexture(MLEM.Misc.Direction2,Microsoft.Xna.Framework.Point)
@@ -815,7 +818,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVariationTexture
     path: ../TinyLife/World/Tile.cs
-    startLine: 239
+    startLine: 247
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -856,7 +859,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 262
+    startLine: 270
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -927,7 +930,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 282
+    startLine: 290
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -998,7 +1001,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 306
+    startLine: 314
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1072,7 +1075,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Register
     path: ../TinyLife/World/Tile.cs
-    startLine: 329
+    startLine: 337
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1143,7 +1146,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDepth
     path: ../TinyLife/World/Tile.cs
-    startLine: 354
+    startLine: 362
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -1193,7 +1196,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetVisualOffset
     path: ../TinyLife/World/Tile.cs
-    startLine: 366
+    startLine: 374
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -2768,7 +2771,7 @@ references:
   fullName: TinyLife.World.Tile.OnNeighborChanged
 - uid: TinyLife.World.Tile.GetAutoTileBorder*
   commentId: Overload:TinyLife.World.Tile.GetAutoTileBorder
-  href: TinyLife.World.Tile.html#TinyLife_World_Tile_GetAutoTileBorder_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_Microsoft_Xna_Framework_Point_TinyLife_World_Tile_
+  href: TinyLife.World.Tile.html#TinyLife_World_Tile_GetAutoTileBorder_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_Microsoft_Xna_Framework_Point_TinyLife_World_Tile_System_Int32_
   name: GetAutoTileBorder
   nameWithType: Tile.GetAutoTileBorder
   fullName: TinyLife.World.Tile.GetAutoTileBorder

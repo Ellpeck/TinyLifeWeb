@@ -7,7 +7,8 @@ items:
   children:
   - TinyLife.World.Soundscape.#ctor(TinyLife.World.Soundscape.IntensityDelegate,Microsoft.Xna.Framework.Audio.SoundEffect[])
   - TinyLife.World.Soundscape.GetDaytimePercentage(TinyLife.World.Map)
-  - TinyLife.World.Soundscape.GetForestedness(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+  - TinyLife.World.Soundscape.GetObjectDensity``1(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{``0,System.Boolean},System.Int32,System.Int32)
+  - TinyLife.World.Soundscape.GetTileDensity(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{TinyLife.World.Tile,System.Boolean},System.Int32,System.Int32)
   - TinyLife.World.Soundscape.Soundscapes
   - TinyLife.World.Soundscape.Update(TinyLife.World.Map,MLEM.Cameras.Camera)
   langs:
@@ -24,7 +25,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Soundscape
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 17
+    startLine: 19
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -66,7 +67,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Soundscapes
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 23
+    startLine: 25
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -98,7 +99,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: .ctor
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 46
+    startLine: 51
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -136,7 +137,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: Update
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 56
+    startLine: 61
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -171,7 +172,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetDaytimePercentage
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 75
+    startLine: 80
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
@@ -188,44 +189,92 @@ items:
       description: The daytime percentage.
     content.vb: Public Shared Function GetDaytimePercentage(map As Map) As Single
   overload: TinyLife.World.Soundscape.GetDaytimePercentage*
-- uid: TinyLife.World.Soundscape.GetForestedness(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.World.Soundscape.GetForestedness(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  id: GetForestedness(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.World.Soundscape.GetObjectDensity``1(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{``0,System.Boolean},System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Soundscape.GetObjectDensity``1(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{``0,System.Boolean},System.Int32,System.Int32)
+  id: GetObjectDensity``1(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{``0,System.Boolean},System.Int32,System.Int32)
   parent: TinyLife.World.Soundscape
   langs:
   - csharp
   - vb
-  name: GetForestedness(Map, Vector2)
-  nameWithType: Soundscape.GetForestedness(Map, Vector2)
-  fullName: TinyLife.World.Soundscape.GetForestedness(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2)
+  name: GetObjectDensity<T>(Map, Vector2, Func<T, bool>, int, int)
+  nameWithType: Soundscape.GetObjectDensity<T>(Map, Vector2, Func<T, bool>, int, int)
+  fullName: TinyLife.World.Soundscape.GetObjectDensity<T>(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func<T, bool>, int, int)
   type: Method
   source:
     remote:
       path: TinyLife/World/Soundscape.cs
       branch: main
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
-    id: GetForestedness
+    id: GetObjectDensity
     path: ../TinyLife/World/Soundscape.cs
-    startLine: 92
+    startLine: 91
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
-  summary: Returns a number between 0 and 1 that determines how forested an area around the given <code class="paramref">cameraWorldPos</code> is.
-  example: []
   syntax:
-    content: public static float GetForestedness(Map map, Vector2 cameraWorldPos)
+    content: 'public static float GetObjectDensity<T>(Map map, Vector2 cameraWorldPos, Func<T, bool> predicate, int maxDistance, int maxAmount) where T : MapObject'
     parameters:
     - id: map
       type: TinyLife.World.Map
-      description: The map.
     - id: cameraWorldPos
       type: Microsoft.Xna.Framework.Vector2
-      description: The camera position, in world coordinates.
+    - id: predicate
+      type: System.Func{{T},System.Boolean}
+    - id: maxDistance
+      type: System.Int32
+    - id: maxAmount
+      type: System.Int32
+    typeParameters:
+    - id: T
     return:
       type: System.Single
-      description: The forestedness.
-    content.vb: Public Shared Function GetForestedness(map As Map, cameraWorldPos As Vector2) As Single
-  overload: TinyLife.World.Soundscape.GetForestedness*
+    content.vb: Public Shared Function GetObjectDensity(Of T As MapObject)(map As Map, cameraWorldPos As Vector2, predicate As Func(Of T, Boolean), maxDistance As Integer, maxAmount As Integer) As Single
+  overload: TinyLife.World.Soundscape.GetObjectDensity*
+  nameWithType.vb: Soundscape.GetObjectDensity(Of T)(Map, Vector2, Func(Of T, Boolean), Integer, Integer)
+  fullName.vb: TinyLife.World.Soundscape.GetObjectDensity(Of T)(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func(Of T, Boolean), Integer, Integer)
+  name.vb: GetObjectDensity(Of T)(Map, Vector2, Func(Of T, Boolean), Integer, Integer)
+- uid: TinyLife.World.Soundscape.GetTileDensity(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{TinyLife.World.Tile,System.Boolean},System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Soundscape.GetTileDensity(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{TinyLife.World.Tile,System.Boolean},System.Int32,System.Int32)
+  id: GetTileDensity(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{TinyLife.World.Tile,System.Boolean},System.Int32,System.Int32)
+  parent: TinyLife.World.Soundscape
+  langs:
+  - csharp
+  - vb
+  name: GetTileDensity(Map, Vector2, Func<Tile, bool>, int, int)
+  nameWithType: Soundscape.GetTileDensity(Map, Vector2, Func<Tile, bool>, int, int)
+  fullName: TinyLife.World.Soundscape.GetTileDensity(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func<TinyLife.World.Tile, bool>, int, int)
+  type: Method
+  source:
+    remote:
+      path: TinyLife/World/Soundscape.cs
+      branch: main
+      repo: https://git.ellpeck.de/Ellpeck/TinyLife
+    id: GetTileDensity
+    path: ../TinyLife/World/Soundscape.cs
+    startLine: 107
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static float GetTileDensity(Map map, Vector2 cameraWorldPos, Func<Tile, bool> predicate, int maxDistance, int maxAmount)
+    parameters:
+    - id: map
+      type: TinyLife.World.Map
+    - id: cameraWorldPos
+      type: Microsoft.Xna.Framework.Vector2
+    - id: predicate
+      type: System.Func{TinyLife.World.Tile,System.Boolean}
+    - id: maxDistance
+      type: System.Int32
+    - id: maxAmount
+      type: System.Int32
+    return:
+      type: System.Single
+    content.vb: Public Shared Function GetTileDensity(map As Map, cameraWorldPos As Vector2, predicate As Func(Of Tile, Boolean), maxDistance As Integer, maxAmount As Integer) As Single
+  overload: TinyLife.World.Soundscape.GetTileDensity*
+  nameWithType.vb: Soundscape.GetTileDensity(Map, Vector2, Func(Of Tile, Boolean), Integer, Integer)
+  fullName.vb: TinyLife.World.Soundscape.GetTileDensity(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func(Of TinyLife.World.Tile, Boolean), Integer, Integer)
+  name.vb: GetTileDensity(Map, Vector2, Func(Of Tile, Boolean), Integer, Integer)
 references:
 - uid: TinyLife.World.Soundscape.Soundscapes
   commentId: F:TinyLife.World.Soundscape.Soundscapes
@@ -843,12 +892,12 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
-- uid: TinyLife.World.Soundscape.GetForestedness*
-  commentId: Overload:TinyLife.World.Soundscape.GetForestedness
-  href: TinyLife.World.Soundscape.html#TinyLife_World_Soundscape_GetForestedness_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_
-  name: GetForestedness
-  nameWithType: Soundscape.GetForestedness
-  fullName: TinyLife.World.Soundscape.GetForestedness
+- uid: TinyLife.World.Soundscape.GetObjectDensity*
+  commentId: Overload:TinyLife.World.Soundscape.GetObjectDensity
+  href: TinyLife.World.Soundscape.html#TinyLife_World_Soundscape_GetObjectDensity__1_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func___0_System_Boolean__System_Int32_System_Int32_
+  name: GetObjectDensity
+  nameWithType: Soundscape.GetObjectDensity
+  fullName: TinyLife.World.Soundscape.GetObjectDensity
 - uid: Microsoft.Xna.Framework.Vector2
   commentId: T:Microsoft.Xna.Framework.Vector2
   parent: Microsoft.Xna.Framework
@@ -856,6 +905,58 @@ references:
   name: Vector2
   nameWithType: Vector2
   fullName: Microsoft.Xna.Framework.Vector2
+- uid: System.Func{{T},System.Boolean}
+  commentId: T:System.Func{``0,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, bool>
+  nameWithType: Func<T, bool>
+  fullName: System.Func<T, bool>
+  nameWithType.vb: Func(Of T, Boolean)
+  fullName.vb: System.Func(Of T, Boolean)
+  name.vb: Func(Of T, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Int32
+  commentId: T:System.Int32
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int
+  nameWithType: int
+  fullName: int
+  nameWithType.vb: Integer
+  fullName.vb: Integer
+  name.vb: Integer
 - uid: Microsoft.Xna.Framework
   commentId: N:Microsoft.Xna.Framework
   isExternal: true
@@ -886,3 +987,88 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: TinyLife.World.Soundscape.GetTileDensity*
+  commentId: Overload:TinyLife.World.Soundscape.GetTileDensity
+  href: TinyLife.World.Soundscape.html#TinyLife_World_Soundscape_GetTileDensity_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func_TinyLife_World_Tile_System_Boolean__System_Int32_System_Int32_
+  name: GetTileDensity
+  nameWithType: Soundscape.GetTileDensity
+  fullName: TinyLife.World.Soundscape.GetTileDensity
+- uid: System.Func{TinyLife.World.Tile,System.Boolean}
+  commentId: T:System.Func{TinyLife.World.Tile,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<Tile, bool>
+  nameWithType: Func<Tile, bool>
+  fullName: System.Func<TinyLife.World.Tile, bool>
+  nameWithType.vb: Func(Of Tile, Boolean)
+  fullName.vb: System.Func(Of TinyLife.World.Tile, Boolean)
+  name.vb: Func(Of Tile, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.World.Tile
+    name: Tile
+    href: TinyLife.World.Tile.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Tile
+    name: Tile
+    href: TinyLife.World.Tile.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )

@@ -1,3 +1,67 @@
+# 0.43.0
+*July 9, 2024*
+
+![](media/changelog/0.43.0.png)
+
+> New Plant Stuff, New Language and New Gross Stuff
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.43.0/).**
+
+Additions
+- Added the ability to throw up from being drunk
+- Added a wealth tax, whose value is partly determined by the game's difficulty setting
+- Added a flower bed object that looks the same as the flower tiles, but can be used on any tile
+- Added larger versions of the evergreen and cypress trees
+- Added bowls for food that makes more sense in bowls
+- Added an ambient water sound, as well as a placement sound for water and water objects
+- Added japanese translation by [mameketchup](https://linktr.ee/mameketchup)
+
+Improvements
+- Made the game's logo in the main menu animate
+- Use the natural placement sound when placing natural tiles like grass
+- Increase the flood fill limit for tiles
+- Made water borders for sand have the color of the sand
+- Made rummaging in the trash be considered inappropriate on other lots
+- Display translation completion next to languages in the options menu
+- Made objects verify their parent position on load
+- Order the life goals menu by name
+- Made the lot tooltip stationary above the lot
+- Made pregnant people's bellies visually get bigger
+- Disallow clicking the ground on water tiles and out of bounds
+- Improved the autofill content for the feedback form when accessing it from within the game
+- Allow multitasking social actions while playing with toys
+- Made the lot outline thicker to look better when zoomed out
+- Made the lilypad's bobbing animation look less stupid
+- Improve the skill book selection ui
+- Made adults carry babies to the food item after they make food for them
+- Severely increased the priority of actions that help babies when they need help
+
+Fixes
+- Fixed street lamps not drawing correctly with higher floors nearby
+- Fixed full release saves with babies in them causing the demo to crash on the load menu
+- Fixed actions that have a list of selectable people ignoring their visibility
+- Fixed all remaining potential causes of the game sticking around after being closed
+- Fixed existing notifications animating again when changing game modes while they're on-screen
+- Fixed rotating lots causing objects with a limited amount of rotations to have incorrectly placed children
+- Fixed a rare exception when checking for rooms near the map borders
+- Fixed the millionaire life goal's expensive lot goal only taking furniture into account
+- Fixed primary school students saying they "work" as students
+- Fixed bad child food emotion being granted to the food's creator
+- Fixed children claiming they forgot their homework every day
+- Fixed life goals' homework goal not updating when being helped with homework
+- Fixed a bee particle crash when there are no valid positions to fly to
+- Fixed chatting being able to start new relationships through the AI even when AI relationships are disabled
+- Fixed babies getting stuck when unable to put down items on different floors
+- Use optimal compression for saving, which takes a bit longer but saves a lot of space
+
+API
+- Allow different person types to support different age groups
+- Added an event for when the game's game mode changes
+- Added events for when people's animations are created and drawn
+- Objects now always support all rotations, but display the texture that is the closest match for their rotation
+- Added a cheat to dump portraits of all people
+- Added a MinFloor constant for future use, which should be used over hardcoding 0
+
 # 0.42.4
 *June 19, 2024*
 
@@ -34,13 +98,13 @@ API
 - Made various additional API methods public
 
 # 0.42.1
-*June 6, 2024*
+*June 9, 2024*
 
 Fixes
 - Fixed the build mode preview panel snapping to the top when the controls hints overlay is disabled
 
 # 0.42.0
-*June 6, 2024*
+*June 9, 2024*
 
 ![](media/changelog/0.42.0.png)
 
