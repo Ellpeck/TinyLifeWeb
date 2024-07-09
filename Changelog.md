@@ -1,3 +1,9 @@
+# 0.43.1
+*July 9, 2024*
+
+Fixes
+- Fixed a crash when displaying the lot employment edit panel
+
 # 0.43.0
 *July 9, 2024*
 
