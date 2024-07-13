@@ -5,8 +5,8 @@ items:
   id: Menus
   parent: TinyLife.Uis
   children:
-  - TinyLife.Uis.Menus.CreateHouseholdPreview(System.String,TinyLife.Objects.LifeSpan,System.Boolean)
-  - TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean)
+  - TinyLife.Uis.Menus.CreateHouseholdPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedHousehold})
+  - TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedLot})
   - TinyLife.Uis.Menus.GamepadHint(MLEM.Ui.Anchor,System.Func{TinyLife.Options,Microsoft.Xna.Framework.Input.Buttons},Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Func{System.Boolean})
   - TinyLife.Uis.Menus.MenuBackground(System.Single,System.Single,System.Single,System.Single)
   - TinyLife.Uis.Menus.Transition(System.Action,System.Action,TinyLife.Uis.Menus.TransitionType,TinyLife.Uis.Menus.TransitionType,System.Single,System.Single,System.Single,System.Nullable{Microsoft.Xna.Framework.Color})
@@ -203,16 +203,16 @@ items:
   nameWithType.vb: Menus.MenuBackground(Single, Single, Single, Single)
   fullName.vb: TinyLife.Uis.Menus.MenuBackground(Single, Single, Single, Single)
   name.vb: MenuBackground(Single, Single, Single, Single)
-- uid: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean)
-  commentId: M:TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean)
-  id: CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean)
+- uid: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedLot})
+  commentId: M:TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedLot})
+  id: CreateLotPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedLot})
   parent: TinyLife.Uis.Menus
   langs:
   - csharp
   - vb
-  name: CreateLotPreview(Map, string, Point, float, Color, bool)
-  nameWithType: Menus.CreateLotPreview(Map, string, Point, float, Color, bool)
-  fullName: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map, string, Microsoft.Xna.Framework.Point, float, Microsoft.Xna.Framework.Color, bool)
+  name: CreateLotPreview(Map, string, Point, float, Color, bool, Func<string, ExportedLot>)
+  nameWithType: Menus.CreateLotPreview(Map, string, Point, float, Color, bool, Func<string, ExportedLot>)
+  fullName: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map, string, Microsoft.Xna.Framework.Point, float, Microsoft.Xna.Framework.Color, bool, System.Func<string, TinyLife.World.ExportedLot>)
   type: Method
   source:
     remote:
@@ -228,7 +228,7 @@ items:
   summary: A helper method to create a <xref href="Microsoft.Xna.Framework.Graphics.Texture2D" data-throw-if-not-resolved="false"></xref> instance that contains a rendered preview of an <xref href="TinyLife.World.ExportedLot" data-throw-if-not-resolved="false"></xref> at the given file path.
   example: []
   syntax:
-    content: public static Func<Texture2D> CreateLotPreview(Map map, string fileName, Point size, float tileScale, Color backgroundColor, bool async = true)
+    content: public static Func<Texture2D> CreateLotPreview(Map map, string fileName, Point size, float tileScale, Color backgroundColor, bool async = true, Func<string, ExportedLot> load = null)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -248,24 +248,26 @@ items:
     - id: async
       type: System.Boolean
       description: Whether the <xref href="TinyLife.World.ExportedLot" data-throw-if-not-resolved="false"></xref> should be loaded from disk asynchronously.
+    - id: load
+      type: System.Func{System.String,TinyLife.World.ExportedLot}
     return:
       type: System.Func{Microsoft.Xna.Framework.Graphics.Texture2D}
       description: A function that gathers the generated texture. When first invoked, it is generated. Subsequent calls will return the same generated texture.
-    content.vb: Public Shared Function CreateLotPreview(map As Map, fileName As String, size As Point, tileScale As Single, backgroundColor As Color, async As Boolean = True) As Func(Of Texture2D)
+    content.vb: Public Shared Function CreateLotPreview(map As Map, fileName As String, size As Point, tileScale As Single, backgroundColor As Color, async As Boolean = True, load As Func(Of String, ExportedLot) = Nothing) As Func(Of Texture2D)
   overload: TinyLife.Uis.Menus.CreateLotPreview*
-  nameWithType.vb: Menus.CreateLotPreview(Map, String, Point, Single, Color, Boolean)
-  fullName.vb: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map, String, Microsoft.Xna.Framework.Point, Single, Microsoft.Xna.Framework.Color, Boolean)
-  name.vb: CreateLotPreview(Map, String, Point, Single, Color, Boolean)
-- uid: TinyLife.Uis.Menus.CreateHouseholdPreview(System.String,TinyLife.Objects.LifeSpan,System.Boolean)
-  commentId: M:TinyLife.Uis.Menus.CreateHouseholdPreview(System.String,TinyLife.Objects.LifeSpan,System.Boolean)
-  id: CreateHouseholdPreview(System.String,TinyLife.Objects.LifeSpan,System.Boolean)
+  nameWithType.vb: Menus.CreateLotPreview(Map, String, Point, Single, Color, Boolean, Func(Of String, ExportedLot))
+  fullName.vb: TinyLife.Uis.Menus.CreateLotPreview(TinyLife.World.Map, String, Microsoft.Xna.Framework.Point, Single, Microsoft.Xna.Framework.Color, Boolean, System.Func(Of String, TinyLife.World.ExportedLot))
+  name.vb: CreateLotPreview(Map, String, Point, Single, Color, Boolean, Func(Of String, ExportedLot))
+- uid: TinyLife.Uis.Menus.CreateHouseholdPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedHousehold})
+  commentId: M:TinyLife.Uis.Menus.CreateHouseholdPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedHousehold})
+  id: CreateHouseholdPreview(TinyLife.World.Map,System.String,Microsoft.Xna.Framework.Point,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{System.String,TinyLife.World.ExportedHousehold})
   parent: TinyLife.Uis.Menus
   langs:
   - csharp
   - vb
-  name: CreateHouseholdPreview(string, LifeSpan, bool)
-  nameWithType: Menus.CreateHouseholdPreview(string, LifeSpan, bool)
-  fullName: TinyLife.Uis.Menus.CreateHouseholdPreview(string, TinyLife.Objects.LifeSpan, bool)
+  name: CreateHouseholdPreview(Map, string, Point, float, Color, bool, Func<string, ExportedHousehold>)
+  nameWithType: Menus.CreateHouseholdPreview(Map, string, Point, float, Color, bool, Func<string, ExportedHousehold>)
+  fullName: TinyLife.Uis.Menus.CreateHouseholdPreview(TinyLife.World.Map, string, Microsoft.Xna.Framework.Point, float, Microsoft.Xna.Framework.Color, bool, System.Func<string, TinyLife.World.ExportedHousehold>)
   type: Method
   source:
     remote:
@@ -274,31 +276,39 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: CreateHouseholdPreview
     path: ../TinyLife/Uis/Menus.cs
-    startLine: 221
+    startLine: 226
   assemblies:
   - Tiny Life
   namespace: TinyLife.Uis
-  summary: A helper method that creates an action that can be invoked to render a preview of an <xref href="TinyLife.World.ExportedHousehold" data-throw-if-not-resolved="false"></xref> at the given file path.
+  summary: A helper method that creates a preview of an <xref href="TinyLife.World.ExportedHousehold" data-throw-if-not-resolved="false"></xref> at the given file path.
   example: []
   syntax:
-    content: public static Action<(SpriteBatch Batch, Vector2 Position, float Width, float Scale)> CreateHouseholdPreview(string fileName, LifeSpan lifeSpan, bool async = true)
+    content: public static Func<Texture2D> CreateHouseholdPreview(Map map, string fileName, Point size, float scale, Color backgroundColor, bool async = true, Func<string, ExportedHousehold> load = null)
     parameters:
+    - id: map
+      type: TinyLife.World.Map
     - id: fileName
       type: System.String
       description: The file name to load the <xref href="TinyLife.World.ExportedHousehold" data-throw-if-not-resolved="false"></xref> from.
-    - id: lifeSpan
-      type: TinyLife.Objects.LifeSpan
+    - id: size
+      type: Microsoft.Xna.Framework.Point
+    - id: scale
+      type: System.Single
+    - id: backgroundColor
+      type: Microsoft.Xna.Framework.Color
     - id: async
       type: System.Boolean
       description: Whether the <xref href="TinyLife.World.ExportedHousehold" data-throw-if-not-resolved="false"></xref> should be loaded from disk asynchronously.
+    - id: load
+      type: System.Func{System.String,TinyLife.World.ExportedHousehold}
     return:
-      type: System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}}
-      description: An action that can be invoked to render a preview of the household.
-    content.vb: Public Shared Function CreateHouseholdPreview(fileName As String, lifeSpan As LifeSpan, async As Boolean = True) As Action(Of (Batch As SpriteBatch, Position As Vector2, Width As Single, Scale As Single))
+      type: System.Func{Microsoft.Xna.Framework.Graphics.Texture2D}
+      description: A function that gathers the generated texture. When first invoked, it is generated. Subsequent calls will return the same generated texture.
+    content.vb: Public Shared Function CreateHouseholdPreview(map As Map, fileName As String, size As Point, scale As Single, backgroundColor As Color, async As Boolean = True, load As Func(Of String, ExportedHousehold) = Nothing) As Func(Of Texture2D)
   overload: TinyLife.Uis.Menus.CreateHouseholdPreview*
-  nameWithType.vb: Menus.CreateHouseholdPreview(String, LifeSpan, Boolean)
-  fullName.vb: TinyLife.Uis.Menus.CreateHouseholdPreview(String, TinyLife.Objects.LifeSpan, Boolean)
-  name.vb: CreateHouseholdPreview(String, LifeSpan, Boolean)
+  nameWithType.vb: Menus.CreateHouseholdPreview(Map, String, Point, Single, Color, Boolean, Func(Of String, ExportedHousehold))
+  fullName.vb: TinyLife.Uis.Menus.CreateHouseholdPreview(TinyLife.World.Map, String, Microsoft.Xna.Framework.Point, Single, Microsoft.Xna.Framework.Color, Boolean, System.Func(Of String, TinyLife.World.ExportedHousehold))
+  name.vb: CreateHouseholdPreview(Map, String, Point, Single, Color, Boolean, Func(Of String, ExportedHousehold))
 references:
 - uid: MLEM.Ui
   commentId: N:MLEM.Ui
@@ -1021,7 +1031,7 @@ references:
   fullName: TinyLife.World.ExportedLot
 - uid: TinyLife.Uis.Menus.CreateLotPreview*
   commentId: Overload:TinyLife.Uis.Menus.CreateLotPreview
-  href: TinyLife.Uis.Menus.html#TinyLife_Uis_Menus_CreateLotPreview_TinyLife_World_Map_System_String_Microsoft_Xna_Framework_Point_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_
+  href: TinyLife.Uis.Menus.html#TinyLife_Uis_Menus_CreateLotPreview_TinyLife_World_Map_System_String_Microsoft_Xna_Framework_Point_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_System_String_TinyLife_World_ExportedLot__
   name: CreateLotPreview
   nameWithType: Menus.CreateLotPreview
   fullName: TinyLife.Uis.Menus.CreateLotPreview
@@ -1068,6 +1078,51 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: System.Func{System.String,TinyLife.World.ExportedLot}
+  commentId: T:System.Func{System.String,TinyLife.World.ExportedLot}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<string, ExportedLot>
+  nameWithType: Func<string, ExportedLot>
+  fullName: System.Func<string, TinyLife.World.ExportedLot>
+  nameWithType.vb: Func(Of String, ExportedLot)
+  fullName.vb: System.Func(Of String, TinyLife.World.ExportedLot)
+  name.vb: Func(Of String, ExportedLot)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.ExportedLot
+    name: ExportedLot
+    href: TinyLife.World.ExportedLot.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.ExportedLot
+    name: ExportedLot
+    href: TinyLife.World.ExportedLot.html
+  - name: )
 - uid: System.Func{Microsoft.Xna.Framework.Graphics.Texture2D}
   commentId: T:System.Func{Microsoft.Xna.Framework.Graphics.Texture2D}
   parent: System
@@ -1170,175 +1225,52 @@ references:
   fullName: TinyLife.World.ExportedHousehold
 - uid: TinyLife.Uis.Menus.CreateHouseholdPreview*
   commentId: Overload:TinyLife.Uis.Menus.CreateHouseholdPreview
-  href: TinyLife.Uis.Menus.html#TinyLife_Uis_Menus_CreateHouseholdPreview_System_String_TinyLife_Objects_LifeSpan_System_Boolean_
+  href: TinyLife.Uis.Menus.html#TinyLife_Uis_Menus_CreateHouseholdPreview_TinyLife_World_Map_System_String_Microsoft_Xna_Framework_Point_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_System_String_TinyLife_World_ExportedHousehold__
   name: CreateHouseholdPreview
   nameWithType: Menus.CreateHouseholdPreview
   fullName: TinyLife.Uis.Menus.CreateHouseholdPreview
-- uid: TinyLife.Objects.LifeSpan
-  commentId: T:TinyLife.Objects.LifeSpan
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.LifeSpan.html
-  name: LifeSpan
-  nameWithType: LifeSpan
-  fullName: TinyLife.Objects.LifeSpan
-- uid: System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}}
-  commentId: T:System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}}
+- uid: System.Func{System.String,TinyLife.World.ExportedHousehold}
+  commentId: T:System.Func{System.String,TinyLife.World.ExportedHousehold}
   parent: System
-  definition: System.Action`1
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<(SpriteBatch Batch, Vector2 Position, float Width, float Scale)>
-  nameWithType: Action<(SpriteBatch Batch, Vector2 Position, float Width, float Scale)>
-  fullName: System.Action<(Microsoft.Xna.Framework.Graphics.SpriteBatch Batch, Microsoft.Xna.Framework.Vector2 Position, float Width, float Scale)>
-  nameWithType.vb: Action(Of (Batch As SpriteBatch, Position As Vector2, Width As Single, Scale As Single))
-  fullName.vb: System.Action(Of (Batch As Microsoft.Xna.Framework.Graphics.SpriteBatch, Position As Microsoft.Xna.Framework.Vector2, Width As Single, Scale As Single))
-  name.vb: Action(Of (Batch As SpriteBatch, Position As Vector2, Width As Single, Scale As Single))
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<string, ExportedHousehold>
+  nameWithType: Func<string, ExportedHousehold>
+  fullName: System.Func<string, TinyLife.World.ExportedHousehold>
+  nameWithType.vb: Func(Of String, ExportedHousehold)
+  fullName.vb: System.Func(Of String, TinyLife.World.ExportedHousehold)
+  name.vb: Func(Of String, ExportedHousehold)
   spec.csharp:
-  - uid: System.Action`1
-    name: Action
+  - uid: System.Func`2
+    name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: <
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.String
+    name: string
     isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Batch
-    name: Batch
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.batch
+    href: https://learn.microsoft.com/dotnet/api/system.string
   - name: ','
   - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Position
-    name: Position
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.position
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Width
-    name: Width
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.width
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Scale
-    name: Scale
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.scale
-  - name: )
+  - uid: TinyLife.World.ExportedHousehold
+    name: ExportedHousehold
+    href: TinyLife.World.ExportedHousehold.html
   - name: '>'
   spec.vb:
-  - uid: System.Action`1
-    name: Action
+  - uid: System.Func`2
+    name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
   - name: (
   - name: Of
   - name: " "
-  - name: (
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Batch
-    name: Batch
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.batch
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.String
+    name: String
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Position
-    name: Position
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.position
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Width
-    name: Width
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.width
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,System.Single}.Scale
-    name: Scale
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,system.single-.scale
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  - name: )
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  href: TinyLife.html
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-- uid: System.Action`1
-  commentId: T:System.Action`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<T>
-  nameWithType: Action<T>
-  fullName: System.Action<T>
-  nameWithType.vb: Action(Of T)
-  fullName.vb: System.Action(Of T)
-  name.vb: Action(Of T)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
+  - uid: TinyLife.World.ExportedHousehold
+    name: ExportedHousehold
+    href: TinyLife.World.ExportedHousehold.html
   - name: )
