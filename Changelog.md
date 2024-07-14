@@ -1,3 +1,10 @@
+# 0.43.4
+*July 14, 2024*
+
+Fixes
+- Fixed a crash when babies try to age up
+- Fixed being unable to copy saves to Steam cloud since 0.43.0
+
 # 0.43.3
 *July 14, 2024*
 
