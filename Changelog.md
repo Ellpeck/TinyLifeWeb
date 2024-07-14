@@ -1,3 +1,15 @@
+# 0.43.3
+*July 14, 2024*
+
+Improvements
+- Display more stages in the loading screen while loading the save file
+
+Fixes
+- Fixed being unable to deserialize the discard held item action when loading a save
+- Fixed some important social actions only working when the partner's needs are high enough
+- Fixed some important social actions losing priority when done recently 
+- Fixed another exception when holding something while aging up
+
 # 0.43.2
 *July 13, 2024*
 
