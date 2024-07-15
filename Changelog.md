@@ -1,3 +1,10 @@
+# 0.43.5
+*July 15, 2024*
+
+Fixes
+- Fixed a crash when a person with certain clothes goes to bed
+- Fixed a crash when fences or counters are next to the borders of the map
+
 # 0.43.4
 *July 14, 2024*
 
