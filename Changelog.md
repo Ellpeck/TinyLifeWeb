@@ -1,3 +1,29 @@
+# 0.43.6
+*July 26, 2024*
+
+Additions
+- Added a "Get Full Game" button to the demo's main menu and in-game menu
+- Added an action to get store-able items back from household storage while playing
+
+Improvements
+- Display progress percentage when loading and deserializing a save file
+- Display which map is being validated during loading
+- Remember the most recently selected person when opening or reloading the play mode tool
+- Display memory usage information in the debug menu
+- Improve error messages when objects fail to load
+- Gain social need when fooling around or online gaming
+- Display a person's home's map in the relationship tooltip along with their home
+
+Fixes
+- Fixed a crash when moving the cursor out of bounds in build mode while holding a furniture item
+- Fixed being unable to invite someone in or ask them to leave when they're stopped before they reach the door
+- Fixed being unable to switch TV channels when no one else is watching
+- Fixed people starting romantic relationships with people who already have a partner autonomously
+- Fixed an exception when multiple actions try to open a player prompt at the same time
+
+API
+- Updated MLEM to 7.0.0, which includes various namespace changes so unfortunately, mods are likely to break
+
 # 0.43.5
 *July 15, 2024*
 
