@@ -7,7 +7,7 @@ items:
   children:
   - TinyLife.Objects.Furniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  - TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,MLEM.Maths.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
+  - TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2},System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.AddChild``1(TinyLife.Objects.FurnitureType,MLEM.Maths.Direction2,System.Int32[],System.Nullable{System.Guid},System.Nullable{Microsoft.Xna.Framework.Vector2})
   - TinyLife.Objects.Furniture.AppliedUpgrades
   - TinyLife.Objects.Furniture.ApplyUpgrade(TinyLife.Objects.AppliedUpgrade)
@@ -80,8 +80,8 @@ items:
   - TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Furniture.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.Furniture.Rotation
-  - TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
-  - TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,MLEM.Maths.Direction2,System.Int32[],System.Nullable{System.Guid})
+  - TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
+  - TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,System.Nullable{MLEM.Maths.Direction2},System.Int32[],System.Nullable{System.Guid})
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike,System.Boolean)
   - TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   - TinyLife.Objects.Furniture.SetParent(TinyLife.Objects.Furniture,TinyLife.Objects.ObjectSpot)
@@ -1873,16 +1873,23 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    Returns a set of <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref> instances that represent action spots that the <code class="paramref">person</code> can currently use or interact with.
+
+    By default, an empty collection is returned by <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref>, but relevant spots are returnd by objects like <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public override IEnumerable<ActionInfo> GetFreeActionSpotInfos(PersonLike person, ObjectCategory context = null)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
+      description: The person who wants to interact with this object.
     - id: context
       type: TinyLife.Objects.ObjectCategory
+      description: The context for which to return free action spots, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to return action spots for any contexts.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionInfo}
+      description: The free action spots.
     content.vb: Public Overrides Function GetFreeActionSpotInfos(person As PersonLike, context As ObjectCategory = Nothing) As IEnumerable(Of ActionInfo)
   overridden: TinyLife.Objects.MapObject.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   overload: TinyLife.Objects.Furniture.GetFreeActionSpotInfos*
@@ -2407,7 +2414,7 @@ items:
       description: An optional color to override the default colors of the furniture
     - id: rotation
       type: MLEM.Maths.Direction2
-      description: The rotation that the furniture should be drawn with, which is usually derived from TextureRotation.
+      description: The rotation that the furniture should be drawn with.
     - id: colors
       type: System.Int32[]
       description: The colors to draw the furniture with
@@ -3178,19 +3185,27 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetFreeObjectSpots
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 847
+    startLine: 854
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    Returns a set of free <xref href="TinyLife.Objects.ObjectSpot" data-throw-if-not-resolved="false"></xref> instances on this furniture.
+
+    Free, in this case, is any object spot that isn't already occupied by a different furniture.
+  example: []
   syntax:
     content: public IEnumerable<ObjectSpot> GetFreeObjectSpots(FurnitureType type, Vector2? position = null)
     parameters:
     - id: type
       type: TinyLife.Objects.FurnitureType
+      description: The furniture type to find a free object spot for
     - id: position
       type: System.Nullable{Microsoft.Xna.Framework.Vector2}
+      description: The position that the object spot should be closest too. If null, no position will be preferred. Defaults to null.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.ObjectSpot}
+      description: A free object spot, or null if there is none
     content.vb: Public Function GetFreeObjectSpots(type As FurnitureType, position As Vector2? = Nothing) As IEnumerable(Of ObjectSpot)
   overload: TinyLife.Objects.Furniture.GetFreeObjectSpots*
 - uid: TinyLife.Objects.Furniture.SetParent(TinyLife.Objects.Furniture,TinyLife.Objects.ObjectSpot)
@@ -3211,7 +3226,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetParent
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 861
+    startLine: 868
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3220,7 +3235,7 @@ items:
 
     Note that this does not add the object to the map (<xref href="TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref>).
 
-    When modifying furniture in the world, it is preferred to use <xref href="TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot%2cTinyLife.Objects.Furniture%2cMLEM.Maths.Direction2)" data-throw-if-not-resolved="false"></xref> on the parent furniture instead.
+    When modifying furniture in the world, it is preferred to use <xref href="TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot%2cTinyLife.Objects.Furniture%2cSystem.Nullable%7bMLEM.Maths.Direction2%7d)" data-throw-if-not-resolved="false"></xref> on the parent furniture instead.
   example: []
   syntax:
     content: public void SetParent(Furniture parent, ObjectSpot spot)
@@ -3251,7 +3266,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: UnlinkParentsAndChildren
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 876
+    startLine: 883
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3279,7 +3294,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveAndUnlink
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 887
+    startLine: 894
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3310,7 +3325,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: GetChildren
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 897
+    startLine: 904
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3349,7 +3364,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 911
+    startLine: 918
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3363,7 +3378,7 @@ items:
       description: The type of furniture to construct as the child
     - id: rotation
       type: MLEM.Maths.Direction2
-      description: The desired rotation of the child furniture. If the child furniture does not support the given rotation, FurnitureType.GetBestRotation is used automatically.
+      description: The desired rotation of the child furniture.
     - id: colors
       type: System.Int32[]
       description: The colors that the child should have
@@ -3384,16 +3399,16 @@ items:
   nameWithType.vb: Furniture.AddChild(Of T)(FurnitureType, Direction2, Integer(), Guid?, Vector2?)
   fullName.vb: TinyLife.Objects.Furniture.AddChild(Of T)(TinyLife.Objects.FurnitureType, MLEM.Maths.Direction2, Integer(), System.Guid?, Microsoft.Xna.Framework.Vector2?)
   name.vb: AddChild(Of T)(FurnitureType, Direction2, Integer(), Guid?, Vector2?)
-- uid: TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,MLEM.Maths.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
-  commentId: M:TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,MLEM.Maths.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
-  id: AddChild(TinyLife.Objects.Furniture,MLEM.Maths.Direction2,System.Nullable{Microsoft.Xna.Framework.Vector2})
+- uid: TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2},System.Nullable{Microsoft.Xna.Framework.Vector2})
+  commentId: M:TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2},System.Nullable{Microsoft.Xna.Framework.Vector2})
+  id: AddChild(TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2},System.Nullable{Microsoft.Xna.Framework.Vector2})
   parent: TinyLife.Objects.Furniture
   langs:
   - csharp
   - vb
-  name: AddChild(Furniture, Direction2, Vector2?)
-  nameWithType: Furniture.AddChild(Furniture, Direction2, Vector2?)
-  fullName: TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture, MLEM.Maths.Direction2, Microsoft.Xna.Framework.Vector2?)
+  name: AddChild(Furniture, Direction2?, Vector2?)
+  nameWithType: Furniture.AddChild(Furniture, Direction2?, Vector2?)
+  fullName: TinyLife.Objects.Furniture.AddChild(TinyLife.Objects.Furniture, MLEM.Maths.Direction2?, Microsoft.Xna.Framework.Vector2?)
   type: Method
   source:
     remote:
@@ -3402,7 +3417,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: AddChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 928
+    startLine: 935
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3414,32 +3429,32 @@ items:
     Note that the given <code class="paramref">item</code> has to be added to this furniture item's <xref href="TinyLife.World.Map" data-throw-if-not-resolved="false"></xref> manually.
   example: []
   syntax:
-    content: public bool AddChild(Furniture item, Direction2 rotation, Vector2? position = null)
+    content: public bool AddChild(Furniture item, Direction2? rotation = null, Vector2? position = null)
     parameters:
     - id: item
       type: TinyLife.Objects.Furniture
       description: The furniture to add as the child
     - id: rotation
-      type: MLEM.Maths.Direction2
-      description: The desired rotation of the child furniture. If the child furniture does not support the given rotation, FurnitureType.GetBestRotation is used automatically.
+      type: System.Nullable{MLEM.Maths.Direction2}
+      description: The desired rotation of the child furniture, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use one of the default supported rotations of the free object spot chosen.
     - id: position
       type: System.Nullable{Microsoft.Xna.Framework.Vector2}
       description: The position that the object spot to add this child to should be closest too. If null, no position will be preferred. Defaults to null.
     return:
       type: System.Boolean
       description: If there was a free object spot to add the furniture to
-    content.vb: Public Function AddChild(item As Furniture, rotation As Direction2, position As Vector2? = Nothing) As Boolean
+    content.vb: Public Function AddChild(item As Furniture, rotation As Direction2? = Nothing, position As Vector2? = Nothing) As Boolean
   overload: TinyLife.Objects.Furniture.AddChild*
-- uid: TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,MLEM.Maths.Direction2,System.Int32[],System.Nullable{System.Guid})
-  commentId: M:TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,MLEM.Maths.Direction2,System.Int32[],System.Nullable{System.Guid})
-  id: SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,MLEM.Maths.Direction2,System.Int32[],System.Nullable{System.Guid})
+- uid: TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,System.Nullable{MLEM.Maths.Direction2},System.Int32[],System.Nullable{System.Guid})
+  commentId: M:TinyLife.Objects.Furniture.SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,System.Nullable{MLEM.Maths.Direction2},System.Int32[],System.Nullable{System.Guid})
+  id: SetChild``1(TinyLife.Objects.ObjectSpot,TinyLife.Objects.FurnitureType,System.Nullable{MLEM.Maths.Direction2},System.Int32[],System.Nullable{System.Guid})
   parent: TinyLife.Objects.Furniture
   langs:
   - csharp
   - vb
-  name: SetChild<T>(ObjectSpot, FurnitureType, Direction2, int[], Guid?)
-  nameWithType: Furniture.SetChild<T>(ObjectSpot, FurnitureType, Direction2, int[], Guid?)
-  fullName: TinyLife.Objects.Furniture.SetChild<T>(TinyLife.Objects.ObjectSpot, TinyLife.Objects.FurnitureType, MLEM.Maths.Direction2, int[], System.Guid?)
+  name: SetChild<T>(ObjectSpot, FurnitureType, Direction2?, int[], Guid?)
+  nameWithType: Furniture.SetChild<T>(ObjectSpot, FurnitureType, Direction2?, int[], Guid?)
+  fullName: TinyLife.Objects.Furniture.SetChild<T>(TinyLife.Objects.ObjectSpot, TinyLife.Objects.FurnitureType, MLEM.Maths.Direction2?, int[], System.Guid?)
   type: Method
   source:
     remote:
@@ -3448,14 +3463,14 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 944
+    startLine: 951
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: Sets the child element in the given object spot to the given furniture and adds it to this furniture's <xref href="TinyLife.World.Map" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public T SetChild<T>(ObjectSpot spot, FurnitureType type, Direction2 rotation, int[] colors = null, Guid? id = null) where T : Furniture'
+    content: 'public T SetChild<T>(ObjectSpot spot, FurnitureType type, Direction2? rotation = null, int[] colors = null, Guid? id = null) where T : Furniture'
     parameters:
     - id: spot
       type: TinyLife.Objects.ObjectSpot
@@ -3464,8 +3479,8 @@ items:
       type: TinyLife.Objects.FurnitureType
       description: The type of furniture to construct as the child
     - id: rotation
-      type: MLEM.Maths.Direction2
-      description: The desired rotation of the child furniture. If the child furniture does not support the given rotation, FurnitureType.GetBestRotation is used automatically.
+      type: System.Nullable{MLEM.Maths.Direction2}
+      description: The desired rotation of the child furniture, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use one of the default supported rotations of the <code class="paramref">spot</code>.
     - id: colors
       type: System.Int32[]
       description: The colors that the child should have
@@ -3476,21 +3491,21 @@ items:
     - id: T
     return:
       type: '{T}'
-    content.vb: Public Function SetChild(Of T As Furniture)(spot As ObjectSpot, type As FurnitureType, rotation As Direction2, colors As Integer() = Nothing, id As Guid? = Nothing) As T
+    content.vb: Public Function SetChild(Of T As Furniture)(spot As ObjectSpot, type As FurnitureType, rotation As Direction2? = Nothing, colors As Integer() = Nothing, id As Guid? = Nothing) As T
   overload: TinyLife.Objects.Furniture.SetChild*
-  nameWithType.vb: Furniture.SetChild(Of T)(ObjectSpot, FurnitureType, Direction2, Integer(), Guid?)
-  fullName.vb: TinyLife.Objects.Furniture.SetChild(Of T)(TinyLife.Objects.ObjectSpot, TinyLife.Objects.FurnitureType, MLEM.Maths.Direction2, Integer(), System.Guid?)
-  name.vb: SetChild(Of T)(ObjectSpot, FurnitureType, Direction2, Integer(), Guid?)
-- uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
-  id: SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
+  nameWithType.vb: Furniture.SetChild(Of T)(ObjectSpot, FurnitureType, Direction2?, Integer(), Guid?)
+  fullName.vb: TinyLife.Objects.Furniture.SetChild(Of T)(TinyLife.Objects.ObjectSpot, TinyLife.Objects.FurnitureType, MLEM.Maths.Direction2?, Integer(), System.Guid?)
+  name.vb: SetChild(Of T)(ObjectSpot, FurnitureType, Direction2?, Integer(), Guid?)
+- uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
+  commentId: M:TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
+  id: SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
   parent: TinyLife.Objects.Furniture
   langs:
   - csharp
   - vb
-  name: SetChild(ObjectSpot, Furniture, Direction2)
-  nameWithType: Furniture.SetChild(ObjectSpot, Furniture, Direction2)
-  fullName: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot, TinyLife.Objects.Furniture, MLEM.Maths.Direction2)
+  name: SetChild(ObjectSpot, Furniture, Direction2?)
+  nameWithType: Furniture.SetChild(ObjectSpot, Furniture, Direction2?)
+  fullName: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot, TinyLife.Objects.Furniture, MLEM.Maths.Direction2?)
   type: Method
   source:
     remote:
@@ -3499,7 +3514,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 958
+    startLine: 965
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3509,7 +3524,7 @@ items:
     Note that the given <code class="paramref">item</code> has to be added to this furniture item's <xref href="TinyLife.World.Map" data-throw-if-not-resolved="false"></xref> manually.
   example: []
   syntax:
-    content: public void SetChild(ObjectSpot spot, Furniture item, Direction2 rotation)
+    content: public void SetChild(ObjectSpot spot, Furniture item, Direction2? rotation = null)
     parameters:
     - id: spot
       type: TinyLife.Objects.ObjectSpot
@@ -3518,9 +3533,9 @@ items:
       type: TinyLife.Objects.Furniture
       description: The furniture to add to the spot
     - id: rotation
-      type: MLEM.Maths.Direction2
-      description: The desired rotation of the child furniture. If the child furniture does not support the given rotation, FurnitureType.GetBestRotation is used automatically.
-    content.vb: Public Sub SetChild(spot As ObjectSpot, item As Furniture, rotation As Direction2)
+      type: System.Nullable{MLEM.Maths.Direction2}
+      description: The desired rotation of the child furniture, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to use one of the default supported rotations of the <code class="paramref">spot</code>.
+    content.vb: Public Sub SetChild(spot As ObjectSpot, item As Furniture, rotation As Direction2? = Nothing)
   overload: TinyLife.Objects.Furniture.SetChild*
 - uid: TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
   commentId: M:TinyLife.Objects.Furniture.RemoveChild(TinyLife.Objects.Furniture)
@@ -3540,7 +3555,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: RemoveChild
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 968
+    startLine: 976
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3575,7 +3590,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: NotifyNeighbors
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 981
+    startLine: 989
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -3606,7 +3621,7 @@ items:
       repo: https://git.ellpeck.de/Ellpeck/TinyLife
     id: SetNewId
     path: ../TinyLife/Objects/Furniture.cs
-    startLine: 996
+    startLine: 1004
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
@@ -9527,18 +9542,18 @@ references:
     name: ObjectSpot
     href: TinyLife.Objects.ObjectSpot.html
   - name: )
-- uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
+- uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
+  commentId: M:TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_MLEM_Maths_Direction2_
-  name: SetChild(ObjectSpot, Furniture, Direction2)
-  nameWithType: Furniture.SetChild(ObjectSpot, Furniture, Direction2)
-  fullName: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot, TinyLife.Objects.Furniture, MLEM.Maths.Direction2)
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_System_Nullable_MLEM_Maths_Direction2__
+  name: SetChild(ObjectSpot, Furniture, Direction2?)
+  nameWithType: Furniture.SetChild(ObjectSpot, Furniture, Direction2?)
+  fullName: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot, TinyLife.Objects.Furniture, MLEM.Maths.Direction2?)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
     name: SetChild
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_System_Nullable_MLEM_Maths_Direction2__
   - name: (
   - uid: TinyLife.Objects.ObjectSpot
     name: ObjectSpot
@@ -9553,11 +9568,12 @@ references:
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true
+  - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.Furniture.SetChild(TinyLife.Objects.ObjectSpot,TinyLife.Objects.Furniture,System.Nullable{MLEM.Maths.Direction2})
     name: SetChild
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild_TinyLife_Objects_ObjectSpot_TinyLife_Objects_Furniture_System_Nullable_MLEM_Maths_Direction2__
   - name: (
   - uid: TinyLife.Objects.ObjectSpot
     name: ObjectSpot
@@ -9572,6 +9588,7 @@ references:
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true
+  - name: '?'
   - name: )
 - uid: TinyLife.Objects.Furniture.SetParent*
   commentId: Overload:TinyLife.Objects.Furniture.SetParent
@@ -9741,9 +9758,26 @@ references:
   name: T
   nameWithType: T
   fullName: T
+- uid: System.Nullable{MLEM.Maths.Direction2}
+  commentId: T:System.Nullable{MLEM.Maths.Direction2}
+  parent: System
+  definition: System.Nullable`1
+  name: Direction2?
+  nameWithType: Direction2?
+  fullName: MLEM.Maths.Direction2?
+  spec.csharp:
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: '?'
 - uid: TinyLife.Objects.Furniture.SetChild*
   commentId: Overload:TinyLife.Objects.Furniture.SetChild
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild__1_TinyLife_Objects_ObjectSpot_TinyLife_Objects_FurnitureType_MLEM_Maths_Direction2_System_Int32___System_Nullable_System_Guid__
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetChild__1_TinyLife_Objects_ObjectSpot_TinyLife_Objects_FurnitureType_System_Nullable_MLEM_Maths_Direction2__System_Int32___System_Nullable_System_Guid__
   name: SetChild
   nameWithType: Furniture.SetChild
   fullName: TinyLife.Objects.Furniture.SetChild

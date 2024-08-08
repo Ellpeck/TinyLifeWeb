@@ -1,3 +1,29 @@
+# 0.43.7
+*August 8, 2024*
+
+Additions
+- Added the ability to ask others to play in the sandbox, on the jungle gym, and with toys together
+- Added the ability to set Steam workshop items public from within the game
+- Added some more breakfast foods, including various sandwiches
+- Added industrial-themed stairs
+- Added a small indicator for items, actions, foods, woodworking recipes and upgrades that the player has never seen before
+
+Improvements
+- Sort color selector colors by lightness
+- Clarified the brightness increase setting's name
+- Order worlds by display name in various menus
+- Display hidden achievements in their own box, rather than as text
+
+Fixes
+- Fixed a rare crash during loading due to the new file loading percentage display
+- Fixed a relationship crash when a person interacts in a smaller map than their memory was created in
+- Fixed the cleanup action starting prematurely for the baby
+- Fixed getting items from storage causing them to sometimes have the wrong rotation
+- Fixed the build mode button tooltip hiding the button if long enough
+- Fixed some concrete tiles displaying a rogue pixel near map borders
+- Fixed the ResetLocation cheat not moving the person to their home map
+- Fixed stairs not properly checking whether entry adn exit points are blocked
+
 # 0.43.6
 *July 26, 2024*
 
