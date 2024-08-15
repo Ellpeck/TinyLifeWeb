@@ -1,3 +1,19 @@
+# 0.43.8
+*August 15, 2024*
+
+Improvements
+- Allow coloring the vertical planter's flowers
+- Made trash collectors also clean objects on public lots
+
+Fixes
+- Fixed being able to grab a serving of a glass or mug
+- Fixed randomly generated people always having a cheap everyday outfit
+- Fixed objects being marked as not seen in the household storage at all times
+- Fixed being able to tinker with any furniture in the demo
+- Fixed various exceptions when moving objects out of bounds
+- Fixed a crash when deleting the first outfit in the character creator
+- Fixed Liam Lungo having non-demo clothes in the demo
+
 # 0.43.7
 *August 8, 2024*
 
