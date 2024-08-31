@@ -1,3 +1,9 @@
+# 0.43.10
+*August 31, 2024*
+
+Fixes
+- Fixed an issue running the game on some systems due to a dependency change
+
 # 0.43.9
 *August 31, 2024*
 
