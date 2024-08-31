@@ -1,3 +1,27 @@
+# 0.43.9
+*August 31, 2024*
+
+Additions
+- Added EzTown Modern Indoor Railing fence
+
+Improvements
+- Added more gray hair color variations
+- Made a person's current emotion influence the quality of objects they create
+- Avoid unnecessarily keeping cursor texture data in memory
+- Expose save compression level in the options file
+
+Fixes
+- Fixed a rare exception when staggered updates remove multiple objects at once
+- Fixed people being deleted if they have the demo life goal when transferring to the full game
+- Fixed a crash when loading a save that had modded wallpaper after removing the mod
+
+API
+- Renamed the Tiny Life API NuGet package to from TinyLifeApi to TinyLife.ApiReference.
+- Added combined flags for age groups to allow setting action and personality age requirements more easily
+- Wallpapers and tiles are now stored in fields in their respective classes
+- Added events for when specific build mode buttons are displayed
+- Made various additional Furniture properties and methods virtual
+
 # 0.43.8
 *August 15, 2024*
 
