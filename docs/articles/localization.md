@@ -34,7 +34,7 @@ First of all: Please don't feel obligated to finish the translation for the lang
 ### Testing Your Translations
 To test your translation, you can export it and put it into the game. To export it, head to the "Files" section in the left sidebar, and then press the `Localization.json` file's export button, which looks like a little cardboard box. In the menu that comes up, select the language you're working on from the dropdown, and leave everything else the same. Now, you can put the exported file into the `Content/Localization` folder of the game's installation. If it's not part of it already, its name also has to be added to the `LanguageNames.json` file. 
 
-It's highly recommended to start the game with the `-v` (or `--verbose`) argument, as that will cause it to output some additional information about errors in your localization to the game's [log file](game_dir.md). Fixing errors like these is generally very important, as they can cause players to receive incorrect or incomplete information or, in some cases, cause the game to crash.
+When testing your translations, please start the game with the `-v` (or `--verbose`) argument. This will cause it to output some additional information about errors in your localization to the game's [log file](game_dir.md). **Fixing errors like these is very important**, as they can cause players to receive incorrect or incomplete information or, in some cases, cause the game to crash.
 
 ### Language Overrides
 Strings that begin with `Overrides` are part of the overrides section, which is a set of settings that determine the way parts of the game operate when a language is applied. These should not be translated, and set to the appropriate values instead.
