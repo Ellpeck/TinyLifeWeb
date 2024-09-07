@@ -36,6 +36,11 @@ To test your translation, you can export it and put it into the game. To export 
 
 When testing your translations, please start the game with the `-v` (or `--verbose`) argument. This will cause it to output some additional information about errors in your localization to the game's [log file](game_dir.md). **Fixing errors like these is very important**, as they can cause players to receive incorrect or incomplete information or, in some cases, cause the game to crash.
 
+### Language Overrides
+You can request various language-specific behavior overrides to be registered for your localization. Please speak to Ellpeck if you require any of these.
+- The order that a Tiny's first and last names are displayed in. The game defaults to displaying first names first, but this can be changed for languages where the last name is usually displayed first.
+- Whether the language supports gendered pronouns. This determines whether the pronoun customization menu, as well as Tinies' pronouns, should be displayed in-game. This behavior is enabled by default.
+
 ## Notes for Specific Languages
 ### Dutch
 - The singular and plural for Tinies is "Tiny" and "Tiny's", respectively.
