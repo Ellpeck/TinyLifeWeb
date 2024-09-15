@@ -12,6 +12,8 @@ Next, simply create a new save file that'll serve as the basis for your new map.
 
 ## Caveats
 There's a few engine details that you'll have to pay attention to when creating custom maps. Currently, these aren't enforced in the game, so ignoring them might lead to unexpected results.
+- Some objects in the game (notably lot staff) save a reference to the map's name. Because of this, it's recommended to [export your map](#exporting-your-map) once and create a new save file with it before assigning lot assignments and residents, and then re-exporting the map.
+- Exporting a custom map from a save that has multiple maps loaded may lead to issues, so it's recommended to have only one map in your save.
 - Roads have to be made of the hidden road tiles, and they have to be 5 tiles across to be registered as driveable area. Lane markings are optional.
 - Every map needs to have at least one road that exits the map's border, otherwise people will not be able to go out of town, which might lead to crashes during gameplay.
 - Newly placed lots should have a name assigned to them prior to exporting, as otherwise they will be marked as incomplete, causing them to behave unexpectedly.
@@ -39,7 +41,7 @@ Optionally, you can put the three (or four) files into a `zip` archive to share,
 To share your map on [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/), make sure that Steam is open in the background, and that your map's `zip` archive is in the `Custom Maps` folder. Then, go to the rightmost tab in the game's Options menu and select "Share Custom World on Steam Workshop", and then follow the instructions there.
 
 It's recommended that, in addition to Steam workshop, you also publish your map elsewhere, like on [the itch community](https://itch.io/board/1032686/mods), as not every player has access to Steam workshop.
- 
+
 ## Editing or Updating Your Map
 If you want to update your map, either by adding additional content to it, or by fixing issues that you noticed, like incomplete roads or misplaced decorations, you can simply create a new save file and select your map's export.
 
