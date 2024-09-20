@@ -1,3 +1,44 @@
+# 0.43.11
+*September 20, 2024*
+
+Hi everyone! We know it's been a while since the last major update, despite the fact that we usually try to stick to a monthly update schedule. However, we've been hard at work on two major things: the Outright Pride 2024 set and the elder life stage. So stay tuned for the next major update coming soon!
+
+Additions
+- Added a popup to hire a babysitter that displays when every adult is out of town
+- Added a makeup character creator category and simple blush makeup
+
+Improvements
+- Disallow locking the curtain door and staff-only doors
+- Increased the notification history from 512 to 1024
+- Don't force-save the game on important events like death
+- Made fooling around take a random amount of time
+- Slowed down the eating animation
+- Allow accessing options and notifications from within the character creator
+- Don't bob the gamepad selection outline when UI animations are disabled
+- Made the gamepad selection outline a bit wider when a text paragraph is selected
+
+Fixes
+- Fixed a crash when removing objects that are out of bounds on a higher floor
+- Fixed money being charged even when the phone case color is not actually changed
+- Fixed the Travel to World action being available if there is only one world in a save
+- Fixed gravestones without a person in them disappearing on load
+- Fixed hiring one-off employees causing a crash if there are no people in exported households
+- Fixed duplicate exported people being able to be added to the map at once
+- Fixed fooling around between aro and non-aro people failing when it shouldn't
+- Fixed various panels not selecting a default element when using a gamepad
+- Fixed the mailbox flag's rotation being inconsistent
+- Fixed households being able to be auto-generated with no relations between members
+
+Removals
+- Removed the very incomplete traditional chinese translation for now. If you want to help get it back into the game, please check out the [community localization docs](https://docs.tinylifegame.com/articles/localization.html).
+
+API
+- Added SaveHandler.OnBindToType event for overriding type deserialization behavior
+- Updated door type names to be less confusing
+- Added events for modifying the visit priorities of lots and maps
+- Added IUpdatingMemory to make updating memories with custom types optional
+- Goals and choice prompts now also require the mod id to be present in their names
+
 # 0.43.10
 *August 31, 2024*
 

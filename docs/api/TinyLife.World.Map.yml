@@ -54,6 +54,7 @@ items:
   - TinyLife.World.Map.GetTile(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetTilesAround(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
   - TinyLife.World.Map.GetVisibleWorldArea(MLEM.Maths.RectangleF)
+  - TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
   - TinyLife.World.Map.GetWallBetween``1(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetWalls``1(MLEM.Maths.RectangleF)
   - TinyLife.World.Map.Info
@@ -76,6 +77,7 @@ items:
   - TinyLife.World.Map.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   - TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.World.Map.OnEventsAttachable
+  - TinyLife.World.Map.OnGetVisitPriority
   - TinyLife.World.Map.OnObjectAdded
   - TinyLife.World.Map.OnObjectRemoved
   - TinyLife.World.Map.OnPathfindingNodeConstruct
@@ -85,6 +87,7 @@ items:
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PopulateLots
+  - TinyLife.World.Map.PossibleRegularVisitors
   - TinyLife.World.Map.PostValidate(System.Action{System.String},System.Action{System.Single})
   - TinyLife.World.Map.PrepareForPermanentRemoval
   - TinyLife.World.Map.RemoveHousehold(TinyLife.World.Household)
@@ -289,6 +292,25 @@ items:
     return:
       type: System.Collections.Generic.List{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}}
     content.vb: Public Shared ReadOnly PathfindingDirtyNeighbors As List(Of (Offset As Point, FloorOffset As Integer))
+- uid: TinyLife.World.Map.PossibleRegularVisitors
+  commentId: F:TinyLife.World.Map.PossibleRegularVisitors
+  id: PossibleRegularVisitors
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: PossibleRegularVisitors
+  nameWithType: Map.PossibleRegularVisitors
+  fullName: TinyLife.World.Map.PossibleRegularVisitors
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly List<(Type Type, float Weight, Func<PersonLike, bool> IsValid, Func<Map, Random, PersonLike> CreateNew)> PossibleRegularVisitors
+    return:
+      type: System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
+    content.vb: Public Shared ReadOnly PossibleRegularVisitors As List(Of (Type As Type, Weight As Single, IsValid As Func(Of PersonLike, Boolean), CreateNew As Func(Of Map, Random, PersonLike)))
 - uid: TinyLife.World.Map.OnEventsAttachable
   commentId: E:TinyLife.World.Map.OnEventsAttachable
   id: OnEventsAttachable
@@ -411,6 +433,25 @@ items:
     return:
       type: TinyLife.World.Map.PathfindingNodeConstructDelegate
     content.vb: Public Event OnPathfindingNodeConstruct As Map.PathfindingNodeConstructDelegate
+- uid: TinyLife.World.Map.OnGetVisitPriority
+  commentId: E:TinyLife.World.Map.OnGetVisitPriority
+  id: OnGetVisitPriority
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnGetVisitPriority
+  nameWithType: Map.OnGetVisitPriority
+  fullName: TinyLife.World.Map.OnGetVisitPriority
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public event Map.VisitPriorityDelegate OnGetVisitPriority
+    return:
+      type: TinyLife.World.Map.VisitPriorityDelegate
+    content.vb: Public Event OnGetVisitPriority As Map.VisitPriorityDelegate
 - uid: TinyLife.World.Map.MailToSend
   commentId: F:TinyLife.World.Map.MailToSend
   id: MailToSend
@@ -3016,6 +3057,29 @@ items:
     content: public void PopulateLots()
     content.vb: Public Sub PopulateLots()
   overload: TinyLife.World.Map.PopulateLots*
+- uid: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  id: GetVisitPriority(TinyLife.Objects.PersonLike)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: GetVisitPriority(PersonLike)
+  nameWithType: Map.GetVisitPriority(PersonLike)
+  fullName: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  syntax:
+    content: public float GetVisitPriority(PersonLike person)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+    return:
+      type: System.Single
+    content.vb: Public Function GetVisitPriority(person As PersonLike) As Single
+  overload: TinyLife.World.Map.GetVisitPriority*
 - uid: TinyLife.World.Map.PrepareForPermanentRemoval
   commentId: M:TinyLife.World.Map.PrepareForPermanentRemoval
   id: PrepareForPermanentRemoval
@@ -4024,6 +4088,179 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
+  commentId: T:System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<(Type Type, float Weight, Func<PersonLike, bool> IsValid, Func<Map, Random, PersonLike> CreateNew)>
+  nameWithType: List<(Type Type, float Weight, Func<PersonLike, bool> IsValid, Func<Map, Random, PersonLike> CreateNew)>
+  fullName: System.Collections.Generic.List<(System.Type Type, float Weight, System.Func<TinyLife.Objects.PersonLike, bool> IsValid, System.Func<TinyLife.World.Map, System.Random, TinyLife.Objects.PersonLike> CreateNew)>
+  nameWithType.vb: List(Of (Type As Type, Weight As Single, IsValid As Func(Of PersonLike, Boolean), CreateNew As Func(Of Map, Random, PersonLike)))
+  fullName.vb: System.Collections.Generic.List(Of (Type As System.Type, Weight As Single, IsValid As System.Func(Of TinyLife.Objects.PersonLike, Boolean), CreateNew As System.Func(Of TinyLife.World.Map, System.Random, TinyLife.Objects.PersonLike)))
+  name.vb: List(Of (Type As Type, Weight As Single, IsValid As Func(Of PersonLike, Boolean), CreateNew As Func(Of Map, Random, PersonLike)))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: (
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.Type
+    name: Type
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.type
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.Weight
+    name: Weight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.weight
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.IsValid
+    name: IsValid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.isvalid
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.CreateNew
+    name: CreateNew
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.createnew
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.Type
+    name: Type
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.type
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.Weight
+    name: Weight
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.weight
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.IsValid
+    name: IsValid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.isvalid
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}.CreateNew
+    name: CreateNew
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.type,system.single,system.func-tinylife.objects.personlike,system.boolean-,system.func-tinylife.world.map,system.random,tinylife.objects.personlike--.createnew
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+  - name: )
+  - name: )
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
   parent: TinyLife.World
@@ -4338,6 +4575,29 @@ references:
   - uid: TinyLife.World.Map.PathfindingNodeConstructDelegate
     name: PathfindingNodeConstructDelegate
     href: TinyLife.World.Map.PathfindingNodeConstructDelegate.html
+- uid: TinyLife.World.Map.VisitPriorityDelegate
+  commentId: T:TinyLife.World.Map.VisitPriorityDelegate
+  parent: TinyLife.World
+  href: TinyLife.World.Map.html
+  name: Map.VisitPriorityDelegate
+  nameWithType: Map.VisitPriorityDelegate
+  fullName: TinyLife.World.Map.VisitPriorityDelegate
+  spec.csharp:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.VisitPriorityDelegate
+    name: VisitPriorityDelegate
+    href: TinyLife.World.Map.VisitPriorityDelegate.html
+  spec.vb:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.VisitPriorityDelegate
+    name: VisitPriorityDelegate
+    href: TinyLife.World.Map.VisitPriorityDelegate.html
 - uid: TinyLife.World.Mail
   commentId: T:TinyLife.World.Mail
   parent: TinyLife.World
@@ -7002,6 +7262,12 @@ references:
   name: PopulateLots
   nameWithType: Map.PopulateLots
   fullName: TinyLife.World.Map.PopulateLots
+- uid: TinyLife.World.Map.GetVisitPriority*
+  commentId: Overload:TinyLife.World.Map.GetVisitPriority
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetVisitPriority_TinyLife_Objects_PersonLike_
+  name: GetVisitPriority
+  nameWithType: Map.GetVisitPriority
+  fullName: TinyLife.World.Map.GetVisitPriority
 - uid: TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   commentId: M:TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   parent: TinyLife.Objects.PersonLike
