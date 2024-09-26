@@ -2227,7 +2227,7 @@ Additions
 - Added multiple new furniture items, including three plants, two decorative objects, a smaller picnic table, a sandbox, a jigsaw puzzle, a stove for kids, and a toy box
 - Added a top hat clothing item
 - Added two new personality types: Family-Focused and Hates Children
-- Added a speech type system which includes a more feminine voice style spoken by [SyrinixSoul](https://https://www.twitch.tv/syrinixsoul)
+- Added a speech type system which includes a more feminine voice style spoken by [SyrinixSoul](https://www.twitch.tv/syrinixsoul)
 - Added an option to allow complex social relationships between AI Tinies
 - Added a grid to build mode (which can be toggled using the G key)
 - Added keybinds to move the camera (arrow keys by default, but can be changed to WASD in the controls menu)
