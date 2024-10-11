@@ -64,3 +64,11 @@ You can request various language-specific behavior overrides to be registered fo
 - The plural of foreign words that have no translation follows this rule:
   - If the word is already in common use in Italian, its plural will be the same as the singular form: "film", "bar".
   - If the word is new or highly specialized, its plural will be the same as it is in its origin language: "Tinies".
+
+### Polish
+- The Polish localization uses gender-neutral language (*Język neutralny płciowo*) for its translations.
+  - "Ono/jego" is used as the default pronoun for every word in the game.
+  - Avoid using gendered words in all cases. If using one can't be avoided, use "ono" instead of "on" or "ona".
+  - The word "Tiny" is gender-neutral: "to Tiny".
+- The plural of "Tiny" is spelled with a `y`, in keeping with other words borrowed from English: "te Tinys".
+- Achievement names in the Polish localization are just brief, funny descriptions of the achievement. They don't have to be word for word translations.
