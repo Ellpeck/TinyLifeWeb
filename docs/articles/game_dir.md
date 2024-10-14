@@ -8,10 +8,10 @@ Tiny Life's data folder contains several useful folders and files:
 
 There are several ways of locating this folder, and its location differs based on the operating system you're using.
 
-## From within the game
+## From Within the Game
 You can open the data folder easily from within the game by going to the options menu and opening the rightmost tab ("Custom Content"). The tab contains a button to quickly open the data folder.
 
-## From your computer
+## From Your Computer
 ### Windows
 On Windows, you can simply open a file explorer window and paste the following text into its location field:
 ```

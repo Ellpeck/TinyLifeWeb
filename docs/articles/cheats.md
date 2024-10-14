@@ -1,7 +1,7 @@
 # Cheats
 You can open up the game's cheat menu by pressing the `F1` key. Here is a list of some of the more useful cheats for mod development and testing. Keep in mind that `[arguments]` need to be replaced with your custom value, and the brackets `[]` need to be omitted.
 
-## In-game cheats
+## In-game Cheats
 - `ShowDebugActions` will enable a set of debug actions you can always select in-game, including teleporting to a certain location, adding people to your household, and more.
 - `ShowNonBuyable` allows you to buy plates, pots and the like.
 - `Need [name] [percentage between 0 and 1]` changes the current person's needs.
@@ -35,7 +35,7 @@ You can open up the game's cheat menu by pressing the `F1` key. Here is a list o
 - `ResetLocation [name without spaces]` will clear the action queue of the given person and teleport them to their default location. For Tinies who live on a map, this is a location around their home. For lot staff or regular visitors, this is the closest exit road. This cheat is also available as a debug action (`ShowDebugActions`).
 - `Find [name without spaces]` causes the camera to focus on the person with the given name.
 
-## Modding and debug cheats
+## Modding and Debug Cheats
 - `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. You can find out more about editing the world in the [custom maps tutorial](custom_maps.md).
 - `Held [object name or null]` sets the current person's held object. You can find a list of all object names [in the API docs](xref:TinyLife.Objects.FurnitureType).
 - `EditCurrentActionSpot` turns on action spot edit mode, which allows you to easily edit the properties of the selected person's current action spot.
