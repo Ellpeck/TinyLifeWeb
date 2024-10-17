@@ -8,12 +8,15 @@ items:
   - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Objects.StylePreference,TinyLife.Utilities.ColorScheme[])
   - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Objects.StylePreference,TinyLife.Utilities.ColorSettings)
   - TinyLife.Objects.Clothes.Ages
+  - TinyLife.Objects.Clothes.AlienSkinColors
   - TinyLife.Objects.Clothes.AllIntentions
   - TinyLife.Objects.Clothes.AreCompatible(TinyLife.Objects.Clothes,TinyLife.Objects.Clothes)
   - TinyLife.Objects.Clothes.Colors
   - TinyLife.Objects.Clothes.DefaultDepths
   - TinyLife.Objects.Clothes.DepthFunction
   - TinyLife.Objects.Clothes.Description
+  - TinyLife.Objects.Clothes.DyedHairColors
+  - TinyLife.Objects.Clothes.ExtremeEyeColors
   - TinyLife.Objects.Clothes.GetDescription(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.Clothes.GrayHairColors
   - TinyLife.Objects.Clothes.Icon
@@ -22,6 +25,7 @@ items:
   - TinyLife.Objects.Clothes.Layer
   - TinyLife.Objects.Clothes.Layers
   - TinyLife.Objects.Clothes.LayersToHide
+  - TinyLife.Objects.Clothes.Migrations
   - TinyLife.Objects.Clothes.Name
   - TinyLife.Objects.Clothes.NonBuyable
   - TinyLife.Objects.Clothes.PersonType
@@ -75,6 +79,54 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Objects.Clothes.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Objects.Clothes.AlienSkinColors
+  commentId: F:TinyLife.Objects.Clothes.AlienSkinColors
+  id: AlienSkinColors
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: AlienSkinColors
+  nameWithType: Clothes.AlienSkinColors
+  fullName: TinyLife.Objects.Clothes.AlienSkinColors
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Stores all of the color schemes and their corresponding color indices for the <xref href="TinyLife.Objects.ClothesLayer.Body" data-throw-if-not-resolved="false"></xref> layer which are considered "alien", ie not usually seen on humans.
+
+    For color indices in this list, a much lower priority is automatically returned in <xref href="TinyLife.Objects.Clothes.RandomColorWeight" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly Dictionary<ColorScheme, HashSet<int>> AlienSkinColors
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+    content.vb: Public Shared ReadOnly AlienSkinColors As Dictionary(Of ColorScheme, HashSet(Of Integer))
+- uid: TinyLife.Objects.Clothes.ExtremeEyeColors
+  commentId: F:TinyLife.Objects.Clothes.ExtremeEyeColors
+  id: ExtremeEyeColors
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: ExtremeEyeColors
+  nameWithType: Clothes.ExtremeEyeColors
+  fullName: TinyLife.Objects.Clothes.ExtremeEyeColors
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Stores all of hte color schemes and their corresponding color indices for the <xref href="TinyLife.Objects.ClothesLayer.Eyes" data-throw-if-not-resolved="false"></xref> layer which are considered "extreme", ie not usually seen with the same brightness or intensity on humans.
+
+    For color indices in this list, a much lower priority is automatically returned in <xref href="TinyLife.Objects.Clothes.RandomColorWeight" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly Dictionary<ColorScheme, HashSet<int>> ExtremeEyeColors
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+    content.vb: Public Shared ReadOnly ExtremeEyeColors As Dictionary(Of ColorScheme, HashSet(Of Integer))
 - uid: TinyLife.Objects.Clothes.Types
   commentId: F:TinyLife.Objects.Clothes.Types
   id: Types
@@ -660,6 +712,29 @@ items:
       type: System.Action{TinyLife.Objects.Clothes,TinyLife.Objects.PersonLike,System.Collections.Generic.List{System.String}}
     content.vb: Public Property Description As Action(Of Clothes, PersonLike, List(Of String))
   overload: TinyLife.Objects.Clothes.Description*
+- uid: TinyLife.Objects.Clothes.Migrations
+  commentId: P:TinyLife.Objects.Clothes.Migrations
+  id: Migrations
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: Clothes.Migrations
+  fullName: TinyLife.Objects.Clothes.Migrations
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: The set of migrations that should be applied to clothes of this type when they are loaded from disk.
+  example: []
+  syntax:
+    content: public List<Migration<WornClothes>> Migrations { get; init; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Objects.WornClothes}}
+    content.vb: Public Property Migrations As List(Of Migration(Of WornClothes))
+  overload: TinyLife.Objects.Clothes.Migrations*
 - uid: TinyLife.Objects.Clothes.SourceString
   commentId: P:TinyLife.Objects.Clothes.SourceString
   id: SourceString
@@ -882,11 +957,40 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    Stores all of the color schemes and their corresponding color indices for the <xref href="TinyLife.Objects.ClothesLayer.Hair" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.ClothesLayer.FacialHair" data-throw-if-not-resolved="false"></xref> layers which are considered gray hair, ie hair that usually older people have.
+
+    For color indices in this list, a much higher priority is automatically returned in <xref href="TinyLife.Objects.Clothes.RandomColorWeight" data-throw-if-not-resolved="false"></xref> for people of the elder age group, and a color from this list may randomly be chosen when a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> ages up to an elder.
+  example: []
   syntax:
-    content: public static readonly int[] GrayHairColors
+    content: public static readonly Dictionary<ColorScheme, HashSet<int>> GrayHairColors
     return:
-      type: System.Int32[]
-    content.vb: Public Shared ReadOnly GrayHairColors As Integer()
+      type: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+    content.vb: Public Shared ReadOnly GrayHairColors As Dictionary(Of ColorScheme, HashSet(Of Integer))
+- uid: TinyLife.Objects.Clothes.DyedHairColors
+  commentId: F:TinyLife.Objects.Clothes.DyedHairColors
+  id: DyedHairColors
+  parent: TinyLife.Objects.Clothes
+  langs:
+  - csharp
+  - vb
+  name: DyedHairColors
+  nameWithType: Clothes.DyedHairColors
+  fullName: TinyLife.Objects.Clothes.DyedHairColors
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Stores all of the color schemes and their corresponding color indices for the <xref href="TinyLife.Objects.ClothesLayer.Hair" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.ClothesLayer.FacialHair" data-throw-if-not-resolved="false"></xref> layers which are considered dyed, ie not usually seen on humans.
+
+    For color indices in this list, a much lower priority is automatically returned in <xref href="TinyLife.Objects.Clothes.RandomColorWeight" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly Dictionary<ColorScheme, HashSet<int>> DyedHairColors
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+    content.vb: Public Shared ReadOnly DyedHairColors As Dictionary(Of ColorScheme, HashSet(Of Integer))
 references:
 - uid: TinyLife.Objects.PersonLike
   commentId: T:TinyLife.Objects.PersonLike
@@ -1308,6 +1412,154 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Objects.ClothesLayer.Body
+  commentId: F:TinyLife.Objects.ClothesLayer.Body
+  href: TinyLife.Objects.ClothesLayer.html#TinyLife_Objects_ClothesLayer_Body
+  name: Body
+  nameWithType: ClothesLayer.Body
+  fullName: TinyLife.Objects.ClothesLayer.Body
+- uid: TinyLife.Objects.Clothes.RandomColorWeight
+  commentId: P:TinyLife.Objects.Clothes.RandomColorWeight
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_RandomColorWeight
+  name: RandomColorWeight
+  nameWithType: Clothes.RandomColorWeight
+  fullName: TinyLife.Objects.Clothes.RandomColorWeight
+- uid: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<ColorScheme, HashSet<int>>
+  nameWithType: Dictionary<ColorScheme, HashSet<int>>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Utilities.ColorScheme, System.Collections.Generic.HashSet<int>>
+  nameWithType.vb: Dictionary(Of ColorScheme, HashSet(Of Integer))
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Utilities.ColorScheme, System.Collections.Generic.HashSet(Of Integer))
+  name.vb: Dictionary(Of ColorScheme, HashSet(Of Integer))
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Utilities.ColorScheme
+    name: ColorScheme
+    href: TinyLife.Utilities.ColorScheme.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.ColorScheme
+    name: ColorScheme
+    href: TinyLife.Utilities.ColorScheme.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.ClothesLayer.Eyes
+  commentId: F:TinyLife.Objects.ClothesLayer.Eyes
+  href: TinyLife.Objects.ClothesLayer.html#TinyLife_Objects_ClothesLayer_Eyes
+  name: Eyes
+  nameWithType: ClothesLayer.Eyes
+  fullName: TinyLife.Objects.ClothesLayer.Eyes
 - uid: TinyLife.Objects.Clothes
   commentId: T:TinyLife.Objects.Clothes
   parent: TinyLife.Objects
@@ -1510,77 +1762,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.ClothesIntention
   commentId: T:TinyLife.Objects.ClothesIntention
   parent: TinyLife.Objects
@@ -2820,6 +3001,57 @@ references:
   - name: " "
   - name: T3
   - name: )
+- uid: TinyLife.Objects.Clothes.Migrations*
+  commentId: Overload:TinyLife.Objects.Clothes.Migrations
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_Migrations
+  name: Migrations
+  nameWithType: Clothes.Migrations
+  fullName: TinyLife.Objects.Clothes.Migrations
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Objects.WornClothes}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Objects.WornClothes}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<WornClothes>>
+  nameWithType: List<Migration<WornClothes>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.Objects.WornClothes>>
+  nameWithType.vb: List(Of Migration(Of WornClothes))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.Objects.WornClothes))
+  name.vb: List(Of Migration(Of WornClothes))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.Objects.WornClothes
+    name: WornClothes
+    href: TinyLife.Objects.WornClothes.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.WornClothes
+    name: WornClothes
+    href: TinyLife.Objects.WornClothes.html
+  - name: )
+  - name: )
 - uid: TinyLife.Emotions.EmotionModifier
   commentId: T:TinyLife.Emotions.EmotionModifier
   parent: TinyLife.Emotions
@@ -2963,26 +3195,15 @@ references:
   name: Register
   nameWithType: Clothes.Register
   fullName: TinyLife.Objects.Clothes.Register
-- uid: System.Int32[]
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int[]
-  nameWithType: int[]
-  fullName: int[]
-  nameWithType.vb: Integer()
-  fullName.vb: Integer()
-  name.vb: Integer()
-  spec.csharp:
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: '['
-  - name: ']'
-  spec.vb:
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: (
-  - name: )
+- uid: TinyLife.Objects.ClothesLayer.Hair
+  commentId: F:TinyLife.Objects.ClothesLayer.Hair
+  href: TinyLife.Objects.ClothesLayer.html#TinyLife_Objects_ClothesLayer_Hair
+  name: Hair
+  nameWithType: ClothesLayer.Hair
+  fullName: TinyLife.Objects.ClothesLayer.Hair
+- uid: TinyLife.Objects.ClothesLayer.FacialHair
+  commentId: F:TinyLife.Objects.ClothesLayer.FacialHair
+  href: TinyLife.Objects.ClothesLayer.html#TinyLife_Objects_ClothesLayer_FacialHair
+  name: FacialHair
+  nameWithType: ClothesLayer.FacialHair
+  fullName: TinyLife.Objects.ClothesLayer.FacialHair

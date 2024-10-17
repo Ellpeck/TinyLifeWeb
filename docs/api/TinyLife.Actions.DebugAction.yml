@@ -8,7 +8,10 @@ items:
   - TinyLife.Actions.DebugAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
   - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}},TinyLife.Actions.ActionType.CanExecuteDelegate)
+  - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.String,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
   - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  - TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
   - TinyLife.Actions.DebugAction.IsCompleted
   - TinyLife.Actions.DebugAction.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.DebugAction.Run
@@ -23,13 +26,13 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: >-
-    An abstract class that can be used to easily create debug-only actions that are available when <xref href="TinyLife.Debug.ShowDebugActions" data-throw-if-not-resolved="false"></xref> is enabled.
+    An abstract class that can be used to easily create debug-only actions that are available when <xref href="TinyLife.Debug.ShowDebugActions" data-throw-if-not-resolved="false"></xref> is enabled. They complete immediately when started and invoke their <xref href="TinyLife.Actions.DebugAction.Run" data-throw-if-not-resolved="false"></xref> method once on completion.
 
-    A debug action type should be created using <xref href="TinyLife.Actions.DebugAction.Create(System.String%2cTinyLife.Objects.ObjectCategory%2cSystem.Action%7bTinyLife.Actions.Action%7d%2cTinyLife.Actions.ActionType.CanExecuteDelegate)" data-throw-if-not-resolved="false"></xref>.
+    A debug action type should be created using <xref href="TinyLife.Actions.DebugAction.Create(System.String%2cTinyLife.Objects.ObjectCategory%2cSystem.Type%2cTinyLife.Actions.ActionType.CanExecuteDelegate)" data-throw-if-not-resolved="false"></xref> or one of its overloads.
   example: []
   syntax:
-    content: 'public class DebugAction : Action, IGenericDataHolder'
-    content.vb: Public Class DebugAction Inherits Action Implements IGenericDataHolder
+    content: 'public abstract class DebugAction : Action, IGenericDataHolder'
+    content.vb: Public MustInherit Class DebugAction Inherits Action Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -38,6 +41,7 @@ items:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
   - TinyLife.Actions.Action.Random
+  - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
   - TinyLife.Actions.Action.InProgressTime
   - TinyLife.Actions.Action.FullyInProgress
@@ -52,7 +56,7 @@ items:
   - TinyLife.Actions.Action.ForceResult
   - TinyLife.Actions.Action.Initialize
   - TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  - TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CanStartNow
@@ -157,8 +161,8 @@ items:
   summary: Runs this debug action's behavior.
   example: []
   syntax:
-    content: protected virtual void Run()
-    content.vb: Protected Overridable Sub Run()
+    content: protected abstract void Run()
+    content.vb: Protected MustOverride Sub Run()
   overload: TinyLife.Actions.DebugAction.Run*
 - uid: TinyLife.Actions.DebugAction.IsCompleted
   commentId: M:TinyLife.Actions.DebugAction.IsCompleted
@@ -219,6 +223,45 @@ items:
     content.vb: Public Overrides Sub OnCompleted(type As CompletionType)
   overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.DebugAction.OnCompleted*
+- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  id: Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  parent: TinyLife.Actions.DebugAction
+  langs:
+  - csharp
+  - vb
+  name: Create(string, ObjectCategory, Type, CanExecuteDelegate)
+  nameWithType: DebugAction.Create(string, ObjectCategory, Type, ActionType.CanExecuteDelegate)
+  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: Creates type settings for a debug action with the given settings.
+  example: []
+  syntax:
+    content: public static ActionType.TypeSettings Create(string name, ObjectCategory context, Type constructedType, ActionType.CanExecuteDelegate canExecute = null)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name.
+    - id: context
+      type: TinyLife.Objects.ObjectCategory
+      description: The context.
+    - id: constructedType
+      type: System.Type
+      description: The type of action to construct.
+    - id: canExecute
+      type: TinyLife.Actions.ActionType.CanExecuteDelegate
+      description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether the action can be started.
+    return:
+      type: TinyLife.Actions.ActionType.TypeSettings
+      description: The created type settings.
+    content.vb: Public Shared Function Create(name As String, context As ObjectCategory, constructedType As Type, canExecute As ActionType.CanExecuteDelegate = Nothing) As ActionType.TypeSettings
+  overload: TinyLife.Actions.DebugAction.Create*
+  nameWithType.vb: DebugAction.Create(String, ObjectCategory, Type, ActionType.CanExecuteDelegate)
+  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Create(String, ObjectCategory, Type, CanExecuteDelegate)
 - uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
   commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
   id: Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
@@ -300,24 +343,24 @@ items:
   nameWithType.vb: DebugAction.Create(String, ObjectCategory, String, Func(Of ActionInfo, IEnumerable(Of Object)), ActionType.CanExecuteDelegate)
   fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, String, System.Func(Of TinyLife.Actions.ActionInfo, System.Collections.Generic.IEnumerable(Of Object)), TinyLife.Actions.ActionType.CanExecuteDelegate)
   name.vb: Create(String, ObjectCategory, String, Func(Of ActionInfo, IEnumerable(Of Object)), CanExecuteDelegate)
-- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
-  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
-  id: Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  id: Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
   parent: TinyLife.Actions.DebugAction
   langs:
   - csharp
   - vb
-  name: Create(string, ObjectCategory, Type, CanExecuteDelegate)
-  nameWithType: DebugAction.Create(string, ObjectCategory, Type, ActionType.CanExecuteDelegate)
-  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name: Create(string, ObjectCategory, (string Name, Action<Action> Action)[], CanExecuteDelegate)
+  nameWithType: DebugAction.Create(string, ObjectCategory, (string Name, Action<Action> Action)[], ActionType.CanExecuteDelegate)
+  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, (string Name, System.Action<TinyLife.Actions.Action> Action)[], TinyLife.Actions.ActionType.CanExecuteDelegate)
   type: Method
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: Creates type settings for a debug action with the given settings.
+  summary: Creates type settings for a debug action that executes a set of simple <xref href="System.Action" data-throw-if-not-resolved="false"></xref> functions with the given settings. Each action function is displayed as an <xref href="TinyLife.Actions.ActionArgument" data-throw-if-not-resolved="false"></xref> when executing.
   example: []
   syntax:
-    content: public static ActionType.TypeSettings Create(string name, ObjectCategory context, Type constructedType, ActionType.CanExecuteDelegate canExecute = null)
+    content: public static ActionType.TypeSettings Create(string name, ObjectCategory context, (string Name, Action<Action> Action)[] runs, ActionType.CanExecuteDelegate canExecute = null)
     parameters:
     - id: name
       type: System.String
@@ -325,20 +368,101 @@ items:
     - id: context
       type: TinyLife.Objects.ObjectCategory
       description: The context.
-    - id: constructedType
-      type: System.Type
-      description: The type of action to construct.
+    - id: runs
+      type: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[]
+      description: The actions to execute when this debug action is run.
     - id: canExecute
       type: TinyLife.Actions.ActionType.CanExecuteDelegate
       description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether the action can be started.
     return:
       type: TinyLife.Actions.ActionType.TypeSettings
       description: The created type settings.
-    content.vb: Public Shared Function Create(name As String, context As ObjectCategory, constructedType As Type, canExecute As ActionType.CanExecuteDelegate = Nothing) As ActionType.TypeSettings
+    content.vb: Public Shared Function Create(name As String, context As ObjectCategory, runs As (Name As String, Action As Action(Of Action))(), canExecute As ActionType.CanExecuteDelegate = Nothing) As ActionType.TypeSettings
   overload: TinyLife.Actions.DebugAction.Create*
-  nameWithType.vb: DebugAction.Create(String, ObjectCategory, Type, ActionType.CanExecuteDelegate)
-  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
-  name.vb: Create(String, ObjectCategory, Type, CanExecuteDelegate)
+  nameWithType.vb: DebugAction.Create(String, ObjectCategory, (Name As String, Action As Action(Of Action))(), ActionType.CanExecuteDelegate)
+  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, (Name As String, Action As System.Action(Of TinyLife.Actions.Action))(), TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Create(String, ObjectCategory, (Name As String, Action As Action(Of Action))(), CanExecuteDelegate)
+- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  id: Create(System.String,TinyLife.Objects.ObjectCategory,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  parent: TinyLife.Actions.DebugAction
+  langs:
+  - csharp
+  - vb
+  name: Create(string, ObjectCategory, (string Name, Func<ActionInfo, bool> Valid, Action<Action> Action)[], CanExecuteDelegate)
+  nameWithType: DebugAction.Create(string, ObjectCategory, (string Name, Func<ActionInfo, bool> Valid, Action<Action> Action)[], ActionType.CanExecuteDelegate)
+  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, (string Name, System.Func<TinyLife.Actions.ActionInfo, bool> Valid, System.Action<TinyLife.Actions.Action> Action)[], TinyLife.Actions.ActionType.CanExecuteDelegate)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: Creates type settings for a debug action that executes a set of simple <xref href="System.Action" data-throw-if-not-resolved="false"></xref> functions with the given settings. Each action function is displayed as an <xref href="TinyLife.Actions.ActionArgument" data-throw-if-not-resolved="false"></xref> when executing.
+  example: []
+  syntax:
+    content: public static ActionType.TypeSettings Create(string name, ObjectCategory context, (string Name, Func<ActionInfo, bool> Valid, Action<Action> Action)[] runs, ActionType.CanExecuteDelegate canExecute = null)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name.
+    - id: context
+      type: TinyLife.Objects.ObjectCategory
+      description: The context.
+    - id: runs
+      type: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[]
+      description: The actions to execute when this debug action is run.
+    - id: canExecute
+      type: TinyLife.Actions.ActionType.CanExecuteDelegate
+      description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether the action can be started.
+    return:
+      type: TinyLife.Actions.ActionType.TypeSettings
+      description: The created type settings.
+    content.vb: Public Shared Function Create(name As String, context As ObjectCategory, runs As (Name As String, Valid As Func(Of ActionInfo, Boolean), Action As Action(Of Action))(), canExecute As ActionType.CanExecuteDelegate = Nothing) As ActionType.TypeSettings
+  overload: TinyLife.Actions.DebugAction.Create*
+  nameWithType.vb: DebugAction.Create(String, ObjectCategory, (Name As String, Valid As Func(Of ActionInfo, Boolean), Action As Action(Of Action))(), ActionType.CanExecuteDelegate)
+  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, (Name As String, Valid As System.Func(Of TinyLife.Actions.ActionInfo, Boolean), Action As System.Action(Of TinyLife.Actions.Action))(), TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Create(String, ObjectCategory, (Name As String, Valid As Func(Of ActionInfo, Boolean), Action As Action(Of Action))(), CanExecuteDelegate)
+- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.String,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.String,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  id: Create(System.String,TinyLife.Objects.ObjectCategory,System.String,System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[],TinyLife.Actions.ActionType.CanExecuteDelegate)
+  parent: TinyLife.Actions.DebugAction
+  langs:
+  - csharp
+  - vb
+  name: Create(string, ObjectCategory, string, (string Name, Func<ActionInfo, IEnumerable<object>> Args)[], CanExecuteDelegate)
+  nameWithType: DebugAction.Create(string, ObjectCategory, string, (string Name, Func<ActionInfo, IEnumerable<object>> Args)[], ActionType.CanExecuteDelegate)
+  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, string, (string Name, System.Func<TinyLife.Actions.ActionInfo, System.Collections.Generic.IEnumerable<object>> Args)[], TinyLife.Actions.ActionType.CanExecuteDelegate)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: Creates type settings for a debug action that executes a set of <xref href="TinyLife.Debug.Cheats" data-throw-if-not-resolved="false"></xref> entry with the given potential arguments. Each argument is displayed as an <xref href="TinyLife.Actions.ActionArgument" data-throw-if-not-resolved="false"></xref> when executing.
+  example: []
+  syntax:
+    content: public static ActionType.TypeSettings Create(string name, ObjectCategory context, string cheat, (string Name, Func<ActionInfo, IEnumerable<object>> Args)[] runsArgs, ActionType.CanExecuteDelegate canExecute = null)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name.
+    - id: context
+      type: TinyLife.Objects.ObjectCategory
+      description: The context.
+    - id: cheat
+      type: System.String
+      description: The cheat to execute when this debug action is run.
+    - id: runsArgs
+      type: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[]
+      description: The choices of arguments to pass to the executed <code class="paramref">cheat</code> when this debug action is run.
+    - id: canExecute
+      type: TinyLife.Actions.ActionType.CanExecuteDelegate
+      description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> that determines whether the action can be started.
+    return:
+      type: TinyLife.Actions.ActionType.TypeSettings
+      description: The created type settings.
+    content.vb: Public Shared Function Create(name As String, context As ObjectCategory, cheat As String, runsArgs As (Name As String, Args As Func(Of ActionInfo, IEnumerable(Of Object)))(), canExecute As ActionType.CanExecuteDelegate = Nothing) As ActionType.TypeSettings
+  overload: TinyLife.Actions.DebugAction.Create*
+  nameWithType.vb: DebugAction.Create(String, ObjectCategory, String, (Name As String, Args As Func(Of ActionInfo, IEnumerable(Of Object)))(), ActionType.CanExecuteDelegate)
+  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, String, (Name As String, Args As System.Func(Of TinyLife.Actions.ActionInfo, System.Collections.Generic.IEnumerable(Of Object)))(), TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Create(String, ObjectCategory, String, (Name As String, Args As Func(Of ActionInfo, IEnumerable(Of Object)))(), CanExecuteDelegate)
 references:
 - uid: TinyLife.Debug.ShowDebugActions
   commentId: F:TinyLife.Debug.ShowDebugActions
@@ -346,20 +470,38 @@ references:
   name: ShowDebugActions
   nameWithType: Debug.ShowDebugActions
   fullName: TinyLife.Debug.ShowDebugActions
-- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
-  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
-  isExternal: true
-  href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Action_TinyLife_Actions_Action__TinyLife_Actions_ActionType_CanExecuteDelegate_
-  name: Create(string, ObjectCategory, Action<Action>, CanExecuteDelegate)
-  nameWithType: DebugAction.Create(string, ObjectCategory, Action<Action>, ActionType.CanExecuteDelegate)
-  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, System.Action<TinyLife.Actions.Action>, TinyLife.Actions.ActionType.CanExecuteDelegate)
-  nameWithType.vb: DebugAction.Create(String, ObjectCategory, Action(Of Action), ActionType.CanExecuteDelegate)
-  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, System.Action(Of TinyLife.Actions.Action), TinyLife.Actions.ActionType.CanExecuteDelegate)
-  name.vb: Create(String, ObjectCategory, Action(Of Action), CanExecuteDelegate)
+- uid: TinyLife.Actions.DebugAction.Run
+  commentId: M:TinyLife.Actions.DebugAction.Run
+  href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Run
+  name: Run()
+  nameWithType: DebugAction.Run()
+  fullName: TinyLife.Actions.DebugAction.Run()
   spec.csharp:
-  - uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
+  - uid: TinyLife.Actions.DebugAction.Run
+    name: Run
+    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Run
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.DebugAction.Run
+    name: Run
+    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Run
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  commentId: M:TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
+  isExternal: true
+  href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Type_TinyLife_Actions_ActionType_CanExecuteDelegate_
+  name: Create(string, ObjectCategory, Type, CanExecuteDelegate)
+  nameWithType: DebugAction.Create(string, ObjectCategory, Type, ActionType.CanExecuteDelegate)
+  fullName: TinyLife.Actions.DebugAction.Create(string, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  nameWithType.vb: DebugAction.Create(String, ObjectCategory, Type, ActionType.CanExecuteDelegate)
+  fullName.vb: TinyLife.Actions.DebugAction.Create(String, TinyLife.Objects.ObjectCategory, System.Type, TinyLife.Actions.ActionType.CanExecuteDelegate)
+  name.vb: Create(String, ObjectCategory, Type, CanExecuteDelegate)
+  spec.csharp:
+  - uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
     name: Create
-    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Action_TinyLife_Actions_Action__TinyLife_Actions_ActionType_CanExecuteDelegate_
+    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Type_TinyLife_Actions_ActionType_CanExecuteDelegate_
   - name: (
   - uid: System.String
     name: string
@@ -372,15 +514,10 @@ references:
     href: TinyLife.Objects.ObjectCategory.html
   - name: ','
   - name: " "
-  - uid: System.Action`1
-    name: Action
+  - uid: System.Type
+    name: Type
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: '>'
+    href: https://learn.microsoft.com/dotnet/api/system.type
   - name: ','
   - name: " "
   - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
@@ -388,9 +525,9 @@ references:
     href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Action{TinyLife.Actions.Action},TinyLife.Actions.ActionType.CanExecuteDelegate)
+  - uid: TinyLife.Actions.DebugAction.Create(System.String,TinyLife.Objects.ObjectCategory,System.Type,TinyLife.Actions.ActionType.CanExecuteDelegate)
     name: Create
-    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Action_TinyLife_Actions_Action__TinyLife_Actions_ActionType_CanExecuteDelegate_
+    href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Type_TinyLife_Actions_ActionType_CanExecuteDelegate_
   - name: (
   - uid: System.String
     name: String
@@ -403,17 +540,10 @@ references:
     href: TinyLife.Objects.ObjectCategory.html
   - name: ','
   - name: " "
-  - uid: System.Action`1
-    name: Action
+  - uid: System.Type
+    name: Type
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: )
+    href: https://learn.microsoft.com/dotnet/api/system.type
   - name: ','
   - name: " "
   - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
@@ -481,6 +611,13 @@ references:
   name: Random
   nameWithType: Action.Random
   fullName: TinyLife.Actions.Action.Random
+- uid: TinyLife.Actions.Action.Migrations
+  commentId: F:TinyLife.Actions.Action.Migrations
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Migrations
+  name: Migrations
+  nameWithType: Action.Migrations
+  fullName: TinyLife.Actions.Action.Migrations
 - uid: TinyLife.Actions.Action.OnActionTypeConstructed
   commentId: E:TinyLife.Actions.Action.OnActionTypeConstructed
   parent: TinyLife.Actions.Action
@@ -637,30 +774,40 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
-  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_
-  name: Validate(PersonLike)
-  nameWithType: Action.Validate(PersonLike)
-  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
+  name: Validate(PersonLike, AppliedMigrations)
+  nameWithType: Action.Validate(PersonLike, AppliedMigrations)
+  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
 - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
@@ -4211,14 +4358,6 @@ references:
   - uid: TinyLife.Objects
     name: Objects
     href: TinyLife.Objects.html
-- uid: System.Action
-  commentId: T:System.Action
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action
-  name: Action
-  nameWithType: Action
-  fullName: System.Action
 - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
   commentId: T:TinyLife.Actions.ActionType.CanExecuteDelegate
   parent: TinyLife.Actions
@@ -4244,7 +4383,7 @@ references:
     href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
 - uid: TinyLife.Actions.DebugAction.Create*
   commentId: Overload:TinyLife.Actions.DebugAction.Create
-  href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Action_TinyLife_Actions_Action__TinyLife_Actions_ActionType_CanExecuteDelegate_
+  href: TinyLife.Actions.DebugAction.html#TinyLife_Actions_DebugAction_Create_System_String_TinyLife_Objects_ObjectCategory_System_Type_TinyLife_Actions_ActionType_CanExecuteDelegate_
   name: Create
   nameWithType: DebugAction.Create
   fullName: TinyLife.Actions.DebugAction.Create
@@ -4266,6 +4405,45 @@ references:
   name: ObjectCategory
   nameWithType: ObjectCategory
   fullName: TinyLife.Objects.ObjectCategory
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: TinyLife.Actions.ActionType.TypeSettings
+  commentId: T:TinyLife.Actions.ActionType.TypeSettings
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.ActionType.html
+  name: ActionType.TypeSettings
+  nameWithType: ActionType.TypeSettings
+  fullName: TinyLife.Actions.ActionType.TypeSettings
+  spec.csharp:
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: .
+  - uid: TinyLife.Actions.ActionType.TypeSettings
+    name: TypeSettings
+    href: TinyLife.Actions.ActionType.TypeSettings.html
+  spec.vb:
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: .
+  - uid: TinyLife.Actions.ActionType.TypeSettings
+    name: TypeSettings
+    href: TinyLife.Actions.ActionType.TypeSettings.html
+- uid: System.Action
+  commentId: T:System.Action
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action
+  name: Action
+  nameWithType: Action
+  fullName: System.Action
 - uid: System.Action{TinyLife.Actions.Action}
   commentId: T:System.Action{TinyLife.Actions.Action}
   parent: System
@@ -4299,29 +4477,6 @@ references:
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
-- uid: TinyLife.Actions.ActionType.TypeSettings
-  commentId: T:TinyLife.Actions.ActionType.TypeSettings
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.ActionType.html
-  name: ActionType.TypeSettings
-  nameWithType: ActionType.TypeSettings
-  fullName: TinyLife.Actions.ActionType.TypeSettings
-  spec.csharp:
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.TypeSettings
-    name: TypeSettings
-    href: TinyLife.Actions.ActionType.TypeSettings.html
-  spec.vb:
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.TypeSettings
-    name: TypeSettings
-    href: TinyLife.Actions.ActionType.TypeSettings.html
 - uid: System.Action`1
   commentId: T:System.Action`1
   isExternal: true
@@ -4449,11 +4604,294 @@ references:
   - name: " "
   - name: TResult
   - name: )
-- uid: System.Type
-  commentId: T:System.Type
-  parent: System
+- uid: TinyLife.Actions.ActionArgument
+  commentId: T:TinyLife.Actions.ActionArgument
+  href: TinyLife.Actions.ActionArgument.html
+  name: ActionArgument
+  nameWithType: ActionArgument
+  fullName: TinyLife.Actions.ActionArgument
+- uid: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}[]
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.type
-  name: Type
-  nameWithType: Type
-  fullName: System.Type
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: (string Name, Action<Action> Action)[]
+  nameWithType: (string Name, Action<Action> Action)[]
+  fullName: (string Name, System.Action<TinyLife.Actions.Action> Action)[]
+  nameWithType.vb: (Name As String, Action As Action(Of Action))()
+  fullName.vb: (Name As String, Action As System.Action(Of TinyLife.Actions.Action))()
+  name.vb: (Name As String, Action As Action(Of Action))()
+  spec.csharp:
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.action-tinylife.actions.action--.name
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.action-tinylife.actions.action--.action
+  - name: )
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.action-tinylife.actions.action--.name
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Action{TinyLife.Actions.Action}}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.action-tinylife.actions.action--.action
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  - name: )
+  - name: (
+  - name: )
+- uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: (string Name, Func<ActionInfo, bool> Valid, Action<Action> Action)[]
+  nameWithType: (string Name, Func<ActionInfo, bool> Valid, Action<Action> Action)[]
+  fullName: (string Name, System.Func<TinyLife.Actions.ActionInfo, bool> Valid, System.Action<TinyLife.Actions.Action> Action)[]
+  nameWithType.vb: (Name As String, Valid As Func(Of ActionInfo, Boolean), Action As Action(Of Action))()
+  fullName.vb: (Name As String, Valid As System.Func(Of TinyLife.Actions.ActionInfo, Boolean), Action As System.Action(Of TinyLife.Actions.Action))()
+  name.vb: (Name As String, Valid As Func(Of ActionInfo, Boolean), Action As Action(Of Action))()
+  spec.csharp:
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.name
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Valid
+    name: Valid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.valid
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.action
+  - name: )
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.name
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Valid
+    name: Valid
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.valid
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Boolean},System.Action{TinyLife.Actions.Action}}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.boolean-,system.action-tinylife.actions.action--.action
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  - name: )
+  - name: (
+  - name: )
+- uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: (string Name, Func<ActionInfo, IEnumerable<object>> Args)[]
+  nameWithType: (string Name, Func<ActionInfo, IEnumerable<object>> Args)[]
+  fullName: (string Name, System.Func<TinyLife.Actions.ActionInfo, System.Collections.Generic.IEnumerable<object>> Args)[]
+  nameWithType.vb: (Name As String, Args As Func(Of ActionInfo, IEnumerable(Of Object)))()
+  fullName.vb: (Name As String, Args As System.Func(Of TinyLife.Actions.ActionInfo, System.Collections.Generic.IEnumerable(Of Object)))()
+  name.vb: (Name As String, Args As Func(Of ActionInfo, IEnumerable(Of Object)))()
+  spec.csharp:
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.collections.generic.ienumerable-system.object---.name
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: '>'
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}.Args
+    name: Args
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.collections.generic.ienumerable-system.object---.args
+  - name: )
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}.Name
+    name: Name
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.collections.generic.ienumerable-system.object---.name
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.Func{TinyLife.Actions.ActionInfo,System.Collections.Generic.IEnumerable{System.Object}}}.Args
+    name: Args
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.func-tinylife.actions.actioninfo,system.collections.generic.ienumerable-system.object---.args
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  - name: )
+  - name: )
+  - name: (
+  - name: )

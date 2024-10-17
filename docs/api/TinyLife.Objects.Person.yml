@@ -12,6 +12,7 @@ items:
   - TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
   - TinyLife.Objects.Person.CurrentRoomDecorativeRating
   - TinyLife.Objects.Person.DiaperDirty
+  - TinyLife.Objects.Person.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   - TinyLife.Objects.Person.DrawSize
   - TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
@@ -52,7 +53,7 @@ items:
   - TinyLife.Objects.Person.UpdateAdditionalVisuals
   - TinyLife.Objects.Person.UpdateJobs(System.TimeSpan)
   - TinyLife.Objects.Person.UpdatePose
-  - TinyLife.Objects.Person.Validate
+  - TinyLife.Objects.Person.Validate(TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -82,6 +83,7 @@ items:
   - TinyLife.Objects.PersonLike.SpeakStyles
   - TinyLife.Objects.PersonLike.VoiceStyles
   - TinyLife.Objects.PersonLike.SupportedAges
+  - TinyLife.Objects.PersonLike.Migrations
   - TinyLife.Objects.PersonLike.ParentInfo
   - TinyLife.Objects.PersonLike.CurrentActions
   - TinyLife.Objects.PersonLike.ActionQueue
@@ -237,8 +239,8 @@ items:
   - TinyLife.Objects.PersonLike.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType[])
   - TinyLife.Objects.PersonLike.GetAction``1(System.Guid,System.Boolean)
   - TinyLife.Objects.PersonLike.SetPregnancyStatus(System.Int32,System.Guid,System.Boolean)
-  - TinyLife.Objects.PersonLike.SetAnimationsFromLooks
-  - TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
+  - TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
+  - TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Objects.PersonLike.GoToRandomHomeLocation
   - TinyLife.Objects.PersonLike.ShouldDrawHeldItem
   - TinyLife.Objects.PersonLike.GetHeldItemDepthOffset
@@ -297,7 +299,7 @@ items:
   - TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.MapObject.GetFreeActionSpotInfo(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
-  - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+  - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.DoUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -329,6 +331,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: The textures that are used for each <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref>. The key is the <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref>, and the value is the texture name.
+  example: []
   syntax:
     content: public static readonly Dictionary<AgeGroup, string> AgeTextures
     return:
@@ -348,6 +352,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: An event that is invoked in <xref href="TinyLife.Objects.Person.Create(TinyLife.World.Map%2cSystem.Random%2cTinyLife.Objects.AgeGroup%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Objects.PersonLike%5b%5d)" data-throw-if-not-resolved="false"></xref>, which allows modifying the random generation of a new person.
+  example: []
   syntax:
     content: public static event Action<(Person Person, Random Random, AgeGroup AllowedAges, bool InitializeName, bool InitializePersonality, bool GenerateOutfits, PersonLike[] GeneticInfluences, StylePreference Style, EventPhase Phase)> OnCreate
     return:
@@ -1154,7 +1160,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: Generates a <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref> for the given settings. This method is called in <xref href="TinyLife.Objects.PersonLike.SetAnimationsFromLooks" data-throw-if-not-resolved="false"></xref> for each clothes layer, as well as this person's shadow.
+  summary: Generates a <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref> for the given settings. This method is called when a person's <xref href="TinyLife.Objects.PersonLike.Animations" data-throw-if-not-resolved="false"></xref> are generated, for each clothes layer.
   example: []
   syntax:
     content: protected override SpriteAnimationGroup GenerateAnimationGroup(ClothesLayer clothesLayer, int layerAmount, IReadOnlyDictionary<Point, TextureRegion> textures, Point textureRegion)
@@ -1194,11 +1200,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Generates a <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref> for this person's shadow. This method is called when a person's <xref href="TinyLife.Objects.PersonLike.Animations" data-throw-if-not-resolved="false"></xref> are generated.
   example: []
   syntax:
     content: protected override SpriteAnimationGroup GenerateShadowAnimation()
     return:
       type: MLEM.Animations.SpriteAnimationGroup
+      description: The generated <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref>.
     content.vb: Protected Overrides Function GenerateShadowAnimation() As SpriteAnimationGroup
   overridden: TinyLife.Objects.PersonLike.GenerateShadowAnimation
   overload: TinyLife.Objects.Person.GenerateShadowAnimation*
@@ -1344,16 +1352,16 @@ items:
     content.vb: Protected Overrides Sub OnRoomCheck()
   overridden: TinyLife.Objects.PersonLike.OnRoomCheck
   overload: TinyLife.Objects.Person.OnRoomCheck*
-- uid: TinyLife.Objects.Person.Validate
-  commentId: M:TinyLife.Objects.Person.Validate
-  id: Validate
+- uid: TinyLife.Objects.Person.Validate(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.Person.Validate(TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.Person
   langs:
   - csharp
   - vb
-  name: Validate()
-  nameWithType: Person.Validate()
-  fullName: TinyLife.Objects.Person.Validate()
+  name: Validate(AppliedMigrations)
+  nameWithType: Person.Validate(AppliedMigrations)
+  fullName: TinyLife.Objects.Person.Validate(TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -1366,12 +1374,16 @@ items:
     By default, this method invokes <xref href="TinyLife.Objects.MapObject.OnValidated" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override bool Validate()
+    content: public override bool Validate(AppliedMigrations appliedMigrations)
+    parameters:
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: ''
     return:
       type: System.Boolean
       description: false if the object is not valid, true otherwise
-    content.vb: Public Overrides Function Validate() As Boolean
-  overridden: TinyLife.Objects.PersonLike.Validate
+    content.vb: Public Overrides Function Validate(appliedMigrations As AppliedMigrations) As Boolean
+  overridden: TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
   overload: TinyLife.Objects.Person.Validate*
 - uid: TinyLife.Objects.Person.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   commentId: M:TinyLife.Objects.Person.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
@@ -1554,6 +1566,43 @@ items:
     content.vb: Public Overrides Function GetPassiveNeedReduction(need As NeedType) As Single
   overridden: TinyLife.Objects.PersonLike.GetPassiveNeedReduction(TinyLife.NeedType)
   overload: TinyLife.Objects.Person.GetPassiveNeedReduction*
+- uid: TinyLife.Objects.Person.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.Person.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  id: DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: Person.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.Person.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Draws this object as an icon in UI space. This method is called by the action queue as well as for notifications.
+
+    By default, people draw their <xref href="TinyLife.Objects.PersonLike.Portrait" data-throw-if-not-resolved="false"></xref>, and <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> draws itself in ui space.
+  example: []
+  syntax:
+    content: public override bool DrawIcon(Element element, GameTime time, SpriteBatch batch)
+    parameters:
+    - id: element
+      type: MLEM.Ui.Elements.Element
+      description: The element to draw the object in.
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The game time.
+    - id: batch
+      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing.
+    return:
+      type: System.Boolean
+      description: Whether the object was actually drawn as an icon. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, a replacement icon can be drawn by the caller instead.
+    content.vb: Public Overrides Function DrawIcon(element As Element, time As GameTime, batch As SpriteBatch) As Boolean
+  overridden: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  overload: TinyLife.Objects.Person.DrawIcon*
 - uid: TinyLife.Objects.Person.GetProjects(System.String)
   commentId: M:TinyLife.Objects.Person.GetProjects(System.String)
   id: GetProjects(System.String)
@@ -1925,6 +1974,13 @@ references:
   name: SupportedAges
   nameWithType: PersonLike.SupportedAges
   fullName: TinyLife.Objects.PersonLike.SupportedAges
+- uid: TinyLife.Objects.PersonLike.Migrations
+  commentId: F:TinyLife.Objects.PersonLike.Migrations
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Migrations
+  name: Migrations
+  nameWithType: PersonLike.Migrations
+  fullName: TinyLife.Objects.PersonLike.Migrations
 - uid: TinyLife.Objects.PersonLike.ParentInfo
   commentId: P:TinyLife.Objects.PersonLike.ParentInfo
   parent: TinyLife.Objects.PersonLike
@@ -2500,7 +2556,7 @@ references:
   nameWithType: PersonLike.OnDrawLooksLayer
   fullName: TinyLife.Objects.PersonLike.OnDrawLooksLayer
 - uid: TinyLife.Objects.PersonLike.Animations
-  commentId: F:TinyLife.Objects.PersonLike.Animations
+  commentId: P:TinyLife.Objects.PersonLike.Animations
   parent: TinyLife.Objects.PersonLike
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Animations
   name: Animations
@@ -5661,49 +5717,59 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.PersonLike.SetAnimationsFromLooks
-  commentId: M:TinyLife.Objects.PersonLike.SetAnimationsFromLooks
+- uid: TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
+  commentId: M:TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
   parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsFromLooks
-  name: SetAnimationsFromLooks()
-  nameWithType: PersonLike.SetAnimationsFromLooks()
-  fullName: TinyLife.Objects.PersonLike.SetAnimationsFromLooks()
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsPortraitDirty
+  name: SetAnimationsPortraitDirty()
+  nameWithType: PersonLike.SetAnimationsPortraitDirty()
+  fullName: TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty()
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.SetAnimationsFromLooks
-    name: SetAnimationsFromLooks
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsFromLooks
+  - uid: TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
+    name: SetAnimationsPortraitDirty
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsPortraitDirty
   - name: (
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.SetAnimationsFromLooks
-    name: SetAnimationsFromLooks
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsFromLooks
+  - uid: TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
+    name: SetAnimationsPortraitDirty
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsPortraitDirty
   - name: (
   - name: )
-- uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
-  commentId: M:TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
+- uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_
-  name: ImportAtExitRoad(Map)
-  nameWithType: PersonLike.ImportAtExitRoad(Map)
-  fullName: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
+  name: ImportAtExitRoad(Map, AppliedMigrations)
+  nameWithType: PersonLike.ImportAtExitRoad(Map, AppliedMigrations)
+  fullName: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
+  - uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
     name: ImportAtExitRoad
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map)
+  - uid: TinyLife.Objects.PersonLike.ImportAtExitRoad(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
     name: ImportAtExitRoad
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ImportAtExitRoad_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
 - uid: TinyLife.Objects.PersonLike.GoToRandomHomeLocation
   commentId: M:TinyLife.Objects.PersonLike.GoToRandomHomeLocation
@@ -7544,30 +7610,40 @@ references:
     name: ObjectCategory
     href: TinyLife.Objects.ObjectCategory.html
   - name: )
-- uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
-  commentId: M:TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+- uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_
-  name: SetMapAndValidate(Map)
-  nameWithType: MapObject.SetMapAndValidate(Map)
-  fullName: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
+  name: SetMapAndValidate(Map, AppliedMigrations)
+  nameWithType: MapObject.SetMapAndValidate(Map, AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+  - uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
     name: SetMapAndValidate
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+  - uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
     name: SetMapAndValidate
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
 - uid: TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
@@ -8706,6 +8782,13 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.AgeGroup.html
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
 - uid: System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
   commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
   parent: System.Collections.Generic
@@ -8822,6 +8905,118 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
+  commentId: M:TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
+  isExternal: true
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
+  name: Create(Map, Random, AgeGroup, bool, bool, bool, bool, PersonLike[])
+  nameWithType: Person.Create(Map, Random, AgeGroup, bool, bool, bool, bool, PersonLike[])
+  fullName: TinyLife.Objects.Person.Create(TinyLife.World.Map, System.Random, TinyLife.Objects.AgeGroup, bool, bool, bool, bool, TinyLife.Objects.PersonLike[])
+  nameWithType.vb: Person.Create(Map, Random, AgeGroup, Boolean, Boolean, Boolean, Boolean, PersonLike())
+  fullName.vb: TinyLife.Objects.Person.Create(TinyLife.World.Map, System.Random, TinyLife.Objects.AgeGroup, Boolean, Boolean, Boolean, Boolean, TinyLife.Objects.PersonLike())
+  name.vb: Create(Map, Random, AgeGroup, Boolean, Boolean, Boolean, Boolean, PersonLike())
+  spec.csharp:
+  - uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
+    name: Create
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
+    name: Create
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: (
+  - name: )
+  - name: )
 - uid: System.Action{System.ValueTuple{TinyLife.Objects.Person,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[],System.ValueTuple{TinyLife.Objects.StylePreference,TinyLife.Mods.EventPhase}}}
   commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.Person,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[],System.ValueTuple{TinyLife.Objects.StylePreference,TinyLife.Mods.EventPhase}}}
   parent: System
@@ -10264,118 +10459,6 @@ references:
     href: TinyLife.Mods.EventPhase.html
   - name: )
   - name: )
-- uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
-  commentId: M:TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
-  isExternal: true
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
-  name: Create(Map, Random, AgeGroup, bool, bool, bool, bool, PersonLike[])
-  nameWithType: Person.Create(Map, Random, AgeGroup, bool, bool, bool, bool, PersonLike[])
-  fullName: TinyLife.Objects.Person.Create(TinyLife.World.Map, System.Random, TinyLife.Objects.AgeGroup, bool, bool, bool, bool, TinyLife.Objects.PersonLike[])
-  nameWithType.vb: Person.Create(Map, Random, AgeGroup, Boolean, Boolean, Boolean, Boolean, PersonLike())
-  fullName.vb: TinyLife.Objects.Person.Create(TinyLife.World.Map, System.Random, TinyLife.Objects.AgeGroup, Boolean, Boolean, Boolean, Boolean, TinyLife.Objects.PersonLike())
-  name.vb: Create(Map, Random, AgeGroup, Boolean, Boolean, Boolean, Boolean, PersonLike())
-  spec.csharp:
-  - uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
-    name: Create
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: System.Random
-    name: Random
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.random
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: '['
-  - name: ']'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
-    name: Create
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Create_TinyLife_World_Map_System_Random_TinyLife_Objects_AgeGroup_System_Boolean_System_Boolean_System_Boolean_System_Boolean_TinyLife_Objects_PersonLike___
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: System.Random
-    name: Random
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.random
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: (
-  - name: )
-  - name: )
 - uid: TinyLife.Objects.Person.#ctor*
   commentId: Overload:TinyLife.Objects.Person.#ctor
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person__ctor_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Single_
@@ -11432,31 +11515,44 @@ references:
   name: OnRoomCheck
   nameWithType: Person.OnRoomCheck
   fullName: TinyLife.Objects.Person.OnRoomCheck
-- uid: TinyLife.Objects.PersonLike.Validate
-  commentId: M:TinyLife.Objects.PersonLike.Validate
+- uid: TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate
-  name: Validate()
-  nameWithType: PersonLike.Validate()
-  fullName: TinyLife.Objects.PersonLike.Validate()
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate_TinyLife_Utilities_AppliedMigrations_
+  name: Validate(AppliedMigrations)
+  nameWithType: PersonLike.Validate(AppliedMigrations)
+  fullName: TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.Validate
+  - uid: TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate_TinyLife_Utilities_AppliedMigrations_
   - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.Validate
+  - uid: TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Validate_TinyLife_Utilities_AppliedMigrations_
   - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
 - uid: TinyLife.Objects.Person.Validate*
   commentId: Overload:TinyLife.Objects.Person.Validate
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Validate
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Validate_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: Person.Validate
   fullName: TinyLife.Objects.Person.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Objects.PersonLike.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   commentId: M:TinyLife.Objects.PersonLike.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   parent: TinyLife.Objects.PersonLike
@@ -11581,13 +11677,6 @@ references:
   name: OnAgeChanged
   nameWithType: Person.OnAgeChanged
   fullName: TinyLife.Objects.Person.OnAgeChanged
-- uid: TinyLife.Objects.AgeGroup
-  commentId: T:TinyLife.Objects.AgeGroup
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.AgeGroup.html
-  name: AgeGroup
-  nameWithType: AgeGroup
-  fullName: TinyLife.Objects.AgeGroup
 - uid: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   isExternal: true
@@ -11974,6 +12063,65 @@ references:
   name: TinyLife
   nameWithType: TinyLife
   fullName: TinyLife
+- uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: MapObject.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
+- uid: TinyLife.Objects.Person.DrawIcon*
+  commentId: Overload:TinyLife.Objects.Person.DrawIcon
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon
+  nameWithType: Person.DrawIcon
+  fullName: TinyLife.Objects.Person.DrawIcon
+- uid: MLEM.Ui.Elements.Element
+  commentId: T:MLEM.Ui.Elements.Element
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Element
+  nameWithType: Element
+  fullName: MLEM.Ui.Elements.Element
 - uid: TinyLife.Goals.Project.Type
   commentId: F:TinyLife.Goals.Project.Type
   href: TinyLife.Goals.Project.html#TinyLife_Goals_Project_Type

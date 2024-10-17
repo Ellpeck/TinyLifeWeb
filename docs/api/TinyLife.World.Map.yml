@@ -16,6 +16,7 @@ items:
   - TinyLife.World.Map.AddStairs(TinyLife.World.Stairs)
   - TinyLife.World.Map.AddWall(TinyLife.Objects.WallLike)
   - TinyLife.World.Map.AdoptableChildren
+  - TinyLife.World.Map.AppliedMigrations
   - TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.ApplyInverseCameraRotation(Microsoft.Xna.Framework.Vector2,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
@@ -306,6 +307,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
+  summary: >-
+    Contains a set of information and related functions that determine whether a given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> is a valid visitor for a given map.
+
+    Each entry contains the <xref href="System.Type" data-throw-if-not-resolved="false"></xref> that extends <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> which is valid, a weight function that determines how likely this visitor is to be chosen, a validator function that determines whether a given exported <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> is valid for this entry, and a function to create a new <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> of the given type if there are none available.
+  example: []
   syntax:
     content: public static readonly List<(Type Type, float Weight, Func<PersonLike, bool> IsValid, Func<Map, Random, PersonLike> CreateNew)> PossibleRegularVisitors
     return:
@@ -447,6 +453,13 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
+  summary: >-
+    An event that is invoked when the visitation priority for this map for a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> is evaluated in <xref href="TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)" data-throw-if-not-resolved="false"></xref>.
+
+    The visitation priority for any given person can be modified using this event.
+
+    This event can be subscribed to using <xref href="TinyLife.World.Map.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public event Map.VisitPriorityDelegate OnGetVisitPriority
     return:
@@ -483,6 +496,44 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.Map.AppliedMigrations
+  commentId: F:TinyLife.World.Map.AppliedMigrations
+  id: AppliedMigrations
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: AppliedMigrations
+  nameWithType: Map.AppliedMigrations
+  fullName: TinyLife.World.Map.AppliedMigrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    The set of names of the <xref href="TinyLife.Utilities.Migration" data-throw-if-not-resolved="false"></xref> instances that have already been applied to objects on this map.
+
+    When a new map is created, this collection is initialized with all migrations that exist, as new objects are expected to not need migration.
+  example: []
+  syntax:
+    content: >-
+      [JsonProperty(DefaultValueHandling = DefaultValueHandling.IgnoreAndPopulate)]
+
+      public HashSet<string> AppliedMigrations
+    return:
+      type: System.Collections.Generic.HashSet{System.String}
+    content.vb: >-
+      <JsonProperty(DefaultValueHandling:=DefaultValueHandling.IgnoreAndPopulate)>
+
+      Public AppliedMigrations As HashSet(Of String)
+  attributes:
+  - type: Newtonsoft.Json.JsonPropertyAttribute
+    ctor: Newtonsoft.Json.JsonPropertyAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: DefaultValueHandling
+      type: Newtonsoft.Json.DefaultValueHandling
+      value: 3
 - uid: TinyLife.World.Map.AdoptableChildren
   commentId: P:TinyLife.World.Map.AdoptableChildren
   id: AdoptableChildren
@@ -3071,13 +3122,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
+  summary: >-
+    Returns the visitation priority for this map for the given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>.
+
+    The returned value is based on whether the <code class="paramref">person</code> is on the same map, and the results of the <xref href="TinyLife.World.Map.OnGetVisitPriority" data-throw-if-not-resolved="false"></xref> event.
+  example: []
   syntax:
     content: public float GetVisitPriority(PersonLike person)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
+      description: The person visiting a lot on this map.
     return:
       type: System.Single
+      description: The priority, as a weight.
     content.vb: Public Function GetVisitPriority(person As PersonLike) As Single
   overload: TinyLife.World.Map.GetVisitPriority*
 - uid: TinyLife.World.Map.PrepareForPermanentRemoval
@@ -4088,6 +4146,21 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
 - uid: System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
   commentId: T:System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
   parent: System.Collections.Generic
@@ -4575,6 +4648,30 @@ references:
   - uid: TinyLife.World.Map.PathfindingNodeConstructDelegate
     name: PathfindingNodeConstructDelegate
     href: TinyLife.World.Map.PathfindingNodeConstructDelegate.html
+- uid: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetVisitPriority_TinyLife_Objects_PersonLike_
+  name: GetVisitPriority(PersonLike)
+  nameWithType: Map.GetVisitPriority(PersonLike)
+  fullName: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+  spec.csharp:
+  - uid: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+    name: GetVisitPriority
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetVisitPriority_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.GetVisitPriority(TinyLife.Objects.PersonLike)
+    name: GetVisitPriority
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetVisitPriority_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
 - uid: TinyLife.World.Map.VisitPriorityDelegate
   commentId: T:TinyLife.World.Map.VisitPriorityDelegate
   parent: TinyLife.World
@@ -4637,6 +4734,76 @@ references:
   - uid: TinyLife.World.Mail
     name: Mail
     href: TinyLife.World.Mail.html
+  - name: )
+- uid: TinyLife.Utilities.Migration
+  commentId: T:TinyLife.Utilities.Migration
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.Migration.html
+  name: Migration
+  nameWithType: Migration
+  fullName: TinyLife.Utilities.Migration
+- uid: System.Collections.Generic.HashSet{System.String}
+  commentId: T:System.Collections.Generic.HashSet{System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.HashSet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<string>
+  nameWithType: HashSet<string>
+  fullName: System.Collections.Generic.HashSet<string>
+  nameWithType.vb: HashSet(Of String)
+  fullName.vb: System.Collections.Generic.HashSet(Of String)
+  name.vb: HashSet(Of String)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: System.Collections.Generic.HashSet`1
+  commentId: T:System.Collections.Generic.HashSet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  name: HashSet<T>
+  nameWithType: HashSet<T>
+  fullName: System.Collections.Generic.HashSet<T>
+  nameWithType.vb: HashSet(Of T)
+  fullName.vb: System.Collections.Generic.HashSet(Of T)
+  name.vb: HashSet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.HashSet`1
+    name: HashSet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.hashset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
   - name: )
 - uid: TinyLife.Actions.ActionType.AdoptChild
   commentId: F:TinyLife.Actions.ActionType.AdoptChild
@@ -5394,13 +5561,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: TinyLife.Objects.PersonLike
-  commentId: T:TinyLife.Objects.PersonLike
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.PersonLike.html
-  name: PersonLike
-  nameWithType: PersonLike
-  fullName: TinyLife.Objects.PersonLike
 - uid: TinyLife.World.Lot
   commentId: T:TinyLife.World.Lot
   parent: TinyLife.World
@@ -7262,6 +7422,12 @@ references:
   name: PopulateLots
   nameWithType: Map.PopulateLots
   fullName: TinyLife.World.Map.PopulateLots
+- uid: TinyLife.World.Map.OnGetVisitPriority
+  commentId: E:TinyLife.World.Map.OnGetVisitPriority
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnGetVisitPriority
+  name: OnGetVisitPriority
+  nameWithType: Map.OnGetVisitPriority
+  fullName: TinyLife.World.Map.OnGetVisitPriority
 - uid: TinyLife.World.Map.GetVisitPriority*
   commentId: Overload:TinyLife.World.Map.GetVisitPriority
   href: TinyLife.World.Map.html#TinyLife_World_Map_GetVisitPriority_TinyLife_Objects_PersonLike_

@@ -47,6 +47,7 @@ items:
   - TinyLife.Actions.Action.IsCompleted
   - TinyLife.Actions.Action.IsInappropriate(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.Action.IsLotContentVisible(TinyLife.World.Lot,TinyLife.Objects.PersonLike,TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2})
+  - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
   - TinyLife.Actions.Action.OnChildCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   - TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
@@ -69,7 +70,7 @@ items:
   - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   - TinyLife.Actions.Action.Type
   - TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  - TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -157,6 +158,30 @@ items:
     return:
       type: System.Random
     content.vb: Public Shared ReadOnly Random As Random
+- uid: TinyLife.Actions.Action.Migrations
+  commentId: F:TinyLife.Actions.Action.Migrations
+  id: Migrations
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: Action.Migrations
+  fullName: TinyLife.Actions.Action.Migrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: >-
+    The global set of action migrations, which will be applied to every loaded <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref>.
+
+    To register migrations for specific action types only, use <xref href="TinyLife.Actions.ActionType.TypeSettings.Migrations" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly List<Migration<Action>> Migrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Actions.Action}}
+    content.vb: Public Shared ReadOnly Migrations As List(Of Migration(Of Action))
 - uid: TinyLife.Actions.Action.OnActionTypeConstructed
   commentId: E:TinyLife.Actions.Action.OnActionTypeConstructed
   id: OnActionTypeConstructed
@@ -673,16 +698,16 @@ items:
       description: The type that this action completed with
     content.vb: Public Overridable Sub OnCompleted(type As CompletionType)
   overload: TinyLife.Actions.Action.OnCompleted*
-- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
-  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
-  id: Validate(TinyLife.Objects.PersonLike)
+- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: Validate(PersonLike)
-  nameWithType: Action.Validate(PersonLike)
-  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike)
+  name: Validate(PersonLike, AppliedMigrations)
+  nameWithType: Action.Validate(PersonLike, AppliedMigrations)
+  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -695,15 +720,18 @@ items:
     When returning false on this method, the action is removed from the <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public virtual bool Validate(PersonLike person)
+    content: public virtual bool Validate(PersonLike person, AppliedMigrations appliedMigrations)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
       description: The person that this action belongs to
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: The migrations that have been applied so far
     return:
       type: System.Boolean
       description: Whether or not the action is still valid (or if it has invalid data)
-    content.vb: Public Overridable Function Validate(person As PersonLike) As Boolean
+    content.vb: Public Overridable Function Validate(person As PersonLike, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.Actions.Action.Validate*
 - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
@@ -883,7 +911,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: >-
-    Returns the map object that is displayed in the action queue in the top left of the screen.
+    Returns the map object that is displayed in the action queue in the top left of the screen using <xref href="TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element%2cMicrosoft.Xna.Framework.GameTime%2cMicrosoft.Xna.Framework.Graphics.SpriteBatch)" data-throw-if-not-resolved="false"></xref>.
 
     Note that this value is ignored if this action's type has a <xref href="TinyLife.Actions.ActionType.TypeSettings.Texture" data-throw-if-not-resolved="false"></xref>.
 
@@ -3131,6 +3159,122 @@ references:
   name: Action
   nameWithType: Action
   fullName: TinyLife.Actions.Action
+- uid: TinyLife.Actions.ActionType.TypeSettings.Migrations
+  commentId: F:TinyLife.Actions.ActionType.TypeSettings.Migrations
+  href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_Migrations
+  name: Migrations
+  nameWithType: ActionType.TypeSettings.Migrations
+  fullName: TinyLife.Actions.ActionType.TypeSettings.Migrations
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Actions.Action}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Actions.Action}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<Action>>
+  nameWithType: List<Migration<Action>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.Actions.Action>>
+  nameWithType.vb: List(Of Migration(Of Action))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.Actions.Action))
+  name.vb: List(Of Migration(Of Action))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Actions.ActionType.Register(TinyLife.Actions.ActionType.TypeSettings)
   commentId: M:TinyLife.Actions.ActionType.Register(TinyLife.Actions.ActionType.TypeSettings)
   href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_Register_TinyLife_Actions_ActionType_TypeSettings_
@@ -4053,10 +4197,17 @@ references:
   fullName: TinyLife.Actions.Action.OnCompleted
 - uid: TinyLife.Actions.Action.Validate*
   commentId: Overload:TinyLife.Actions.Action.Validate
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: Action.Validate
   fullName: TinyLife.Actions.Action.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Objects.BreakableFurniture
   commentId: T:TinyLife.Objects.BreakableFurniture
   parent: TinyLife.Objects
@@ -4153,6 +4304,52 @@ references:
   name: GetNextAction
   nameWithType: Action.GetNextAction
   fullName: TinyLife.Actions.Action.GetNextAction
+- uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: MapObject.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
 - uid: TinyLife.Actions.ActionType.TypeSettings.Texture
   commentId: F:TinyLife.Actions.ActionType.TypeSettings.Texture
   href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_Texture
@@ -5790,43 +5987,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Actions.Action.GetChild*
   commentId: Overload:TinyLife.Actions.Action.GetChild
   href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetChild__1_System_Guid_System_Boolean_

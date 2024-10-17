@@ -12,8 +12,9 @@ items:
   - TinyLife.World.Opening.Colors
   - TinyLife.World.Opening.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,TinyLife.World.Map,TinyLife.Objects.WallLike,Microsoft.Xna.Framework.Vector2,System.Boolean,System.Single,System.Nullable{Microsoft.Xna.Framework.Color})
   - TinyLife.World.Opening.GetDescription
+  - TinyLife.World.Opening.Migrations
   - TinyLife.World.Opening.Type
-  - TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map)
+  - TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -56,6 +57,30 @@ items:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.Opening.Migrations
+  commentId: F:TinyLife.World.Opening.Migrations
+  id: Migrations
+  parent: TinyLife.World.Opening
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: Opening.Migrations
+  fullName: TinyLife.World.Opening.Migrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    The global set of migrations that should be applied to every <xref href="TinyLife.World.Opening" data-throw-if-not-resolved="false"></xref> instance.
+
+    To register migrations for specific opening types only, use <xref href="TinyLife.World.OpeningType.Migrations" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly List<Migration<Opening>> Migrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.Opening}}
+    content.vb: Public Shared ReadOnly Migrations As List(Of Migration(Of Opening))
 - uid: TinyLife.World.Opening.Type
   commentId: F:TinyLife.World.Opening.Type
   id: Type
@@ -298,16 +323,16 @@ items:
       description: Whether the opening is a window
     content.vb: Public Overridable Function CanPlaceOn(type As FurnitureType) As Boolean
   overload: TinyLife.World.Opening.CanPlaceOn*
-- uid: TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map)
-  commentId: M:TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map)
-  id: Validate(TinyLife.Objects.WallLike,TinyLife.World.Map)
+- uid: TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike,TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Objects.WallLike,TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.World.Opening
   langs:
   - csharp
   - vb
-  name: Validate(WallLike, Map)
-  nameWithType: Opening.Validate(WallLike, Map)
-  fullName: TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike, TinyLife.World.Map)
+  name: Validate(WallLike, Map, AppliedMigrations)
+  nameWithType: Opening.Validate(WallLike, Map, AppliedMigrations)
+  fullName: TinyLife.World.Opening.Validate(TinyLife.Objects.WallLike, TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -315,7 +340,7 @@ items:
   summary: Validates this opening, returning false if it is somehow invalid. This method is called when a <xref href="TinyLife.World.Map" data-throw-if-not-resolved="false"></xref> is loaded.
   example: []
   syntax:
-    content: public virtual bool Validate(WallLike wall, Map map)
+    content: public virtual bool Validate(WallLike wall, Map map, AppliedMigrations appliedMigrations)
     parameters:
     - id: wall
       type: TinyLife.Objects.WallLike
@@ -323,10 +348,13 @@ items:
     - id: map
       type: TinyLife.World.Map
       description: The map that this opening is on.
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: The set of migrations that have already been applied on this object.
     return:
       type: System.Boolean
       description: Whether this opening is valid.
-    content.vb: Public Overridable Function Validate(wall As WallLike, map As Map) As Boolean
+    content.vb: Public Overridable Function Validate(wall As WallLike, map As Map, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.World.Opening.Validate*
 - uid: TinyLife.World.Opening.GetDescription
   commentId: M:TinyLife.World.Opening.GetDescription
@@ -748,6 +776,129 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.World.Opening
+  commentId: T:TinyLife.World.Opening
+  parent: TinyLife.World
+  href: TinyLife.World.Opening.html
+  name: Opening
+  nameWithType: Opening
+  fullName: TinyLife.World.Opening
+- uid: TinyLife.World.OpeningType.Migrations
+  commentId: P:TinyLife.World.OpeningType.Migrations
+  href: TinyLife.World.OpeningType.html#TinyLife_World_OpeningType_Migrations
+  name: Migrations
+  nameWithType: OpeningType.Migrations
+  fullName: TinyLife.World.OpeningType.Migrations
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.Opening}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.Opening}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<Opening>>
+  nameWithType: List<Migration<Opening>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.World.Opening>>
+  nameWithType.vb: List(Of Migration(Of Opening))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.World.Opening))
+  name.vb: List(Of Migration(Of Opening))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.World.Opening
+    name: Opening
+    href: TinyLife.World.Opening.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Opening
+    name: Opening
+    href: TinyLife.World.Opening.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.World.OpeningType.Colors
   commentId: F:TinyLife.World.OpeningType.Colors
   href: TinyLife.World.OpeningType.html#TinyLife_World_OpeningType_Colors
@@ -987,13 +1138,6 @@ references:
   name: LockableAnimatedDoor
   nameWithType: LockableAnimatedDoor
   fullName: TinyLife.World.LockableAnimatedDoor
-- uid: TinyLife.World.Opening
-  commentId: T:TinyLife.World.Opening
-  parent: TinyLife.World
-  href: TinyLife.World.Opening.html
-  name: Opening
-  nameWithType: Opening
-  fullName: TinyLife.World.Opening
 - uid: TinyLife.World.Opening.CanWalkThrough*
   commentId: Overload:TinyLife.World.Opening.CanWalkThrough
   href: TinyLife.World.Opening.html#TinyLife_World_Opening_CanWalkThrough_TinyLife_World_Map_TinyLife_Objects_WallLike_TinyLife_Objects_MapObject_
@@ -1028,10 +1172,17 @@ references:
   fullName: TinyLife.World.Opening.CanPlaceOn
 - uid: TinyLife.World.Opening.Validate*
   commentId: Overload:TinyLife.World.Opening.Validate
-  href: TinyLife.World.Opening.html#TinyLife_World_Opening_Validate_TinyLife_Objects_WallLike_TinyLife_World_Map_
+  href: TinyLife.World.Opening.html#TinyLife_World_Opening_Validate_TinyLife_Objects_WallLike_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: Opening.Validate
   fullName: TinyLife.World.Opening.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.World.Opening.GetDescription*
   commentId: Overload:TinyLife.World.Opening.GetDescription
   href: TinyLife.World.Opening.html#TinyLife_World_Opening_GetDescription
@@ -1101,40 +1252,3 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

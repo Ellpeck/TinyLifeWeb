@@ -14,6 +14,7 @@ items:
   - TinyLife.Objects.MapObject.DoUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.MapObject.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean)
+  - TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Objects.MapObject.Floor
   - TinyLife.Objects.MapObject.GetAiPriority(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.GetCategories(TinyLife.Objects.PersonLike)
@@ -53,8 +54,8 @@ items:
   - TinyLife.Objects.MapObject.PersonRotationOrder
   - TinyLife.Objects.MapObject.Position
   - TinyLife.Objects.MapObject.ResetToStatic(System.Boolean,System.Boolean)
-  - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
-  - TinyLife.Objects.MapObject.Validate
+  - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  - TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Objects.MapObject.ValidateEarly
   - TinyLife.Objects.MapObject.Visibility
   langs:
@@ -166,7 +167,7 @@ items:
   summary: >-
     An event that is invoked when a map object is validated.
 
-    This event is invoked in <xref href="TinyLife.Objects.MapObject.Validate" data-throw-if-not-resolved="false"></xref>, which is usually called after subclass validation.
+    This event is invoked in <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>, which is usually called after subclass validation.
   example: []
   syntax:
     content: public static event Action<MapObject> OnValidated
@@ -214,7 +215,7 @@ items:
   summary: >-
     An event that is invoked when non-static events for an object are ready to be attached to.
 
-    This event is invoked in the <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref> constructor, and in the <xref href="TinyLife.Objects.MapObject.Validate" data-throw-if-not-resolved="false"></xref> method.
+    This event is invoked in the <xref href="TinyLife.Objects.MapObject" data-throw-if-not-resolved="false"></xref> constructor, and in the <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref> method.
   example: []
   syntax:
     content: public static event Action<MapObject> OnEventsAttachable
@@ -717,7 +718,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    This method is called right after this object is loaded from disk, before <xref href="TinyLife.Objects.MapObject.Validate" data-throw-if-not-resolved="false"></xref> is called on this object and all others.
+    This method is called right after this object is loaded from disk, before <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref> is called on this object and all others.
 
     By default, this method invokes <xref href="TinyLife.Objects.MapObject.OnValidatedEarly" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -725,16 +726,16 @@ items:
     content: public virtual void ValidateEarly()
     content.vb: Public Overridable Sub ValidateEarly()
   overload: TinyLife.Objects.MapObject.ValidateEarly*
-- uid: TinyLife.Objects.MapObject.Validate
-  commentId: M:TinyLife.Objects.MapObject.Validate
-  id: Validate
+- uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.MapObject
   langs:
   - csharp
   - vb
-  name: Validate()
-  nameWithType: MapObject.Validate()
-  fullName: TinyLife.Objects.MapObject.Validate()
+  name: Validate(AppliedMigrations)
+  nameWithType: MapObject.Validate(AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -747,11 +748,15 @@ items:
     By default, this method invokes <xref href="TinyLife.Objects.MapObject.OnValidated" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public virtual bool Validate()
+    content: public virtual bool Validate(AppliedMigrations appliedMigrations)
+    parameters:
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: ''
     return:
       type: System.Boolean
       description: false if the object is not valid, true otherwise
-    content.vb: Public Overridable Function Validate() As Boolean
+    content.vb: Public Overridable Function Validate(appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.Objects.MapObject.Validate*
 - uid: TinyLife.Objects.MapObject.GetCategories(TinyLife.Objects.PersonLike)
   commentId: M:TinyLife.Objects.MapObject.GetCategories(TinyLife.Objects.PersonLike)
@@ -1423,6 +1428,42 @@ items:
   nameWithType.vb: MapObject.ResetToStatic(Boolean, Boolean)
   fullName.vb: TinyLife.Objects.MapObject.ResetToStatic(Boolean, Boolean)
   name.vb: ResetToStatic(Boolean, Boolean)
+- uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  id: DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.MapObject
+  langs:
+  - csharp
+  - vb
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: MapObject.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Draws this object as an icon in UI space. This method is called by the action queue as well as for notifications.
+
+    By default, people draw their <xref href="TinyLife.Objects.PersonLike.Portrait" data-throw-if-not-resolved="false"></xref>, and <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> draws itself in ui space.
+  example: []
+  syntax:
+    content: public virtual bool DrawIcon(Element element, GameTime time, SpriteBatch batch)
+    parameters:
+    - id: element
+      type: MLEM.Ui.Elements.Element
+      description: The element to draw the object in.
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The game time.
+    - id: batch
+      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing.
+    return:
+      type: System.Boolean
+      description: Whether the object was actually drawn as an icon. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, a replacement icon can be drawn by the caller instead.
+    content.vb: Public Overridable Function DrawIcon(element As Element, time As GameTime, batch As SpriteBatch) As Boolean
+  overload: TinyLife.Objects.MapObject.DrawIcon*
 - uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   commentId: M:TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   id: MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
@@ -1530,37 +1571,40 @@ items:
       description: The first free action spot, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> if there are none.
     content.vb: Public Function GetFreeActionSpotInfo(person As PersonLike, context As ObjectCategory = Nothing) As ActionInfo
   overload: TinyLife.Objects.MapObject.GetFreeActionSpotInfo*
-- uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
-  commentId: M:TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
-  id: SetMapAndValidate(TinyLife.World.Map)
+- uid: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
+  id: SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.MapObject
   langs:
   - csharp
   - vb
-  name: SetMapAndValidate(Map)
-  nameWithType: MapObject.SetMapAndValidate(Map)
-  fullName: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map)
+  name: SetMapAndValidate(Map, AppliedMigrations)
+  nameWithType: MapObject.SetMapAndValidate(Map, AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Shorthand method for setting this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> and then calling <xref href="TinyLife.Objects.MapObject.ValidateEarly" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.MapObject.Validate" data-throw-if-not-resolved="false"></xref>.
+    Shorthand method for setting this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> and then calling <xref href="TinyLife.Objects.MapObject.ValidateEarly" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>.
 
     If an exception occurs while validating, the exception is caught and <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned.
 
     If moving an already validated object to a different map is desired, <xref href="TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d%2cSystem.Nullable%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref> should be used instead.
   example: []
   syntax:
-    content: public bool SetMapAndValidate(Map map)
+    content: public bool SetMapAndValidate(Map map, AppliedMigrations appliedMigrations)
     parameters:
     - id: map
       type: TinyLife.World.Map
       description: The map to set
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: The set of migrations that have already been applied.
     return:
       type: System.Boolean
       description: false if the object is not valid, true otherwise
-    content.vb: Public Function SetMapAndValidate(map As Map) As Boolean
+    content.vb: Public Function SetMapAndValidate(map As Map, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.Objects.MapObject.SetMapAndValidate*
 - uid: TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.MapObject.HasCategory(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
@@ -2478,24 +2522,30 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: TinyLife.Objects.MapObject.Validate
-  commentId: M:TinyLife.Objects.MapObject.Validate
+- uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate
-  name: Validate()
-  nameWithType: MapObject.Validate()
-  fullName: TinyLife.Objects.MapObject.Validate()
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate_TinyLife_Utilities_AppliedMigrations_
+  name: Validate(AppliedMigrations)
+  nameWithType: MapObject.Validate(AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.Validate
+  - uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate_TinyLife_Utilities_AppliedMigrations_
   - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.Validate
+  - uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
     name: Validate
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate_TinyLife_Utilities_AppliedMigrations_
   - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
 - uid: TinyLife.Objects.MapObject.ValidateEarly
   commentId: M:TinyLife.Objects.MapObject.ValidateEarly
@@ -3369,10 +3419,17 @@ references:
   fullName: TinyLife.Objects.MapObject.OnValidated
 - uid: TinyLife.Objects.MapObject.Validate*
   commentId: Overload:TinyLife.Objects.MapObject.Validate
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: MapObject.Validate
   fullName: TinyLife.Objects.MapObject.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Objects.ObjectCategory
   commentId: T:TinyLife.Objects.ObjectCategory
   parent: TinyLife.Objects
@@ -4480,6 +4537,26 @@ references:
   name: ResetToStatic
   nameWithType: MapObject.ResetToStatic
   fullName: TinyLife.Objects.MapObject.ResetToStatic
+- uid: TinyLife.Objects.PersonLike.Portrait
+  commentId: P:TinyLife.Objects.PersonLike.Portrait
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Portrait
+  name: Portrait
+  nameWithType: PersonLike.Portrait
+  fullName: TinyLife.Objects.PersonLike.Portrait
+- uid: TinyLife.Objects.MapObject.DrawIcon*
+  commentId: Overload:TinyLife.Objects.MapObject.DrawIcon
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon
+  nameWithType: MapObject.DrawIcon
+  fullName: TinyLife.Objects.MapObject.DrawIcon
+- uid: MLEM.Ui.Elements.Element
+  commentId: T:MLEM.Ui.Elements.Element
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Element
+  nameWithType: Element
+  fullName: MLEM.Ui.Elements.Element
 - uid: TinyLife.Objects.MapObject.IsInWorld
   commentId: P:TinyLife.Objects.MapObject.IsInWorld
   parent: TinyLife.Objects.MapObject
@@ -4612,7 +4689,7 @@ references:
   fullName: TinyLife.Objects.MapObject.GetFreeActionSpotInfo
 - uid: TinyLife.Objects.MapObject.SetMapAndValidate*
   commentId: Overload:TinyLife.Objects.MapObject.SetMapAndValidate
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SetMapAndValidate_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_
   name: SetMapAndValidate
   nameWithType: MapObject.SetMapAndValidate
   fullName: TinyLife.Objects.MapObject.SetMapAndValidate

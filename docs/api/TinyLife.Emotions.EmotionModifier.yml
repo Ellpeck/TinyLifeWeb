@@ -12,6 +12,7 @@ items:
   - TinyLife.Emotions.EmotionModifier.AdmiredFood
   - TinyLife.Emotions.EmotionModifier.AdmittedToCheating
   - TinyLife.Emotions.EmotionModifier.AdoptedChild
+  - TinyLife.Emotions.EmotionModifier.AffirmedIdentity
   - TinyLife.Emotions.EmotionModifier.AgedUp
   - TinyLife.Emotions.EmotionModifier.AggravatingConversation
   - TinyLife.Emotions.EmotionModifier.AmazingCraftedFurniture
@@ -58,6 +59,7 @@ items:
   - TinyLife.Emotions.EmotionModifier.DirtyHandsAfterToilet
   - TinyLife.Emotions.EmotionModifier.DirtyObject
   - TinyLife.Emotions.EmotionModifier.DisplayName
+  - TinyLife.Emotions.EmotionModifier.DonatedToCharity
   - TinyLife.Emotions.EmotionModifier.Drunk
   - TinyLife.Emotions.EmotionModifier.EmbarrassingWorkConversation
   - TinyLife.Emotions.EmotionModifier.EmergencyFood
@@ -4058,6 +4060,44 @@ items:
     return:
       type: System.ValueTuple{TinyLife.Emotions.EmotionModifier,System.Int32}[]
     content.vb: Public Shared ReadOnly DaydreamEmotions As (Modifier As EmotionModifier, Weight As Integer)()
+- uid: TinyLife.Emotions.EmotionModifier.DonatedToCharity
+  commentId: F:TinyLife.Emotions.EmotionModifier.DonatedToCharity
+  id: DonatedToCharity
+  parent: TinyLife.Emotions.EmotionModifier
+  langs:
+  - csharp
+  - vb
+  name: DonatedToCharity
+  nameWithType: EmotionModifier.DonatedToCharity
+  fullName: TinyLife.Emotions.EmotionModifier.DonatedToCharity
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Emotions
+  syntax:
+    content: public static readonly EmotionModifier[] DonatedToCharity
+    return:
+      type: TinyLife.Emotions.EmotionModifier[]
+    content.vb: Public Shared ReadOnly DonatedToCharity As EmotionModifier()
+- uid: TinyLife.Emotions.EmotionModifier.AffirmedIdentity
+  commentId: F:TinyLife.Emotions.EmotionModifier.AffirmedIdentity
+  id: AffirmedIdentity
+  parent: TinyLife.Emotions.EmotionModifier
+  langs:
+  - csharp
+  - vb
+  name: AffirmedIdentity
+  nameWithType: EmotionModifier.AffirmedIdentity
+  fullName: TinyLife.Emotions.EmotionModifier.AffirmedIdentity
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Emotions
+  syntax:
+    content: public static readonly EmotionModifier AffirmedIdentity
+    return:
+      type: TinyLife.Emotions.EmotionModifier
+    content.vb: Public Shared ReadOnly AffirmedIdentity As EmotionModifier
 - uid: TinyLife.Emotions.EmotionModifier.Name
   commentId: F:TinyLife.Emotions.EmotionModifier.Name
   id: Name
@@ -4368,17 +4408,23 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
+  summary: A helper method to use with <xref href="TinyLife.Emotions.EmotionModifier.Condition" data-throw-if-not-resolved="false"></xref> which returns the given <code class="paramref">type</code> and the result of the <code class="paramref">value</code> function if the passed <code class="paramref">person</code> has the given <xref href="TinyLife.PersonalityType" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public static (IEmotionSource, int) PersonalityEmotion(PersonLike person, PersonalityType type, Func<double> value)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
+      description: The person.
     - id: type
       type: TinyLife.PersonalityType
+      description: The personality type to query, and return as the <xref href="TinyLife.Emotions.IEmotionSource" data-throw-if-not-resolved="false"></xref>.
     - id: value
       type: System.Func{System.Double}
+      description: The value to return.
     return:
       type: System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}
+      description: The given <code class="paramref">type</code> and <code class="paramref">value</code>, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/default">default</a> if the <code class="paramref">person</code> doesn't have the given <xref href="TinyLife.PersonalityType" data-throw-if-not-resolved="false"></xref>.
     content.vb: Public Shared Function PersonalityEmotion(person As PersonLike, type As PersonalityType, value As Func(Of Double)) As (IEmotionSource, Integer)
   overload: TinyLife.Emotions.EmotionModifier.PersonalityEmotion*
   nameWithType.vb: EmotionModifier.PersonalityEmotion(PersonLike, PersonalityType, Func(Of Double))
@@ -4398,21 +4444,29 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Emotions
+  summary: A helper method to use with <xref href="TinyLife.Emotions.EmotionModifier.Condition" data-throw-if-not-resolved="false"></xref> which returns an object and a value based on the objects around the <code class="paramref">person</code>, either in the same room as them, or in a given radius around them outdoors.
+  example: []
   syntax:
     content: 'public static (IEmotionSource, int) ObjectAroundEmotion<T>(PersonLike person, int outdoorsRange, Func<T, int> objectAmount, Func<T, IEmotionSource> source = null) where T : MapObject'
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
+      description: The person.
     - id: outdoorsRange
       type: System.Int32
+      description: The range, in tiles, that objects can be away if the person is outdoors.
     - id: objectAmount
       type: System.Func{{T},System.Int32}
+      description: The amount of an emotion that the passed object should give, which is returned from this method.
     - id: source
       type: System.Func{{T},TinyLife.Emotions.IEmotionSource}
+      description: The emotion source that the passed object should display.
     typeParameters:
     - id: T
+      description: The type of object to find around the person.
     return:
       type: System.ValueTuple{TinyLife.Emotions.IEmotionSource,System.Int32}
+      description: The resulting emotion source and value.
     content.vb: Public Shared Function ObjectAroundEmotion(Of T As MapObject)(person As PersonLike, outdoorsRange As Integer, objectAmount As Func(Of T, Integer), source As Func(Of T, IEmotionSource) = Nothing) As (IEmotionSource, Integer)
   overload: TinyLife.Emotions.EmotionModifier.ObjectAroundEmotion*
   nameWithType.vb: EmotionModifier.ObjectAroundEmotion(Of T)(PersonLike, Integer, Func(Of T, Integer), Func(Of T, IEmotionSource))
@@ -5598,12 +5652,6 @@ references:
   name: Register
   nameWithType: EmotionModifier.Register
   fullName: TinyLife.Emotions.EmotionModifier.Register
-- uid: TinyLife.Emotions.EmotionModifier.PersonalityEmotion*
-  commentId: Overload:TinyLife.Emotions.EmotionModifier.PersonalityEmotion
-  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_PersonalityEmotion_TinyLife_Objects_PersonLike_TinyLife_PersonalityType_System_Func_System_Double__
-  name: PersonalityEmotion
-  nameWithType: EmotionModifier.PersonalityEmotion
-  fullName: TinyLife.Emotions.EmotionModifier.PersonalityEmotion
 - uid: TinyLife.PersonalityType
   commentId: T:TinyLife.PersonalityType
   parent: TinyLife
@@ -5611,6 +5659,19 @@ references:
   name: PersonalityType
   nameWithType: PersonalityType
   fullName: TinyLife.PersonalityType
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  href: TinyLife.Emotions.IEmotionSource.html
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
+- uid: TinyLife.Emotions.EmotionModifier.PersonalityEmotion*
+  commentId: Overload:TinyLife.Emotions.EmotionModifier.PersonalityEmotion
+  href: TinyLife.Emotions.EmotionModifier.html#TinyLife_Emotions_EmotionModifier_PersonalityEmotion_TinyLife_Objects_PersonLike_TinyLife_PersonalityType_System_Func_System_Double__
+  name: PersonalityEmotion
+  nameWithType: EmotionModifier.PersonalityEmotion
+  fullName: TinyLife.Emotions.EmotionModifier.PersonalityEmotion
 - uid: System.Func{System.Double}
   commentId: T:System.Func{System.Double}
   parent: System

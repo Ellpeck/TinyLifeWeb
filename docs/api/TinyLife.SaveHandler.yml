@@ -5,18 +5,18 @@ items:
   id: SaveHandler
   parent: TinyLife
   children:
-  - TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  - TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
   - TinyLife.SaveHandler.GetGameDir
   - TinyLife.SaveHandler.GetSaveBackups(System.String)
   - TinyLife.SaveHandler.GetSaveDir(System.String)
   - TinyLife.SaveHandler.GetSavesDir
-  - TinyLife.SaveHandler.OnBindToType
   - TinyLife.SaveHandler.OnGameLoaded
   - TinyLife.SaveHandler.OnGameSaved
   - TinyLife.SaveHandler.OnSaveDataCreated
   - TinyLife.SaveHandler.OnSaveDataLoaded
   - TinyLife.SaveHandler.OnSaveLoadError
+  - TinyLife.SaveHandler.TypeMigrations
   langs:
   - csharp
   - vb
@@ -42,6 +42,30 @@ items:
   - System.Object.MemberwiseClone
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
+- uid: TinyLife.SaveHandler.TypeMigrations
+  commentId: F:TinyLife.SaveHandler.TypeMigrations
+  id: TypeMigrations
+  parent: TinyLife.SaveHandler
+  langs:
+  - csharp
+  - vb
+  name: TypeMigrations
+  nameWithType: SaveHandler.TypeMigrations
+  fullName: TinyLife.SaveHandler.TypeMigrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: >-
+    A set of migrations that get applied when a save file is loaded whenever a <xref href="System.Type" data-throw-if-not-resolved="false"></xref> is searched for by name.
+
+    The passed <xref href="TinyLife.SaveHandler.TypeMigrationInfo" data-throw-if-not-resolved="false"></xref> contains the assembly name and type name of the missing type.
+  example: []
+  syntax:
+    content: public static readonly List<Migration<SaveHandler.TypeMigrationInfo>> TypeMigrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.SaveHandler.TypeMigrationInfo}}
+    content.vb: Public Shared ReadOnly TypeMigrations As List(Of Migration(Of SaveHandler.TypeMigrationInfo))
 - uid: TinyLife.SaveHandler.OnGameSaved
   commentId: E:TinyLife.SaveHandler.OnGameSaved
   id: OnGameSaved
@@ -141,34 +165,17 @@ items:
   - Tiny Life
   namespace: TinyLife
   summary: >-
-    An event that is raised when a <xref href="Newtonsoft.Json.JsonSerializer" data-throw-if-not-resolved="false"></xref> or <xref href="Newtonsoft.Json.JsonSerializerSettings" data-throw-if-not-resolved="false"></xref> created in <xref href="TinyLife.SaveHandler.CreateSerializer(System.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> is used for serialization or deserialization, and an error occurs.
+    An event that is raised when a <xref href="Newtonsoft.Json.JsonSerializer" data-throw-if-not-resolved="false"></xref> or <xref href="Newtonsoft.Json.JsonSerializerSettings" data-throw-if-not-resolved="false"></xref> created in <xref href="TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext%2cSystem.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext%2cSystem.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> is used for serialization or deserialization, and an error occurs.
 
     This event is a subscription to <xref href="Newtonsoft.Json.JsonSerializerSettings.Error" data-throw-if-not-resolved="false"></xref>.
+
+    If your event handler handles the error gracefully, you should set the argument's <xref href="Newtonsoft.Json.Serialization.ErrorEventArgs.ErrorContext" data-throw-if-not-resolved="false"></xref>'s <xref href="Newtonsoft.Json.Serialization.ErrorContext.Handled" data-throw-if-not-resolved="false"></xref> to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>.
   example: []
   syntax:
-    content: public static event EventHandler<(ErrorEventArgs, EventPhase)> OnSaveLoadError
+    content: public static event EventHandler<(SerializerContext Context, ErrorEventArgs Args, EventPhase Phase)> OnSaveLoadError
     return:
-      type: System.EventHandler{System.ValueTuple{Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
-    content.vb: Public Shared Event OnSaveLoadError As EventHandler(Of (ErrorEventArgs, EventPhase))
-- uid: TinyLife.SaveHandler.OnBindToType
-  commentId: E:TinyLife.SaveHandler.OnBindToType
-  id: OnBindToType
-  parent: TinyLife.SaveHandler
-  langs:
-  - csharp
-  - vb
-  name: OnBindToType
-  nameWithType: SaveHandler.OnBindToType
-  fullName: TinyLife.SaveHandler.OnBindToType
-  type: Event
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife
-  syntax:
-    content: public static event SaveHandler.BindToTypeDelegate OnBindToType
-    return:
-      type: TinyLife.SaveHandler.BindToTypeDelegate
-    content.vb: Public Shared Event OnBindToType As SaveHandler.BindToTypeDelegate
+      type: System.EventHandler{System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
+    content.vb: Public Shared Event OnSaveLoadError As EventHandler(Of (Context As SerializerContext, Args As ErrorEventArgs, Phase As EventPhase))
 - uid: TinyLife.SaveHandler.GetGameDir
   commentId: M:TinyLife.SaveHandler.GetGameDir
   id: GetGameDir
@@ -284,16 +291,16 @@ items:
   nameWithType.vb: SaveHandler.GetSaveBackups(String)
   fullName.vb: TinyLife.SaveHandler.GetSaveBackups(String)
   name.vb: GetSaveBackups(String)
-- uid: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  commentId: M:TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  id: CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+- uid: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  commentId: M:TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  id: CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
   parent: TinyLife.SaveHandler
   langs:
   - csharp
   - vb
-  name: CreateSerializerSettings(EventHandler<ErrorEventArgs>, bool)
-  nameWithType: SaveHandler.CreateSerializerSettings(EventHandler<ErrorEventArgs>, bool)
-  fullName: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
+  name: CreateSerializerSettings(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  nameWithType: SaveHandler.CreateSerializerSettings(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  fullName: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext, System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
   type: Method
   assemblies:
   - Tiny Life
@@ -304,8 +311,11 @@ items:
     Additionally, an <code class="paramref">errorHandler</code> can optionally be attached to determine what should happen when a serialization error occurs.
   example: []
   syntax:
-    content: public static JsonSerializerSettings CreateSerializerSettings(EventHandler<ErrorEventArgs> errorHandler = null, bool prettyPrint = false)
+    content: public static JsonSerializerSettings CreateSerializerSettings(SerializerContext context, EventHandler<ErrorEventArgs> errorHandler = null, bool prettyPrint = false)
     parameters:
+    - id: context
+      type: TinyLife.SerializerContext
+      description: The context that the serializer settings will be used for.
     - id: errorHandler
       type: System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs}
       description: An optional error handler.
@@ -315,30 +325,33 @@ items:
     return:
       type: Newtonsoft.Json.JsonSerializerSettings
       description: A new instance of <xref href="Newtonsoft.Json.JsonSerializerSettings" data-throw-if-not-resolved="false"></xref> with some default values set.
-    content.vb: Public Shared Function CreateSerializerSettings(errorHandler As EventHandler(Of ErrorEventArgs) = Nothing, prettyPrint As Boolean = False) As JsonSerializerSettings
+    content.vb: Public Shared Function CreateSerializerSettings(context As SerializerContext, errorHandler As EventHandler(Of ErrorEventArgs) = Nothing, prettyPrint As Boolean = False) As JsonSerializerSettings
   overload: TinyLife.SaveHandler.CreateSerializerSettings*
-  nameWithType.vb: SaveHandler.CreateSerializerSettings(EventHandler(Of ErrorEventArgs), Boolean)
-  fullName.vb: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
-  name.vb: CreateSerializerSettings(EventHandler(Of ErrorEventArgs), Boolean)
-- uid: TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  commentId: M:TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  id: CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  nameWithType.vb: SaveHandler.CreateSerializerSettings(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
+  fullName.vb: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext, System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
+  name.vb: CreateSerializerSettings(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
+- uid: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  commentId: M:TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  id: CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
   parent: TinyLife.SaveHandler
   langs:
   - csharp
   - vb
-  name: CreateSerializer(EventHandler<ErrorEventArgs>, bool)
-  nameWithType: SaveHandler.CreateSerializer(EventHandler<ErrorEventArgs>, bool)
-  fullName: TinyLife.SaveHandler.CreateSerializer(System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
+  name: CreateSerializer(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  nameWithType: SaveHandler.CreateSerializer(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  fullName: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext, System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
   type: Method
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: Creates a new <xref href="Newtonsoft.Json.JsonSerializer" data-throw-if-not-resolved="false"></xref> that uses the <xref href="Newtonsoft.Json.JsonSerializerSettings" data-throw-if-not-resolved="false"></xref> returned in <xref href="TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+  summary: Creates a new <xref href="Newtonsoft.Json.JsonSerializer" data-throw-if-not-resolved="false"></xref> that uses the <xref href="Newtonsoft.Json.JsonSerializerSettings" data-throw-if-not-resolved="false"></xref> returned in <xref href="TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext%2cSystem.EventHandler%7bNewtonsoft.Json.Serialization.ErrorEventArgs%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public static JsonSerializer CreateSerializer(EventHandler<ErrorEventArgs> errorHandler = null, bool prettyPrint = false)
+    content: public static JsonSerializer CreateSerializer(SerializerContext context, EventHandler<ErrorEventArgs> errorHandler = null, bool prettyPrint = false)
     parameters:
+    - id: context
+      type: TinyLife.SerializerContext
+      description: The context that the serializer will be used for.
     - id: errorHandler
       type: System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs}
       description: An optional error handler.
@@ -348,11 +361,11 @@ items:
     return:
       type: Newtonsoft.Json.JsonSerializer
       description: A new <xref href="Newtonsoft.Json.JsonSerializer" data-throw-if-not-resolved="false"></xref> with some default values set.
-    content.vb: Public Shared Function CreateSerializer(errorHandler As EventHandler(Of ErrorEventArgs) = Nothing, prettyPrint As Boolean = False) As JsonSerializer
+    content.vb: Public Shared Function CreateSerializer(context As SerializerContext, errorHandler As EventHandler(Of ErrorEventArgs) = Nothing, prettyPrint As Boolean = False) As JsonSerializer
   overload: TinyLife.SaveHandler.CreateSerializer*
-  nameWithType.vb: SaveHandler.CreateSerializer(EventHandler(Of ErrorEventArgs), Boolean)
-  fullName.vb: TinyLife.SaveHandler.CreateSerializer(System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
-  name.vb: CreateSerializer(EventHandler(Of ErrorEventArgs), Boolean)
+  nameWithType.vb: SaveHandler.CreateSerializer(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
+  fullName.vb: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext, System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
+  name.vb: CreateSerializer(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
 references:
 - uid: TinyLife
   commentId: N:TinyLife
@@ -597,6 +610,154 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: System.Type
+  commentId: T:System.Type
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.type
+  name: Type
+  nameWithType: Type
+  fullName: System.Type
+- uid: TinyLife.SaveHandler.TypeMigrationInfo
+  commentId: T:TinyLife.SaveHandler.TypeMigrationInfo
+  href: TinyLife.SaveHandler.html
+  name: SaveHandler.TypeMigrationInfo
+  nameWithType: SaveHandler.TypeMigrationInfo
+  fullName: TinyLife.SaveHandler.TypeMigrationInfo
+  spec.csharp:
+  - uid: TinyLife.SaveHandler
+    name: SaveHandler
+    href: TinyLife.SaveHandler.html
+  - name: .
+  - uid: TinyLife.SaveHandler.TypeMigrationInfo
+    name: TypeMigrationInfo
+    href: TinyLife.SaveHandler.TypeMigrationInfo.html
+  spec.vb:
+  - uid: TinyLife.SaveHandler
+    name: SaveHandler
+    href: TinyLife.SaveHandler.html
+  - name: .
+  - uid: TinyLife.SaveHandler.TypeMigrationInfo
+    name: TypeMigrationInfo
+    href: TinyLife.SaveHandler.TypeMigrationInfo.html
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.SaveHandler.TypeMigrationInfo}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.SaveHandler.TypeMigrationInfo}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<SaveHandler.TypeMigrationInfo>>
+  nameWithType: List<Migration<SaveHandler.TypeMigrationInfo>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.SaveHandler.TypeMigrationInfo>>
+  nameWithType.vb: List(Of Migration(Of SaveHandler.TypeMigrationInfo))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.SaveHandler.TypeMigrationInfo))
+  name.vb: List(Of Migration(Of SaveHandler.TypeMigrationInfo))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.SaveHandler
+    name: SaveHandler
+    href: TinyLife.SaveHandler.html
+  - name: .
+  - uid: TinyLife.SaveHandler.TypeMigrationInfo
+    name: TypeMigrationInfo
+    href: TinyLife.SaveHandler.TypeMigrationInfo.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.SaveHandler
+    name: SaveHandler
+    href: TinyLife.SaveHandler.html
+  - name: .
+  - uid: TinyLife.SaveHandler.TypeMigrationInfo
+    name: TypeMigrationInfo
+    href: TinyLife.SaveHandler.TypeMigrationInfo.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: System.Action{TinyLife.GameImpl,TinyLife.Mods.EventPhase}
   commentId: T:System.Action{TinyLife.GameImpl,TinyLife.Mods.EventPhase}
   parent: System
@@ -761,21 +922,26 @@ references:
   name: JsonSerializerSettings
   nameWithType: JsonSerializerSettings
   fullName: Newtonsoft.Json.JsonSerializerSettings
-- uid: TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  commentId: M:TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+- uid: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  commentId: M:TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
   isExternal: true
-  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
-  name: CreateSerializer(EventHandler<ErrorEventArgs>, bool)
-  nameWithType: SaveHandler.CreateSerializer(EventHandler<ErrorEventArgs>, bool)
-  fullName: TinyLife.SaveHandler.CreateSerializer(System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
-  nameWithType.vb: SaveHandler.CreateSerializer(EventHandler(Of ErrorEventArgs), Boolean)
-  fullName.vb: TinyLife.SaveHandler.CreateSerializer(System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
-  name.vb: CreateSerializer(EventHandler(Of ErrorEventArgs), Boolean)
+  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+  name: CreateSerializer(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  nameWithType: SaveHandler.CreateSerializer(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  fullName: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext, System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
+  nameWithType.vb: SaveHandler.CreateSerializer(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
+  fullName.vb: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext, System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
+  name.vb: CreateSerializer(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
   spec.csharp:
-  - uid: TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - uid: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
     name: CreateSerializer
-    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   - name: (
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: ','
+  - name: " "
   - uid: System.EventHandler`1
     name: EventHandler
     isExternal: true
@@ -793,10 +959,15 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.SaveHandler.CreateSerializer(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - uid: TinyLife.SaveHandler.CreateSerializer(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
     name: CreateSerializer
-    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   - name: (
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: ','
+  - name: " "
   - uid: System.EventHandler`1
     name: EventHandler
     isExternal: true
@@ -815,21 +986,26 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
-  commentId: M:TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+- uid: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  commentId: M:TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
   isExternal: true
-  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
-  name: CreateSerializerSettings(EventHandler<ErrorEventArgs>, bool)
-  nameWithType: SaveHandler.CreateSerializerSettings(EventHandler<ErrorEventArgs>, bool)
-  fullName: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
-  nameWithType.vb: SaveHandler.CreateSerializerSettings(EventHandler(Of ErrorEventArgs), Boolean)
-  fullName.vb: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
-  name.vb: CreateSerializerSettings(EventHandler(Of ErrorEventArgs), Boolean)
+  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+  name: CreateSerializerSettings(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  nameWithType: SaveHandler.CreateSerializerSettings(SerializerContext, EventHandler<ErrorEventArgs>, bool)
+  fullName: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext, System.EventHandler<Newtonsoft.Json.Serialization.ErrorEventArgs>, bool)
+  nameWithType.vb: SaveHandler.CreateSerializerSettings(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
+  fullName.vb: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext, System.EventHandler(Of Newtonsoft.Json.Serialization.ErrorEventArgs), Boolean)
+  name.vb: CreateSerializerSettings(SerializerContext, EventHandler(Of ErrorEventArgs), Boolean)
   spec.csharp:
-  - uid: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - uid: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
     name: CreateSerializerSettings
-    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   - name: (
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: ','
+  - name: " "
   - uid: System.EventHandler`1
     name: EventHandler
     isExternal: true
@@ -847,10 +1023,15 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.SaveHandler.CreateSerializerSettings(System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
+  - uid: TinyLife.SaveHandler.CreateSerializerSettings(TinyLife.SerializerContext,System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs},System.Boolean)
     name: CreateSerializerSettings
-    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+    href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   - name: (
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: ','
+  - name: " "
   - uid: System.EventHandler`1
     name: EventHandler
     isExternal: true
@@ -875,17 +1056,29 @@ references:
   name: Error
   nameWithType: JsonSerializerSettings.Error
   fullName: Newtonsoft.Json.JsonSerializerSettings.Error
-- uid: System.EventHandler{System.ValueTuple{Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
-  commentId: T:System.EventHandler{System.ValueTuple{Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
+- uid: Newtonsoft.Json.Serialization.ErrorEventArgs.ErrorContext
+  commentId: P:Newtonsoft.Json.Serialization.ErrorEventArgs.ErrorContext
+  isExternal: true
+  name: ErrorContext
+  nameWithType: ErrorEventArgs.ErrorContext
+  fullName: Newtonsoft.Json.Serialization.ErrorEventArgs.ErrorContext
+- uid: Newtonsoft.Json.Serialization.ErrorContext.Handled
+  commentId: P:Newtonsoft.Json.Serialization.ErrorContext.Handled
+  isExternal: true
+  name: Handled
+  nameWithType: ErrorContext.Handled
+  fullName: Newtonsoft.Json.Serialization.ErrorContext.Handled
+- uid: System.EventHandler{System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
+  commentId: T:System.EventHandler{System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}}
   parent: System
   definition: System.EventHandler`1
   href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
-  name: EventHandler<(ErrorEventArgs, EventPhase)>
-  nameWithType: EventHandler<(ErrorEventArgs, EventPhase)>
-  fullName: System.EventHandler<(Newtonsoft.Json.Serialization.ErrorEventArgs, TinyLife.Mods.EventPhase)>
-  nameWithType.vb: EventHandler(Of (ErrorEventArgs, EventPhase))
-  fullName.vb: System.EventHandler(Of (Newtonsoft.Json.Serialization.ErrorEventArgs, TinyLife.Mods.EventPhase))
-  name.vb: EventHandler(Of (ErrorEventArgs, EventPhase))
+  name: EventHandler<(SerializerContext Context, ErrorEventArgs Args, EventPhase Phase)>
+  nameWithType: EventHandler<(SerializerContext Context, ErrorEventArgs Args, EventPhase Phase)>
+  fullName: System.EventHandler<(TinyLife.SerializerContext Context, Newtonsoft.Json.Serialization.ErrorEventArgs Args, TinyLife.Mods.EventPhase Phase)>
+  nameWithType.vb: EventHandler(Of (Context As SerializerContext, Args As ErrorEventArgs, Phase As EventPhase))
+  fullName.vb: System.EventHandler(Of (Context As TinyLife.SerializerContext, Args As Newtonsoft.Json.Serialization.ErrorEventArgs, Phase As TinyLife.Mods.EventPhase))
+  name.vb: EventHandler(Of (Context As SerializerContext, Args As ErrorEventArgs, Phase As EventPhase))
   spec.csharp:
   - uid: System.EventHandler`1
     name: EventHandler
@@ -893,14 +1086,31 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.eventhandler-1
   - name: <
   - name: (
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Context
+    name: Context
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.context
+  - name: ','
+  - name: " "
   - uid: Newtonsoft.Json.Serialization.ErrorEventArgs
     name: ErrorEventArgs
     isExternal: true
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Args
+    name: Args
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.args
   - name: ','
   - name: " "
   - uid: TinyLife.Mods.EventPhase
     name: EventPhase
     href: TinyLife.Mods.EventPhase.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Phase
+    name: Phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.phase
   - name: )
   - name: '>'
   spec.vb:
@@ -912,10 +1122,33 @@ references:
   - name: Of
   - name: " "
   - name: (
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Context
+    name: Context
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.context
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.SerializerContext
+    name: SerializerContext
+    href: TinyLife.SerializerContext.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Args
+    name: Args
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.args
+  - name: " "
+  - name: As
+  - name: " "
   - uid: Newtonsoft.Json.Serialization.ErrorEventArgs
     name: ErrorEventArgs
     isExternal: true
   - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.SerializerContext,Newtonsoft.Json.Serialization.ErrorEventArgs,TinyLife.Mods.EventPhase}.Phase
+    name: Phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.serializercontext,newtonsoft.json.serialization.erroreventargs,tinylife.mods.eventphase-.phase
+  - name: " "
+  - name: As
   - name: " "
   - uid: TinyLife.Mods.EventPhase
     name: EventPhase
@@ -972,29 +1205,6 @@ references:
   - name: " "
   - name: TEventArgs
   - name: )
-- uid: TinyLife.SaveHandler.BindToTypeDelegate
-  commentId: T:TinyLife.SaveHandler.BindToTypeDelegate
-  parent: TinyLife
-  href: TinyLife.SaveHandler.html
-  name: SaveHandler.BindToTypeDelegate
-  nameWithType: SaveHandler.BindToTypeDelegate
-  fullName: TinyLife.SaveHandler.BindToTypeDelegate
-  spec.csharp:
-  - uid: TinyLife.SaveHandler
-    name: SaveHandler
-    href: TinyLife.SaveHandler.html
-  - name: .
-  - uid: TinyLife.SaveHandler.BindToTypeDelegate
-    name: BindToTypeDelegate
-    href: TinyLife.SaveHandler.BindToTypeDelegate.html
-  spec.vb:
-  - uid: TinyLife.SaveHandler
-    name: SaveHandler
-    href: TinyLife.SaveHandler.html
-  - name: .
-  - uid: TinyLife.SaveHandler.BindToTypeDelegate
-    name: BindToTypeDelegate
-    href: TinyLife.SaveHandler.BindToTypeDelegate.html
 - uid: System.IO.DirectoryInfo
   commentId: T:System.IO.DirectoryInfo
   parent: System.IO
@@ -1164,43 +1374,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
   parent: TinyLife.World
@@ -1217,10 +1390,17 @@ references:
   fullName: TinyLife.Objects.MapObject
 - uid: TinyLife.SaveHandler.CreateSerializerSettings*
   commentId: Overload:TinyLife.SaveHandler.CreateSerializerSettings
-  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializerSettings_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   name: CreateSerializerSettings
   nameWithType: SaveHandler.CreateSerializerSettings
   fullName: TinyLife.SaveHandler.CreateSerializerSettings
+- uid: TinyLife.SerializerContext
+  commentId: T:TinyLife.SerializerContext
+  parent: TinyLife
+  href: TinyLife.SerializerContext.html
+  name: SerializerContext
+  nameWithType: SerializerContext
+  fullName: TinyLife.SerializerContext
 - uid: System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs}
   commentId: T:System.EventHandler{Newtonsoft.Json.Serialization.ErrorEventArgs}
   parent: System
@@ -1311,7 +1491,7 @@ references:
     href: TinyLife.Objects.html
 - uid: TinyLife.SaveHandler.CreateSerializer*
   commentId: Overload:TinyLife.SaveHandler.CreateSerializer
-  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
+  href: TinyLife.SaveHandler.html#TinyLife_SaveHandler_CreateSerializer_TinyLife_SerializerContext_System_EventHandler_Newtonsoft_Json_Serialization_ErrorEventArgs__System_Boolean_
   name: CreateSerializer
   nameWithType: SaveHandler.CreateSerializer
   fullName: TinyLife.SaveHandler.CreateSerializer

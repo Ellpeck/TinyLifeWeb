@@ -12,8 +12,8 @@ items:
   - TinyLife.Tools.Tool.CanSwitchGameModes
   - TinyLife.Tools.Tool.CanUndoRedo
   - TinyLife.Tools.Tool.Closed
-  - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-  - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,Microsoft.Xna.Framework.Color,System.Action{System.Int32},System.Func{System.Int32,System.Boolean},System.String)
+  - TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
   - TinyLife.Tools.Tool.CurrentFloor
   - TinyLife.Tools.Tool.DisplayAsTab
   - TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
@@ -681,7 +681,7 @@ items:
       description: The main content panel. Add custom <xref href="TinyLife.Tools.Tool.BuildModeButton(System.String%2cMLEM.Ui.Elements.Element.GenericCallback%2cMLEM.Ui.Elements.Element.DrawCallback%2cSystem.Single%2cMLEM.Textures.TextureRegion%2cSystem.String%2cSystem.Collections.Generic.IEnumerable%7bSystem.String%7d%2cSystem.Nullable%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref> instances here.
     - id: zoom
       type: MLEM.Ui.Elements.Panel
-      description: The zoom panel that contains <xref href="TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme%5b%5d%2cSystem.Action%7bSystem.Int32%2cSystem.Int32%7d%2cSystem.Func%7bSystem.Int32%2cSystem.Int32%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref> and object previews
+      description: The zoom panel that contains <xref href="TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings%2cSystem.Action%7bSystem.Int32%2cSystem.Int32%7d%2cSystem.Func%7bSystem.Int32%2cSystem.Int32%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref> and object previews
     content.vb: Protected Overridable Sub InitBuildModeUi(content As Panel, zoom As Panel)
   overload: TinyLife.Tools.Tool.InitBuildModeUi*
 - uid: TinyLife.Tools.Tool.Opened
@@ -978,16 +978,16 @@ items:
       description: Whether or not the position is on the current lot
     content.vb: Public Shared Function IsOnLot(pos As Point) As Boolean
   overload: TinyLife.Tools.Tool.IsOnLot*
-- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
-  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
-  id: ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  id: ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
   parent: TinyLife.Tools.Tool
   langs:
   - csharp
   - vb
-  name: ColorSelection(ColorScheme[], Action<int, int>, Func<int, int, bool>)
-  nameWithType: Tool.ColorSelection(ColorScheme[], Action<int, int>, Func<int, int, bool>)
-  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[], System.Action<int, int>, System.Func<int, int, bool>)
+  name: ColorSelection(ColorSettings, Action<int, int>, Func<int, int, bool>)
+  nameWithType: Tool.ColorSelection(ColorSettings, Action<int, int>, Func<int, int, bool>)
+  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings, System.Action<int, int>, System.Func<int, int, bool>)
   type: Method
   assemblies:
   - Tiny Life
@@ -995,38 +995,38 @@ items:
   summary: >-
     Creates a new <xref href="MLEM.Ui.Elements.Group" data-throw-if-not-resolved="false"></xref> that resembles a set of color selection buttons.
 
-    This method uses <xref href="TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme%2cSystem.Action%7bSystem.Int32%7d%2cSystem.Func%7bSystem.Int32%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref> to create multiple color selection areas for all of the <code class="paramref">schemes</code> passed.
+    This method uses <xref href="TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings%2cSystem.Action%7bSystem.Int32%2cSystem.Int32%7d%2cSystem.Func%7bSystem.Int32%2cSystem.Int32%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref> to create multiple color selection areas for all the passed <code class="paramref">settings</code>' <xref href="TinyLife.Utilities.ColorSettings.Schemes" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public static Group ColorSelection(ColorScheme[] schemes, Action<int, int> onPressed, Func<int, int, bool> isSelected)
+    content: public static Group ColorSelection(ColorSettings settings, Action<int, int> onPressed, Func<int, int, bool> isSelected)
     parameters:
-    - id: schemes
-      type: TinyLife.Utilities.ColorScheme[]
-      description: The color schemes to create buttons for.
+    - id: settings
+      type: TinyLife.Utilities.ColorSettings
+      description: The color settings to create buttons for.
     - id: onPressed
       type: System.Action{System.Int32,System.Int32}
       description: A function that returns the index of the color scheme, as well as the index of the color, that has been pressed.
     - id: isSelected
       type: System.Func{System.Int32,System.Int32,System.Boolean}
-      description: A function that determines whether the color scheme and colors with the given indices are selected, which causes a rectangle to be drawn around it.
+      description: A function that determines whether the color scheme with the given index and the color with the given index are selected, which causes a rectangle to be drawn around it.
     return:
       type: MLEM.Ui.Elements.Group
       description: A group of color selection areas with the given settings.
-    content.vb: Public Shared Function ColorSelection(schemes As ColorScheme(), onPressed As Action(Of Integer, Integer), isSelected As Func(Of Integer, Integer, Boolean)) As Group
+    content.vb: Public Shared Function ColorSelection(settings As ColorSettings, onPressed As Action(Of Integer, Integer), isSelected As Func(Of Integer, Integer, Boolean)) As Group
   overload: TinyLife.Tools.Tool.ColorSelection*
-  nameWithType.vb: Tool.ColorSelection(ColorScheme(), Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
-  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme(), System.Action(Of Integer, Integer), System.Func(Of Integer, Integer, Boolean))
-  name.vb: ColorSelection(ColorScheme(), Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
-- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-  id: ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
+  nameWithType.vb: Tool.ColorSelection(ColorSettings, Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
+  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings, System.Action(Of Integer, Integer), System.Func(Of Integer, Integer, Boolean))
+  name.vb: ColorSelection(ColorSettings, Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
+- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,Microsoft.Xna.Framework.Color,System.Action{System.Int32},System.Func{System.Int32,System.Boolean},System.String)
+  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,Microsoft.Xna.Framework.Color,System.Action{System.Int32},System.Func{System.Int32,System.Boolean},System.String)
+  id: ColorSelection(TinyLife.Utilities.ColorScheme,Microsoft.Xna.Framework.Color,System.Action{System.Int32},System.Func{System.Int32,System.Boolean},System.String)
   parent: TinyLife.Tools.Tool
   langs:
   - csharp
   - vb
-  name: ColorSelection(ColorScheme, Action<int>, Func<int, bool>)
-  nameWithType: Tool.ColorSelection(ColorScheme, Action<int>, Func<int, bool>)
-  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, System.Action<int>, System.Func<int, bool>)
+  name: ColorSelection(ColorScheme, Color, Action<int>, Func<int, bool>, string)
+  nameWithType: Tool.ColorSelection(ColorScheme, Color, Action<int>, Func<int, bool>, string)
+  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, Microsoft.Xna.Framework.Color, System.Action<int>, System.Func<int, bool>, string)
   type: Method
   assemblies:
   - Tiny Life
@@ -1037,25 +1037,31 @@ items:
     This is used by <xref href="TinyLife.Uis.CharacterCreator" data-throw-if-not-resolved="false"></xref>, as well as tools like the <xref href="TinyLife.Tools.FurnitureTool" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public static Group ColorSelection(ColorScheme colors, Action<int> onPressed, Func<int, bool> isSelected)
+    content: public static Group ColorSelection(ColorScheme colors, Color modifier, Action<int> onPressed, Func<int, bool> isSelected, string name = null)
     parameters:
     - id: colors
       type: TinyLife.Utilities.ColorScheme
       description: The color scheme to create buttons for
+    - id: modifier
+      type: Microsoft.Xna.Framework.Color
+      description: A color that all colors in the color scheme will be multiplied, which is useful if the object the colors are being applied on is not grayscale.
     - id: onPressed
       type: System.Action{System.Int32}
-      description: A function that returns the index of the button (and color) that has been pressed
+      description: A function that returns the index of the color that has been pressed
     - id: isSelected
       type: System.Func{System.Int32,System.Boolean}
       description: A function that determines whether the color with the given index is selected, which causes a rectangle to be drawn around it.
+    - id: name
+      type: System.String
+      description: The name to display above this color selection.
     return:
       type: MLEM.Ui.Elements.Group
       description: A group of buttons with the given settings
-    content.vb: Public Shared Function ColorSelection(colors As ColorScheme, onPressed As Action(Of Integer), isSelected As Func(Of Integer, Boolean)) As Group
+    content.vb: Public Shared Function ColorSelection(colors As ColorScheme, modifier As Color, onPressed As Action(Of Integer), isSelected As Func(Of Integer, Boolean), name As String = Nothing) As Group
   overload: TinyLife.Tools.Tool.ColorSelection*
-  nameWithType.vb: Tool.ColorSelection(ColorScheme, Action(Of Integer), Func(Of Integer, Boolean))
-  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, System.Action(Of Integer), System.Func(Of Integer, Boolean))
-  name.vb: ColorSelection(ColorScheme, Action(Of Integer), Func(Of Integer, Boolean))
+  nameWithType.vb: Tool.ColorSelection(ColorScheme, Color, Action(Of Integer), Func(Of Integer, Boolean), String)
+  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, Microsoft.Xna.Framework.Color, System.Action(Of Integer), System.Func(Of Integer, Boolean), String)
+  name.vb: ColorSelection(ColorScheme, Color, Action(Of Integer), Func(Of Integer, Boolean), String)
 - uid: TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   commentId: M:TinyLife.Tools.Tool.BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   id: BuildModeButton(System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
@@ -1077,7 +1083,7 @@ items:
     parameters:
     - id: name
       type: System.String
-      description: The name that should be displayed when hovering the button. This should be unlocalized.
+      description: The name that should be displayed when hovering the button.
     - id: onPressed
       type: MLEM.Ui.Elements.Element.GenericCallback
       description: A fucntion that is called when the created button is pressed
@@ -2612,27 +2618,25 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: '?'
   - name: )
-- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
-  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
   parent: TinyLife.Tools.Tool
   isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme___System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
-  name: ColorSelection(ColorScheme[], Action<int, int>, Func<int, int, bool>)
-  nameWithType: Tool.ColorSelection(ColorScheme[], Action<int, int>, Func<int, int, bool>)
-  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[], System.Action<int, int>, System.Func<int, int, bool>)
-  nameWithType.vb: Tool.ColorSelection(ColorScheme(), Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
-  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme(), System.Action(Of Integer, Integer), System.Func(Of Integer, Integer, Boolean))
-  name.vb: ColorSelection(ColorScheme(), Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorSettings_System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
+  name: ColorSelection(ColorSettings, Action<int, int>, Func<int, int, bool>)
+  nameWithType: Tool.ColorSelection(ColorSettings, Action<int, int>, Func<int, int, bool>)
+  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings, System.Action<int, int>, System.Func<int, int, bool>)
+  nameWithType.vb: Tool.ColorSelection(ColorSettings, Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
+  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings, System.Action(Of Integer, Integer), System.Func(Of Integer, Integer, Boolean))
+  name.vb: ColorSelection(ColorSettings, Action(Of Integer, Integer), Func(Of Integer, Integer, Boolean))
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
     name: ColorSelection
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme___System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorSettings_System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
   - name: (
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: '['
-  - name: ']'
+  - uid: TinyLife.Utilities.ColorSettings
+    name: ColorSettings
+    href: TinyLife.Utilities.ColorSettings.html
   - name: ','
   - name: " "
   - uid: System.Action`2
@@ -2677,15 +2681,13 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme[],System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
+  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings,System.Action{System.Int32,System.Int32},System.Func{System.Int32,System.Int32,System.Boolean})
     name: ColorSelection
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme___System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorSettings_System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
   - name: (
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: (
-  - name: )
+  - uid: TinyLife.Utilities.ColorSettings
+    name: ColorSettings
+    href: TinyLife.Utilities.ColorSettings.html
   - name: ','
   - name: " "
   - uid: System.Action`2
@@ -3057,126 +3059,25 @@ references:
   name: Group
   nameWithType: Group
   fullName: MLEM.Ui.Elements.Group
-- uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-  commentId: M:TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-  parent: TinyLife.Tools.Tool
-  isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme_System_Action_System_Int32__System_Func_System_Int32_System_Boolean__
-  name: ColorSelection(ColorScheme, Action<int>, Func<int, bool>)
-  nameWithType: Tool.ColorSelection(ColorScheme, Action<int>, Func<int, bool>)
-  fullName: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, System.Action<int>, System.Func<int, bool>)
-  nameWithType.vb: Tool.ColorSelection(ColorScheme, Action(Of Integer), Func(Of Integer, Boolean))
-  fullName.vb: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme, System.Action(Of Integer), System.Func(Of Integer, Boolean))
-  name.vb: ColorSelection(ColorScheme, Action(Of Integer), Func(Of Integer, Boolean))
-  spec.csharp:
-  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-    name: ColorSelection
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme_System_Action_System_Int32__System_Func_System_Int32_System_Boolean__
-  - name: (
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: ','
-  - name: " "
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: '>'
-  - name: ','
-  - name: " "
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: <
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: '>'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorScheme,System.Action{System.Int32},System.Func{System.Int32,System.Boolean})
-    name: ColorSelection
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme_System_Action_System_Int32__System_Func_System_Int32_System_Boolean__
-  - name: (
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: ','
-  - name: " "
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  - name: )
+- uid: TinyLife.Utilities.ColorSettings.Schemes
+  commentId: F:TinyLife.Utilities.ColorSettings.Schemes
+  href: TinyLife.Utilities.ColorSettings.html#TinyLife_Utilities_ColorSettings_Schemes
+  name: Schemes
+  nameWithType: ColorSettings.Schemes
+  fullName: TinyLife.Utilities.ColorSettings.Schemes
 - uid: TinyLife.Tools.Tool.ColorSelection*
   commentId: Overload:TinyLife.Tools.Tool.ColorSelection
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorScheme___System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_ColorSelection_TinyLife_Utilities_ColorSettings_System_Action_System_Int32_System_Int32__System_Func_System_Int32_System_Int32_System_Boolean__
   name: ColorSelection
   nameWithType: Tool.ColorSelection
   fullName: TinyLife.Tools.Tool.ColorSelection
-- uid: TinyLife.Utilities.ColorScheme[]
-  isExternal: true
-  href: TinyLife.Utilities.ColorScheme.html
-  name: ColorScheme[]
-  nameWithType: ColorScheme[]
-  fullName: TinyLife.Utilities.ColorScheme[]
-  nameWithType.vb: ColorScheme()
-  fullName.vb: TinyLife.Utilities.ColorScheme()
-  name.vb: ColorScheme()
-  spec.csharp:
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: '['
-  - name: ']'
-  spec.vb:
-  - uid: TinyLife.Utilities.ColorScheme
-    name: ColorScheme
-    href: TinyLife.Utilities.ColorScheme.html
-  - name: (
-  - name: )
+- uid: TinyLife.Utilities.ColorSettings
+  commentId: T:TinyLife.Utilities.ColorSettings
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.ColorSettings.html
+  name: ColorSettings
+  nameWithType: ColorSettings
+  fullName: TinyLife.Utilities.ColorSettings
 - uid: System.Action{System.Int32,System.Int32}
   commentId: T:System.Action{System.Int32,System.Int32}
   parent: System
@@ -3377,6 +3278,13 @@ references:
   name: ColorScheme
   nameWithType: ColorScheme
   fullName: TinyLife.Utilities.ColorScheme
+- uid: Microsoft.Xna.Framework.Color
+  commentId: T:Microsoft.Xna.Framework.Color
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Color
+  nameWithType: Color
+  fullName: Microsoft.Xna.Framework.Color
 - uid: System.Action{System.Int32}
   commentId: T:System.Action{System.Int32}
   parent: System
@@ -3459,6 +3367,17 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
 - uid: System.Func`2
   commentId: T:System.Func`2
   isExternal: true
@@ -3505,17 +3424,6 @@ references:
   name: BuildModeButton
   nameWithType: Tool.BuildModeButton
   fullName: TinyLife.Tools.Tool.BuildModeButton
-- uid: System.String
-  commentId: T:System.String
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.string
-  name: string
-  nameWithType: string
-  fullName: string
-  nameWithType.vb: String
-  fullName.vb: String
-  name.vb: String
 - uid: MLEM.Ui.Elements.Element.GenericCallback
   commentId: T:MLEM.Ui.Elements.Element.GenericCallback
   parent: MLEM.Ui.Elements

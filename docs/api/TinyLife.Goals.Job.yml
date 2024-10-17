@@ -17,6 +17,7 @@ items:
   - TinyLife.Goals.Job.GetRaise
   - TinyLife.Goals.Job.HasRequiredPromotionSkills
   - TinyLife.Goals.Job.Level
+  - TinyLife.Goals.Job.Migrations
   - TinyLife.Goals.Job.OnGetWorkingPerformance
   - TinyLife.Goals.Job.Performance
   - TinyLife.Goals.Job.Person
@@ -26,7 +27,7 @@ items:
   - TinyLife.Goals.Job.Update(System.TimeSpan)
   - TinyLife.Goals.Job.UpdateWorking(TinyLife.Actions.WorkAction,System.TimeSpan,System.Single)
   - TinyLife.Goals.Job.VacationDaysAvailable
-  - TinyLife.Goals.Job.Validate(TinyLife.Objects.Person)
+  - TinyLife.Goals.Job.Validate(TinyLife.Objects.Person,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -75,6 +76,30 @@ items:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
     arguments: []
+- uid: TinyLife.Goals.Job.Migrations
+  commentId: F:TinyLife.Goals.Job.Migrations
+  id: Migrations
+  parent: TinyLife.Goals.Job
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: Job.Migrations
+  fullName: TinyLife.Goals.Job.Migrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Goals
+  summary: >-
+    The set of migrations that will be applied to all loaded <xref href="TinyLife.Goals.Job" data-throw-if-not-resolved="false"></xref> instances when loading from disk.
+
+    To register a migration that should only be applied to specific job types, use <xref href="TinyLife.Goals.JobType.Migrations" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static readonly List<Migration<Job>> Migrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Goals.Job}}
+    content.vb: Public Shared ReadOnly Migrations As List(Of Migration(Of Job))
 - uid: TinyLife.Goals.Job.OnGetWorkingPerformance
   commentId: E:TinyLife.Goals.Job.OnGetWorkingPerformance
   id: OnGetWorkingPerformance
@@ -666,16 +691,16 @@ items:
       description: This person's currently working coworkers.
     content.vb: Public Function GetCoworkersAtWork() As IEnumerable(Of Person)
   overload: TinyLife.Goals.Job.GetCoworkersAtWork*
-- uid: TinyLife.Goals.Job.Validate(TinyLife.Objects.Person)
-  commentId: M:TinyLife.Goals.Job.Validate(TinyLife.Objects.Person)
-  id: Validate(TinyLife.Objects.Person)
+- uid: TinyLife.Goals.Job.Validate(TinyLife.Objects.Person,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Goals.Job.Validate(TinyLife.Objects.Person,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Objects.Person,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Goals.Job
   langs:
   - csharp
   - vb
-  name: Validate(Person)
-  nameWithType: Job.Validate(Person)
-  fullName: TinyLife.Goals.Job.Validate(TinyLife.Objects.Person)
+  name: Validate(Person, AppliedMigrations)
+  nameWithType: Job.Validate(Person, AppliedMigrations)
+  fullName: TinyLife.Goals.Job.Validate(TinyLife.Objects.Person, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -683,14 +708,16 @@ items:
   summary: This method is called when this object is loaded from disk.
   example: []
   syntax:
-    content: public bool Validate(Person person)
+    content: public bool Validate(Person person, AppliedMigrations appliedMigrations)
     parameters:
     - id: person
       type: TinyLife.Objects.Person
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
     return:
       type: System.Boolean
       description: false if the object is not valid, true otherwise
-    content.vb: Public Function Validate(person As Person) As Boolean
+    content.vb: Public Function Validate(person As Person, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.Goals.Job.Validate*
 - uid: TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
   commentId: M:TinyLife.Goals.Job.StartVacation(System.Int32,System.Single)
@@ -1315,6 +1342,130 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Goals.Job
+  commentId: T:TinyLife.Goals.Job
+  parent: TinyLife.Goals
+  href: TinyLife.Goals.Job.html
+  name: Job
+  nameWithType: Job
+  fullName: TinyLife.Goals.Job
+- uid: TinyLife.Goals.JobType.Migrations
+  commentId: P:TinyLife.Goals.JobType.Migrations
+  parent: TinyLife.Goals.JobType
+  href: TinyLife.Goals.JobType.html#TinyLife_Goals_JobType_Migrations
+  name: Migrations
+  nameWithType: JobType.Migrations
+  fullName: TinyLife.Goals.JobType.Migrations
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Goals.Job}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Goals.Job}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<Job>>
+  nameWithType: List<Migration<Job>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.Goals.Job>>
+  nameWithType.vb: List(Of Migration(Of Job))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.Goals.Job))
+  name.vb: List(Of Migration(Of Job))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.Goals.Job
+    name: Job
+    href: TinyLife.Goals.Job.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Goals.Job
+    name: Job
+    href: TinyLife.Goals.Job.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Goals.Job.Performance
   commentId: P:TinyLife.Goals.Job.Performance
   href: TinyLife.Goals.Job.html#TinyLife_Goals_Job_Performance
@@ -1895,43 +2046,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Goals.Job.GetCoworkersAtWork*
   commentId: Overload:TinyLife.Goals.Job.GetCoworkersAtWork
   href: TinyLife.Goals.Job.html#TinyLife_Goals_Job_GetCoworkersAtWork
@@ -1940,10 +2054,17 @@ references:
   fullName: TinyLife.Goals.Job.GetCoworkersAtWork
 - uid: TinyLife.Goals.Job.Validate*
   commentId: Overload:TinyLife.Goals.Job.Validate
-  href: TinyLife.Goals.Job.html#TinyLife_Goals_Job_Validate_TinyLife_Objects_Person_
+  href: TinyLife.Goals.Job.html#TinyLife_Goals_Job_Validate_TinyLife_Objects_Person_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: Job.Validate
   fullName: TinyLife.Goals.Job.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Goals.Job.StartVacation*
   commentId: Overload:TinyLife.Goals.Job.StartVacation
   href: TinyLife.Goals.Job.html#TinyLife_Goals_Job_StartVacation_System_Int32_System_Single_

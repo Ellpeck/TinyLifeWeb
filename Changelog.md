@@ -1,3 +1,58 @@
+# 0.44.0
+*October 17, 2024*
+
+![](media/changelog/0.44.0.png)
+
+> Set the Vibe in Lavender Park
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.44.0/).**
+
+Additions
+- Added the Outright Pride 2024 set, which includes 7 new actions, 10 new clothes and accessories, 12 new furniture items, 2 new foods, 1 new wallpaper, and the rec center lot type
+- Added the Lavender Park world, which is a small commercial zone with a rec center, a café and a gym
+- Added fallen leaves and big leaf pile autumn decorations
+- Added some additional blond hair colors
+
+Improvements
+- Improved the custom content import menu for use with gamepads
+- Allow hovering over the entire emotion modifier rather than just its text to see the tooltip
+- Only mark new upgrades, woodworking recipes and food as seen if they're now available
+- Allow multi-tasking tinkering and social actions
+- Display passive improvements when the cleaning skill is leveled up
+- Allow non-colling objects like plates to sit in neighboring object spots
+- Made people prefer eating at tables in the same room even if they don't have a free table spot
+- Give various text boxes a maximum length
+- Improve the dropdown panel's styling
+- Made existing color schemes more consistent and less prone to breaking with color scheme updates
+- Improved the money addition/subtraction animation to be much more noticeable
+- Display color scheme display names on objects with a lot of color schemes
+- Condense the emotion tab's gamepad display
+- Also display the lot employment and inhabiting household's portraits in the lot tooltip
+- Allow the small bush to have no flowers
+- Mail carriers will now not be added to worlds that don't have any residential lots
+
+Fixes
+- Fixed being able to visit a lot in AI mode when clicking on self while hovering over an adjacent lot
+- Fixed people with invalid memories being entirely deleted on load
+- Fixed a computer in Lunar Grove being rotated incorrectly
+- Fixed furniture with variations not being marked as seen correctly until the tab is reopened
+- Fixed children being able to adopt each other as parents
+- Fixed an exception when unable to hire a babysitter
+- Fixed a rare crash when a social action ends unexpectedly
+- Fixed bobbing furniture also bobbing in build mode previews
+- Fixed lots with a lot of walls taking unnecessarily long to import
+
+API
+- Modded names now have to follow a more rigid format: they have to start wit the mod's ID (the name is not allowed anymore), followed by a period
+- Added type-safe GoalTrigger subclasses
+- Added a migration system which allows updating objects of various types in old saves to newer game versions easily
+- Allow mods to specify sting sounds for their emotion types
+- Added debug actions for setting romance and friendship between people
+- Removed the ability to merge color schemes with each other
+- Added ModLoader.GetOwningMod utility method
+- Fixed MoveMap cheat crashing the game if the number passed is more than 7
+- Disallow color schemes that have duplicate colors
+
 # 0.43.11
 *September 20, 2024*
 
@@ -160,7 +215,7 @@ Improvements
 Fixes
 - Fixed being unable to deserialize the discard held item action when loading a save
 - Fixed some important social actions only working when the partner's needs are high enough
-- Fixed some important social actions losing priority when done recently 
+- Fixed some important social actions losing priority when done recently
 - Fixed another exception when holding something while aging up
 
 # 0.43.2
