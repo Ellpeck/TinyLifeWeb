@@ -30,7 +30,6 @@ items:
   - TinyLife.Objects.Person.GetProjects(System.String)
   - TinyLife.Objects.Person.GoToExitRoad(Microsoft.Xna.Framework.Vector2)
   - TinyLife.Objects.Person.IsRegularVisitor
-  - TinyLife.Objects.Person.Job
   - TinyLife.Objects.Person.Jobs
   - TinyLife.Objects.Person.LastBedSleptIn
   - TinyLife.Objects.Person.LifeGoal
@@ -47,7 +46,6 @@ items:
   - TinyLife.Objects.Person.Pronouns
   - TinyLife.Objects.Person.RemoveJob(TinyLife.Goals.JobType)
   - TinyLife.Objects.Person.ResetToStatic(System.Boolean,System.Boolean)
-  - TinyLife.Objects.Person.SetJob(TinyLife.Goals.JobType,System.Int32)
   - TinyLife.Objects.Person.StartProject(TinyLife.Goals.Project)
   - TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.Person.UpdateAdditionalVisuals
@@ -224,7 +222,7 @@ items:
   - TinyLife.Objects.PersonLike.GetRandomOutfit(TinyLife.Objects.ClothesIntention)
   - TinyLife.Objects.PersonLike.SetCurrentOutfit(TinyLife.Objects.ClothesIntention)
   - TinyLife.Objects.PersonLike.SetCurrentOutfit(System.Int32)
-  - TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   - TinyLife.Objects.PersonLike.IsIdMatch(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.PersonLike.IsIdMatch(System.Guid)
   - TinyLife.Objects.PersonLike.FaceObject(TinyLife.Objects.MapObject,TinyLife.Objects.ActionSpot)
@@ -482,52 +480,6 @@ items:
     content.vb: Public Overrides ReadOnly Property FullNamePronouns As String
   overridden: TinyLife.Objects.PersonLike.FullNamePronouns
   overload: TinyLife.Objects.Person.FullNamePronouns*
-- uid: TinyLife.Objects.Person.Job
-  commentId: P:TinyLife.Objects.Person.Job
-  id: Job
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: Job
-  nameWithType: Person.Job
-  fullName: TinyLife.Objects.Person.Job
-  type: Property
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: The <xref href="TinyLife.Goals.Job" data-throw-if-not-resolved="false"></xref> that this person currently has.
-  example: []
-  syntax:
-    content: >-
-      [DataMember(EmitDefaultValue = false)]
-
-      [Obsolete("Use the new Jobs collection instead")]
-
-      public Job Job { get; protected set; }
-    parameters: []
-    return:
-      type: TinyLife.Goals.Job
-    content.vb: >-
-      <DataMember(EmitDefaultValue:=False)>
-
-      <Obsolete("Use the new Jobs collection instead")>
-
-      Public Property Job As Job
-  overload: TinyLife.Objects.Person.Job*
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
-    namedArguments:
-    - name: EmitDefaultValue
-      type: System.Boolean
-      value: false
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Use the new Jobs collection instead
 - uid: TinyLife.Objects.Person.CurrentRoomDecorativeRating
   commentId: P:TinyLife.Objects.Person.CurrentRoomDecorativeRating
   id: CurrentRoomDecorativeRating
@@ -1696,51 +1648,6 @@ items:
       description: The project that was passed, for chaining
     content.vb: Public Overridable Function StartProject(project As Project) As Project
   overload: TinyLife.Objects.Person.StartProject*
-- uid: TinyLife.Objects.Person.SetJob(TinyLife.Goals.JobType,System.Int32)
-  commentId: M:TinyLife.Objects.Person.SetJob(TinyLife.Goals.JobType,System.Int32)
-  id: SetJob(TinyLife.Goals.JobType,System.Int32)
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: SetJob(JobType, int)
-  nameWithType: Person.SetJob(JobType, int)
-  fullName: TinyLife.Objects.Person.SetJob(TinyLife.Goals.JobType, int)
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    Sets this person's current <xref href="TinyLife.Objects.Person.Jobs" data-throw-if-not-resolved="false"></xref> to the passed single value.
-
-    If null is passed, the person's job gets removed.
-  example: []
-  syntax:
-    content: >-
-      [Obsolete("Use the new AddJob and RemoveJob instead")]
-
-      public virtual void SetJob(JobType type, int level = 0)
-    parameters:
-    - id: type
-      type: TinyLife.Goals.JobType
-      description: The job to start
-    - id: level
-      type: System.Int32
-      description: The level to start this job with
-    content.vb: >-
-      <Obsolete("Use the new AddJob and RemoveJob instead")>
-
-      Public Overridable Sub SetJob(type As JobType, level As Integer = 0)
-  overload: TinyLife.Objects.Person.SetJob*
-  attributes:
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Use the new AddJob and RemoveJob instead
-  nameWithType.vb: Person.SetJob(JobType, Integer)
-  fullName.vb: TinyLife.Objects.Person.SetJob(TinyLife.Goals.JobType, Integer)
-  name.vb: SetJob(JobType, Integer)
 - uid: TinyLife.Objects.Person.AddJob(TinyLife.Goals.JobType,System.Int32)
   commentId: M:TinyLife.Objects.Person.AddJob(TinyLife.Goals.JobType,System.Int32)
   id: AddJob(TinyLife.Goals.JobType,System.Int32)
@@ -4987,25 +4894,30 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
-- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
-  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
-  name: SetNewId(Map, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  nameWithType: PersonLike.SetNewId(Map, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable<TinyLife.Objects.PersonLike>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
-  nameWithType.vb: PersonLike.SetNewId(Map, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
-  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
-  name.vb: SetNewId(Map, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  name: SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
+  nameWithType: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
+  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable<TinyLife.Objects.PersonLike>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
+  nameWithType.vb: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
+  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
+  name.vb: SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
     name: SetNewId
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: ','
   - name: " "
   - uid: System.Collections.Generic.IEnumerable`1
@@ -5030,13 +4942,18 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
     name: SetNewId
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
   - name: ','
   - name: " "
   - uid: System.Collections.Generic.IEnumerable`1
@@ -9596,19 +9513,6 @@ references:
   name: FullNamePronouns
   nameWithType: Person.FullNamePronouns
   fullName: TinyLife.Objects.Person.FullNamePronouns
-- uid: TinyLife.Goals.Job
-  commentId: T:TinyLife.Goals.Job
-  parent: TinyLife.Goals
-  href: TinyLife.Goals.Job.html
-  name: Job
-  nameWithType: Job
-  fullName: TinyLife.Goals.Job
-- uid: TinyLife.Objects.Person.Job*
-  commentId: Overload:TinyLife.Objects.Person.Job
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_Job
-  name: Job
-  nameWithType: Person.Job
-  fullName: TinyLife.Objects.Person.Job
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_DecorativeRating
@@ -12213,12 +12117,6 @@ references:
   name: StartProject
   nameWithType: Person.StartProject
   fullName: TinyLife.Objects.Person.StartProject
-- uid: TinyLife.Objects.Person.SetJob*
-  commentId: Overload:TinyLife.Objects.Person.SetJob
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_SetJob_TinyLife_Goals_JobType_System_Int32_
-  name: SetJob
-  nameWithType: Person.SetJob
-  fullName: TinyLife.Objects.Person.SetJob
 - uid: TinyLife.Goals.JobType
   commentId: T:TinyLife.Goals.JobType
   parent: TinyLife.Goals

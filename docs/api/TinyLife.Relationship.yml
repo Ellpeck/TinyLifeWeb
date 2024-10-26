@@ -16,16 +16,17 @@ items:
   - TinyLife.Relationship.GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
   - TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   - TinyLife.Relationship.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
-  - TinyLife.Relationship.HadFirstKiss
   - TinyLife.Relationship.KnownJobType
   - TinyLife.Relationship.KnownPersonalityTypes
   - TinyLife.Relationship.Max
+  - TinyLife.Relationship.Migrations
   - TinyLife.Relationship.OnRelationshipPanel
   - TinyLife.Relationship.OnRelationshipTooltip
   - TinyLife.Relationship.OtherPerson
   - TinyLife.Relationship.Partner
   - TinyLife.Relationship.PassiveFriendReduction
   - TinyLife.Relationship.PassiveRomanceReduction
+  - TinyLife.Relationship.Person
   - TinyLife.Relationship.PopulateTooltip(TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike,TinyLife.Relationship,MLEM.Ui.Elements.Tooltip)
   - TinyLife.Relationship.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Int32,System.Func{``0,System.Boolean})
   - TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
@@ -36,7 +37,7 @@ items:
   - TinyLife.Relationship.SetGenealogy(TinyLife.GenealogyType,System.Boolean,System.Action{TinyLife.Objects.PersonLike,TinyLife.Relationship,TinyLife.GenealogyType},System.Collections.Generic.ICollection{TinyLife.Objects.PersonLike})
   - TinyLife.Relationship.TryingForBaby
   - TinyLife.Relationship.Type
-  - TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike)
+  - TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -85,6 +86,25 @@ items:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
     arguments: []
+- uid: TinyLife.Relationship.Migrations
+  commentId: F:TinyLife.Relationship.Migrations
+  id: Migrations
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: Relationship.Migrations
+  fullName: TinyLife.Relationship.Migrations
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: public static readonly List<Migration<Relationship>> Migrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Relationship}}
+    content.vb: Public Shared ReadOnly Migrations As List(Of Migration(Of Relationship))
 - uid: TinyLife.Relationship.OnRelationshipPanel
   commentId: E:TinyLife.Relationship.OnRelationshipPanel
   id: OnRelationshipPanel
@@ -557,46 +577,6 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
-- uid: TinyLife.Relationship.HadFirstKiss
-  commentId: F:TinyLife.Relationship.HadFirstKiss
-  id: HadFirstKiss
-  parent: TinyLife.Relationship
-  langs:
-  - csharp
-  - vb
-  name: HadFirstKiss
-  nameWithType: Relationship.HadFirstKiss
-  fullName: TinyLife.Relationship.HadFirstKiss
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife
-  summary: This value is set to true if this relationship's partners have invoked the <xref href="TinyLife.Actions.ActionType.Kiss" data-throw-if-not-resolved="false"></xref> action at least once.
-  example: []
-  syntax:
-    content: >-
-      [DataMember]
-
-      [Obsolete("Use the HadFirstKiss memory instead")]
-
-      public bool HadFirstKiss
-    return:
-      type: System.Boolean
-    content.vb: >-
-      <DataMember>
-
-      <Obsolete("Use the HadFirstKiss memory instead")>
-
-      Public HadFirstKiss As Boolean
-  attributes:
-  - type: System.Runtime.Serialization.DataMemberAttribute
-    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
-    arguments: []
-  - type: System.ObsoleteAttribute
-    ctor: System.ObsoleteAttribute.#ctor(System.String)
-    arguments:
-    - type: System.String
-      value: Use the HadFirstKiss memory instead
 - uid: TinyLife.Relationship.KnownJobType
   commentId: F:TinyLife.Relationship.KnownJobType
   id: KnownJobType
@@ -663,6 +643,27 @@ items:
     - name: EmitDefaultValue
       type: System.Boolean
       value: false
+- uid: TinyLife.Relationship.Person
+  commentId: P:TinyLife.Relationship.Person
+  id: Person
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: Person
+  nameWithType: Relationship.Person
+  fullName: TinyLife.Relationship.Person
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  syntax:
+    content: public PersonLike Person { get; }
+    parameters: []
+    return:
+      type: TinyLife.Objects.PersonLike
+    content.vb: Public Property Person As PersonLike
+  overload: TinyLife.Relationship.Person*
 - uid: TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   commentId: M:TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   id: GetSocialEffectiveness(TinyLife.Actions.ActionType)
@@ -695,16 +696,16 @@ items:
       description: The social effectiveness, which is a percentage between 0 and 1
     content.vb: Public Function GetSocialEffectiveness(action As ActionType) As Single
   overload: TinyLife.Relationship.GetSocialEffectiveness*
-- uid: TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike)
-  commentId: M:TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike)
-  id: Validate(TinyLife.Objects.PersonLike)
+- uid: TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Relationship
   langs:
   - csharp
   - vb
-  name: Validate(PersonLike)
-  nameWithType: Relationship.Validate(PersonLike)
-  fullName: TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike)
+  name: Validate(PersonLike, AppliedMigrations)
+  nameWithType: Relationship.Validate(PersonLike, AppliedMigrations)
+  fullName: TinyLife.Relationship.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - Tiny Life
@@ -715,12 +716,16 @@ items:
     This method is automatically called for all of their relationships in <xref href="TinyLife.Objects.PersonLike.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public void Validate(PersonLike person)
+    content: public bool Validate(PersonLike person, AppliedMigrations appliedMigrations)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
       description: The person that this relationship belongs to
-    content.vb: Public Sub Validate(person As PersonLike)
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+    return:
+      type: System.Boolean
+    content.vb: Public Function Validate(person As PersonLike, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.Relationship.Validate*
 - uid: TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
   commentId: M:TinyLife.Relationship.ResetToStatic(System.Boolean,System.Boolean)
@@ -1662,6 +1667,116 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Relationship}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Relationship}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<Relationship>>
+  nameWithType: List<Migration<Relationship>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.Relationship>>
+  nameWithType.vb: List(Of Migration(Of Relationship))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.Relationship))
+  name.vb: List(Of Migration(Of Relationship))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.Relationship
+    name: Relationship
+    href: TinyLife.Relationship.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Relationship
+    name: Relationship
+    href: TinyLife.Relationship.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Relationship.CreatePanel(TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Relationship.CreatePanel(TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike,TinyLife.Relationship,Microsoft.Xna.Framework.Vector2)
   isExternal: true
@@ -2117,43 +2232,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: System.Guid
   commentId: T:System.Guid
   parent: System
@@ -2419,12 +2497,6 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: TinyLife.Actions.ActionType.Kiss
-  commentId: F:TinyLife.Actions.ActionType.Kiss
-  href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_Kiss
-  name: Kiss
-  nameWithType: ActionType.Kiss
-  fullName: TinyLife.Actions.ActionType.Kiss
 - uid: TinyLife.Goals.JobType.Types
   commentId: F:TinyLife.Goals.JobType.Types
   parent: TinyLife.Goals.JobType
@@ -2461,6 +2533,12 @@ references:
   - uid: TinyLife.Goals
     name: Goals
     href: TinyLife.Goals.html
+- uid: TinyLife.Relationship.Person*
+  commentId: Overload:TinyLife.Relationship.Person
+  href: TinyLife.Relationship.html#TinyLife_Relationship_Person
+  name: Person
+  nameWithType: Relationship.Person
+  fullName: TinyLife.Relationship.Person
 - uid: TinyLife.Actions.ActionType
   commentId: T:TinyLife.Actions.ActionType
   parent: TinyLife.Actions
@@ -2535,10 +2613,17 @@ references:
   - name: )
 - uid: TinyLife.Relationship.Validate*
   commentId: Overload:TinyLife.Relationship.Validate
-  href: TinyLife.Relationship.html#TinyLife_Relationship_Validate_TinyLife_Objects_PersonLike_
+  href: TinyLife.Relationship.html#TinyLife_Relationship_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: Relationship.Validate
   fullName: TinyLife.Relationship.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Relationship.ResetToStatic*
   commentId: Overload:TinyLife.Relationship.ResetToStatic
   href: TinyLife.Relationship.html#TinyLife_Relationship_ResetToStatic_System_Boolean_System_Boolean_

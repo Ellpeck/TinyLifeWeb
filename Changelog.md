@@ -1,3 +1,27 @@
+# 0.44.1
+*October 26, 2024*
+
+Additions
+- Added a ToggleDating cheat and debug action
+- Added various non-buyable road sign decorations and added them to the game's worlds
+
+Improvements
+- Display a link to the game's [Bluesky page](https://tinylifegame.bsky.social) on the main menu
+- Only allow going up in floors high enough to view the highest objects on currently visible lots
+- Default to viewing the ground floor when loading into a household or lot
+- Improved dropdown menu styling to be more consistent everywhere
+- Reduced passive need reduction in intense difficulty from 3 times to 2 times the default
+
+Fixes
+- Fixed a rare exception when closing a screen with an unseen item
+- Fixed the couples in Lunar Grove not dating
+- Fixed the lavender texture bleeding into the jungle gym texture in one rotation
+- Fixed being able to start file names with .. causing a crash
+
+API
+- The log now displays a warning if a mod's issue tracker link is the example mod one
+- Added the migration system to various additional object types
+
 # 0.44.0
 *October 17, 2024*
 
