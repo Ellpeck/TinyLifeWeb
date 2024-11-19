@@ -35,7 +35,7 @@ When creating textures, either for custom mods or to change the game's default t
 ![](../media/color_schemes.png)
 
 ## Isometric Layout
-Community member [Gindew](https://linktr.ee/redgindew) has created a template that gives guidance on the isometric style that the game uses. You can download it as [an image](../media/iso_layout.png) or as [Aseprite file](../media/iso_layout.aseprite).
+Community member [Gindew](https://linktr.ee/redgindew) has created a template that gives guidance on the isometric style that the game uses. You can download it as [an image](../media/iso_layout.png) or as [an Aseprite file](../media/iso_layout.aseprite).
 
 Here is an enlarged version of the template so you can get a better look:
 
