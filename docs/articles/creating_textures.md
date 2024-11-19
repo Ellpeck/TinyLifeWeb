@@ -1,12 +1,13 @@
 ﻿# Creating Textures
 When creating textures, either for custom mods or to change the game's default textures, there are several things that you will have to look out for. This article provides some guidelines and explanations. Note that this article is not exhaustive, so don't hesitate to [let us know](https://link.tinylifegame.com/discordweb) if there's anything you're confused by!
 
-## General Notes
+## Composition and Colors
+### General Notes
 - Items that should be able to have color schemes applied to them in games should use a grayscale texture. The individual colors will then be applied to the grayscale texture when drawing.
 - When making a mod, the layout, size or positioning of custom texture regions generally doesn't matter. There are some exceptions to this, which will be noted in this article.
 - Items that should be able to have multiple distinct color schemes applied (like a table with a stone surface but wooden legs) need to be split up into multiple layers, with each layer being colored by its corresponding color scheme. These layers need to be laid out **horizontally**, with the `n`th layer of the item being placed `n * width` pixels to the right of the base layer's position.
 
-## Furniture
+### Furniture
 - Furniture items generally have four distinct directions they can be placed in if they're more complex, or just one or two if they have symmetry in one or both axes.
 - Layers (see general notes) can also be used to determine which parts of a furniture item will be occluded by Tinies and which won't. This is useful, for example, for the backrests of chairs, which should be drawn above a Tiny when looking at them from behind.
 
@@ -14,7 +15,7 @@ When creating textures, either for custom mods or to change the game's default t
 
 ![](../media/counters.png)
 
-## Clothes
+### Clothes
 - Clothes have multiple poses that they have to be compatible with, some of which have multiple animation frames. The ordering and positioning of these frames cannot be changed, so it's best to use the reference textures below for creating news clothes and hairstyles.
 - Clothes have four rotations, which are laid out in a Right-Down-Left-Up fashion.
 - When layers are laid out for clothes, each layer should contain the Right-Down-Left-Up ordering before the next layer is started.
@@ -32,3 +33,10 @@ When creating textures, either for custom mods or to change the game's default t
 - The most up-to-date version of the game's color schemes can be found in the [ColorScheme class](xref:TinyLife.Utilities.ColorScheme).
 
 ![](../media/color_schemes.png)
+
+## Isometric Layout
+Community member [Gindew](https://linktr.ee/redgindew) has created a template that gives guidance on the isometric style that the game uses. You can download it as [an image](../media/iso_layout.png) or as [Aseprite file](../media/iso_layout.aseprite).
+
+Here is an enlarged version of the template so you can get a better look:
+
+![](../media/iso_layout_large.png)
