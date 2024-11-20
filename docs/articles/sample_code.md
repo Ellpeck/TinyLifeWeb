@@ -1,9 +1,9 @@
 ﻿# Sample Code for Modders
-This page collects various sample code snippets intended to help modders get started with more complex pieces of code like furniture that produces light, social actions, and more. 
+This page collects various sample code snippets intended to help modders get started with more complex pieces of code like furniture that produces light, social actions, and more.
 
 If you'd like for more examples of specific content pieces to be added to this list, don't hesitate to [ask on the Discord](https://link.tinylifegame.com/discordweb) or [open an issue](https://github.com/Ellpeck/TinyLifeWeb/issues) about it.
 
-**Please note that, due to the game being closed source, the code displayed here is only intended as an example and not meant to be copied directly.**
+Feel free to copy these examples into your own mods and modify them as needed. Please note that this is not allowed for parts of the game's code that aren't listed here, as they are protected by the game's license.
 
 ## Furniture
 
