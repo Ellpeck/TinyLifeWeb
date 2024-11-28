@@ -36,6 +36,12 @@ To test your translation, you can export it and put it into the game. To export 
 
 When testing your translations, please start the game with the `-v` (or `--verbose`) argument. This will cause it to output some additional information about errors in your localization to the game's [log file](game_dir.md), as well as the special `_ValidateLanguagesLog.txt` file in the game data folder. An automatically created version of this file is also uploaded as a [GitHub Gist](https://link.tinylifegame.com/validate-languages-log) periodically. **Fixing errors like these is very important**, as they can cause players to receive incorrect or incomplete information or, in some cases, cause the game to crash.
 
+### Special Localization Strings
+There are several localization strings that have to have special formatting, most of which are validated as part of the [validation process](#testing-your-translations).
+- `DefaultPronouns` should be three entries separated by commas, which represent the pronouns that a Tiny can have assigned to them randomly. These should be ordered as masculine, feminine, and gender neutral. If a language doesn't have gender-neutral (neo)pronouns, the third entry should be a localized version of "any pronouns" or "no preference".
+- `NameGenerationContinentPriority` is a list of two-letter continent codes that determines the likelihood of names from that region being chosen when a Tiny is randomly generated. Entries at the start of the list are more likely to be chosen.
+- Tiny names, which end with `FirstLast`, should be the first and last name of the Tiny, separated by a comma. They should be in first, last order even when the language [displays last names first](#language-overrides).
+
 ### Language Overrides
 You can request various language-specific behavior overrides to be registered for your localization. Please speak to Ellpeck if you require any of these.
 - The order that a Tiny's first and last names are displayed in. The game defaults to displaying first names first, but this can be changed for languages where the last name is usually displayed first.
