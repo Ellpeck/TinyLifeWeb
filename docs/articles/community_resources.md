@@ -3,7 +3,7 @@ We want to use this section to showcase some of the tutorials, helpful bits of c
 
 Of course, please take care when using these resources, as their content may be incorrect or outdated. That being said, as far as we're aware, all of these resources abide by the [Tiny Life Content and Community Policy](https://docs.tinylifegame.com/articles/content_policy.html).
 
-**If you're interested in having your content added to this page, please let us know on [the Discord server](https://link.tinylifegame.com/discordweb) or [submit a pull request](https://github.com/Ellpeck/TinyLifeWeb/blob/main/docs/articles/awesome_modding.md).**
+**If you're interested in having your content added to this page, please let us know on [the Discord server](https://link.tinylifegame.com/discordweb) or [submit a pull request](https://github.com/Ellpeck/TinyLifeWeb/blob/main/docs/articles/community_resources.md).**
 
 ## Tutorials
 ### McChicky's Modding Tutorials
