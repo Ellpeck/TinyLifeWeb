@@ -38,14 +38,11 @@ When testing your translations, please start the game with the `-v` (or `--verbo
 
 ### Special Localization Strings
 There are several localization strings that have to have special formatting, most of which are validated as part of the [validation process](#testing-your-translations).
+- `DisplayLastNamesFirst` determines the order that a Tiny's first and last names are displayed in. The game defaults to displaying first names first, but this can be changed for languages where the last name is usually displayed first.
+- `GenderedPronouns` should store whether the language supports gendered pronouns. This determines whether the pronoun customization menu, as well as Tinies' pronouns, should be displayed in-game.
 - `DefaultPronouns` should be three entries separated by commas, which represent the pronouns that a Tiny can have assigned to them randomly. These should be ordered as masculine, feminine, and gender neutral. If a language doesn't have gender-neutral (neo)pronouns, the third entry should be a localized version of "any pronouns" or "no preference".
 - `NameGenerationContinentPriority` is a list of two-letter continent codes that determines the likelihood of names from that region being chosen when a Tiny is randomly generated. Entries at the start of the list are more likely to be chosen.
-- Tiny names, which end with `FirstLast`, should be the first and last name of the Tiny, separated by a comma. They should be in first, last order even when the language [displays last names first](#language-overrides).
-
-### Language Overrides
-You can request various language-specific behavior overrides to be registered for your localization. Please speak to Ellpeck if you require any of these.
-- The order that a Tiny's first and last names are displayed in. The game defaults to displaying first names first, but this can be changed for languages where the last name is usually displayed first.
-- Whether the language supports gendered pronouns. This determines whether the pronoun customization menu, as well as Tinies' pronouns, should be displayed in-game. This behavior is enabled by default.
+- Tiny names, which end with `FirstLast`, should be the first and last name of the Tiny, separated by a comma. They should be in first, last order even when the language displays last names first.
 
 ## Notes for Specific Languages
 ### Dutch
