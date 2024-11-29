@@ -37,6 +37,7 @@ items:
   - TinyLife.Objects.PersonLike.DisplayEmote(TinyLife.Actions.EmoteChoices,System.Boolean,System.Single,System.Single)
   - TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
   - TinyLife.Objects.PersonLike.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - TinyLife.Objects.PersonLike.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
   - TinyLife.Objects.PersonLike.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   - TinyLife.Objects.PersonLike.DrawSize
@@ -56,6 +57,7 @@ items:
   - TinyLife.Objects.PersonLike.GenerateShadowAnimation
   - TinyLife.Objects.PersonLike.GetAction``1(System.Guid,System.Boolean)
   - TinyLife.Objects.PersonLike.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
+  - TinyLife.Objects.PersonLike.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   - TinyLife.Objects.PersonLike.GetCategories(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.PersonLike.GetCausedEmotion(TinyLife.Emotions.EmotionModifier)
   - TinyLife.Objects.PersonLike.GetCurrentGoals
@@ -64,6 +66,7 @@ items:
   - TinyLife.Objects.PersonLike.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
   - TinyLife.Objects.PersonLike.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.PersonLike.GetFreeTalkingSpots(TinyLife.Objects.PersonLike)
+  - TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   - TinyLife.Objects.PersonLike.GetHeldActionInfo
   - TinyLife.Objects.PersonLike.GetHeldItemDepthOffset
   - TinyLife.Objects.PersonLike.GetHeldItemDrawOffset(System.Boolean)
@@ -76,7 +79,6 @@ items:
   - TinyLife.Objects.PersonLike.GetPassiveActionPriority(TinyLife.Actions.ActionType)
   - TinyLife.Objects.PersonLike.GetPassiveNeedReduction(TinyLife.NeedType)
   - TinyLife.Objects.PersonLike.GetPersonalitySkillBoost(TinyLife.Skills.SkillType)
-  - TinyLife.Objects.PersonLike.GetPivot
   - TinyLife.Objects.PersonLike.GetRandomOutfit(TinyLife.Objects.ClothesIntention)
   - TinyLife.Objects.PersonLike.GetRandomSpeakSound(TinyLife.Objects.VoiceStyle,TinyLife.Objects.SpeakStyle,System.Collections.Generic.List{Microsoft.Xna.Framework.Audio.SoundEffect},System.Nullable{System.TimeSpan})
   - TinyLife.Objects.PersonLike.GetRelationship(TinyLife.Objects.PersonLike,System.Boolean)
@@ -158,6 +160,7 @@ items:
   - TinyLife.Objects.PersonLike.Outfits
   - TinyLife.Objects.PersonLike.ParentInfo
   - TinyLife.Objects.PersonLike.PersonalityTypes
+  - TinyLife.Objects.PersonLike.Pivot
   - TinyLife.Objects.PersonLike.Portrait
   - TinyLife.Objects.PersonLike.PregnancyAbility
   - TinyLife.Objects.PersonLike.PregnancyHoursRemaining
@@ -195,6 +198,7 @@ items:
   - TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.PersonLike.UpdateAction(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Collections.Generic.IEnumerable{TinyLife.Goals.IGoalTriggerable})
   - TinyLife.Objects.PersonLike.UpdateActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.PersonLike.UpdateAdditionalVisuals
   - TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
   - TinyLife.Objects.PersonLike.UpdateEmotes(Microsoft.Xna.Framework.GameTime,System.Single)
   - TinyLife.Objects.PersonLike.UpdateEmotions(Microsoft.Xna.Framework.GameTime,System.TimeSpan)
@@ -244,6 +248,7 @@ items:
   - TinyLife.Objects.IUpdatingObject
   inheritedMembers:
   - TinyLife.Objects.MapObject.PersonRotationOrder
+  - TinyLife.Objects.MapObject.PersonRotationOrderIndices
   - TinyLife.Objects.MapObject.OnCreated
   - TinyLife.Objects.MapObject.OnValidated
   - TinyLife.Objects.MapObject.OnValidatedEarly
@@ -275,7 +280,6 @@ items:
   - TinyLife.Objects.MapObject.GetRestoreNeedModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
   - TinyLife.Objects.MapObject.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
-  - TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Objects.MapObject.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.MapObject.GetFreeActionSpotInfo(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
@@ -2215,6 +2219,29 @@ items:
       type: Microsoft.Xna.Framework.Point
     content.vb: Public MustOverride ReadOnly Property DrawSize As Point
   overload: TinyLife.Objects.PersonLike.DrawSize*
+- uid: TinyLife.Objects.PersonLike.Pivot
+  commentId: P:TinyLife.Objects.PersonLike.Pivot
+  id: Pivot
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: Pivot
+  nameWithType: PersonLike.Pivot
+  fullName: TinyLife.Objects.PersonLike.Pivot
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: Returns this person's screen-space pivot position, based on the current animation frame.
+  example: []
+  syntax:
+    content: public abstract Vector2 Pivot { get; }
+    parameters: []
+    return:
+      type: Microsoft.Xna.Framework.Vector2
+    content.vb: Public MustOverride ReadOnly Property Pivot As Vector2
+  overload: TinyLife.Objects.PersonLike.Pivot*
 - uid: TinyLife.Objects.PersonLike.CurrentMode
   commentId: P:TinyLife.Objects.PersonLike.CurrentMode
   id: CurrentMode
@@ -2914,6 +2941,56 @@ items:
   nameWithType.vb: PersonLike.DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
   fullName.vb: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
   name.vb: DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
+- uid: TinyLife.Objects.PersonLike.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.Objects.PersonLike.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  id: GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: GetBodyArea(Pose, Direction2)
+  nameWithType: PersonLike.GetBodyArea(Pose, Direction2)
+  fullName: TinyLife.Objects.PersonLike.GetBodyArea(TinyLife.Objects.Pose, MLEM.Maths.Direction2)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public abstract Rectangle GetBodyArea(Pose pose, Direction2 rotation)
+    parameters:
+    - id: pose
+      type: TinyLife.Objects.Pose
+    - id: rotation
+      type: MLEM.Maths.Direction2
+    return:
+      type: Microsoft.Xna.Framework.Rectangle
+    content.vb: Public MustOverride Function GetBodyArea(pose As Pose, rotation As Direction2) As Rectangle
+  overload: TinyLife.Objects.PersonLike.GetBodyArea*
+- uid: TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  id: GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: GetHeadArea(Pose, Direction2)
+  nameWithType: PersonLike.GetHeadArea(Pose, Direction2)
+  fullName: TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose, MLEM.Maths.Direction2)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public abstract Rectangle GetHeadArea(Pose pose, Direction2 rotation)
+    parameters:
+    - id: pose
+      type: TinyLife.Objects.Pose
+    - id: rotation
+      type: MLEM.Maths.Direction2
+    return:
+      type: Microsoft.Xna.Framework.Rectangle
+    content.vb: Public MustOverride Function GetHeadArea(pose As Pose, rotation As Direction2) As Rectangle
+  overload: TinyLife.Objects.PersonLike.GetHeadArea*
 - uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
   id: GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
@@ -3344,6 +3421,43 @@ items:
   nameWithType.vb: PersonLike.ResetToStatic(Boolean, Boolean)
   fullName.vb: TinyLife.Objects.PersonLike.ResetToStatic(Boolean, Boolean)
   name.vb: ResetToStatic(Boolean, Boolean)
+- uid: TinyLife.Objects.PersonLike.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.PersonLike.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  id: DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: PersonLike.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.PersonLike.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Draws this object as an icon in UI space. This method is called by the action queue as well as for notifications.
+
+    By default, people draw their <xref href="TinyLife.Objects.PersonLike.Portrait" data-throw-if-not-resolved="false"></xref>, and <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> draws itself in ui space.
+  example: []
+  syntax:
+    content: public override bool DrawIcon(Element element, GameTime time, SpriteBatch batch)
+    parameters:
+    - id: element
+      type: MLEM.Ui.Elements.Element
+      description: The element to draw the object in.
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The game time.
+    - id: batch
+      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing.
+    return:
+      type: System.Boolean
+      description: Whether the object was actually drawn as an icon. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, a replacement icon can be drawn by the caller instead.
+    content.vb: Public Overrides Function DrawIcon(element As Element, time As GameTime, batch As SpriteBatch) As Boolean
+  overridden: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  overload: TinyLife.Objects.PersonLike.DrawIcon*
 - uid: TinyLife.Objects.PersonLike.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   commentId: M:TinyLife.Objects.PersonLike.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   id: MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
@@ -3485,7 +3599,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Changes the <xref href="TinyLife.Relationship.FriendLevel" data-throw-if-not-resolved="false"></xref> <xref href="TinyLife.Relationship" data-throw-if-not-resolved="false"></xref> wit the given person by the given amount.
+    Changes the <xref href="TinyLife.Relationship.FriendLevel" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.Relationship" data-throw-if-not-resolved="false"></xref> wit the given person by the given amount.
 
     Additionally, a friendship <xref href="TinyLife.Objects.Particle" data-throw-if-not-resolved="false"></xref> is displayed and a <xref href="TinyLife.Uis.Notifications" data-throw-if-not-resolved="false"></xref> is displayed if the friendship type changes.
   example: []
@@ -3521,7 +3635,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Changes the <xref href="TinyLife.Relationship.RomanceLevel" data-throw-if-not-resolved="false"></xref> <xref href="TinyLife.Relationship" data-throw-if-not-resolved="false"></xref> wit the given person by the given amount.
+    Changes the <xref href="TinyLife.Relationship.RomanceLevel" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.Relationship" data-throw-if-not-resolved="false"></xref> wit the given person by the given amount.
 
     Additionally, a romance <xref href="TinyLife.Objects.Particle" data-throw-if-not-resolved="false"></xref> is displayed.
   example: []
@@ -3902,7 +4016,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: Returns the <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref> <xref href="TinyLife.Need.Value" data-throw-if-not-resolved="false"></xref> of the given type for this person
+  summary: Returns the <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.Need.Value" data-throw-if-not-resolved="false"></xref> of the given type for this person
   example: []
   syntax:
     content: public float GetNeed(NeedType type)
@@ -3929,7 +4043,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: Returns the <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref> <xref href="TinyLife.Need.Percentage" data-throw-if-not-resolved="false"></xref> of the given type for this person
+  summary: Returns the <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.Need.Percentage" data-throw-if-not-resolved="false"></xref> of the given type for this person
   example: []
   syntax:
     content: public float GetNeedPercentage(NeedType type)
@@ -5304,7 +5418,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Causes this person's <xref href="TinyLife.Objects.PersonLike.Money" data-throw-if-not-resolved="false"></xref> to be increased, but additionally triggers the <xref href="TinyLife.Goals.GoalTrigger.EarnMoney" data-throw-if-not-resolved="false"></xref> <xref href="TinyLife.Goals.AmountGoal" data-throw-if-not-resolved="false"></xref>.
+    Causes this person's <xref href="TinyLife.Objects.PersonLike.Money" data-throw-if-not-resolved="false"></xref> to be increased, but additionally triggers the <xref href="TinyLife.Goals.GoalTrigger.EarnMoney" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.Goals.AmountGoal" data-throw-if-not-resolved="false"></xref>.
 
     This method should only be used if the money is earned in a "manual" way, like when selling a homemade painting or publishing a book.
   example: []
@@ -5776,29 +5890,6 @@ items:
       description: This person's held item's depth offset.
     content.vb: Public Overridable Function GetHeldItemDepthOffset() As Single
   overload: TinyLife.Objects.PersonLike.GetHeldItemDepthOffset*
-- uid: TinyLife.Objects.PersonLike.GetPivot
-  commentId: M:TinyLife.Objects.PersonLike.GetPivot
-  id: GetPivot
-  parent: TinyLife.Objects.PersonLike
-  langs:
-  - csharp
-  - vb
-  name: GetPivot()
-  nameWithType: PersonLike.GetPivot()
-  fullName: TinyLife.Objects.PersonLike.GetPivot()
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: Returns this person's screen-space pivot position, based on the current animation frame.
-  example: []
-  syntax:
-    content: public virtual Vector2 GetPivot()
-    return:
-      type: Microsoft.Xna.Framework.Vector2
-      description: This person's screen-space pivot position.
-    content.vb: Public Overridable Function GetPivot() As Vector2
-  overload: TinyLife.Objects.PersonLike.GetPivot*
 - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
   commentId: M:TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
   id: CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
@@ -6442,6 +6533,26 @@ items:
     content: protected virtual void ResetVisuals()
     content.vb: Protected Overridable Sub ResetVisuals()
   overload: TinyLife.Objects.PersonLike.ResetVisuals*
+- uid: TinyLife.Objects.PersonLike.UpdateAdditionalVisuals
+  commentId: M:TinyLife.Objects.PersonLike.UpdateAdditionalVisuals
+  id: UpdateAdditionalVisuals
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: UpdateAdditionalVisuals()
+  nameWithType: PersonLike.UpdateAdditionalVisuals()
+  fullName: TinyLife.Objects.PersonLike.UpdateAdditionalVisuals()
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: A method invoked in <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> near the end to update additional visuals, like spawning particles and changing the person's <xref href="TinyLife.Objects.PersonLike.Tint" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: protected virtual void UpdateAdditionalVisuals()
+    content.vb: Protected Overridable Sub UpdateAdditionalVisuals()
+  overload: TinyLife.Objects.PersonLike.UpdateAdditionalVisuals*
 - uid: TinyLife.Objects.PersonLike.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Objects.PersonLike.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
   id: OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
@@ -6704,6 +6815,13 @@ references:
   name: PersonRotationOrder
   nameWithType: MapObject.PersonRotationOrder
   fullName: TinyLife.Objects.MapObject.PersonRotationOrder
+- uid: TinyLife.Objects.MapObject.PersonRotationOrderIndices
+  commentId: F:TinyLife.Objects.MapObject.PersonRotationOrderIndices
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_PersonRotationOrderIndices
+  name: PersonRotationOrderIndices
+  nameWithType: MapObject.PersonRotationOrderIndices
+  fullName: TinyLife.Objects.MapObject.PersonRotationOrderIndices
 - uid: TinyLife.Objects.MapObject.OnCreated
   commentId: E:TinyLife.Objects.MapObject.OnCreated
   parent: TinyLife.Objects.MapObject
@@ -7521,52 +7639,6 @@ references:
   - name: (
   - uid: Microsoft.Xna.Framework.Point
     name: Point
-    isExternal: true
-  - name: )
-- uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  commentId: M:TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  parent: TinyLife.Objects.MapObject
-  isExternal: true
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
-  name: DrawIcon(Element, GameTime, SpriteBatch)
-  nameWithType: MapObject.DrawIcon(Element, GameTime, SpriteBatch)
-  fullName: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-    name: DrawIcon
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
-  - name: (
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-    name: DrawIcon
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
-  - name: (
-  - uid: MLEM.Ui.Elements.Element
-    name: Element
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
     isExternal: true
   - name: )
 - uid: TinyLife.Objects.MapObject.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
@@ -10729,13 +10801,11 @@ references:
   fullName: TinyLife.World.Lot
 - uid: TinyLife.Actions.VisitLotAction
   commentId: T:TinyLife.Actions.VisitLotAction
-  href: TinyLife.Actions.VisitLotAction.html
   name: VisitLotAction
   nameWithType: VisitLotAction
   fullName: TinyLife.Actions.VisitLotAction
 - uid: TinyLife.Actions.GoHomeAction
   commentId: T:TinyLife.Actions.GoHomeAction
-  href: TinyLife.Actions.GoHomeAction.html
   name: GoHomeAction
   nameWithType: GoHomeAction
   fullName: TinyLife.Actions.GoHomeAction
@@ -11272,7 +11342,6 @@ references:
   - name: )
 - uid: TinyLife.Objects.PersonLike.Random
   commentId: F:TinyLife.Objects.PersonLike.Random
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Random
   name: Random
   nameWithType: PersonLike.Random
   fullName: TinyLife.Objects.PersonLike.Random
@@ -12203,6 +12272,12 @@ references:
   name: Point
   nameWithType: Point
   fullName: Microsoft.Xna.Framework.Point
+- uid: TinyLife.Objects.PersonLike.Pivot*
+  commentId: Overload:TinyLife.Objects.PersonLike.Pivot
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Pivot
+  name: Pivot
+  nameWithType: PersonLike.Pivot
+  fullName: TinyLife.Objects.PersonLike.Pivot
 - uid: TinyLife.Objects.IUpdatingObject.UpdateMode
   commentId: T:TinyLife.Objects.IUpdatingObject.UpdateMode
   parent: TinyLife.Objects
@@ -13096,14 +13171,13 @@ references:
   fullName: TinyLife.Objects.PersonLike.Memories
 - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
   commentId: M:TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddMemory_TinyLife_Goals_Memory_
+  href: TinyLife.Goals.Memory.html
   name: AddMemory(Memory)
   nameWithType: PersonLike.AddMemory(Memory)
   fullName: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
   spec.csharp:
   - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
     name: AddMemory
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddMemory_TinyLife_Goals_Memory_
   - name: (
   - uid: TinyLife.Goals.Memory
     name: Memory
@@ -13112,7 +13186,6 @@ references:
   spec.vb:
   - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
     name: AddMemory
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddMemory_TinyLife_Goals_Memory_
   - name: (
   - uid: TinyLife.Goals.Memory
     name: Memory
@@ -14306,6 +14379,25 @@ references:
     name: AgeGroup
     href: TinyLife.Objects.AgeGroup.html
   - name: '?'
+- uid: TinyLife.Objects.PersonLike.GetBodyArea*
+  commentId: Overload:TinyLife.Objects.PersonLike.GetBodyArea
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetBodyArea_TinyLife_Objects_Pose_MLEM_Maths_Direction2_
+  name: GetBodyArea
+  nameWithType: PersonLike.GetBodyArea
+  fullName: TinyLife.Objects.PersonLike.GetBodyArea
+- uid: Microsoft.Xna.Framework.Rectangle
+  commentId: T:Microsoft.Xna.Framework.Rectangle
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Rectangle
+  nameWithType: Rectangle
+  fullName: Microsoft.Xna.Framework.Rectangle
+- uid: TinyLife.Objects.PersonLike.GetHeadArea*
+  commentId: Overload:TinyLife.Objects.PersonLike.GetHeadArea
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetHeadArea_TinyLife_Objects_Pose_MLEM_Maths_Direction2_
+  name: GetHeadArea
+  nameWithType: PersonLike.GetHeadArea
+  fullName: TinyLife.Objects.PersonLike.GetHeadArea
 - uid: MLEM.Animations.SpriteAnimationGroup
   commentId: T:MLEM.Animations.SpriteAnimationGroup
   parent: MLEM.Animations
@@ -15156,6 +15248,72 @@ references:
   name: ResetToStatic
   nameWithType: PersonLike.ResetToStatic
   fullName: TinyLife.Objects.PersonLike.ResetToStatic
+- uid: TinyLife.Objects.PersonLike.Portrait
+  commentId: P:TinyLife.Objects.PersonLike.Portrait
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Portrait
+  name: Portrait
+  nameWithType: PersonLike.Portrait
+  fullName: TinyLife.Objects.PersonLike.Portrait
+- uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  commentId: M:TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon(Element, GameTime, SpriteBatch)
+  nameWithType: MapObject.DrawIcon(Element, GameTime, SpriteBatch)
+  fullName: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
+    name: DrawIcon
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  - name: (
+  - uid: MLEM.Ui.Elements.Element
+    name: Element
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: )
+- uid: TinyLife.Objects.PersonLike.DrawIcon*
+  commentId: Overload:TinyLife.Objects.PersonLike.DrawIcon
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawIcon_MLEM_Ui_Elements_Element_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_
+  name: DrawIcon
+  nameWithType: PersonLike.DrawIcon
+  fullName: TinyLife.Objects.PersonLike.DrawIcon
+- uid: MLEM.Ui.Elements.Element
+  commentId: T:MLEM.Ui.Elements.Element
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Element
+  nameWithType: Element
+  fullName: MLEM.Ui.Elements.Element
 - uid: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
   commentId: M:TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
   href: TinyLife.World.Map.html#TinyLife_World_Map_AddObject_TinyLife_Objects_MapObject_
@@ -17012,13 +17170,6 @@ references:
   name: SetPregnancyStatus
   nameWithType: PersonLike.SetPregnancyStatus
   fullName: TinyLife.Objects.PersonLike.SetPregnancyStatus
-- uid: TinyLife.Objects.PersonLike.Portrait
-  commentId: P:TinyLife.Objects.PersonLike.Portrait
-  parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Portrait
-  name: Portrait
-  nameWithType: PersonLike.Portrait
-  fullName: TinyLife.Objects.PersonLike.Portrait
 - uid: TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty*
   commentId: Overload:TinyLife.Objects.PersonLike.SetAnimationsPortraitDirty
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetAnimationsPortraitDirty
@@ -17099,12 +17250,6 @@ references:
   name: GetHeldItemDepthOffset
   nameWithType: PersonLike.GetHeldItemDepthOffset
   fullName: TinyLife.Objects.PersonLike.GetHeldItemDepthOffset
-- uid: TinyLife.Objects.PersonLike.GetPivot*
-  commentId: Overload:TinyLife.Objects.PersonLike.GetPivot
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetPivot
-  name: GetPivot
-  nameWithType: PersonLike.GetPivot
-  fullName: TinyLife.Objects.PersonLike.GetPivot
 - uid: TinyLife.Actions.ActionType.TypeSettings.RequiredSkill
   commentId: F:TinyLife.Actions.ActionType.TypeSettings.RequiredSkill
   href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_RequiredSkill
@@ -17498,6 +17643,19 @@ references:
   name: ResetVisuals
   nameWithType: PersonLike.ResetVisuals
   fullName: TinyLife.Objects.PersonLike.ResetVisuals
+- uid: TinyLife.Objects.PersonLike.Tint
+  commentId: F:TinyLife.Objects.PersonLike.Tint
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Tint
+  name: Tint
+  nameWithType: PersonLike.Tint
+  fullName: TinyLife.Objects.PersonLike.Tint
+- uid: TinyLife.Objects.PersonLike.UpdateAdditionalVisuals*
+  commentId: Overload:TinyLife.Objects.PersonLike.UpdateAdditionalVisuals
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAdditionalVisuals
+  name: UpdateAdditionalVisuals
+  nameWithType: PersonLike.UpdateAdditionalVisuals
+  fullName: TinyLife.Objects.PersonLike.UpdateAdditionalVisuals
 - uid: TinyLife.Objects.PersonLike.OnActionsCompleted
   commentId: E:TinyLife.Objects.PersonLike.OnActionsCompleted
   parent: TinyLife.Objects.PersonLike

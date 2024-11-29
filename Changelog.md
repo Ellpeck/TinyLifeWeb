@@ -1,3 +1,38 @@
+# 0.45.0
+*November 29, 2024*
+
+![](media/changelog/0.45.0.png)
+
+> Small Plants and Big Emotions
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.45.0/).**
+
+Additions
+- Added three large potted plants
+- Added three small potted plants
+- Added a large weeping willow tree
+- Added dandelion ground decorations
+- Added various particles for different emotions, which can be disabled in the options menu
+
+Improvements
+- Improved the diagonal wood tile texture
+- Moved world options to their own tab in the options menu
+- Improved texture packing speed on startup
+- Allow using the emotion cheat to get a specific emotion, rather than just emotion modifiers
+- Also notify demo players of the floor restriction in the roof tool
+- Made the amount of windows and doors determine the amount of natural light in a room
+- Display a warning when a clothing item will be hidden under another
+- Display open/closed arrows on dropdown menus
+- Made randomly generated names have a high likelihood of matching the selected game language
+
+Fixes
+- Fixed various particles on people being in incorrect positions for certain ages and poses
+- Fixed babies being able to use an easel
+- Fixed being able to undo and redo in build mode when hovering the UI
+- Fixed an exception when a transition is happening while starting another one
+- Fixed center-aligned dropdown content in the character creator not being hoverable fully
+- Fixed a crash when splitting households with a lot of money
+
 # 0.44.1
 *October 26, 2024*
 
