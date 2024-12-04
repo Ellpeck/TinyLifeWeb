@@ -1,3 +1,9 @@
+# 0.45.1
+*December 4, 2024*
+
+Fixes
+- Fixed language-specific settings not being parsed properly
+
 # 0.45.0
 *November 29, 2024*
 
