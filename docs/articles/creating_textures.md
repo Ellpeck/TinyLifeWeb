@@ -20,8 +20,8 @@ When creating textures, either for custom mods or to change the game's default t
 - Clothes have four rotations, which are laid out in a Right-Down-Left-Up fashion.
 - When layers are laid out for clothes, each layer should contain the Right-Down-Left-Up ordering before the next layer is started.
 - Different clothing types and age groups use different sets of poses, since some of them can be reused in different cases. For example, since all working poses use the same arm animations, tops only need one working animation.
-  - Hair, facial hair, accessories, head accessories and face accessories only use the four walking frames as well as the laying pose.
-  - Tops and arm accessories only use the four walking frames, the laying pose, the two working frames, and the four walking with arms out frames. Tops for babies additionally include a frame for sitting.
+  - Hair, facial hair, accessories, head accessories, face accessories and makeup only use the four walking frames as well as the laying pose. Starting with Tiny Life 0.45.2, they only use the first walking frame and the laying pose.
+  - Tops and arm accessories only use the four walking frames, the laying pose, the two working frames, and the four walking with arms out frames. Tops for babies additionally include a frame for sitting. Starting with Tiny Life 0.45.2, the four walking with arms out frames are no longer used.
   - Pants and shoes only use the four walking frames, the sitting pose, and the sitting on ground pose. Pants and shoes for babies additionally include frames for sleeping and standing.
   - Babies don't use the walking with arms out frames at all. 
 
