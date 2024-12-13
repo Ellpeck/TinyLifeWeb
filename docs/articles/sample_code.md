@@ -39,6 +39,31 @@ public static readonly FurnitureType BulbFairyLights = FurnitureType.Register(ne
 });
 ```
 
+## Fences
+The EzTown Metal Fence's code:
+```cs
+FenceType.Register(new FenceType("ModernMetalFence", 40, null, TextureHandler.FenceTextures, new Point(0, 0), ColorScheme.MutedPastels));
+```
+
+## Openings
+Openings holes in walls that are usually filled with windows or doors. 
+
+### Windows
+Here's the code for the Small Wooden Window:
+```cs
+OpeningType.Register(new OpeningType("SmallWoodWindow", TextureHandler.OpeningTexture, new Point(0, 0), WallMode.SmallWindow, 650, ColorScheme.DyedWood, 0.5F));
+```
+
+### Doors
+To create different types of openings, like arches and doors, the `construct` parameter in the constructor can be used. All opening types that the game currently supports, such as [`WalkableOpening`](xref:TinyLife.World.WalkableOpening), [`AnimatedDoor`](xref:TinyLife.World.AnimatedDoor) and [`LockableAnimatedDoor`](xref:TinyLife.World.LockableAnimatedDoor), have a static `Construct` method, a reference to which can simply be passed to the `construct` parameter:
+```cs
+OpeningType.Register(new OpeningType("SmallArch", TextureHandler.OpeningTexture, new Point(2, 0), WallMode.Door, 900, ColorScheme.DyedWood, 1, WalkableOpening.Construct));
+OpeningType.Register(new OpeningType("SmallWoodDoor", TextureHandler.OpeningTexture, new Point(6, 0), WallMode.Door, 950, ColorScheme.DyedWood, 0, LockableAnimatedDoor.Construct));
+```
+
+### Wall Modes
+Notably, opening types can specify the wall mode that they want to use, which determines the cutout shape that the opening will create in the wall. A set of existing wall modes can be found in the [`WallMode` class](xref:TinyLife.World.WallMode). If required, you can also add new wall modes through the `WallMode.Register` method, in which case you additionally have to specify a white texture that is transparent where the wall should be cut out.
+
 ## Actions
 
 ### Simple Social Actions (Talk Actions)
@@ -100,7 +125,6 @@ public static readonly LifeGoal HouseholdHero = LifeGoal.Register(new LifeGoal("
         AutoGoalInfo.Conditioned<Person>("CleaningLevel5", p => p.HasSkillLevel(SkillType.Cleaning, 5), GoalTrigger.PersonUpdate),
         AutoGoalInfo.Conditioned<Person>("RepairLevel10", p => p.HasSkillLevel(SkillType.Repair, 10), GoalTrigger.PersonUpdate))) {
     AllowedAges = AgeGroup.OlderThanChild
-});
 });
 ```
 
