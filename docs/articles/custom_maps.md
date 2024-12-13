@@ -19,7 +19,7 @@ There's a few engine details that you'll have to pay attention to when creating 
 - Newly placed lots should have a name assigned to them prior to exporting, as otherwise they will be marked as incomplete, causing them to behave unexpectedly.
 - Some build mode features behave unexpectedly outside of lots and especially close to the borders of the map, so take care when placing walls and roofs there.
 - Lots should not intersect each other.
-- You can only delete lots if they don't currently have a household occupying them, so you'll have to export or delete existing households first. To delete a lot, select its full area with the Remove tool as if you were placing the lot.
+- You can only delete lots if they don't currently have a household occupying them, and you're not currently building on them, so you'll have to export or delete existing households first and choose another lot to start building from. To delete a lot, select its full area with the Remove tool as if you were placing the lot.
 
 ## Useful Cheats
 There's a few cheats not listed in the [cheats article](cheats.md) that are useful exclusively for editing custom maps.
