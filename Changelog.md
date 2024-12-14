@@ -1,3 +1,25 @@
+# 0.45.2
+*December 14, 2024*
+
+Additions
+- Added the ancient bonsai small pot plant
+- Added a simple durag head accessory
+
+Improvements
+- Improved action selection menu navigation when using a gamepad
+- Increased the resolution of the selection texture, causing objects to be easier to highlight when zoomed out
+- Improved the way "down" versions of roofs look by still drawing their wall outlines
+
+Fixes
+- Fixed being able to place wallpaper on roofs and stairs outside the owned area
+- Fixed removing nothing using the remove tool causing an empty undo/redo item to be added
+- Fixed a rare exception when navigating the character creator with a gamepad
+
+API
+- DeathReason is now a class, allowing for custom death reasons to be added by mods
+- Added an event for when a person's age changes
+- Removed duplicate frames for all hair, accessories and shirts (see [this commit](https://github.com/Ellpeck/TinyLifeWeb/commit/1138804dc2d51777eba34ac8ff31637aae9f0c95) to the documentation for more info)
+
 # 0.45.1
 *December 4, 2024*
 

@@ -14,9 +14,9 @@ items:
   - TinyLife.Objects.Person.DiaperDirty
   - TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   - TinyLife.Objects.Person.DrawSize
-  - TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
+  - TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
   - TinyLife.Objects.Person.FullNamePronouns
-  - TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+  - TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
   - TinyLife.Objects.Person.GenerateShadowAnimation
   - TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Person.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
@@ -36,7 +36,6 @@ items:
   - TinyLife.Objects.Person.LotEmployment
   - TinyLife.Objects.Person.OnAgeChanged(TinyLife.Objects.AgeGroup)
   - TinyLife.Objects.Person.OnCreate
-  - TinyLife.Objects.Person.OnDrawUi
   - TinyLife.Objects.Person.OnGenerateAnimationGroup
   - TinyLife.Objects.Person.OnJobChanged
   - TinyLife.Objects.Person.OnLifeGoalChanged
@@ -47,6 +46,8 @@ items:
   - TinyLife.Objects.Person.Pronouns
   - TinyLife.Objects.Person.RemoveJob(TinyLife.Goals.JobType)
   - TinyLife.Objects.Person.ResetToStatic(System.Boolean,System.Boolean)
+  - TinyLife.Objects.Person.RotationOrder
+  - TinyLife.Objects.Person.RotationOrderIndices
   - TinyLife.Objects.Person.StartProject(TinyLife.Goals.Project)
   - TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.Person.UpdateJobs(System.TimeSpan)
@@ -161,11 +162,14 @@ items:
   - TinyLife.Objects.PersonLike.OnMemoriesChanged
   - TinyLife.Objects.PersonLike.OnGetCurrentGoals
   - TinyLife.Objects.PersonLike.OnAddEmotion
+  - TinyLife.Objects.PersonLike.OnAgeChange
   - TinyLife.Objects.PersonLike.OnGetPassiveNeedReduction
   - TinyLife.Objects.PersonLike.OnDrawLooks
   - TinyLife.Objects.PersonLike.OnDrawLooksLayer
+  - TinyLife.Objects.PersonLike.OnDrawUi
   - TinyLife.Objects.PersonLike.Animations
   - TinyLife.Objects.PersonLike.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
   - TinyLife.Objects.PersonLike.GetCategories(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.PersonLike.Intersects(MLEM.Maths.RectangleF)
   - TinyLife.Objects.PersonLike.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
@@ -247,6 +251,7 @@ items:
   - TinyLife.Objects.PersonLike.CanApplyPersonality(TinyLife.PersonalityType)
   - TinyLife.Objects.PersonLike.HasRecentlyFailed(TinyLife.Actions.ActionType,System.Single)
   - TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  - TinyLife.Objects.PersonLike.GetDefaultPose
   - TinyLife.Objects.PersonLike.MoveToMapExitRoad(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   - TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
   - TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
@@ -265,8 +270,6 @@ items:
   - TinyLife.Objects.PersonLike.UpdateAction(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Collections.Generic.IEnumerable{TinyLife.Goals.IGoalTriggerable})
   - TinyLife.Objects.PersonLike.InitializeAction(TinyLife.Actions.Action)
   - TinyLife.Objects.PersonLike.GetRandomSpeakSound(TinyLife.Objects.VoiceStyle,TinyLife.Objects.SpeakStyle,System.Collections.Generic.List{Microsoft.Xna.Framework.Audio.SoundEffect},System.Nullable{System.TimeSpan})
-  - TinyLife.Objects.MapObject.PersonRotationOrder
-  - TinyLife.Objects.MapObject.PersonRotationOrderIndices
   - TinyLife.Objects.MapObject.OnCreated
   - TinyLife.Objects.MapObject.OnValidated
   - TinyLife.Objects.MapObject.OnValidatedEarly
@@ -318,6 +321,46 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Objects.Person.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Objects.Person.RotationOrder
+  commentId: F:TinyLife.Objects.Person.RotationOrder
+  id: RotationOrder
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: RotationOrder
+  nameWithType: Person.RotationOrder
+  fullName: TinyLife.Objects.Person.RotationOrder
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: The order of <xref href="MLEM.Maths.Direction2" data-throw-if-not-resolved="false"></xref> that the texture atlas for <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> has for its textures, from left to right
+  example: []
+  syntax:
+    content: public static readonly Direction2[] RotationOrder
+    return:
+      type: MLEM.Maths.Direction2[]
+    content.vb: Public Shared ReadOnly RotationOrder As Direction2()
+- uid: TinyLife.Objects.Person.RotationOrderIndices
+  commentId: F:TinyLife.Objects.Person.RotationOrderIndices
+  id: RotationOrderIndices
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: RotationOrderIndices
+  nameWithType: Person.RotationOrderIndices
+  fullName: TinyLife.Objects.Person.RotationOrderIndices
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly Dictionary<Direction2, int> RotationOrderIndices
+    return:
+      type: System.Collections.Generic.Dictionary{MLEM.Maths.Direction2,System.Int32}
+    content.vb: Public Shared ReadOnly RotationOrderIndices As Dictionary(Of Direction2, Integer)
 - uid: TinyLife.Objects.Person.AgeTextures
   commentId: F:TinyLife.Objects.Person.AgeTextures
   id: AgeTextures
@@ -806,39 +849,15 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    An event that is invoked when an animation group is created for this person in <xref href="TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer%2cSystem.Int32%2cSystem.Collections.Generic.IReadOnlyDictionary%7bMicrosoft.Xna.Framework.Point%2cMLEM.Textures.TextureRegion%7d%2cMicrosoft.Xna.Framework.Point)" data-throw-if-not-resolved="false"></xref>.
+    An event that is invoked when an animation group is created for this person in <xref href="TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer%2cTinyLife.Objects.Clothes)" data-throw-if-not-resolved="false"></xref>.
 
     This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public event Action<(ClothesLayer ClothesLayer, int LayerAmount, IReadOnlyDictionary<Point, TextureRegion> Textures, Point TextureRegion, SpriteAnimationGroup Group, EventPhase Phase)> OnGenerateAnimationGroup
+    content: public event Action<(ClothesLayer ClothesLayer, Clothes Clothes, SpriteAnimationGroup Group, EventPhase Phase)> OnGenerateAnimationGroup
     return:
-      type: System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
-    content.vb: Public Event OnGenerateAnimationGroup As Action(Of (ClothesLayer As ClothesLayer, LayerAmount As Integer, Textures As IReadOnlyDictionary(Of Point, TextureRegion), TextureRegion As Point, Group As SpriteAnimationGroup, Phase As EventPhase))
-- uid: TinyLife.Objects.Person.OnDrawUi
-  commentId: E:TinyLife.Objects.Person.OnDrawUi
-  id: OnDrawUi
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: OnDrawUi
-  nameWithType: Person.OnDrawUi
-  fullName: TinyLife.Objects.Person.OnDrawUi
-  type: Event
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    An event that is invoked when this person is drawn in UI space using <xref href="TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cMLEM.Maths.Direction2%2cTinyLife.Objects.Outfit%2cSystem.Nullable%7bTinyLife.Objects.Pose%7d%2cSystem.Nullable%7bTinyLife.Objects.AgeGroup%7d)" data-throw-if-not-resolved="false"></xref>.
-
-    This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
-  example: []
-  syntax:
-    content: public event Action<(SpriteBatch Batch, Vector2 Pos, float Scale, Direction2 Rotation, Outfit Outfit, Pose Pose, AgeGroup Age, EventPhase Phase)> OnDrawUi
-    return:
-      type: System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}}
-    content.vb: Public Event OnDrawUi As Action(Of (Batch As SpriteBatch, Pos As Vector2, Scale As Single, Rotation As Direction2, Outfit As Outfit, Pose As Pose, Age As AgeGroup, Phase As EventPhase))
+      type: System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
+    content.vb: Public Event OnGenerateAnimationGroup As Action(Of (ClothesLayer As ClothesLayer, Clothes As Clothes, Group As SpriteAnimationGroup, Phase As EventPhase))
 - uid: TinyLife.Objects.Person.#ctor(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   commentId: M:TinyLife.Objects.Person.#ctor(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   id: '#ctor(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)'
@@ -1105,16 +1124,16 @@ items:
   nameWithType.vb: Person.ResetToStatic(Boolean, Boolean)
   fullName.vb: TinyLife.Objects.Person.ResetToStatic(Boolean, Boolean)
   name.vb: ResetToStatic(Boolean, Boolean)
-- uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
-  id: GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
+  commentId: M:TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
+  id: GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
   parent: TinyLife.Objects.Person
   langs:
   - csharp
   - vb
-  name: GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  nameWithType: Person.GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  fullName: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, int, System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>, Microsoft.Xna.Framework.Point)
+  name: GenerateAnimationGroup(ClothesLayer, Clothes)
+  nameWithType: Person.GenerateAnimationGroup(ClothesLayer, Clothes)
+  fullName: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, TinyLife.Objects.Clothes)
   type: Method
   assemblies:
   - Tiny Life
@@ -1122,29 +1141,19 @@ items:
   summary: Generates a <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref> for the given settings. This method is called when a person's <xref href="TinyLife.Objects.PersonLike.Animations" data-throw-if-not-resolved="false"></xref> are generated, for each clothes layer.
   example: []
   syntax:
-    content: protected override SpriteAnimationGroup GenerateAnimationGroup(ClothesLayer clothesLayer, int layerAmount, IReadOnlyDictionary<Point, TextureRegion> textures, Point textureRegion)
+    content: protected override SpriteAnimationGroup GenerateAnimationGroup(ClothesLayer clothesLayer, Clothes clothes)
     parameters:
     - id: clothesLayer
       type: TinyLife.Objects.ClothesLayer
       description: The clothes layer.
-    - id: layerAmount
-      type: System.Int32
-      description: The amount of layers the clothing item has.
-    - id: textures
-      type: System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
-      description: The textures to use.
-    - id: textureRegion
-      type: Microsoft.Xna.Framework.Point
-      description: The initial texture region to use.
+    - id: clothes
+      type: TinyLife.Objects.Clothes
     return:
       type: MLEM.Animations.SpriteAnimationGroup
       description: The generated <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref>.
-    content.vb: Protected Overrides Function GenerateAnimationGroup(clothesLayer As ClothesLayer, layerAmount As Integer, textures As IReadOnlyDictionary(Of Point, TextureRegion), textureRegion As Point) As SpriteAnimationGroup
-  overridden: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+    content.vb: Protected Overrides Function GenerateAnimationGroup(clothesLayer As ClothesLayer, clothes As Clothes) As SpriteAnimationGroup
+  overridden: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
   overload: TinyLife.Objects.Person.GenerateAnimationGroup*
-  nameWithType.vb: Person.GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
-  fullName.vb: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, Integer, System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point)
-  name.vb: GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
 - uid: TinyLife.Objects.Person.GenerateShadowAnimation
   commentId: M:TinyLife.Objects.Person.GenerateShadowAnimation
   id: GenerateShadowAnimation
@@ -1233,6 +1242,52 @@ items:
   nameWithType.vb: Person.DrawLooksLayer(SpriteBatch, SpriteAnimation, TextureRegion, WornClothes, Integer, Vector2, Vector2, Single, ParentInfo, Color, Single, Single)
   fullName.vb: TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch, MLEM.Animations.SpriteAnimation, MLEM.Textures.TextureRegion, TinyLife.Objects.WornClothes, Integer, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Single, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color, Single, Single)
   name.vb: DrawLooksLayer(SpriteBatch, SpriteAnimation, TextureRegion, WornClothes, Integer, Vector2, Vector2, Single, ParentInfo, Color, Single, Single)
+- uid: TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  commentId: M:TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  id: DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: DrawUiLayer(SpriteBatch, Vector2, float, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, int, int)
+  nameWithType: Person.DrawUiLayer(SpriteBatch, Vector2, float, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, int, int)
+  fullName: TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose, TinyLife.Objects.AgeGroup, TinyLife.Objects.WornClothes, TinyLife.Objects.ClothesLayer, int, int)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: protected override void DrawUiLayer(SpriteBatch batch, Vector2 pos, float scale, Direction2 rotation, Outfit outfit, Pose pose, AgeGroup age, WornClothes clothes, ClothesLayer layer, int colorIndex, int layerIndex)
+    parameters:
+    - id: batch
+      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    - id: pos
+      type: Microsoft.Xna.Framework.Vector2
+    - id: scale
+      type: System.Single
+    - id: rotation
+      type: MLEM.Maths.Direction2
+    - id: outfit
+      type: TinyLife.Objects.Outfit
+    - id: pose
+      type: TinyLife.Objects.Pose
+    - id: age
+      type: TinyLife.Objects.AgeGroup
+    - id: clothes
+      type: TinyLife.Objects.WornClothes
+    - id: layer
+      type: TinyLife.Objects.ClothesLayer
+    - id: colorIndex
+      type: System.Int32
+    - id: layerIndex
+      type: System.Int32
+    content.vb: Protected Overrides Sub DrawUiLayer(batch As SpriteBatch, pos As Vector2, scale As Single, rotation As Direction2, outfit As Outfit, pose As Pose, age As AgeGroup, clothes As WornClothes, layer As ClothesLayer, colorIndex As Integer, layerIndex As Integer)
+  overridden: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  overload: TinyLife.Objects.Person.DrawUiLayer*
+  nameWithType.vb: Person.DrawUiLayer(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, Integer, Integer)
+  fullName.vb: TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose, TinyLife.Objects.AgeGroup, TinyLife.Objects.WornClothes, TinyLife.Objects.ClothesLayer, Integer, Integer)
+  name.vb: DrawUiLayer(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, Integer, Integer)
 - uid: TinyLife.Objects.Person.GetHeldItemDrawOffset(System.Boolean)
   commentId: M:TinyLife.Objects.Person.GetHeldItemDrawOffset(System.Boolean)
   id: GetHeldItemDrawOffset(System.Boolean)
@@ -1478,52 +1533,6 @@ items:
     content.vb: Public Overrides Function GetCurrentGoals() As List(Of IGoalTriggerable)
   overridden: TinyLife.Objects.PersonLike.GetCurrentGoals
   overload: TinyLife.Objects.Person.GetCurrentGoals*
-- uid: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  commentId: M:TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  id: DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  nameWithType: Person.DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: Renders this person on a ui level rather than a world level
-  example: []
-  syntax:
-    content: public override void DrawUi(SpriteBatch batch, Vector2 pos, float scale, Direction2 rotation = Direction2.Right, Outfit outfit = null, Pose? pose = null, AgeGroup? age = null)
-    parameters:
-    - id: batch
-      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
-      description: The sprite batch to use for drawing
-    - id: pos
-      type: Microsoft.Xna.Framework.Vector2
-      description: The position, in screen space, to draw at
-    - id: scale
-      type: System.Single
-      description: The scale to draw with
-    - id: rotation
-      type: MLEM.Maths.Direction2
-      description: The rotation that this person should be drawn with. Defaults to <xref href="MLEM.Maths.Direction2.Right" data-throw-if-not-resolved="false"></xref>.
-    - id: outfit
-      type: TinyLife.Objects.Outfit
-      description: The outfit to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.CurrentOutfit" data-throw-if-not-resolved="false"></xref>.
-    - id: pose
-      type: System.Nullable{TinyLife.Objects.Pose}
-      description: The pose to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.CurrentPose" data-throw-if-not-resolved="false"></xref>.
-    - id: age
-      type: System.Nullable{TinyLife.Objects.AgeGroup}
-      description: The age to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.Age" data-throw-if-not-resolved="false"></xref>.
-    content.vb: Public Overrides Sub DrawUi(batch As SpriteBatch, pos As Vector2, scale As Single, rotation As Direction2 = Direction2.Right, outfit As Outfit = Nothing, pose As Pose? = Nothing, age As AgeGroup? = Nothing)
-  overridden: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  overload: TinyLife.Objects.Person.DrawUi*
-  nameWithType.vb: Person.DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName.vb: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  name.vb: DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
 - uid: TinyLife.Objects.Person.GetPassiveNeedReduction(TinyLife.NeedType)
   commentId: M:TinyLife.Objects.Person.GetPassiveNeedReduction(TinyLife.NeedType)
   id: GetPassiveNeedReduction(TinyLife.NeedType)
@@ -2441,6 +2450,13 @@ references:
   name: OnAddEmotion
   nameWithType: PersonLike.OnAddEmotion
   fullName: TinyLife.Objects.PersonLike.OnAddEmotion
+- uid: TinyLife.Objects.PersonLike.OnAgeChange
+  commentId: E:TinyLife.Objects.PersonLike.OnAgeChange
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnAgeChange
+  name: OnAgeChange
+  nameWithType: PersonLike.OnAgeChange
+  fullName: TinyLife.Objects.PersonLike.OnAgeChange
 - uid: TinyLife.Objects.PersonLike.OnGetPassiveNeedReduction
   commentId: E:TinyLife.Objects.PersonLike.OnGetPassiveNeedReduction
   parent: TinyLife.Objects.PersonLike
@@ -2462,6 +2478,13 @@ references:
   name: OnDrawLooksLayer
   nameWithType: PersonLike.OnDrawLooksLayer
   fullName: TinyLife.Objects.PersonLike.OnDrawLooksLayer
+- uid: TinyLife.Objects.PersonLike.OnDrawUi
+  commentId: E:TinyLife.Objects.PersonLike.OnDrawUi
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnDrawUi
+  name: OnDrawUi
+  nameWithType: PersonLike.OnDrawUi
+  fullName: TinyLife.Objects.PersonLike.OnDrawUi
 - uid: TinyLife.Objects.PersonLike.Animations
   commentId: P:TinyLife.Objects.PersonLike.Animations
   parent: TinyLife.Objects.PersonLike
@@ -2555,6 +2578,101 @@ references:
     name: Item
     isExternal: true
   - name: )
+  - name: )
+- uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
+  commentId: M:TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
+  name: DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
+  nameWithType: PersonLike.DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
+  fullName: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
+  nameWithType.vb: PersonLike.DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
+  fullName.vb: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
+  name.vb: DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
+    name: DrawUi
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
+  - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Outfit
+    name: Outfit
+    href: TinyLife.Objects.Outfit.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Pose
+    name: Pose
+    href: TinyLife.Objects.Pose.html
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
+    name: DrawUi
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
+  - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Outfit
+    name: Outfit
+    href: TinyLife.Objects.Outfit.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Pose
+    name: Pose
+    href: TinyLife.Objects.Pose.html
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: '?'
   - name: )
 - uid: TinyLife.Objects.PersonLike.GetCategories(TinyLife.Objects.PersonLike)
   commentId: M:TinyLife.Objects.PersonLike.GetCategories(TinyLife.Objects.PersonLike)
@@ -5907,6 +6025,25 @@ references:
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: )
+- uid: TinyLife.Objects.PersonLike.GetDefaultPose
+  commentId: M:TinyLife.Objects.PersonLike.GetDefaultPose
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetDefaultPose
+  name: GetDefaultPose()
+  nameWithType: PersonLike.GetDefaultPose()
+  fullName: TinyLife.Objects.PersonLike.GetDefaultPose()
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.GetDefaultPose
+    name: GetDefaultPose
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetDefaultPose
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.GetDefaultPose
+    name: GetDefaultPose
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetDefaultPose
+  - name: (
+  - name: )
 - uid: TinyLife.Objects.PersonLike.MoveToMapExitRoad(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Objects.PersonLike.MoveToMapExitRoad(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
   parent: TinyLife.Objects.PersonLike
@@ -6690,20 +6827,6 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.timespan
   - name: '?'
   - name: )
-- uid: TinyLife.Objects.MapObject.PersonRotationOrder
-  commentId: F:TinyLife.Objects.MapObject.PersonRotationOrder
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_PersonRotationOrder
-  name: PersonRotationOrder
-  nameWithType: MapObject.PersonRotationOrder
-  fullName: TinyLife.Objects.MapObject.PersonRotationOrder
-- uid: TinyLife.Objects.MapObject.PersonRotationOrderIndices
-  commentId: F:TinyLife.Objects.MapObject.PersonRotationOrderIndices
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_PersonRotationOrderIndices
-  name: PersonRotationOrderIndices
-  nameWithType: MapObject.PersonRotationOrderIndices
-  fullName: TinyLife.Objects.MapObject.PersonRotationOrderIndices
 - uid: TinyLife.Objects.MapObject.OnCreated
   commentId: E:TinyLife.Objects.MapObject.OnCreated
   parent: TinyLife.Objects.MapObject
@@ -8771,39 +8894,81 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.Objects.AgeGroup
-  commentId: T:TinyLife.Objects.AgeGroup
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.AgeGroup.html
-  name: AgeGroup
-  nameWithType: AgeGroup
-  fullName: TinyLife.Objects.AgeGroup
-- uid: System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
-  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
+- uid: MLEM.Maths.Direction2
+  commentId: T:MLEM.Maths.Direction2
+  parent: MLEM.Maths
+  isExternal: true
+  name: Direction2
+  nameWithType: Direction2
+  fullName: MLEM.Maths.Direction2
+- uid: MLEM.Maths.Direction2[]
+  isExternal: true
+  name: Direction2[]
+  nameWithType: Direction2[]
+  fullName: MLEM.Maths.Direction2[]
+  nameWithType.vb: Direction2()
+  fullName.vb: MLEM.Maths.Direction2()
+  name.vb: Direction2()
+  spec.csharp:
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: (
+  - name: )
+- uid: MLEM.Maths
+  commentId: N:MLEM.Maths
+  isExternal: true
+  name: MLEM.Maths
+  nameWithType: MLEM.Maths
+  fullName: MLEM.Maths
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Maths
+    name: Maths
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Maths
+    name: Maths
+    isExternal: true
+- uid: System.Collections.Generic.Dictionary{MLEM.Maths.Direction2,System.Int32}
+  commentId: T:System.Collections.Generic.Dictionary{MLEM.Maths.Direction2,System.Int32}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.Dictionary`2
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<AgeGroup, string>
-  nameWithType: Dictionary<AgeGroup, string>
-  fullName: System.Collections.Generic.Dictionary<TinyLife.Objects.AgeGroup, string>
-  nameWithType.vb: Dictionary(Of AgeGroup, String)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Objects.AgeGroup, String)
-  name.vb: Dictionary(Of AgeGroup, String)
+  name: Dictionary<Direction2, int>
+  nameWithType: Dictionary<Direction2, int>
+  fullName: System.Collections.Generic.Dictionary<MLEM.Maths.Direction2, int>
+  nameWithType.vb: Dictionary(Of Direction2, Integer)
+  fullName.vb: System.Collections.Generic.Dictionary(Of MLEM.Maths.Direction2, Integer)
+  name.vb: Dictionary(Of Direction2, Integer)
   spec.csharp:
   - uid: System.Collections.Generic.Dictionary`2
     name: Dictionary
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
   - name: <
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
   - name: ','
   - name: " "
-  - uid: System.String
-    name: string
+  - uid: System.Int32
+    name: int
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.Dictionary`2
@@ -8813,15 +8978,15 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
   - name: ','
   - name: " "
-  - uid: System.String
-    name: String
+  - uid: System.Int32
+    name: Integer
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
 - uid: System.Collections.Generic.Dictionary`2
   commentId: T:System.Collections.Generic.Dictionary`2
@@ -8894,6 +9059,58 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.AgeGroup.html
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
+- uid: System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.AgeGroup,System.String}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<AgeGroup, string>
+  nameWithType: Dictionary<AgeGroup, string>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Objects.AgeGroup, string>
+  nameWithType.vb: Dictionary(Of AgeGroup, String)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Objects.AgeGroup, String)
+  name.vb: Dictionary(Of AgeGroup, String)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
 - uid: TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
   commentId: M:TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
   isExternal: true
@@ -9915,101 +10132,51 @@ references:
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
   - name: )
-- uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
-  isExternal: true
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
-  name: GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  nameWithType: Person.GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  fullName: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, int, System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>, Microsoft.Xna.Framework.Point)
-  nameWithType.vb: Person.GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
-  fullName.vb: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, Integer, System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point)
-  name.vb: GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
+- uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
+  commentId: M:TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
+  name: GenerateAnimationGroup(ClothesLayer, Clothes)
+  nameWithType: Person.GenerateAnimationGroup(ClothesLayer, Clothes)
+  fullName: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, TinyLife.Objects.Clothes)
   spec.csharp:
-  - uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
     name: GenerateAnimationGroup
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
   - name: (
   - uid: TinyLife.Objects.ClothesLayer
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: <
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: '>'
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
     name: GenerateAnimationGroup
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
+    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
   - name: (
   - uid: TinyLife.Objects.ClothesLayer
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: )
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: )
-- uid: System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
-  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}}
   parent: System
   definition: System.Action`1
   href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<(ClothesLayer ClothesLayer, int LayerAmount, IReadOnlyDictionary<Point, TextureRegion> Textures, Point TextureRegion, SpriteAnimationGroup Group, EventPhase Phase)>
-  nameWithType: Action<(ClothesLayer ClothesLayer, int LayerAmount, IReadOnlyDictionary<Point, TextureRegion> Textures, Point TextureRegion, SpriteAnimationGroup Group, EventPhase Phase)>
-  fullName: System.Action<(TinyLife.Objects.ClothesLayer ClothesLayer, int LayerAmount, System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion> Textures, Microsoft.Xna.Framework.Point TextureRegion, MLEM.Animations.SpriteAnimationGroup Group, TinyLife.Mods.EventPhase Phase)>
-  nameWithType.vb: Action(Of (ClothesLayer As ClothesLayer, LayerAmount As Integer, Textures As IReadOnlyDictionary(Of Point, TextureRegion), TextureRegion As Point, Group As SpriteAnimationGroup, Phase As EventPhase))
-  fullName.vb: System.Action(Of (ClothesLayer As TinyLife.Objects.ClothesLayer, LayerAmount As Integer, Textures As System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), TextureRegion As Microsoft.Xna.Framework.Point, Group As MLEM.Animations.SpriteAnimationGroup, Phase As TinyLife.Mods.EventPhase))
-  name.vb: Action(Of (ClothesLayer As ClothesLayer, LayerAmount As Integer, Textures As IReadOnlyDictionary(Of Point, TextureRegion), TextureRegion As Point, Group As SpriteAnimationGroup, Phase As EventPhase))
+  name: Action<(ClothesLayer ClothesLayer, Clothes Clothes, SpriteAnimationGroup Group, EventPhase Phase)>
+  nameWithType: Action<(ClothesLayer ClothesLayer, Clothes Clothes, SpriteAnimationGroup Group, EventPhase Phase)>
+  fullName: System.Action<(TinyLife.Objects.ClothesLayer ClothesLayer, TinyLife.Objects.Clothes Clothes, MLEM.Animations.SpriteAnimationGroup Group, TinyLife.Mods.EventPhase Phase)>
+  nameWithType.vb: Action(Of (ClothesLayer As ClothesLayer, Clothes As Clothes, Group As SpriteAnimationGroup, Phase As EventPhase))
+  fullName.vb: System.Action(Of (ClothesLayer As TinyLife.Objects.ClothesLayer, Clothes As TinyLife.Objects.Clothes, Group As MLEM.Animations.SpriteAnimationGroup, Phase As TinyLife.Mods.EventPhase))
+  name.vb: Action(Of (ClothesLayer As ClothesLayer, Clothes As Clothes, Group As SpriteAnimationGroup, Phase As EventPhase))
   spec.csharp:
   - uid: System.Action`1
     name: Action
@@ -10021,66 +10188,36 @@ references:
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.ClothesLayer
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.ClothesLayer
     name: ClothesLayer
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clotheslayer
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clotheslayer
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.LayerAmount
-    name: LayerAmount
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.layeramount
-  - name: ','
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: <
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: '>'
-  - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Textures
-    name: Textures
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.textures
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.TextureRegion
-    name: TextureRegion
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.textureregion
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Clothes
+    name: Clothes
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clothes
   - name: ','
   - name: " "
   - uid: MLEM.Animations.SpriteAnimationGroup
     name: SpriteAnimationGroup
     isExternal: true
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Group
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Group
     name: Group
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.group
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.group
   - name: ','
   - name: " "
   - uid: TinyLife.Mods.EventPhase
     name: EventPhase
     href: TinyLife.Mods.EventPhase.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Phase
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Phase
     name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.phase
   - name: )
   - name: '>'
   spec.vb:
@@ -10092,9 +10229,9 @@ references:
   - name: Of
   - name: " "
   - name: (
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.ClothesLayer
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.ClothesLayer
     name: ClothesLayer
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clotheslayer
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clotheslayer
   - name: " "
   - name: As
   - name: " "
@@ -10103,56 +10240,20 @@ references:
     href: TinyLife.Objects.ClothesLayer.html
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.LayerAmount
-    name: LayerAmount
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.layeramount
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Clothes
+    name: Clothes
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.clothes
   - name: " "
   - name: As
   - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Textures
-    name: Textures
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.textures
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.TextureRegion
-    name: TextureRegion
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.textureregion
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Group
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Group
     name: Group
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.group
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.group
   - name: " "
   - name: As
   - name: " "
@@ -10161,292 +10262,9 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Phase
+  - uid: System.ValueTuple{TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes,MLEM.Animations.SpriteAnimationGroup,TinyLife.Mods.EventPhase}.Phase
     name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,system.int32,system.collections.generic.ireadonlydictionary-microsoft.xna.framework.point,mlem.textures.textureregion-,microsoft.xna.framework.point,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.phase
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: TinyLife.Mods.EventPhase
-    name: EventPhase
-    href: TinyLife.Mods.EventPhase.html
-  - name: )
-  - name: )
-- uid: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  commentId: M:TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  isExternal: true
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  name: DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  nameWithType: Person.DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  nameWithType.vb: Person.DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName.vb: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  name.vb: DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
-  spec.csharp:
-  - uid: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-    name: DrawUi
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Person.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-    name: DrawUi
-    href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-  - name: )
-- uid: System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}}
-  commentId: T:System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}}
-  parent: System
-  definition: System.Action`1
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<(SpriteBatch Batch, Vector2 Pos, float Scale, Direction2 Rotation, Outfit Outfit, Pose Pose, AgeGroup Age, EventPhase Phase)>
-  nameWithType: Action<(SpriteBatch Batch, Vector2 Pos, float Scale, Direction2 Rotation, Outfit Outfit, Pose Pose, AgeGroup Age, EventPhase Phase)>
-  fullName: System.Action<(Microsoft.Xna.Framework.Graphics.SpriteBatch Batch, Microsoft.Xna.Framework.Vector2 Pos, float Scale, MLEM.Maths.Direction2 Rotation, TinyLife.Objects.Outfit Outfit, TinyLife.Objects.Pose Pose, TinyLife.Objects.AgeGroup Age, TinyLife.Mods.EventPhase Phase)>
-  nameWithType.vb: Action(Of (Batch As SpriteBatch, Pos As Vector2, Scale As Single, Rotation As Direction2, Outfit As Outfit, Pose As Pose, Age As AgeGroup, Phase As EventPhase))
-  fullName.vb: System.Action(Of (Batch As Microsoft.Xna.Framework.Graphics.SpriteBatch, Pos As Microsoft.Xna.Framework.Vector2, Scale As Single, Rotation As MLEM.Maths.Direction2, Outfit As TinyLife.Objects.Outfit, Pose As TinyLife.Objects.Pose, Age As TinyLife.Objects.AgeGroup, Phase As TinyLife.Mods.EventPhase))
-  name.vb: Action(Of (Batch As SpriteBatch, Pos As Vector2, Scale As Single, Rotation As Direction2, Outfit As Outfit, Pose As Pose, Age As AgeGroup, Phase As EventPhase))
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Batch
-    name: Batch
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.batch
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Pos
-    name: Pos
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.pos
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Scale
-    name: Scale
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.scale
-  - name: ','
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Rotation
-    name: Rotation
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.rotation
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Outfit
-    name: Outfit
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.outfit
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Pose
-    name: Pose
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.pose
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Age
-    name: Age
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.age
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Mods.EventPhase
-    name: EventPhase
-    href: TinyLife.Mods.EventPhase.html
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Phase
-    name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.phase
-  - name: )
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: (
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Batch
-    name: Batch
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.batch
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Pos
-    name: Pos
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.pos
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Scale
-    name: Scale
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.scale
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Rotation
-    name: Rotation
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.rotation
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Outfit
-    name: Outfit
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.outfit
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Pose
-    name: Pose
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.pose
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Age
-    name: Age
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.age
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}.Phase
-    name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.graphics.spritebatch,microsoft.xna.framework.vector2,system.single,mlem.maths.direction2,tinylife.objects.outfit,tinylife.objects.pose,tinylife.objects.agegroup,system.valuetuple-tinylife.mods.eventphase--.phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.clotheslayer,tinylife.objects.clothes,mlem.animations.spriteanimationgroup,tinylife.mods.eventphase-.phase
   - name: " "
   - name: As
   - name: " "
@@ -10934,94 +10752,44 @@ references:
   name: SpriteAnimationGroup
   nameWithType: SpriteAnimationGroup
   fullName: MLEM.Animations.SpriteAnimationGroup
-- uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
-  commentId: M:TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+- uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
+  commentId: M:TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
   parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
-  name: GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  nameWithType: PersonLike.GenerateAnimationGroup(ClothesLayer, int, IReadOnlyDictionary<Point, TextureRegion>, Point)
-  fullName: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, int, System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>, Microsoft.Xna.Framework.Point)
-  nameWithType.vb: PersonLike.GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
-  fullName.vb: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, Integer, System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion), Microsoft.Xna.Framework.Point)
-  name.vb: GenerateAnimationGroup(ClothesLayer, Integer, IReadOnlyDictionary(Of Point, TextureRegion), Point)
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
+  name: GenerateAnimationGroup(ClothesLayer, Clothes)
+  nameWithType: PersonLike.GenerateAnimationGroup(ClothesLayer, Clothes)
+  fullName: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer, TinyLife.Objects.Clothes)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
     name: GenerateAnimationGroup
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
   - name: (
   - uid: TinyLife.Objects.ClothesLayer
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: <
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: '>'
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,System.Int32,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point)
+  - uid: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
     name: GenerateAnimationGroup
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
   - name: (
   - uid: TinyLife.Objects.ClothesLayer
     name: ClothesLayer
     href: TinyLife.Objects.ClothesLayer.html
   - name: ','
   - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
+  - uid: TinyLife.Objects.Clothes
+    name: Clothes
+    href: TinyLife.Objects.Clothes.html
   - name: )
 - uid: TinyLife.Objects.Person.GenerateAnimationGroup*
   commentId: Overload:TinyLife.Objects.Person.GenerateAnimationGroup
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_System_Int32_System_Collections_Generic_IReadOnlyDictionary_Microsoft_Xna_Framework_Point_MLEM_Textures_TextureRegion__Microsoft_Xna_Framework_Point_
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimationGroup_TinyLife_Objects_ClothesLayer_TinyLife_Objects_Clothes_
   name: GenerateAnimationGroup
   nameWithType: Person.GenerateAnimationGroup
   fullName: TinyLife.Objects.Person.GenerateAnimationGroup
@@ -11032,49 +10800,13 @@ references:
   name: ClothesLayer
   nameWithType: ClothesLayer
   fullName: TinyLife.Objects.ClothesLayer
-- uid: System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
-  commentId: T:System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IReadOnlyDictionary`2
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  name: IReadOnlyDictionary<Point, TextureRegion>
-  nameWithType: IReadOnlyDictionary<Point, TextureRegion>
-  fullName: System.Collections.Generic.IReadOnlyDictionary<Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion>
-  nameWithType.vb: IReadOnlyDictionary(Of Point, TextureRegion)
-  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of Microsoft.Xna.Framework.Point, MLEM.Textures.TextureRegion)
-  name.vb: IReadOnlyDictionary(Of Point, TextureRegion)
-  spec.csharp:
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: <
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Textures.TextureRegion
-    name: TextureRegion
-    isExternal: true
-  - name: )
+- uid: TinyLife.Objects.Clothes
+  commentId: T:TinyLife.Objects.Clothes
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Clothes.html
+  name: Clothes
+  nameWithType: Clothes
+  fullName: TinyLife.Objects.Clothes
 - uid: MLEM.Animations
   commentId: N:MLEM.Animations
   isExternal: true
@@ -11097,40 +10829,6 @@ references:
   - uid: MLEM.Animations
     name: Animations
     isExternal: true
-- uid: System.Collections.Generic.IReadOnlyDictionary`2
-  commentId: T:System.Collections.Generic.IReadOnlyDictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  name: IReadOnlyDictionary<TKey, TValue>
-  nameWithType: IReadOnlyDictionary<TKey, TValue>
-  fullName: System.Collections.Generic.IReadOnlyDictionary<TKey, TValue>
-  nameWithType.vb: IReadOnlyDictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.IReadOnlyDictionary(Of TKey, TValue)
-  name.vb: IReadOnlyDictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IReadOnlyDictionary`2
-    name: IReadOnlyDictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlydictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
 - uid: TinyLife.Objects.PersonLike.GenerateShadowAnimation
   commentId: M:TinyLife.Objects.PersonLike.GenerateShadowAnimation
   parent: TinyLife.Objects.PersonLike
@@ -11411,6 +11109,161 @@ references:
   - uid: MLEM.Textures
     name: Textures
     isExternal: true
+- uid: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  commentId: M:TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUiLayer_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_TinyLife_Objects_Pose_TinyLife_Objects_AgeGroup_TinyLife_Objects_WornClothes_TinyLife_Objects_ClothesLayer_System_Int32_System_Int32_
+  name: DrawUiLayer(SpriteBatch, Vector2, float, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, int, int)
+  nameWithType: PersonLike.DrawUiLayer(SpriteBatch, Vector2, float, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, int, int)
+  fullName: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose, TinyLife.Objects.AgeGroup, TinyLife.Objects.WornClothes, TinyLife.Objects.ClothesLayer, int, int)
+  nameWithType.vb: PersonLike.DrawUiLayer(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, Integer, Integer)
+  fullName.vb: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose, TinyLife.Objects.AgeGroup, TinyLife.Objects.WornClothes, TinyLife.Objects.ClothesLayer, Integer, Integer)
+  name.vb: DrawUiLayer(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose, AgeGroup, WornClothes, ClothesLayer, Integer, Integer)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+    name: DrawUiLayer
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUiLayer_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_TinyLife_Objects_Pose_TinyLife_Objects_AgeGroup_TinyLife_Objects_WornClothes_TinyLife_Objects_ClothesLayer_System_Int32_System_Int32_
+  - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Outfit
+    name: Outfit
+    href: TinyLife.Objects.Outfit.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Pose
+    name: Pose
+    href: TinyLife.Objects.Pose.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.WornClothes
+    name: WornClothes
+    href: TinyLife.Objects.WornClothes.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
+    name: DrawUiLayer
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUiLayer_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_TinyLife_Objects_Pose_TinyLife_Objects_AgeGroup_TinyLife_Objects_WornClothes_TinyLife_Objects_ClothesLayer_System_Int32_System_Int32_
+  - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.Direction2
+    name: Direction2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Outfit
+    name: Outfit
+    href: TinyLife.Objects.Outfit.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Pose
+    name: Pose
+    href: TinyLife.Objects.Pose.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.AgeGroup
+    name: AgeGroup
+    href: TinyLife.Objects.AgeGroup.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.WornClothes
+    name: WornClothes
+    href: TinyLife.Objects.WornClothes.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: TinyLife.Objects.Person.DrawUiLayer*
+  commentId: Overload:TinyLife.Objects.Person.DrawUiLayer
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawUiLayer_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_TinyLife_Objects_Pose_TinyLife_Objects_AgeGroup_TinyLife_Objects_WornClothes_TinyLife_Objects_ClothesLayer_System_Int32_System_Int32_
+  name: DrawUiLayer
+  nameWithType: Person.DrawUiLayer
+  fullName: TinyLife.Objects.Person.DrawUiLayer
+- uid: TinyLife.Objects.Outfit
+  commentId: T:TinyLife.Objects.Outfit
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Outfit.html
+  name: Outfit
+  nameWithType: Outfit
+  fullName: TinyLife.Objects.Outfit
+- uid: TinyLife.Objects.Pose
+  commentId: T:TinyLife.Objects.Pose
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Pose.html
+  name: Pose
+  nameWithType: Pose
+  fullName: TinyLife.Objects.Pose
 - uid: TinyLife.Objects.PersonLike.GetHeldItemDrawOffset(System.Boolean)
   commentId: M:TinyLife.Objects.PersonLike.GetHeldItemDrawOffset(System.Boolean)
   parent: TinyLife.Objects.PersonLike
@@ -11490,20 +11343,6 @@ references:
   name: GetBodyArea
   nameWithType: Person.GetBodyArea
   fullName: TinyLife.Objects.Person.GetBodyArea
-- uid: TinyLife.Objects.Pose
-  commentId: T:TinyLife.Objects.Pose
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Pose.html
-  name: Pose
-  nameWithType: Pose
-  fullName: TinyLife.Objects.Pose
-- uid: MLEM.Maths.Direction2
-  commentId: T:MLEM.Maths.Direction2
-  parent: MLEM.Maths
-  isExternal: true
-  name: Direction2
-  nameWithType: Direction2
-  fullName: MLEM.Maths.Direction2
 - uid: Microsoft.Xna.Framework.Rectangle
   commentId: T:Microsoft.Xna.Framework.Rectangle
   parent: Microsoft.Xna.Framework
@@ -11511,28 +11350,6 @@ references:
   name: Rectangle
   nameWithType: Rectangle
   fullName: Microsoft.Xna.Framework.Rectangle
-- uid: MLEM.Maths
-  commentId: N:MLEM.Maths
-  isExternal: true
-  name: MLEM.Maths
-  nameWithType: MLEM.Maths
-  fullName: MLEM.Maths
-  spec.csharp:
-  - uid: MLEM
-    name: MLEM
-    isExternal: true
-  - name: .
-  - uid: MLEM.Maths
-    name: Maths
-    isExternal: true
-  spec.vb:
-  - uid: MLEM
-    name: MLEM
-    isExternal: true
-  - name: .
-  - uid: MLEM.Maths
-    name: Maths
-    isExternal: true
 - uid: TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   commentId: M:TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   parent: TinyLife.Objects.PersonLike
@@ -11883,184 +11700,6 @@ references:
   - uid: TinyLife.Goals.IGoalTriggerable
     name: IGoalTriggerable
     href: TinyLife.Goals.IGoalTriggerable.html
-  - name: )
-- uid: MLEM.Maths.Direction2.Right
-  commentId: F:MLEM.Maths.Direction2.Right
-  isExternal: true
-  name: Right
-  nameWithType: Direction2.Right
-  fullName: MLEM.Maths.Direction2.Right
-- uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  commentId: M:TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-  parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  name: DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  nameWithType: PersonLike.DrawUi(SpriteBatch, Vector2, float, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  nameWithType.vb: PersonLike.DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
-  fullName.vb: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, TinyLife.Objects.Outfit, TinyLife.Objects.Pose?, TinyLife.Objects.AgeGroup?)
-  name.vb: DrawUi(SpriteBatch, Vector2, Single, Direction2, Outfit, Pose?, AgeGroup?)
-  spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-    name: DrawUi
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,System.Nullable{TinyLife.Objects.Pose},System.Nullable{TinyLife.Objects.AgeGroup})
-    name: DrawUi
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Outfit
-    name: Outfit
-    href: TinyLife.Objects.Outfit.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-  - name: )
-- uid: TinyLife.Objects.Person.DrawUi*
-  commentId: Overload:TinyLife.Objects.Person.DrawUi
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawUi_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_TinyLife_Objects_Outfit_System_Nullable_TinyLife_Objects_Pose__System_Nullable_TinyLife_Objects_AgeGroup__
-  name: DrawUi
-  nameWithType: Person.DrawUi
-  fullName: TinyLife.Objects.Person.DrawUi
-- uid: TinyLife.Objects.Outfit
-  commentId: T:TinyLife.Objects.Outfit
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Outfit.html
-  name: Outfit
-  nameWithType: Outfit
-  fullName: TinyLife.Objects.Outfit
-- uid: System.Nullable{TinyLife.Objects.Pose}
-  commentId: T:System.Nullable{TinyLife.Objects.Pose}
-  parent: System
-  definition: System.Nullable`1
-  href: TinyLife.Objects.Pose.html
-  name: Pose?
-  nameWithType: Pose?
-  fullName: TinyLife.Objects.Pose?
-  spec.csharp:
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-  spec.vb:
-  - uid: TinyLife.Objects.Pose
-    name: Pose
-    href: TinyLife.Objects.Pose.html
-  - name: '?'
-- uid: System.Nullable{TinyLife.Objects.AgeGroup}
-  commentId: T:System.Nullable{TinyLife.Objects.AgeGroup}
-  parent: System
-  definition: System.Nullable`1
-  href: TinyLife.Objects.AgeGroup.html
-  name: AgeGroup?
-  nameWithType: AgeGroup?
-  fullName: TinyLife.Objects.AgeGroup?
-  spec.csharp:
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-  spec.vb:
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '?'
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
   - name: )
 - uid: TinyLife.NeedType.PassiveReduction
   commentId: F:TinyLife.NeedType.PassiveReduction
