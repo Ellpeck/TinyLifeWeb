@@ -15,7 +15,7 @@ The game's API is **fully documented**. The documentation is easily accessible b
 If you have any questions, don't hesitate to [ask on the Discord](https://link.tinylifegame.com/discordweb) or [start a discussion](https://github.com/Ellpeck/TinyLifeExampleMod/discussions) about it.
 
 ## Distributing Mods
-To distribute your mod to other people, you can simply run `dotnet cake --target Publish`. This task will automatically create a `zip` archive that you can share. 
+To distribute your mod to other people, you can simply run `dotnet cake --target Zip`. This task will automatically create a `zip` archive that you can share. 
 
 If you want other players to try out your mod, you can also share it on [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/). To do so, make sure you have Steam open in the background, and make sure that your mod's `zip` archive is in the game's mods folder. Then, go to the rightmost tab in the game's Options menu and select "Share Mod on Steam Workshop", and then follow the instructions there.
 
