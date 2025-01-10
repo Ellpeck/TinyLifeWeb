@@ -128,4 +128,4 @@ public static readonly LifeGoal HouseholdHero = LifeGoal.Register(new LifeGoal("
 });
 ```
 
-For more info on goal sets and how they can be used for life goals and job daily tasks, see [this Discord discussion](https://discord.com/channels/181435613147430913/981562300592947220/1281723775586406411).
+For more info on goal sets and how they can be used for life goals and job daily tasks, see [this Discord thread](https://discord.com/channels/181435613147430913/1281739432399212605).
