@@ -5,10 +5,12 @@ items:
   id: Upgrade
   parent: TinyLife.Objects
   children:
+  - TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,System.Func{TinyLife.Objects.Furniture,System.Boolean})
   - TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Upgrade.BetterMemory
   - TinyLife.Objects.Upgrade.BetterPressure
   - TinyLife.Objects.Upgrade.Bidet
+  - TinyLife.Objects.Upgrade.CanApply
   - TinyLife.Objects.Upgrade.ConfigurableShowerHead
   - TinyLife.Objects.Upgrade.FridgeTemperatureControl
   - TinyLife.Objects.Upgrade.HasToLearn
@@ -23,12 +25,12 @@ items:
   - TinyLife.Objects.Upgrade.RequiredSkillLevel
   - TinyLife.Objects.Upgrade.Requirements
   - TinyLife.Objects.Upgrade.RgbLights
+  - TinyLife.Objects.Upgrade.RobustPlumbing
   - TinyLife.Objects.Upgrade.SofterCushioning
   - TinyLife.Objects.Upgrade.SourceString
   - TinyLife.Objects.Upgrade.SwivelFaucet
   - TinyLife.Objects.Upgrade.TemperatureGauge
   - TinyLife.Objects.Upgrade.Upgrades
-  - TinyLife.Objects.Upgrade.ValidObjects
   - TinyLife.Objects.Upgrade.WaterPurifier
   langs:
   - csharp
@@ -301,6 +303,25 @@ items:
     return:
       type: TinyLife.Objects.Upgrade
     content.vb: Public Shared ReadOnly WaterPurifier As Upgrade
+- uid: TinyLife.Objects.Upgrade.RobustPlumbing
+  commentId: F:TinyLife.Objects.Upgrade.RobustPlumbing
+  id: RobustPlumbing
+  parent: TinyLife.Objects.Upgrade
+  langs:
+  - csharp
+  - vb
+  name: RobustPlumbing
+  nameWithType: Upgrade.RobustPlumbing
+  fullName: TinyLife.Objects.Upgrade.RobustPlumbing
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly Upgrade RobustPlumbing
+    return:
+      type: TinyLife.Objects.Upgrade
+    content.vb: Public Shared ReadOnly RobustPlumbing As Upgrade
 - uid: TinyLife.Objects.Upgrade.Name
   commentId: F:TinyLife.Objects.Upgrade.Name
   id: Name
@@ -385,27 +406,27 @@ items:
     return:
       type: System.Int32
     content.vb: Public ReadOnly Price As Integer
-- uid: TinyLife.Objects.Upgrade.ValidObjects
-  commentId: F:TinyLife.Objects.Upgrade.ValidObjects
-  id: ValidObjects
+- uid: TinyLife.Objects.Upgrade.CanApply
+  commentId: F:TinyLife.Objects.Upgrade.CanApply
+  id: CanApply
   parent: TinyLife.Objects.Upgrade
   langs:
   - csharp
   - vb
-  name: ValidObjects
-  nameWithType: Upgrade.ValidObjects
-  fullName: TinyLife.Objects.Upgrade.ValidObjects
+  name: CanApply
+  nameWithType: Upgrade.CanApply
+  fullName: TinyLife.Objects.Upgrade.CanApply
   type: Field
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: A combined flag of <xref href="TinyLife.Objects.ObjectCategory" data-throw-if-not-resolved="false"></xref> flags that determine which objects this upgrade can be applied on.
+  summary: A function that determines whether the given <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> object can have this upgrade applied.
   example: []
   syntax:
-    content: public readonly ObjectCategory ValidObjects
+    content: public readonly Func<Furniture, bool> CanApply
     return:
-      type: TinyLife.Objects.ObjectCategory
-    content.vb: Public ReadOnly ValidObjects As ObjectCategory
+      type: System.Func{TinyLife.Objects.Furniture,System.Boolean}
+    content.vb: Public ReadOnly CanApply As Func(Of Furniture, Boolean)
 - uid: TinyLife.Objects.Upgrade.HasToLearn
   commentId: P:TinyLife.Objects.Upgrade.HasToLearn
   id: HasToLearn
@@ -506,6 +527,45 @@ items:
   overload: TinyLife.Objects.Upgrade.SourceString*
   implements:
   - TinyLife.Emotions.IEmotionSource.SourceString
+- uid: TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,System.Func{TinyLife.Objects.Furniture,System.Boolean})
+  commentId: M:TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,System.Func{TinyLife.Objects.Furniture,System.Boolean})
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,System.Func{TinyLife.Objects.Furniture,System.Boolean})'
+  parent: TinyLife.Objects.Upgrade
+  langs:
+  - csharp
+  - vb
+  name: Upgrade(string, TextureRegion, int, int, Func<Furniture, bool>)
+  nameWithType: Upgrade.Upgrade(string, TextureRegion, int, int, Func<Furniture, bool>)
+  fullName: TinyLife.Objects.Upgrade.Upgrade(string, MLEM.Textures.TextureRegion, int, int, System.Func<TinyLife.Objects.Furniture, bool>)
+  type: Constructor
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: Creates a new upgrade with the given settings.
+  example: []
+  syntax:
+    content: public Upgrade(string name, TextureRegion icon, int requiredSkillLevel, int price, Func<Furniture, bool> canApply)
+    parameters:
+    - id: name
+      type: System.String
+      description: The name of this upgrade, which should be unique.
+    - id: icon
+      type: MLEM.Textures.TextureRegion
+      description: The icon of this upgrade.
+    - id: requiredSkillLevel
+      type: System.Int32
+      description: The skill level that is required to be able to apply this upgrade.
+    - id: price
+      type: System.Int32
+      description: The price for applying this upgrade.
+    - id: canApply
+      type: System.Func{TinyLife.Objects.Furniture,System.Boolean}
+      description: A function that determines whether the given <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> object can have this upgrade applied.
+    content.vb: Public Sub New(name As String, icon As TextureRegion, requiredSkillLevel As Integer, price As Integer, canApply As Func(Of Furniture, Boolean))
+  overload: TinyLife.Objects.Upgrade.#ctor*
+  nameWithType.vb: Upgrade.New(String, TextureRegion, Integer, Integer, Func(Of Furniture, Boolean))
+  fullName.vb: TinyLife.Objects.Upgrade.New(String, MLEM.Textures.TextureRegion, Integer, Integer, System.Func(Of TinyLife.Objects.Furniture, Boolean))
+  name.vb: New(String, TextureRegion, Integer, Integer, Func(Of Furniture, Boolean))
 - uid: TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.Upgrade.#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,TinyLife.Objects.ObjectCategory)
   id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Int32,System.Int32,TinyLife.Objects.ObjectCategory)'
@@ -1268,13 +1328,85 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
-- uid: TinyLife.Objects.ObjectCategory
-  commentId: T:TinyLife.Objects.ObjectCategory
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.ObjectCategory.html
-  name: ObjectCategory
-  nameWithType: ObjectCategory
-  fullName: TinyLife.Objects.ObjectCategory
+- uid: System.Func{TinyLife.Objects.Furniture,System.Boolean}
+  commentId: T:System.Func{TinyLife.Objects.Furniture,System.Boolean}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<Furniture, bool>
+  nameWithType: Func<Furniture, bool>
+  fullName: System.Func<TinyLife.Objects.Furniture, bool>
+  nameWithType.vb: Func(Of Furniture, Boolean)
+  fullName.vb: System.Func(Of TinyLife.Objects.Furniture, Boolean)
+  name.vb: Func(Of Furniture, Boolean)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
 - uid: TinyLife.Objects.Upgrade.Memory
   commentId: P:TinyLife.Objects.Upgrade.Memory
   href: TinyLife.Objects.Upgrade.html#TinyLife_Objects_Upgrade_Memory
@@ -1451,13 +1583,20 @@ references:
   fullName: TinyLife.Emotions.IEmotionSource.SourceString
 - uid: TinyLife.Objects.Upgrade.#ctor*
   commentId: Overload:TinyLife.Objects.Upgrade.#ctor
-  href: TinyLife.Objects.Upgrade.html#TinyLife_Objects_Upgrade__ctor_System_String_MLEM_Textures_TextureRegion_System_Int32_System_Int32_TinyLife_Objects_ObjectCategory_
+  href: TinyLife.Objects.Upgrade.html#TinyLife_Objects_Upgrade__ctor_System_String_MLEM_Textures_TextureRegion_System_Int32_System_Int32_System_Func_TinyLife_Objects_Furniture_System_Boolean__
   name: Upgrade
   nameWithType: Upgrade.Upgrade
   fullName: TinyLife.Objects.Upgrade.Upgrade
   nameWithType.vb: Upgrade.New
   fullName.vb: TinyLife.Objects.Upgrade.New
   name.vb: New
+- uid: TinyLife.Objects.ObjectCategory
+  commentId: T:TinyLife.Objects.ObjectCategory
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.ObjectCategory.html
+  name: ObjectCategory
+  nameWithType: ObjectCategory
+  fullName: TinyLife.Objects.ObjectCategory
 - uid: TinyLife.Objects.Upgrade.Knows*
   commentId: Overload:TinyLife.Objects.Upgrade.Knows
   href: TinyLife.Objects.Upgrade.html#TinyLife_Objects_Upgrade_Knows_TinyLife_Objects_PersonLike_

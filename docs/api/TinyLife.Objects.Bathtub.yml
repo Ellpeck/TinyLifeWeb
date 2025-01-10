@@ -8,6 +8,7 @@ items:
   - TinyLife.Objects.Bathtub.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Bathtub.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Maths.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.Bathtub.HasWater
+  - TinyLife.Objects.Bathtub.WaterColorOverride
   langs:
   - csharp
   - vb
@@ -21,16 +22,30 @@ items:
   summary: A <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> type that allows displaying water when a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> is bathing using <xref href="TinyLife.Objects.Bathtub.HasWater" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public class Bathtub : Furniture, IGenericDataHolder'
-    content.vb: Public Class Bathtub Inherits Furniture Implements IGenericDataHolder
+    content: 'public class Bathtub : BreakableFurniture, IGenericDataHolder, IUpdatingObject, IBreakableObject'
+    content.vb: Public Class Bathtub Inherits BreakableFurniture Implements IGenericDataHolder, IUpdatingObject, IBreakableObject
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Objects.MapObject
   - TinyLife.Objects.Furniture
+  - TinyLife.Objects.BreakableFurniture
   implements:
   - MLEM.Misc.IGenericDataHolder
+  - TinyLife.Objects.IUpdatingObject
+  - TinyLife.Objects.IBreakableObject
   inheritedMembers:
+  - TinyLife.Objects.BreakableFurniture.Broken
+  - TinyLife.Objects.BreakableFurniture.RepairProgress
+  - TinyLife.Objects.BreakableFurniture.BreakSettings
+  - TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+  - TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
+  - TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  - TinyLife.Objects.BreakableFurniture.GetPrice
+  - TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
+  - TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+  - TinyLife.Objects.BreakableFurniture.OnRemoved
   - TinyLife.Objects.Furniture.Migrations
   - TinyLife.Objects.Furniture.Random
   - TinyLife.Objects.Furniture.OnFurnitureTypeConstructed
@@ -69,11 +84,8 @@ items:
   - TinyLife.Objects.Furniture.Intersects(MLEM.Maths.RectangleF)
   - TinyLife.Objects.Furniture.GetCategories(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.Furniture.OnAdded
-  - TinyLife.Objects.Furniture.OnRemoved
   - TinyLife.Objects.Furniture.GetAiPriority(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
-  - TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
   - TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-  - TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
   - TinyLife.Objects.Furniture.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Furniture.GetHoverInfo(MLEM.Ui.Elements.Tooltip)
   - TinyLife.Objects.Furniture.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
@@ -86,12 +98,9 @@ items:
   - TinyLife.Objects.Furniture.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
   - TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
-  - TinyLife.Objects.Furniture.GetPrice
-  - TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
-  - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike,System.Boolean)
-  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
@@ -188,6 +197,44 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Objects.Bathtub.WaterColorOverride
+  commentId: F:TinyLife.Objects.Bathtub.WaterColorOverride
+  id: WaterColorOverride
+  parent: TinyLife.Objects.Bathtub
+  langs:
+  - csharp
+  - vb
+  name: WaterColorOverride
+  nameWithType: Bathtub.WaterColorOverride
+  fullName: TinyLife.Objects.Bathtub.WaterColorOverride
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    A color that should be applied to the water texture in this bathtub instead of the default white.
+
+    This only has an effect if <xref href="TinyLife.Objects.Bathtub.HasWater" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>.
+  example: []
+  syntax:
+    content: >-
+      [DataMember(EmitDefaultValue = false)]
+
+      public Color? WaterColorOverride
+    return:
+      type: System.Nullable{Microsoft.Xna.Framework.Color}
+    content.vb: >-
+      <DataMember(EmitDefaultValue:=False)>
+
+      Public WaterColorOverride As Color?
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: EmitDefaultValue
+      type: System.Boolean
+      value: false
 - uid: TinyLife.Objects.Bathtub.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   commentId: M:TinyLife.Objects.Bathtub.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)'
@@ -368,6 +415,13 @@ references:
   name: MapObject
   nameWithType: MapObject
   fullName: TinyLife.Objects.MapObject
+- uid: TinyLife.Objects.BreakableFurniture
+  commentId: T:TinyLife.Objects.BreakableFurniture
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.BreakableFurniture.html
+  name: BreakableFurniture
+  nameWithType: BreakableFurniture
+  fullName: TinyLife.Objects.BreakableFurniture
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -375,6 +429,380 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
+- uid: TinyLife.Objects.IUpdatingObject
+  commentId: T:TinyLife.Objects.IUpdatingObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IUpdatingObject.html
+  name: IUpdatingObject
+  nameWithType: IUpdatingObject
+  fullName: TinyLife.Objects.IUpdatingObject
+- uid: TinyLife.Objects.IBreakableObject
+  commentId: T:TinyLife.Objects.IBreakableObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject
+  nameWithType: IBreakableObject
+  fullName: TinyLife.Objects.IBreakableObject
+- uid: TinyLife.Objects.BreakableFurniture.Broken
+  commentId: P:TinyLife.Objects.BreakableFurniture.Broken
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Broken
+  name: Broken
+  nameWithType: BreakableFurniture.Broken
+  fullName: TinyLife.Objects.BreakableFurniture.Broken
+- uid: TinyLife.Objects.BreakableFurniture.RepairProgress
+  commentId: P:TinyLife.Objects.BreakableFurniture.RepairProgress
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_RepairProgress
+  name: RepairProgress
+  nameWithType: BreakableFurniture.RepairProgress
+  fullName: TinyLife.Objects.BreakableFurniture.RepairProgress
+- uid: TinyLife.Objects.BreakableFurniture.BreakSettings
+  commentId: P:TinyLife.Objects.BreakableFurniture.BreakSettings
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_BreakSettings
+  name: BreakSettings
+  nameWithType: BreakableFurniture.BreakSettings
+  fullName: TinyLife.Objects.BreakableFurniture.BreakSettings
+- uid: TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Objects.BreakableFurniture
+  isExternal: true
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: BreakableFurniture.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
+  nameWithType.vb: BreakableFurniture.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+  commentId: M:TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+  parent: TinyLife.Objects.BreakableFurniture
+  isExternal: true
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_WearDown_System_TimeSpan_
+  name: WearDown(TimeSpan)
+  nameWithType: BreakableFurniture.WearDown(TimeSpan)
+  fullName: TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+    name: WearDown
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_WearDown_System_TimeSpan_
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
+    name: WearDown
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_WearDown_System_TimeSpan_
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
+  parent: TinyLife.Objects.BreakableFurniture
+  isExternal: true
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
+  name: CanExecuteAction(ActionType, ActionInfo, bool, bool)
+  nameWithType: BreakableFurniture.CanExecuteAction(ActionType, ActionInfo, bool, bool)
+  fullName: TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool, bool)
+  nameWithType.vb: BreakableFurniture.CanExecuteAction(ActionType, ActionInfo, Boolean, Boolean)
+  fullName.vb: TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean, Boolean)
+  name.vb: CanExecuteAction(ActionType, ActionInfo, Boolean, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
+    name: CanExecuteAction
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
+    name: CanExecuteAction
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  commentId: M:TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  parent: TinyLife.Objects.BreakableFurniture
+  isExternal: true
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  name: ActionUpdate(Action, GameTime, TimeSpan, float, bool)
+  nameWithType: BreakableFurniture.ActionUpdate(Action, GameTime, TimeSpan, float, bool)
+  fullName: TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, float, bool)
+  nameWithType.vb: BreakableFurniture.ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
+  fullName.vb: TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single, Boolean)
+  name.vb: ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+    name: ActionUpdate
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+    name: ActionUpdate
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.GetPrice
+  commentId: M:TinyLife.Objects.BreakableFurniture.GetPrice
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetPrice
+  name: GetPrice()
+  nameWithType: BreakableFurniture.GetPrice()
+  fullName: TinyLife.Objects.BreakableFurniture.GetPrice()
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.GetPrice
+    name: GetPrice
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetPrice
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.GetPrice
+    name: GetPrice
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetPrice
+  - name: (
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
+  commentId: M:TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
+  parent: TinyLife.Objects.BreakableFurniture
+  isExternal: true
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
+  name: GetDescription(List<string>, bool)
+  nameWithType: BreakableFurniture.GetDescription(List<string>, bool)
+  fullName: TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List<string>, bool)
+  nameWithType.vb: BreakableFurniture.GetDescription(List(Of String), Boolean)
+  fullName.vb: TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List(Of String), Boolean)
+  name.vb: GetDescription(List(Of String), Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
+    name: GetDescription
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
+  - name: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
+    name: GetDescription
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
+  - name: (
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+  commentId: M:TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDecorativeRating_TinyLife_World_Room_
+  name: GetDecorativeRating(Room)
+  nameWithType: BreakableFurniture.GetDecorativeRating(Room)
+  fullName: TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+    name: GetDecorativeRating
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDecorativeRating_TinyLife_World_Room_
+  - name: (
+  - uid: TinyLife.World.Room
+    name: Room
+    href: TinyLife.World.Room.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.GetDecorativeRating(TinyLife.World.Room)
+    name: GetDecorativeRating
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_GetDecorativeRating_TinyLife_World_Room_
+  - name: (
+  - uid: TinyLife.World.Room
+    name: Room
+    href: TinyLife.World.Room.html
+  - name: )
+- uid: TinyLife.Objects.BreakableFurniture.OnRemoved
+  commentId: M:TinyLife.Objects.BreakableFurniture.OnRemoved
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_OnRemoved
+  name: OnRemoved()
+  nameWithType: BreakableFurniture.OnRemoved()
+  fullName: TinyLife.Objects.BreakableFurniture.OnRemoved()
+  spec.csharp:
+  - uid: TinyLife.Objects.BreakableFurniture.OnRemoved
+    name: OnRemoved
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_OnRemoved
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.BreakableFurniture.OnRemoved
+    name: OnRemoved
+    href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_OnRemoved
+  - name: (
+  - name: )
 - uid: TinyLife.Objects.Furniture.Migrations
   commentId: F:TinyLife.Objects.Furniture.Migrations
   parent: TinyLife.Objects.Furniture
@@ -788,25 +1216,6 @@ references:
     href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnAdded
   - name: (
   - name: )
-- uid: TinyLife.Objects.Furniture.OnRemoved
-  commentId: M:TinyLife.Objects.Furniture.OnRemoved
-  parent: TinyLife.Objects.Furniture
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRemoved
-  name: OnRemoved()
-  nameWithType: Furniture.OnRemoved()
-  fullName: TinyLife.Objects.Furniture.OnRemoved()
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnRemoved
-    name: OnRemoved
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRemoved
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnRemoved
-    name: OnRemoved
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRemoved
-  - name: (
-  - name: )
 - uid: TinyLife.Objects.Furniture.GetAiPriority(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.Furniture.GetAiPriority(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   parent: TinyLife.Objects.Furniture
@@ -841,69 +1250,6 @@ references:
   - uid: TinyLife.Objects.ObjectCategory
     name: ObjectCategory
     href: TinyLife.Objects.ObjectCategory.html
-  - name: )
-- uid: TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
-  parent: TinyLife.Objects.Furniture
-  isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
-  name: CanExecuteAction(ActionType, ActionInfo, bool, bool)
-  nameWithType: Furniture.CanExecuteAction(ActionType, ActionInfo, bool, bool)
-  fullName: TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool, bool)
-  nameWithType.vb: Furniture.CanExecuteAction(ActionType, ActionInfo, Boolean, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean, Boolean)
-  name.vb: CanExecuteAction(ActionType, ActionInfo, Boolean, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
-    name: CanExecuteAction
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
-    name: CanExecuteAction
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   commentId: M:TinyLife.Objects.Furniture.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
@@ -949,81 +1295,6 @@ references:
   - uid: TinyLife.Actions.CompletionType
     name: CompletionType
     href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-- uid: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  parent: TinyLife.Objects.Furniture
-  isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
-  name: ActionUpdate(Action, GameTime, TimeSpan, float, bool)
-  nameWithType: Furniture.ActionUpdate(Action, GameTime, TimeSpan, float, bool)
-  fullName: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, float, bool)
-  nameWithType.vb: Furniture.ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single, Boolean)
-  name.vb: ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-    name: ActionUpdate
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-    name: ActionUpdate
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: ','
   - name: " "
   - uid: System.Boolean
@@ -1690,107 +1961,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Objects.Furniture.GetPrice
-  commentId: M:TinyLife.Objects.Furniture.GetPrice
-  parent: TinyLife.Objects.Furniture
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetPrice
-  name: GetPrice()
-  nameWithType: Furniture.GetPrice()
-  fullName: TinyLife.Objects.Furniture.GetPrice()
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.GetPrice
-    name: GetPrice
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetPrice
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.GetPrice
-    name: GetPrice
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetPrice
-  - name: (
-  - name: )
-- uid: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
-  parent: TinyLife.Objects.Furniture
-  isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
-  name: GetDescription(List<string>, bool)
-  nameWithType: Furniture.GetDescription(List<string>, bool)
-  fullName: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List<string>, bool)
-  nameWithType.vb: Furniture.GetDescription(List(Of String), Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List(Of String), Boolean)
-  name.vb: GetDescription(List(Of String), Boolean)
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
-    name: GetDescription
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
-  - name: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - uid: System.String
-    name: string
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
-  - name: '>'
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
-    name: GetDescription
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDescription_System_Collections_Generic_List_System_String__System_Boolean_
-  - name: (
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.String
-    name: String
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-- uid: TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
-  commentId: M:TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
-  parent: TinyLife.Objects.Furniture
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDecorativeRating_TinyLife_World_Room_
-  name: GetDecorativeRating(Room)
-  nameWithType: Furniture.GetDecorativeRating(Room)
-  fullName: TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
-    name: GetDecorativeRating
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDecorativeRating_TinyLife_World_Room_
-  - name: (
-  - uid: TinyLife.World.Room
-    name: Room
-    href: TinyLife.World.Room.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
-    name: GetDecorativeRating
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetDecorativeRating_TinyLife_World_Room_
-  - name: (
-  - uid: TinyLife.World.Room
-    name: Room
-    href: TinyLife.World.Room.html
-  - name: )
 - uid: TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   commentId: M:TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   parent: TinyLife.Objects.Furniture
@@ -1870,21 +2040,21 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
-  name: OnPlacedInBuildMode(FurniturePlacer, bool)
-  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool)
-  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool)
-  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean)
-  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
+  name: OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool, TinyLife.Tools.UndoableAction)
+  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
+  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
+  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -1895,11 +2065,16 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -1910,6 +2085,11 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
@@ -4427,6 +4607,51 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: System.Nullable{Microsoft.Xna.Framework.Color}
+  commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
+  parent: System
+  definition: System.Nullable`1
+  name: Color?
+  nameWithType: Color?
+  fullName: Microsoft.Xna.Framework.Color?
+  spec.csharp:
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   commentId: M:TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   isExternal: true
@@ -4846,23 +5071,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.Nullable{Microsoft.Xna.Framework.Color}
-  commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
-  parent: System
-  definition: System.Nullable`1
-  name: Color?
-  nameWithType: Color?
-  fullName: Microsoft.Xna.Framework.Color?
-  spec.csharp:
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    isExternal: true
-  - name: '?'
-  spec.vb:
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    isExternal: true
-  - name: '?'
 - uid: MLEM.Maths.Direction2
   commentId: T:MLEM.Maths.Direction2
   parent: MLEM.Maths
@@ -4956,34 +5164,6 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics
     name: Graphics
     isExternal: true
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
 - uid: MLEM.Maths
   commentId: N:MLEM.Maths
   isExternal: true

@@ -12,12 +12,13 @@ items:
   - TinyLife.Objects.Person.Create(TinyLife.World.Map,System.Random,TinyLife.Objects.AgeGroup,System.Boolean,System.Boolean,System.Boolean,System.Boolean,TinyLife.Objects.PersonLike[])
   - TinyLife.Objects.Person.CurrentRoomDecorativeRating
   - TinyLife.Objects.Person.DiaperDirty
+  - TinyLife.Objects.Person.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
   - TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   - TinyLife.Objects.Person.DrawSize
   - TinyLife.Objects.Person.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
   - TinyLife.Objects.Person.FullNamePronouns
   - TinyLife.Objects.Person.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
-  - TinyLife.Objects.Person.GenerateShadowAnimation
+  - TinyLife.Objects.Person.GenerateAnimations
   - TinyLife.Objects.Person.GetAiPriorityForObject(TinyLife.Objects.MapObject,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.Person.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   - TinyLife.Objects.Person.GetCurrentGoals
@@ -28,6 +29,7 @@ items:
   - TinyLife.Objects.Person.GetPassiveNeedReduction(TinyLife.NeedType)
   - TinyLife.Objects.Person.GetProject(System.String,System.String)
   - TinyLife.Objects.Person.GetProjects(System.String)
+  - TinyLife.Objects.Person.GoHomeAction
   - TinyLife.Objects.Person.GoToExitRoad(Microsoft.Xna.Framework.Vector2)
   - TinyLife.Objects.Person.IsRegularVisitor
   - TinyLife.Objects.Person.Jobs
@@ -50,6 +52,7 @@ items:
   - TinyLife.Objects.Person.RotationOrderIndices
   - TinyLife.Objects.Person.StartProject(TinyLife.Goals.Project)
   - TinyLife.Objects.Person.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Objects.Person.UpdateAnimations(System.TimeSpan)
   - TinyLife.Objects.Person.UpdateJobs(System.TimeSpan)
   - TinyLife.Objects.Person.UpdatePose
   - TinyLife.Objects.Person.Validate(TinyLife.Utilities.AppliedMigrations)
@@ -96,6 +99,7 @@ items:
   - TinyLife.Objects.PersonLike.Memories
   - TinyLife.Objects.PersonLike.FirstName
   - TinyLife.Objects.PersonLike.LastName
+  - TinyLife.Objects.PersonLike.FirstNameLastName
   - TinyLife.Objects.PersonLike.FullName
   - TinyLife.Objects.PersonLike.Rotation
   - TinyLife.Objects.PersonLike.VisualRotation
@@ -118,6 +122,7 @@ items:
   - TinyLife.Objects.PersonLike.CurrentAgeDays
   - TinyLife.Objects.PersonLike.DaysLived
   - TinyLife.Objects.PersonLike.RandomlyGenerated
+  - TinyLife.Objects.PersonLike.IsSpecialVisitor
   - TinyLife.Objects.PersonLike.VisuallyOccupiedSpot
   - TinyLife.Objects.PersonLike.OccupiedFurniture
   - TinyLife.Objects.PersonLike.CurrentPose
@@ -187,7 +192,7 @@ items:
   - TinyLife.Objects.PersonLike.StopEmoting
   - TinyLife.Objects.PersonLike.Speak(TinyLife.Objects.SpeakStyle,System.Single,System.Single)
   - TinyLife.Objects.PersonLike.StopSpeaking
-  - TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
+  - TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
   - TinyLife.Objects.PersonLike.GetFreeTalkingSpots(TinyLife.Objects.PersonLike)
   - TinyLife.Objects.PersonLike.OccupyActionSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot,System.Boolean,System.Nullable{MLEM.Maths.Direction2},System.Boolean)
   - TinyLife.Objects.PersonLike.OccupyFreeActionSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ObjectCategory,System.Boolean,System.Nullable{MLEM.Maths.Direction2},System.Boolean)
@@ -253,8 +258,6 @@ items:
   - TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
   - TinyLife.Objects.PersonLike.GetDefaultPose
   - TinyLife.Objects.PersonLike.MoveToMapExitRoad(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2)
-  - TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
-  - TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
   - TinyLife.Objects.PersonLike.UpdateSpeech(Microsoft.Xna.Framework.GameTime,System.Single)
   - TinyLife.Objects.PersonLike.UpdateEmotes(Microsoft.Xna.Framework.GameTime,System.Single)
   - TinyLife.Objects.PersonLike.UpdateRelationships(System.Single)
@@ -356,6 +359,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: The indices of the <xref href="TinyLife.Objects.Person.RotationOrder" data-throw-if-not-resolved="false"></xref> array, where the key is the <xref href="MLEM.Maths.Direction2" data-throw-if-not-resolved="false"></xref> and the value is the index, for index retrieval performance
+  example: []
   syntax:
     content: public static readonly Dictionary<Direction2, int> RotationOrderIndices
     return:
@@ -502,30 +507,6 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
-- uid: TinyLife.Objects.Person.FullNamePronouns
-  commentId: P:TinyLife.Objects.Person.FullNamePronouns
-  id: FullNamePronouns
-  parent: TinyLife.Objects.Person
-  langs:
-  - csharp
-  - vb
-  name: FullNamePronouns
-  nameWithType: Person.FullNamePronouns
-  fullName: TinyLife.Objects.Person.FullNamePronouns
-  type: Property
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: This person's full name and pronouns, which is a concatenation of their <xref href="TinyLife.Objects.PersonLike.FullName" data-throw-if-not-resolved="false"></xref>, and their pronouns in parentheses for <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> types.
-  example: []
-  syntax:
-    content: public override string FullNamePronouns { get; }
-    parameters: []
-    return:
-      type: System.String
-    content.vb: Public Overrides ReadOnly Property FullNamePronouns As String
-  overridden: TinyLife.Objects.PersonLike.FullNamePronouns
-  overload: TinyLife.Objects.Person.FullNamePronouns*
 - uid: TinyLife.Objects.Person.CurrentRoomDecorativeRating
   commentId: P:TinyLife.Objects.Person.CurrentRoomDecorativeRating
   id: CurrentRoomDecorativeRating
@@ -728,7 +709,7 @@ items:
   summary: >-
     A property that computes whether this person is a regular visitor.
 
-    A person is considered a regular visitor if they have no <xref href="TinyLife.Objects.PersonLike.Household" data-throw-if-not-resolved="false"></xref>, but also have no <xref href="TinyLife.World.LotEmployment" data-throw-if-not-resolved="false"></xref>, and are not dead (<xref href="TinyLife.Objects.PersonLike.IsDead" data-throw-if-not-resolved="false"></xref>).
+    A person is considered a regular visitor if they have no <xref href="TinyLife.Objects.PersonLike.Household" data-throw-if-not-resolved="false"></xref>, but also have no <xref href="TinyLife.World.LotEmployment" data-throw-if-not-resolved="false"></xref>, are not dead (<xref href="TinyLife.Objects.PersonLike.IsDead" data-throw-if-not-resolved="false"></xref>), and are not a special visitor (<xref href="TinyLife.Objects.PersonLike.IsSpecialVisitor" data-throw-if-not-resolved="false"></xref>).
   example: []
   syntax:
     content: public override bool IsRegularVisitor { get; }
@@ -738,6 +719,57 @@ items:
     content.vb: Public Overrides ReadOnly Property IsRegularVisitor As Boolean
   overridden: TinyLife.Objects.PersonLike.IsRegularVisitor
   overload: TinyLife.Objects.Person.IsRegularVisitor*
+- uid: TinyLife.Objects.Person.FullNamePronouns
+  commentId: P:TinyLife.Objects.Person.FullNamePronouns
+  id: FullNamePronouns
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: FullNamePronouns
+  nameWithType: Person.FullNamePronouns
+  fullName: TinyLife.Objects.Person.FullNamePronouns
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: This person's full name and pronouns, which is a concatenation of their <xref href="TinyLife.Objects.PersonLike.FullName" data-throw-if-not-resolved="false"></xref>, and their pronouns in parentheses for <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> types.
+  example: []
+  syntax:
+    content: public override string FullNamePronouns { get; }
+    parameters: []
+    return:
+      type: System.String
+    content.vb: Public Overrides ReadOnly Property FullNamePronouns As String
+  overridden: TinyLife.Objects.PersonLike.FullNamePronouns
+  overload: TinyLife.Objects.Person.FullNamePronouns*
+- uid: TinyLife.Objects.Person.GoHomeAction
+  commentId: P:TinyLife.Objects.Person.GoHomeAction
+  id: GoHomeAction
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GoHomeAction
+  nameWithType: Person.GoHomeAction
+  fullName: TinyLife.Objects.Person.GoHomeAction
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    The action type of which to construct an instance in situations where this person should go home.
+
+    The action is always constructed using <xref href="TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)" data-throw-if-not-resolved="false"></xref>, and occasionally will be force-enqueued (that is, without <xref href="TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> being checked).
+  example: []
+  syntax:
+    content: public override ActionType GoHomeAction { get; }
+    parameters: []
+    return:
+      type: TinyLife.Actions.ActionType
+    content.vb: Public Overrides ReadOnly Property GoHomeAction As ActionType
+  overridden: TinyLife.Objects.PersonLike.GoHomeAction
+  overload: TinyLife.Objects.Person.GoHomeAction*
 - uid: TinyLife.Objects.Person.DrawSize
   commentId: P:TinyLife.Objects.Person.DrawSize
   id: DrawSize
@@ -1148,36 +1180,59 @@ items:
       description: The clothes layer.
     - id: clothes
       type: TinyLife.Objects.Clothes
+      description: The clothes to generate the animation group for.
     return:
       type: MLEM.Animations.SpriteAnimationGroup
       description: The generated <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref>.
     content.vb: Protected Overrides Function GenerateAnimationGroup(clothesLayer As ClothesLayer, clothes As Clothes) As SpriteAnimationGroup
   overridden: TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer,TinyLife.Objects.Clothes)
   overload: TinyLife.Objects.Person.GenerateAnimationGroup*
-- uid: TinyLife.Objects.Person.GenerateShadowAnimation
-  commentId: M:TinyLife.Objects.Person.GenerateShadowAnimation
-  id: GenerateShadowAnimation
+- uid: TinyLife.Objects.Person.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+  commentId: M:TinyLife.Objects.Person.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+  id: DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
   parent: TinyLife.Objects.Person
   langs:
   - csharp
   - vb
-  name: GenerateShadowAnimation()
-  nameWithType: Person.GenerateShadowAnimation()
-  fullName: TinyLife.Objects.Person.GenerateShadowAnimation()
+  name: DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
+  nameWithType: Person.DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
+  fullName: TinyLife.Objects.Person.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, float, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, float)
   type: Method
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: Generates a <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref> for this person's shadow. This method is called when a person's <xref href="TinyLife.Objects.PersonLike.Animations" data-throw-if-not-resolved="false"></xref> are generated.
+  summary: Draws this person's looks in the world, which only includes their clothes by default.
   example: []
   syntax:
-    content: protected override SpriteAnimationGroup GenerateShadowAnimation()
-    return:
-      type: MLEM.Animations.SpriteAnimationGroup
-      description: The generated <xref href="MLEM.Animations.SpriteAnimationGroup" data-throw-if-not-resolved="false"></xref>.
-    content.vb: Protected Overrides Function GenerateShadowAnimation() As SpriteAnimationGroup
-  overridden: TinyLife.Objects.PersonLike.GenerateShadowAnimation
-  overload: TinyLife.Objects.Person.GenerateShadowAnimation*
+    content: protected override void DrawLooks(SpriteBatch batch, Vector2 drawPos, Vector2 depthPos, float floor, ParentInfo parent, Color? overrideColor = null, float scale = 1)
+    parameters:
+    - id: batch
+      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing.
+    - id: drawPos
+      type: Microsoft.Xna.Framework.Vector2
+      description: The draw position in screen space.
+    - id: depthPos
+      type: Microsoft.Xna.Framework.Vector2
+      description: The position to use for calculating depth.
+    - id: floor
+      type: System.Single
+      description: The floor to draw on.
+    - id: parent
+      type: TinyLife.Objects.ParentInfo
+      description: This person's parent info.
+    - id: overrideColor
+      type: System.Nullable{Microsoft.Xna.Framework.Color}
+      description: An override color to use instead of this person's default colors.
+    - id: scale
+      type: System.Single
+      description: The scale to draw with.
+    content.vb: Protected Overrides Sub DrawLooks(batch As SpriteBatch, drawPos As Vector2, depthPos As Vector2, floor As Single, parent As ParentInfo, overrideColor As Color? = Nothing, scale As Single = 1)
+  overridden: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+  overload: TinyLife.Objects.Person.DrawLooks*
+  nameWithType.vb: Person.DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
+  fullName.vb: TinyLife.Objects.Person.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Single, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, Single)
+  name.vb: DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
 - uid: TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   commentId: M:TinyLife.Objects.Person.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   id: DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
@@ -1256,32 +1311,44 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Causes the given ui layer information to be drawn on the screen. This method is called when a person's UI is drawn, for each clothes layer, in <xref href="TinyLife.Objects.PersonLike.DrawUi(Microsoft.Xna.Framework.Graphics.SpriteBatch%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cMLEM.Maths.Direction2%2cTinyLife.Objects.Outfit%2cSystem.Nullable%7bTinyLife.Objects.Pose%7d%2cSystem.Nullable%7bTinyLife.Objects.AgeGroup%7d)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: protected override void DrawUiLayer(SpriteBatch batch, Vector2 pos, float scale, Direction2 rotation, Outfit outfit, Pose pose, AgeGroup age, WornClothes clothes, ClothesLayer layer, int colorIndex, int layerIndex)
     parameters:
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      description: The sprite batch to use for drawing
     - id: pos
       type: Microsoft.Xna.Framework.Vector2
+      description: The position, in screen space, to draw at
     - id: scale
       type: System.Single
+      description: The scale to draw with
     - id: rotation
       type: MLEM.Maths.Direction2
+      description: The rotation that this person should be drawn with. Defaults to <xref href="MLEM.Maths.Direction2.Right" data-throw-if-not-resolved="false"></xref>.
     - id: outfit
       type: TinyLife.Objects.Outfit
+      description: The outfit to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.CurrentOutfit" data-throw-if-not-resolved="false"></xref>.
     - id: pose
       type: TinyLife.Objects.Pose
+      description: The pose to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.CurrentPose" data-throw-if-not-resolved="false"></xref>.
     - id: age
       type: TinyLife.Objects.AgeGroup
+      description: The age to draw with, which defaults to this person's <xref href="TinyLife.Objects.PersonLike.Age" data-throw-if-not-resolved="false"></xref>.
     - id: clothes
       type: TinyLife.Objects.WornClothes
+      description: The clothes on the given <code class="paramref">layer</code>.
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The layer to draw.
     - id: colorIndex
       type: System.Int32
+      description: The index of the color of the current layer of the clothes being drawn.
     - id: layerIndex
       type: System.Int32
+      description: The index of the layer of the clothes being drawn.
     content.vb: Protected Overrides Sub DrawUiLayer(batch As SpriteBatch, pos As Vector2, scale As Single, rotation As Direction2, outfit As Outfit, pose As Pose, age As AgeGroup, clothes As WornClothes, layer As ClothesLayer, colorIndex As Integer, layerIndex As Integer)
   overridden: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
   overload: TinyLife.Objects.Person.DrawUiLayer*
@@ -1332,16 +1399,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Returns the area, in draw space pixels, that this person's body occupies. This should be the smallest rectangle around this person's draw space, based on the given <code class="paramref">pose</code> and <code class="paramref">rotation</code>, that encompasses the entire body. This is used for particles and other visual effects.
   example: []
   syntax:
     content: public override Rectangle GetBodyArea(Pose pose, Direction2 rotation)
     parameters:
     - id: pose
       type: TinyLife.Objects.Pose
+      description: The pose to retrieve the body area for.
     - id: rotation
       type: MLEM.Maths.Direction2
+      description: The rotation to retrieve the body area for.
     return:
       type: Microsoft.Xna.Framework.Rectangle
+      description: The body area.
     content.vb: Public Overrides Function GetBodyArea(pose As Pose, rotation As Direction2) As Rectangle
   overridden: TinyLife.Objects.PersonLike.GetBodyArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   overload: TinyLife.Objects.Person.GetBodyArea*
@@ -1359,16 +1430,20 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Returns the area, in draw space pixels, that this person's head occupies. This should be the smallest rectangle around this person's head's draw space, based on the given <code class="paramref">pose</code> and <code class="paramref">rotation</code>, that encompasses the entire head. This is used for particles and other visual effects.
   example: []
   syntax:
     content: public override Rectangle GetHeadArea(Pose pose, Direction2 rotation)
     parameters:
     - id: pose
       type: TinyLife.Objects.Pose
+      description: The pose to retrieve the head area for.
     - id: rotation
       type: MLEM.Maths.Direction2
+      description: The rotation to retrieve the head area for.
     return:
       type: Microsoft.Xna.Framework.Rectangle
+      description: The head area.
     content.vb: Public Overrides Function GetHeadArea(pose As Pose, rotation As Direction2) As Rectangle
   overridden: TinyLife.Objects.PersonLike.GetHeadArea(TinyLife.Objects.Pose,MLEM.Maths.Direction2)
   overload: TinyLife.Objects.Person.GetHeadArea*
@@ -1482,6 +1557,55 @@ items:
     content.vb: Protected Overrides Sub OnAgeChanged(lastAge As AgeGroup)
   overridden: TinyLife.Objects.PersonLike.OnAgeChanged(TinyLife.Objects.AgeGroup)
   overload: TinyLife.Objects.Person.OnAgeChanged*
+- uid: TinyLife.Objects.Person.GenerateAnimations
+  commentId: M:TinyLife.Objects.Person.GenerateAnimations
+  id: GenerateAnimations
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: GenerateAnimations()
+  nameWithType: Person.GenerateAnimations()
+  fullName: TinyLife.Objects.Person.GenerateAnimations()
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    A method that is invoked in <xref href="TinyLife.Objects.PersonLike.Animations" data-throw-if-not-resolved="false"></xref> when new animations need to be generated for this person due to the old ones being invalidated, which happens, for example, when the outfit changes.
+
+    By default, this method calls <xref href="TinyLife.Objects.PersonLike.GenerateAnimationGroup(TinyLife.Objects.ClothesLayer%2cTinyLife.Objects.Clothes)" data-throw-if-not-resolved="false"></xref> for each clothing item in this person's <xref href="TinyLife.Objects.PersonLike.CurrentOutfit" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: protected override void GenerateAnimations()
+    content.vb: Protected Overrides Sub GenerateAnimations()
+  overridden: TinyLife.Objects.PersonLike.GenerateAnimations
+  overload: TinyLife.Objects.Person.GenerateAnimations*
+- uid: TinyLife.Objects.Person.UpdateAnimations(System.TimeSpan)
+  commentId: M:TinyLife.Objects.Person.UpdateAnimations(System.TimeSpan)
+  id: UpdateAnimations(System.TimeSpan)
+  parent: TinyLife.Objects.Person
+  langs:
+  - csharp
+  - vb
+  name: UpdateAnimations(TimeSpan)
+  nameWithType: Person.UpdateAnimations(TimeSpan)
+  fullName: TinyLife.Objects.Person.UpdateAnimations(System.TimeSpan)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: A method called in <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, as well as when this person's rotation changes in <xref href="TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2%2cMLEM.Maths.Direction2)" data-throw-if-not-resolved="false"></xref> to update this person's animation data to the proper state for the current update frame.
+  example: []
+  syntax:
+    content: protected override void UpdateAnimations(TimeSpan elapsedAnimationTime)
+    parameters:
+    - id: elapsedAnimationTime
+      type: System.TimeSpan
+      description: The amount of time elapsed for the animations to update since the last animation update.
+    content.vb: Protected Overrides Sub UpdateAnimations(elapsedAnimationTime As TimeSpan)
+  overridden: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+  overload: TinyLife.Objects.Person.UpdateAnimations*
 - uid: TinyLife.Objects.Person.GoToExitRoad(Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.Objects.Person.GoToExitRoad(Microsoft.Xna.Framework.Vector2)
   id: GoToExitRoad(Microsoft.Xna.Framework.Vector2)
@@ -1988,6 +2112,13 @@ references:
   name: LastName
   nameWithType: PersonLike.LastName
   fullName: TinyLife.Objects.PersonLike.LastName
+- uid: TinyLife.Objects.PersonLike.FirstNameLastName
+  commentId: P:TinyLife.Objects.PersonLike.FirstNameLastName
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_FirstNameLastName
+  name: FirstNameLastName
+  nameWithType: PersonLike.FirstNameLastName
+  fullName: TinyLife.Objects.PersonLike.FirstNameLastName
 - uid: TinyLife.Objects.PersonLike.FullName
   commentId: P:TinyLife.Objects.PersonLike.FullName
   parent: TinyLife.Objects.PersonLike
@@ -2142,6 +2273,13 @@ references:
   name: RandomlyGenerated
   nameWithType: PersonLike.RandomlyGenerated
   fullName: TinyLife.Objects.PersonLike.RandomlyGenerated
+- uid: TinyLife.Objects.PersonLike.IsSpecialVisitor
+  commentId: F:TinyLife.Objects.PersonLike.IsSpecialVisitor
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_IsSpecialVisitor
+  name: IsSpecialVisitor
+  nameWithType: PersonLike.IsSpecialVisitor
+  fullName: TinyLife.Objects.PersonLike.IsSpecialVisitor
 - uid: TinyLife.Objects.PersonLike.VisuallyOccupiedSpot
   commentId: P:TinyLife.Objects.PersonLike.VisuallyOccupiedSpot
   parent: TinyLife.Objects.PersonLike
@@ -3342,25 +3480,26 @@ references:
     href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_StopSpeaking
   - name: (
   - name: )
-- uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
-  commentId: M:TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
+- uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
+  commentId: M:TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
   parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_TinyLife_Actions_EmoteChoices_System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
-  name: DisplayEmoteAndSpeak(EmoteChoices, SpeakStyle?, float, float)
-  nameWithType: PersonLike.DisplayEmoteAndSpeak(EmoteChoices, SpeakStyle?, float, float)
-  fullName: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle?, float, float)
-  nameWithType.vb: PersonLike.DisplayEmoteAndSpeak(EmoteChoices, SpeakStyle?, Single, Single)
-  fullName.vb: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle?, Single, Single)
-  name.vb: DisplayEmoteAndSpeak(EmoteChoices, SpeakStyle?, Single, Single)
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
+  name: DisplayEmoteAndSpeak(EmoteChoices?, SpeakStyle?, float, float)
+  nameWithType: PersonLike.DisplayEmoteAndSpeak(EmoteChoices?, SpeakStyle?, float, float)
+  fullName: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, float, float)
+  nameWithType.vb: PersonLike.DisplayEmoteAndSpeak(EmoteChoices?, SpeakStyle?, Single, Single)
+  fullName.vb: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Single, Single)
+  name.vb: DisplayEmoteAndSpeak(EmoteChoices?, SpeakStyle?, Single, Single)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
+  - uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
     name: DisplayEmoteAndSpeak
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_TinyLife_Actions_EmoteChoices_System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
   - name: (
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -3381,13 +3520,14 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(TinyLife.Actions.EmoteChoices,System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
+  - uid: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak(System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Single,System.Single)
     name: DisplayEmoteAndSpeak
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_TinyLife_Actions_EmoteChoices_System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DisplayEmoteAndSpeak_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Single_System_Single_
   - name: (
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -6079,144 +6219,6 @@ references:
   - uid: Microsoft.Xna.Framework.Vector2
     name: Vector2
     isExternal: true
-  - name: )
-- uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
-  commentId: M:TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
-  parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
-  name: DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
-  nameWithType: PersonLike.DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
-  fullName: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, float, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, float)
-  nameWithType.vb: PersonLike.DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
-  fullName.vb: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Single, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, Single)
-  name.vb: DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
-  spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
-    name: DrawLooks
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.ParentInfo
-    name: ParentInfo
-    href: TinyLife.Objects.ParentInfo.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
-    name: DrawLooks
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.ParentInfo
-    name: ParentInfo
-    href: TinyLife.Objects.ParentInfo.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Color
-    name: Color
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-- uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
-  parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_System_Single_
-  name: UpdateAnimations(TimeSpan, float)
-  nameWithType: PersonLike.UpdateAnimations(TimeSpan, float)
-  fullName: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan, float)
-  nameWithType.vb: PersonLike.UpdateAnimations(TimeSpan, Single)
-  fullName.vb: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan, Single)
-  name.vb: UpdateAnimations(TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
-    name: UpdateAnimations
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_System_Single_
-  - name: (
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan,System.Single)
-    name: UpdateAnimations
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_System_Single_
-  - name: (
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
 - uid: TinyLife.Objects.PersonLike.UpdateSpeech(Microsoft.Xna.Framework.GameTime,System.Single)
   commentId: M:TinyLife.Objects.PersonLike.UpdateSpeech(Microsoft.Xna.Framework.GameTime,System.Single)
@@ -8943,6 +8945,12 @@ references:
   - uid: MLEM.Maths
     name: Maths
     isExternal: true
+- uid: TinyLife.Objects.Person.RotationOrder
+  commentId: F:TinyLife.Objects.Person.RotationOrder
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_RotationOrder
+  name: RotationOrder
+  nameWithType: Person.RotationOrder
+  fullName: TinyLife.Objects.Person.RotationOrder
 - uid: System.Collections.Generic.Dictionary{MLEM.Maths.Direction2,System.Int32}
   commentId: T:System.Collections.Generic.Dictionary{MLEM.Maths.Direction2,System.Int32}
   parent: System.Collections.Generic
@@ -9782,26 +9790,6 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: TinyLife.Objects.Person
-  commentId: T:TinyLife.Objects.Person
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Person.html
-  name: Person
-  nameWithType: Person
-  fullName: TinyLife.Objects.Person
-- uid: TinyLife.Objects.PersonLike.FullNamePronouns
-  commentId: P:TinyLife.Objects.PersonLike.FullNamePronouns
-  parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_FullNamePronouns
-  name: FullNamePronouns
-  nameWithType: PersonLike.FullNamePronouns
-  fullName: TinyLife.Objects.PersonLike.FullNamePronouns
-- uid: TinyLife.Objects.Person.FullNamePronouns*
-  commentId: Overload:TinyLife.Objects.Person.FullNamePronouns
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_FullNamePronouns
-  name: FullNamePronouns
-  nameWithType: Person.FullNamePronouns
-  fullName: TinyLife.Objects.Person.FullNamePronouns
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.DecorativeRating
   href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_DecorativeRating
@@ -9982,6 +9970,143 @@ references:
   name: IsRegularVisitor
   nameWithType: Person.IsRegularVisitor
   fullName: TinyLife.Objects.Person.IsRegularVisitor
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Person.html
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
+- uid: TinyLife.Objects.PersonLike.FullNamePronouns
+  commentId: P:TinyLife.Objects.PersonLike.FullNamePronouns
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_FullNamePronouns
+  name: FullNamePronouns
+  nameWithType: PersonLike.FullNamePronouns
+  fullName: TinyLife.Objects.PersonLike.FullNamePronouns
+- uid: TinyLife.Objects.Person.FullNamePronouns*
+  commentId: Overload:TinyLife.Objects.Person.FullNamePronouns
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_FullNamePronouns
+  name: FullNamePronouns
+  nameWithType: Person.FullNamePronouns
+  fullName: TinyLife.Objects.Person.FullNamePronouns
+- uid: TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)
+  href: TinyLife.Actions.ActionInfo.html#TinyLife_Actions_ActionInfo_FromSelf_TinyLife_Objects_PersonLike_
+  name: FromSelf(PersonLike)
+  nameWithType: ActionInfo.FromSelf(PersonLike)
+  fullName: TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)
+  spec.csharp:
+  - uid: TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)
+    name: FromSelf
+    href: TinyLife.Actions.ActionInfo.html#TinyLife_Actions_ActionInfo_FromSelf_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.ActionInfo.FromSelf(TinyLife.Objects.PersonLike)
+    name: FromSelf
+    href: TinyLife.Actions.ActionInfo.html#TinyLife_Actions_ActionInfo_FromSelf_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+- uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+  name: CanExecuteAction(ActionType, ActionInfo, bool)
+  nameWithType: PersonLike.CanExecuteAction(ActionType, ActionInfo, bool)
+  fullName: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool)
+  nameWithType.vb: PersonLike.CanExecuteAction(ActionType, ActionInfo, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean)
+  name.vb: CanExecuteAction(ActionType, ActionInfo, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+    name: CanExecuteAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
+    name: CanExecuteAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.PersonLike.GoHomeAction
+  commentId: P:TinyLife.Objects.PersonLike.GoHomeAction
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GoHomeAction
+  name: GoHomeAction
+  nameWithType: PersonLike.GoHomeAction
+  fullName: TinyLife.Objects.PersonLike.GoHomeAction
+- uid: TinyLife.Objects.Person.GoHomeAction*
+  commentId: Overload:TinyLife.Objects.Person.GoHomeAction
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GoHomeAction
+  name: GoHomeAction
+  nameWithType: Person.GoHomeAction
+  fullName: TinyLife.Objects.Person.GoHomeAction
+- uid: TinyLife.Actions.ActionType
+  commentId: T:TinyLife.Actions.ActionType
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.ActionType.html
+  name: ActionType
+  nameWithType: ActionType
+  fullName: TinyLife.Actions.ActionType
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  href: TinyLife.html
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
 - uid: TinyLife.Objects.PersonLike.DrawSize
   commentId: P:TinyLife.Objects.PersonLike.DrawSize
   parent: TinyLife.Objects.PersonLike
@@ -10506,70 +10631,12 @@ references:
   name: CanExecuteResult
   nameWithType: CanExecuteResult
   fullName: TinyLife.Actions.CanExecuteResult
-- uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
-  commentId: M:TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
-  parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
-  name: CanExecuteAction(ActionType, ActionInfo, bool)
-  nameWithType: PersonLike.CanExecuteAction(ActionType, ActionInfo, bool)
-  fullName: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, bool)
-  nameWithType.vb: PersonLike.CanExecuteAction(ActionType, ActionInfo, Boolean)
-  fullName.vb: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean)
-  name.vb: CanExecuteAction(ActionType, ActionInfo, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
-    name: CanExecuteAction
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.PersonLike.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
-    name: CanExecuteAction
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
 - uid: TinyLife.Objects.Person.CanExecuteAction*
   commentId: Overload:TinyLife.Objects.Person.CanExecuteAction
   href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_CanExecuteAction_TinyLife_Actions_ActionType_TinyLife_Actions_ActionInfo_System_Boolean_
   name: CanExecuteAction
   nameWithType: Person.CanExecuteAction
   fullName: TinyLife.Objects.Person.CanExecuteAction
-- uid: TinyLife.Actions.ActionType
-  commentId: T:TinyLife.Actions.ActionType
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.ActionType.html
-  name: ActionType
-  nameWithType: ActionType
-  fullName: TinyLife.Actions.ActionType
 - uid: TinyLife.Actions.ActionInfo
   commentId: T:TinyLife.Actions.ActionInfo
   parent: TinyLife.Actions
@@ -10577,28 +10644,6 @@ references:
   name: ActionInfo
   nameWithType: ActionInfo
   fullName: TinyLife.Actions.ActionInfo
-- uid: TinyLife.Actions
-  commentId: N:TinyLife.Actions
-  href: TinyLife.html
-  name: TinyLife.Actions
-  nameWithType: TinyLife.Actions
-  fullName: TinyLife.Actions
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
 - uid: TinyLife.Actions.ActionType.AiSettings.PassivePriority
   commentId: F:TinyLife.Actions.ActionType.AiSettings.PassivePriority
   href: TinyLife.Actions.ActionType.AiSettings.html#TinyLife_Actions_ActionType_AiSettings_PassivePriority
@@ -10829,31 +10874,204 @@ references:
   - uid: MLEM.Animations
     name: Animations
     isExternal: true
-- uid: TinyLife.Objects.PersonLike.GenerateShadowAnimation
-  commentId: M:TinyLife.Objects.PersonLike.GenerateShadowAnimation
+- uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+  commentId: M:TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
   parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateShadowAnimation
-  name: GenerateShadowAnimation()
-  nameWithType: PersonLike.GenerateShadowAnimation()
-  fullName: TinyLife.Objects.PersonLike.GenerateShadowAnimation()
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
+  name: DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
+  nameWithType: PersonLike.DrawLooks(SpriteBatch, Vector2, Vector2, float, ParentInfo, Color?, float)
+  fullName: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, float, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, float)
+  nameWithType.vb: PersonLike.DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
+  fullName.vb: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Vector2, Single, TinyLife.Objects.ParentInfo, Microsoft.Xna.Framework.Color?, Single)
+  name.vb: DrawLooks(SpriteBatch, Vector2, Vector2, Single, ParentInfo, Color?, Single)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.GenerateShadowAnimation
-    name: GenerateShadowAnimation
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateShadowAnimation
+  - uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+    name: DrawLooks
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
   - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ParentInfo
+    name: ParentInfo
+    href: TinyLife.Objects.ParentInfo.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.GenerateShadowAnimation
-    name: GenerateShadowAnimation
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateShadowAnimation
+  - uid: TinyLife.Objects.PersonLike.DrawLooks(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,System.Nullable{Microsoft.Xna.Framework.Color},System.Single)
+    name: DrawLooks
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
   - name: (
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ParentInfo
+    name: ParentInfo
+    href: TinyLife.Objects.ParentInfo.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Objects.Person.GenerateShadowAnimation*
-  commentId: Overload:TinyLife.Objects.Person.GenerateShadowAnimation
-  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateShadowAnimation
-  name: GenerateShadowAnimation
-  nameWithType: Person.GenerateShadowAnimation
-  fullName: TinyLife.Objects.Person.GenerateShadowAnimation
+- uid: TinyLife.Objects.Person.DrawLooks*
+  commentId: Overload:TinyLife.Objects.Person.DrawLooks
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_DrawLooks_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_Microsoft_Xna_Framework_Vector2_System_Single_TinyLife_Objects_ParentInfo_System_Nullable_Microsoft_Xna_Framework_Color__System_Single_
+  name: DrawLooks
+  nameWithType: Person.DrawLooks
+  fullName: TinyLife.Objects.Person.DrawLooks
+- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
+  parent: Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: SpriteBatch
+  nameWithType: SpriteBatch
+  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
+- uid: TinyLife.Objects.ParentInfo
+  commentId: T:TinyLife.Objects.ParentInfo
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.ParentInfo.html
+  name: ParentInfo
+  nameWithType: ParentInfo
+  fullName: TinyLife.Objects.ParentInfo
+- uid: System.Nullable{Microsoft.Xna.Framework.Color}
+  commentId: T:System.Nullable{Microsoft.Xna.Framework.Color}
+  parent: System
+  definition: System.Nullable`1
+  name: Color?
+  nameWithType: Color?
+  fullName: Microsoft.Xna.Framework.Color?
+  spec.csharp:
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '?'
+- uid: Microsoft.Xna.Framework.Graphics
+  commentId: N:Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: Microsoft.Xna.Framework.Graphics
+  nameWithType: Microsoft.Xna.Framework.Graphics
+  fullName: Microsoft.Xna.Framework.Graphics
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework.Graphics
+    name: Graphics
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework.Graphics
+    name: Graphics
+    isExternal: true
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Objects.PersonLike.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   commentId: M:TinyLife.Objects.PersonLike.DrawLooksLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,MLEM.Animations.SpriteAnimation,MLEM.Textures.TextureRegion,TinyLife.Objects.WornClothes,System.Int32,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Vector2,System.Single,TinyLife.Objects.ParentInfo,Microsoft.Xna.Framework.Color,System.Single,System.Single)
   parent: TinyLife.Objects.PersonLike
@@ -11007,13 +11225,6 @@ references:
   name: DrawLooksLayer
   nameWithType: Person.DrawLooksLayer
   fullName: TinyLife.Objects.Person.DrawLooksLayer
-- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
-  parent: Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: SpriteBatch
-  nameWithType: SpriteBatch
-  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
 - uid: MLEM.Animations.SpriteAnimation
   commentId: T:MLEM.Animations.SpriteAnimation
   parent: MLEM.Animations
@@ -11035,13 +11246,6 @@ references:
   name: WornClothes
   nameWithType: WornClothes
   fullName: TinyLife.Objects.WornClothes
-- uid: TinyLife.Objects.ParentInfo
-  commentId: T:TinyLife.Objects.ParentInfo
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.ParentInfo.html
-  name: ParentInfo
-  nameWithType: ParentInfo
-  fullName: TinyLife.Objects.ParentInfo
 - uid: Microsoft.Xna.Framework.Color
   commentId: T:Microsoft.Xna.Framework.Color
   parent: Microsoft.Xna.Framework
@@ -11049,44 +11253,6 @@ references:
   name: Color
   nameWithType: Color
   fullName: Microsoft.Xna.Framework.Color
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
-  spec.csharp:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
-  spec.vb:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
 - uid: MLEM.Textures
   commentId: N:MLEM.Textures
   isExternal: true
@@ -11109,6 +11275,12 @@ references:
   - uid: MLEM.Textures
     name: Textures
     isExternal: true
+- uid: MLEM.Maths.Direction2.Right
+  commentId: F:MLEM.Maths.Direction2.Right
+  isExternal: true
+  name: Right
+  nameWithType: Direction2.Right
+  fullName: MLEM.Maths.Direction2.Right
 - uid: TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
   commentId: M:TinyLife.Objects.PersonLike.DrawUiLayer(Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,TinyLife.Objects.WornClothes,TinyLife.Objects.ClothesLayer,System.Int32,System.Int32)
   parent: TinyLife.Objects.PersonLike
@@ -11579,6 +11751,65 @@ references:
   name: OnAgeChanged
   nameWithType: Person.OnAgeChanged
   fullName: TinyLife.Objects.Person.OnAgeChanged
+- uid: TinyLife.Objects.PersonLike.GenerateAnimations
+  commentId: M:TinyLife.Objects.PersonLike.GenerateAnimations
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimations
+  name: GenerateAnimations()
+  nameWithType: PersonLike.GenerateAnimations()
+  fullName: TinyLife.Objects.PersonLike.GenerateAnimations()
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.GenerateAnimations
+    name: GenerateAnimations
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimations
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.GenerateAnimations
+    name: GenerateAnimations
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenerateAnimations
+  - name: (
+  - name: )
+- uid: TinyLife.Objects.Person.GenerateAnimations*
+  commentId: Overload:TinyLife.Objects.Person.GenerateAnimations
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_GenerateAnimations
+  name: GenerateAnimations
+  nameWithType: Person.GenerateAnimations
+  fullName: TinyLife.Objects.Person.GenerateAnimations
+- uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+  commentId: M:TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_
+  name: UpdateAnimations(TimeSpan)
+  nameWithType: PersonLike.UpdateAnimations(TimeSpan)
+  fullName: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+    name: UpdateAnimations
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.UpdateAnimations(System.TimeSpan)
+    name: UpdateAnimations
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_UpdateAnimations_System_TimeSpan_
+  - name: (
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: )
+- uid: TinyLife.Objects.Person.UpdateAnimations*
+  commentId: Overload:TinyLife.Objects.Person.UpdateAnimations
+  href: TinyLife.Objects.Person.html#TinyLife_Objects_Person_UpdateAnimations_System_TimeSpan_
+  name: UpdateAnimations
+  nameWithType: Person.UpdateAnimations
+  fullName: TinyLife.Objects.Person.UpdateAnimations
 - uid: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   isExternal: true

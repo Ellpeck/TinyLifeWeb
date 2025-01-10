@@ -8,16 +8,21 @@ items:
   - TinyLife.Tools.PlayModeTool.#ctor
   - TinyLife.Tools.PlayModeTool.AvailableStats
   - TinyLife.Tools.PlayModeTool.CanUndoRedo(System.Boolean)
+  - TinyLife.Tools.PlayModeTool.CloseInteraction(System.Boolean,System.Boolean)
   - TinyLife.Tools.PlayModeTool.Closed
+  - TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
   - TinyLife.Tools.PlayModeTool.OnUpdateStatsView
+  - TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
   - TinyLife.Tools.PlayModeTool.Opened
   - TinyLife.Tools.PlayModeTool.PlayEventSting(Microsoft.Xna.Framework.Audio.SoundEffect)
+  - TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
   - TinyLife.Tools.PlayModeTool.Reload
   - TinyLife.Tools.PlayModeTool.SelectablePersonTypes
   - TinyLife.Tools.PlayModeTool.SelectedPerson
   - TinyLife.Tools.PlayModeTool.SelectedStat
   - TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
   - TinyLife.Tools.PlayModeTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  - TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
   langs:
   - csharp
   - vb
@@ -43,6 +48,7 @@ items:
   - TinyLife.Tools.Tool.RemoveTool
   - TinyLife.Tools.Tool.MoveTool
   - TinyLife.Tools.Tool.PlayModeTool
+  - TinyLife.Tools.Tool.FurnitureTool
   - TinyLife.Tools.Tool.BuildTools
   - TinyLife.Tools.Tool.SelectedObject
   - TinyLife.Tools.Tool.SelectedWall
@@ -153,6 +159,27 @@ items:
     return:
       type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
     content.vb: Public Shared Event OnUpdateStatsView As Action(Of (Person As PersonLike, Stat As PlayModeTool.StatType, Panel As Panel, Phase As EventPhase))
+- uid: TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
+  commentId: E:TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
+  id: OnSelectedPersonChanged
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: OnSelectedPersonChanged
+  nameWithType: PlayModeTool.OnSelectedPersonChanged
+  fullName: TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: An event that is invoked when the currently selected person changes.
+  example: []
+  syntax:
+    content: public static event Action<(PersonLike Previous, PersonLike Selected)> OnSelectedPersonChanged
+    return:
+      type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}}
+    content.vb: Public Shared Event OnSelectedPersonChanged As Action(Of (Previous As PersonLike, Selected As PersonLike))
 - uid: TinyLife.Tools.PlayModeTool.SelectedPerson
   commentId: P:TinyLife.Tools.PlayModeTool.SelectedPerson
   id: SelectedPerson
@@ -360,6 +387,105 @@ items:
       description: Whether the person could be set. This is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if the selected person is already the given person, or if <xref href="TinyLife.Tools.PlayModeTool.SelectablePersonTypes" data-throw-if-not-resolved="false"></xref> does not contain the <code class="paramref">person</code>'s type.
     content.vb: Public Function SetSelectedPerson(person As PersonLike) As Boolean
   overload: TinyLife.Tools.PlayModeTool.SetSelectedPerson*
+- uid: TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
+  id: UpdateStatsView(TinyLife.Objects.PersonLike)
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: UpdateStatsView(PersonLike)
+  nameWithType: PlayModeTool.UpdateStatsView(PersonLike)
+  fullName: TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: >-
+    Updates the play mode tool's stats view for the given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>. If the passed person is not the <xref href="TinyLife.Tools.PlayModeTool.SelectedPerson" data-throw-if-not-resolved="false"></xref>, this method may behave unexpectedly.
+
+    To select a different person and automatically update the stats view, use <xref href="TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public void UpdateStatsView(PersonLike person)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person to update the stats view for. Should generally be the same as <xref href="TinyLife.Tools.PlayModeTool.SelectedPerson" data-throw-if-not-resolved="false"></xref>.
+    content.vb: Public Sub UpdateStatsView(person As PersonLike)
+  overload: TinyLife.Tools.PlayModeTool.UpdateStatsView*
+- uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+  commentId: M:TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+  id: OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: OpenInteraction(IReadOnlyCollection<ActionType>, ActionInfo, Vector2, string[], int[])
+  nameWithType: PlayModeTool.OpenInteraction(IReadOnlyCollection<ActionType>, ActionInfo, Vector2, string[], int[])
+  fullName: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection<TinyLife.Actions.ActionType>, TinyLife.Actions.ActionInfo, Microsoft.Xna.Framework.Vector2, string[], int[])
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: Opens an interaction menu for the given actions at the given location.
+  example: []
+  syntax:
+    content: public bool OpenInteraction(IReadOnlyCollection<ActionType> actions, ActionInfo info, Vector2 center, string[] categories, int[] pages)
+    parameters:
+    - id: actions
+      type: System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType}
+      description: The actions to make available in the interaction menu.
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The action info to invoke the actions for.
+    - id: center
+      type: Microsoft.Xna.Framework.Vector2
+      description: The position, in screen space, to open the interaction menu around.
+    - id: categories
+      type: System.String[]
+      description: The categories in the interaction menu that have already been navigated to. When freshly opening an interaction menu, this should be an empty array.
+    - id: pages
+      type: System.Int32[]
+      description: The pages in the interaction menu that are currently open, for each category in the <code class="paramref">categories</code> array, as well as the "root category". When freshly opening an interaction menu, this should be an array that contains a single 0.
+    return:
+      type: System.Boolean
+      description: Whether the interaction menu could be opened, which is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if the <code class="paramref">actions</code> collection is empty or none of the actions have visible <xref href="TinyLife.Actions.CanExecuteResult" data-throw-if-not-resolved="false"></xref>s.
+    content.vb: Public Function OpenInteraction(actions As IReadOnlyCollection(Of ActionType), info As ActionInfo, center As Vector2, categories As String(), pages As Integer()) As Boolean
+  overload: TinyLife.Tools.PlayModeTool.OpenInteraction*
+  nameWithType.vb: PlayModeTool.OpenInteraction(IReadOnlyCollection(Of ActionType), ActionInfo, Vector2, String(), Integer())
+  fullName.vb: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection(Of TinyLife.Actions.ActionType), TinyLife.Actions.ActionInfo, Microsoft.Xna.Framework.Vector2, String(), Integer())
+  name.vb: OpenInteraction(IReadOnlyCollection(Of ActionType), ActionInfo, Vector2, String(), Integer())
+- uid: TinyLife.Tools.PlayModeTool.CloseInteraction(System.Boolean,System.Boolean)
+  commentId: M:TinyLife.Tools.PlayModeTool.CloseInteraction(System.Boolean,System.Boolean)
+  id: CloseInteraction(System.Boolean,System.Boolean)
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: CloseInteraction(bool, bool)
+  nameWithType: PlayModeTool.CloseInteraction(bool, bool)
+  fullName: TinyLife.Tools.PlayModeTool.CloseInteraction(bool, bool)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: Closes the interaction menu that was opened with <xref href="TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection%7bTinyLife.Actions.ActionType%7d%2cTinyLife.Actions.ActionInfo%2cMicrosoft.Xna.Framework.Vector2%2cSystem.String%5b%5d%2cSystem.Int32%5b%5d)" data-throw-if-not-resolved="false"></xref>. If no interaction menu is open, this method does nothing.
+  example: []
+  syntax:
+    content: public void CloseInteraction(bool animate, bool defer)
+    parameters:
+    - id: animate
+      type: System.Boolean
+      description: Whether to animate the closing process.
+    - id: defer
+      type: System.Boolean
+      description: Whether to defer the closing process to the next frame, which only has an effect if <code class="paramref">animate</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    content.vb: Public Sub CloseInteraction(animate As Boolean, defer As Boolean)
+  overload: TinyLife.Tools.PlayModeTool.CloseInteraction*
+  nameWithType.vb: PlayModeTool.CloseInteraction(Boolean, Boolean)
+  fullName.vb: TinyLife.Tools.PlayModeTool.CloseInteraction(Boolean, Boolean)
+  name.vb: CloseInteraction(Boolean, Boolean)
 - uid: TinyLife.Tools.PlayModeTool.Reload
   commentId: M:TinyLife.Tools.PlayModeTool.Reload
   id: Reload
@@ -406,6 +532,33 @@ items:
       type: System.Boolean
       description: Whether the sting was successfully played. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the <xref href="TinyLife.Options.EventStingVolume" data-throw-if-not-resolved="false"></xref> was not high enough to play a sting.
     content.vb: Public Shared Function PlayEventSting(sting As SoundEffect) As Boolean
+  overload: TinyLife.Tools.PlayModeTool.PlayEventSting*
+- uid: TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
+  commentId: M:TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
+  id: PlayEventSting(TinyLife.Utilities.DefaultEventSting)
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: PlayEventSting(DefaultEventSting)
+  nameWithType: PlayModeTool.PlayEventSting(DefaultEventSting)
+  fullName: TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: Plays an event sting sound effect with the <xref href="TinyLife.Options.EventStingVolume" data-throw-if-not-resolved="false"></xref>, additionally ducking the music for the duration of the sting.
+  example: []
+  syntax:
+    content: public static bool PlayEventSting(DefaultEventSting sting)
+    parameters:
+    - id: sting
+      type: TinyLife.Utilities.DefaultEventSting
+      description: The default sting to play.
+    return:
+      type: System.Boolean
+      description: Whether the sting was successfully played. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the <xref href="TinyLife.Options.EventStingVolume" data-throw-if-not-resolved="false"></xref> was not high enough to play a sting.
+    content.vb: Public Shared Function PlayEventSting(sting As DefaultEventSting) As Boolean
   overload: TinyLife.Tools.PlayModeTool.PlayEventSting*
 references:
 - uid: TinyLife.Tools.Tool.PlayModeTool
@@ -476,6 +629,13 @@ references:
   name: MoveTool
   nameWithType: Tool.MoveTool
   fullName: TinyLife.Tools.Tool.MoveTool
+- uid: TinyLife.Tools.Tool.FurnitureTool
+  commentId: F:TinyLife.Tools.Tool.FurnitureTool
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_FurnitureTool
+  name: FurnitureTool
+  nameWithType: Tool.FurnitureTool
+  fullName: TinyLife.Tools.Tool.FurnitureTool
 - uid: TinyLife.Tools.Tool.SelectedObject
   commentId: P:TinyLife.Tools.Tool.SelectedObject
   parent: TinyLife.Tools.Tool
@@ -1989,6 +2149,73 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<(PersonLike Previous, PersonLike Selected)>
+  nameWithType: Action<(PersonLike Previous, PersonLike Selected)>
+  fullName: System.Action<(TinyLife.Objects.PersonLike Previous, TinyLife.Objects.PersonLike Selected)>
+  nameWithType.vb: Action(Of (Previous As PersonLike, Selected As PersonLike))
+  fullName.vb: System.Action(Of (Previous As TinyLife.Objects.PersonLike, Selected As TinyLife.Objects.PersonLike))
+  name.vb: Action(Of (Previous As PersonLike, Selected As PersonLike))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}.Previous
+    name: Previous
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.personlike-.previous
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}.Selected
+    name: Selected
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.personlike-.selected
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}.Previous
+    name: Previous
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.personlike-.previous
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike}.Selected
+    name: Selected
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.personlike-.selected
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+  - name: )
 - uid: TinyLife.Tools.PlayModeTool.SelectedPerson*
   commentId: Overload:TinyLife.Tools.PlayModeTool.SelectedPerson
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedPerson
@@ -2252,6 +2479,298 @@ references:
   name: SetSelectedPerson
   nameWithType: PlayModeTool.SetSelectedPerson
   fullName: TinyLife.Tools.PlayModeTool.SetSelectedPerson
+- uid: TinyLife.Tools.PlayModeTool.SelectedPerson
+  commentId: P:TinyLife.Tools.PlayModeTool.SelectedPerson
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedPerson
+  name: SelectedPerson
+  nameWithType: PlayModeTool.SelectedPerson
+  fullName: TinyLife.Tools.PlayModeTool.SelectedPerson
+- uid: TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SetSelectedPerson_TinyLife_Objects_PersonLike_
+  name: SetSelectedPerson(PersonLike)
+  nameWithType: PlayModeTool.SetSelectedPerson(PersonLike)
+  fullName: TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
+  spec.csharp:
+  - uid: TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
+    name: SetSelectedPerson
+    href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SetSelectedPerson_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
+    name: SetSelectedPerson
+    href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SetSelectedPerson_TinyLife_Objects_PersonLike_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: )
+- uid: TinyLife.Tools.PlayModeTool.UpdateStatsView*
+  commentId: Overload:TinyLife.Tools.PlayModeTool.UpdateStatsView
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_UpdateStatsView_TinyLife_Objects_PersonLike_
+  name: UpdateStatsView
+  nameWithType: PlayModeTool.UpdateStatsView
+  fullName: TinyLife.Tools.PlayModeTool.UpdateStatsView
+- uid: TinyLife.Actions.CanExecuteResult
+  commentId: T:TinyLife.Actions.CanExecuteResult
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.CanExecuteResult.html
+  name: CanExecuteResult
+  nameWithType: CanExecuteResult
+  fullName: TinyLife.Actions.CanExecuteResult
+- uid: TinyLife.Tools.PlayModeTool.OpenInteraction*
+  commentId: Overload:TinyLife.Tools.PlayModeTool.OpenInteraction
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_OpenInteraction_System_Collections_Generic_IReadOnlyCollection_TinyLife_Actions_ActionType__TinyLife_Actions_ActionInfo_Microsoft_Xna_Framework_Vector2_System_String___System_Int32___
+  name: OpenInteraction
+  nameWithType: PlayModeTool.OpenInteraction
+  fullName: TinyLife.Tools.PlayModeTool.OpenInteraction
+- uid: System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType}
+  commentId: T:System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IReadOnlyCollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<ActionType>
+  nameWithType: IReadOnlyCollection<ActionType>
+  fullName: System.Collections.Generic.IReadOnlyCollection<TinyLife.Actions.ActionType>
+  nameWithType.vb: IReadOnlyCollection(Of ActionType)
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of TinyLife.Actions.ActionType)
+  name.vb: IReadOnlyCollection(Of ActionType)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: )
+- uid: TinyLife.Actions.ActionInfo
+  commentId: T:TinyLife.Actions.ActionInfo
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.ActionInfo.html
+  name: ActionInfo
+  nameWithType: ActionInfo
+  fullName: TinyLife.Actions.ActionInfo
+- uid: Microsoft.Xna.Framework.Vector2
+  commentId: T:Microsoft.Xna.Framework.Vector2
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: Vector2
+  nameWithType: Vector2
+  fullName: Microsoft.Xna.Framework.Vector2
+- uid: System.String[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string[]
+  nameWithType: string[]
+  fullName: string[]
+  nameWithType.vb: String()
+  fullName.vb: String()
+  name.vb: String()
+  spec.csharp:
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+- uid: System.Int32[]
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int[]
+  nameWithType: int[]
+  fullName: int[]
+  nameWithType.vb: Integer()
+  fullName.vb: Integer()
+  name.vb: Integer()
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ']'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: )
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  href: TinyLife.html
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+- uid: System.Collections.Generic.IReadOnlyCollection`1
+  commentId: T:System.Collections.Generic.IReadOnlyCollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  name: IReadOnlyCollection<T>
+  nameWithType: IReadOnlyCollection<T>
+  fullName: System.Collections.Generic.IReadOnlyCollection<T>
+  nameWithType.vb: IReadOnlyCollection(Of T)
+  fullName.vb: System.Collections.Generic.IReadOnlyCollection(Of T)
+  name.vb: IReadOnlyCollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+  commentId: M:TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+  isExternal: true
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_OpenInteraction_System_Collections_Generic_IReadOnlyCollection_TinyLife_Actions_ActionType__TinyLife_Actions_ActionInfo_Microsoft_Xna_Framework_Vector2_System_String___System_Int32___
+  name: OpenInteraction(IReadOnlyCollection<ActionType>, ActionInfo, Vector2, string[], int[])
+  nameWithType: PlayModeTool.OpenInteraction(IReadOnlyCollection<ActionType>, ActionInfo, Vector2, string[], int[])
+  fullName: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection<TinyLife.Actions.ActionType>, TinyLife.Actions.ActionInfo, Microsoft.Xna.Framework.Vector2, string[], int[])
+  nameWithType.vb: PlayModeTool.OpenInteraction(IReadOnlyCollection(Of ActionType), ActionInfo, Vector2, String(), Integer())
+  fullName.vb: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection(Of TinyLife.Actions.ActionType), TinyLife.Actions.ActionInfo, Microsoft.Xna.Framework.Vector2, String(), Integer())
+  name.vb: OpenInteraction(IReadOnlyCollection(Of ActionType), ActionInfo, Vector2, String(), Integer())
+  spec.csharp:
+  - uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+    name: OpenInteraction
+    href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_OpenInteraction_System_Collections_Generic_IReadOnlyCollection_TinyLife_Actions_ActionType__TinyLife_Actions_ActionInfo_Microsoft_Xna_Framework_Vector2_System_String___System_Int32___
+  - name: (
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: <
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '['
+  - name: ']'
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '['
+  - name: ']'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
+    name: OpenInteraction
+    href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_OpenInteraction_System_Collections_Generic_IReadOnlyCollection_TinyLife_Actions_ActionType__TinyLife_Actions_ActionInfo_Microsoft_Xna_Framework_Vector2_System_String___System_Int32___
+  - name: (
+  - uid: System.Collections.Generic.IReadOnlyCollection`1
+    name: IReadOnlyCollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ireadonlycollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.ActionType
+    name: ActionType
+    href: TinyLife.Actions.ActionType.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: (
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: (
+  - name: )
+  - name: )
+- uid: TinyLife.Tools.PlayModeTool.CloseInteraction*
+  commentId: Overload:TinyLife.Tools.PlayModeTool.CloseInteraction
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_CloseInteraction_System_Boolean_System_Boolean_
+  name: CloseInteraction
+  nameWithType: PlayModeTool.CloseInteraction
+  fullName: TinyLife.Tools.PlayModeTool.CloseInteraction
 - uid: TinyLife.Tools.PlayModeTool.Reload*
   commentId: Overload:TinyLife.Tools.PlayModeTool.Reload
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_Reload
@@ -2315,3 +2834,10 @@ references:
   - uid: Microsoft.Xna.Framework.Audio
     name: Audio
     isExternal: true
+- uid: TinyLife.Utilities.DefaultEventSting
+  commentId: T:TinyLife.Utilities.DefaultEventSting
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.DefaultEventSting.html
+  name: DefaultEventSting
+  nameWithType: DefaultEventSting
+  fullName: TinyLife.Utilities.DefaultEventSting

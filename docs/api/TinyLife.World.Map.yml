@@ -16,10 +16,14 @@ items:
   - TinyLife.World.Map.AddStairs(TinyLife.World.Stairs)
   - TinyLife.World.Map.AddWall(TinyLife.Objects.WallLike)
   - TinyLife.World.Map.AdoptableChildren
+  - TinyLife.World.Map.AlphaTestEffect
   - TinyLife.World.Map.AppliedMigrations
   - TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.ApplyInverseCameraRotation(Microsoft.Xna.Framework.Vector2,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
+  - TinyLife.World.Map.CollectPossiblePathNeighbors(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32},System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}})
+  - TinyLife.World.Map.DepthStencilCheck
+  - TinyLife.World.Map.DepthStencilReplace
   - TinyLife.World.Map.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean,System.Nullable{MLEM.Maths.RectangleF},System.Nullable{Microsoft.Xna.Framework.Matrix},Microsoft.Xna.Framework.Graphics.RenderTarget2D,System.Boolean)
   - TinyLife.World.Map.GetAllLotEmployments
   - TinyLife.World.Map.GetAllPeople
@@ -66,6 +70,7 @@ items:
   - TinyLife.World.Map.IsInBounds(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.IsLotHidden(TinyLife.World.Lot)
   - TinyLife.World.Map.IsRoad(Microsoft.Xna.Framework.Point)
+  - TinyLife.World.Map.LightBlend
   - TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
   - TinyLife.World.Map.MailToSend
   - TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point,System.Int32)
@@ -76,18 +81,26 @@ items:
   - TinyLife.World.Map.MinorUpdateMinutes
   - TinyLife.World.Map.MoveEverything(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Rectangle,System.Boolean,TinyLife.World.Tile)
   - TinyLife.World.Map.Neighborhood
+  - TinyLife.World.Map.NoTextureColorsEffect
   - TinyLife.World.Map.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   - TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  - TinyLife.World.Map.OnDraw
   - TinyLife.World.Map.OnEventsAttachable
+  - TinyLife.World.Map.OnGetStaticMaps
   - TinyLife.World.Map.OnGetVisitPriority
+  - TinyLife.World.Map.OnLoadStaticMap
   - TinyLife.World.Map.OnObjectAdded
   - TinyLife.World.Map.OnObjectRemoved
   - TinyLife.World.Map.OnPathfindingNodeConstruct
   - TinyLife.World.Map.OnUpdate
+  - TinyLife.World.Map.OnUpdateExternalPeople
+  - TinyLife.World.Map.OutlineEffect
   - TinyLife.World.Map.PassiveUpdateMinutes
   - TinyLife.World.Map.PathfindingDirtyNeighbors
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
+  - TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
+  - TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
   - TinyLife.World.Map.PopulateLots
   - TinyLife.World.Map.PossibleRegularVisitors
   - TinyLife.World.Map.PostValidate(System.Action{System.String},System.Action{System.Single})
@@ -104,6 +117,7 @@ items:
   - TinyLife.World.Map.Size
   - TinyLife.World.Map.SizeInSections
   - TinyLife.World.Map.StaticVersion
+  - TinyLife.World.Map.SummonSpecialVisitor(System.String,TinyLife.World.Lot)
   - TinyLife.World.Map.Time
   - TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
@@ -322,6 +336,132 @@ items:
     return:
       type: System.Collections.Generic.List{System.ValueTuple{System.Type,System.Single,System.Func{TinyLife.Objects.PersonLike,System.Boolean},System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}}}
     content.vb: Public Shared ReadOnly PossibleRegularVisitors As List(Of (Type As Type, Weight As Single, IsValid As Func(Of PersonLike, Boolean), CreateNew As Func(Of Map, Random, PersonLike)))
+- uid: TinyLife.World.Map.AlphaTestEffect
+  commentId: F:TinyLife.World.Map.AlphaTestEffect
+  id: AlphaTestEffect
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: AlphaTestEffect
+  nameWithType: Map.AlphaTestEffect
+  fullName: TinyLife.World.Map.AlphaTestEffect
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: An <xref href="Microsoft.Xna.Framework.Graphics.Effect" data-throw-if-not-resolved="false"></xref> that skips drawing pixels that have very low alpha.
+  example: []
+  syntax:
+    content: public static readonly Effect AlphaTestEffect
+    return:
+      type: Microsoft.Xna.Framework.Graphics.Effect
+    content.vb: Public Shared ReadOnly AlphaTestEffect As Effect
+- uid: TinyLife.World.Map.OutlineEffect
+  commentId: F:TinyLife.World.Map.OutlineEffect
+  id: OutlineEffect
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OutlineEffect
+  nameWithType: Map.OutlineEffect
+  fullName: TinyLife.World.Map.OutlineEffect
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: An <xref href="Microsoft.Xna.Framework.Graphics.Effect" data-throw-if-not-resolved="false"></xref> that only draws the outlines of the textures that are drawn with it in the passed color.
+  example: []
+  syntax:
+    content: public static readonly Effect OutlineEffect
+    return:
+      type: Microsoft.Xna.Framework.Graphics.Effect
+    content.vb: Public Shared ReadOnly OutlineEffect As Effect
+- uid: TinyLife.World.Map.NoTextureColorsEffect
+  commentId: F:TinyLife.World.Map.NoTextureColorsEffect
+  id: NoTextureColorsEffect
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: NoTextureColorsEffect
+  nameWithType: Map.NoTextureColorsEffect
+  fullName: TinyLife.World.Map.NoTextureColorsEffect
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: An <xref href="Microsoft.Xna.Framework.Graphics.Effect" data-throw-if-not-resolved="false"></xref> that draws textures in their regular shape, but with a solid color rather than the texture's actual colors.
+  example: []
+  syntax:
+    content: public static readonly Effect NoTextureColorsEffect
+    return:
+      type: Microsoft.Xna.Framework.Graphics.Effect
+    content.vb: Public Shared ReadOnly NoTextureColorsEffect As Effect
+- uid: TinyLife.World.Map.DepthStencilReplace
+  commentId: F:TinyLife.World.Map.DepthStencilReplace
+  id: DepthStencilReplace
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: DepthStencilReplace
+  nameWithType: Map.DepthStencilReplace
+  fullName: TinyLife.World.Map.DepthStencilReplace
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: The <xref href="Microsoft.Xna.Framework.Graphics.DepthStencilState" data-throw-if-not-resolved="false"></xref> that is used to replace the stencil buffer with a value of 1 in locations that are drawn to. The stencil state set by this state can be queried using the <xref href="TinyLife.World.Map.DepthStencilCheck" data-throw-if-not-resolved="false"></xref> state.
+  example: []
+  syntax:
+    content: public static readonly DepthStencilState DepthStencilReplace
+    return:
+      type: Microsoft.Xna.Framework.Graphics.DepthStencilState
+    content.vb: Public Shared ReadOnly DepthStencilReplace As DepthStencilState
+- uid: TinyLife.World.Map.DepthStencilCheck
+  commentId: F:TinyLife.World.Map.DepthStencilCheck
+  id: DepthStencilCheck
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: DepthStencilCheck
+  nameWithType: Map.DepthStencilCheck
+  fullName: TinyLife.World.Map.DepthStencilCheck
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: The <xref href="Microsoft.Xna.Framework.Graphics.DepthStencilState" data-throw-if-not-resolved="false"></xref> that is used as a response to the <xref href="TinyLife.World.Map.DepthStencilReplace" data-throw-if-not-resolved="false"></xref> state to draw only to parts of the screen that have been marked as "replaced" by the <xref href="TinyLife.World.Map.DepthStencilReplace" data-throw-if-not-resolved="false"></xref> state.
+  example: []
+  syntax:
+    content: public static readonly DepthStencilState DepthStencilCheck
+    return:
+      type: Microsoft.Xna.Framework.Graphics.DepthStencilState
+    content.vb: Public Shared ReadOnly DepthStencilCheck As DepthStencilState
+- uid: TinyLife.World.Map.LightBlend
+  commentId: F:TinyLife.World.Map.LightBlend
+  id: LightBlend
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: LightBlend
+  nameWithType: Map.LightBlend
+  fullName: TinyLife.World.Map.LightBlend
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: The <xref href="Microsoft.Xna.Framework.Graphics.BlendState" data-throw-if-not-resolved="false"></xref> that is used for drawing to light maps.
+  example: []
+  syntax:
+    content: public static readonly BlendState LightBlend
+    return:
+      type: Microsoft.Xna.Framework.Graphics.BlendState
+    content.vb: Public Shared ReadOnly LightBlend As BlendState
 - uid: TinyLife.World.Map.OnEventsAttachable
   commentId: E:TinyLife.World.Map.OnEventsAttachable
   id: OnEventsAttachable
@@ -346,6 +486,75 @@ items:
     return:
       type: System.Action{TinyLife.World.Map}
     content.vb: Public Shared Event OnEventsAttachable As Action(Of Map)
+- uid: TinyLife.World.Map.OnUpdateExternalPeople
+  commentId: E:TinyLife.World.Map.OnUpdateExternalPeople
+  id: OnUpdateExternalPeople
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnUpdateExternalPeople
+  nameWithType: Map.OnUpdateExternalPeople
+  fullName: TinyLife.World.Map.OnUpdateExternalPeople
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: An event that is invoked in <xref href="TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection%7bTinyLife.World.Map%7d%2cSystem.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref>, which can optionally be used to add or remove modded external people.
+  example: []
+  syntax:
+    content: public static event Map.UpdateExternalPeopleDelegate OnUpdateExternalPeople
+    return:
+      type: TinyLife.World.Map.UpdateExternalPeopleDelegate
+    content.vb: Public Shared Event OnUpdateExternalPeople As Map.UpdateExternalPeopleDelegate
+- uid: TinyLife.World.Map.OnGetStaticMaps
+  commentId: E:TinyLife.World.Map.OnGetStaticMaps
+  id: OnGetStaticMaps
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnGetStaticMaps
+  nameWithType: Map.OnGetStaticMaps
+  fullName: TinyLife.World.Map.OnGetStaticMaps
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    An event that is invoked in <xref href="TinyLife.World.Map.OnGetStaticMaps" data-throw-if-not-resolved="false"></xref>, which mods can use to add custom static maps to the game.
+
+    If this event is subscribed to and one or more custom maps are added to the list, the <xref href="TinyLife.World.Map.OnLoadStaticMap" data-throw-if-not-resolved="false"></xref> event should also be subscribed to to handle actually loading these maps.
+  example: []
+  syntax:
+    content: public static event Action<List<(string Path, string Description, Texture2D Icon, bool Hidden)>> OnGetStaticMaps
+    return:
+      type: System.Action{System.Collections.Generic.List{System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}}}
+    content.vb: Public Shared Event OnGetStaticMaps As Action(Of List(Of (Path As String, Description As String, Icon As Texture2D, Hidden As Boolean)))
+- uid: TinyLife.World.Map.OnLoadStaticMap
+  commentId: E:TinyLife.World.Map.OnLoadStaticMap
+  id: OnLoadStaticMap
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnLoadStaticMap
+  nameWithType: Map.OnLoadStaticMap
+  fullName: TinyLife.World.Map.OnLoadStaticMap
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    An event that is invoked in <xref href="TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)" data-throw-if-not-resolved="false"></xref>, which mods can use to load custom static maps into the game.
+
+    If this event is subscribed to, <xref href="TinyLife.World.Map.OnGetStaticMaps" data-throw-if-not-resolved="false"></xref> should also be subscribed to to return the information about the custom maps that are loadable by mods.
+  example: []
+  syntax:
+    content: public static event Map.LoadStaticMapDelegate OnLoadStaticMap
+    return:
+      type: TinyLife.World.Map.LoadStaticMapDelegate
+    content.vb: Public Shared Event OnLoadStaticMap As Map.LoadStaticMapDelegate
 - uid: TinyLife.World.Map.OnUpdate
   commentId: E:TinyLife.World.Map.OnUpdate
   id: OnUpdate
@@ -370,6 +579,30 @@ items:
     return:
       type: TinyLife.World.UpdateDelegate
     content.vb: Public Event OnUpdate As UpdateDelegate
+- uid: TinyLife.World.Map.OnDraw
+  commentId: E:TinyLife.World.Map.OnDraw
+  id: OnDraw
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnDraw
+  nameWithType: Map.OnDraw
+  fullName: TinyLife.World.Map.OnDraw
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    An event that is invoked during various phases of this map being drawn. The <xref href="TinyLife.World.Map.DrawEventArgs.Phase" data-throw-if-not-resolved="false"></xref> field determines which phase this event is invoked in for each invocation.
+
+    This event can be subscribed to using <xref href="TinyLife.World.Map.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public event Action<Map.DrawEventArgs> OnDraw
+    return:
+      type: System.Action{TinyLife.World.Map.DrawEventArgs}
+    content.vb: Public Event OnDraw As Action(Of Map.DrawEventArgs)
 - uid: TinyLife.World.Map.OnObjectAdded
   commentId: E:TinyLife.World.Map.OnObjectAdded
   id: OnObjectAdded
@@ -1883,7 +2116,7 @@ items:
   summary: Returns a set of objects that are present in the given area.
   example: []
   syntax:
-    content: 'public IEnumerable<T> GetObjects<T>(RectangleF area) where T : MapObject'
+    content: public IEnumerable<T> GetObjects<T>(RectangleF area)
     parameters:
     - id: area
       type: MLEM.Maths.RectangleF
@@ -1894,7 +2127,7 @@ items:
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
       description: A set of objects that match the criteria
-    content.vb: Public Function GetObjects(Of T As MapObject)(area As RectangleF) As IEnumerable(Of T)
+    content.vb: Public Function GetObjects(Of T)(area As RectangleF) As IEnumerable(Of T)
   overload: TinyLife.World.Map.GetObjects*
   nameWithType.vb: Map.GetObjects(Of T)(RectangleF)
   fullName.vb: TinyLife.World.Map.GetObjects(Of T)(MLEM.Maths.RectangleF)
@@ -2377,6 +2610,36 @@ items:
   nameWithType.vb: Map.GetPathCost(MapObject, Point, Integer, Point, Integer)
   fullName.vb: TinyLife.World.Map.GetPathCost(TinyLife.Objects.MapObject, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point, Integer)
   name.vb: GetPathCost(MapObject, Point, Integer, Point, Integer)
+- uid: TinyLife.World.Map.CollectPossiblePathNeighbors(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32},System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}})
+  commentId: M:TinyLife.World.Map.CollectPossiblePathNeighbors(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32},System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}})
+  id: CollectPossiblePathNeighbors(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32},System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}})
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: CollectPossiblePathNeighbors((Point Pos, int Floor), ISet<(Point Pos, int Floor)>)
+  nameWithType: Map.CollectPossiblePathNeighbors((Point Pos, int Floor), ISet<(Point Pos, int Floor)>)
+  fullName: TinyLife.World.Map.CollectPossiblePathNeighbors((Microsoft.Xna.Framework.Point Pos, int Floor), System.Collections.Generic.ISet<(Microsoft.Xna.Framework.Point Pos, int Floor)>)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: Collects all possible next positions that can be walked to from the given position to the given set of neighbor positions. The set is not cleared beforehand, and only modified if there is a valid pathfinding node (<xref href="TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point%2cSystem.Int32)" data-throw-if-not-resolved="false"></xref>) at the given position.
+  example: []
+  syntax:
+    content: public void CollectPossiblePathNeighbors((Point Pos, int Floor) position, ISet<(Point Pos, int Floor)> neighbors)
+    parameters:
+    - id: position
+      type: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}
+      description: The position, and floor, in world space.
+    - id: neighbors
+      type: System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}}
+      description: The set of neighbors to collect possible path neighbors into.
+    content.vb: Public Sub CollectPossiblePathNeighbors(position As (Pos As Point, Floor As Integer), neighbors As ISet(Of (Pos As Point, Floor As Integer)))
+  overload: TinyLife.World.Map.CollectPossiblePathNeighbors*
+  nameWithType.vb: Map.CollectPossiblePathNeighbors((Pos As Point, Floor As Integer), ISet(Of (Pos As Point, Floor As Integer)))
+  fullName.vb: TinyLife.World.Map.CollectPossiblePathNeighbors((Pos As Microsoft.Xna.Framework.Point, Floor As Integer), System.Collections.Generic.ISet(Of (Pos As Microsoft.Xna.Framework.Point, Floor As Integer)))
+  name.vb: CollectPossiblePathNeighbors((Pos As Point, Floor As Integer), ISet(Of (Pos As Point, Floor As Integer)))
 - uid: TinyLife.World.Map.CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
   commentId: M:TinyLife.World.Map.CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
   id: CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
@@ -2527,7 +2790,7 @@ items:
   summary: >-
     Plays a sound at the given location (in world space) with the given <xref href="TinyLife.World.MapAudioEmitter" data-throw-if-not-resolved="false"></xref>, whose <xref href="TinyLife.World.MapAudioEmitter.WorldPosition" data-throw-if-not-resolved="false"></xref> can be updated by the caller.
 
-    If the sound should move in a static locatdion, use <xref href="TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> instead.
+    If the sound should move in a static location, use <xref href="TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> instead.
 
     Note that the returned <xref href="Microsoft.Xna.Framework.Audio.SoundEffectInstance" data-throw-if-not-resolved="false"></xref> does not need to be disposed when it is finished playing.
   example: []
@@ -2560,6 +2823,109 @@ items:
   nameWithType.vb: Map.PlaySound(SoundEffect, MapAudioEmitter, Single, Single, Boolean, Boolean)
   fullName.vb: TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect, TinyLife.World.MapAudioEmitter, Single, Single, Boolean, Boolean)
   name.vb: PlaySound(SoundEffect, MapAudioEmitter, Single, Single, Boolean, Boolean)
+- uid: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
+  id: PlaySound(TinyLife.Utilities.DefaultSound,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: PlaySound(DefaultSound, Vector2, float, float, float, bool, bool)
+  nameWithType: Map.PlaySound(DefaultSound, Vector2, float, float, float, bool, bool)
+  fullName: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound, Microsoft.Xna.Framework.Vector2, float, float, float, bool, bool)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    Plays a sound at the given location (in world space) statically.
+
+    If the sound should move while being played, use <xref href="TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect%2cTinyLife.World.MapAudioEmitter%2cSystem.Single%2cSystem.Single%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> instead.
+
+    Note that the returned <xref href="Microsoft.Xna.Framework.Audio.SoundEffectInstance" data-throw-if-not-resolved="false"></xref> does not need to be disposed when it is finished playing.
+  example: []
+  syntax:
+    content: public SoundEffectInstance PlaySound(DefaultSound sound, Vector2 pos, float floor, float volume = 1, float pitch = 0, bool loop = false, bool applyWorldSoundVolume = true)
+    parameters:
+    - id: sound
+      type: TinyLife.Utilities.DefaultSound
+      description: The default sound to play
+    - id: pos
+      type: Microsoft.Xna.Framework.Vector2
+      description: The position, in world space, to play the sound at
+    - id: floor
+      type: System.Single
+      description: The floor to play the sound based on.
+    - id: volume
+      type: System.Single
+      description: The sound's volume, between 0 and 1 (default)
+    - id: pitch
+      type: System.Single
+      description: The sound's pitch, between -1, 0 (default) and 1
+    - id: loop
+      type: System.Boolean
+      description: Whether or not the sound should loop
+    - id: applyWorldSoundVolume
+      type: System.Boolean
+      description: Whether the <xref href="TinyLife.Options.WorldSoundVolume" data-throw-if-not-resolved="false"></xref> should be applied to the passed <code class="paramref">volume</code>
+    return:
+      type: Microsoft.Xna.Framework.Audio.SoundEffectInstance
+      description: The sound effect instance that is responsible for playing this sound, which can be stopped or paused
+    content.vb: Public Function PlaySound(sound As DefaultSound, pos As Vector2, floor As Single, volume As Single = 1, pitch As Single = 0, [loop] As Boolean = False, applyWorldSoundVolume As Boolean = True) As SoundEffectInstance
+  overload: TinyLife.World.Map.PlaySound*
+  nameWithType.vb: Map.PlaySound(DefaultSound, Vector2, Single, Single, Single, Boolean, Boolean)
+  fullName.vb: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound, Microsoft.Xna.Framework.Vector2, Single, Single, Single, Boolean, Boolean)
+  name.vb: PlaySound(DefaultSound, Vector2, Single, Single, Single, Boolean, Boolean)
+- uid: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
+  id: PlaySound(TinyLife.Utilities.DefaultSound,TinyLife.World.MapAudioEmitter,System.Single,System.Single,System.Boolean,System.Boolean)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: PlaySound(DefaultSound, MapAudioEmitter, float, float, bool, bool)
+  nameWithType: Map.PlaySound(DefaultSound, MapAudioEmitter, float, float, bool, bool)
+  fullName: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound, TinyLife.World.MapAudioEmitter, float, float, bool, bool)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: >-
+    Plays a sound at the given location (in world space) with the given <xref href="TinyLife.World.MapAudioEmitter" data-throw-if-not-resolved="false"></xref>, whose <xref href="TinyLife.World.MapAudioEmitter.WorldPosition" data-throw-if-not-resolved="false"></xref> can be updated by the caller.
+
+    If the sound should move in a static location, use <xref href="TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> instead.
+
+    Note that the returned <xref href="Microsoft.Xna.Framework.Audio.SoundEffectInstance" data-throw-if-not-resolved="false"></xref> does not need to be disposed when it is finished playing.
+  example: []
+  syntax:
+    content: public SoundEffectInstance PlaySound(DefaultSound sound, MapAudioEmitter emitter, float volume = 1, float pitch = 0, bool loop = false, bool applyWorldSoundVolume = true)
+    parameters:
+    - id: sound
+      type: TinyLife.Utilities.DefaultSound
+      description: The default sound to play
+    - id: emitter
+      type: TinyLife.World.MapAudioEmitter
+      description: The audio emitter, whose <xref href="TinyLife.World.MapAudioEmitter.WorldPosition" data-throw-if-not-resolved="false"></xref> should be set by the caller
+    - id: volume
+      type: System.Single
+      description: The sound's volume, between 0 and 1 (default)
+    - id: pitch
+      type: System.Single
+      description: The sound's pitch, between -1, 0 (default) and 1
+    - id: loop
+      type: System.Boolean
+      description: Whether or not the sound should loop
+    - id: applyWorldSoundVolume
+      type: System.Boolean
+      description: Whether the <xref href="TinyLife.Options.WorldSoundVolume" data-throw-if-not-resolved="false"></xref> should be applied to the passed <code class="paramref">volume</code>
+    return:
+      type: Microsoft.Xna.Framework.Audio.SoundEffectInstance
+      description: The sound effect instance that is responsible for playing this sound, which can be stopped or paused
+    content.vb: Public Function PlaySound(sound As DefaultSound, emitter As MapAudioEmitter, volume As Single = 1, pitch As Single = 0, [loop] As Boolean = False, applyWorldSoundVolume As Boolean = True) As SoundEffectInstance
+  overload: TinyLife.World.Map.PlaySound*
+  nameWithType.vb: Map.PlaySound(DefaultSound, MapAudioEmitter, Single, Single, Boolean, Boolean)
+  fullName.vb: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound, TinyLife.World.MapAudioEmitter, Single, Single, Boolean, Boolean)
+  name.vb: PlaySound(DefaultSound, MapAudioEmitter, Single, Single, Boolean, Boolean)
 - uid: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   commentId: M:TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
   id: GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
@@ -3143,6 +3509,39 @@ items:
       description: The priority, as a weight.
     content.vb: Public Function GetVisitPriority(person As PersonLike) As Single
   overload: TinyLife.World.Map.GetVisitPriority*
+- uid: TinyLife.World.Map.SummonSpecialVisitor(System.String,TinyLife.World.Lot)
+  commentId: M:TinyLife.World.Map.SummonSpecialVisitor(System.String,TinyLife.World.Lot)
+  id: SummonSpecialVisitor(System.String,TinyLife.World.Lot)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: SummonSpecialVisitor(string, Lot)
+  nameWithType: Map.SummonSpecialVisitor(string, Lot)
+  fullName: TinyLife.World.Map.SummonSpecialVisitor(string, TinyLife.World.Lot)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.World
+  summary: Summons a special visitor with the given <code class="paramref">fullName</code> to this map, and optionally to the given <code class="paramref">lotToVisit</code>. If a special visitor with the given name does not already exist, they are imported from the exported households if found.
+  example: []
+  syntax:
+    content: public PersonLike SummonSpecialVisitor(string fullName, Lot lotToVisit = null)
+    parameters:
+    - id: fullName
+      type: System.String
+      description: The full name, excluding a space between the first and last name, of the person to summon. This name should match the person's <xref href="TinyLife.Objects.PersonLike.FirstNameLastName" data-throw-if-not-resolved="false"></xref>.
+    - id: lotToVisit
+      type: TinyLife.World.Lot
+      description: The lot that the summoned person should visit, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to make them visit a random lot.
+    return:
+      type: TinyLife.Objects.PersonLike
+      description: The summoned person, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> if no person with the given name exists on this map or any of its <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> maps, and no person with the given name exists in the set of exported households.
+    content.vb: Public Function SummonSpecialVisitor(fullName As String, lotToVisit As Lot = Nothing) As PersonLike
+  overload: TinyLife.World.Map.SummonSpecialVisitor*
+  nameWithType.vb: Map.SummonSpecialVisitor(String, Lot)
+  fullName.vb: TinyLife.World.Map.SummonSpecialVisitor(String, TinyLife.World.Lot)
+  name.vb: SummonSpecialVisitor(String, Lot)
 - uid: TinyLife.World.Map.PrepareForPermanentRemoval
   commentId: M:TinyLife.World.Map.PrepareForPermanentRemoval
   id: PrepareForPermanentRemoval
@@ -3328,10 +3727,18 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.World
+  summary: >-
+    Returns information about all static maps that are currently loadable by the game, including default maps, modded maps, and custom maps.
+
+    This method also invokes the <xref href="TinyLife.World.Map.OnGetStaticMaps" data-throw-if-not-resolved="false"></xref> event, which allows mods to add their own static maps to the list.
+
+    To load a static map, use <xref href="TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo%2cSystem.Action)" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public static IEnumerable<(string Path, string Description, Texture2D Icon, bool Custom, bool Hidden)> GetStaticMaps()
     return:
       type: System.Collections.Generic.IEnumerable{System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean,System.Boolean}}
+      description: Information about all static maps that can be loaded by the game.
     content.vb: Public Shared Function GetStaticMaps() As IEnumerable(Of (Path As String, Description As String, Icon As Texture2D, Custom As Boolean, Hidden As Boolean))
   overload: TinyLife.World.Map.GetStaticMaps*
 references:
@@ -4371,6 +4778,77 @@ references:
   - name: )
   - name: )
   - name: )
+- uid: Microsoft.Xna.Framework.Graphics.Effect
+  commentId: T:Microsoft.Xna.Framework.Graphics.Effect
+  parent: Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: Effect
+  nameWithType: Effect
+  fullName: Microsoft.Xna.Framework.Graphics.Effect
+- uid: Microsoft.Xna.Framework.Graphics
+  commentId: N:Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: Microsoft.Xna.Framework.Graphics
+  nameWithType: Microsoft.Xna.Framework.Graphics
+  fullName: Microsoft.Xna.Framework.Graphics
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework.Graphics
+    name: Graphics
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework.Graphics
+    name: Graphics
+    isExternal: true
+- uid: Microsoft.Xna.Framework.Graphics.DepthStencilState
+  commentId: T:Microsoft.Xna.Framework.Graphics.DepthStencilState
+  parent: Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: DepthStencilState
+  nameWithType: DepthStencilState
+  fullName: Microsoft.Xna.Framework.Graphics.DepthStencilState
+- uid: TinyLife.World.Map.DepthStencilCheck
+  commentId: F:TinyLife.World.Map.DepthStencilCheck
+  href: TinyLife.World.Map.html#TinyLife_World_Map_DepthStencilCheck
+  name: DepthStencilCheck
+  nameWithType: Map.DepthStencilCheck
+  fullName: TinyLife.World.Map.DepthStencilCheck
+- uid: TinyLife.World.Map.DepthStencilReplace
+  commentId: F:TinyLife.World.Map.DepthStencilReplace
+  href: TinyLife.World.Map.html#TinyLife_World_Map_DepthStencilReplace
+  name: DepthStencilReplace
+  nameWithType: Map.DepthStencilReplace
+  fullName: TinyLife.World.Map.DepthStencilReplace
+- uid: Microsoft.Xna.Framework.Graphics.BlendState
+  commentId: T:Microsoft.Xna.Framework.Graphics.BlendState
+  parent: Microsoft.Xna.Framework.Graphics
+  isExternal: true
+  name: BlendState
+  nameWithType: BlendState
+  fullName: Microsoft.Xna.Framework.Graphics.BlendState
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
   parent: TinyLife.World
@@ -4509,6 +4987,309 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  isExternal: true
+  href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  name: UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  nameWithType.vb: Map.UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
+  spec.csharp:
+  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: UpdateExternalPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: UpdateExternalPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.World.Map.UpdateExternalPeopleDelegate
+  commentId: T:TinyLife.World.Map.UpdateExternalPeopleDelegate
+  parent: TinyLife.World
+  href: TinyLife.World.Map.html
+  name: Map.UpdateExternalPeopleDelegate
+  nameWithType: Map.UpdateExternalPeopleDelegate
+  fullName: TinyLife.World.Map.UpdateExternalPeopleDelegate
+  spec.csharp:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.UpdateExternalPeopleDelegate
+    name: UpdateExternalPeopleDelegate
+    href: TinyLife.World.Map.UpdateExternalPeopleDelegate.html
+  spec.vb:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.UpdateExternalPeopleDelegate
+    name: UpdateExternalPeopleDelegate
+    href: TinyLife.World.Map.UpdateExternalPeopleDelegate.html
+- uid: TinyLife.World.Map.OnGetStaticMaps
+  commentId: E:TinyLife.World.Map.OnGetStaticMaps
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnGetStaticMaps
+  name: OnGetStaticMaps
+  nameWithType: Map.OnGetStaticMaps
+  fullName: TinyLife.World.Map.OnGetStaticMaps
+- uid: TinyLife.World.Map.OnLoadStaticMap
+  commentId: E:TinyLife.World.Map.OnLoadStaticMap
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnLoadStaticMap
+  name: OnLoadStaticMap
+  nameWithType: Map.OnLoadStaticMap
+  fullName: TinyLife.World.Map.OnLoadStaticMap
+- uid: System.Action{System.Collections.Generic.List{System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}}}
+  commentId: T:System.Action{System.Collections.Generic.List{System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<List<(string Path, string Description, Texture2D Icon, bool Hidden)>>
+  nameWithType: Action<List<(string Path, string Description, Texture2D Icon, bool Hidden)>>
+  fullName: System.Action<System.Collections.Generic.List<(string Path, string Description, Microsoft.Xna.Framework.Graphics.Texture2D Icon, bool Hidden)>>
+  nameWithType.vb: Action(Of List(Of (Path As String, Description As String, Icon As Texture2D, Hidden As Boolean)))
+  fullName.vb: System.Action(Of System.Collections.Generic.List(Of (Path As String, Description As String, Icon As Microsoft.Xna.Framework.Graphics.Texture2D, Hidden As Boolean)))
+  name.vb: Action(Of List(Of (Path As String, Description As String, Icon As Texture2D, Hidden As Boolean)))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Path
+    name: Path
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.path
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Description
+    name: Description
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.description
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.Texture2D
+    name: Texture2D
+    isExternal: true
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Icon
+    name: Icon
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.icon
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Hidden
+    name: Hidden
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.hidden
+  - name: )
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Path
+    name: Path
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.path
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Description
+    name: Description
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.description
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Icon
+    name: Icon
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.icon
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.Texture2D
+    name: Texture2D
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.String,System.String,Microsoft.Xna.Framework.Graphics.Texture2D,System.Boolean}.Hidden
+    name: Hidden
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.string,system.string,microsoft.xna.framework.graphics.texture2d,system.boolean-.hidden
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: )
+  - name: )
+- uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
+  commentId: M:TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
+  href: TinyLife.World.Map.html#TinyLife_World_Map_LoadStaticMap_TinyLife_PerSaveOptions_MapInfo_
+  name: LoadStaticMap(MapInfo)
+  nameWithType: Map.LoadStaticMap(PerSaveOptions.MapInfo)
+  fullName: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
+  spec.csharp:
+  - uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
+    name: LoadStaticMap
+    href: TinyLife.World.Map.html#TinyLife_World_Map_LoadStaticMap_TinyLife_PerSaveOptions_MapInfo_
+  - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+    href: TinyLife.PerSaveOptions.MapInfo.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.LoadStaticMap(TinyLife.PerSaveOptions.MapInfo)
+    name: LoadStaticMap
+    href: TinyLife.World.Map.html#TinyLife_World_Map_LoadStaticMap_TinyLife_PerSaveOptions_MapInfo_
+  - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+    href: TinyLife.PerSaveOptions.MapInfo.html
+  - name: )
+- uid: TinyLife.World.Map.LoadStaticMapDelegate
+  commentId: T:TinyLife.World.Map.LoadStaticMapDelegate
+  parent: TinyLife.World
+  href: TinyLife.World.Map.html
+  name: Map.LoadStaticMapDelegate
+  nameWithType: Map.LoadStaticMapDelegate
+  fullName: TinyLife.World.Map.LoadStaticMapDelegate
+  spec.csharp:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.LoadStaticMapDelegate
+    name: LoadStaticMapDelegate
+    href: TinyLife.World.Map.LoadStaticMapDelegate.html
+  spec.vb:
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.LoadStaticMapDelegate
+    name: LoadStaticMapDelegate
+    href: TinyLife.World.Map.LoadStaticMapDelegate.html
 - uid: TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   commentId: M:TinyLife.World.Map.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   isExternal: true
@@ -4574,6 +5355,53 @@ references:
   name: UpdateDelegate
   nameWithType: UpdateDelegate
   fullName: TinyLife.World.UpdateDelegate
+- uid: TinyLife.World.Map.DrawEventArgs.Phase
+  commentId: F:TinyLife.World.Map.DrawEventArgs.Phase
+  href: TinyLife.World.Map.DrawEventArgs.html#TinyLife_World_Map_DrawEventArgs_Phase
+  name: Phase
+  nameWithType: Map.DrawEventArgs.Phase
+  fullName: TinyLife.World.Map.DrawEventArgs.Phase
+- uid: System.Action{TinyLife.World.Map.DrawEventArgs}
+  commentId: T:System.Action{TinyLife.World.Map.DrawEventArgs}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<Map.DrawEventArgs>
+  nameWithType: Action<Map.DrawEventArgs>
+  fullName: System.Action<TinyLife.World.Map.DrawEventArgs>
+  nameWithType.vb: Action(Of Map.DrawEventArgs)
+  fullName.vb: System.Action(Of TinyLife.World.Map.DrawEventArgs)
+  name.vb: Action(Of Map.DrawEventArgs)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.DrawEventArgs
+    name: DrawEventArgs
+    href: TinyLife.World.Map.DrawEventArgs.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: .
+  - uid: TinyLife.World.Map.DrawEventArgs
+    name: DrawEventArgs
+    href: TinyLife.World.Map.DrawEventArgs.html
+  - name: )
 - uid: TinyLife.Objects.MapObject
   commentId: T:TinyLife.Objects.MapObject
   parent: TinyLife.Objects
@@ -5249,44 +6077,6 @@ references:
     name: Matrix
     isExternal: true
   - name: '?'
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
-  spec.csharp:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
-  spec.vb:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
   isExternal: true
@@ -6706,6 +7496,221 @@ references:
   name: GetPathCost
   nameWithType: Map.GetPathCost
   fullName: TinyLife.World.Map.GetPathCost
+- uid: TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point,System.Int32)
+  commentId: M:TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point,System.Int32)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: GetPathfindingNode(Point, int)
+  nameWithType: Map.GetPathfindingNode(Point, int)
+  fullName: TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point, int)
+  nameWithType.vb: Map.GetPathfindingNode(Point, Integer)
+  fullName.vb: TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point, Integer)
+  name.vb: GetPathfindingNode(Point, Integer)
+  spec.csharp:
+  - uid: TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point,System.Int32)
+    name: GetPathfindingNode
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.GetPathfindingNode(Microsoft.Xna.Framework.Point,System.Int32)
+    name: GetPathfindingNode
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: TinyLife.World.Map.CollectPossiblePathNeighbors*
+  commentId: Overload:TinyLife.World.Map.CollectPossiblePathNeighbors
+  href: TinyLife.World.Map.html#TinyLife_World_Map_CollectPossiblePathNeighbors_System_ValueTuple_Microsoft_Xna_Framework_Point_System_Int32__System_Collections_Generic_ISet_System_ValueTuple_Microsoft_Xna_Framework_Point_System_Int32___
+  name: CollectPossiblePathNeighbors
+  nameWithType: Map.CollectPossiblePathNeighbors
+  fullName: TinyLife.World.Map.CollectPossiblePathNeighbors
+- uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}
+  commentId: T:System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}
+  parent: System
+  definition: System.ValueTuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.pos
+  name: (Point Pos, int Floor)
+  nameWithType: (Point Pos, int Floor)
+  fullName: (Microsoft.Xna.Framework.Point Pos, int Floor)
+  nameWithType.vb: (Pos As Point, Floor As Integer)
+  fullName.vb: (Pos As Microsoft.Xna.Framework.Point, Floor As Integer)
+  name.vb: (Pos As Point, Floor As Integer)
+  spec.csharp:
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Pos
+    name: Pos
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.pos
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Floor
+    name: Floor
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.floor
+  - name: )
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Pos
+    name: Pos
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.pos
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Floor
+    name: Floor
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.floor
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+- uid: System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}}
+  commentId: T:System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ISet`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  name: ISet<(Point Pos, int Floor)>
+  nameWithType: ISet<(Point Pos, int Floor)>
+  fullName: System.Collections.Generic.ISet<(Microsoft.Xna.Framework.Point Pos, int Floor)>
+  nameWithType.vb: ISet(Of (Pos As Point, Floor As Integer))
+  fullName.vb: System.Collections.Generic.ISet(Of (Pos As Microsoft.Xna.Framework.Point, Floor As Integer))
+  name.vb: ISet(Of (Pos As Point, Floor As Integer))
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: <
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Pos
+    name: Pos
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.pos
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Floor
+    name: Floor
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.floor
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Pos
+    name: Pos
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.pos
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}.Floor
+    name: Floor
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32-.floor
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  - name: )
+- uid: System.ValueTuple`2
+  commentId: T:System.ValueTuple`2
+  name: (T1, T2)
+  nameWithType: (T1, T2)
+  fullName: (T1, T2)
+  spec.csharp:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+  spec.vb:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: System.Collections.Generic.ISet`1
+  commentId: T:System.Collections.Generic.ISet`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  name: ISet<T>
+  nameWithType: ISet<T>
+  fullName: System.Collections.Generic.ISet<T>
+  nameWithType.vb: ISet(Of T)
+  fullName.vb: System.Collections.Generic.ISet(Of T)
+  name.vb: ISet(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ISet`1
+    name: ISet
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.iset-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: System.Single.MaxValue
   commentId: F:System.Single.MaxValue
   isExternal: true
@@ -6997,6 +8002,13 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
+- uid: TinyLife.Utilities.DefaultSound
+  commentId: T:TinyLife.Utilities.DefaultSound
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.DefaultSound.html
+  name: DefaultSound
+  nameWithType: DefaultSound
+  fullName: TinyLife.Utilities.DefaultSound
 - uid: TinyLife.World.Map.GetExitPoints
   commentId: M:TinyLife.World.Map.GetExitPoints
   href: TinyLife.World.Map.html#TinyLife_World_Map_GetExitPoints
@@ -7471,6 +8483,30 @@ references:
   name: GetVisitPriority
   nameWithType: Map.GetVisitPriority
   fullName: TinyLife.World.Map.GetVisitPriority
+- uid: TinyLife.Objects.PersonLike.FirstNameLastName
+  commentId: P:TinyLife.Objects.PersonLike.FirstNameLastName
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_FirstNameLastName
+  name: FirstNameLastName
+  nameWithType: PersonLike.FirstNameLastName
+  fullName: TinyLife.Objects.PersonLike.FirstNameLastName
+- uid: TinyLife.World.Map.SummonSpecialVisitor*
+  commentId: Overload:TinyLife.World.Map.SummonSpecialVisitor
+  href: TinyLife.World.Map.html#TinyLife_World_Map_SummonSpecialVisitor_System_String_TinyLife_World_Lot_
+  name: SummonSpecialVisitor
+  nameWithType: Map.SummonSpecialVisitor
+  fullName: TinyLife.World.Map.SummonSpecialVisitor
+- uid: System.String
+  commentId: T:System.String
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: string
+  nameWithType: string
+  fullName: string
+  nameWithType.vb: String
+  fullName.vb: String
+  name.vb: String
 - uid: TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   commentId: M:TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   parent: TinyLife.Objects.PersonLike
@@ -7642,6 +8678,43 @@ references:
   name: GetVisibleWorldArea
   nameWithType: Map.GetVisibleWorldArea
   fullName: TinyLife.World.Map.GetVisibleWorldArea
+- uid: TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo,System.Action)
+  commentId: M:TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo,System.Action)
+  isExternal: true
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_AddMapToSave_TinyLife_PerSaveOptions_MapInfo_System_Action_
+  name: AddMapToSave(MapInfo, Action)
+  nameWithType: GameImpl.AddMapToSave(PerSaveOptions.MapInfo, Action)
+  fullName: TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo, System.Action)
+  spec.csharp:
+  - uid: TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo,System.Action)
+    name: AddMapToSave
+    href: TinyLife.GameImpl.html#TinyLife_GameImpl_AddMapToSave_TinyLife_PerSaveOptions_MapInfo_System_Action_
+  - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+    href: TinyLife.PerSaveOptions.MapInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Action
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action
+  - name: )
+  spec.vb:
+  - uid: TinyLife.GameImpl.AddMapToSave(TinyLife.PerSaveOptions.MapInfo,System.Action)
+    name: AddMapToSave
+    href: TinyLife.GameImpl.html#TinyLife_GameImpl_AddMapToSave_TinyLife_PerSaveOptions_MapInfo_System_Action_
+  - name: (
+  - uid: TinyLife.PerSaveOptions.MapInfo
+    name: MapInfo
+    href: TinyLife.PerSaveOptions.MapInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Action
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action
+  - name: )
 - uid: TinyLife.World.Map.GetStaticMaps*
   commentId: Overload:TinyLife.World.Map.GetStaticMaps
   href: TinyLife.World.Map.html#TinyLife_World_Map_GetStaticMaps

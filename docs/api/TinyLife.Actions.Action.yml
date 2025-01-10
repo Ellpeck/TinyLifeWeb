@@ -63,8 +63,8 @@ items:
   - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.ResetSpeech
   - TinyLife.Actions.Action.Sit(TinyLife.Objects.Furniture,System.Single,TinyLife.Objects.ActionSpot)
-  - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
   - TinyLife.Actions.Action.StartedAutomatically
   - TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
   - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
@@ -748,7 +748,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions
   summary: >-
-    This is an external version of <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> which can be called from outside sources, like a <xref href="TinyLife.Objects.BreakableFurniture" data-throw-if-not-resolved="false"></xref> object.
+    This is an external version of <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> which can be called from outside sources, like an <xref href="TinyLife.Objects.IBreakableObject" data-throw-if-not-resolved="false"></xref> object.
 
     A reason is provided that can be used to decide whether the external object can cause this action to fail.
 
@@ -884,6 +884,8 @@ items:
     The queued up action is immediately started in the slot that this action occupied.
 
     Can be null, and is null by default.
+
+    Note that this method is not called, and the next action is thus ignored, when this action is canceled externally (like through the <xref href="TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action%2cTinyLife.Actions.Action%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> method).
   example: []
   syntax:
     content: public virtual Action GetNextAction(CompletionType completion)
@@ -1250,16 +1252,16 @@ items:
       description: The <xref href="TinyLife.Uis.CoveringGroup" data-throw-if-not-resolved="false"></xref> that contains the choice prompt.
     content.vb: Public Function OpenChoicePrompt(info As ChoicePromptInfo) As CoveringGroup
   overload: TinyLife.Actions.Action.OpenChoicePrompt*
-- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  id: SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  id: SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: SpeakAlone(GameTime, float, EmoteChoices, SpeakStyle, int, float, float, float, float)
-  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices, SpeakStyle, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, int, float, float, float, float)
+  name: SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
+  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
+  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, int, float, float, float, float)
   type: Method
   assemblies:
   - Tiny Life
@@ -1270,7 +1272,7 @@ items:
     This is used by actions like <xref href="TinyLife.Actions.ActionType.PracticeJokes" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.ActionType.PracticeSpeech" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public bool SpeakAlone(GameTime time, float speedMultiplier, EmoteChoices emoteChoices, SpeakStyle speakStyles, int totalAmount = 2147483647, float minimumSeconds = 1, float maximumSeconds = 3, float minimumBreakSeconds = -0.5, float maximumBreakSeconds = 1)
+    content: public bool SpeakAlone(GameTime time, float speedMultiplier, EmoteChoices? emoteChoices, SpeakStyle speakStyles, int totalAmount = 2147483647, float minimumSeconds = 1, float maximumSeconds = 3, float minimumBreakSeconds = -0.5, float maximumBreakSeconds = 1)
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
@@ -1279,7 +1281,7 @@ items:
       type: System.Single
       description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     - id: emoteChoices
-      type: TinyLife.Actions.EmoteChoices
+      type: System.Nullable{TinyLife.Actions.EmoteChoices}
       description: The emotes to pick from when displaying emotes
     - id: speakStyles
       type: TinyLife.Objects.SpeakStyle
@@ -1302,11 +1304,11 @@ items:
     return:
       type: System.Boolean
       description: Whether all emotes were successfully displayed. This method only returns true if <code class="paramref">totalAmount</code> is less than the default value
-    content.vb: Public Function SpeakAlone(time As GameTime, speedMultiplier As Single, emoteChoices As EmoteChoices, speakStyles As SpeakStyle, totalAmount As Integer = 2147483647, minimumSeconds As Single = 1, maximumSeconds As Single = 3, minimumBreakSeconds As Single = -0.5, maximumBreakSeconds As Single = 1) As Boolean
+    content.vb: Public Function SpeakAlone(time As GameTime, speedMultiplier As Single, emoteChoices As EmoteChoices?, speakStyles As SpeakStyle, totalAmount As Integer = 2147483647, minimumSeconds As Single = 1, maximumSeconds As Single = 3, minimumBreakSeconds As Single = -0.5, maximumBreakSeconds As Single = 1) As Boolean
   overload: TinyLife.Actions.Action.SpeakAlone*
-  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices, SpeakStyle, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single)
-  name.vb: SpeakAlone(GameTime, Single, EmoteChoices, SpeakStyle, Integer, Single, Single, Single, Single)
+  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
+  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single)
+  name.vb: SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
 - uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
   commentId: M:TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
   id: ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
@@ -1361,16 +1363,16 @@ items:
   nameWithType.vb: Action.ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer)
   fullName.vb: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, Single, Single, Single, Single, Integer)
   name.vb: ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer)
-- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
-  id: SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  id: SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float)
+  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
+  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
+  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float)
   type: Method
   assemblies:
   - Tiny Life
@@ -1381,7 +1383,7 @@ items:
     When used in <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref>, only the action that <xref href="TinyLife.Actions.SocialAction.IsMain" data-throw-if-not-resolved="false"></xref> should call this method.
   example: []
   syntax:
-    content: public bool SpeakInConversation(PersonLike partner, GameTime time, float speedMultiplier, EmoteChoices emoteChoices, SpeakStyle speakStyles, EmoteChoices? partnerEmoteChoices = null, SpeakStyle? partnerSpeakStyles = null, int totalAmount = 2147483647, float minimumSeconds = 1, float maximumSeconds = 3, float minimumBreakSeconds = -0.5, float maximumBreakSeconds = 1)
+    content: public bool SpeakInConversation(PersonLike partner, GameTime time, float speedMultiplier, EmoteChoices? emoteChoices, SpeakStyle speakStyles, EmoteChoices? partnerEmoteChoices = null, SpeakStyle? partnerSpeakStyles = null, int totalAmount = 2147483647, float minimumSeconds = 1, float maximumSeconds = 3, float minimumBreakSeconds = -0.5, float maximumBreakSeconds = 1)
     parameters:
     - id: partner
       type: TinyLife.Objects.PersonLike
@@ -1393,7 +1395,7 @@ items:
       type: System.Single
       description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
     - id: emoteChoices
-      type: TinyLife.Actions.EmoteChoices
+      type: System.Nullable{TinyLife.Actions.EmoteChoices}
       description: The emotes to pick from when displaying emotes
     - id: speakStyles
       type: TinyLife.Objects.SpeakStyle
@@ -1422,11 +1424,11 @@ items:
     return:
       type: System.Boolean
       description: If <code class="paramref">totalAmount</code> is set, true is returned if the emote back-and-forth is completed
-    content.vb: Public Function SpeakInConversation(partner As PersonLike, time As GameTime, speedMultiplier As Single, emoteChoices As EmoteChoices, speakStyles As SpeakStyle, partnerEmoteChoices As EmoteChoices? = Nothing, partnerSpeakStyles As SpeakStyle? = Nothing, totalAmount As Integer = 2147483647, minimumSeconds As Single = 1, maximumSeconds As Single = 3, minimumBreakSeconds As Single = -0.5, maximumBreakSeconds As Single = 1) As Boolean
+    content.vb: Public Function SpeakInConversation(partner As PersonLike, time As GameTime, speedMultiplier As Single, emoteChoices As EmoteChoices?, speakStyles As SpeakStyle, partnerEmoteChoices As EmoteChoices? = Nothing, partnerSpeakStyles As SpeakStyle? = Nothing, totalAmount As Integer = 2147483647, minimumSeconds As Single = 1, maximumSeconds As Single = 3, minimumBreakSeconds As Single = -0.5, maximumBreakSeconds As Single = 1) As Boolean
   overload: TinyLife.Actions.Action.SpeakInConversation*
-  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single)
-  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
+  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
+  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single)
+  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
 - uid: TinyLife.Actions.Action.ResetSpeech
   commentId: M:TinyLife.Actions.Action.ResetSpeech
   id: ResetSpeech
@@ -1441,7 +1443,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: Resets speech for this action's <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>, including causing them to stop speaking and emoting, and resetting the timer used by <xref href="TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime%2cSystem.Single%2cTinyLife.Actions.EmoteChoices%2cTinyLife.Objects.SpeakStyle%2cSystem.Int32%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike%2cMicrosoft.Xna.Framework.GameTime%2cSystem.Single%2cTinyLife.Actions.EmoteChoices%2cTinyLife.Objects.SpeakStyle%2cSystem.Nullable%7bTinyLife.Actions.EmoteChoices%7d%2cSystem.Nullable%7bTinyLife.Objects.SpeakStyle%7d%2cSystem.Int32%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime%2cSystem.Single%2cTinyLife.Actions.EmoteChoices%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Int32)" data-throw-if-not-resolved="false"></xref>.
+  summary: Resets speech for this action's <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>, including causing them to stop speaking and emoting, and resetting the timer used by <xref href="TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime%2cSystem.Single%2cSystem.Nullable%7bTinyLife.Actions.EmoteChoices%7d%2cTinyLife.Objects.SpeakStyle%2cSystem.Int32%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike%2cMicrosoft.Xna.Framework.GameTime%2cSystem.Single%2cSystem.Nullable%7bTinyLife.Actions.EmoteChoices%7d%2cTinyLife.Objects.SpeakStyle%2cSystem.Nullable%7bTinyLife.Actions.EmoteChoices%7d%2cSystem.Nullable%7bTinyLife.Objects.SpeakStyle%7d%2cSystem.Int32%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime%2cSystem.Single%2cTinyLife.Actions.EmoteChoices%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Single%2cSystem.Int32)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public void ResetSpeech()
@@ -2044,7 +2046,7 @@ items:
       description: The radius that should be searched for people in, or 32 by default
     - id: allowBroken
       type: System.Boolean
-      description: Whether furniture that is <xref href="TinyLife.Objects.BreakableFurniture.Broken" data-throw-if-not-resolved="false"></xref> can be returned
+      description: Whether furniture that is <xref href="TinyLife.Objects.IBreakableObject.Broken" data-throw-if-not-resolved="false"></xref> can be returned
     - id: ignoreVisibility
       type: System.Boolean
       description: Whether the visibility (<xref href="TinyLife.Actions.Action.IsLotContentVisible(TinyLife.World.Lot%2cTinyLife.Objects.PersonLike%2cTinyLife.World.Map%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d)" data-throw-if-not-resolved="false"></xref>) of the object should be ignored. Defaults to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
@@ -2190,7 +2192,7 @@ items:
       description: The position that we should find people around, or null to use the passed person's position
     - id: allowBroken
       type: System.Boolean
-      description: Whether furniture that is <xref href="TinyLife.Objects.BreakableFurniture.Broken" data-throw-if-not-resolved="false"></xref> can be returned
+      description: Whether furniture that is <xref href="TinyLife.Objects.IBreakableObject.Broken" data-throw-if-not-resolved="false"></xref> can be returned
     - id: ignoreVisibility
       type: System.Boolean
       description: Whether the visibility (<xref href="TinyLife.Actions.Action.IsLotContentVisible(TinyLife.World.Lot%2cTinyLife.Objects.PersonLike%2cTinyLife.World.Map%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d)" data-throw-if-not-resolved="false"></xref>) of the object should be ignored. Defaults to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
@@ -4208,13 +4210,13 @@ references:
   name: AppliedMigrations
   nameWithType: AppliedMigrations
   fullName: TinyLife.Utilities.AppliedMigrations
-- uid: TinyLife.Objects.BreakableFurniture
-  commentId: T:TinyLife.Objects.BreakableFurniture
+- uid: TinyLife.Objects.IBreakableObject
+  commentId: T:TinyLife.Objects.IBreakableObject
   parent: TinyLife.Objects
-  href: TinyLife.Objects.BreakableFurniture.html
-  name: BreakableFurniture
-  nameWithType: BreakableFurniture
-  fullName: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject
+  nameWithType: IBreakableObject
+  fullName: TinyLife.Objects.IBreakableObject
 - uid: TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
   commentId: F:TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
   href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_IgnoreObjectConditions
@@ -4298,6 +4300,57 @@ references:
   name: CanCancel
   nameWithType: Action.CanCancel
   fullName: TinyLife.Actions.Action.CanCancel
+- uid: TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action,TinyLife.Actions.Action,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action,TinyLife.Actions.Action,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CancelAction_TinyLife_Actions_Action_TinyLife_Actions_Action_System_Boolean_
+  name: CancelAction(Action, Action, bool)
+  nameWithType: PersonLike.CancelAction(Action, Action, bool)
+  fullName: TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action, TinyLife.Actions.Action, bool)
+  nameWithType.vb: PersonLike.CancelAction(Action, Action, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action, TinyLife.Actions.Action, Boolean)
+  name.vb: CancelAction(Action, Action, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action,TinyLife.Actions.Action,System.Boolean)
+    name: CancelAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CancelAction_TinyLife_Actions_Action_TinyLife_Actions_Action_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.CancelAction(TinyLife.Actions.Action,TinyLife.Actions.Action,System.Boolean)
+    name: CancelAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CancelAction_TinyLife_Actions_Action_TinyLife_Actions_Action_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
 - uid: TinyLife.Actions.Action.GetNextAction*
   commentId: Overload:TinyLife.Actions.Action.GetNextAction
   href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetNextAction_TinyLife_Actions_CompletionType_
@@ -5162,17 +5215,28 @@ references:
   fullName.vb: Integer.MaxValue
 - uid: TinyLife.Actions.Action.SpeakAlone*
   commentId: Overload:TinyLife.Actions.Action.SpeakAlone
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
   name: SpeakAlone
   nameWithType: Action.SpeakAlone
   fullName: TinyLife.Actions.Action.SpeakAlone
-- uid: TinyLife.Actions.EmoteChoices
-  commentId: T:TinyLife.Actions.EmoteChoices
-  parent: TinyLife.Actions
+- uid: System.Nullable{TinyLife.Actions.EmoteChoices}
+  commentId: T:System.Nullable{TinyLife.Actions.EmoteChoices}
+  parent: System
+  definition: System.Nullable`1
   href: TinyLife.Actions.EmoteChoices.html
-  name: EmoteChoices
-  nameWithType: EmoteChoices
-  fullName: TinyLife.Actions.EmoteChoices
+  name: EmoteChoices?
+  nameWithType: EmoteChoices?
+  fullName: TinyLife.Actions.EmoteChoices?
+  spec.csharp:
+  - uid: TinyLife.Actions.EmoteChoices
+    name: EmoteChoices
+    href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
+  spec.vb:
+  - uid: TinyLife.Actions.EmoteChoices
+    name: EmoteChoices
+    href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
 - uid: TinyLife.Objects.SpeakStyle
   commentId: T:TinyLife.Objects.SpeakStyle
   parent: TinyLife.Objects
@@ -5203,6 +5267,13 @@ references:
   name: ThinkAlone
   nameWithType: Action.ThinkAlone
   fullName: TinyLife.Actions.Action.ThinkAlone
+- uid: TinyLife.Actions.EmoteChoices
+  commentId: T:TinyLife.Actions.EmoteChoices
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.EmoteChoices.html
+  name: EmoteChoices
+  nameWithType: EmoteChoices
+  fullName: TinyLife.Actions.EmoteChoices
 - uid: TinyLife.Actions.SocialAction.IsMain
   commentId: P:TinyLife.Actions.SocialAction.IsMain
   parent: TinyLife.Actions.SocialAction
@@ -5212,28 +5283,10 @@ references:
   fullName: TinyLife.Actions.SocialAction.IsMain
 - uid: TinyLife.Actions.Action.SpeakInConversation*
   commentId: Overload:TinyLife.Actions.Action.SpeakInConversation
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
   name: SpeakInConversation
   nameWithType: Action.SpeakInConversation
   fullName: TinyLife.Actions.Action.SpeakInConversation
-- uid: System.Nullable{TinyLife.Actions.EmoteChoices}
-  commentId: T:System.Nullable{TinyLife.Actions.EmoteChoices}
-  parent: System
-  definition: System.Nullable`1
-  href: TinyLife.Actions.EmoteChoices.html
-  name: EmoteChoices?
-  nameWithType: EmoteChoices?
-  fullName: TinyLife.Actions.EmoteChoices?
-  spec.csharp:
-  - uid: TinyLife.Actions.EmoteChoices
-    name: EmoteChoices
-    href: TinyLife.Actions.EmoteChoices.html
-  - name: '?'
-  spec.vb:
-  - uid: TinyLife.Actions.EmoteChoices
-    name: EmoteChoices
-    href: TinyLife.Actions.EmoteChoices.html
-  - name: '?'
 - uid: System.Nullable{TinyLife.Objects.SpeakStyle}
   commentId: T:System.Nullable{TinyLife.Objects.SpeakStyle}
   parent: System
@@ -5252,21 +5305,21 @@ references:
     name: SpeakStyle
     href: TinyLife.Objects.SpeakStyle.html
   - name: '?'
-- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
-  name: SpeakAlone(GameTime, float, EmoteChoices, SpeakStyle, int, float, float, float, float)
-  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices, SpeakStyle, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, int, float, float, float, float)
-  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices, SpeakStyle, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single)
-  name.vb: SpeakAlone(GameTime, Single, EmoteChoices, SpeakStyle, Integer, Single, Single, Single, Single)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+  name: SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
+  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
+  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, int, float, float, float, float)
+  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
+  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single)
+  name.vb: SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
     name: SpeakAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -5282,6 +5335,7 @@ references:
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -5319,9 +5373,9 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
     name: SpeakAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -5337,6 +5391,7 @@ references:
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -5373,21 +5428,21 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
-- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
-  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float)
-  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single)
-  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
+  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
+  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float)
+  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
+  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single)
+  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
     name: SpeakInConversation
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -5408,6 +5463,7 @@ references:
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -5457,9 +5513,9 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
     name: SpeakInConversation
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -5480,6 +5536,7 @@ references:
   - uid: TinyLife.Actions.EmoteChoices
     name: EmoteChoices
     href: TinyLife.Actions.EmoteChoices.html
+  - name: '?'
   - name: ','
   - name: " "
   - uid: TinyLife.Objects.SpeakStyle
@@ -6767,13 +6824,13 @@ references:
   - uid: TinyLife.World
     name: World
     href: TinyLife.World.html
-- uid: TinyLife.Objects.BreakableFurniture.Broken
-  commentId: P:TinyLife.Objects.BreakableFurniture.Broken
-  parent: TinyLife.Objects.BreakableFurniture
-  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Broken
+- uid: TinyLife.Objects.IBreakableObject.Broken
+  commentId: P:TinyLife.Objects.IBreakableObject.Broken
+  parent: TinyLife.Objects.IBreakableObject
+  href: TinyLife.Objects.IBreakableObject.html#TinyLife_Objects_IBreakableObject_Broken
   name: Broken
-  nameWithType: BreakableFurniture.Broken
-  fullName: TinyLife.Objects.BreakableFurniture.Broken
+  nameWithType: IBreakableObject.Broken
+  fullName: TinyLife.Objects.IBreakableObject.Broken
 - uid: TinyLife.Actions.Action.FindAllFreeFurniture*
   commentId: Overload:TinyLife.Actions.Action.FindAllFreeFurniture
   href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FindAllFreeFurniture_TinyLife_Objects_PersonLike_TinyLife_Objects_ObjectCategory_TinyLife_Objects_FurnitureType_System_Boolean_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__System_Nullable_System_Single__System_Boolean_System_Boolean_System_Func_TinyLife_Objects_Furniture_System_Boolean__

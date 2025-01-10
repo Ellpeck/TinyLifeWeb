@@ -1,3 +1,66 @@
+# 0.46.0
+*January 10, 2025*
+
+> Bathtubs, Tears and Improvements Galore
+
+This update has a lot of quality-of-life improvements, especially for mod creators and modded players. It also introduces bathtubs and crying babies!
+
+Additions
+- Added the ability to mourn a person's death at their gravestone
+- Added the ability for babies to cry
+- Added a selection circle around the currently selected Tiny in the world, which can be disabled in the options menu
+- Added bathtubs, the ability to take baths with bath bombs, and a new plumbing upgrade
+
+Improvements
+- Display icons for Tinies who are out of town or on different maps
+- Allow selecting lot requirements in build mode to see objects that match them
+- Allow setting time display independently of the localization setting
+- Cleaned up the household split menu to make it clearer
+- Order interaction circle menu pages by display name
+- Don't include fancy food in the emergency food delivery
+- Display special particles for some death reasons around the gravestone
+- Display a newborn baby's sex in the customization menu
+- Display special visuals for romance and cartoon tv channels
+- Include people's ages and personalities as tags when uploading a household to Steam workshop
+- Stop people from going jogging while visiting someone else's home lot
+- Cycle through hints every few seconds on long loading screens
+- Continue following a person with the camera if they move to a different map
+- Made gym trainers a bit likelier to help with training
+- Improved the baby laying texture
+- Made emotion effects on need restoration a bit stronger
+- Preload all the game's default sounds when the game is loaded, rather than when they are first used
+- Explain the meaning of each backup type in the backups menu
+- Also create a backup of a save automatically if the versions of installed mods change
+
+Fixes
+- Fixed lot types being sorted by their icon's name rather than their display name
+- Fixed being unable to clean objects that are broken
+- Fixed people with lot employments spawning into a map immediately when a new save is created
+- Fixed the EarnMoney goal not being triggered when selling items from the household storage
+- Fixed the main menu background zooming incorrectly on different ui scales
+- Fixed being unable to adopt a baby as parent
+- Fixed the kiss action sometimes not looking right due to person rotation issues
+- Fixed the game crashing when furniture placement causes an exception
+- Fixed storing objects in household storage on other maps causing them to be duplicated
+- Fixed broken plumbing objects not spawning puddles anymore since the multi-floor update
+- Fixed an exception when updating Steam workshop items while in an import menu
+- Fixed the buttons in the center of the interaction wheel menu misaligning during the opening and closing animations
+
+Removals
+- Removed the keyboard lighting setting due to large maintenance overhead
+
+API
+- Allow mods to specify a version through the mod's assembly info
+- Allow mods to specify a website and donation link to display in the options menu
+- Added the ability for mods to add custom static maps, exported lots and exported households through events
+- Allow setting custom death animations and particle spawn functions in DeathReason
+- Exposed various more methods to the API, including pathfinding, map drawing utilities, play mode tool, other build tools and more
+- Added various events including Map.OnDraw, Particle.OnSpawnAmbientParticles, and more
+- Moved breakable furniture settings into BreakableFurniture.Settings struct
+- Added IBreakableObject and ILightObject interfaces to generify breakable and light furniture
+- Allow using the migration system for exported lots and households
+- Added Sand tile category and SandRequired object category
+
 # 0.45.2
 *December 14, 2024*
 

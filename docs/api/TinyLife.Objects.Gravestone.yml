@@ -22,13 +22,13 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    A furniture is an instance of a <xref href="TinyLife.Objects.FurnitureType" data-throw-if-not-resolved="false"></xref> which is placed in the world, or in a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>'s hand.
+    A gravestone is a <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> object that stores a dead <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>, as well as the <xref href="TinyLife.Objects.DeathReason" data-throw-if-not-resolved="false"></xref> for their death, in <xref href="TinyLife.Objects.Gravestone.DeadPerson" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.Gravestone.Reason" data-throw-if-not-resolved="false"></xref>, respectively.
 
-    To register a custom furniture, use <xref href="TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)" data-throw-if-not-resolved="false"></xref>.
+    The set of all dead people stored in a gravestone on a map can be gathered using <xref href="TinyLife.World.Map.GetStoredDeadPeople" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public class Gravestone : Furniture, IGenericDataHolder'
-    content.vb: Public Class Gravestone Inherits Furniture Implements IGenericDataHolder
+    content: 'public class Gravestone : Furniture, IGenericDataHolder, IUpdatingObject'
+    content.vb: Public Class Gravestone Inherits Furniture Implements IGenericDataHolder, IUpdatingObject
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -36,6 +36,7 @@ items:
   - TinyLife.Objects.Furniture
   implements:
   - MLEM.Misc.IGenericDataHolder
+  - TinyLife.Objects.IUpdatingObject
   inheritedMembers:
   - TinyLife.Objects.Furniture.Migrations
   - TinyLife.Objects.Furniture.Random
@@ -96,7 +97,7 @@ items:
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike,System.Boolean)
-  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
@@ -378,13 +379,13 @@ items:
   overridden: TinyLife.Objects.MapObject.GetPathCostModifier(Microsoft.Xna.Framework.Point)
   overload: TinyLife.Objects.Gravestone.GetPathCostModifier*
 references:
-- uid: TinyLife.Objects.FurnitureType
-  commentId: T:TinyLife.Objects.FurnitureType
+- uid: TinyLife.Objects.Furniture
+  commentId: T:TinyLife.Objects.Furniture
   parent: TinyLife.Objects
-  href: TinyLife.Objects.FurnitureType.html
-  name: FurnitureType
-  nameWithType: FurnitureType
-  fullName: TinyLife.Objects.FurnitureType
+  href: TinyLife.Objects.Furniture.html
+  name: Furniture
+  nameWithType: Furniture
+  fullName: TinyLife.Objects.Furniture
 - uid: TinyLife.Objects.PersonLike
   commentId: T:TinyLife.Objects.PersonLike
   parent: TinyLife.Objects
@@ -392,29 +393,42 @@ references:
   name: PersonLike
   nameWithType: PersonLike
   fullName: TinyLife.Objects.PersonLike
-- uid: TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)
-  commentId: M:TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)
-  href: TinyLife.Objects.FurnitureType.html#TinyLife_Objects_FurnitureType_Register_TinyLife_Objects_FurnitureType_TypeSettings_
-  name: Register(TypeSettings)
-  nameWithType: FurnitureType.Register(FurnitureType.TypeSettings)
-  fullName: TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)
+- uid: TinyLife.Objects.DeathReason
+  commentId: T:TinyLife.Objects.DeathReason
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.DeathReason.html
+  name: DeathReason
+  nameWithType: DeathReason
+  fullName: TinyLife.Objects.DeathReason
+- uid: TinyLife.Objects.Gravestone.DeadPerson
+  commentId: F:TinyLife.Objects.Gravestone.DeadPerson
+  href: TinyLife.Objects.Gravestone.html#TinyLife_Objects_Gravestone_DeadPerson
+  name: DeadPerson
+  nameWithType: Gravestone.DeadPerson
+  fullName: TinyLife.Objects.Gravestone.DeadPerson
+- uid: TinyLife.Objects.Gravestone.Reason
+  commentId: F:TinyLife.Objects.Gravestone.Reason
+  href: TinyLife.Objects.Gravestone.html#TinyLife_Objects_Gravestone_Reason
+  name: Reason
+  nameWithType: Gravestone.Reason
+  fullName: TinyLife.Objects.Gravestone.Reason
+- uid: TinyLife.World.Map.GetStoredDeadPeople
+  commentId: M:TinyLife.World.Map.GetStoredDeadPeople
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
+  name: GetStoredDeadPeople()
+  nameWithType: Map.GetStoredDeadPeople()
+  fullName: TinyLife.World.Map.GetStoredDeadPeople()
   spec.csharp:
-  - uid: TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)
-    name: Register
-    href: TinyLife.Objects.FurnitureType.html#TinyLife_Objects_FurnitureType_Register_TinyLife_Objects_FurnitureType_TypeSettings_
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
   - name: (
-  - uid: TinyLife.Objects.FurnitureType.TypeSettings
-    name: TypeSettings
-    href: TinyLife.Objects.FurnitureType.TypeSettings.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)
-    name: Register
-    href: TinyLife.Objects.FurnitureType.html#TinyLife_Objects_FurnitureType_Register_TinyLife_Objects_FurnitureType_TypeSettings_
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
   - name: (
-  - uid: TinyLife.Objects.FurnitureType.TypeSettings
-    name: TypeSettings
-    href: TinyLife.Objects.FurnitureType.TypeSettings.html
   - name: )
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
@@ -463,13 +477,6 @@ references:
   name: MapObject
   nameWithType: MapObject
   fullName: TinyLife.Objects.MapObject
-- uid: TinyLife.Objects.Furniture
-  commentId: T:TinyLife.Objects.Furniture
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Furniture.html
-  name: Furniture
-  nameWithType: Furniture
-  fullName: TinyLife.Objects.Furniture
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -477,6 +484,13 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
+- uid: TinyLife.Objects.IUpdatingObject
+  commentId: T:TinyLife.Objects.IUpdatingObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IUpdatingObject.html
+  name: IUpdatingObject
+  nameWithType: IUpdatingObject
+  fullName: TinyLife.Objects.IUpdatingObject
 - uid: TinyLife.Objects.Furniture.Migrations
   commentId: F:TinyLife.Objects.Furniture.Migrations
   parent: TinyLife.Objects.Furniture
@@ -2071,21 +2085,21 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
-  name: OnPlacedInBuildMode(FurniturePlacer, bool)
-  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool)
-  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool)
-  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean)
-  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
+  name: OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool, TinyLife.Tools.UndoableAction)
+  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
+  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
+  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2096,11 +2110,16 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2111,6 +2130,11 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
@@ -4591,37 +4615,6 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.World.Map.GetStoredDeadPeople
-  commentId: M:TinyLife.World.Map.GetStoredDeadPeople
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
-  name: GetStoredDeadPeople()
-  nameWithType: Map.GetStoredDeadPeople()
-  fullName: TinyLife.World.Map.GetStoredDeadPeople()
-  spec.csharp:
-  - uid: TinyLife.World.Map.GetStoredDeadPeople
-    name: GetStoredDeadPeople
-    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.Map.GetStoredDeadPeople
-    name: GetStoredDeadPeople
-    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
-  - name: (
-  - name: )
-- uid: TinyLife.Objects.DeathReason
-  commentId: T:TinyLife.Objects.DeathReason
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.DeathReason.html
-  name: DeathReason
-  nameWithType: DeathReason
-  fullName: TinyLife.Objects.DeathReason
-- uid: TinyLife.Objects.Gravestone.DeadPerson
-  commentId: F:TinyLife.Objects.Gravestone.DeadPerson
-  href: TinyLife.Objects.Gravestone.html#TinyLife_Objects_Gravestone_DeadPerson
-  name: DeadPerson
-  nameWithType: Gravestone.DeadPerson
-  fullName: TinyLife.Objects.Gravestone.DeadPerson
 - uid: TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   commentId: M:TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   isExternal: true
@@ -4727,6 +4720,13 @@ references:
   name: Guid
   nameWithType: Guid
   fullName: System.Guid
+- uid: TinyLife.Objects.FurnitureType
+  commentId: T:TinyLife.Objects.FurnitureType
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.FurnitureType.html
+  name: FurnitureType
+  nameWithType: FurnitureType
+  fullName: TinyLife.Objects.FurnitureType
 - uid: System.Int32[]
   isExternal: true
   href: https://learn.microsoft.com/dotnet/api/system.int32

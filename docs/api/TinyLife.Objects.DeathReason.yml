@@ -6,13 +6,17 @@ items:
   parent: TinyLife.Objects
   children:
   - TinyLife.Objects.DeathReason.#ctor(System.String)
+  - TinyLife.Objects.DeathReason.DeathAnimationOverride
   - TinyLife.Objects.DeathReason.Electrocution
+  - TinyLife.Objects.DeathReason.GravestoneParticleSpawner
   - TinyLife.Objects.DeathReason.InexplicableReasons
   - TinyLife.Objects.DeathReason.Name
   - TinyLife.Objects.DeathReason.Overexertion
+  - TinyLife.Objects.DeathReason.ParticleSpawner
   - TinyLife.Objects.DeathReason.Reasons
   - TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
   - TinyLife.Objects.DeathReason.Starvation
+  - TinyLife.Objects.DeathReason.TintFunction
   - TinyLife.Objects.DeathReason.TooMuchBrew
   - TinyLife.Objects.DeathReason.TooMuchProtein
   langs:
@@ -25,6 +29,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A death reason is a potential cause for a <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref>'s death. The set of all registered death reasons is stored in <xref href="TinyLife.Objects.DeathReason.Reasons" data-throw-if-not-resolved="false"></xref>, and custom death reasons can be registered using <xref href="TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)" data-throw-if-not-resolved="false"></xref>. Each death reason has a unique name and can have additional properties such as particle spawners, gravestone particle spawners, tint functions and death animation overrides.
+  example: []
   syntax:
     content: >-
       [JsonConverter(typeof(MigratingStaticJsonConverter<DeathReason>), new object[] { typeof(DeathReason), "PrivateReasons" })]
@@ -60,6 +66,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: The set of registered death reasons from the game and mods. New death reasons can be registered using <xref href="TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public static readonly ReadOnlyDictionary<string, DeathReason> Reasons
     return:
@@ -193,6 +201,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A death reason that represents that a person died from overexertion.
+  example: []
   syntax:
     content: public static readonly DeathReason Overexertion
     return:
@@ -212,11 +222,111 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: This death reason's internal name, which is also used for localization.
+  example: []
   syntax:
     content: public readonly string Name
     return:
       type: System.String
     content.vb: Public ReadOnly Name As String
+- uid: TinyLife.Objects.DeathReason.ParticleSpawner
+  commentId: P:TinyLife.Objects.DeathReason.ParticleSpawner
+  id: ParticleSpawner
+  parent: TinyLife.Objects.DeathReason
+  langs:
+  - csharp
+  - vb
+  name: ParticleSpawner
+  nameWithType: DeathReason.ParticleSpawner
+  fullName: TinyLife.Objects.DeathReason.ParticleSpawner
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    This death reason's particle spawner, which is invoked during the death animation to spawn particles.
+
+    The first item in the tuple is a function that returns the chance of spawning a particle each frame, and the second item is the spawner itself, which is expected to spawn particles using <xref href="TinyLife.Objects.Particle.Spawn(TinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Func%7bMicrosoft.Xna.Framework.Vector2%2cTinyLife.Objects.Particle%7d)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public (Func<Action, float> Chance, Action<Action, Random> Spawner) ParticleSpawner { get; init; }
+    parameters: []
+    return:
+      type: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}
+    content.vb: Public Property ParticleSpawner As (Chance As Func(Of Action, Single), Spawner As Action(Of Action, Random))
+  overload: TinyLife.Objects.DeathReason.ParticleSpawner*
+- uid: TinyLife.Objects.DeathReason.GravestoneParticleSpawner
+  commentId: P:TinyLife.Objects.DeathReason.GravestoneParticleSpawner
+  id: GravestoneParticleSpawner
+  parent: TinyLife.Objects.DeathReason
+  langs:
+  - csharp
+  - vb
+  name: GravestoneParticleSpawner
+  nameWithType: DeathReason.GravestoneParticleSpawner
+  fullName: TinyLife.Objects.DeathReason.GravestoneParticleSpawner
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    This death reason's gravestone particle spawner, which is invoked periodically on a <xref href="TinyLife.Objects.Gravestone" data-throw-if-not-resolved="false"></xref> that has a person inside who died from this reason.
+
+    The first item in the tuple is a function that returns the chance of spawning a particle each frame, and the second item is the spawner itself, which is expected to spawn particles using <xref href="TinyLife.Objects.Particle.Spawn(TinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Func%7bMicrosoft.Xna.Framework.Vector2%2cTinyLife.Objects.Particle%7d)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public (Func<Gravestone, float> Chance, Action<Gravestone, Random> Spawner) GravestoneParticleSpawner { get; init; }
+    parameters: []
+    return:
+      type: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}
+    content.vb: Public Property GravestoneParticleSpawner As (Chance As Func(Of Gravestone, Single), Spawner As Action(Of Gravestone, Random))
+  overload: TinyLife.Objects.DeathReason.GravestoneParticleSpawner*
+- uid: TinyLife.Objects.DeathReason.TintFunction
+  commentId: P:TinyLife.Objects.DeathReason.TintFunction
+  id: TintFunction
+  parent: TinyLife.Objects.DeathReason
+  langs:
+  - csharp
+  - vb
+  name: TintFunction
+  nameWithType: DeathReason.TintFunction
+  fullName: TinyLife.Objects.DeathReason.TintFunction
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: A function that can be used to change a person's color during their death animation, which is also when the <xref href="TinyLife.Objects.DeathReason.ParticleSpawner" data-throw-if-not-resolved="false"></xref> is invoked.
+  example: []
+  syntax:
+    content: public Func<Action, Color> TintFunction { get; init; }
+    parameters: []
+    return:
+      type: System.Func{TinyLife.Actions.Action,Microsoft.Xna.Framework.Color}
+    content.vb: Public Property TintFunction As Func(Of Action, Color)
+  overload: TinyLife.Objects.DeathReason.TintFunction*
+- uid: TinyLife.Objects.DeathReason.DeathAnimationOverride
+  commentId: P:TinyLife.Objects.DeathReason.DeathAnimationOverride
+  id: DeathAnimationOverride
+  parent: TinyLife.Objects.DeathReason
+  langs:
+  - csharp
+  - vb
+  name: DeathAnimationOverride
+  nameWithType: DeathReason.DeathAnimationOverride
+  fullName: TinyLife.Objects.DeathReason.DeathAnimationOverride
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: A function that can be used to override the death animation of a person who died from this reason. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the default death animation is used. The passed arguments are the death action, the current game time, the amount of time passed in-game since the last update, and the current game speed multiplier.
+  example: []
+  syntax:
+    content: public Action<Action, GameTime, TimeSpan, float> DeathAnimationOverride { get; init; }
+    parameters: []
+    return:
+      type: System.Action{TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single}
+    content.vb: Public Property DeathAnimationOverride As Action(Of Action, GameTime, TimeSpan, Single)
+  overload: TinyLife.Objects.DeathReason.DeathAnimationOverride*
 - uid: TinyLife.Objects.DeathReason.#ctor(System.String)
   commentId: M:TinyLife.Objects.DeathReason.#ctor(System.String)
   id: '#ctor(System.String)'
@@ -231,11 +341,14 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Creates a new death reason with the given name.
+  example: []
   syntax:
     content: public DeathReason(string name)
     parameters:
     - id: name
       type: System.String
+      description: The death reason's internal name, which is also used for localization.
     content.vb: Public Sub New(name As String)
   overload: TinyLife.Objects.DeathReason.#ctor*
   nameWithType.vb: DeathReason.New(String)
@@ -255,16 +368,57 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Registers the given death reason into the <xref href="TinyLife.Objects.DeathReason.Reasons" data-throw-if-not-resolved="false"></xref> collection, which allows it to be stored and retrieved from disk.
+  example: []
   syntax:
     content: public static DeathReason Register(DeathReason reason)
     parameters:
     - id: reason
       type: TinyLife.Objects.DeathReason
+      description: The reason to register.
     return:
       type: TinyLife.Objects.DeathReason
+      description: The registered reason, for chaining.
     content.vb: Public Shared Function Register(reason As DeathReason) As DeathReason
   overload: TinyLife.Objects.DeathReason.Register*
 references:
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: TinyLife.Objects.DeathReason.Reasons
+  commentId: F:TinyLife.Objects.DeathReason.Reasons
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_Reasons
+  name: Reasons
+  nameWithType: DeathReason.Reasons
+  fullName: TinyLife.Objects.DeathReason.Reasons
+- uid: TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
+  commentId: M:TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_Register_TinyLife_Objects_DeathReason_
+  name: Register(DeathReason)
+  nameWithType: DeathReason.Register(DeathReason)
+  fullName: TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
+  spec.csharp:
+  - uid: TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
+    name: Register
+    href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_Register_TinyLife_Objects_DeathReason_
+  - name: (
+  - uid: TinyLife.Objects.DeathReason
+    name: DeathReason
+    href: TinyLife.Objects.DeathReason.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.DeathReason.Register(TinyLife.Objects.DeathReason)
+    name: Register
+    href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_Register_TinyLife_Objects_DeathReason_
+  - name: (
+  - uid: TinyLife.Objects.DeathReason
+    name: DeathReason
+    href: TinyLife.Objects.DeathReason.html
+  - name: )
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
   href: TinyLife.html
@@ -769,6 +923,533 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
+- uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
+  commentId: M:TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
+  isExternal: true
+  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func_Microsoft_Xna_Framework_Vector2_TinyLife_Objects_Particle__
+  name: Spawn(Map, Vector2, Func<Vector2, Particle>)
+  nameWithType: Particle.Spawn(Map, Vector2, Func<Vector2, Particle>)
+  fullName: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func<Microsoft.Xna.Framework.Vector2, TinyLife.Objects.Particle>)
+  nameWithType.vb: Particle.Spawn(Map, Vector2, Func(Of Vector2, Particle))
+  fullName.vb: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func(Of Microsoft.Xna.Framework.Vector2, TinyLife.Objects.Particle))
+  name.vb: Spawn(Map, Vector2, Func(Of Vector2, Particle))
+  spec.csharp:
+  - uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
+    name: Spawn
+    href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func_Microsoft_Xna_Framework_Vector2_TinyLife_Objects_Particle__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
+    name: Spawn
+    href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func_Microsoft_Xna_Framework_Vector2_TinyLife_Objects_Particle__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.DeathReason.ParticleSpawner*
+  commentId: Overload:TinyLife.Objects.DeathReason.ParticleSpawner
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_ParticleSpawner
+  name: ParticleSpawner
+  nameWithType: DeathReason.ParticleSpawner
+  fullName: TinyLife.Objects.DeathReason.ParticleSpawner
+- uid: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}
+  commentId: T:System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}
+  parent: System
+  definition: System.ValueTuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: (Func<Action, float> Chance, Action<Action, Random> Spawner)
+  nameWithType: (Func<Action, float> Chance, Action<Action, Random> Spawner)
+  fullName: (System.Func<TinyLife.Actions.Action, float> Chance, System.Action<TinyLife.Actions.Action, System.Random> Spawner)
+  nameWithType.vb: (Chance As Func(Of Action, Single), Spawner As Action(Of Action, Random))
+  fullName.vb: (Chance As System.Func(Of TinyLife.Actions.Action, Single), Spawner As System.Action(Of TinyLife.Actions.Action, System.Random))
+  name.vb: (Chance As Func(Of Action, Single), Spawner As Action(Of Action, Random))
+  spec.csharp:
+  - name: (
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.actions.action,system.single-,system.action-tinylife.actions.action,system.random--.chance
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}.Spawner
+    name: Spawner
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.actions.action,system.single-,system.action-tinylife.actions.action,system.random--.spawner
+  - name: )
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.actions.action,system.single-,system.action-tinylife.actions.action,system.random--.chance
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Actions.Action,System.Single},System.Action{TinyLife.Actions.Action,System.Random}}.Spawner
+    name: Spawner
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.actions.action,system.single-,system.action-tinylife.actions.action,system.random--.spawner
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: )
+  - name: )
+- uid: System.ValueTuple`2
+  commentId: T:System.ValueTuple`2
+  name: (T1, T2)
+  nameWithType: (T1, T2)
+  fullName: (T1, T2)
+  spec.csharp:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+  spec.vb:
+  - name: (
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: TinyLife.Objects.Gravestone
+  commentId: T:TinyLife.Objects.Gravestone
+  href: TinyLife.Objects.Gravestone.html
+  name: Gravestone
+  nameWithType: Gravestone
+  fullName: TinyLife.Objects.Gravestone
+- uid: TinyLife.Objects.DeathReason.GravestoneParticleSpawner*
+  commentId: Overload:TinyLife.Objects.DeathReason.GravestoneParticleSpawner
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_GravestoneParticleSpawner
+  name: GravestoneParticleSpawner
+  nameWithType: DeathReason.GravestoneParticleSpawner
+  fullName: TinyLife.Objects.DeathReason.GravestoneParticleSpawner
+- uid: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}
+  commentId: T:System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}
+  parent: System
+  definition: System.ValueTuple`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: (Func<Gravestone, float> Chance, Action<Gravestone, Random> Spawner)
+  nameWithType: (Func<Gravestone, float> Chance, Action<Gravestone, Random> Spawner)
+  fullName: (System.Func<TinyLife.Objects.Gravestone, float> Chance, System.Action<TinyLife.Objects.Gravestone, System.Random> Spawner)
+  nameWithType.vb: (Chance As Func(Of Gravestone, Single), Spawner As Action(Of Gravestone, Random))
+  fullName.vb: (Chance As System.Func(Of TinyLife.Objects.Gravestone, Single), Spawner As System.Action(Of TinyLife.Objects.Gravestone, System.Random))
+  name.vb: (Chance As Func(Of Gravestone, Single), Spawner As Action(Of Gravestone, Random))
+  spec.csharp:
+  - name: (
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Objects.Gravestone
+    name: Gravestone
+    href: TinyLife.Objects.Gravestone.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.objects.gravestone,system.single-,system.action-tinylife.objects.gravestone,system.random--.chance
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - uid: TinyLife.Objects.Gravestone
+    name: Gravestone
+    href: TinyLife.Objects.Gravestone.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}.Spawner
+    name: Spawner
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.objects.gravestone,system.single-,system.action-tinylife.objects.gravestone,system.random--.spawner
+  - name: )
+  spec.vb:
+  - name: (
+  - uid: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}.Chance
+    name: Chance
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.objects.gravestone,system.single-,system.action-tinylife.objects.gravestone,system.random--.chance
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Gravestone
+    name: Gravestone
+    href: TinyLife.Objects.Gravestone.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{System.Func{TinyLife.Objects.Gravestone,System.Single},System.Action{TinyLife.Objects.Gravestone,System.Random}}.Spawner
+    name: Spawner
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-tinylife.objects.gravestone,system.single-,system.action-tinylife.objects.gravestone,system.random--.spawner
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Gravestone
+    name: Gravestone
+    href: TinyLife.Objects.Gravestone.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.DeathReason.ParticleSpawner
+  commentId: P:TinyLife.Objects.DeathReason.ParticleSpawner
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_ParticleSpawner
+  name: ParticleSpawner
+  nameWithType: DeathReason.ParticleSpawner
+  fullName: TinyLife.Objects.DeathReason.ParticleSpawner
+- uid: TinyLife.Objects.DeathReason.TintFunction*
+  commentId: Overload:TinyLife.Objects.DeathReason.TintFunction
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_TintFunction
+  name: TintFunction
+  nameWithType: DeathReason.TintFunction
+  fullName: TinyLife.Objects.DeathReason.TintFunction
+- uid: System.Func{TinyLife.Actions.Action,Microsoft.Xna.Framework.Color}
+  commentId: T:System.Func{TinyLife.Actions.Action,Microsoft.Xna.Framework.Color}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<Action, Color>
+  nameWithType: Func<Action, Color>
+  fullName: System.Func<TinyLife.Actions.Action, Microsoft.Xna.Framework.Color>
+  nameWithType.vb: Func(Of Action, Color)
+  fullName.vb: System.Func(Of TinyLife.Actions.Action, Microsoft.Xna.Framework.Color)
+  name.vb: Func(Of Action, Color)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
+- uid: TinyLife.Objects.DeathReason.DeathAnimationOverride*
+  commentId: Overload:TinyLife.Objects.DeathReason.DeathAnimationOverride
+  href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason_DeathAnimationOverride
+  name: DeathAnimationOverride
+  nameWithType: DeathReason.DeathAnimationOverride
+  fullName: TinyLife.Objects.DeathReason.DeathAnimationOverride
+- uid: System.Action{TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single}
+  commentId: T:System.Action{TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single}
+  parent: System
+  definition: System.Action`4
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<Action, GameTime, TimeSpan, float>
+  nameWithType: Action<Action, GameTime, TimeSpan, float>
+  fullName: System.Action<TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, float>
+  nameWithType.vb: Action(Of Action, GameTime, TimeSpan, Single)
+  fullName.vb: System.Action(Of TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Action(Of Action, GameTime, TimeSpan, Single)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: System.Action`4
+  commentId: T:System.Action`4
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<T1, T2, T3, T4>
+  nameWithType: Action<T1, T2, T3, T4>
+  fullName: System.Action<T1, T2, T3, T4>
+  nameWithType.vb: Action(Of T1, T2, T3, T4)
+  fullName.vb: System.Action(Of T1, T2, T3, T4)
+  name.vb: Action(Of T1, T2, T3, T4)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: )
 - uid: TinyLife.Objects.DeathReason.#ctor*
   commentId: Overload:TinyLife.Objects.DeathReason.#ctor
   href: TinyLife.Objects.DeathReason.html#TinyLife_Objects_DeathReason__ctor_System_String_

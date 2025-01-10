@@ -28,8 +28,8 @@ items:
     To register a custom furniture, use <xref href="TinyLife.Objects.FurnitureType.Register(TinyLife.Objects.FurnitureType.TypeSettings)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public class Television : ScreenObject, IGenericDataHolder, IUpdatingObject'
-    content.vb: Public Class Television Inherits ScreenObject Implements IGenericDataHolder, IUpdatingObject
+    content: 'public class Television : ScreenObject, IGenericDataHolder, IUpdatingObject, IBreakableObject'
+    content.vb: Public Class Television Inherits ScreenObject Implements IGenericDataHolder, IUpdatingObject, IBreakableObject
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -40,6 +40,7 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   - TinyLife.Objects.IUpdatingObject
+  - TinyLife.Objects.IBreakableObject
   inheritedMembers:
   - TinyLife.Objects.ScreenObject.ScreenContentOverrides
   - TinyLife.Objects.ScreenObject.DrawScreenContentOverrides
@@ -47,10 +48,9 @@ items:
   - TinyLife.Objects.ScreenObject.IsOn
   - TinyLife.Objects.ScreenObject.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Maths.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.ScreenObject.TurnOn(System.String)
-  - TinyLife.Objects.BreakableFurniture.OnWearDown
-  - TinyLife.Objects.BreakableFurniture.OnBreak
   - TinyLife.Objects.BreakableFurniture.Broken
   - TinyLife.Objects.BreakableFurniture.RepairProgress
+  - TinyLife.Objects.BreakableFurniture.BreakSettings
   - TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
   - TinyLife.Objects.BreakableFurniture.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
   - TinyLife.Objects.BreakableFurniture.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
@@ -112,7 +112,7 @@ items:
   - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike,System.Boolean)
-  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
@@ -523,6 +523,13 @@ references:
   name: IUpdatingObject
   nameWithType: IUpdatingObject
   fullName: TinyLife.Objects.IUpdatingObject
+- uid: TinyLife.Objects.IBreakableObject
+  commentId: T:TinyLife.Objects.IBreakableObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject
+  nameWithType: IBreakableObject
+  fullName: TinyLife.Objects.IBreakableObject
 - uid: TinyLife.Objects.ScreenObject.ScreenContentOverrides
   commentId: F:TinyLife.Objects.ScreenObject.ScreenContentOverrides
   parent: TinyLife.Objects.ScreenObject
@@ -763,20 +770,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: )
-- uid: TinyLife.Objects.BreakableFurniture.OnWearDown
-  commentId: E:TinyLife.Objects.BreakableFurniture.OnWearDown
-  parent: TinyLife.Objects.BreakableFurniture
-  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_OnWearDown
-  name: OnWearDown
-  nameWithType: BreakableFurniture.OnWearDown
-  fullName: TinyLife.Objects.BreakableFurniture.OnWearDown
-- uid: TinyLife.Objects.BreakableFurniture.OnBreak
-  commentId: E:TinyLife.Objects.BreakableFurniture.OnBreak
-  parent: TinyLife.Objects.BreakableFurniture
-  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_OnBreak
-  name: OnBreak
-  nameWithType: BreakableFurniture.OnBreak
-  fullName: TinyLife.Objects.BreakableFurniture.OnBreak
 - uid: TinyLife.Objects.BreakableFurniture.Broken
   commentId: P:TinyLife.Objects.BreakableFurniture.Broken
   parent: TinyLife.Objects.BreakableFurniture
@@ -791,6 +784,13 @@ references:
   name: RepairProgress
   nameWithType: BreakableFurniture.RepairProgress
   fullName: TinyLife.Objects.BreakableFurniture.RepairProgress
+- uid: TinyLife.Objects.BreakableFurniture.BreakSettings
+  commentId: P:TinyLife.Objects.BreakableFurniture.BreakSettings
+  parent: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_BreakSettings
+  name: BreakSettings
+  nameWithType: BreakableFurniture.BreakSettings
+  fullName: TinyLife.Objects.BreakableFurniture.BreakSettings
 - uid: TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
   commentId: M:TinyLife.Objects.BreakableFurniture.WearDown(System.TimeSpan)
   parent: TinyLife.Objects.BreakableFurniture
@@ -2314,21 +2314,21 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
-  name: OnPlacedInBuildMode(FurniturePlacer, bool)
-  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool)
-  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool)
-  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean)
-  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
+  name: OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool, TinyLife.Tools.UndoableAction)
+  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
+  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
+  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2339,11 +2339,16 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2354,6 +2359,11 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})

@@ -6,7 +6,6 @@ items:
   parent: TinyLife.Objects
   children:
   - TinyLife.Objects.LightFurniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
-  - TinyLife.Objects.LightFurniture.CreateLights
   - TinyLife.Objects.LightFurniture.IsDisabled
   - TinyLife.Objects.LightFurniture.LightSettings
   - TinyLife.Objects.LightFurniture.Lights
@@ -25,14 +24,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: >-
-    Light furniture is a furniture that additionally spawns and handles a set of <xref href="TinyLife.Objects.Light" data-throw-if-not-resolved="false"></xref> instances.
-
-    To use this class effectively, set <xref href="TinyLife.Objects.FurnitureType.TypeSettings.LightSettings" data-throw-if-not-resolved="false"></xref> to determine the lights that should be spawned from the furniture.
+  summary: A light furniture is a <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> object that implements the required properties and methods of <xref href="TinyLife.Objects.ILightObject" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public class LightFurniture : Furniture, IGenericDataHolder, IUpdatingObject'
-    content.vb: Public Class LightFurniture Inherits Furniture Implements IGenericDataHolder, IUpdatingObject
+    content: 'public class LightFurniture : Furniture, IGenericDataHolder, IUpdatingObject, ILightObject'
+    content.vb: Public Class LightFurniture Inherits Furniture Implements IGenericDataHolder, IUpdatingObject, ILightObject
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -43,6 +39,7 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   - TinyLife.Objects.IUpdatingObject
+  - TinyLife.Objects.ILightObject
   inheritedMembers:
   - TinyLife.Objects.Furniture.Migrations
   - TinyLife.Objects.Furniture.Random
@@ -102,7 +99,7 @@ items:
   - TinyLife.Objects.Furniture.GetDecorativeRating(TinyLife.World.Room)
   - TinyLife.Objects.Furniture.GetDirty(TinyLife.Objects.PersonLike,System.TimeSpan)
   - TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike,System.Boolean)
-  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   - TinyLife.Objects.Furniture.GetAppliedUpgrade(TinyLife.Objects.Upgrade)
@@ -181,17 +178,19 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: The lights that are currently in the world, based on this light furniture
+  summary: The lights that are currently in the world, based on this light object
   example: []
   syntax:
-    content: public Light[] Lights { get; }
+    content: public virtual Light[] Lights { get; }
     parameters: []
     return:
       type: TinyLife.Objects.Light[]
-    content.vb: Public Property Lights As Light()
+    content.vb: Public Overridable Property Lights As Light()
   overload: TinyLife.Objects.LightFurniture.Lights*
+  implements:
+  - TinyLife.Objects.ILightObject.Lights
 - uid: TinyLife.Objects.LightFurniture.IsDisabled
-  commentId: F:TinyLife.Objects.LightFurniture.IsDisabled
+  commentId: P:TinyLife.Objects.LightFurniture.IsDisabled
   id: IsDisabled
   parent: TinyLife.Objects.LightFurniture
   langs:
@@ -200,26 +199,30 @@ items:
   name: IsDisabled
   nameWithType: LightFurniture.IsDisabled
   fullName: TinyLife.Objects.LightFurniture.IsDisabled
-  type: Field
+  type: Property
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
     Whether this light is currently disabled.
 
-    Note that a light also gets disabled if this furniture <xref href="TinyLife.Objects.LightFurniture.Settings.IsElectrical" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.Furniture.AreUtilitiesDisabled" data-throw-if-not-resolved="false"></xref> is true, but this field will not be set to true in that case.
+    Note that a light also gets disabled if this object <xref href="TinyLife.Objects.ILightObject.Settings.IsElectrical" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.Furniture.AreUtilitiesDisabled" data-throw-if-not-resolved="false"></xref> is true, but this field will not be set to true in that case.
   example: []
   syntax:
     content: >-
       [DataMember]
 
-      public bool IsDisabled
+      public virtual bool IsDisabled { get; set; }
+    parameters: []
     return:
       type: System.Boolean
     content.vb: >-
       <DataMember>
 
-      Public IsDisabled As Boolean
+      Public Overridable Property IsDisabled As Boolean
+  overload: TinyLife.Objects.LightFurniture.IsDisabled*
+  implements:
+  - TinyLife.Objects.ILightObject.IsDisabled
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -238,15 +241,17 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: The <xref href="TinyLife.Objects.LightFurniture.Settings" data-throw-if-not-resolved="false"></xref> that this light furniture operates under.
+  summary: The <xref href="TinyLife.Objects.ILightObject.Settings" data-throw-if-not-resolved="false"></xref> that this light object operates under.
   example: []
   syntax:
-    content: public LightFurniture.Settings LightSettings { get; }
+    content: public virtual ILightObject.Settings LightSettings { get; }
     parameters: []
     return:
-      type: TinyLife.Objects.LightFurniture.Settings
-    content.vb: Public ReadOnly Property LightSettings As LightFurniture.Settings
+      type: TinyLife.Objects.ILightObject.Settings
+    content.vb: Public Overridable ReadOnly Property LightSettings As ILightObject.Settings
   overload: TinyLife.Objects.LightFurniture.LightSettings*
+  implements:
+  - TinyLife.Objects.ILightObject.LightSettings
 - uid: TinyLife.Objects.LightFurniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   commentId: M:TinyLife.Objects.LightFurniture.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)'
@@ -442,46 +447,21 @@ items:
     content.vb: Public Overrides Sub OnCameraRotationChanged(oldRotation As Direction2, newRotation As Direction2)
   overridden: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   overload: TinyLife.Objects.LightFurniture.OnCameraRotationChanged*
-- uid: TinyLife.Objects.LightFurniture.CreateLights
-  commentId: M:TinyLife.Objects.LightFurniture.CreateLights
-  id: CreateLights
-  parent: TinyLife.Objects.LightFurniture
-  langs:
-  - csharp
-  - vb
-  name: CreateLights()
-  nameWithType: LightFurniture.CreateLights()
-  fullName: TinyLife.Objects.LightFurniture.CreateLights()
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    This method is called when this furniture's lights should get initialized.
-
-    By default, this method calls <xref href="TinyLife.Objects.LightFurniture.Settings.CreateLights" data-throw-if-not-resolved="false"></xref>.
-  example: []
-  syntax:
-    content: protected virtual IEnumerable<Light> CreateLights()
-    return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Light}
-      description: The lights that this object should have
-    content.vb: Protected Overridable Function CreateLights() As IEnumerable(Of Light)
-  overload: TinyLife.Objects.LightFurniture.CreateLights*
 references:
-- uid: TinyLife.Objects.Light
-  commentId: T:TinyLife.Objects.Light
+- uid: TinyLife.Objects.Furniture
+  commentId: T:TinyLife.Objects.Furniture
   parent: TinyLife.Objects
-  href: TinyLife.Objects.Light.html
-  name: Light
-  nameWithType: Light
-  fullName: TinyLife.Objects.Light
-- uid: TinyLife.Objects.FurnitureType.TypeSettings.LightSettings
-  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.LightSettings
-  href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_LightSettings
-  name: LightSettings
-  nameWithType: FurnitureType.TypeSettings.LightSettings
-  fullName: TinyLife.Objects.FurnitureType.TypeSettings.LightSettings
+  href: TinyLife.Objects.Furniture.html
+  name: Furniture
+  nameWithType: Furniture
+  fullName: TinyLife.Objects.Furniture
+- uid: TinyLife.Objects.ILightObject
+  commentId: T:TinyLife.Objects.ILightObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.ILightObject.html
+  name: ILightObject
+  nameWithType: ILightObject
+  fullName: TinyLife.Objects.ILightObject
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
   href: TinyLife.html
@@ -529,13 +509,6 @@ references:
   name: MapObject
   nameWithType: MapObject
   fullName: TinyLife.Objects.MapObject
-- uid: TinyLife.Objects.Furniture
-  commentId: T:TinyLife.Objects.Furniture
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.Furniture.html
-  name: Furniture
-  nameWithType: Furniture
-  fullName: TinyLife.Objects.Furniture
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -2163,21 +2136,21 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
-  name: OnPlacedInBuildMode(FurniturePlacer, bool)
-  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool)
-  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool)
-  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean)
-  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
+  name: OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool, TinyLife.Tools.UndoableAction)
+  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
+  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
+  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2188,11 +2161,16 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
     name: OnPlacedInBuildMode
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   - name: (
   - uid: TinyLife.Tools.FurniturePlacer
     name: FurniturePlacer
@@ -2203,6 +2181,11 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Tools.UndoableAction
+    name: UndoableAction
+    href: TinyLife.Tools.UndoableAction.html
   - name: )
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
@@ -4679,6 +4662,13 @@ references:
   name: Lights
   nameWithType: LightFurniture.Lights
   fullName: TinyLife.Objects.LightFurniture.Lights
+- uid: TinyLife.Objects.ILightObject.Lights
+  commentId: P:TinyLife.Objects.ILightObject.Lights
+  parent: TinyLife.Objects.ILightObject
+  href: TinyLife.Objects.ILightObject.html#TinyLife_Objects_ILightObject_Lights
+  name: Lights
+  nameWithType: ILightObject.Lights
+  fullName: TinyLife.Objects.ILightObject.Lights
 - uid: TinyLife.Objects.Light[]
   isExternal: true
   href: TinyLife.Objects.Light.html
@@ -4700,12 +4690,25 @@ references:
     href: TinyLife.Objects.Light.html
   - name: (
   - name: )
-- uid: TinyLife.Objects.LightFurniture.Settings.IsElectrical
-  commentId: F:TinyLife.Objects.LightFurniture.Settings.IsElectrical
-  href: TinyLife.Objects.LightFurniture.Settings.html#TinyLife_Objects_LightFurniture_Settings_IsElectrical
+- uid: TinyLife.Objects.ILightObject.Settings.IsElectrical
+  commentId: F:TinyLife.Objects.ILightObject.Settings.IsElectrical
+  href: TinyLife.Objects.ILightObject.Settings.html#TinyLife_Objects_ILightObject_Settings_IsElectrical
   name: IsElectrical
-  nameWithType: LightFurniture.Settings.IsElectrical
-  fullName: TinyLife.Objects.LightFurniture.Settings.IsElectrical
+  nameWithType: ILightObject.Settings.IsElectrical
+  fullName: TinyLife.Objects.ILightObject.Settings.IsElectrical
+- uid: TinyLife.Objects.LightFurniture.IsDisabled*
+  commentId: Overload:TinyLife.Objects.LightFurniture.IsDisabled
+  href: TinyLife.Objects.LightFurniture.html#TinyLife_Objects_LightFurniture_IsDisabled
+  name: IsDisabled
+  nameWithType: LightFurniture.IsDisabled
+  fullName: TinyLife.Objects.LightFurniture.IsDisabled
+- uid: TinyLife.Objects.ILightObject.IsDisabled
+  commentId: P:TinyLife.Objects.ILightObject.IsDisabled
+  parent: TinyLife.Objects.ILightObject
+  href: TinyLife.Objects.ILightObject.html#TinyLife_Objects_ILightObject_IsDisabled
+  name: IsDisabled
+  nameWithType: ILightObject.IsDisabled
+  fullName: TinyLife.Objects.ILightObject.IsDisabled
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -4717,35 +4720,42 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: TinyLife.Objects.LightFurniture.Settings
-  commentId: T:TinyLife.Objects.LightFurniture.Settings
+- uid: TinyLife.Objects.ILightObject.Settings
+  commentId: T:TinyLife.Objects.ILightObject.Settings
   parent: TinyLife.Objects
-  href: TinyLife.Objects.LightFurniture.html
-  name: LightFurniture.Settings
-  nameWithType: LightFurniture.Settings
-  fullName: TinyLife.Objects.LightFurniture.Settings
+  href: TinyLife.Objects.ILightObject.html
+  name: ILightObject.Settings
+  nameWithType: ILightObject.Settings
+  fullName: TinyLife.Objects.ILightObject.Settings
   spec.csharp:
-  - uid: TinyLife.Objects.LightFurniture
-    name: LightFurniture
-    href: TinyLife.Objects.LightFurniture.html
+  - uid: TinyLife.Objects.ILightObject
+    name: ILightObject
+    href: TinyLife.Objects.ILightObject.html
   - name: .
-  - uid: TinyLife.Objects.LightFurniture.Settings
+  - uid: TinyLife.Objects.ILightObject.Settings
     name: Settings
-    href: TinyLife.Objects.LightFurniture.Settings.html
+    href: TinyLife.Objects.ILightObject.Settings.html
   spec.vb:
-  - uid: TinyLife.Objects.LightFurniture
-    name: LightFurniture
-    href: TinyLife.Objects.LightFurniture.html
+  - uid: TinyLife.Objects.ILightObject
+    name: ILightObject
+    href: TinyLife.Objects.ILightObject.html
   - name: .
-  - uid: TinyLife.Objects.LightFurniture.Settings
+  - uid: TinyLife.Objects.ILightObject.Settings
     name: Settings
-    href: TinyLife.Objects.LightFurniture.Settings.html
+    href: TinyLife.Objects.ILightObject.Settings.html
 - uid: TinyLife.Objects.LightFurniture.LightSettings*
   commentId: Overload:TinyLife.Objects.LightFurniture.LightSettings
   href: TinyLife.Objects.LightFurniture.html#TinyLife_Objects_LightFurniture_LightSettings
   name: LightSettings
   nameWithType: LightFurniture.LightSettings
   fullName: TinyLife.Objects.LightFurniture.LightSettings
+- uid: TinyLife.Objects.ILightObject.LightSettings
+  commentId: P:TinyLife.Objects.ILightObject.LightSettings
+  parent: TinyLife.Objects.ILightObject
+  href: TinyLife.Objects.ILightObject.html#TinyLife_Objects_ILightObject_LightSettings
+  name: LightSettings
+  nameWithType: ILightObject.LightSettings
+  fullName: TinyLife.Objects.ILightObject.LightSettings
 - uid: TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   commentId: M:TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   isExternal: true
@@ -5203,113 +5213,3 @@ references:
   - uid: MLEM.Maths
     name: Maths
     isExternal: true
-- uid: TinyLife.Objects.LightFurniture.Settings.CreateLights
-  commentId: F:TinyLife.Objects.LightFurniture.Settings.CreateLights
-  href: TinyLife.Objects.LightFurniture.Settings.html#TinyLife_Objects_LightFurniture_Settings_CreateLights
-  name: CreateLights
-  nameWithType: LightFurniture.Settings.CreateLights
-  fullName: TinyLife.Objects.LightFurniture.Settings.CreateLights
-- uid: TinyLife.Objects.LightFurniture.CreateLights*
-  commentId: Overload:TinyLife.Objects.LightFurniture.CreateLights
-  href: TinyLife.Objects.LightFurniture.html#TinyLife_Objects_LightFurniture_CreateLights
-  name: CreateLights
-  nameWithType: LightFurniture.CreateLights
-  fullName: TinyLife.Objects.LightFurniture.CreateLights
-- uid: System.Collections.Generic.IEnumerable{TinyLife.Objects.Light}
-  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Objects.Light}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<Light>
-  nameWithType: IEnumerable<Light>
-  fullName: System.Collections.Generic.IEnumerable<TinyLife.Objects.Light>
-  nameWithType.vb: IEnumerable(Of Light)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Light)
-  name.vb: IEnumerable(Of Light)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: <
-  - uid: TinyLife.Objects.Light
-    name: Light
-    href: TinyLife.Objects.Light.html
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.Objects.Light
-    name: Light
-    href: TinyLife.Objects.Light.html
-  - name: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic

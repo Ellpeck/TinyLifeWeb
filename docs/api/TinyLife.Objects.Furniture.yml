@@ -68,7 +68,7 @@ items:
   - TinyLife.Objects.Furniture.OnGetDescription
   - TinyLife.Objects.Furniture.OnGetDirty
   - TinyLife.Objects.Furniture.OnNeighborChanged(TinyLife.Objects.Furniture)
-  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+  - TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
   - TinyLife.Objects.Furniture.OnRemoved
@@ -117,7 +117,6 @@ items:
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Objects.MapObject
   derivedClasses:
-  - TinyLife.Objects.Bathtub
   - TinyLife.Objects.Book
   - TinyLife.Objects.BreakableFurniture
   - TinyLife.Objects.Chimney
@@ -1420,7 +1419,7 @@ items:
   summary: >-
     Returns whether the given <code class="paramref">action</code> can be executed at this map object.
 
-    By default, this method returns <xref href="TinyLife.Actions.CanExecuteResult.Valid" data-throw-if-not-resolved="false"></xref> for all actions, but <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> additionally returns custom results based on whether the furniture is <xref href="TinyLife.Objects.BreakableFurniture.Broken" data-throw-if-not-resolved="false"></xref> or based on <xref href="TinyLife.Objects.Furniture.AreUtilitiesDisabled" data-throw-if-not-resolved="false"></xref>.
+    By default, this method returns <xref href="TinyLife.Actions.CanExecuteResult.Valid" data-throw-if-not-resolved="false"></xref> for all actions, but <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> additionally returns custom results based on whether the furniture is <xref href="TinyLife.Objects.IBreakableObject.Broken" data-throw-if-not-resolved="false"></xref> or based on <xref href="TinyLife.Objects.Furniture.AreUtilitiesDisabled" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public override CanExecuteResult CanExecuteAction(ActionType action, ActionInfo info, bool automatic, bool isAuxiliary)
@@ -1933,7 +1932,7 @@ items:
   summary: >-
     Moves this object to the given <code class="paramref">map</code>, changing the current <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> in the process.
 
-    This method also removes the object from the current map if it <xref href="TinyLife.Objects.MapObject.IsInWorld" data-throw-if-not-resolved="false"></xref> and adds it to the new <code class="paramref">map</code>, but only if its current <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> is not already equal to <code class="paramref">map</code>, in which case, no action is performed.
+    If the object is currently on its <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> (<xref href="TinyLife.Objects.MapObject.IsInWorld" data-throw-if-not-resolved="false"></xref>), then it is removed from it using <xref href="TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref> and added to the new <code class="paramref">map</code> using <xref href="TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref>. If the object is not currently on its <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref>, then its map is changed without subsequently adding it to the new <code class="paramref">map</code>.
   example: []
   syntax:
     content: public override bool MoveToMap(Map map, Vector2? position = null, float? floor = null)
@@ -1949,7 +1948,7 @@ items:
       description: The floor to move to, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to keep it the same.
     return:
       type: System.Boolean
-      description: Whether moving to the map was successful, which is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> is already the given <code class="paramref">map</code>. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> is returned, the object is guaranteed to have been added to the new <code class="paramref">map</code> using <xref href="TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref>. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, no action was performed.
+      description: Whether moving to the map was successful, which is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> is already the given <code class="paramref">map</code>. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> is returned, its <xref href="TinyLife.Objects.MapObject.IsInWorld" data-throw-if-not-resolved="false"></xref> state is additionally guaranteed to be the same as it was before this method was called. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, no action was performed.
     content.vb: Public Overrides Function MoveToMap(map As Map, position As Vector2? = Nothing, floor As Single? = Nothing) As Boolean
   overridden: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   overload: TinyLife.Objects.Furniture.MoveToMap*
@@ -2206,16 +2205,16 @@ items:
   nameWithType.vb: Furniture.SetCreator(PersonLike, Boolean)
   fullName.vb: TinyLife.Objects.Furniture.SetCreator(TinyLife.Objects.PersonLike, Boolean)
   name.vb: SetCreator(PersonLike, Boolean)
-- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
-  id: OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean)
+- uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  commentId: M:TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
+  id: OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer,System.Boolean,TinyLife.Tools.UndoableAction)
   parent: TinyLife.Objects.Furniture
   langs:
   - csharp
   - vb
-  name: OnPlacedInBuildMode(FurniturePlacer, bool)
-  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool)
-  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool)
+  name: OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  nameWithType: Furniture.OnPlacedInBuildMode(FurniturePlacer, bool, UndoableAction)
+  fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, bool, TinyLife.Tools.UndoableAction)
   type: Method
   assemblies:
   - Tiny Life
@@ -2226,7 +2225,7 @@ items:
     By default, this method awards emotion modifiers based on the <xref href="TinyLife.Objects.MapObject.CurrentLot" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.World.Household" data-throw-if-not-resolved="false"></xref>'s members' <xref href="TinyLife.PersonalityType" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public virtual void OnPlacedInBuildMode(FurniturePlacer placer, bool freshlyBought)
+    content: public virtual void OnPlacedInBuildMode(FurniturePlacer placer, bool freshlyBought, UndoableAction action)
     parameters:
     - id: placer
       type: TinyLife.Tools.FurniturePlacer
@@ -2234,11 +2233,14 @@ items:
     - id: freshlyBought
       type: System.Boolean
       description: Whether this item was freshly bought (or placed from storage).
-    content.vb: Public Overridable Sub OnPlacedInBuildMode(placer As FurniturePlacer, freshlyBought As Boolean)
+    - id: action
+      type: TinyLife.Tools.UndoableAction
+      description: The undoable action that is being used to place this furniture in build mode, which additional steps can optionally be added to by this method.
+    content.vb: Public Overridable Sub OnPlacedInBuildMode(placer As FurniturePlacer, freshlyBought As Boolean, action As UndoableAction)
   overload: TinyLife.Objects.Furniture.OnPlacedInBuildMode*
-  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean)
-  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean)
-  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean)
+  nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
+  fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
+  name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
   id: GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
@@ -6547,13 +6549,13 @@ references:
   name: Valid
   nameWithType: CanExecuteResult.Valid
   fullName: TinyLife.Actions.CanExecuteResult.Valid
-- uid: TinyLife.Objects.BreakableFurniture.Broken
-  commentId: P:TinyLife.Objects.BreakableFurniture.Broken
-  parent: TinyLife.Objects.BreakableFurniture
-  href: TinyLife.Objects.BreakableFurniture.html#TinyLife_Objects_BreakableFurniture_Broken
+- uid: TinyLife.Objects.IBreakableObject.Broken
+  commentId: P:TinyLife.Objects.IBreakableObject.Broken
+  parent: TinyLife.Objects.IBreakableObject
+  href: TinyLife.Objects.IBreakableObject.html#TinyLife_Objects_IBreakableObject_Broken
   name: Broken
-  nameWithType: BreakableFurniture.Broken
-  fullName: TinyLife.Objects.BreakableFurniture.Broken
+  nameWithType: IBreakableObject.Broken
+  fullName: TinyLife.Objects.IBreakableObject.Broken
 - uid: TinyLife.Objects.Furniture.AreUtilitiesDisabled
   commentId: P:TinyLife.Objects.Furniture.AreUtilitiesDisabled
   parent: TinyLife.Objects.Furniture
@@ -6651,13 +6653,13 @@ references:
   name: CanExecuteResult
   nameWithType: CanExecuteResult
   fullName: TinyLife.Actions.CanExecuteResult
-- uid: TinyLife.Objects.BreakableFurniture
-  commentId: T:TinyLife.Objects.BreakableFurniture
+- uid: TinyLife.Objects.IBreakableObject
+  commentId: T:TinyLife.Objects.IBreakableObject
   parent: TinyLife.Objects
-  href: TinyLife.Objects.BreakableFurniture.html
-  name: BreakableFurniture
-  nameWithType: BreakableFurniture
-  fullName: TinyLife.Objects.BreakableFurniture
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject
+  nameWithType: IBreakableObject
+  fullName: TinyLife.Objects.IBreakableObject
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   href: TinyLife.html
@@ -8085,6 +8087,30 @@ references:
   name: Element
   nameWithType: Element
   fullName: MLEM.Ui.Elements.Element
+- uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  commentId: M:TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  name: RemoveObject(MapObject)
+  nameWithType: Map.RemoveObject(MapObject)
+  fullName: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  spec.csharp:
+  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+    name: RemoveObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+    name: RemoveObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
 - uid: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
   commentId: M:TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
   href: TinyLife.World.Map.html#TinyLife_World_Map_AddObject_TinyLife_Objects_MapObject_
@@ -8592,10 +8618,17 @@ references:
   fullName: TinyLife.PersonalityType
 - uid: TinyLife.Objects.Furniture.OnPlacedInBuildMode*
   commentId: Overload:TinyLife.Objects.Furniture.OnPlacedInBuildMode
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnPlacedInBuildMode_TinyLife_Tools_FurniturePlacer_System_Boolean_TinyLife_Tools_UndoableAction_
   name: OnPlacedInBuildMode
   nameWithType: Furniture.OnPlacedInBuildMode
   fullName: TinyLife.Objects.Furniture.OnPlacedInBuildMode
+- uid: TinyLife.Tools.UndoableAction
+  commentId: T:TinyLife.Tools.UndoableAction
+  parent: TinyLife.Tools
+  href: TinyLife.Tools.UndoableAction.html
+  name: UndoableAction
+  nameWithType: UndoableAction
+  fullName: TinyLife.Tools.UndoableAction
 - uid: TinyLife.Tools
   commentId: N:TinyLife.Tools
   href: TinyLife.html
@@ -9292,30 +9325,6 @@ references:
   name: UnlinkParentsAndChildren
   nameWithType: Furniture.UnlinkParentsAndChildren
   fullName: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
-- uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
-  commentId: M:TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
-  href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
-  name: RemoveObject(MapObject)
-  nameWithType: Map.RemoveObject(MapObject)
-  fullName: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
-  spec.csharp:
-  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
-    name: RemoveObject
-    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
-  - name: (
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
-    name: RemoveObject
-    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
-  - name: (
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
-  - name: )
 - uid: TinyLife.Objects.Furniture.UnlinkParentsAndChildren
   commentId: M:TinyLife.Objects.Furniture.UnlinkParentsAndChildren
   parent: TinyLife.Objects.Furniture

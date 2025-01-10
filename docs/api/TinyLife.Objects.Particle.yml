@@ -27,6 +27,7 @@ items:
   - TinyLife.Objects.Particle.OnAdded
   - TinyLife.Objects.Particle.OnParticleUpdate
   - TinyLife.Objects.Particle.OnRemoved
+  - TinyLife.Objects.Particle.OnSpawnAmbientParticles
   - TinyLife.Objects.Particle.OnUpdate
   - TinyLife.Objects.Particle.ParentInfo
   - TinyLife.Objects.Particle.Position
@@ -35,6 +36,7 @@ items:
   - TinyLife.Objects.Particle.Scale
   - TinyLife.Objects.Particle.ScreenPosOffset
   - TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle})
+  - TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
   - TinyLife.Objects.Particle.SpawnAnimation
   - TinyLife.Objects.Particle.SpriteEffects
   - TinyLife.Objects.Particle.TimeLived
@@ -122,6 +124,27 @@ items:
     return:
       type: TinyLife.World.ObjectUpdateDelegate{TinyLife.Objects.Particle}
     content.vb: Public Shared Event OnParticleUpdate As ObjectUpdateDelegate(Of Particle)
+- uid: TinyLife.Objects.Particle.OnSpawnAmbientParticles
+  commentId: E:TinyLife.Objects.Particle.OnSpawnAmbientParticles
+  id: OnSpawnAmbientParticles
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: OnSpawnAmbientParticles
+  nameWithType: Particle.OnSpawnAmbientParticles
+  fullName: TinyLife.Objects.Particle.OnSpawnAmbientParticles
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: An event that is raised when ambient particles for the game are spawned.
+  example: []
+  syntax:
+    content: public static event Particle.SpawnAmbientParticlesDelegate OnSpawnAmbientParticles
+    return:
+      type: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+    content.vb: Public Shared Event OnSpawnAmbientParticles As Particle.SpawnAmbientParticlesDelegate
 - uid: TinyLife.Objects.Particle.Random
   commentId: F:TinyLife.Objects.Particle.Random
   id: Random
@@ -560,10 +583,10 @@ items:
     Note that <xref href="TinyLife.Objects.Particle.OnParticleUpdate" data-throw-if-not-resolved="false"></xref> is invoked for all particles, whereas this event is just invoked for this particle.
   example: []
   syntax:
-    content: public ObjectUpdateDelegateNoPhase<Particle> OnUpdate
+    content: public Particle.UpdateDelegate OnUpdate
     return:
-      type: TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
-    content.vb: Public OnUpdate As ObjectUpdateDelegateNoPhase(Of Particle)
+      type: TinyLife.Objects.Particle.UpdateDelegate
+    content.vb: Public OnUpdate As Particle.UpdateDelegate
 - uid: TinyLife.Objects.Particle.Light
   commentId: F:TinyLife.Objects.Particle.Light
   id: Light
@@ -948,9 +971,11 @@ items:
     Spawns a new particle with the given settings.
 
     The particle is only spawned if the resulting display position would currently be visible for the <xref href="TinyLife.GameImpl.Camera" data-throw-if-not-resolved="false"></xref>.
+
+    If the particle's spawning behavior is very simple, consider using <xref href="TinyLife.Objects.Particle.Spawn(TinyLife.World.Map%2cTinyLife.Objects.Particle)" data-throw-if-not-resolved="false"></xref> instead, as it does not require a potential closure to be created.
   example: []
   syntax:
-    content: public static void Spawn(Map map, Vector2 position, Func<Vector2, Particle> particleFunction)
+    content: public static bool Spawn(Map map, Vector2 position, Func<Vector2, Particle> particleFunction)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -960,12 +985,48 @@ items:
       description: The position in world space that the particle should be spawned at.
     - id: particleFunction
       type: System.Func{Microsoft.Xna.Framework.Vector2,TinyLife.Objects.Particle}
-      description: A function that is invoked if the particle can be spawned.
-    content.vb: Public Shared Sub Spawn(map As Map, position As Vector2, particleFunction As Func(Of Vector2, Particle))
+      description: A function that is invoked if the particle can be spawned. Can return <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, in which case no particle is spawned and this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function Spawn(map As Map, position As Vector2, particleFunction As Func(Of Vector2, Particle)) As Boolean
   overload: TinyLife.Objects.Particle.Spawn*
   nameWithType.vb: Particle.Spawn(Map, Vector2, Func(Of Vector2, Particle))
   fullName.vb: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2, System.Func(Of Microsoft.Xna.Framework.Vector2, TinyLife.Objects.Particle))
   name.vb: Spawn(Map, Vector2, Func(Of Vector2, Particle))
+- uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+  commentId: M:TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+  id: Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+  parent: TinyLife.Objects.Particle
+  langs:
+  - csharp
+  - vb
+  name: Spawn(Map, Particle)
+  nameWithType: Particle.Spawn(Map, Particle)
+  fullName: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map, TinyLife.Objects.Particle)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Spawns a new particle with the given settings.
+
+    The particle is only spawned if the resulting display position would currently be visible for the <xref href="TinyLife.GameImpl.Camera" data-throw-if-not-resolved="false"></xref>.
+
+    If the particle's spawning behavior is very complex, consider using <xref href="TinyLife.Objects.Particle.Spawn(TinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Func%7bMicrosoft.Xna.Framework.Vector2%2cTinyLife.Objects.Particle%7d)" data-throw-if-not-resolved="false"></xref> instead, as it only causes a new particle instance to be created if the particle can actually be spawned.
+  example: []
+  syntax:
+    content: public static bool Spawn(Map map, Particle particle)
+    parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The map to spawn on.
+    - id: particle
+      type: TinyLife.Objects.Particle
+      description: The particle to spawn.
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function Spawn(map As Map, particle As Particle) As Boolean
+  overload: TinyLife.Objects.Particle.Spawn*
 references:
 - uid: MLEM.Animations.SpriteAnimation
   commentId: T:MLEM.Animations.SpriteAnimation
@@ -1674,6 +1735,7 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.Particle
   commentId: T:TinyLife.Objects.Particle
+  parent: TinyLife.Objects
   href: TinyLife.Objects.Particle.html
   name: Particle
   nameWithType: Particle
@@ -1808,6 +1870,29 @@ references:
   - uid: TinyLife.World
     name: World
     href: TinyLife.World.html
+- uid: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+  commentId: T:TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Particle.html
+  name: Particle.SpawnAmbientParticlesDelegate
+  nameWithType: Particle.SpawnAmbientParticlesDelegate
+  fullName: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+  spec.csharp:
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: .
+  - uid: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+    name: SpawnAmbientParticlesDelegate
+    href: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate.html
+  spec.vb:
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: .
+  - uid: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate
+    name: SpawnAmbientParticlesDelegate
+    href: TinyLife.Objects.Particle.SpawnAmbientParticlesDelegate.html
 - uid: System.Random
   commentId: T:System.Random
   parent: System
@@ -2220,62 +2305,29 @@ references:
   name: OnParticleUpdate
   nameWithType: Particle.OnParticleUpdate
   fullName: TinyLife.Objects.Particle.OnParticleUpdate
-- uid: TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
-  commentId: T:TinyLife.World.ObjectUpdateDelegateNoPhase{TinyLife.Objects.Particle}
-  parent: TinyLife.World
-  definition: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-  href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  name: ObjectUpdateDelegateNoPhase<Particle>
-  nameWithType: ObjectUpdateDelegateNoPhase<Particle>
-  fullName: TinyLife.World.ObjectUpdateDelegateNoPhase<TinyLife.Objects.Particle>
-  nameWithType.vb: ObjectUpdateDelegateNoPhase(Of Particle)
-  fullName.vb: TinyLife.World.ObjectUpdateDelegateNoPhase(Of TinyLife.Objects.Particle)
-  name.vb: ObjectUpdateDelegateNoPhase(Of Particle)
+- uid: TinyLife.Objects.Particle.UpdateDelegate
+  commentId: T:TinyLife.Objects.Particle.UpdateDelegate
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Particle.html
+  name: Particle.UpdateDelegate
+  nameWithType: Particle.UpdateDelegate
+  fullName: TinyLife.Objects.Particle.UpdateDelegate
   spec.csharp:
-  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-    name: ObjectUpdateDelegateNoPhase
-    href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  - name: <
   - uid: TinyLife.Objects.Particle
     name: Particle
     href: TinyLife.Objects.Particle.html
-  - name: '>'
+  - name: .
+  - uid: TinyLife.Objects.Particle.UpdateDelegate
+    name: UpdateDelegate
+    href: TinyLife.Objects.Particle.UpdateDelegate.html
   spec.vb:
-  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-    name: ObjectUpdateDelegateNoPhase
-    href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  - name: (
-  - name: Of
-  - name: " "
   - uid: TinyLife.Objects.Particle
     name: Particle
     href: TinyLife.Objects.Particle.html
-  - name: )
-- uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-  commentId: T:TinyLife.World.ObjectUpdateDelegateNoPhase`1
-  href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  name: ObjectUpdateDelegateNoPhase<T>
-  nameWithType: ObjectUpdateDelegateNoPhase<T>
-  fullName: TinyLife.World.ObjectUpdateDelegateNoPhase<T>
-  nameWithType.vb: ObjectUpdateDelegateNoPhase(Of T)
-  fullName.vb: TinyLife.World.ObjectUpdateDelegateNoPhase(Of T)
-  name.vb: ObjectUpdateDelegateNoPhase(Of T)
-  spec.csharp:
-  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-    name: ObjectUpdateDelegateNoPhase
-    href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: TinyLife.World.ObjectUpdateDelegateNoPhase`1
-    name: ObjectUpdateDelegateNoPhase
-    href: TinyLife.World.ObjectUpdateDelegateNoPhase-1.html
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
+  - name: .
+  - uid: TinyLife.Objects.Particle.UpdateDelegate
+    name: UpdateDelegate
+    href: TinyLife.Objects.Particle.UpdateDelegate.html
 - uid: TinyLife.Objects.Particle.Map
   commentId: P:TinyLife.Objects.Particle.Map
   href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Map
@@ -2596,6 +2648,40 @@ references:
   name: Camera
   nameWithType: GameImpl.Camera
   fullName: TinyLife.GameImpl.Camera
+- uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+  commentId: M:TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+  href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_TinyLife_Objects_Particle_
+  name: Spawn(Map, Particle)
+  nameWithType: Particle.Spawn(Map, Particle)
+  fullName: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map, TinyLife.Objects.Particle)
+  spec.csharp:
+  - uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+    name: Spawn
+    href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_TinyLife_Objects_Particle_
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Particle.Spawn(TinyLife.World.Map,TinyLife.Objects.Particle)
+    name: Spawn
+    href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_TinyLife_Objects_Particle_
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Particle
+    name: Particle
+    href: TinyLife.Objects.Particle.html
+  - name: )
 - uid: TinyLife.Objects.Particle.Spawn*
   commentId: Overload:TinyLife.Objects.Particle.Spawn
   href: TinyLife.Objects.Particle.html#TinyLife_Objects_Particle_Spawn_TinyLife_World_Map_Microsoft_Xna_Framework_Vector2_System_Func_Microsoft_Xna_Framework_Vector2_TinyLife_Objects_Particle__

@@ -7,7 +7,7 @@ items:
   children:
   - TinyLife.Objects.FurnitureType.TypeSettings.#ctor(System.String,Microsoft.Xna.Framework.Point,TinyLife.Objects.ObjectCategory,System.Single,TinyLife.Utilities.ColorScheme[])
   - TinyLife.Objects.FurnitureType.TypeSettings.ActionSpots
-  - TinyLife.Objects.FurnitureType.TypeSettings.BrokenBehavior
+  - TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
   - TinyLife.Objects.FurnitureType.TypeSettings.BuyableVariations
   - TinyLife.Objects.FurnitureType.TypeSettings.CanExecuteAction
   - TinyLife.Objects.FurnitureType.TypeSettings.Categories
@@ -32,7 +32,6 @@ items:
   - TinyLife.Objects.FurnitureType.TypeSettings.ObjectSpots
   - TinyLife.Objects.FurnitureType.TypeSettings.OnDescription
   - TinyLife.Objects.FurnitureType.TypeSettings.Price
-  - TinyLife.Objects.FurnitureType.TypeSettings.Reliability
   - TinyLife.Objects.FurnitureType.TypeSettings.RestoreNeedModifier
   - TinyLife.Objects.FurnitureType.TypeSettings.SetData``1(System.String,``0)
   - TinyLife.Objects.FurnitureType.TypeSettings.Size
@@ -122,7 +121,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: A set of <xref href="TinyLife.Objects.ObjectCategory" data-throw-if-not-resolved="false"></xref> flags that this furniture should have
+  summary: A set of <xref href="TinyLife.Objects.ObjectCategory" data-throw-if-not-resolved="false"></xref> flags that this furniture should have.
   example: []
   syntax:
     content: public ObjectCategory Categories
@@ -238,7 +237,7 @@ items:
 
     The type needs to have a constructor with the same signature as <xref href="TinyLife.Objects.Furniture.%23ctor(System.Guid%2cTinyLife.Objects.FurnitureType%2cSystem.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
 
-    If this value is null, a <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> instance will be constructed from this type if its <xref href="TinyLife.Objects.FurnitureType.TypeSettings.Reliability" data-throw-if-not-resolved="false"></xref> is null, or a <xref href="TinyLife.Objects.BreakableFurniture" data-throw-if-not-resolved="false"></xref> instance if it is non-null.
+    If this value is null, a <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> instance will be constructed from this type if its <xref href="TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.IBreakableObject.Settings.Reliability" data-throw-if-not-resolved="false"></xref> is null, or a <xref href="TinyLife.Objects.BreakableFurniture" data-throw-if-not-resolved="false"></xref> instance if it is non-null.
   example: []
   syntax:
     content: public Type ConstructedType
@@ -392,56 +391,6 @@ items:
     return:
       type: MLEM.Textures.TextureRegion
     content.vb: Public Icon As TextureRegion
-- uid: TinyLife.Objects.FurnitureType.TypeSettings.Reliability
-  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.Reliability
-  id: Reliability
-  parent: TinyLife.Objects.FurnitureType.TypeSettings
-  langs:
-  - csharp
-  - vb
-  name: Reliability
-  nameWithType: FurnitureType.TypeSettings.Reliability
-  fullName: TinyLife.Objects.FurnitureType.TypeSettings.Reliability
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    The reliability of this furniture item, which should be a value between 1 and 10.
-
-    This value defaults to null, menaing this object is non-breakable.
-
-    Note that, if this value is non-null, <xref href="TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Nullable%7bSystem.Guid%7d)" data-throw-if-not-resolved="false"></xref> will construct a <xref href="TinyLife.Objects.BreakableFurniture" data-throw-if-not-resolved="false"></xref> by default.
-  example: []
-  syntax:
-    content: public int? Reliability
-    return:
-      type: System.Nullable{System.Int32}
-    content.vb: Public Reliability As Integer?
-- uid: TinyLife.Objects.FurnitureType.TypeSettings.BrokenBehavior
-  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.BrokenBehavior
-  id: BrokenBehavior
-  parent: TinyLife.Objects.FurnitureType.TypeSettings
-  langs:
-  - csharp
-  - vb
-  name: BrokenBehavior
-  nameWithType: FurnitureType.TypeSettings.BrokenBehavior
-  fullName: TinyLife.Objects.FurnitureType.TypeSettings.BrokenBehavior
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    A set of <xref href="TinyLife.Objects.BreakableFurniture.BrokenBehavior" data-throw-if-not-resolved="false"></xref> that this object should have if it is broken.
-
-    This is only relevant if <xref href="TinyLife.Objects.FurnitureType.TypeSettings.Reliability" data-throw-if-not-resolved="false"></xref> is non-null.
-  example: []
-  syntax:
-    content: public BreakableFurniture.BrokenBehavior BrokenBehavior
-    return:
-      type: TinyLife.Objects.BreakableFurniture.BrokenBehavior
-    content.vb: Public BrokenBehavior As BreakableFurniture.BrokenBehavior
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.ElectricityRating
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.ElectricityRating
   id: ElectricityRating
@@ -629,13 +578,37 @@ items:
   summary: >-
     The light settings for an instance of this furniture type.
 
-    Note that, if this value is set, <xref href="TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Nullable%7bSystem.Guid%7d)" data-throw-if-not-resolved="false"></xref> will automatically construct an instance of <xref href="TinyLife.Objects.LightFurniture" data-throw-if-not-resolved="false"></xref>, and any custom <xref href="TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType" data-throw-if-not-resolved="false"></xref> should extend <xref href="TinyLife.Objects.LightFurniture" data-throw-if-not-resolved="false"></xref> as well.
+    Note that, if this value is set, <xref href="TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Nullable%7bSystem.Guid%7d)" data-throw-if-not-resolved="false"></xref> will automatically construct an instance of <xref href="TinyLife.Objects.LightFurniture" data-throw-if-not-resolved="false"></xref>, which extends <xref href="TinyLife.Objects.ILightObject" data-throw-if-not-resolved="false"></xref>, and any custom <xref href="TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType" data-throw-if-not-resolved="false"></xref> should extend <xref href="TinyLife.Objects.ILightObject" data-throw-if-not-resolved="false"></xref> as well.
   example: []
   syntax:
-    content: public LightFurniture.Settings LightSettings
+    content: public ILightObject.Settings LightSettings
     return:
-      type: TinyLife.Objects.LightFurniture.Settings
-    content.vb: Public LightSettings As LightFurniture.Settings
+      type: TinyLife.Objects.ILightObject.Settings
+    content.vb: Public LightSettings As ILightObject.Settings
+- uid: TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+  id: BreakSettings
+  parent: TinyLife.Objects.FurnitureType.TypeSettings
+  langs:
+  - csharp
+  - vb
+  name: BreakSettings
+  nameWithType: FurnitureType.TypeSettings.BreakSettings
+  fullName: TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    The reliability settings for an instance of this furniture type.
+
+    Note that, if this value is set, <xref href="TinyLife.Objects.FurnitureType.Construct%60%601(System.Int32%5b%5d%2cTinyLife.World.Map%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Single%2cSystem.Nullable%7bSystem.Guid%7d)" data-throw-if-not-resolved="false"></xref> will construct a <xref href="TinyLife.Objects.BreakableFurniture" data-throw-if-not-resolved="false"></xref>, which extends <xref href="TinyLife.Objects.IBreakableObject" data-throw-if-not-resolved="false"></xref> by default, and any custom <xref href="TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType" data-throw-if-not-resolved="false"></xref> should extend <xref href="TinyLife.Objects.IBreakableObject" data-throw-if-not-resolved="false"></xref> as well.
+  example: []
+  syntax:
+    content: public IBreakableObject.Settings BreakSettings
+    return:
+      type: TinyLife.Objects.IBreakableObject.Settings
+    content.vb: Public BreakSettings As IBreakableObject.Settings
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.DirtyOverlayTextureName
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.DirtyOverlayTextureName
   id: DirtyOverlayTextureName
@@ -1437,6 +1410,7 @@ references:
   fullName: TinyLife.Utilities.ColorSettings
 - uid: TinyLife.Tools.FurnitureTool
   commentId: T:TinyLife.Tools.FurnitureTool
+  parent: TinyLife.Tools
   href: TinyLife.Tools.FurnitureTool.html
   name: FurnitureTool
   nameWithType: FurnitureTool
@@ -1454,6 +1428,28 @@ references:
   name: Direction2
   nameWithType: Direction2
   fullName: MLEM.Maths.Direction2
+- uid: TinyLife.Tools
+  commentId: N:TinyLife.Tools
+  href: TinyLife.html
+  name: TinyLife.Tools
+  nameWithType: TinyLife.Tools
+  fullName: TinyLife.Tools
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Tools
+    name: Tools
+    href: TinyLife.Tools.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Tools
+    name: Tools
+    href: TinyLife.Tools.html
 - uid: MLEM.Maths
   commentId: N:MLEM.Maths
   isExternal: true
@@ -1665,12 +1661,18 @@ references:
   name: Furniture
   nameWithType: Furniture
   fullName: TinyLife.Objects.Furniture
-- uid: TinyLife.Objects.FurnitureType.TypeSettings.Reliability
-  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.Reliability
-  href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_Reliability
+- uid: TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+  commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+  href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_BreakSettings
+  name: BreakSettings
+  nameWithType: FurnitureType.TypeSettings.BreakSettings
+  fullName: TinyLife.Objects.FurnitureType.TypeSettings.BreakSettings
+- uid: TinyLife.Objects.IBreakableObject.Settings.Reliability
+  commentId: F:TinyLife.Objects.IBreakableObject.Settings.Reliability
+  href: TinyLife.Objects.IBreakableObject.Settings.html#TinyLife_Objects_IBreakableObject_Settings_Reliability
   name: Reliability
-  nameWithType: FurnitureType.TypeSettings.Reliability
-  fullName: TinyLife.Objects.FurnitureType.TypeSettings.Reliability
+  nameWithType: IBreakableObject.Settings.Reliability
+  fullName: TinyLife.Objects.IBreakableObject.Settings.Reliability
 - uid: TinyLife.Objects.BreakableFurniture
   commentId: T:TinyLife.Objects.BreakableFurniture
   parent: TinyLife.Objects
@@ -1959,80 +1961,6 @@ references:
   - uid: MLEM.Textures
     name: Textures
     isExternal: true
-- uid: System.Nullable{System.Int32}
-  commentId: T:System.Nullable{System.Int32}
-  parent: System
-  definition: System.Nullable`1
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int?
-  nameWithType: int?
-  fullName: int?
-  nameWithType.vb: Integer?
-  fullName.vb: Integer?
-  name.vb: Integer?
-  spec.csharp:
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: '?'
-  spec.vb:
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: '?'
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: TinyLife.Objects.BreakableFurniture.BrokenBehavior
-  commentId: T:TinyLife.Objects.BreakableFurniture.BrokenBehavior
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.BreakableFurniture.html
-  name: BreakableFurniture.BrokenBehavior
-  nameWithType: BreakableFurniture.BrokenBehavior
-  fullName: TinyLife.Objects.BreakableFurniture.BrokenBehavior
-  spec.csharp:
-  - uid: TinyLife.Objects.BreakableFurniture
-    name: BreakableFurniture
-    href: TinyLife.Objects.BreakableFurniture.html
-  - name: .
-  - uid: TinyLife.Objects.BreakableFurniture.BrokenBehavior
-    name: BrokenBehavior
-    href: TinyLife.Objects.BreakableFurniture.BrokenBehavior.html
-  spec.vb:
-  - uid: TinyLife.Objects.BreakableFurniture
-    name: BreakableFurniture
-    href: TinyLife.Objects.BreakableFurniture.html
-  - name: .
-  - uid: TinyLife.Objects.BreakableFurniture.BrokenBehavior
-    name: BrokenBehavior
-    href: TinyLife.Objects.BreakableFurniture.BrokenBehavior.html
 - uid: TinyLife.Objects.Furniture.GetEfficiencyModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   commentId: M:TinyLife.Objects.Furniture.GetEfficiencyModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   parent: TinyLife.Objects.Furniture
@@ -2227,28 +2155,6 @@ references:
   - uid: TinyLife.Tools.FurnitureTool.Tab
     name: Tab
     href: TinyLife.Tools.FurnitureTool.Tab.html
-- uid: TinyLife.Tools
-  commentId: N:TinyLife.Tools
-  href: TinyLife.html
-  name: TinyLife.Tools
-  nameWithType: TinyLife.Tools
-  fullName: TinyLife.Tools
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Tools
-    name: Tools
-    href: TinyLife.Tools.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Tools
-    name: Tools
-    href: TinyLife.Tools.html
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.Name
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.Name
   href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_Name
@@ -2262,35 +2168,72 @@ references:
   name: LightFurniture
   nameWithType: LightFurniture
   fullName: TinyLife.Objects.LightFurniture
+- uid: TinyLife.Objects.ILightObject
+  commentId: T:TinyLife.Objects.ILightObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.ILightObject.html
+  name: ILightObject
+  nameWithType: ILightObject
+  fullName: TinyLife.Objects.ILightObject
 - uid: TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType
   commentId: F:TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType
   href: TinyLife.Objects.FurnitureType.TypeSettings.html#TinyLife_Objects_FurnitureType_TypeSettings_ConstructedType
   name: ConstructedType
   nameWithType: FurnitureType.TypeSettings.ConstructedType
   fullName: TinyLife.Objects.FurnitureType.TypeSettings.ConstructedType
-- uid: TinyLife.Objects.LightFurniture.Settings
-  commentId: T:TinyLife.Objects.LightFurniture.Settings
+- uid: TinyLife.Objects.ILightObject.Settings
+  commentId: T:TinyLife.Objects.ILightObject.Settings
   parent: TinyLife.Objects
-  href: TinyLife.Objects.LightFurniture.html
-  name: LightFurniture.Settings
-  nameWithType: LightFurniture.Settings
-  fullName: TinyLife.Objects.LightFurniture.Settings
+  href: TinyLife.Objects.ILightObject.html
+  name: ILightObject.Settings
+  nameWithType: ILightObject.Settings
+  fullName: TinyLife.Objects.ILightObject.Settings
   spec.csharp:
-  - uid: TinyLife.Objects.LightFurniture
-    name: LightFurniture
-    href: TinyLife.Objects.LightFurniture.html
+  - uid: TinyLife.Objects.ILightObject
+    name: ILightObject
+    href: TinyLife.Objects.ILightObject.html
   - name: .
-  - uid: TinyLife.Objects.LightFurniture.Settings
+  - uid: TinyLife.Objects.ILightObject.Settings
     name: Settings
-    href: TinyLife.Objects.LightFurniture.Settings.html
+    href: TinyLife.Objects.ILightObject.Settings.html
   spec.vb:
-  - uid: TinyLife.Objects.LightFurniture
-    name: LightFurniture
-    href: TinyLife.Objects.LightFurniture.html
+  - uid: TinyLife.Objects.ILightObject
+    name: ILightObject
+    href: TinyLife.Objects.ILightObject.html
   - name: .
-  - uid: TinyLife.Objects.LightFurniture.Settings
+  - uid: TinyLife.Objects.ILightObject.Settings
     name: Settings
-    href: TinyLife.Objects.LightFurniture.Settings.html
+    href: TinyLife.Objects.ILightObject.Settings.html
+- uid: TinyLife.Objects.IBreakableObject
+  commentId: T:TinyLife.Objects.IBreakableObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject
+  nameWithType: IBreakableObject
+  fullName: TinyLife.Objects.IBreakableObject
+- uid: TinyLife.Objects.IBreakableObject.Settings
+  commentId: T:TinyLife.Objects.IBreakableObject.Settings
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.IBreakableObject.html
+  name: IBreakableObject.Settings
+  nameWithType: IBreakableObject.Settings
+  fullName: TinyLife.Objects.IBreakableObject.Settings
+  spec.csharp:
+  - uid: TinyLife.Objects.IBreakableObject
+    name: IBreakableObject
+    href: TinyLife.Objects.IBreakableObject.html
+  - name: .
+  - uid: TinyLife.Objects.IBreakableObject.Settings
+    name: Settings
+    href: TinyLife.Objects.IBreakableObject.Settings.html
+  spec.vb:
+  - uid: TinyLife.Objects.IBreakableObject
+    name: IBreakableObject
+    href: TinyLife.Objects.IBreakableObject.html
+  - name: .
+  - uid: TinyLife.Objects.IBreakableObject.Settings
+    name: Settings
+    href: TinyLife.Objects.IBreakableObject.Settings.html
 - uid: TinyLife.Objects.Furniture.Dirty
   commentId: P:TinyLife.Objects.Furniture.Dirty
   parent: TinyLife.Objects.Furniture
