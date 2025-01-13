@@ -40,7 +40,7 @@ Optionally, you can put the three (or four) files into a `zip` archive called `M
 
 To share your map on [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/), make sure that Steam is open in the background, and that your map's `zip` archive is in the `Custom Maps` folder. Then, go to the rightmost tab in the game's Options menu and select "Share Custom World on Steam Workshop", and then follow the instructions there.
 
-It's recommended that, in addition to Steam workshop, you also publish your map elsewhere, like on [the itch community](https://itch.io/board/1032686/mods), as not every player has access to Steam workshop.
+It's recommended that, in addition to Steam workshop, you also publish your map elsewhere, like in [the Discord server](https://link.tinylifegame.com/discordweb)'s `📯-tiny-life-forum` or on [the itch community](https://itch.io/board/1032686/mods), as not every player has access to Steam workshop.
 
 ## Editing or Updating Your Map
 If you want to update your map, either by adding additional content to it, or by fixing issues that you noticed, like incomplete roads or misplaced decorations, you can simply create a new save file and select your map's export.
