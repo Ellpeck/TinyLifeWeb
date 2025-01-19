@@ -33,4 +33,4 @@ Technically, you can [download the game](https://tinylifegame.com/) and then dec
 Since the mod is compiled against the same dependencies as Tiny Life, it also needs to have the same versions of those dependencies for mods to work correctly with the game. Each update to the template repository is [tagged](https://github.com/Ellpeck/TinyLifeExampleMod/tags) with the game's version number. If you want to develop for a certain version, just check that tag's [project file](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/ExampleMod.csproj) to see the required dependency versions, as well as the required .NET version.
 
 ## What Next?
-Go crazy with your ideas! If you're looking for inspiration, you can check out the [community tutorials](community_resources.md) article or play around with [other players' mods](getting.md).
+Go crazy with your ideas! If you're looking for inspiration, you can check out the [community tutorials](community_resources.md) article or play around with [other players' mods](getting.md). If you're struggling to add certian objects or mechanics to your mods, you can also check out the [sample code](sample_code.md) article for examples.

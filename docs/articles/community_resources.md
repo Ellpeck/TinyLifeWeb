@@ -15,6 +15,10 @@ McChicky's tutorials have easy-to-follow descriptions and lots of screenshots, s
 ### Miscellaneous Tutorials
 - Yirggzmb's guide for [creating custom maps](https://yirggzmb.github.io/tinylife/mapcreation.html), which goes much more in-depth than [ours](custom_maps.md)
 
+## Asset Creation
+### Isometric Layout Templates
+Community member [Gindew](https://linktr.ee/redgindew) has created a template that gives guidance on the isometric style that the game uses. You can download it from [the itch page](https://gindew.itch.io/tiny-life-object-creator).
+
 ## Utility Mods
 ### Simple Object Loader
 The modder [Sir-Fenrir](https://github.com/Sir-Fenrir) is working on a cool mod that allows easily creating simple custom objects including furniture, tiles, wallpaper and more, all through JSON files rather than C# code. To get started, check out the mod's [documentation](https://github.com/Sir-Fenrir/simple-object-loader/blob/main/README.md) and download it on the [workshop page](https://steamcommunity.com/sharedfiles/filedetails/?id=3117181034).
