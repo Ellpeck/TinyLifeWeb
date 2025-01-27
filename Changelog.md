@@ -1,3 +1,37 @@
+# 0.46.1
+*January 27, 2025*
+
+Additions
+- Added the Hyphenate life goal and corresponding reward personality
+- Added the ability to switch between borderless window and fullscreen mode
+- Added an in-game hint that suggests ways to earn money
+- Added the ability to skip less important in-game hints, while keeping important ones enabled, for players who are new to the game but not the genre
+
+Improvements
+- Display a mod's id in the options menu
+- Reduce the amount of friends required for the Friend of Everyone life goal from 15 to 10
+- Improve the Move Lot tool's usability by requiring the lot to be picked up to move it
+- Added source description text to various emotion modifiers that previously had none
+- Tinies now get uncomfortable when using a toilet that is in an open space
+- Work and school actions now display a progress bar
+- Improved performance of lot imports and exports
+- Various additional furniture properties like broken and dirty states are now reset back to their default values when exporting a custom map
+- Speed up game load times drastically
+- The selected person's AI now defaults to being enabled when starting a new save
+
+Fixes
+- Fixed chimneys being moved up infinitely when migrating if there are no roofs around
+- Fixed the opening tool not having an opening selected when first opened
+- Fixed a crash when copying exported households
+- Fixed techies always having the Computer On = Brain On emotion modifier if they've never used a computer
+- Fixed an issue where having two gamepads connected would cause them to navigate menus too quickly
+
+API
+- A warning is now printed if a mod's id (its mod class's name) is not the same as its assembly name. In the future, this may become a proper requirement.
+- Furniture texture region names now have to start with the mod id
+- Explicitly disallow multiple classes that extend Mod in a single assembly
+- Allow need depletion to be influenced by an action info
+
 # 0.46.0
 *January 10, 2025*
 

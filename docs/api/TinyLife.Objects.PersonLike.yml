@@ -30,7 +30,7 @@ items:
   - TinyLife.Objects.PersonLike.CurrentSpeakStyle
   - TinyLife.Objects.PersonLike.DaysLived
   - TinyLife.Objects.PersonLike.DefaultWalkSpeed
-  - TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,System.Single)
+  - TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
   - TinyLife.Objects.PersonLike.Description
   - TinyLife.Objects.PersonLike.Die(TinyLife.Objects.DeathReason)
   - TinyLife.Objects.PersonLike.Difficulty
@@ -145,6 +145,7 @@ items:
   - TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   - TinyLife.Objects.PersonLike.OnChangeFriendship
   - TinyLife.Objects.PersonLike.OnChangeRomance
+  - TinyLife.Objects.PersonLike.OnDepleteNeed
   - TinyLife.Objects.PersonLike.OnDrawLooks
   - TinyLife.Objects.PersonLike.OnDrawLooksLayer
   - TinyLife.Objects.PersonLike.OnDrawUi
@@ -190,7 +191,7 @@ items:
   - TinyLife.Objects.PersonLike.SetCurrentOutfit(TinyLife.Objects.ClothesIntention)
   - TinyLife.Objects.PersonLike.SetHeldObject(TinyLife.Objects.MapObject,System.Boolean)
   - TinyLife.Objects.PersonLike.SetHeldObject``1(TinyLife.Objects.FurnitureType,System.Int32[],System.Nullable{System.Guid},System.Boolean)
-  - TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   - TinyLife.Objects.PersonLike.SetPregnancyStatus(System.Int32,System.Guid,System.Boolean)
   - TinyLife.Objects.PersonLike.ShouldDrawHeldItem
   - TinyLife.Objects.PersonLike.Skills
@@ -2720,7 +2721,7 @@ items:
   summary: >-
     An event that is invoked in <xref href="TinyLife.Objects.PersonLike.RestoreNeed(TinyLife.NeedType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
 
-    This event allows modifying the amount that a need is restored by based on custom factors.
+    This event allows modifying the amount that a need is restored by based on custom factors. Note that the passed <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref> may be <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> for cases where the need isn't modified by an action.
 
     This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -2729,6 +2730,32 @@ items:
     return:
       type: TinyLife.Objects.PersonLike.RestoreNeedDelegate
     content.vb: Public Event OnRestoreNeed As PersonLike.RestoreNeedDelegate
+- uid: TinyLife.Objects.PersonLike.OnDepleteNeed
+  commentId: E:TinyLife.Objects.PersonLike.OnDepleteNeed
+  id: OnDepleteNeed
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: OnDepleteNeed
+  nameWithType: PersonLike.OnDepleteNeed
+  fullName: TinyLife.Objects.PersonLike.OnDepleteNeed
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    An event that is invoked in <xref href="TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
+
+    This event allows modifying the amount that a need is depleted by based on custom factors. Note that the passed <xref href="TinyLife.Actions.ActionInfo" data-throw-if-not-resolved="false"></xref> may be <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> for cases where the need isn't modified by an action.
+
+    This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public event PersonLike.RestoreNeedDelegate OnDepleteNeed
+    return:
+      type: TinyLife.Objects.PersonLike.RestoreNeedDelegate
+    content.vb: Public Event OnDepleteNeed As PersonLike.RestoreNeedDelegate
 - uid: TinyLife.Objects.PersonLike.OnChangeFriendship
   commentId: E:TinyLife.Objects.PersonLike.OnChangeFriendship
   id: OnChangeFriendship
@@ -2796,7 +2823,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    An event that is invoked when this person's <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> change in <xref href="TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.PersonLike.RemoveMemory%60%601(TinyLife.Goals.MemoryType%2cSystem.Int32%2cSystem.Func%7b%60%600%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref>.
+    An event that is invoked when this person's <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> change in <xref href="TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.PersonLike.RemoveMemory%60%601(TinyLife.Goals.MemoryType%2cSystem.Int32%2cSystem.Func%7b%60%600%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref>.
 
     This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -4313,6 +4340,45 @@ items:
   nameWithType.vb: PersonLike.RestoreNeed(NeedType, Single, ActionInfo, SkillType, Single)
   fullName.vb: TinyLife.Objects.PersonLike.RestoreNeed(TinyLife.NeedType, Single, TinyLife.Actions.ActionInfo, TinyLife.Skills.SkillType, Single)
   name.vb: RestoreNeed(NeedType, Single, ActionInfo, SkillType, Single)
+- uid: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+  commentId: M:TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+  id: DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: DepleteNeed(NeedType, float, ActionInfo, float)
+  nameWithType: PersonLike.DepleteNeed(NeedType, float, ActionInfo, float)
+  fullName: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, float, TinyLife.Actions.ActionInfo, float)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    Depletes this person's <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref> with the given <xref href="TinyLife.NeedType" data-throw-if-not-resolved="false"></xref> by the given amount.
+
+    Note that, when the "NoNeed" cheat is active, this method does nothing, including not invoking the <xref href="TinyLife.Objects.PersonLike.OnDepleteNeed" data-throw-if-not-resolved="false"></xref> event.
+  example: []
+  syntax:
+    content: public virtual void DepleteNeed(NeedType type, float amount, ActionInfo info, float speedMultiplier)
+    parameters:
+    - id: type
+      type: TinyLife.NeedType
+      description: The type of need to deplete
+    - id: amount
+      type: System.Single
+      description: The amount to deplete the need by, out of <xref href="TinyLife.Need.Max" data-throw-if-not-resolved="false"></xref>.
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The action info of the action that is causing the need to be depleted. Can be null if the need is not being depleted by an action.
+    - id: speedMultiplier
+      type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Overridable Sub DepleteNeed(type As NeedType, amount As Single, info As ActionInfo, speedMultiplier As Single)
+  overload: TinyLife.Objects.PersonLike.DepleteNeed*
+  nameWithType.vb: PersonLike.DepleteNeed(NeedType, Single, ActionInfo, Single)
+  fullName.vb: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, Single, TinyLife.Actions.ActionInfo, Single)
+  name.vb: DepleteNeed(NeedType, Single, ActionInfo, Single)
 - uid: TinyLife.Objects.PersonLike.GetSkill(TinyLife.Skills.SkillType,System.Boolean)
   commentId: M:TinyLife.Objects.PersonLike.GetSkill(TinyLife.Skills.SkillType,System.Boolean)
   id: GetSkill(TinyLife.Skills.SkillType,System.Boolean)
@@ -4513,42 +4579,6 @@ items:
   nameWithType.vb: PersonLike.GainSkill(SkillType, Single, ActionInfo, Single)
   fullName.vb: TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType, Single, TinyLife.Actions.ActionInfo, Single)
   name.vb: GainSkill(SkillType, Single, ActionInfo, Single)
-- uid: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,System.Single)
-  commentId: M:TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,System.Single)
-  id: DepleteNeed(TinyLife.NeedType,System.Single,System.Single)
-  parent: TinyLife.Objects.PersonLike
-  langs:
-  - csharp
-  - vb
-  name: DepleteNeed(NeedType, float, float)
-  nameWithType: PersonLike.DepleteNeed(NeedType, float, float)
-  fullName: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, float, float)
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    Depletes this person's <xref href="TinyLife.Need" data-throw-if-not-resolved="false"></xref> with the given <xref href="TinyLife.NeedType" data-throw-if-not-resolved="false"></xref> by the given amount
-
-    Note that, when the "NoNeed" cheat is active, this method does nothing.
-  example: []
-  syntax:
-    content: public virtual void DepleteNeed(NeedType type, float amount, float speedMultiplier)
-    parameters:
-    - id: type
-      type: TinyLife.NeedType
-      description: The type of need to deplete
-    - id: amount
-      type: System.Single
-      description: The amount to deplete the need by, out of <xref href="TinyLife.Need.Max" data-throw-if-not-resolved="false"></xref>.
-    - id: speedMultiplier
-      type: System.Single
-      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
-    content.vb: Public Overridable Sub DepleteNeed(type As NeedType, amount As Single, speedMultiplier As Single)
-  overload: TinyLife.Objects.PersonLike.DepleteNeed*
-  nameWithType.vb: PersonLike.DepleteNeed(NeedType, Single, Single)
-  fullName.vb: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, Single, Single)
-  name.vb: DepleteNeed(NeedType, Single, Single)
 - uid: TinyLife.Objects.PersonLike.HasPersonality(TinyLife.PersonalityType)
   commentId: M:TinyLife.Objects.PersonLike.HasPersonality(TinyLife.PersonalityType)
   id: HasPersonality(TinyLife.PersonalityType)
@@ -4912,7 +4942,7 @@ items:
       description: The amount of in-game time the emotion should last for
     - id: source
       type: TinyLife.Emotions.IEmotionSource
-      description: The emotion source that caused this emotion. Supported objects include <xref href="TinyLife.Objects.FurnitureType" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.ActionType" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.NeedType" data-throw-if-not-resolved="false"></xref> and more. May be <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+      description: The emotion source that caused this emotion. Supported objects include <xref href="TinyLife.Objects.FurnitureType" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.ActionType" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.NeedType" data-throw-if-not-resolved="false"></xref> and more, as well as <xref href="TinyLife.Emotions.TextEmotionSource" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Emotions.CombinedEmotionSource" data-throw-if-not-resolved="false"></xref>.
     - id: increaseExisting
       type: System.Boolean
       description: Whether existing emotion modifiers of the same type should be increased by the given time and amount. If this is false, existing emotions get removed instead.
@@ -5365,16 +5395,16 @@ items:
   nameWithType.vb: PersonLike.SetCurrentOutfit(Integer)
   fullName.vb: TinyLife.Objects.PersonLike.SetCurrentOutfit(Integer)
   name.vb: SetCurrentOutfit(Integer)
-- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
-  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
-  id: SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  id: SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   parent: TinyLife.Objects.PersonLike
   langs:
   - csharp
   - vb
-  name: SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  nameWithType: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable<TinyLife.Objects.PersonLike>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
+  name: SetNewId(Map, IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>, IEnumerable<Furniture>)
+  nameWithType: PersonLike.SetNewId(Map, IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>, IEnumerable<Furniture>)
+  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable<(TinyLife.Objects.PersonLike Person, TinyLife.Utilities.AppliedMigrations Migrations)>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
   type: Method
   assemblies:
   - Tiny Life
@@ -5385,25 +5415,22 @@ items:
     Optionally, a set of additional people and furniture that might not currently be on the map can be passed.
   example: []
   syntax:
-    content: public virtual void SetNewId(Map map, AppliedMigrations appliedMigrations, IEnumerable<PersonLike> possibleAdditionalRelationships = null, IEnumerable<Furniture> possibleAdditionalFurniture = null)
+    content: public virtual void SetNewId(Map map, IEnumerable<(PersonLike Person, AppliedMigrations Migrations)> possibleAdditionalRelationships = null, IEnumerable<Furniture> possibleAdditionalFurniture = null)
     parameters:
     - id: map
       type: TinyLife.World.Map
       description: The map that the person will be added to
-    - id: appliedMigrations
-      type: TinyLife.Utilities.AppliedMigrations
-      description: The migrations to use when validating this person's copied relationship data while setting a new id
     - id: possibleAdditionalRelationships
-      type: System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike}
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}}
       description: A set of people, in addition to the <code class="paramref">map</code>'s people, that this person might have a relationship to
     - id: possibleAdditionalFurniture
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
       description: A set of objects, in addition to the <code class="paramref">map</code>'s objects, that this person might have created
-    content.vb: Public Overridable Sub SetNewId(map As Map, appliedMigrations As AppliedMigrations, possibleAdditionalRelationships As IEnumerable(Of PersonLike) = Nothing, possibleAdditionalFurniture As IEnumerable(Of Furniture) = Nothing)
+    content.vb: Public Overridable Sub SetNewId(map As Map, possibleAdditionalRelationships As IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations)) = Nothing, possibleAdditionalFurniture As IEnumerable(Of Furniture) = Nothing)
   overload: TinyLife.Objects.PersonLike.SetNewId*
-  nameWithType.vb: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
-  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
-  name.vb: SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
+  nameWithType.vb: PersonLike.SetNewId(Map, IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations)), IEnumerable(Of Furniture))
+  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable(Of (Person As TinyLife.Objects.PersonLike, Migrations As TinyLife.Utilities.AppliedMigrations)), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
+  name.vb: SetNewId(Map, IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations)), IEnumerable(Of Furniture))
 - uid: TinyLife.Objects.PersonLike.IsIdMatch(TinyLife.Objects.PersonLike)
   commentId: M:TinyLife.Objects.PersonLike.IsIdMatch(TinyLife.Objects.PersonLike)
   id: IsIdMatch(TinyLife.Objects.PersonLike)
@@ -5419,7 +5446,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Returns whether this person and the other person have matching <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> values or whether their ID histories (<xref href="TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map%2cTinyLife.Utilities.AppliedMigrations%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.PersonLike%7d%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.Furniture%7d)" data-throw-if-not-resolved="false"></xref>) overlap.
+    Returns whether this person and the other person have matching <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> values or whether their ID histories (<xref href="TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map%2cSystem.Collections.Generic.IEnumerable%7bSystem.ValueTuple%7bTinyLife.Objects.PersonLike%2cTinyLife.Utilities.AppliedMigrations%7d%7d%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.Furniture%7d)" data-throw-if-not-resolved="false"></xref>) overlap.
 
     If this method returns two, this person and the other person can be considered the same person to a certain degree, as it means that they are copies of each other, or copies of the same person.
   example: []
@@ -5449,7 +5476,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Returns whether this person's <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> or any entry in their ID history (<xref href="TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map%2cTinyLife.Utilities.AppliedMigrations%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.PersonLike%7d%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.Furniture%7d)" data-throw-if-not-resolved="false"></xref>) matches the <xref href="System.Guid" data-throw-if-not-resolved="false"></xref> passed.
+    Returns whether this person's <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> or any entry in their ID history (<xref href="TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map%2cSystem.Collections.Generic.IEnumerable%7bSystem.ValueTuple%7bTinyLife.Objects.PersonLike%2cTinyLife.Utilities.AppliedMigrations%7d%7d%2cSystem.Collections.Generic.IEnumerable%7bTinyLife.Objects.Furniture%7d)" data-throw-if-not-resolved="false"></xref>) matches the <xref href="System.Guid" data-throw-if-not-resolved="false"></xref> passed.
 
     To compare whether two people are an ID match, use <xref href="TinyLife.Objects.PersonLike.IsIdMatch(TinyLife.Objects.PersonLike)" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -5522,7 +5549,7 @@ items:
       description: The skill category whose personality skill boost to return
     return:
       type: System.Single
-      description: A modifier that skills should be boosted by
+      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all.
     content.vb: Public Overridable Function GetPersonalitySkillBoost(skill As SkillType) As Single
   overload: TinyLife.Objects.PersonLike.GetPersonalitySkillBoost*
 - uid: TinyLife.Objects.PersonLike.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
@@ -5549,10 +5576,10 @@ items:
     parameters:
     - id: skill
       type: TinyLife.Skills.SkillType
-      description: ''
+      description: The skill category whose emotion skill boost to return
     return:
       type: System.Single
-      description: ''
+      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all.
     content.vb: Public Overridable Function GetEmotionSkillBoost(skill As SkillType) As Single
   overload: TinyLife.Objects.PersonLike.GetEmotionSkillBoost*
 - uid: TinyLife.Objects.PersonLike.GetCurrentGoals
@@ -13407,6 +13434,13 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
+- uid: TinyLife.Actions.ActionInfo
+  commentId: T:TinyLife.Actions.ActionInfo
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.ActionInfo.html
+  name: ActionInfo
+  nameWithType: ActionInfo
+  fullName: TinyLife.Actions.ActionInfo
 - uid: TinyLife.Objects.PersonLike.RestoreNeedDelegate
   commentId: T:TinyLife.Objects.PersonLike.RestoreNeedDelegate
   parent: TinyLife.Objects
@@ -13430,6 +13464,69 @@ references:
   - uid: TinyLife.Objects.PersonLike.RestoreNeedDelegate
     name: RestoreNeedDelegate
     href: TinyLife.Objects.PersonLike.RestoreNeedDelegate.html
+- uid: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+  commentId: M:TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DepleteNeed_TinyLife_NeedType_System_Single_TinyLife_Actions_ActionInfo_System_Single_
+  name: DepleteNeed(NeedType, float, ActionInfo, float)
+  nameWithType: PersonLike.DepleteNeed(NeedType, float, ActionInfo, float)
+  fullName: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, float, TinyLife.Actions.ActionInfo, float)
+  nameWithType.vb: PersonLike.DepleteNeed(NeedType, Single, ActionInfo, Single)
+  fullName.vb: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType, Single, TinyLife.Actions.ActionInfo, Single)
+  name.vb: DepleteNeed(NeedType, Single, ActionInfo, Single)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+    name: DepleteNeed
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DepleteNeed_TinyLife_NeedType_System_Single_TinyLife_Actions_ActionInfo_System_Single_
+  - name: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    href: TinyLife.NeedType.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.DepleteNeed(TinyLife.NeedType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
+    name: DepleteNeed
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DepleteNeed_TinyLife_NeedType_System_Single_TinyLife_Actions_ActionInfo_System_Single_
+  - name: (
+  - uid: TinyLife.NeedType
+    name: NeedType
+    href: TinyLife.NeedType.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
 - uid: TinyLife.Objects.PersonLike.RelationshipChangeDelegate
   commentId: T:TinyLife.Objects.PersonLike.RelationshipChangeDelegate
   parent: TinyLife.Objects
@@ -13513,27 +13610,43 @@ references:
   name: Memories
   nameWithType: PersonLike.Memories
   fullName: TinyLife.Objects.PersonLike.Memories
-- uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
-  commentId: M:TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
+- uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory,System.Boolean)
+  isExternal: true
   href: TinyLife.Goals.Memory.html
-  name: AddMemory(Memory)
-  nameWithType: PersonLike.AddMemory(Memory)
-  fullName: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
+  name: AddMemory(Memory, bool)
+  nameWithType: PersonLike.AddMemory(Memory, bool)
+  fullName: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory, bool)
+  nameWithType.vb: PersonLike.AddMemory(Memory, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory, Boolean)
+  name.vb: AddMemory(Memory, Boolean)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
+  - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory,System.Boolean)
     name: AddMemory
   - name: (
   - uid: TinyLife.Goals.Memory
     name: Memory
     href: TinyLife.Goals.Memory.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory)
+  - uid: TinyLife.Objects.PersonLike.AddMemory(TinyLife.Goals.Memory,System.Boolean)
     name: AddMemory
   - name: (
   - uid: TinyLife.Goals.Memory
     name: Memory
     href: TinyLife.Goals.Memory.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
 - uid: TinyLife.Objects.PersonLike.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   commentId: M:TinyLife.Objects.PersonLike.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
@@ -15646,13 +15759,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: )
-- uid: TinyLife.Actions.ActionInfo
-  commentId: T:TinyLife.Actions.ActionInfo
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.ActionInfo.html
-  name: ActionInfo
-  nameWithType: ActionInfo
-  fullName: TinyLife.Actions.ActionInfo
 - uid: TinyLife.Objects.MapObject.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   commentId: M:TinyLife.Objects.MapObject.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   parent: TinyLife.Objects.MapObject
@@ -16402,6 +16508,19 @@ references:
   name: Entertainment
   nameWithType: NeedType.Entertainment
   fullName: TinyLife.NeedType.Entertainment
+- uid: TinyLife.Objects.PersonLike.OnDepleteNeed
+  commentId: E:TinyLife.Objects.PersonLike.OnDepleteNeed
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnDepleteNeed
+  name: OnDepleteNeed
+  nameWithType: PersonLike.OnDepleteNeed
+  fullName: TinyLife.Objects.PersonLike.OnDepleteNeed
+- uid: TinyLife.Objects.PersonLike.DepleteNeed*
+  commentId: Overload:TinyLife.Objects.PersonLike.DepleteNeed
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DepleteNeed_TinyLife_NeedType_System_Single_TinyLife_Actions_ActionInfo_System_Single_
+  name: DepleteNeed
+  nameWithType: PersonLike.DepleteNeed
+  fullName: TinyLife.Objects.PersonLike.DepleteNeed
 - uid: TinyLife.Skills.SkillType.RequiredAges
   commentId: P:TinyLife.Skills.SkillType.RequiredAges
   href: TinyLife.Skills.SkillType.html#TinyLife_Skills_SkillType_RequiredAges
@@ -16523,12 +16642,6 @@ references:
   name: GainSkill
   nameWithType: PersonLike.GainSkill
   fullName: TinyLife.Objects.PersonLike.GainSkill
-- uid: TinyLife.Objects.PersonLike.DepleteNeed*
-  commentId: Overload:TinyLife.Objects.PersonLike.DepleteNeed
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_DepleteNeed_TinyLife_NeedType_System_Single_System_Single_
-  name: DepleteNeed
-  nameWithType: PersonLike.DepleteNeed
-  fullName: TinyLife.Objects.PersonLike.DepleteNeed
 - uid: TinyLife.Objects.PersonLike.HasPersonality*
   commentId: Overload:TinyLife.Objects.PersonLike.HasPersonality
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_HasPersonality_TinyLife_PersonalityType_
@@ -16761,6 +16874,18 @@ references:
   name: EmotionModifier
   nameWithType: EmotionModifier
   fullName: TinyLife.Emotions.EmotionModifier
+- uid: TinyLife.Emotions.TextEmotionSource
+  commentId: T:TinyLife.Emotions.TextEmotionSource
+  href: TinyLife.Emotions.TextEmotionSource.html
+  name: TextEmotionSource
+  nameWithType: TextEmotionSource
+  fullName: TinyLife.Emotions.TextEmotionSource
+- uid: TinyLife.Emotions.CombinedEmotionSource
+  commentId: T:TinyLife.Emotions.CombinedEmotionSource
+  href: TinyLife.Emotions.CombinedEmotionSource.html
+  name: CombinedEmotionSource
+  nameWithType: CombinedEmotionSource
+  fullName: TinyLife.Emotions.CombinedEmotionSource
 - uid: TinyLife.Objects.PersonLike.AddEmotion*
   commentId: Overload:TinyLife.Objects.PersonLike.AddEmotion
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AddEmotion_TinyLife_Emotions_EmotionModifier_System_Int32_System_TimeSpan_TinyLife_Emotions_IEmotionSource_System_Boolean_
@@ -16961,30 +17086,45 @@ references:
   fullName: TinyLife.Objects.PersonLike.OnOutfitChanged
 - uid: TinyLife.Objects.PersonLike.SetNewId*
   commentId: Overload:TinyLife.Objects.PersonLike.SetNewId
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_System_ValueTuple_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations___System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
   name: SetNewId
   nameWithType: PersonLike.SetNewId
   fullName: TinyLife.Objects.PersonLike.SetNewId
-- uid: System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike}
-  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike}
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<PersonLike>
-  nameWithType: IEnumerable<PersonLike>
-  fullName: System.Collections.Generic.IEnumerable<TinyLife.Objects.PersonLike>
-  nameWithType.vb: IEnumerable(Of PersonLike)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike)
-  name.vb: IEnumerable(Of PersonLike)
+  name: IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>
+  nameWithType: IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>
+  fullName: System.Collections.Generic.IEnumerable<(TinyLife.Objects.PersonLike Person, TinyLife.Utilities.AppliedMigrations Migrations)>
+  nameWithType.vb: IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (Person As TinyLife.Objects.PersonLike, Migrations As TinyLife.Utilities.AppliedMigrations))
+  name.vb: IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations))
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
+  - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Migrations
+    name: Migrations
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.migrations
+  - name: )
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
@@ -16994,9 +17134,28 @@ references:
   - name: (
   - name: Of
   - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.person
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Migrations
+    name: Migrations
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.migrations
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
   - name: )
 - uid: System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
   commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
@@ -17031,30 +17190,25 @@ references:
     name: Furniture
     href: TinyLife.Objects.Furniture.html
   - name: )
-- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
-  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+- uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  commentId: M:TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
   parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
-  name: SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  nameWithType: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable<PersonLike>, IEnumerable<Furniture>)
-  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable<TinyLife.Objects.PersonLike>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
-  nameWithType.vb: PersonLike.SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
-  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, TinyLife.Utilities.AppliedMigrations, System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
-  name.vb: SetNewId(Map, AppliedMigrations, IEnumerable(Of PersonLike), IEnumerable(Of Furniture))
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_System_ValueTuple_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations___System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  name: SetNewId(Map, IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>, IEnumerable<Furniture>)
+  nameWithType: PersonLike.SetNewId(Map, IEnumerable<(PersonLike Person, AppliedMigrations Migrations)>, IEnumerable<Furniture>)
+  fullName: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable<(TinyLife.Objects.PersonLike Person, TinyLife.Utilities.AppliedMigrations Migrations)>, System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
+  nameWithType.vb: PersonLike.SetNewId(Map, IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations)), IEnumerable(Of Furniture))
+  fullName.vb: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map, System.Collections.Generic.IEnumerable(Of (Person As TinyLife.Objects.PersonLike, Migrations As TinyLife.Utilities.AppliedMigrations)), System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
+  name.vb: SetNewId(Map, IEnumerable(Of (Person As PersonLike, Migrations As AppliedMigrations)), IEnumerable(Of Furniture))
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
     name: SetNewId
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_System_ValueTuple_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations___System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Utilities.AppliedMigrations
-    name: AppliedMigrations
-    href: TinyLife.Utilities.AppliedMigrations.html
   - name: ','
   - name: " "
   - uid: System.Collections.Generic.IEnumerable`1
@@ -17062,9 +17216,24 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
+  - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Migrations
+    name: Migrations
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.migrations
+  - name: )
   - name: '>'
   - name: ','
   - name: " "
@@ -17079,18 +17248,13 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations,System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  - uid: TinyLife.Objects.PersonLike.SetNewId(TinyLife.World.Map,System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}},System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
     name: SetNewId
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_TinyLife_Utilities_AppliedMigrations_System_Collections_Generic_IEnumerable_TinyLife_Objects_PersonLike__System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_SetNewId_TinyLife_World_Map_System_Collections_Generic_IEnumerable_System_ValueTuple_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations___System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Utilities.AppliedMigrations
-    name: AppliedMigrations
-    href: TinyLife.Utilities.AppliedMigrations.html
   - name: ','
   - name: " "
   - uid: System.Collections.Generic.IEnumerable`1
@@ -17100,9 +17264,28 @@ references:
   - name: (
   - name: Of
   - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.person
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations}.Migrations
+    name: Migrations
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.utilities.appliedmigrations-.migrations
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
   - name: )
   - name: ','
   - name: " "
@@ -17244,12 +17427,12 @@ references:
   commentId: M:TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable,System.Object,TinyLife.Goals.GoalTrigger,System.Object[])
   isExternal: true
   href: TinyLife.Goals.IGoalTriggerable.html#TinyLife_Goals_IGoalTriggerable_Trigger_TinyLife_Goals_IGoalTriggerable_System_Object_TinyLife_Goals_GoalTrigger_System_Object___
-  name: Trigger(IGoalTriggerable, object, GoalTrigger, params object[])
-  nameWithType: IGoalTriggerable.Trigger(IGoalTriggerable, object, GoalTrigger, params object[])
-  fullName: TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable, object, TinyLife.Goals.GoalTrigger, params object[])
-  nameWithType.vb: IGoalTriggerable.Trigger(IGoalTriggerable, Object, GoalTrigger, ParamArray Object())
-  fullName.vb: TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable, Object, TinyLife.Goals.GoalTrigger, ParamArray Object())
-  name.vb: Trigger(IGoalTriggerable, Object, GoalTrigger, ParamArray Object())
+  name: Trigger(IGoalTriggerable, object, GoalTrigger, object[])
+  nameWithType: IGoalTriggerable.Trigger(IGoalTriggerable, object, GoalTrigger, object[])
+  fullName: TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable, object, TinyLife.Goals.GoalTrigger, object[])
+  nameWithType.vb: IGoalTriggerable.Trigger(IGoalTriggerable, Object, GoalTrigger, Object())
+  fullName.vb: TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable, Object, TinyLife.Goals.GoalTrigger, Object())
+  name.vb: Trigger(IGoalTriggerable, Object, GoalTrigger, Object())
   spec.csharp:
   - uid: TinyLife.Goals.IGoalTriggerable.Trigger(TinyLife.Goals.IGoalTriggerable,System.Object,TinyLife.Goals.GoalTrigger,System.Object[])
     name: Trigger
@@ -17270,8 +17453,6 @@ references:
     name: GoalTrigger
     href: TinyLife.Goals.GoalTrigger.html
   - name: ','
-  - name: " "
-  - name: params
   - name: " "
   - uid: System.Object
     name: object
@@ -17300,8 +17481,6 @@ references:
     name: GoalTrigger
     href: TinyLife.Goals.GoalTrigger.html
   - name: ','
-  - name: " "
-  - name: ParamArray
   - name: " "
   - uid: System.Object
     name: Object

@@ -5,14 +5,17 @@ items:
   id: Skill
   parent: TinyLife.Skills
   children:
-  - TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType)
+  - TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType,TinyLife.Objects.PersonLike)
+  - TinyLife.Skills.Skill.Gain(System.Single)
   - TinyLife.Skills.Skill.Level
   - TinyLife.Skills.Skill.OnAdditionalEarnedActions
+  - TinyLife.Skills.Skill.Person
   - TinyLife.Skills.Skill.PointPercentage
   - TinyLife.Skills.Skill.PointsToNextLevel
   - TinyLife.Skills.Skill.RequiredPointsToNextLevel
   - TinyLife.Skills.Skill.TotalPercentage
   - TinyLife.Skills.Skill.Type
+  - TinyLife.Skills.Skill.Validate(TinyLife.Objects.PersonLike)
   langs:
   - csharp
   - vb
@@ -122,7 +125,7 @@ items:
   summary: >-
     The amount of skill points that are required until the next <xref href="TinyLife.Skills.Skill.Level" data-throw-if-not-resolved="false"></xref> is reached.
 
-    To modify this value, use <xref href="TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
+    To modify this value, use <xref href="TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: >-
@@ -158,7 +161,7 @@ items:
   summary: >-
     The current level of this skill. Note that this value never goes beyond <xref href="TinyLife.Skills.SkillType.GetMaxLevel(TinyLife.Objects.AgeGroup)" data-throw-if-not-resolved="false"></xref>.
 
-    To modify this value efficiently, use <xref href="TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
+    To modify this value efficiently, use <xref href="TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: >-
@@ -177,6 +180,27 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Skills.Skill.Person
+  commentId: P:TinyLife.Skills.Skill.Person
+  id: Person
+  parent: TinyLife.Skills.Skill
+  langs:
+  - csharp
+  - vb
+  name: Person
+  nameWithType: Skill.Person
+  fullName: TinyLife.Skills.Skill.Person
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  syntax:
+    content: public PersonLike Person { get; }
+    parameters: []
+    return:
+      type: TinyLife.Objects.PersonLike
+    content.vb: Public Property Person As PersonLike
+  overload: TinyLife.Skills.Skill.Person*
 - uid: TinyLife.Skills.Skill.RequiredPointsToNextLevel
   commentId: P:TinyLife.Skills.Skill.RequiredPointsToNextLevel
   id: RequiredPointsToNextLevel
@@ -256,16 +280,16 @@ items:
       type: System.Single
     content.vb: Public ReadOnly Property TotalPercentage As Single
   overload: TinyLife.Skills.Skill.TotalPercentage*
-- uid: TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType)
-  commentId: M:TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType)
-  id: '#ctor(TinyLife.Skills.SkillType)'
+- uid: TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType,TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.Skills.Skill.#ctor(TinyLife.Skills.SkillType,TinyLife.Objects.PersonLike)
+  id: '#ctor(TinyLife.Skills.SkillType,TinyLife.Objects.PersonLike)'
   parent: TinyLife.Skills.Skill
   langs:
   - csharp
   - vb
-  name: Skill(SkillType)
-  nameWithType: Skill.Skill(SkillType)
-  fullName: TinyLife.Skills.Skill.Skill(TinyLife.Skills.SkillType)
+  name: Skill(SkillType, PersonLike)
+  nameWithType: Skill.Skill(SkillType, PersonLike)
+  fullName: TinyLife.Skills.Skill.Skill(TinyLife.Skills.SkillType, TinyLife.Objects.PersonLike)
   type: Constructor
   assemblies:
   - Tiny Life
@@ -273,16 +297,65 @@ items:
   summary: Creates a new skill instance from the given <xref href="TinyLife.Skills.SkillType" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public Skill(SkillType type)
+    content: public Skill(SkillType type, PersonLike person)
     parameters:
     - id: type
       type: TinyLife.Skills.SkillType
       description: The type of skill to construct
-    content.vb: Public Sub New(type As SkillType)
+    - id: person
+      type: TinyLife.Objects.PersonLike
+    content.vb: Public Sub New(type As SkillType, person As PersonLike)
   overload: TinyLife.Skills.Skill.#ctor*
-  nameWithType.vb: Skill.New(SkillType)
-  fullName.vb: TinyLife.Skills.Skill.New(TinyLife.Skills.SkillType)
-  name.vb: New(SkillType)
+  nameWithType.vb: Skill.New(SkillType, PersonLike)
+  fullName.vb: TinyLife.Skills.Skill.New(TinyLife.Skills.SkillType, TinyLife.Objects.PersonLike)
+  name.vb: New(SkillType, PersonLike)
+- uid: TinyLife.Skills.Skill.Validate(TinyLife.Objects.PersonLike)
+  commentId: M:TinyLife.Skills.Skill.Validate(TinyLife.Objects.PersonLike)
+  id: Validate(TinyLife.Objects.PersonLike)
+  parent: TinyLife.Skills.Skill
+  langs:
+  - csharp
+  - vb
+  name: Validate(PersonLike)
+  nameWithType: Skill.Validate(PersonLike)
+  fullName: TinyLife.Skills.Skill.Validate(TinyLife.Objects.PersonLike)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  syntax:
+    content: public void Validate(PersonLike person)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+    content.vb: Public Sub Validate(person As PersonLike)
+  overload: TinyLife.Skills.Skill.Validate*
+- uid: TinyLife.Skills.Skill.Gain(System.Single)
+  commentId: M:TinyLife.Skills.Skill.Gain(System.Single)
+  id: Gain(System.Single)
+  parent: TinyLife.Skills.Skill
+  langs:
+  - csharp
+  - vb
+  name: Gain(float)
+  nameWithType: Skill.Gain(float)
+  fullName: TinyLife.Skills.Skill.Gain(float)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Skills
+  syntax:
+    content: public bool Gain(float amount)
+    parameters:
+    - id: amount
+      type: System.Single
+    return:
+      type: System.Boolean
+    content.vb: Public Function Gain(amount As Single) As Boolean
+  overload: TinyLife.Skills.Skill.Gain*
+  nameWithType.vb: Skill.Gain(Single)
+  fullName.vb: TinyLife.Skills.Skill.Gain(Single)
+  name.vb: Gain(Single)
 references:
 - uid: TinyLife.Objects.PersonLike
   commentId: T:TinyLife.Objects.PersonLike
@@ -844,44 +917,6 @@ references:
   name: Level
   nameWithType: Skill.Level
   fullName: TinyLife.Skills.Skill.Level
-- uid: TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike,System.Single)
-  commentId: M:TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike,System.Single)
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html
-  name: Gain(PersonLike, float)
-  nameWithType: Skill.Gain(PersonLike, float)
-  fullName: TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike, float)
-  nameWithType.vb: Skill.Gain(PersonLike, Single)
-  fullName.vb: TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike, Single)
-  name.vb: Gain(PersonLike, Single)
-  spec.csharp:
-  - uid: TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike,System.Single)
-    name: Gain
-  - name: (
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Skills.Skill.Gain(TinyLife.Objects.PersonLike,System.Single)
-    name: Gain
-  - name: (
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
 - uid: TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
   commentId: M:TinyLife.Objects.PersonLike.GainSkill(TinyLife.Skills.SkillType,System.Single,TinyLife.Actions.ActionInfo,System.Single)
   parent: TinyLife.Objects.PersonLike
@@ -1003,6 +1038,12 @@ references:
   nameWithType.vb: Integer
   fullName.vb: Integer
   name.vb: Integer
+- uid: TinyLife.Skills.Skill.Person*
+  commentId: Overload:TinyLife.Skills.Skill.Person
+  href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill_Person
+  name: Person
+  nameWithType: Skill.Person
+  fullName: TinyLife.Skills.Skill.Person
 - uid: TinyLife.Skills.Skill.RequiredPointsToNextLevel*
   commentId: Overload:TinyLife.Skills.Skill.RequiredPointsToNextLevel
   href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill_RequiredPointsToNextLevel
@@ -1047,10 +1088,33 @@ references:
   fullName: TinyLife.Skills.Skill.TotalPercentage
 - uid: TinyLife.Skills.Skill.#ctor*
   commentId: Overload:TinyLife.Skills.Skill.#ctor
-  href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill__ctor_TinyLife_Skills_SkillType_
+  href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill__ctor_TinyLife_Skills_SkillType_TinyLife_Objects_PersonLike_
   name: Skill
   nameWithType: Skill.Skill
   fullName: TinyLife.Skills.Skill.Skill
   nameWithType.vb: Skill.New
   fullName.vb: TinyLife.Skills.Skill.New
   name.vb: New
+- uid: TinyLife.Skills.Skill.Validate*
+  commentId: Overload:TinyLife.Skills.Skill.Validate
+  href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill_Validate_TinyLife_Objects_PersonLike_
+  name: Validate
+  nameWithType: Skill.Validate
+  fullName: TinyLife.Skills.Skill.Validate
+- uid: TinyLife.Skills.Skill.Gain*
+  commentId: Overload:TinyLife.Skills.Skill.Gain
+  href: TinyLife.Skills.Skill.html#TinyLife_Skills_Skill_Gain_System_Single_
+  name: Gain
+  nameWithType: Skill.Gain
+  fullName: TinyLife.Skills.Skill.Gain
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
