@@ -27,12 +27,12 @@ First of all: Please don't feel obligated to finish the translation for the lang
 - Please keep in mind that a lot of strings have limited space in the game. Translations for things like button labels, object names, and single-term strings should be kept at about the same width as their English counterparts, if possible. Testing your translations, as described below, is the best way to ensure that all text looks good in the game.
 - There are several placeholders and formatting codes that **should not be deleted or changed**, notably:
   - `{0}`, `{1}`, etc. are placeholders for text that is fed into the localized term dynamically. The order of these placeholders is not important, but the number that they contain is.  
-  *For example, in `Should {0} really scrap their book {1}?`, the `{0}` will be replaced with the person's name, and the `{1}` will be replaced with the name of a book. If your localization requires that the book's name is placed before the person's name in the sentence, all you have to do is swap the order of these placeholders.*
+    *For example, in `Should {0} really scrap their book {1}?`, the `{0}` will be replaced with the person's name, and the `{1}` will be replaced with the name of a book. If your localization requires that the book's name is placed before the person's name in the sentence, all you have to do is swap the order of these placeholders.*
   - `<tb>`, `<i ...>` and other constructs that are surrounded by `<` and `>` are formatting codes. These should be kept in place, and any additional text between the `<` and `>` should also be kept in place.  
-  *For example, in `You can rotate furniture by pressing <k Rotate>.`, the formatting code will be replaced with the key value of the keybind to rotate furniture and other objects. If the word `Rotate` in it was changed (or translated), the link to the keybind would be broken.*
+    *For example, in `You can rotate furniture by pressing <k Rotate>.`, the formatting code will be replaced with the key value of the keybind to rotate furniture and other objects. If the word `Rotate` in it was changed (or translated), the link to the keybind would be broken.*
 
 ### Testing Your Translations
-To test your translation, you can export it and put it into the game. To export it, head to the "Files" section in the left sidebar, and then press the `Localization.json` file's export button, which looks like a little cardboard box. In the menu that comes up, select the language you're working on from the dropdown, and leave everything else the same. Now, you can put the exported file into the `Content/Localization` folder of the game's installation. If it's not part of it already, its name also has to be added to the `LanguageNames.json` file. 
+To test your translation, you can export it and put it into the game. To export it, head to the "Files" section in the left sidebar, and then press the `Localization.json` file's export button, which looks like a little cardboard box. In the menu that comes up, select the language you're working on from the dropdown, and leave everything else the same. Now, you can put the exported file into the `Content/Localization` folder of the game's installation. If it's not part of it already, its name also has to be added to the `LanguageNames.json` file.
 
 When testing your translations, please start the game with the `-v` (or `--verbose`) argument. This will cause it to output some additional information about errors in your localization to the game's [log file](game_dir.md), as well as the special `_ValidateLanguagesLog.txt` file in the game data folder. An automatically created version of this file is also uploaded as a [GitHub Gist](https://link.tinylifegame.com/validate-languages-log) periodically. **Fixing errors like these is very important**, as they can cause players to receive incorrect or incomplete information or, in some cases, cause the game to crash.
 
@@ -49,6 +49,7 @@ There are several localization strings that have to have special formatting, mos
 - The singular and plural for Tinies is "Tiny" and "Tiny's", respectively.
 
 ### English
+- Titles (like object names, action names, skill names, etc.) use [title case](https://en.wikipedia.org/wiki/Title_case) in the English version of the game. Generally, short and less important words like *a*, *an*, *the*, and *to* are not capitalized. For languages that don't generally use title case, this is not necessary.
 - The names of achievements in the English versions are references to popular culture. In other languages, they can be pretty much anything else, including popular culture references that make sense in the context of the language, provided they also abide by the information above.
 
 ### German
