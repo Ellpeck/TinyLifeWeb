@@ -6,7 +6,6 @@ items:
   parent: TinyLife.Tools
   children:
   - TinyLife.Tools.PlayModeTool.#ctor
-  - TinyLife.Tools.PlayModeTool.AvailableStats
   - TinyLife.Tools.PlayModeTool.CanUndoRedo(System.Boolean)
   - TinyLife.Tools.PlayModeTool.CloseInteraction(System.Boolean,System.Boolean)
   - TinyLife.Tools.PlayModeTool.Closed
@@ -17,7 +16,6 @@ items:
   - TinyLife.Tools.PlayModeTool.PlayEventSting(Microsoft.Xna.Framework.Audio.SoundEffect)
   - TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
   - TinyLife.Tools.PlayModeTool.Reload
-  - TinyLife.Tools.PlayModeTool.SelectablePersonTypes
   - TinyLife.Tools.PlayModeTool.SelectedPerson
   - TinyLife.Tools.PlayModeTool.SelectedStat
   - TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
@@ -66,6 +64,7 @@ items:
   - TinyLife.Tools.Tool.Map
   - TinyLife.Tools.Tool.Money
   - TinyLife.Tools.Tool.CurrentFloor
+  - TinyLife.Tools.Tool.Name
   - TinyLife.Tools.Tool.Texture
   - TinyLife.Tools.Tool.DisplayAsTab
   - TinyLife.Tools.Tool.MousePos
@@ -90,51 +89,6 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Tools.PlayModeTool.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Tools.PlayModeTool.AvailableStats
-  commentId: F:TinyLife.Tools.PlayModeTool.AvailableStats
-  id: AvailableStats
-  parent: TinyLife.Tools.PlayModeTool
-  langs:
-  - csharp
-  - vb
-  name: AvailableStats
-  nameWithType: PlayModeTool.AvailableStats
-  fullName: TinyLife.Tools.PlayModeTool.AvailableStats
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: A dictionary that contains information about the <xref href="TinyLife.Tools.PlayModeTool.StatType" data-throw-if-not-resolved="false"></xref> values that should be selectable for a given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> type and <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> combination.
-  example: []
-  syntax:
-    content: public static readonly Dictionary<(Type, AgeGroup), PlayModeTool.StatType[]> AvailableStats
-    return:
-      type: System.Collections.Generic.Dictionary{System.ValueTuple{System.Type,TinyLife.Objects.AgeGroup},TinyLife.Tools.PlayModeTool.StatType[]}
-    content.vb: Public Shared ReadOnly AvailableStats As Dictionary(Of (Type, AgeGroup), PlayModeTool.StatType())
-- uid: TinyLife.Tools.PlayModeTool.SelectablePersonTypes
-  commentId: F:TinyLife.Tools.PlayModeTool.SelectablePersonTypes
-  id: SelectablePersonTypes
-  parent: TinyLife.Tools.PlayModeTool
-  langs:
-  - csharp
-  - vb
-  name: SelectablePersonTypes
-  nameWithType: PlayModeTool.SelectablePersonTypes
-  fullName: TinyLife.Tools.PlayModeTool.SelectablePersonTypes
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: >-
-    A list that contains the <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> types that can be selected in the play mode tool.
-
-    If a person type is not in this list, people of that type will still display as part of the household, but not be actively playable.
-  example: []
-  syntax:
-    content: public static readonly List<Type> SelectablePersonTypes
-    return:
-      type: System.Collections.Generic.List{System.Type}
-    content.vb: Public Shared ReadOnly SelectablePersonTypes As List(Of Type)
 - uid: TinyLife.Tools.PlayModeTool.OnUpdateStatsView
   commentId: E:TinyLife.Tools.PlayModeTool.OnUpdateStatsView
   id: OnUpdateStatsView
@@ -384,7 +338,7 @@ items:
       description: The person.
     return:
       type: System.Boolean
-      description: Whether the person could be set. This is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if the selected person is already the given person, or if <xref href="TinyLife.Tools.PlayModeTool.SelectablePersonTypes" data-throw-if-not-resolved="false"></xref> does not contain the <code class="paramref">person</code>'s type.
+      description: Whether the person could be set. This is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if the selected person is already the given person, or if SelectablePersonTypes does not contain the <code class="paramref">person</code>'s type.
     content.vb: Public Function SetSelectedPerson(person As PersonLike) As Boolean
   overload: TinyLife.Tools.PlayModeTool.SetSelectedPerson*
 - uid: TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
@@ -748,6 +702,13 @@ references:
   name: CurrentFloor
   nameWithType: Tool.CurrentFloor
   fullName: TinyLife.Tools.Tool.CurrentFloor
+- uid: TinyLife.Tools.Tool.Name
+  commentId: F:TinyLife.Tools.Tool.Name
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Name
+  name: Name
+  nameWithType: Tool.Name
+  fullName: TinyLife.Tools.Tool.Name
 - uid: TinyLife.Tools.Tool.Texture
   commentId: F:TinyLife.Tools.Tool.Texture
   parent: TinyLife.Tools.Tool
@@ -1699,6 +1660,13 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: MLEM.Ui.Elements.Panel
+  commentId: T:MLEM.Ui.Elements.Panel
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Panel
+  nameWithType: Panel
+  fullName: MLEM.Ui.Elements.Panel
 - uid: TinyLife.Tools.PlayModeTool.StatType
   commentId: T:TinyLife.Tools.PlayModeTool.StatType
   parent: TinyLife.Tools
@@ -1722,254 +1690,6 @@ references:
   - uid: TinyLife.Tools.PlayModeTool.StatType
     name: StatType
     href: TinyLife.Tools.PlayModeTool.StatType.html
-- uid: TinyLife.Objects.PersonLike
-  commentId: T:TinyLife.Objects.PersonLike
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.PersonLike.html
-  name: PersonLike
-  nameWithType: PersonLike
-  fullName: TinyLife.Objects.PersonLike
-- uid: TinyLife.Objects.AgeGroup
-  commentId: T:TinyLife.Objects.AgeGroup
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.AgeGroup.html
-  name: AgeGroup
-  nameWithType: AgeGroup
-  fullName: TinyLife.Objects.AgeGroup
-- uid: System.Collections.Generic.Dictionary{System.ValueTuple{System.Type,TinyLife.Objects.AgeGroup},TinyLife.Tools.PlayModeTool.StatType[]}
-  commentId: T:System.Collections.Generic.Dictionary{System.ValueTuple{System.Type,TinyLife.Objects.AgeGroup},TinyLife.Tools.PlayModeTool.StatType[]}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<(Type, AgeGroup), PlayModeTool.StatType[]>
-  nameWithType: Dictionary<(Type, AgeGroup), PlayModeTool.StatType[]>
-  fullName: System.Collections.Generic.Dictionary<(System.Type, TinyLife.Objects.AgeGroup), TinyLife.Tools.PlayModeTool.StatType[]>
-  nameWithType.vb: Dictionary(Of (Type, AgeGroup), PlayModeTool.StatType())
-  fullName.vb: System.Collections.Generic.Dictionary(Of (System.Type, TinyLife.Objects.AgeGroup), TinyLife.Tools.PlayModeTool.StatType())
-  name.vb: Dictionary(Of (Type, AgeGroup), PlayModeTool.StatType())
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - name: (
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Tools.PlayModeTool
-    name: PlayModeTool
-    href: TinyLife.Tools.PlayModeTool.html
-  - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
-  - name: '['
-  - name: ']'
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: (
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: )
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Tools.PlayModeTool
-    name: PlayModeTool
-    href: TinyLife.Tools.PlayModeTool.html
-  - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
-  - name: (
-  - name: )
-  - name: )
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  href: TinyLife.html
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: System.Collections.Generic.List{System.Type}
-  commentId: T:System.Collections.Generic.List{System.Type}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.List`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<Type>
-  nameWithType: List<Type>
-  fullName: System.Collections.Generic.List<System.Type>
-  nameWithType.vb: List(Of Type)
-  fullName.vb: System.Collections.Generic.List(Of System.Type)
-  name.vb: List(Of Type)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: )
-- uid: System.Collections.Generic.List`1
-  commentId: T:System.Collections.Generic.List`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<T>
-  nameWithType: List<T>
-  fullName: System.Collections.Generic.List<T>
-  nameWithType.vb: List(Of T)
-  fullName.vb: System.Collections.Generic.List(Of T)
-  name.vb: List(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.List`1
-    name: List
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: MLEM.Ui.Elements.Panel
-  commentId: T:MLEM.Ui.Elements.Panel
-  parent: MLEM.Ui.Elements
-  isExternal: true
-  name: Panel
-  nameWithType: Panel
-  fullName: MLEM.Ui.Elements.Panel
 - uid: TinyLife.Mods.EventPhase.Pre
   commentId: F:TinyLife.Mods.EventPhase.Pre
   href: TinyLife.Mods.EventPhase.html#TinyLife_Mods_EventPhase_Pre
@@ -2216,12 +1936,41 @@ references:
     href: TinyLife.Objects.PersonLike.html
   - name: )
   - name: )
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
 - uid: TinyLife.Tools.PlayModeTool.SelectedPerson*
   commentId: Overload:TinyLife.Tools.PlayModeTool.SelectedPerson
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedPerson
   name: SelectedPerson
   nameWithType: PlayModeTool.SelectedPerson
   fullName: TinyLife.Tools.PlayModeTool.SelectedPerson
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  href: TinyLife.html
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
 - uid: TinyLife.Tools.PlayModeTool.SelectedStat*
   commentId: Overload:TinyLife.Tools.PlayModeTool.SelectedStat
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedStat
@@ -2467,12 +2216,6 @@ references:
   name: CanUndoRedo
   nameWithType: PlayModeTool.CanUndoRedo
   fullName: TinyLife.Tools.PlayModeTool.CanUndoRedo
-- uid: TinyLife.Tools.PlayModeTool.SelectablePersonTypes
-  commentId: F:TinyLife.Tools.PlayModeTool.SelectablePersonTypes
-  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectablePersonTypes
-  name: SelectablePersonTypes
-  nameWithType: PlayModeTool.SelectablePersonTypes
-  fullName: TinyLife.Tools.PlayModeTool.SelectablePersonTypes
 - uid: TinyLife.Tools.PlayModeTool.SetSelectedPerson*
   commentId: Overload:TinyLife.Tools.PlayModeTool.SetSelectedPerson
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SetSelectedPerson_TinyLife_Objects_PersonLike_
@@ -2671,6 +2414,43 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
   commentId: M:TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
   isExternal: true

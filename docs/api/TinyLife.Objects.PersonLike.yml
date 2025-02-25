@@ -163,6 +163,7 @@ items:
   - TinyLife.Objects.PersonLike.OnNewDay
   - TinyLife.Objects.PersonLike.OnNewSkillLearned
   - TinyLife.Objects.PersonLike.OnOutfitChanged
+  - TinyLife.Objects.PersonLike.OnRelationshipsChanged
   - TinyLife.Objects.PersonLike.OnRestoreNeed
   - TinyLife.Objects.PersonLike.OnRoomCheck
   - TinyLife.Objects.PersonLike.Outfits
@@ -200,9 +201,9 @@ items:
   - TinyLife.Objects.PersonLike.SpeakStyles
   - TinyLife.Objects.PersonLike.StopEmoting
   - TinyLife.Objects.PersonLike.StopSpeaking
-  - TinyLife.Objects.PersonLike.SupportedAges
   - TinyLife.Objects.PersonLike.Tint
   - TinyLife.Objects.PersonLike.ToCreatedByString
+  - TinyLife.Objects.PersonLike.Types
   - TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.PersonLike.UpdateAction(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Collections.Generic.IEnumerable{TinyLife.Goals.IGoalTriggerable})
   - TinyLife.Objects.PersonLike.UpdateActions(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -327,6 +328,25 @@ items:
     return:
       type: System.Single
     content.vb: Public Const DefaultWalkSpeed As Single = 0.05
+- uid: TinyLife.Objects.PersonLike.Types
+  commentId: F:TinyLife.Objects.PersonLike.Types
+  id: Types
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: Types
+  nameWithType: PersonLike.Types
+  fullName: TinyLife.Objects.PersonLike.Types
+  type: Field
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static readonly Dictionary<Type, PersonLike.TypeSettings> Types
+    return:
+      type: System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.PersonLike.TypeSettings}
+    content.vb: Public Shared ReadOnly Types As Dictionary(Of Type, PersonLike.TypeSettings)
 - uid: TinyLife.Objects.PersonLike.SpeakSounds
   commentId: F:TinyLife.Objects.PersonLike.SpeakSounds
   id: SpeakSounds
@@ -390,30 +410,6 @@ items:
     return:
       type: TinyLife.Objects.VoiceStyle[]
     content.vb: Public Shared ReadOnly VoiceStyles As VoiceStyle()
-- uid: TinyLife.Objects.PersonLike.SupportedAges
-  commentId: F:TinyLife.Objects.PersonLike.SupportedAges
-  id: SupportedAges
-  parent: TinyLife.Objects.PersonLike
-  langs:
-  - csharp
-  - vb
-  name: SupportedAges
-  nameWithType: PersonLike.SupportedAges
-  fullName: TinyLife.Objects.PersonLike.SupportedAges
-  type: Field
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Objects
-  summary: >-
-    The ages that a given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> child class supports.
-
-    For mods that implement custom <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> types, new entries can be added to this dictionary to specify which ages they support.
-  example: []
-  syntax:
-    content: public static readonly Dictionary<Type, AgeGroup[]> SupportedAges
-    return:
-      type: System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.AgeGroup[]}
-    content.vb: Public Shared ReadOnly SupportedAges As Dictionary(Of Type, AgeGroup())
 - uid: TinyLife.Objects.PersonLike.Migrations
   commentId: F:TinyLife.Objects.PersonLike.Migrations
   id: Migrations
@@ -524,13 +520,13 @@ items:
     content: >-
       [DataMember]
 
-      public readonly List<(Action, bool)> ActionQueue
+      public readonly List<(Action Action, bool Force)> ActionQueue
     return:
       type: System.Collections.Generic.List{System.ValueTuple{TinyLife.Actions.Action,System.Boolean}}
     content.vb: >-
       <DataMember>
 
-      Public ReadOnly ActionQueue As List(Of (Action, Boolean))
+      Public ReadOnly ActionQueue As List(Of (Action As Action, Force As Boolean))
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -3006,6 +3002,30 @@ items:
     return:
       type: System.Action{System.ValueTuple{Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,TinyLife.Objects.AgeGroup,System.ValueTuple{TinyLife.Mods.EventPhase}}}
     content.vb: Public Event OnDrawUi As Action(Of (Batch As SpriteBatch, Pos As Vector2, Scale As Single, Rotation As Direction2, Outfit As Outfit, Pose As Pose, Age As AgeGroup, Phase As EventPhase))
+- uid: TinyLife.Objects.PersonLike.OnRelationshipsChanged
+  commentId: E:TinyLife.Objects.PersonLike.OnRelationshipsChanged
+  id: OnRelationshipsChanged
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: OnRelationshipsChanged
+  nameWithType: PersonLike.OnRelationshipsChanged
+  fullName: TinyLife.Objects.PersonLike.OnRelationshipsChanged
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Objects
+  summary: >-
+    An event that is invoked when this person's <xref href="TinyLife.Objects.PersonLike.Relationships" data-throw-if-not-resolved="false"></xref> collection is updated.
+
+    This event can be subscribed to using <xref href="TinyLife.Objects.MapObject.OnEventsAttachable" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public event Action OnRelationshipsChanged
+    return:
+      type: System.Action
+    content.vb: Public Event OnRelationshipsChanged As Action
 - uid: TinyLife.Objects.PersonLike.Animations
   commentId: P:TinyLife.Objects.PersonLike.Animations
   id: Animations
@@ -5539,7 +5559,7 @@ items:
   summary: >-
     Returns a modifier that skills with the given <xref href="TinyLife.Skills.SkillType" data-throw-if-not-resolved="false"></xref> should be boosted by, based on this person's <xref href="TinyLife.Objects.PersonLike.PersonalityTypes" data-throw-if-not-resolved="false"></xref>.
 
-    This method is used by <xref href="TinyLife.Objects.PersonLike.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>.
+    This method is used by <xref href="TinyLife.Objects.PersonLike.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, as well as to determine skill-related action priority in <xref href="TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike%2cTinyLife.Skills.SkillType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public virtual float GetPersonalitySkillBoost(SkillType skill)
@@ -5549,7 +5569,7 @@ items:
       description: The skill category whose personality skill boost to return
     return:
       type: System.Single
-      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all.
+      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all, and any number above 0 causing a skill's gain to be multiplied by (1 + modifier).
     content.vb: Public Overridable Function GetPersonalitySkillBoost(skill As SkillType) As Single
   overload: TinyLife.Objects.PersonLike.GetPersonalitySkillBoost*
 - uid: TinyLife.Objects.PersonLike.GetEmotionSkillBoost(TinyLife.Skills.SkillType)
@@ -5567,7 +5587,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Objects
   summary: >-
-    Returns a modifier that skills with the given <xref href="TinyLife.Skills.SkillType" data-throw-if-not-resolved="false"></xref> should be boosted by, based on this person's current <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref>.
+    Returns a modifier that skills with the given <xref href="TinyLife.Skills.SkillType" data-throw-if-not-resolved="false"></xref> should be boosted by, based on this person's current <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref>, as well as potentially other current factors like their <xref href="TinyLife.Objects.PersonLike.PersonalityTypes" data-throw-if-not-resolved="false"></xref>.
 
     This method is used by <xref href="TinyLife.Objects.PersonLike.GetEfficiencyModifier(System.Single%2cTinyLife.Actions.ActionInfo%2cTinyLife.Skills.SkillType%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, and is also used to display the emotion image in the skills menu.
   example: []
@@ -5579,7 +5599,7 @@ items:
       description: The skill category whose emotion skill boost to return
     return:
       type: System.Single
-      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all.
+      description: A modifier that skills should be boosted by, where 0 means that a skill should not be boosted at all, and any number above 0 causing a skill's gain to be multiplied by (1 + modifier).
     content.vb: Public Overridable Function GetEmotionSkillBoost(skill As SkillType) As Single
   overload: TinyLife.Objects.PersonLike.GetEmotionSkillBoost*
 - uid: TinyLife.Objects.PersonLike.GetCurrentGoals
@@ -8950,6 +8970,130 @@ references:
   name: PersonLike
   nameWithType: PersonLike
   fullName: TinyLife.Objects.PersonLike
+- uid: System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.PersonLike.TypeSettings}
+  commentId: T:System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.PersonLike.TypeSettings}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<Type, PersonLike.TypeSettings>
+  nameWithType: Dictionary<Type, PersonLike.TypeSettings>
+  fullName: System.Collections.Generic.Dictionary<System.Type, TinyLife.Objects.PersonLike.TypeSettings>
+  nameWithType.vb: Dictionary(Of Type, PersonLike.TypeSettings)
+  fullName.vb: System.Collections.Generic.Dictionary(Of System.Type, TinyLife.Objects.PersonLike.TypeSettings)
+  name.vb: Dictionary(Of Type, PersonLike.TypeSettings)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: .
+  - uid: TinyLife.Objects.PersonLike.TypeSettings
+    name: TypeSettings
+    href: TinyLife.Objects.PersonLike.TypeSettings.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Type
+    name: Type
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.type
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: .
+  - uid: TinyLife.Objects.PersonLike.TypeSettings
+    name: TypeSettings
+    href: TinyLife.Objects.PersonLike.TypeSettings.html
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: Microsoft.Xna.Framework.Audio.SoundEffect
   commentId: T:Microsoft.Xna.Framework.Audio.SoundEffect
   parent: Microsoft.Xna.Framework.Audio
@@ -9143,77 +9287,6 @@ references:
   - uid: Microsoft.Xna.Framework.Audio
     name: Audio
     isExternal: true
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Objects.SpeakStyle
   commentId: T:TinyLife.Objects.SpeakStyle
   parent: TinyLife.Objects
@@ -9269,55 +9342,6 @@ references:
     name: VoiceStyle
     href: TinyLife.Objects.VoiceStyle.html
   - name: (
-  - name: )
-- uid: System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.AgeGroup[]}
-  commentId: T:System.Collections.Generic.Dictionary{System.Type,TinyLife.Objects.AgeGroup[]}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<Type, AgeGroup[]>
-  nameWithType: Dictionary<Type, AgeGroup[]>
-  fullName: System.Collections.Generic.Dictionary<System.Type, TinyLife.Objects.AgeGroup[]>
-  nameWithType.vb: Dictionary(Of Type, AgeGroup())
-  fullName.vb: System.Collections.Generic.Dictionary(Of System.Type, TinyLife.Objects.AgeGroup())
-  name.vb: Dictionary(Of Type, AgeGroup())
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: '['
-  - name: ']'
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Type
-    name: Type
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.type
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
-  - name: (
-  - name: )
   - name: )
 - uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Objects.PersonLike}}
   commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.Objects.PersonLike}}
@@ -9609,12 +9633,12 @@ references:
   parent: System.Collections.Generic
   definition: System.Collections.Generic.List`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<(Action, bool)>
-  nameWithType: List<(Action, bool)>
-  fullName: System.Collections.Generic.List<(TinyLife.Actions.Action, bool)>
-  nameWithType.vb: List(Of (Action, Boolean))
-  fullName.vb: System.Collections.Generic.List(Of (TinyLife.Actions.Action, Boolean))
-  name.vb: List(Of (Action, Boolean))
+  name: List<(Action Action, bool Force)>
+  nameWithType: List<(Action Action, bool Force)>
+  fullName: System.Collections.Generic.List<(TinyLife.Actions.Action Action, bool Force)>
+  nameWithType.vb: List(Of (Action As Action, Force As Boolean))
+  fullName.vb: System.Collections.Generic.List(Of (Action As TinyLife.Actions.Action, Force As Boolean))
+  name.vb: List(Of (Action As Action, Force As Boolean))
   spec.csharp:
   - uid: System.Collections.Generic.List`1
     name: List
@@ -9625,12 +9649,20 @@ references:
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.Action,System.Boolean}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.action,system.boolean-.action
   - name: ','
   - name: " "
   - uid: System.Boolean
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.Action,System.Boolean}.Force
+    name: Force
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.action,system.boolean-.force
   - name: )
   - name: '>'
   spec.vb:
@@ -9642,10 +9674,22 @@ references:
   - name: Of
   - name: " "
   - name: (
+  - uid: System.ValueTuple{TinyLife.Actions.Action,System.Boolean}.Action
+    name: Action
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.action,system.boolean-.action
+  - name: " "
+  - name: As
+  - name: " "
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Actions.Action,System.Boolean}.Force
+    name: Force
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.actions.action,system.boolean-.force
+  - name: " "
+  - name: As
   - name: " "
   - uid: System.Boolean
     name: Boolean
@@ -17338,6 +17382,56 @@ references:
   name: FaceObject
   nameWithType: PersonLike.FaceObject
   fullName: TinyLife.Objects.PersonLike.FaceObject
+- uid: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType,System.Boolean)
+  commentId: M:TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType,System.Boolean)
+  isExternal: true
+  href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_GetSkillPriorityMod_TinyLife_Objects_PersonLike_TinyLife_Skills_SkillType_System_Boolean_
+  name: GetSkillPriorityMod(PersonLike, SkillType, bool)
+  nameWithType: ActionType.GetSkillPriorityMod(PersonLike, SkillType, bool)
+  fullName: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike, TinyLife.Skills.SkillType, bool)
+  nameWithType.vb: ActionType.GetSkillPriorityMod(PersonLike, SkillType, Boolean)
+  fullName.vb: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike, TinyLife.Skills.SkillType, Boolean)
+  name.vb: GetSkillPriorityMod(PersonLike, SkillType, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType,System.Boolean)
+    name: GetSkillPriorityMod
+    href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_GetSkillPriorityMod_TinyLife_Objects_PersonLike_TinyLife_Skills_SkillType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.ActionType.GetSkillPriorityMod(TinyLife.Objects.PersonLike,TinyLife.Skills.SkillType,System.Boolean)
+    name: GetSkillPriorityMod
+    href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_GetSkillPriorityMod_TinyLife_Objects_PersonLike_TinyLife_Skills_SkillType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
 - uid: TinyLife.Objects.PersonLike.GetPersonalitySkillBoost*
   commentId: Overload:TinyLife.Objects.PersonLike.GetPersonalitySkillBoost
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetPersonalitySkillBoost_TinyLife_Skills_SkillType_

@@ -1,3 +1,52 @@
+# 0.46.2
+*February 25, 2025*
+
+Additions
+- Added a European-style wall-attached mailbox
+- Added two types of picket fencing
+
+Improvements
+- Allow randomly generating a new Tiny for a lot employment
+- Allow rotating the character creator preview
+- Redesigned the New Save menu and added a difficulty selection to it
+- The wall mirror and open shower are now not hidden anymore when hiding walls
+- Made in-text links have a bigger box when using a gamepad to make them easier to read
+- Puddles now automatically connect to be longer when neighboring
+- Allow rotating the camera counter-clockwise using the X key by default
+- Tinies will now hold a saw while woodworking
+- Paintings that require a higher skill level will now be more likely to be painted
+- Explicitly state that you can't zoom the camera in the household selection area
+- Fixed auto-tiles with names lexicographically greater than grass not connecting to grass
+- The personality selector will now list the life stages that a personality is valid for
+- The back and forward buttons in the action ring menu now use a proper image
+- When importing a lot or household that errors, it will now not be skipped entirely, but erroring objects will be removed from it instead
+- Made regular visitors stay home less long on average, and make them start spawning sooner after a new game is started
+- Slightly rebalanced scaling visit priority for community lots, causing them to be less crowded on average
+- Adjusted the price of coffee
+
+Fixes
+- Fixed the steam integration sometimes not noticing when subscriptions changed
+- Fixed gamepad navigation in empty options menu tabs
+- Fixed gamepad navigation on the language selection dropdown
+- Fixed being able to invite household members over while on a different lot
+- Fixed a crash when multiple player prompts try to open at once
+- Fixed rotating the camera on different maps incorrectly displaying walls when switching back
+- Fixed the simple bookshelf color selection missing a localization
+- Fixed the Add Tiny button not being grayed out when a new Tiny can't be added
+- Fixed an exception when a talk action partner is deleted
+- Fixed pronoun localization being incorrect for languages that change the names of Tinies
+- Fixed the This is Inappropriate action not causing a person's other actions to be canceled
+- Fixed the Clone Object in-game hint not displaying in the stairs and fence tools
+- Fixed the tall bookshelf from the Contemporary Complements set not having the same tabs as the wide one
+- Fixed members of hidden households being able to become babysitters
+- Fixed moving fridges with items inside to a different map not causing the items to be moved correctly as well
+- Fixed the relationships tab not updating correctly when new relationships are added to a Tiny while it is open
+
+API
+- Reverted the Mod class name and assembly name requirement from 0.46.1
+- Added a PersonLike registry that allows overriding various default behaviors for custom PersonLike types
+- Allow the names of custom build mode tools to be localizable correctly
+
 # 0.46.1
 *January 27, 2025*
 

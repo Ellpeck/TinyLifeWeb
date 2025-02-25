@@ -23,7 +23,7 @@ items:
   - TinyLife.World.Tile.Draw(Microsoft.Xna.Framework.GameTime,System.Object,TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Collections.Generic.ICollection{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,System.Func{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile})
   - TinyLife.World.Tile.DrawUi(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Single)
   - TinyLife.World.Tile.FlowerGrass
-  - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
+  - TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32,System.Int32)
   - TinyLife.World.Tile.GetDepth(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean)
   - TinyLife.World.Tile.GetPrice
   - TinyLife.World.Tile.GetVariationTexture(MLEM.Maths.Direction2,Microsoft.Xna.Framework.Point)
@@ -1204,16 +1204,16 @@ items:
   nameWithType.vb: Tile.OnNeighborChanged(Map, Point, Point, Integer)
   fullName.vb: TinyLife.World.Tile.OnNeighborChanged(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Microsoft.Xna.Framework.Point, Integer)
   name.vb: OnNeighborChanged(Map, Point, Point, Integer)
-- uid: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
-  commentId: M:TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
-  id: GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32)
+- uid: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32,System.Int32)
+  id: GetAutoTileBorder(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,TinyLife.World.Tile,System.Int32,System.Int32)
   parent: TinyLife.World.Tile
   langs:
   - csharp
   - vb
-  name: GetAutoTileBorder(Map, Point, int, Point, Tile, int)
-  nameWithType: Tile.GetAutoTileBorder(Map, Point, int, Point, Tile, int)
-  fullName: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, int)
+  name: GetAutoTileBorder(Map, Point, int, Point, Tile, int, int)
+  nameWithType: Tile.GetAutoTileBorder(Map, Point, int, Point, Tile, int, int)
+  fullName: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, int, int)
   type: Method
   assemblies:
   - Tiny Life
@@ -1224,7 +1224,7 @@ items:
     By default, this method returns values only for some basegame tiles.
   example: []
   syntax:
-    content: public virtual (Func<int, TextureRegion> Texture, Color Color, float Priority)? GetAutoTileBorder(Map map, Point pos, int floor, Point neighbor, Tile neighborTile, int layer)
+    content: public virtual (TextureRegion Texture, Color Color, float Priority)? GetAutoTileBorder(Map map, Point pos, int floor, Point neighbor, Tile neighborTile, int layer, int autoTileIndex)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -1244,14 +1244,17 @@ items:
     - id: layer
       type: System.Int32
       description: The layer of the border being drawn. By default, tiles use layer 0 for regular borders, and layer 1 for special borders, like the little "cliff" that displays on water tiles.
+    - id: autoTileIndex
+      type: System.Int32
+      description: The "offset" from the auto-tile's initial texture location that should be drawn. The value ranges from 0 to 15 and denotes the type of border (ie the corner) that is being drawn.
     return:
-      type: System.Nullable{System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}}
+      type: System.Nullable{System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}}
       description: The texture, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to draw no auto-tile border.
-    content.vb: Public Overridable Function GetAutoTileBorder(map As Map, pos As Point, floor As Integer, neighbor As Point, neighborTile As Tile, layer As Integer) As (Texture As Func(Of Integer, TextureRegion), Color As Color, Priority As Single)?
+    content.vb: Public Overridable Function GetAutoTileBorder(map As Map, pos As Point, floor As Integer, neighbor As Point, neighborTile As Tile, layer As Integer, autoTileIndex As Integer) As (Texture As TextureRegion, Color As Color, Priority As Single)?
   overload: TinyLife.World.Tile.GetAutoTileBorder*
-  nameWithType.vb: Tile.GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer)
-  fullName.vb: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, Integer)
-  name.vb: GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer)
+  nameWithType.vb: Tile.GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer, Integer)
+  fullName.vb: TinyLife.World.Tile.GetAutoTileBorder(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point, TinyLife.World.Tile, Integer, Integer)
+  name.vb: GetAutoTileBorder(Map, Point, Integer, Point, Tile, Integer, Integer)
 - uid: TinyLife.World.Tile.GetVariationTexture(MLEM.Maths.Direction2,Microsoft.Xna.Framework.Point)
   commentId: M:TinyLife.World.Tile.GetVariationTexture(MLEM.Maths.Direction2,Microsoft.Xna.Framework.Point)
   id: GetVariationTexture(MLEM.Maths.Direction2,Microsoft.Xna.Framework.Point)
@@ -3192,51 +3195,39 @@ references:
   fullName: TinyLife.World.Tile.OnNeighborChanged
 - uid: TinyLife.World.Tile.GetAutoTileBorder*
   commentId: Overload:TinyLife.World.Tile.GetAutoTileBorder
-  href: TinyLife.World.Tile.html#TinyLife_World_Tile_GetAutoTileBorder_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_Microsoft_Xna_Framework_Point_TinyLife_World_Tile_System_Int32_
+  href: TinyLife.World.Tile.html#TinyLife_World_Tile_GetAutoTileBorder_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_Microsoft_Xna_Framework_Point_TinyLife_World_Tile_System_Int32_System_Int32_
   name: GetAutoTileBorder
   nameWithType: Tile.GetAutoTileBorder
   fullName: TinyLife.World.Tile.GetAutoTileBorder
-- uid: System.Nullable{System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}}
-  commentId: T:System.Nullable{System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}}
+- uid: System.Nullable{System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}}
+  commentId: T:System.Nullable{System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}}
   parent: System
   definition: System.Nullable`1
-  href: https://learn.microsoft.com/dotnet/api/system.func-2
-  name: (Func<int, TextureRegion> Texture, Color Color, float Priority)?
-  nameWithType: (Func<int, TextureRegion> Texture, Color Color, float Priority)?
-  fullName: (System.Func<int, MLEM.Textures.TextureRegion> Texture, Microsoft.Xna.Framework.Color Color, float Priority)?
-  nameWithType.vb: (Texture As Func(Of Integer, TextureRegion), Color As Color, Priority As Single)?
-  fullName.vb: (Texture As System.Func(Of Integer, MLEM.Textures.TextureRegion), Color As Microsoft.Xna.Framework.Color, Priority As Single)?
-  name.vb: (Texture As Func(Of Integer, TextureRegion), Color As Color, Priority As Single)?
+  href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.texture
+  name: (TextureRegion Texture, Color Color, float Priority)?
+  nameWithType: (TextureRegion Texture, Color Color, float Priority)?
+  fullName: (MLEM.Textures.TextureRegion Texture, Microsoft.Xna.Framework.Color Color, float Priority)?
+  nameWithType.vb: (Texture As TextureRegion, Color As Color, Priority As Single)?
+  fullName.vb: (Texture As MLEM.Textures.TextureRegion, Color As Microsoft.Xna.Framework.Color, Priority As Single)?
+  name.vb: (Texture As TextureRegion, Color As Color, Priority As Single)?
   spec.csharp:
   - name: (
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: <
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     isExternal: true
-  - name: '>'
   - name: " "
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Texture
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Texture
     name: Texture
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.texture
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.texture
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Color
     name: Color
     isExternal: true
   - name: " "
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Color
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Color
     name: Color
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.color
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.color
   - name: ','
   - name: " "
   - uid: System.Single
@@ -3244,41 +3235,27 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: " "
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Priority
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Priority
     name: Priority
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.priority
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.priority
   - name: )
   - name: '?'
   spec.vb:
   - name: (
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Texture
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Texture
     name: Texture
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.texture
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.texture
   - name: " "
   - name: As
-  - name: " "
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
   - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     isExternal: true
-  - name: )
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Color
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Color
     name: Color
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.color
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.color
   - name: " "
   - name: As
   - name: " "
@@ -3287,9 +3264,9 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{System.Func{System.Int32,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Color,System.Single}.Priority
+  - uid: System.ValueTuple{MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,System.Single}.Priority
     name: Priority
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-system.func-system.int32,mlem.textures.textureregion-,microsoft.xna.framework.color,system.single-.priority
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-mlem.textures.textureregion,microsoft.xna.framework.color,system.single-.priority
   - name: " "
   - name: As
   - name: " "
