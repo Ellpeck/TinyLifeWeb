@@ -26,6 +26,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A set of information for types that extend <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> which are registered into the <xref href="TinyLife.Objects.PersonLike.Types" data-throw-if-not-resolved="false"></xref> collection.
+  example: []
   syntax:
     content: public struct PersonLike.TypeSettings
     content.vb: Public Structure PersonLike.TypeSettings
@@ -52,6 +54,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    The name of this person type, which is used for localization.
+
+    While not explicitly checked at the moment, modded person types are expected to start with their mod's id.
+  example: []
   syntax:
     content: public required string Name
     return:
@@ -71,6 +78,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: The set of <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> values that this person type supports.
+  example: []
   syntax:
     content: public required AgeGroup[] SupportedAges
     return:
@@ -90,6 +99,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: Whether this person type is selectable in play mode if part of the current household.
+  example: []
   syntax:
     content: public required bool PlayModeSelectable
     return:
@@ -109,6 +120,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A function that returns the maximum amount of <xref href="TinyLife.PersonalityType.TypeCategory.Major" data-throw-if-not-resolved="false"></xref><xref href="TinyLife.PersonalityType" data-throw-if-not-resolved="false"></xref> values that a custom person type with the given <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> can have at any one time.
+  example: []
   syntax:
     content: public required Func<AgeGroup, int> MaxMajorPersonalities
     return:
@@ -128,6 +141,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: The set of <xref href="TinyLife.Tools.PlayModeTool.StatType" data-throw-if-not-resolved="false"></xref> tabs that this person type supports when selected in play mode. If <xref href="TinyLife.Objects.PersonLike.TypeSettings.PlayModeSelectable" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, this is ignored.
+  example: []
   syntax:
     content: public Func<AgeGroup, PlayModeTool.StatType[]> SelectableStats
     return:
@@ -147,6 +162,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A function that returns the amount of existing <xref href="TinyLife.PersonalityType" data-throw-if-not-resolved="false"></xref> values that can be removed from a custom person type when aging up to the next <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public Func<AgeGroup, int> PersonalitiesRemovableAgingUp
     return:
@@ -166,6 +183,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    A function that optionally returns a texture region which is used in the character creator's bottom tabs to allow adding a new person of this type.
+
+    This is ignored if <xref href="TinyLife.Objects.PersonLike.TypeSettings.CreateCharacterCreator" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+  example: []
   syntax:
     content: public Func<TextureRegion> CreateCharacterCreatorIcon
     return:
@@ -185,6 +207,8 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: A function that is invoked when a person of this type is created in the character creator. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, this person type cannot be created in the character creator.
+  example: []
   syntax:
     content: public Func<Map, Random, PersonLike> CreateCharacterCreator
     return:
@@ -204,6 +228,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    A number that determines how likely it is for a person of this type to be chosen as a regular visitor in <xref href="TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection%7bTinyLife.World.Map%7d%2cSystem.Action%7bSystem.String%7d%2cSystem.Action%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref>.
+
+    The regular visitor weight of the <xref href="TinyLife.Objects.Person" data-throw-if-not-resolved="false"></xref> type is 10.
+  example: []
   syntax:
     content: public float RegularVisitorWeight
     return:
@@ -223,6 +252,11 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    A function that returns whether the given person is valid for being chosen as a regular visitor for this type, out of <xref href="TinyLife.World.Household.GetExportedHouseholds" data-throw-if-not-resolved="false"></xref>.
+
+    This only has an effect if <xref href="TinyLife.Objects.PersonLike.TypeSettings.RegularVisitorWeight" data-throw-if-not-resolved="false"></xref> is greater than 0.
+  example: []
   syntax:
     content: public Func<PersonLike, bool> IsValidRegularVisitor
     return:
@@ -242,12 +276,33 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
+  summary: >-
+    A function that is invoked when no exported people of this type exist in the <xref href="TinyLife.World.Household.GetExportedHouseholds" data-throw-if-not-resolved="false"></xref> collection, and a new person of this type is needed.
+
+    This only has an effect if <xref href="TinyLife.Objects.PersonLike.TypeSettings.RegularVisitorWeight" data-throw-if-not-resolved="false"></xref> is greater than 0.
+
+    Note that <xref href="TinyLife.Objects.PersonLike.TypeSettings.IsValidRegularVisitor" data-throw-if-not-resolved="false"></xref> is not invoked for the created person.
+  example: []
   syntax:
     content: public Func<Map, Random, PersonLike> CreateRegularVisitor
     return:
       type: System.Func{TinyLife.World.Map,System.Random,TinyLife.Objects.PersonLike}
     content.vb: Public CreateRegularVisitor As Func(Of Map, Random, PersonLike)
 references:
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: TinyLife.Objects.PersonLike.Types
+  commentId: F:TinyLife.Objects.PersonLike.Types
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Types
+  name: Types
+  nameWithType: PersonLike.Types
+  fullName: TinyLife.Objects.PersonLike.Types
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
   href: TinyLife.html
@@ -599,6 +654,13 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
+- uid: TinyLife.Objects.AgeGroup
+  commentId: T:TinyLife.Objects.AgeGroup
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.AgeGroup.html
+  name: AgeGroup
+  nameWithType: AgeGroup
+  fullName: TinyLife.Objects.AgeGroup
 - uid: TinyLife.Objects.AgeGroup[]
   isExternal: true
   href: TinyLife.Objects.AgeGroup.html
@@ -631,6 +693,19 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: TinyLife.PersonalityType.TypeCategory.Major
+  commentId: F:TinyLife.PersonalityType.TypeCategory.Major
+  href: TinyLife.PersonalityType.TypeCategory.html#TinyLife_PersonalityType_TypeCategory_Major
+  name: Major
+  nameWithType: PersonalityType.TypeCategory.Major
+  fullName: TinyLife.PersonalityType.TypeCategory.Major
+- uid: TinyLife.PersonalityType
+  commentId: T:TinyLife.PersonalityType
+  parent: TinyLife
+  href: TinyLife.PersonalityType.html
+  name: PersonalityType
+  nameWithType: PersonalityType
+  fullName: TinyLife.PersonalityType
 - uid: System.Func{TinyLife.Objects.AgeGroup,System.Int32}
   commentId: T:System.Func{TinyLife.Objects.AgeGroup,System.Int32}
   parent: System
@@ -676,6 +751,12 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
+- uid: TinyLife
+  commentId: N:TinyLife
+  href: TinyLife.html
+  name: TinyLife
+  nameWithType: TinyLife
+  fullName: TinyLife
 - uid: System.Func`2
   commentId: T:System.Func`2
   isExternal: true
@@ -710,6 +791,35 @@ references:
   - name: " "
   - name: TResult
   - name: )
+- uid: TinyLife.Tools.PlayModeTool.StatType
+  commentId: T:TinyLife.Tools.PlayModeTool.StatType
+  parent: TinyLife.Tools
+  href: TinyLife.Tools.PlayModeTool.html
+  name: PlayModeTool.StatType
+  nameWithType: PlayModeTool.StatType
+  fullName: TinyLife.Tools.PlayModeTool.StatType
+  spec.csharp:
+  - uid: TinyLife.Tools.PlayModeTool
+    name: PlayModeTool
+    href: TinyLife.Tools.PlayModeTool.html
+  - name: .
+  - uid: TinyLife.Tools.PlayModeTool.StatType
+    name: StatType
+    href: TinyLife.Tools.PlayModeTool.StatType.html
+  spec.vb:
+  - uid: TinyLife.Tools.PlayModeTool
+    name: PlayModeTool
+    href: TinyLife.Tools.PlayModeTool.html
+  - name: .
+  - uid: TinyLife.Tools.PlayModeTool.StatType
+    name: StatType
+    href: TinyLife.Tools.PlayModeTool.StatType.html
+- uid: TinyLife.Objects.PersonLike.TypeSettings.PlayModeSelectable
+  commentId: F:TinyLife.Objects.PersonLike.TypeSettings.PlayModeSelectable
+  href: TinyLife.Objects.PersonLike.TypeSettings.html#TinyLife_Objects_PersonLike_TypeSettings_PlayModeSelectable
+  name: PlayModeSelectable
+  nameWithType: PersonLike.TypeSettings.PlayModeSelectable
+  fullName: TinyLife.Objects.PersonLike.TypeSettings.PlayModeSelectable
 - uid: System.Func{TinyLife.Objects.AgeGroup,TinyLife.Tools.PlayModeTool.StatType[]}
   commentId: T:System.Func{TinyLife.Objects.AgeGroup,TinyLife.Tools.PlayModeTool.StatType[]}
   parent: System
@@ -765,6 +875,34 @@ references:
   - name: (
   - name: )
   - name: )
+- uid: TinyLife.Tools
+  commentId: N:TinyLife.Tools
+  href: TinyLife.html
+  name: TinyLife.Tools
+  nameWithType: TinyLife.Tools
+  fullName: TinyLife.Tools
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Tools
+    name: Tools
+    href: TinyLife.Tools.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Tools
+    name: Tools
+    href: TinyLife.Tools.html
+- uid: TinyLife.Objects.PersonLike.TypeSettings.CreateCharacterCreator
+  commentId: F:TinyLife.Objects.PersonLike.TypeSettings.CreateCharacterCreator
+  href: TinyLife.Objects.PersonLike.TypeSettings.html#TinyLife_Objects_PersonLike_TypeSettings_CreateCharacterCreator
+  name: CreateCharacterCreator
+  nameWithType: PersonLike.TypeSettings.CreateCharacterCreator
+  fullName: TinyLife.Objects.PersonLike.TypeSettings.CreateCharacterCreator
 - uid: System.Func{MLEM.Textures.TextureRegion}
   commentId: T:System.Func{MLEM.Textures.TextureRegion}
   parent: System
@@ -921,6 +1059,107 @@ references:
   - name: " "
   - name: TResult
   - name: )
+- uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+  isExternal: true
+  href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  name: UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  nameWithType: Map.UpdateExternalPeople(ICollection<Map>, Action<string>, Action<float>)
+  fullName: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection<TinyLife.World.Map>, System.Action<string>, System.Action<float>)
+  nameWithType.vb: Map.UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
+  fullName.vb: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection(Of TinyLife.World.Map), System.Action(Of String), System.Action(Of Single))
+  name.vb: UpdateExternalPeople(ICollection(Of Map), Action(Of String), Action(Of Single))
+  spec.csharp:
+  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: UpdateExternalPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
+    name: UpdateExternalPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_UpdateExternalPeople_System_Collections_Generic_ICollection_TinyLife_World_Map__System_Action_System_String__System_Action_System_Single__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.Person
+  commentId: T:TinyLife.Objects.Person
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Person.html
+  name: Person
+  nameWithType: Person
+  fullName: TinyLife.Objects.Person
 - uid: System.Single
   commentId: T:System.Single
   parent: System
@@ -932,6 +1171,30 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
+- uid: TinyLife.World.Household.GetExportedHouseholds
+  commentId: M:TinyLife.World.Household.GetExportedHouseholds
+  href: TinyLife.World.Household.html#TinyLife_World_Household_GetExportedHouseholds
+  name: GetExportedHouseholds()
+  nameWithType: Household.GetExportedHouseholds()
+  fullName: TinyLife.World.Household.GetExportedHouseholds()
+  spec.csharp:
+  - uid: TinyLife.World.Household.GetExportedHouseholds
+    name: GetExportedHouseholds
+    href: TinyLife.World.Household.html#TinyLife_World_Household_GetExportedHouseholds
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Household.GetExportedHouseholds
+    name: GetExportedHouseholds
+    href: TinyLife.World.Household.html#TinyLife_World_Household_GetExportedHouseholds
+  - name: (
+  - name: )
+- uid: TinyLife.Objects.PersonLike.TypeSettings.RegularVisitorWeight
+  commentId: F:TinyLife.Objects.PersonLike.TypeSettings.RegularVisitorWeight
+  href: TinyLife.Objects.PersonLike.TypeSettings.html#TinyLife_Objects_PersonLike_TypeSettings_RegularVisitorWeight
+  name: RegularVisitorWeight
+  nameWithType: PersonLike.TypeSettings.RegularVisitorWeight
+  fullName: TinyLife.Objects.PersonLike.TypeSettings.RegularVisitorWeight
 - uid: System.Func{TinyLife.Objects.PersonLike,System.Boolean}
   commentId: T:System.Func{TinyLife.Objects.PersonLike,System.Boolean}
   parent: System
@@ -977,3 +1240,9 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
+- uid: TinyLife.Objects.PersonLike.TypeSettings.IsValidRegularVisitor
+  commentId: F:TinyLife.Objects.PersonLike.TypeSettings.IsValidRegularVisitor
+  href: TinyLife.Objects.PersonLike.TypeSettings.html#TinyLife_Objects_PersonLike_TypeSettings_IsValidRegularVisitor
+  name: IsValidRegularVisitor
+  nameWithType: PersonLike.TypeSettings.IsValidRegularVisitor
+  fullName: TinyLife.Objects.PersonLike.TypeSettings.IsValidRegularVisitor

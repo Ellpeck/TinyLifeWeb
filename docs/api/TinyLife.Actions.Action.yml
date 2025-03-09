@@ -53,8 +53,8 @@ items:
   - TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
   - TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel},MLEM.Textures.TextureRegion,System.Single)
-  - TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
-  - TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion)
+  - TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  - TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   - TinyLife.Actions.Action.Parent
   - TinyLife.Actions.Action.Person
   - TinyLife.Actions.Action.PickUpAndGoTo(TinyLife.Actions.ActionInfo,System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Func{TinyLife.Objects.Furniture,System.Boolean},System.Boolean)
@@ -1135,16 +1135,16 @@ items:
   nameWithType.vb: Action.OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Action(Of CoveringGroup, Panel), TextureRegion, Single)
   fullName.vb: TinyLife.Actions.Action.OpenPlayerPrompt(String, System.Predicate(Of MLEM.Ui.Elements.Panel), System.Action(Of MLEM.Ui.Elements.Panel), Boolean, System.Action(Of TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel), MLEM.Textures.TextureRegion, Single)
   name.vb: OpenPlayerPrompt(String, Predicate(Of Panel), Action(Of Panel), Boolean, Action(Of CoveringGroup, Panel), TextureRegion, Single)
-- uid: TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion)
-  commentId: M:TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion)
-  id: OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion)
+- uid: TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  commentId: M:TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  id: OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: OpenYesNoPrompt(string, Action, Action, TextureRegion)
-  nameWithType: Action.OpenYesNoPrompt(string, Action, Action, TextureRegion)
-  fullName: TinyLife.Actions.Action.OpenYesNoPrompt(string, System.Action, System.Action, MLEM.Textures.TextureRegion)
+  name: OpenYesNoPrompt(string, Action, Action, TextureRegion, Action<CoveringGroup, Panel>)
+  nameWithType: Action.OpenYesNoPrompt(string, Action, Action, TextureRegion, Action<CoveringGroup, Panel>)
+  fullName: TinyLife.Actions.Action.OpenYesNoPrompt(string, System.Action, System.Action, MLEM.Textures.TextureRegion, System.Action<TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel>)
   type: Method
   assemblies:
   - Tiny Life
@@ -1157,7 +1157,7 @@ items:
     To check whether a player prompt is currently opened, see <xref href="TinyLife.Actions.Action.PlayerPromptOpen" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public CoveringGroup OpenYesNoPrompt(string title, Action onYes, Action onNo = null, TextureRegion portrait = null)
+    content: public CoveringGroup OpenYesNoPrompt(string title, Action onYes, Action onNo = null, TextureRegion portrait = null, Action<CoveringGroup, Panel> addChildren = null)
     parameters:
     - id: title
       type: System.String
@@ -1171,23 +1171,26 @@ items:
     - id: portrait
       type: MLEM.Textures.TextureRegion
       description: The portrait to display. If this is null, the <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>'s portrait is used.
+    - id: addChildren
+      type: System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel}
+      description: A function that should be used to add additional elements that should be displayed in this prompt.
     return:
       type: TinyLife.Uis.CoveringGroup
-    content.vb: Public Function OpenYesNoPrompt(title As String, onYes As Action, onNo As Action = Nothing, portrait As TextureRegion = Nothing) As CoveringGroup
+    content.vb: Public Function OpenYesNoPrompt(title As String, onYes As Action, onNo As Action = Nothing, portrait As TextureRegion = Nothing, addChildren As Action(Of CoveringGroup, Panel) = Nothing) As CoveringGroup
   overload: TinyLife.Actions.Action.OpenYesNoPrompt*
-  nameWithType.vb: Action.OpenYesNoPrompt(String, Action, Action, TextureRegion)
-  fullName.vb: TinyLife.Actions.Action.OpenYesNoPrompt(String, System.Action, System.Action, MLEM.Textures.TextureRegion)
-  name.vb: OpenYesNoPrompt(String, Action, Action, TextureRegion)
-- uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
-  commentId: M:TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
-  id: OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
+  nameWithType.vb: Action.OpenYesNoPrompt(String, Action, Action, TextureRegion, Action(Of CoveringGroup, Panel))
+  fullName.vb: TinyLife.Actions.Action.OpenYesNoPrompt(String, System.Action, System.Action, MLEM.Textures.TextureRegion, System.Action(Of TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel))
+  name.vb: OpenYesNoPrompt(String, Action, Action, TextureRegion, Action(Of CoveringGroup, Panel))
+- uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  commentId: M:TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  id: OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   parent: TinyLife.Actions.Action
   langs:
   - csharp
   - vb
-  name: OpenTextPrompt(string, Action<string>, Predicate<string>, Rule, string, TextureRegion)
-  nameWithType: Action.OpenTextPrompt(string, Action<string>, Predicate<string>, TextField.Rule, string, TextureRegion)
-  fullName: TinyLife.Actions.Action.OpenTextPrompt(string, System.Action<string>, System.Predicate<string>, MLEM.Ui.Elements.TextField.Rule, string, MLEM.Textures.TextureRegion)
+  name: OpenTextPrompt(string, Action<string>, Predicate<string>, Rule, string, bool, int?, TextureRegion, Action<CoveringGroup, Panel>)
+  nameWithType: Action.OpenTextPrompt(string, Action<string>, Predicate<string>, TextField.Rule, string, bool, int?, TextureRegion, Action<CoveringGroup, Panel>)
+  fullName: TinyLife.Actions.Action.OpenTextPrompt(string, System.Action<string>, System.Predicate<string>, MLEM.Ui.Elements.TextField.Rule, string, bool, int?, MLEM.Textures.TextureRegion, System.Action<TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel>)
   type: Method
   assemblies:
   - Tiny Life
@@ -1198,7 +1201,7 @@ items:
     To check whether a player prompt is currently opened, see <xref href="TinyLife.Actions.Action.PlayerPromptOpen" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public CoveringGroup OpenTextPrompt(string title, Action<string> onFinished, Predicate<string> isNameValid = null, TextField.Rule rule = null, string defaultText = null, TextureRegion portrait = null)
+    content: public CoveringGroup OpenTextPrompt(string title, Action<string> onFinished, Predicate<string> isNameValid, TextField.Rule rule = null, string defaultText = null, bool multiline = false, int? maxCharacters = null, TextureRegion portrait = null, Action<CoveringGroup, Panel> addChildren = null)
     parameters:
     - id: title
       type: System.String
@@ -1208,23 +1211,32 @@ items:
       description: An action that is executed when the okay button is pressed, which contains the string that was input into the text box
     - id: isNameValid
       type: System.Predicate{System.String}
-      description: A function that determines whether the name is valid. If this is null, all text inputs (except an empty string) will be valid.
+      description: A function that determines whether the give name, which may be an empty string, is valid.
     - id: rule
       type: MLEM.Ui.Elements.TextField.Rule
       description: A rule to use for the <xref href="MLEM.Ui.Elements.TextField" data-throw-if-not-resolved="false"></xref>
     - id: defaultText
       type: System.String
       description: The text that should be displayed in the text field by default, or null to display no default text
+    - id: multiline
+      type: System.Boolean
+      description: Whether the text box should be multiline rather than a single line. Multiline input allows newline characters to be included, and makes the box bigger.
+    - id: maxCharacters
+      type: System.Nullable{System.Int32}
+      description: The maximum amount of characters that can be input into the text box.
     - id: portrait
       type: MLEM.Textures.TextureRegion
       description: The portrait to display. If this is null, the <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>'s portrait is used.
+    - id: addChildren
+      type: System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel}
+      description: A function that should be used to add additional elements that should be displayed in this prompt.
     return:
       type: TinyLife.Uis.CoveringGroup
-    content.vb: Public Function OpenTextPrompt(title As String, onFinished As Action(Of String), isNameValid As Predicate(Of String) = Nothing, rule As TextField.Rule = Nothing, defaultText As String = Nothing, portrait As TextureRegion = Nothing) As CoveringGroup
+    content.vb: Public Function OpenTextPrompt(title As String, onFinished As Action(Of String), isNameValid As Predicate(Of String), rule As TextField.Rule = Nothing, defaultText As String = Nothing, multiline As Boolean = False, maxCharacters As Integer? = Nothing, portrait As TextureRegion = Nothing, addChildren As Action(Of CoveringGroup, Panel) = Nothing) As CoveringGroup
   overload: TinyLife.Actions.Action.OpenTextPrompt*
-  nameWithType.vb: Action.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, TextureRegion)
-  fullName.vb: TinyLife.Actions.Action.OpenTextPrompt(String, System.Action(Of String), System.Predicate(Of String), MLEM.Ui.Elements.TextField.Rule, String, MLEM.Textures.TextureRegion)
-  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), Rule, String, TextureRegion)
+  nameWithType.vb: Action.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, Boolean, Integer?, TextureRegion, Action(Of CoveringGroup, Panel))
+  fullName.vb: TinyLife.Actions.Action.OpenTextPrompt(String, System.Action(Of String), System.Predicate(Of String), MLEM.Ui.Elements.TextField.Rule, String, Boolean, Integer?, MLEM.Textures.TextureRegion, System.Action(Of TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel))
+  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), Rule, String, Boolean, Integer?, TextureRegion, Action(Of CoveringGroup, Panel))
 - uid: TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
   commentId: M:TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
   id: OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
@@ -1239,7 +1251,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Actions
-  summary: Opens a text prompt (<xref href="TinyLife.Actions.Action.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String%2cMLEM.Textures.TextureRegion)" data-throw-if-not-resolved="false"></xref>) that uses the <xref href="TinyLife.Actions.ChoicePromptInfo" data-throw-if-not-resolved="false"></xref> system to display a set of options to the player, one of which is randomly chosen to be "correct", causing a positive effect to happen.
+  summary: Opens a text prompt (<xref href="TinyLife.Actions.Action.OpenTextPrompt(System.String%2cSystem.Action%7bSystem.String%7d%2cSystem.Predicate%7bSystem.String%7d%2cMLEM.Ui.Elements.TextField.Rule%2cSystem.String%2cSystem.Boolean%2cSystem.Nullable%7bSystem.Int32%7d%2cMLEM.Textures.TextureRegion%2cSystem.Action%7bTinyLife.Uis.CoveringGroup%2cMLEM.Ui.Elements.Panel%7d)" data-throw-if-not-resolved="false"></xref>) that uses the <xref href="TinyLife.Actions.ChoicePromptInfo" data-throw-if-not-resolved="false"></xref> system to display a set of options to the player, one of which is randomly chosen to be "correct", causing a positive effect to happen.
   example: []
   syntax:
     content: public CoveringGroup OpenChoicePrompt(ChoicePromptInfo info)
@@ -4917,7 +4929,7 @@ references:
     href: TinyLife.Uis.html
 - uid: TinyLife.Actions.Action.OpenYesNoPrompt*
   commentId: Overload:TinyLife.Actions.Action.OpenYesNoPrompt
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenYesNoPrompt_System_String_System_Action_System_Action_MLEM_Textures_TextureRegion_
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenYesNoPrompt_System_String_System_Action_System_Action_MLEM_Textures_TextureRegion_System_Action_TinyLife_Uis_CoveringGroup_MLEM_Ui_Elements_Panel__
   name: OpenYesNoPrompt
   nameWithType: Action.OpenYesNoPrompt
   fullName: TinyLife.Actions.Action.OpenYesNoPrompt
@@ -4937,7 +4949,7 @@ references:
   fullName: MLEM.Ui.Elements.TextField
 - uid: TinyLife.Actions.Action.OpenTextPrompt*
   commentId: Overload:TinyLife.Actions.Action.OpenTextPrompt
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_MLEM_Textures_TextureRegion_
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_System_Boolean_System_Nullable_System_Int32__MLEM_Textures_TextureRegion_System_Action_TinyLife_Uis_CoveringGroup_MLEM_Ui_Elements_Panel__
   name: OpenTextPrompt
   nameWithType: Action.OpenTextPrompt
   fullName: TinyLife.Actions.Action.OpenTextPrompt
@@ -5034,6 +5046,29 @@ references:
   - uid: MLEM.Ui.Elements.TextField.Rule
     name: Rule
     isExternal: true
+- uid: System.Nullable{System.Int32}
+  commentId: T:System.Nullable{System.Int32}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.int32
+  name: int?
+  nameWithType: int?
+  fullName: int?
+  nameWithType.vb: Integer?
+  fullName.vb: Integer?
+  name.vb: Integer?
+  spec.csharp:
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  spec.vb:
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
 - uid: MLEM.Ui.Elements
   commentId: N:MLEM.Ui.Elements
   isExternal: true
@@ -5064,21 +5099,21 @@ references:
   - uid: MLEM.Ui.Elements
     name: Elements
     isExternal: true
-- uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
-  commentId: M:TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
+- uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
+  commentId: M:TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_MLEM_Textures_TextureRegion_
-  name: OpenTextPrompt(string, Action<string>, Predicate<string>, Rule, string, TextureRegion)
-  nameWithType: Action.OpenTextPrompt(string, Action<string>, Predicate<string>, TextField.Rule, string, TextureRegion)
-  fullName: TinyLife.Actions.Action.OpenTextPrompt(string, System.Action<string>, System.Predicate<string>, MLEM.Ui.Elements.TextField.Rule, string, MLEM.Textures.TextureRegion)
-  nameWithType.vb: Action.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, TextureRegion)
-  fullName.vb: TinyLife.Actions.Action.OpenTextPrompt(String, System.Action(Of String), System.Predicate(Of String), MLEM.Ui.Elements.TextField.Rule, String, MLEM.Textures.TextureRegion)
-  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), Rule, String, TextureRegion)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_System_Boolean_System_Nullable_System_Int32__MLEM_Textures_TextureRegion_System_Action_TinyLife_Uis_CoveringGroup_MLEM_Ui_Elements_Panel__
+  name: OpenTextPrompt(string, Action<string>, Predicate<string>, Rule, string, bool, int?, TextureRegion, Action<CoveringGroup, Panel>)
+  nameWithType: Action.OpenTextPrompt(string, Action<string>, Predicate<string>, TextField.Rule, string, bool, int?, TextureRegion, Action<CoveringGroup, Panel>)
+  fullName: TinyLife.Actions.Action.OpenTextPrompt(string, System.Action<string>, System.Predicate<string>, MLEM.Ui.Elements.TextField.Rule, string, bool, int?, MLEM.Textures.TextureRegion, System.Action<TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel>)
+  nameWithType.vb: Action.OpenTextPrompt(String, Action(Of String), Predicate(Of String), TextField.Rule, String, Boolean, Integer?, TextureRegion, Action(Of CoveringGroup, Panel))
+  fullName.vb: TinyLife.Actions.Action.OpenTextPrompt(String, System.Action(Of String), System.Predicate(Of String), MLEM.Ui.Elements.TextField.Rule, String, Boolean, Integer?, MLEM.Textures.TextureRegion, System.Action(Of TinyLife.Uis.CoveringGroup, MLEM.Ui.Elements.Panel))
+  name.vb: OpenTextPrompt(String, Action(Of String), Predicate(Of String), Rule, String, Boolean, Integer?, TextureRegion, Action(Of CoveringGroup, Panel))
   spec.csharp:
-  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
+  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
     name: OpenTextPrompt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_MLEM_Textures_TextureRegion_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_System_Boolean_System_Nullable_System_Int32__MLEM_Textures_TextureRegion_System_Action_TinyLife_Uis_CoveringGroup_MLEM_Ui_Elements_Panel__
   - name: (
   - uid: System.String
     name: string
@@ -5121,14 +5156,43 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: ','
   - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  - name: ','
+  - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    href: TinyLife.Uis.CoveringGroup.html
+  - name: ','
+  - name: " "
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,MLEM.Textures.TextureRegion)
+  - uid: TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
     name: OpenTextPrompt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_MLEM_Textures_TextureRegion_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OpenTextPrompt_System_String_System_Action_System_String__System_Predicate_System_String__MLEM_Ui_Elements_TextField_Rule_System_String_System_Boolean_System_Nullable_System_Int32__MLEM_Textures_TextureRegion_System_Action_TinyLife_Uis_CoveringGroup_MLEM_Ui_Elements_Panel__
   - name: (
   - uid: System.String
     name: String
@@ -5175,9 +5239,40 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.string
   - name: ','
   - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: '?'
+  - name: ','
+  - name: " "
   - uid: MLEM.Textures.TextureRegion
     name: TextureRegion
     isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Uis.CoveringGroup
+    name: CoveringGroup
+    href: TinyLife.Uis.CoveringGroup.html
+  - name: ','
+  - name: " "
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: )
   - name: )
 - uid: TinyLife.Actions.ChoicePromptInfo
   commentId: T:TinyLife.Actions.ChoicePromptInfo

@@ -1,3 +1,26 @@
+# 0.47.0
+*March 9, 2025*
+
+![](media/changelog/0.47.0.png)
+
+> Elders and Their Demise
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.47.0/).** Even though the changelog may not show it, it's a pretty big one this time!
+
+Additions
+- Added the elder life stage, which includes several unique actions and personalities
+- Added the ability for elders to retire from their jobs
+- Added the ability for elders to pass down special recipes to their family members
+- Added the ability for elders to die of old age
+- Added the ability to engrave gravestones with custom text
+- Added the grandfather clock furniture item
+
+Improvements
+- Allow gravestones to spawn off-lots
+- Allow destroying gravestones permanently
+- Allow storing gravestones in household storage if they're off-lot
+- Improve the random name selection likelihood system, causing more common names from countries matching the current localization to be picked more often
+
 # 0.46.2
 *February 25, 2025*
 

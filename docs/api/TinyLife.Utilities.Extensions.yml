@@ -1470,7 +1470,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Utilities
-  summary: Returns the amount of days that have to pass until a person in the given <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> with the given <xref href="TinyLife.Objects.LifeSpan" data-throw-if-not-resolved="false"></xref> ages up.
+  summary: Returns the amount of days that have to pass until a person in the given <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> with the given <xref href="TinyLife.Objects.LifeSpan" data-throw-if-not-resolved="false"></xref> ages up (or dies of old age in the case of <xref href="TinyLife.Objects.AgeGroup.Elder" data-throw-if-not-resolved="false"></xref>).
   example: []
   syntax:
     content: public static int GetDaysBeforeAging(this AgeGroup group, LifeSpan lifeSpan)
@@ -1489,7 +1489,7 @@ items:
   exceptions:
   - type: System.ArgumentOutOfRangeException
     commentId: T:System.ArgumentOutOfRangeException
-    description: Thrown when the given <code class="paramref">lifeSpan</code> is not defined.
+    description: Thrown when the given <code class="paramref">lifeSpan</code> is not a valid non-combined flag.
 - uid: TinyLife.Utilities.Extensions.AddGamepadScrolling(MLEM.Ui.Elements.Panel)
   commentId: M:TinyLife.Utilities.Extensions.AddGamepadScrolling(MLEM.Ui.Elements.Panel)
   id: AddGamepadScrolling(MLEM.Ui.Elements.Panel)
@@ -1895,18 +1895,24 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Utilities
+  summary: A special version of <xref href="TinyLife.Utilities.Extensions.ConcatIfAny%60%601(System.Collections.Generic.IEnumerable%7b%60%600%7d%2cSystem.Collections.Generic.IEnumerable%7b%60%600%7d)" data-throw-if-not-resolved="false"></xref> that prepends the given element to the end of the given enumerable if the <code class="paramref">enumerable</code> already has at least one element.
+  example: []
   syntax:
-    content: public static IEnumerable<T> PrependIfAny<T>(this IEnumerable<T> enumerable, T toPrepend)
+    content: 'public static IEnumerable<T> PrependIfAny<T>(this IEnumerable<T> enumerable, T toPrepend) where T : Action'
     parameters:
     - id: enumerable
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: The enumerable.
     - id: toPrepend
       type: '{T}'
+      description: The element to prepend.
     typeParameters:
     - id: T
+      description: The type of the enumerable and element to prepended to it.
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
-    content.vb: Public Shared Function PrependIfAny(Of T)(enumerable As IEnumerable(Of T), toPrepend As T) As IEnumerable(Of T)
+      description: A concatenation of <code class="paramref">toPrepend</code> followed by <code class="paramref">enumerable</code> if <code class="paramref">enumerable</code> contains at least one element, or an empty collection otherwise.
+    content.vb: Public Shared Function PrependIfAny(Of T As Action)(enumerable As IEnumerable(Of T), toPrepend As T) As IEnumerable(Of T)
   overload: TinyLife.Utilities.Extensions.PrependIfAny*
   nameWithType.vb: Extensions.PrependIfAny(Of T)(IEnumerable(Of T), T)
   fullName.vb: TinyLife.Utilities.Extensions.PrependIfAny(Of T)(System.Collections.Generic.IEnumerable(Of T), T)
@@ -1926,18 +1932,24 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Utilities
+  summary: A special version of <xref href="TinyLife.Utilities.Extensions.ConcatIfAny%60%601(System.Collections.Generic.IEnumerable%7b%60%600%7d%2cSystem.Collections.Generic.IEnumerable%7b%60%600%7d)" data-throw-if-not-resolved="false"></xref> that appends the given element to the end of the given enumerable if the <code class="paramref">enumerable</code> already has at least one element.
+  example: []
   syntax:
-    content: public static IEnumerable<T> AppendIfAny<T>(this IEnumerable<T> enumerable, T toAppend)
+    content: 'public static IEnumerable<T> AppendIfAny<T>(this IEnumerable<T> enumerable, T toAppend) where T : Action'
     parameters:
     - id: enumerable
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: The enumerable.
     - id: toAppend
       type: '{T}'
+      description: The element to append.
     typeParameters:
     - id: T
+      description: The type of the enumerable and element to append to it.
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
-    content.vb: Public Shared Function AppendIfAny(Of T)(enumerable As IEnumerable(Of T), toAppend As T) As IEnumerable(Of T)
+      description: A concatenation of <code class="paramref">enumerable</code> followed by <code class="paramref">toAppend</code> if <code class="paramref">enumerable</code> contains at least one element, or an empty collection otherwise.
+    content.vb: Public Shared Function AppendIfAny(Of T As Action)(enumerable As IEnumerable(Of T), toAppend As T) As IEnumerable(Of T)
   overload: TinyLife.Utilities.Extensions.AppendIfAny*
   nameWithType.vb: Extensions.AppendIfAny(Of T)(IEnumerable(Of T), T)
   fullName.vb: TinyLife.Utilities.Extensions.AppendIfAny(Of T)(System.Collections.Generic.IEnumerable(Of T), T)
@@ -1957,18 +1969,27 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Utilities
+  summary: >-
+    A helper method intended to be used by <xref href="TinyLife.Actions.MultiAction.CreateFirstActions" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.MultiAction.CreateLastActions" data-throw-if-not-resolved="false"></xref> (or <xref href="TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection%7bTinyLife.Actions.Action%7d)" data-throw-if-not-resolved="false"></xref> in general) to concatenate the two given <xref href="System.Collections.Generic.IEnumerable%601" data-throw-if-not-resolved="false"></xref>s, but only if both of them have at least one element each.
+
+    This is useful as <xref href="TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection%7bTinyLife.Actions.Action%7d)" data-throw-if-not-resolved="false"></xref> expects an empty collection if the action should fail.
+  example: []
   syntax:
-    content: public static IEnumerable<T> ConcatIfAny<T>(this IEnumerable<T> first, IEnumerable<T> second)
+    content: 'public static IEnumerable<T> ConcatIfAny<T>(this IEnumerable<T> first, IEnumerable<T> second) where T : Action'
     parameters:
     - id: first
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: The first enumerable.
     - id: second
       type: System.Collections.Generic.IEnumerable{{T}}
+      description: The second enumerable.
     typeParameters:
     - id: T
+      description: The type of the enumerables.
     return:
       type: System.Collections.Generic.IEnumerable{{T}}
-    content.vb: Public Shared Function ConcatIfAny(Of T)(first As IEnumerable(Of T), second As IEnumerable(Of T)) As IEnumerable(Of T)
+      description: A concatenation of <code class="paramref">first</code> followed by <code class="paramref">second</code> if both contain at least one element, or an empty collection otherwise.
+    content.vb: Public Shared Function ConcatIfAny(Of T As Action)(first As IEnumerable(Of T), second As IEnumerable(Of T)) As IEnumerable(Of T)
   overload: TinyLife.Utilities.Extensions.ConcatIfAny*
   nameWithType.vb: Extensions.ConcatIfAny(Of T)(IEnumerable(Of T), IEnumerable(Of T))
   fullName.vb: TinyLife.Utilities.Extensions.ConcatIfAny(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Collections.Generic.IEnumerable(Of T))
@@ -3908,6 +3929,12 @@ references:
   name: GetPregnancyHours
   nameWithType: Extensions.GetPregnancyHours
   fullName: TinyLife.Utilities.Extensions.GetPregnancyHours
+- uid: TinyLife.Objects.AgeGroup.Elder
+  commentId: F:TinyLife.Objects.AgeGroup.Elder
+  href: TinyLife.Objects.AgeGroup.html#TinyLife_Objects_AgeGroup_Elder
+  name: Elder
+  nameWithType: AgeGroup.Elder
+  fullName: TinyLife.Objects.AgeGroup.Elder
 - uid: TinyLife.Utilities.Extensions.GetDaysBeforeAging*
   commentId: Overload:TinyLife.Utilities.Extensions.GetDaysBeforeAging
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_GetDaysBeforeAging_TinyLife_Objects_AgeGroup_TinyLife_Objects_LifeSpan_
@@ -4327,6 +4354,72 @@ references:
   - uid: Microsoft.Xna.Framework.Audio
     name: Audio
     isExternal: true
+- uid: TinyLife.Utilities.Extensions.ConcatIfAny``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})
+  commentId: M:TinyLife.Utilities.Extensions.ConcatIfAny``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})
+  isExternal: true
+  href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_ConcatIfAny__1_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___0__
+  name: ConcatIfAny<T>(IEnumerable<T>, IEnumerable<T>)
+  nameWithType: Extensions.ConcatIfAny<T>(IEnumerable<T>, IEnumerable<T>)
+  fullName: TinyLife.Utilities.Extensions.ConcatIfAny<T>(System.Collections.Generic.IEnumerable<T>, System.Collections.Generic.IEnumerable<T>)
+  nameWithType.vb: Extensions.ConcatIfAny(Of T)(IEnumerable(Of T), IEnumerable(Of T))
+  fullName.vb: TinyLife.Utilities.Extensions.ConcatIfAny(Of T)(System.Collections.Generic.IEnumerable(Of T), System.Collections.Generic.IEnumerable(Of T))
+  name.vb: ConcatIfAny(Of T)(IEnumerable(Of T), IEnumerable(Of T))
+  spec.csharp:
+  - uid: TinyLife.Utilities.Extensions.ConcatIfAny``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})
+    name: ConcatIfAny
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_ConcatIfAny__1_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___0__
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Utilities.Extensions.ConcatIfAny``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})
+    name: ConcatIfAny
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_ConcatIfAny__1_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___0__
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: )
 - uid: TinyLife.Utilities.Extensions.PrependIfAny*
   commentId: Overload:TinyLife.Utilities.Extensions.PrependIfAny
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_PrependIfAny__1_System_Collections_Generic_IEnumerable___0____0_
@@ -4368,9 +4461,96 @@ references:
   name: AppendIfAny
   nameWithType: Extensions.AppendIfAny
   fullName: TinyLife.Utilities.Extensions.AppendIfAny
+- uid: TinyLife.Actions.MultiAction.CreateFirstActions
+  commentId: M:TinyLife.Actions.MultiAction.CreateFirstActions
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
+  name: CreateFirstActions()
+  nameWithType: MultiAction.CreateFirstActions()
+  fullName: TinyLife.Actions.MultiAction.CreateFirstActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
+    name: CreateFirstActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
+    name: CreateFirstActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.MultiAction.CreateLastActions
+  commentId: M:TinyLife.Actions.MultiAction.CreateLastActions
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
+  name: CreateLastActions()
+  nameWithType: MultiAction.CreateLastActions()
+  fullName: TinyLife.Actions.MultiAction.CreateLastActions()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.CreateLastActions
+    name: CreateLastActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.CreateLastActions
+    name: CreateLastActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection{TinyLife.Actions.Action})
+  commentId: M:TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection{TinyLife.Actions.Action})
+  isExternal: true
+  href: TinyLife.Actions.Handlers.MultiActionHandler.html#TinyLife_Actions_Handlers_MultiActionHandler_Initialize_System_Collections_Generic_ICollection_TinyLife_Actions_Action__
+  name: Initialize(ICollection<Action>)
+  nameWithType: MultiActionHandler.Initialize(ICollection<Action>)
+  fullName: TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection<TinyLife.Actions.Action>)
+  nameWithType.vb: MultiActionHandler.Initialize(ICollection(Of Action))
+  fullName.vb: TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection(Of TinyLife.Actions.Action))
+  name.vb: Initialize(ICollection(Of Action))
+  spec.csharp:
+  - uid: TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection{TinyLife.Actions.Action})
+    name: Initialize
+    href: TinyLife.Actions.Handlers.MultiActionHandler.html#TinyLife_Actions_Handlers_MultiActionHandler_Initialize_System_Collections_Generic_ICollection_TinyLife_Actions_Action__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Handlers.MultiActionHandler.Initialize(System.Collections.Generic.ICollection{TinyLife.Actions.Action})
+    name: Initialize
+    href: TinyLife.Actions.Handlers.MultiActionHandler.html#TinyLife_Actions_Handlers_MultiActionHandler_Initialize_System_Collections_Generic_ICollection_TinyLife_Actions_Action__
+  - name: (
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  - name: )
 - uid: TinyLife.Utilities.Extensions.ConcatIfAny*
   commentId: Overload:TinyLife.Utilities.Extensions.ConcatIfAny
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_ConcatIfAny__1_System_Collections_Generic_IEnumerable___0__System_Collections_Generic_IEnumerable___0__
   name: ConcatIfAny
   nameWithType: Extensions.ConcatIfAny
   fullName: TinyLife.Utilities.Extensions.ConcatIfAny
+- uid: TinyLife.Actions.MultiAction
+  commentId: T:TinyLife.Actions.MultiAction
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.MultiAction.html
+  name: MultiAction
+  nameWithType: MultiAction
+  fullName: TinyLife.Actions.MultiAction
