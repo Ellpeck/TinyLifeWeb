@@ -162,7 +162,6 @@ items:
   - TinyLife.Objects.MapObject.DoDraw(Microsoft.Xna.Framework.GameTime,System.Object,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.DoUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.MapObject.DrawColumns(TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Object,Microsoft.Xna.Framework.Vector2,MLEM.Textures.TextureRegion,Microsoft.Xna.Framework.Color,Microsoft.Xna.Framework.Vector2,Microsoft.Xna.Framework.Point,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item},System.Boolean,TinyLife.Objects.ParentInfo,System.Single,Microsoft.Xna.Framework.Graphics.SpriteEffects,System.Boolean)
-  - TinyLife.Objects.MapObject.GetModCategory(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetData``1(System.String)
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder.GetDataKeys
@@ -193,6 +192,8 @@ items:
     A set of predicates and overrides that determine what screen content textures certain furniture items should display.
 
     If your furniture item has a specific screen width, height or location, you can add an item to this collection that determines the names of the textures used.
+
+    By default, the screen content's texture name is "Screen", followed by the screen object's <xref href="TinyLife.Objects.ScreenObject.Content" data-throw-if-not-resolved="false"></xref> string. The override function passes the original name as a parameter.
   example:
   - >-
     For example, the <xref href="TinyLife.Objects.FurnitureType.OldComputer" data-throw-if-not-resolved="false"></xref> adds the following entry:
@@ -217,7 +218,10 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife.Objects
-  summary: A set of overrides for which directions a given object should draw with which <xref href="Microsoft.Xna.Framework.Graphics.SpriteEffects" data-throw-if-not-resolved="false"></xref> on, or whether it should draw there at all.
+  summary: >-
+    A set of overrides for which directions a given object should draw with which <xref href="Microsoft.Xna.Framework.Graphics.SpriteEffects" data-throw-if-not-resolved="false"></xref> on, or whether it should draw there at all.
+
+    For an entry that returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the object will not be drawn in that direction. For objects not contained in this collection, they will not be drawn when the screen is not facing the camera.
   example: []
   syntax:
     content: public static readonly Dictionary<FurnitureType, Func<Direction2, SpriteEffects?>> DrawScreenContentOverrides
@@ -4167,37 +4171,6 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.MapObject.GetModCategory(System.String)
-  commentId: M:TinyLife.Objects.MapObject.GetModCategory(System.String)
-  parent: TinyLife.Objects.MapObject
-  isExternal: true
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetModCategory_System_String_
-  name: GetModCategory(string)
-  nameWithType: MapObject.GetModCategory(string)
-  fullName: TinyLife.Objects.MapObject.GetModCategory(string)
-  nameWithType.vb: MapObject.GetModCategory(String)
-  fullName.vb: TinyLife.Objects.MapObject.GetModCategory(String)
-  name.vb: GetModCategory(String)
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.GetModCategory(System.String)
-    name: GetModCategory
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetModCategory_System_String_
-  - name: (
-  - uid: System.String
-    name: string
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.GetModCategory(System.String)
-    name: GetModCategory
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_GetModCategory_System_String_
-  - name: (
-  - uid: System.String
-    name: String
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.string
-  - name: )
 - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,{T})
   commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
   parent: MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -4724,6 +4697,13 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Objects.ScreenObject.Content
+  commentId: P:TinyLife.Objects.ScreenObject.Content
+  parent: TinyLife.Objects.ScreenObject
+  href: TinyLife.Objects.ScreenObject.html#TinyLife_Objects_ScreenObject_Content
+  name: Content
+  nameWithType: ScreenObject.Content
+  fullName: TinyLife.Objects.ScreenObject.Content
 - uid: TinyLife.Objects.FurnitureType.OldComputer
   commentId: F:TinyLife.Objects.FurnitureType.OldComputer
   href: TinyLife.Objects.FurnitureType.html#TinyLife_Objects_FurnitureType_OldComputer
@@ -4861,6 +4841,13 @@ references:
   - name: )
   - name: )
   - name: )
+- uid: TinyLife.Objects.ScreenObject
+  commentId: T:TinyLife.Objects.ScreenObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.ScreenObject.html
+  name: ScreenObject
+  nameWithType: ScreenObject
+  fullName: TinyLife.Objects.ScreenObject
 - uid: System.Collections.Generic.List`1
   commentId: T:System.Collections.Generic.List`1
   isExternal: true
@@ -5141,20 +5128,6 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: TinyLife.Objects.ScreenObject
-  commentId: T:TinyLife.Objects.ScreenObject
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.ScreenObject.html
-  name: ScreenObject
-  nameWithType: ScreenObject
-  fullName: TinyLife.Objects.ScreenObject
-- uid: TinyLife.Objects.ScreenObject.Content
-  commentId: P:TinyLife.Objects.ScreenObject.Content
-  parent: TinyLife.Objects.ScreenObject
-  href: TinyLife.Objects.ScreenObject.html#TinyLife_Objects_ScreenObject_Content
-  name: Content
-  nameWithType: ScreenObject.Content
-  fullName: TinyLife.Objects.ScreenObject.Content
 - uid: TinyLife.Objects.ScreenObject.IsOn*
   commentId: Overload:TinyLife.Objects.ScreenObject.IsOn
   href: TinyLife.Objects.ScreenObject.html#TinyLife_Objects_ScreenObject_IsOn

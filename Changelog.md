@@ -1,3 +1,18 @@
+# 0.47.1
+*March 16, 2025*
+
+Improvements
+- Added a confirmation dialog to the break up action
+- Made relevant actions much more likely on public lots
+
+Fixes
+- Fixed babysitters putting requested food in the fridge again immediately
+- Fixed being able to make fun of a lot employee for being unemployed
+- Fixed deadly emotions in-game hint displaying for other households
+- Fixed the add to household cheat not clearing tinies' lot employments
+- Fixed being unable to use a physical keyboard on steam deck
+- Fixed being unable to scrap paintings using public trash cans
+
 # 0.47.0
 *March 9, 2025*
 
