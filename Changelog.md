@@ -1,3 +1,23 @@
+# 0.47.2
+*March 20, 2025*
+
+Additions
+- Added lighting controls for build mode: pressing L or the down D-pad button will now cycle through lighting overrides
+- Added loading screen hints for elders
+
+Improvements
+- Made mean actions able to hurt relationships consistently even at very high friendship and romance levels
+- Made the mean personality icon more light-hearted
+- Greatly reduce the amount of save time that is spent halting the game
+- Improve pathfinding memory allocations to reduce garbage collection lag
+- Made social interactions less of a main focus for people visiting cafés
+
+Fixes
+- Fixed people sometimes barging into other people's lots to use or put away objects since the last update
+- Fixed camera focusing on deaths and age-ups of people that no one in the active household knows
+- Fixed gravestones only being accessible from the front
+- Fixed hair colors being randomized when a person ages up
+
 # 0.47.1
 *March 16, 2025*
 
