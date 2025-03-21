@@ -67,7 +67,7 @@ Notably, opening types can specify the wall mode that they want to use, which de
 ## Actions
 
 ### Simple Social Actions (Talk Actions)
-The `TalkAction` class supplies a set of factory methods that allow easily creating social actions between Tinies which generally only involve talking and have a chance to succeed or fail, yielding friendship or romance gains or losses in return.
+The [`TalkAction`](xref:TinyLife.Actions.TalkAction) class supplies a set of factory methods that allow easily creating social actions between Tinies which generally only involve talking and have a chance to succeed or fail, yielding friendship or romance gains or losses in return.
 
 This is the most basic social action in the game, the Chat action:
 ```cs
@@ -77,7 +77,7 @@ public static readonly ActionType Talk = ActionType.Register(TalkAction.Create("
 }));
 ```
 
-Here is an example of a more complex talk action:
+Here is an example of a more complex friendly talk action:
 ```cs
 public static readonly ActionType AskAboutParenting = ActionType.Register(TalkAction.Create("Friendly/AskAboutParenting", _ => 50, new TalkSettings {
     FriendshipGain = _ => 3000, GoBadlyChance = _ => 0.02F, TalkMinutes = 15,
@@ -87,6 +87,18 @@ public static readonly ActionType AskAboutParenting = ActionType.Register(TalkAc
         RequiredAges = AgeGroup.AdultOrOlder, RequiredPartnerAges = AgeGroup.AdultOrOlder,
         CanExecute = (i, _) => ActionType.Partner(i)?.Relationships.Any(r => r.Genealogy == GenealogyType.Parent) == true ? CanExecuteResult.Valid : CanExecuteResult.Hidden
     }
+}));
+```
+
+There are additional helper methods for different categories of talk actions that apply additional preset information like required and gained skills, additional execution requirements, and so on. These methods include `CreateFunny`, `CreateRomantic` and `CreateMean`.
+
+Here is the very basic mean Insult action. As you can see, the chance of failure (`GoBadlyChance`) for this action is greater than 1, because it is meant to fail more often than succeeding. Success and failure in the context of the talk action only refer to whether friendship or romance is increased (success) or decreased (failure), and so mean actions are meant to be more likely to fail than succeed.
+
+```cs
+public static readonly ActionType Insult = ActionType.Register(TalkAction.CreateMean("Insult", _ => 30, new TalkSettings {
+    FriendshipGain = _ => 4600, GoBadlyChance = _ => 6, TalkMinutes = 5,
+    EmoteCategory = EmoteCategory.Negative, SpeakStyle = SpeakStyle.Confident | SpeakStyle.Childish | SpeakStyle.Angry, PartnerSpeakStyle = SpeakStyle.Annoyed | SpeakStyle.Sad | SpeakStyle.Shocked | SpeakStyle.Scared,
+    Settings = {RequiredPartnerAges = (AgeGroup) ~0} // yes, you can insult babies as well
 }));
 ```
 
