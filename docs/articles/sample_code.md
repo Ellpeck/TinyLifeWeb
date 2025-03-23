@@ -59,7 +59,7 @@ FenceType.Register(new FenceType("ModernMetalFence", 40, null, TextureHandler.Fe
 ```
 
 ## Openings
-Openings holes in walls that are usually filled with windows or doors. 
+Openings are holes in walls that are usually filled with windows or doors.
 
 ### Windows
 Here's the code for the Small Wooden Window:
@@ -167,4 +167,21 @@ public static readonly FurnitureType SmallBush = FurnitureType.Register(new Type
 });
 ```
 
-Migrations can also be applied to actions, game options, and a lot more content types. For a lot more information on migrations and the additional information you can supply for them, see the [Migration documentation](xref:TinyLife.Utilities.Migration).
+Migrations can also be applied to actions, game options, and a lot more content types. Notable migration types that are frequently useful for internal code renames are the [`TypeMigrations`](xref:TinyLife.SaveHandler.TypeMigrations) and [`StaticJsonConverterMigrations`](xref:TinyLife.SaveHandler.StaticJsonConverterMigrations) collections. For a lot more information on migrations and the additional information you can supply for them, see the [Migration documentation](xref:TinyLife.Utilities.Migration).
+
+Just out of interest, I tried to find some of the migrations in the game that convert super old data. Here's a fun one that's from when the game started allowing multiple maps per save:
+
+```cs
+new("MapName", MigrationPhase.Single, (kv, d) => {
+    if (d.Remove("MapName", out var mapName) && (string) mapName != null) {
+        if (!d.Remove("MapCustom", out var mapCustom))
+            mapCustom = false;
+        if (!kv.Options.Maps.Any(m => m.Name == (string) mapName && m.Custom == (bool) mapCustom)) {
+            kv.Options.Maps.Add(new MapInfo((string) mapName, (bool) mapCustom));
+            kv.Options.Save(kv.Save);
+            return MigrationResult.Success;
+        }
+    }
+    return MigrationResult.Skipped;
+}) {Silent = true}
+```
