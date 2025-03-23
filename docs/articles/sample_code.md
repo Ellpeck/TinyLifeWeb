@@ -7,6 +7,19 @@ Feel free to copy these examples into your own mods and modify them as needed. P
 
 ## Furniture
 
+### Custom Object Categories
+The way many types of interactions between Tiny Life objects work is utilizing [object categories](xref:TinyLife.Objects.ObjectCategory). The `ObjectCategory` dynamic enum is a set of flags that can be combined to create "filters" for objects to be selected based on, which is a key part of how actions determine what objects they can be executed on. When adding a custom type of object with special actions, it is generally recommended to add a custom object category to the game.
+
+Here is an example of how to add a custom object category to the game, and how to use it on an object:
+```cs
+public override void AddGameContent(GameImpl game, ModInfo info) {
+    var category = DynamicEnum.AddFlag<ObjectCategory>("ExampleMod.CustomCategory");
+    FurnitureType.Register(new FurnitureType.TypeSettings("ExampleMod.CustomObject", new Point(1, 1), category, 100, ColorScheme.White) { /* ... */ });
+}
+```
+
+Of course, custom categories can also be combined with existing ones using the `| ` boolean operator.
+
 ### Furniture With Light
 The Sleek Floor Lamp item's code:
 ```cs
@@ -141,3 +154,17 @@ public static readonly LifeGoal HouseholdHero = LifeGoal.Register(new LifeGoal("
 ```
 
 For more info on goal sets and how they can be used for life goals and job daily tasks, see [this Discord thread](https://discord.com/channels/181435613147430913/1281739432399212605).
+
+## Migrations
+The migrations system allows for objects, actions, and other game content to be updated to new versions in special ways when a game or mod update occurs. For example, since furniture color schemes are saved to disk by index, if you add a new color to the start of one of your color schemes, all of the furniture in the world that uses that color scheme will have its existing colors be shifted by one. A migration can mitigate this by updating the colors of all furniture objects that already exist when a save or exported lot is first loaded after the update.
+
+The small bush in the game started allowing the flower overlay to be transparent is an example of exactly that situation, and here is the migration code it uses:
+```cs
+public static readonly FurnitureType SmallBush = FurnitureType.Register(new TypeSettings("SmallBush", /* ... */, ColorScheme.Plants, ColorScheme.Pastel.WithTransparent()) {
+    Migrations = [
+        new Migration<Furniture>("TransparentFlowers", MigrationPhase.Early, f => f.Colors[1]++)
+    ]
+});
+```
+
+Migrations can also be applied to actions, game options, and a lot more content types. For a lot more information on migrations and the additional information you can supply for them, see the [Migration documentation](xref:TinyLife.Utilities.Migration).
