@@ -2569,7 +2569,7 @@ Fixes
 
 Additions
 - Added the Children age group, which includes several new gameplay features, including new interactable furniture items, school, homework and the start of parenting interactions
-- Added the Familiar Attire set with art by [Tector](https://www.instagram.com/tector_pixel/), which includes several new clothing items and accessories for children and adults
+- Added the Familiar Attire set with art by [Tector](https://www.instagram.com/tectorpixel/), which includes several new clothing items and accessories for children and adults
 - Added multiple new furniture items, including three plants, two decorative objects, a smaller picnic table, a sandbox, a jigsaw puzzle, a stove for kids, and a toy box
 - Added a top hat clothing item
 - Added two new personality types: Family-Focused and Hates Children
@@ -2995,7 +2995,7 @@ Additions
 - Added a new, more commercial-looking area to the game's map that currently features a park and a new resident
 - Added Steam cloud syncing when playing while Steam is open
 - Added some more social actions, especially ones related to emotions and skill levels
-- Added a proper logo to the game, created by [Tector](https://www.instagram.com/tector_pixel/)
+- Added a proper logo to the game, created by [Tector](https://www.instagram.com/tectorpixel/)
 - Added getting water and washing your hands at sinks
 
 Improvements
@@ -3063,7 +3063,7 @@ Fixes
 Watch [the trailer](https://www.youtube.com/watch?v=e86RRKPNLv0) and **read the devlog [on the website](https://tinylifegame.com/devlogs/0.12.0/).**
 
 Additions
-- Added the Fitness Set, with art by [Tector](https://www.instagram.com/tector_pixel/), which includes a fitness skill and several new furniture and clothing items:
+- Added the Fitness Set, with art by [Tector](https://www.instagram.com/tectorpixel/), which includes a fitness skill and several new furniture and clothing items:
   - Five new hairstyles
   - One new pair of pants and shoes
   - Three new tops
