@@ -155,6 +155,24 @@ public static readonly LifeGoal HouseholdHero = LifeGoal.Register(new LifeGoal("
 
 For more info on goal sets and how they can be used for life goals and job daily tasks, see [this Discord thread](https://discord.com/channels/181435613147430913/1281739432399212605).
 
+## Custom UI
+Tiny Life uses [MLEM.Ui](https://mlem.ellpeck.de/articles/ui.html). A notable extension to the default feature set is the game's `CoveringGroup`, which is a group element that automatically darkens the screen and animates panels added to it in the way you're used to from the game.
+
+Here's an example of a small panel displayed in the game that asks you whether you really want to delete a save:
+```cs
+var deleteGroup = new CoveringGroup();
+var deletePanel = deleteGroup.AddChild(new Panel(Anchor.Center, new Vector2(100), Vector2.Zero, true));
+deletePanel.AddChild(new Paragraph(Anchor.AutoLeft, 1, Localization.Get(LnCategory.Ui, "DeleteSave")));
+deletePanel.AddChild(new Button(Anchor.AutoCenter, new Vector2(50, 12), Localization.Get(LnCategory.Ui, "Yes")) {
+    PositionOffset = new Vector2(0, 3),
+    OnPressed = _ => {
+        dir.Delete(true);
+        deleteGroup.Close();
+    }
+});
+GameImpl.Instance.UiSystem.Add("Delete", deleteGroup);
+```
+
 ## Migrations
 The migrations system allows for objects, actions, and other game content to be updated to new versions in special ways when a game or mod update occurs. For example, since furniture color schemes are saved to disk by index, if you add a new color to the start of one of your color schemes, all of the furniture in the world that uses that color scheme will have its existing colors be shifted by one. A migration can mitigate this by updating the colors of all furniture objects that already exist when a save or exported lot is first loaded after the update.
 
