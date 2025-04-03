@@ -16,6 +16,17 @@ To do so, make sure that you have Steam running, and then go into the Load Game 
 
 While Steam Cloud storage is enabled for a save file, it will automatically be uploaded whenever the game is saved, and newer versions will automatically be downloaded every time you launch the game.
 
+# 🎥 When I rotate the camera, stuff isn't where it should be
+You're likely encountering a problem that is quite common with humans and trying to understand isometric projections (which is what you see in Tiny Life). Isometric projection means that objects don't change their apparent size or shape when you move or rotate the camera (unlike they do in perspective projection, which is generally what 3D games use), and so it can be difficult to understand what **height** an object is at. 
+
+For Tiny Life, this usually means that you're currently building **on the wrong floor**, likely one or two floors higher than where you should be building. To help you grasp what floor you're currently on while building, you can use the G key (or the D-pad up button on a gamepad) to display a grid overlay that also darkens objects on lower floors.
+
+Here's a little visualization of the effect that the game's camera projection has on walls on different floors after rotating the camera. Note that walls that are on the same floor use the same wallpaper in this example!
+
+![](../media/projection_example.png)
+
+The [Limitations of parallel projection](https://en.wikipedia.org/wiki/3D_projection#Limitations_of_parallel_projection) section of the 3D projection article on Wikipedia also has a good illustration of this effect.
+
 # 👾 I get an error or crash with mods installed
 **For issues that only happen with mods, please contact the mods' developers.** You can narrow down which mod is causing an issue by looking at the [log file](https://docs.tinylifegame.com/articles/game_dir.html) or by uninstalling mods until the issue stops happening. Most mods have a button to open their issue tracker in their description, which you can find in the rightmost tab of the game's options menu.
 
