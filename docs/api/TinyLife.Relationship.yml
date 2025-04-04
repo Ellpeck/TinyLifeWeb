@@ -14,6 +14,7 @@ items:
   - TinyLife.Relationship.FriendPercentage
   - TinyLife.Relationship.Genealogy
   - TinyLife.Relationship.GetMemories``1(TinyLife.Goals.MemoryType,System.Boolean)
+  - TinyLife.Relationship.GetPartner(System.Boolean)
   - TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   - TinyLife.Relationship.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Boolean,System.Func{``0,System.Boolean})
   - TinyLife.Relationship.KnownJobType
@@ -269,7 +270,7 @@ items:
   summary: >-
     The <xref href="System.Guid" data-throw-if-not-resolved="false"></xref> of the person that this relationship is linked to.
 
-    To easily retrieve the matching <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> instance, see <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>.
+    To easily retrieve the matching <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> instance, see <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref> or the more customizable <xref href="TinyLife.Relationship.GetPartner(System.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: >-
@@ -303,9 +304,11 @@ items:
   - Tiny Life
   namespace: TinyLife
   summary: >-
-    The actual other person involved in the relationship.
+    Returns an instance of the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref> that this relationship is linked to.
 
-    This is a computed property that returns the <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> on the map with the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref> id.
+    Internally, this property calls the <xref href="TinyLife.Relationship.GetPartner(System.Boolean)" data-throw-if-not-resolved="false"></xref> method with the <code>includeDeadPeople</code> parameter set to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+
+    If a potentially dead partner that isn't currently on the map should be included, use <xref href="TinyLife.Relationship.GetPartner(System.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public PersonLike Partner { get; }
@@ -668,6 +671,39 @@ items:
       type: TinyLife.Objects.PersonLike
     content.vb: Public Property Person As PersonLike
   overload: TinyLife.Relationship.Person*
+- uid: TinyLife.Relationship.GetPartner(System.Boolean)
+  commentId: M:TinyLife.Relationship.GetPartner(System.Boolean)
+  id: GetPartner(System.Boolean)
+  parent: TinyLife.Relationship
+  langs:
+  - csharp
+  - vb
+  name: GetPartner(bool)
+  nameWithType: Relationship.GetPartner(bool)
+  fullName: TinyLife.Relationship.GetPartner(bool)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife
+  summary: >-
+    Returns an instance of the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref> that this relationship is linked to.
+
+    Note that the <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref> property calls this method internally, with the <code class="paramref">includeDeadPeople</code> parameter set to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
+  example: []
+  syntax:
+    content: public PersonLike GetPartner(bool includeDeadPeople)
+    parameters:
+    - id: includeDeadPeople
+      type: System.Boolean
+      description: Whether any dead people, that is, people returned as part of <xref href="TinyLife.World.Map.GetStoredDeadPeople" data-throw-if-not-resolved="false"></xref>, should also be searched for a matching person.
+    return:
+      type: TinyLife.Objects.PersonLike
+      description: This relationship's partner, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> if they can't be found.
+    content.vb: Public Function GetPartner(includeDeadPeople As Boolean) As PersonLike
+  overload: TinyLife.Relationship.GetPartner*
+  nameWithType.vb: Relationship.GetPartner(Boolean)
+  fullName.vb: TinyLife.Relationship.GetPartner(Boolean)
+  name.vb: GetPartner(Boolean)
 - uid: TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   commentId: M:TinyLife.Relationship.GetSocialEffectiveness(TinyLife.Actions.ActionType)
   id: GetSocialEffectiveness(TinyLife.Actions.ActionType)
@@ -815,7 +851,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: Adds a <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> to this relationship's person's and <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> list of this person.
+  summary: Adds a <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> to this relationship's person's and <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> list of this person.
   example: []
   syntax:
     content: 'public T AddMemory<T>(MemoryType type, bool addToBoth, int toKeep = 0, TimeSpan? timeOccured = null) where T : Memory'
@@ -825,7 +861,7 @@ items:
       description: The type of memory to add.
     - id: addToBoth
       type: System.Boolean
-      description: Whether the memory should be added to the <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref> as well.
+      description: Whether the memory should be added to the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref> as well.
     - id: toKeep
       type: System.Int32
       description: An amount of memories of the given <code class="paramref">type</code> to keep, also counting the newly added one. Oldest memories will be removed first.
@@ -856,7 +892,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: Returns all <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instances that this relationship's person and <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref> currently track that match the given <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref>.
+  summary: Returns all <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instances that this relationship's person and <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref> currently track that match the given <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: 'public IEnumerable<T> GetMemories<T>(MemoryType type, bool returnBoth) where T : Memory'
@@ -866,7 +902,7 @@ items:
       description: The memory type to match.
     - id: returnBoth
       type: System.Boolean
-      description: Whether the <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s memories should also be returned.
+      description: Whether the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>'s memories should also be returned.
     typeParameters:
     - id: T
     return:
@@ -891,7 +927,7 @@ items:
   assemblies:
   - Tiny Life
   namespace: TinyLife
-  summary: Removes all <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instances of the given type <code class="typeparamref">T</code> and <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref> from this relationship's person's and <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> collections, and returns the amount of memories removed.
+  summary: Removes all <xref href="TinyLife.Goals.Memory" data-throw-if-not-resolved="false"></xref> instances of the given type <code class="typeparamref">T</code> and <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref> from this relationship's person's and <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Objects.PersonLike.Memories" data-throw-if-not-resolved="false"></xref> collections, and returns the amount of memories removed.
   example: []
   syntax:
     content: 'public int RemoveMemory<T>(MemoryType type, bool removeFromBoth, int toKeep = 0, Func<T, bool> condition = null) where T : Memory'
@@ -901,7 +937,7 @@ items:
       description: The memory type to match.
     - id: removeFromBoth
       type: System.Boolean
-      description: Wether the <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s memories should also be removed.
+      description: Wether the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>'s memories should also be removed.
     - id: toKeep
       type: System.Int32
       description: An amount of memories of the given <code class="paramref">type</code> to keep. Oldest memories will be removed first.
@@ -933,7 +969,7 @@ items:
   - Tiny Life
   namespace: TinyLife
   summary: >-
-    Returns the time since a memory of the given <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref> has occured in this relationship's main person or <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>.
+    Returns the time since a memory of the given <xref href="TinyLife.Goals.MemoryType" data-throw-if-not-resolved="false"></xref> has occured in this relationship's main person or <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>.
 
     If there are multiple memories of the given type, the minimum time is returned. If there is no memory of the given type, <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> is returned.
   example: []
@@ -945,7 +981,7 @@ items:
       description: The memory type to query.
     - id: includeBoth
       type: System.Boolean
-      description: Whether the <xref href="TinyLife.Relationship.Partner" data-throw-if-not-resolved="false"></xref>'s memories should be included in the search.
+      description: Whether the <xref href="TinyLife.Relationship.OtherPerson" data-throw-if-not-resolved="false"></xref>'s memories should be included in the search.
     - id: condition
       type: System.Func{{T},System.Boolean}
       description: An additional condition to determine whether memories should be included in the search.
@@ -2304,6 +2340,36 @@ references:
   name: Partner
   nameWithType: Relationship.Partner
   fullName: TinyLife.Relationship.Partner
+- uid: TinyLife.Relationship.GetPartner(System.Boolean)
+  commentId: M:TinyLife.Relationship.GetPartner(System.Boolean)
+  isExternal: true
+  href: TinyLife.Relationship.html#TinyLife_Relationship_GetPartner_System_Boolean_
+  name: GetPartner(bool)
+  nameWithType: Relationship.GetPartner(bool)
+  fullName: TinyLife.Relationship.GetPartner(bool)
+  nameWithType.vb: Relationship.GetPartner(Boolean)
+  fullName.vb: TinyLife.Relationship.GetPartner(Boolean)
+  name.vb: GetPartner(Boolean)
+  spec.csharp:
+  - uid: TinyLife.Relationship.GetPartner(System.Boolean)
+    name: GetPartner
+    href: TinyLife.Relationship.html#TinyLife_Relationship_GetPartner_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Relationship.GetPartner(System.Boolean)
+    name: GetPartner
+    href: TinyLife.Relationship.html#TinyLife_Relationship_GetPartner_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
 - uid: TinyLife.Relationship.OtherPerson*
   commentId: Overload:TinyLife.Relationship.OtherPerson
   href: TinyLife.Relationship.html#TinyLife_Relationship_OtherPerson
@@ -2597,6 +2663,30 @@ references:
   name: Person
   nameWithType: Relationship.Person
   fullName: TinyLife.Relationship.Person
+- uid: TinyLife.World.Map.GetStoredDeadPeople
+  commentId: M:TinyLife.World.Map.GetStoredDeadPeople
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
+  name: GetStoredDeadPeople()
+  nameWithType: Map.GetStoredDeadPeople()
+  fullName: TinyLife.World.Map.GetStoredDeadPeople()
+  spec.csharp:
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.GetStoredDeadPeople
+    name: GetStoredDeadPeople
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetStoredDeadPeople
+  - name: (
+  - name: )
+- uid: TinyLife.Relationship.GetPartner*
+  commentId: Overload:TinyLife.Relationship.GetPartner
+  href: TinyLife.Relationship.html#TinyLife_Relationship_GetPartner_System_Boolean_
+  name: GetPartner
+  nameWithType: Relationship.GetPartner
+  fullName: TinyLife.Relationship.GetPartner
 - uid: TinyLife.Actions.ActionType
   commentId: T:TinyLife.Actions.ActionType
   parent: TinyLife.Actions

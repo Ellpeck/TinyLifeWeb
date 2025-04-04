@@ -1,3 +1,34 @@
+# 0.47.3
+*April 4, 2025*
+
+Additions
+- Added Discord and Steam Rich Presence compatibility including the game's logo and the game mode the player is currently in
+- Added an emotion for when a full trash can is around
+
+Improvements
+- When uploading items to Steam workshop, high-resolution screenshots of households and all floors of a lot are now automatically generated and included
+- Dead people are now also displayed in the relationships tab
+- Made the trash collector stay longer if there is a lot of trash to collect
+- Made the trash collector remember which objects are unreachable so they don't get stuck
+- Improved the contrast of in-text links
+- A disclaimer is now displayed when playing a preview version of the game
+- Improve AI performance by grouping AI actions by age group beforehand
+- Made it a lot more likely for people to view art when at a museum
+
+Fixes
+- Fixed a rare race condition in which a lot's map is unset
+- Fixed collections with objects directly behind doors being ignored
+- Fixed some issues with migrations that stopped really old saves from being loadable
+- Fixed new notifications not showing in the character creator
+- Fixed elder-specific food being included in the Chef life goal's food list
+- Fixed the deceased Hannah Buffleman not being an elder despite dying of old age
+- Fixed being unable to invite people over if they're on a different map, but close-by in terms of their coordinates on the map
+
+API
+- Fixed modded actions having to have their mod id in the action's category rather than the action's name
+- Added a debug action to allow aging up other people
+- Added the ShowColorSchemeInfos cheat that shows additional hover info for color selectors
+
 # 0.47.2
 *March 20, 2025*
 
