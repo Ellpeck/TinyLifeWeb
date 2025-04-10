@@ -48,6 +48,9 @@ If this happens, the game will create a file next to the game's executable calle
 # 🧬 My Tinies automatically get assigned wrong genealogies
 Transitive genealogies are automatically calculated in the character creator. For example, adding a parent and a child for a Tiny automatically causes them to have a grandparent/grandchild relationship. The current implementation of this system may contain some oversights causing incorrect transitive genealogies to be calculated automatically. To fix this issue temporarily and be able to set your own genealogies manually, you can enable the `IgnoreTransitive` [cheat](https://docs.tinylifegame.com/articles/cheats.html).
 
+# ⌨️ On Steam Deck, text boxes don't work with a keyboard connected
+This is a known issue that we [thought we'd fixed](https://tinylifegame.com/changelog/#0471), but that apparently still crops up from time to time. Until this issue is fully fixed, you can work around it by **starting the game through its binary** rather than through Steam if you want to input text with a keyboard connected. To get to the game's installation folder, you can right-click it on Steam and head to "Manage" and "Browse local files". From there, run the file called Tiny Life that doesn't have a file extension, which is the game's binary. Keep in mind that, when you want to use Steam features like the workshop, you'll have to start the game through Steam again.
+
 # ⁉️ My issue isn't listed here
 If your issue isn't listed here, it might mean that no one has encountered it yet, or it hasn't been reported by anyone yet. If that is the case, please **report it through [the feedback form](https://tinylifegame.com/bugreport)**. When doing so, please try to include as much information about the circumstances around it as possible.
 
