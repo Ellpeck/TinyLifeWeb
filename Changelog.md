@@ -1,3 +1,36 @@
+# 0.47.4
+*April 29, 2025*
+
+Additions
+- Added an option to disable eating and drinking sounds
+- Added build mode sounds for rotation, copying and disallowed placement
+- Added build mode UI buttons for the grid and lighting hotkeys
+
+Improvements
+- Allow fridges to get dirty, causing their food to lose quality over time
+- Improved the fidelity of object selection in the world
+- Also invoke the AI action cooldown when the player cancels an action
+- Improve style choices on randomly generated Tinies
+- Doors will now only open when people are going through them, not standing in front of them
+- Moved all basegame furniture out of the "Other" tab in the furniture tool
+- Recently failed actions started by the AI will now be repeated using a different object if possible
+
+Fixes
+- Fixed another action prompt collision causing the game to crash
+- Fixed center notifications having a really light background
+- Fixed an issue on Steam Deck causing external keyboards not to work
+- Fixed Load Game menu buttons not displaying their tooltips when using a gamepad
+- Fixed the woodlands set pants missing pixels in some poses
+- Fixed an exception when the goal map of an action is removed
+- Fixed being able to press B on a gamepad any time to return to the last selected clothing in the character creator
+- Fixed a UI thread exception when uploading items to Steam workshop
+- Fixed memories not being deserialized with their runtime type, causing some memories to lose their data
+
+API
+- Added various events to the RemoveTool
+- Recently failed actions now use the memory system
+- Hidden execution results now override non-hidden ones, allowing for objects to hide actions on them properly
+
 # 0.47.3
 *April 4, 2025*
 
