@@ -8,6 +8,6 @@ Jekyll::Hooks.register :site, :post_write do
     FileUtils.cp_r "../media/changelog", "_site/media"
 
     # also copy the raw markdown files for the in-game changelog/news viewers
-    FileUtils.cp_r "_includes/__news.md", "_site/ingamenews/raw.md"
-    FileUtils.cp_r "_includes/__changelog.md", "_site/changelog/raw.md"
+    FileUtils.cp "_includes/__news.md", "_site/ingamenews/raw.md"
+    FileUtils.cp "_includes/__changelog.md", "_site/changelog/raw.md"
 end
