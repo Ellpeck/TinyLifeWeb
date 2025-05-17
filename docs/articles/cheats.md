@@ -1,5 +1,7 @@
 # Cheats
-You can open up the game's cheat menu by pressing the `F1` key. Here is a list of some of the more useful cheats for mod development and testing. Keep in mind that `[arguments]` need to be replaced with your custom value, and the brackets `[]` need to be omitted.
+You can open up the game's cheat menu by pressing the `F1` key on your keyboard. Starting with Tiny Life version 0.47.5, when playing with a controller, you can also press `Start` while holding both the left and right triggers to cycle between the debug and cheat menus.
+
+Here is a list of some of the more useful cheats for mod development and testing. Keep in mind that `[arguments]` need to be replaced with your custom value, and the brackets `[]` need to be omitted.
 
 ## In-game Cheats
 - `ShowDebugActions` will enable a set of debug actions you can always select in-game, including teleporting to a certain location, adding people to your household, and more.
