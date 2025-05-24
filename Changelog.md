@@ -1,3 +1,35 @@
+# 0.47.5
+*May 24, 2025*
+
+Additions
+- Added the color changing tool to build mode, which allows changing the colors of already placed furniture, windows and doors
+- Added a metal garden furniture set
+- Added two types of lawn edging fencing
+- Added the ability to name outfits in the character creator
+- Added the ability to disable auto-tiles and animated water in the options
+- Added dirt road corners as non-buyable tiles
+
+Improvements
+- Beds are now claimed when people start sleeping in them rather than when they finish, causing couples to be more likely to sleep in the same bed when creating a new save
+- Selected walls, roofs and stairs are now also highlighted with the white outline in relevant game modes
+- Display an alert exclamation point on the job and needs tabs, as well as in the character switcher on the side, when not at work and when important needs are low
+- Food items with honey on them are now not considered viable for babies
+- Randomly remove a child from the list of adoptable children every night to slowly randomize it
+- Improved the performance of auto-tiles, especially when rotating the camera a lot
+
+Fixes
+- Fixed the reason why the character creator's Done button is grayed out not displaying when using a gamepad
+- Fixed phones being left behind on the ground when people get removed
+- Fixed a min/max floor exception when there are no visible lots
+- Fixed a deadlock where, sometimes, a person holding a baby would get stuck if the baby was also holding something
+- Fixed adults trying to put babies in cribs when they are already in one
+- Fixed people being unable to go jogging autonomously when on their home lot
+- Fixed people discarding a book they're already holding when told to read
+
+API
+- Tiles are now stored on map sections as tile instances, allowing for them to store additional data per-position
+- Added the serializer usage enum to denote whether a serializer is used for saving, loading or both
+
 # 0.47.4
 *April 29, 2025*
 

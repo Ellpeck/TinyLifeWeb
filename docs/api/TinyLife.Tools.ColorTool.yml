@@ -1,24 +1,25 @@
 ### YamlMime:ManagedReference
 items:
-- uid: TinyLife.Tools.WallpaperTool
-  commentId: T:TinyLife.Tools.WallpaperTool
-  id: WallpaperTool
+- uid: TinyLife.Tools.ColorTool
+  commentId: T:TinyLife.Tools.ColorTool
+  id: ColorTool
   parent: TinyLife.Tools
   children:
-  - TinyLife.Tools.WallpaperTool.#ctor
-  - TinyLife.Tools.WallpaperTool.CanPlaceForTooltip
-  - TinyLife.Tools.WallpaperTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  - TinyLife.Tools.WallpaperTool.GetMouseCursor
-  - TinyLife.Tools.WallpaperTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  - TinyLife.Tools.WallpaperTool.OnBuildModeButton
-  - TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject(System.Object)
-  - TinyLife.Tools.WallpaperTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  - TinyLife.Tools.ColorTool.#ctor
+  - TinyLife.Tools.ColorTool.Closed
+  - TinyLife.Tools.ColorTool.GetMouseCursor
+  - TinyLife.Tools.ColorTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+  - TinyLife.Tools.ColorTool.OnObjectSelected
+  - TinyLife.Tools.ColorTool.OnSelectObject
+  - TinyLife.Tools.ColorTool.SelectObject(System.Object)
+  - TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject(System.Object)
+  - TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   langs:
   - csharp
   - vb
-  name: WallpaperTool
-  nameWithType: WallpaperTool
-  fullName: TinyLife.Tools.WallpaperTool
+  name: ColorTool
+  nameWithType: ColorTool
+  fullName: TinyLife.Tools.ColorTool
   type: Class
   assemblies:
   - Tiny Life
@@ -29,8 +30,8 @@ items:
     Tools are split up into the <xref href="TinyLife.Tools.Tool.PlayModeTool" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Tools.Tool.BuildTools" data-throw-if-not-resolved="false"></xref>, the latter of which holds all tools that can be found in the build menu.
   example: []
   syntax:
-    content: 'public class WallpaperTool : Tool'
-    content.vb: Public Class WallpaperTool Inherits Tool
+    content: 'public class ColorTool : Tool'
+    content.vb: Public Class ColorTool Inherits Tool
   inheritance:
   - System.Object
   - TinyLife.Tools.Tool
@@ -61,7 +62,8 @@ items:
   - TinyLife.Tools.Tool.DisplayAsTab
   - TinyLife.Tools.Tool.MousePos
   - TinyLife.Tools.Tool.Opened
-  - TinyLife.Tools.Tool.Closed
+  - TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  - TinyLife.Tools.Tool.CanPlaceForTooltip
   - TinyLife.Tools.Tool.CanSwitchGameModes
   - TinyLife.Tools.Tool.CanUndoRedo(System.Boolean)
   - TinyLife.Tools.Tool.OnButtonCreated(MLEM.Ui.Elements.Button)
@@ -78,134 +80,87 @@ items:
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
   extensionMethods:
-  - TinyLife.Tools.WallpaperTool.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Tools.WallpaperTool.OnBuildModeButton
-  commentId: E:TinyLife.Tools.WallpaperTool.OnBuildModeButton
-  id: OnBuildModeButton
-  parent: TinyLife.Tools.WallpaperTool
+  - TinyLife.Tools.ColorTool.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Tools.ColorTool.OnSelectObject
+  commentId: E:TinyLife.Tools.ColorTool.OnSelectObject
+  id: OnSelectObject
+  parent: TinyLife.Tools.ColorTool
   langs:
   - csharp
   - vb
-  name: OnBuildModeButton
-  nameWithType: WallpaperTool.OnBuildModeButton
-  fullName: TinyLife.Tools.WallpaperTool.OnBuildModeButton
+  name: OnSelectObject
+  nameWithType: ColorTool.OnSelectObject
+  fullName: TinyLife.Tools.ColorTool.OnSelectObject
   type: Event
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   summary: >-
-    An event that is invoked when this tool's build mode buttons are created using <xref href="TinyLife.Tools.Tool.BuildModeButton(System.String%2cMLEM.Ui.Elements.Element.GenericCallback%2cMLEM.Ui.Elements.Element.DrawCallback%2cSystem.Single%2cMLEM.Textures.TextureRegion%2cSystem.String%2cSystem.Collections.Generic.IEnumerable%7bSystem.String%7d%2cSystem.Nullable%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref>.
+    An event that is invoked in <xref href="TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> when a player attempts to select an object for color editing.
 
-    The button that is created is passed as the second argument, and can be modified based on the object type.
+    If a valid custom object is to be selected, the <xref href="TinyLife.Tools.ColorTool.SelectObject(System.Object)" data-throw-if-not-resolved="false"></xref> method should be called with the object to select as part of the event handler, and the <code>success</code> parameter should be set to <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>.
   example: []
   syntax:
-    content: public static event Action<Wallpaper, Button> OnBuildModeButton
+    content: public static event ColorTool.SelectObjectDelegate OnSelectObject
     return:
-      type: System.Action{TinyLife.World.Wallpaper,MLEM.Ui.Elements.Button}
-    content.vb: Public Shared Event OnBuildModeButton As Action(Of Wallpaper, Button)
-- uid: TinyLife.Tools.WallpaperTool.#ctor
-  commentId: M:TinyLife.Tools.WallpaperTool.#ctor
-  id: '#ctor'
-  parent: TinyLife.Tools.WallpaperTool
+      type: TinyLife.Tools.ColorTool.SelectObjectDelegate
+    content.vb: Public Shared Event OnSelectObject As ColorTool.SelectObjectDelegate
+- uid: TinyLife.Tools.ColorTool.OnObjectSelected
+  commentId: E:TinyLife.Tools.ColorTool.OnObjectSelected
+  id: OnObjectSelected
+  parent: TinyLife.Tools.ColorTool
   langs:
   - csharp
   - vb
-  name: WallpaperTool()
-  nameWithType: WallpaperTool.WallpaperTool()
-  fullName: TinyLife.Tools.WallpaperTool.WallpaperTool()
+  name: OnObjectSelected
+  nameWithType: ColorTool.OnObjectSelected
+  fullName: TinyLife.Tools.ColorTool.OnObjectSelected
+  type: Event
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: >-
+    An event that is invoked in <xref href="TinyLife.Tools.ColorTool.SelectObject(System.Object)" data-throw-if-not-resolved="false"></xref> when an object of an unknown type is selected for color editing.
+
+    For custom object types, all reference parameters should be set to the appropriate values for drawing the preview, applying colors, and setting the price.
+  example: []
+  syntax:
+    content: public static event ColorTool.ObjectSelectedDelegate OnObjectSelected
+    return:
+      type: TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+    content.vb: Public Shared Event OnObjectSelected As ColorTool.ObjectSelectedDelegate
+- uid: TinyLife.Tools.ColorTool.#ctor
+  commentId: M:TinyLife.Tools.ColorTool.#ctor
+  id: '#ctor'
+  parent: TinyLife.Tools.ColorTool
+  langs:
+  - csharp
+  - vb
+  name: ColorTool()
+  nameWithType: ColorTool.ColorTool()
+  fullName: TinyLife.Tools.ColorTool.ColorTool()
   type: Constructor
   assemblies:
   - Tiny Life
   namespace: TinyLife.Tools
   example: []
   syntax:
-    content: public WallpaperTool()
+    content: public ColorTool()
     content.vb: Public Sub New()
-  overload: TinyLife.Tools.WallpaperTool.#ctor*
-  nameWithType.vb: WallpaperTool.New()
-  fullName.vb: TinyLife.Tools.WallpaperTool.New()
+  overload: TinyLife.Tools.ColorTool.#ctor*
+  nameWithType.vb: ColorTool.New()
+  fullName.vb: TinyLife.Tools.ColorTool.New()
   name.vb: New()
-- uid: TinyLife.Tools.WallpaperTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
-  commentId: M:TinyLife.Tools.WallpaperTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
-  id: Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
-  parent: TinyLife.Tools.WallpaperTool
-  langs:
-  - csharp
-  - vb
-  name: Update(GameTime, bool)
-  nameWithType: WallpaperTool.Update(GameTime, bool)
-  fullName: TinyLife.Tools.WallpaperTool.Update(Microsoft.Xna.Framework.GameTime, bool)
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: >-
-    This method is called every update frame for the <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref>.
-
-    By default, this method updates the <xref href="TinyLife.Tools.Tool.MousePos" data-throw-if-not-resolved="false"></xref> and invokes <xref href="TinyLife.Tools.Tool.OnUpdate" data-throw-if-not-resolved="false"></xref>, and also manages the <xref href="TinyLife.Tools.UndoRedoStack" data-throw-if-not-resolved="false"></xref>.
-  example: []
-  syntax:
-    content: public override void Update(GameTime time, bool cursorOnUi)
-    parameters:
-    - id: time
-      type: Microsoft.Xna.Framework.GameTime
-      description: The game's time
-    - id: cursorOnUi
-      type: System.Boolean
-      description: Whether the cursor is currently covering the ui.
-    content.vb: Public Overrides Sub Update(time As GameTime, cursorOnUi As Boolean)
-  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
-  overload: TinyLife.Tools.WallpaperTool.Update*
-  nameWithType.vb: WallpaperTool.Update(GameTime, Boolean)
-  fullName.vb: TinyLife.Tools.WallpaperTool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
-  name.vb: Update(GameTime, Boolean)
-- uid: TinyLife.Tools.WallpaperTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  commentId: M:TinyLife.Tools.WallpaperTool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  id: Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  parent: TinyLife.Tools.WallpaperTool
-  langs:
-  - csharp
-  - vb
-  name: Draw(GameTime, SpriteBatch, bool)
-  nameWithType: WallpaperTool.Draw(GameTime, SpriteBatch, bool)
-  fullName: TinyLife.Tools.WallpaperTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: >-
-    This method is called every draw frame for the <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref>.
-
-    By default, this method invokes <xref href="TinyLife.Tools.Tool.OnDraw" data-throw-if-not-resolved="false"></xref>.
-  example: []
-  syntax:
-    content: public override void Draw(GameTime time, SpriteBatch batch, bool cursorOnUi)
-    parameters:
-    - id: time
-      type: Microsoft.Xna.Framework.GameTime
-      description: The game's time
-    - id: batch
-      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
-      description: The sprite batch used for drawing
-    - id: cursorOnUi
-      type: System.Boolean
-      description: Whether the cursor is currently covering the ui.
-    content.vb: Public Overrides Sub Draw(time As GameTime, batch As SpriteBatch, cursorOnUi As Boolean)
-  overridden: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  overload: TinyLife.Tools.WallpaperTool.Draw*
-  nameWithType.vb: WallpaperTool.Draw(GameTime, SpriteBatch, Boolean)
-  fullName.vb: TinyLife.Tools.WallpaperTool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
-  name.vb: Draw(GameTime, SpriteBatch, Boolean)
-- uid: TinyLife.Tools.WallpaperTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  commentId: M:TinyLife.Tools.WallpaperTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+- uid: TinyLife.Tools.ColorTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+  commentId: M:TinyLife.Tools.ColorTool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   id: InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  parent: TinyLife.Tools.WallpaperTool
+  parent: TinyLife.Tools.ColorTool
   langs:
   - csharp
   - vb
   name: InitBuildModeUi(Panel, Panel)
-  nameWithType: WallpaperTool.InitBuildModeUi(Panel, Panel)
-  fullName: TinyLife.Tools.WallpaperTool.InitBuildModeUi(MLEM.Ui.Elements.Panel, MLEM.Ui.Elements.Panel)
+  nameWithType: ColorTool.InitBuildModeUi(Panel, Panel)
+  fullName: TinyLife.Tools.ColorTool.InitBuildModeUi(MLEM.Ui.Elements.Panel, MLEM.Ui.Elements.Panel)
   type: Method
   assemblies:
   - Tiny Life
@@ -226,17 +181,51 @@ items:
       description: The zoom panel that contains <xref href="TinyLife.Tools.Tool.ColorSelection(TinyLife.Utilities.ColorSettings%2cSystem.Action%7bSystem.Int32%2cSystem.Int32%7d%2cSystem.Func%7bSystem.Int32%2cSystem.Int32%2cSystem.Boolean%7d)" data-throw-if-not-resolved="false"></xref> and object previews
     content.vb: Protected Overrides Sub InitBuildModeUi(content As Panel, zoom As Panel)
   overridden: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  overload: TinyLife.Tools.WallpaperTool.InitBuildModeUi*
-- uid: TinyLife.Tools.WallpaperTool.GetMouseCursor
-  commentId: M:TinyLife.Tools.WallpaperTool.GetMouseCursor
+  overload: TinyLife.Tools.ColorTool.InitBuildModeUi*
+- uid: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  id: Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  parent: TinyLife.Tools.ColorTool
+  langs:
+  - csharp
+  - vb
+  name: Update(GameTime, bool)
+  nameWithType: ColorTool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime, bool)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: >-
+    This method is called every update frame for the <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref>.
+
+    By default, this method updates the <xref href="TinyLife.Tools.Tool.MousePos" data-throw-if-not-resolved="false"></xref> and invokes <xref href="TinyLife.Tools.Tool.OnUpdate" data-throw-if-not-resolved="false"></xref>, and also manages the <xref href="TinyLife.Tools.UndoRedoStack" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public override void Update(GameTime time, bool cursorOnUi)
+    parameters:
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The game's time
+    - id: cursorOnUi
+      type: System.Boolean
+      description: Whether the cursor is currently covering the ui.
+    content.vb: Public Overrides Sub Update(time As GameTime, cursorOnUi As Boolean)
+  overridden: TinyLife.Tools.Tool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  overload: TinyLife.Tools.ColorTool.Update*
+  nameWithType.vb: ColorTool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
+- uid: TinyLife.Tools.ColorTool.GetMouseCursor
+  commentId: M:TinyLife.Tools.ColorTool.GetMouseCursor
   id: GetMouseCursor
-  parent: TinyLife.Tools.WallpaperTool
+  parent: TinyLife.Tools.ColorTool
   langs:
   - csharp
   - vb
   name: GetMouseCursor()
-  nameWithType: WallpaperTool.GetMouseCursor()
-  fullName: TinyLife.Tools.WallpaperTool.GetMouseCursor()
+  nameWithType: ColorTool.GetMouseCursor()
+  fullName: TinyLife.Tools.ColorTool.GetMouseCursor()
   type: Method
   assemblies:
   - Tiny Life
@@ -253,41 +242,17 @@ items:
       description: The cursor type
     content.vb: Public Overrides Function GetMouseCursor() As CursorType
   overridden: TinyLife.Tools.Tool.GetMouseCursor
-  overload: TinyLife.Tools.WallpaperTool.GetMouseCursor*
-- uid: TinyLife.Tools.WallpaperTool.CanPlaceForTooltip
-  commentId: M:TinyLife.Tools.WallpaperTool.CanPlaceForTooltip
-  id: CanPlaceForTooltip
-  parent: TinyLife.Tools.WallpaperTool
-  langs:
-  - csharp
-  - vb
-  name: CanPlaceForTooltip()
-  nameWithType: WallpaperTool.CanPlaceForTooltip()
-  fullName: TinyLife.Tools.WallpaperTool.CanPlaceForTooltip()
-  type: Method
-  assemblies:
-  - Tiny Life
-  namespace: TinyLife.Tools
-  summary: Returns whether or not the tool should currently be considered to be able to place objects for a tooltip displayed to the player.
-  example: []
-  syntax:
-    content: public override CanPlaceResult CanPlaceForTooltip()
-    return:
-      type: TinyLife.Tools.CanPlaceResult
-      description: A <xref href="TinyLife.Tools.CanPlaceResult" data-throw-if-not-resolved="false"></xref> that represents whether the tool should be considered to be able to place objects.
-    content.vb: Public Overrides Function CanPlaceForTooltip() As CanPlaceResult
-  overridden: TinyLife.Tools.Tool.CanPlaceForTooltip
-  overload: TinyLife.Tools.WallpaperTool.CanPlaceForTooltip*
-- uid: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject(System.Object)
-  commentId: M:TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject(System.Object)
+  overload: TinyLife.Tools.ColorTool.GetMouseCursor*
+- uid: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject(System.Object)
+  commentId: M:TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject(System.Object)
   id: ShouldHighlightSelectedObject(System.Object)
-  parent: TinyLife.Tools.WallpaperTool
+  parent: TinyLife.Tools.ColorTool
   langs:
   - csharp
   - vb
   name: ShouldHighlightSelectedObject(object)
-  nameWithType: WallpaperTool.ShouldHighlightSelectedObject(object)
-  fullName: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject(object)
+  nameWithType: ColorTool.ShouldHighlightSelectedObject(object)
+  fullName: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject(object)
   type: Method
   assemblies:
   - Tiny Life
@@ -308,10 +273,68 @@ items:
       description: Whether or not the selected object should be highlighted
     content.vb: Public Overrides Function ShouldHighlightSelectedObject(obj As Object) As Boolean
   overridden: TinyLife.Tools.Tool.ShouldHighlightSelectedObject(System.Object)
-  overload: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject*
-  nameWithType.vb: WallpaperTool.ShouldHighlightSelectedObject(Object)
-  fullName.vb: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject(Object)
+  overload: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject*
+  nameWithType.vb: ColorTool.ShouldHighlightSelectedObject(Object)
+  fullName.vb: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject(Object)
   name.vb: ShouldHighlightSelectedObject(Object)
+- uid: TinyLife.Tools.ColorTool.SelectObject(System.Object)
+  commentId: M:TinyLife.Tools.ColorTool.SelectObject(System.Object)
+  id: SelectObject(System.Object)
+  parent: TinyLife.Tools.ColorTool
+  langs:
+  - csharp
+  - vb
+  name: SelectObject(object)
+  nameWithType: ColorTool.SelectObject(object)
+  fullName: TinyLife.Tools.ColorTool.SelectObject(object)
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: >-
+    Selects the given object for color editing.
+
+    By default, this object can be a <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> or a <xref href="TinyLife.World.Wall" data-throw-if-not-resolved="false"></xref> with an opening, but additional object types can be registered through the <xref href="TinyLife.Tools.ColorTool.OnSelectObject" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Tools.ColorTool.OnObjectSelected" data-throw-if-not-resolved="false"></xref> events.
+  example: []
+  syntax:
+    content: public void SelectObject(object o)
+    parameters:
+    - id: o
+      type: System.Object
+      description: The object to select.
+    content.vb: Public Sub SelectObject(o As Object)
+  overload: TinyLife.Tools.ColorTool.SelectObject*
+  exceptions:
+  - type: System.ArgumentOutOfRangeException
+    commentId: T:System.ArgumentOutOfRangeException
+    description: Thrown if the object type is not properly handled.
+  nameWithType.vb: ColorTool.SelectObject(Object)
+  fullName.vb: TinyLife.Tools.ColorTool.SelectObject(Object)
+  name.vb: SelectObject(Object)
+- uid: TinyLife.Tools.ColorTool.Closed
+  commentId: M:TinyLife.Tools.ColorTool.Closed
+  id: Closed
+  parent: TinyLife.Tools.ColorTool
+  langs:
+  - csharp
+  - vb
+  name: Closed()
+  nameWithType: ColorTool.Closed()
+  fullName: TinyLife.Tools.ColorTool.Closed()
+  type: Method
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Tools
+  summary: >-
+    Called when this build tool is closed.
+
+    By default, this method removes its elements from the ui.
+  example: []
+  syntax:
+    content: public override void Closed()
+    content.vb: Public Overrides Sub Closed()
+  overridden: TinyLife.Tools.Tool.Closed
+  overload: TinyLife.Tools.ColorTool.Closed*
 references:
 - uid: TinyLife.Tools.Tool.PlayModeTool
   commentId: F:TinyLife.Tools.Tool.PlayModeTool
@@ -547,23 +570,74 @@ references:
     href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Opened
   - name: (
   - name: )
-- uid: TinyLife.Tools.Tool.Closed
-  commentId: M:TinyLife.Tools.Tool.Closed
+- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
   parent: TinyLife.Tools.Tool
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
-  name: Closed()
-  nameWithType: Tool.Closed()
-  fullName: TinyLife.Tools.Tool.Closed()
+  isExternal: true
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
+  name: Draw(GameTime, SpriteBatch, bool)
+  nameWithType: Tool.Draw(GameTime, SpriteBatch, bool)
+  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
+  nameWithType.vb: Tool.Draw(GameTime, SpriteBatch, Boolean)
+  fullName.vb: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
+  name.vb: Draw(GameTime, SpriteBatch, Boolean)
   spec.csharp:
-  - uid: TinyLife.Tools.Tool.Closed
-    name: Closed
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+    name: Draw
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
+    name: Draw
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
+    name: SpriteBatch
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+  commentId: M:TinyLife.Tools.Tool.CanPlaceForTooltip
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
+  name: CanPlaceForTooltip()
+  nameWithType: Tool.CanPlaceForTooltip()
+  fullName: TinyLife.Tools.Tool.CanPlaceForTooltip()
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
   - name: (
   - name: )
   spec.vb:
-  - uid: TinyLife.Tools.Tool.Closed
-    name: Closed
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
+    name: CanPlaceForTooltip
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
   - name: (
   - name: )
 - uid: TinyLife.Tools.Tool.CanSwitchGameModes
@@ -1263,46 +1337,46 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   - name: (
   - name: )
-- uid: TinyLife.Tools.WallpaperTool.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Tools.ColorTool.TinyLife.Utilities.Extensions.JsonCopy``1
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   parent: TinyLife.Utilities.Extensions
   definition: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
-  name: JsonCopy<WallpaperTool>(WallpaperTool)
-  nameWithType: Extensions.JsonCopy<WallpaperTool>(WallpaperTool)
-  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Tools.WallpaperTool>(TinyLife.Tools.WallpaperTool)
-  nameWithType.vb: Extensions.JsonCopy(Of WallpaperTool)(WallpaperTool)
-  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Tools.WallpaperTool)(TinyLife.Tools.WallpaperTool)
-  name.vb: JsonCopy(Of WallpaperTool)(WallpaperTool)
+  name: JsonCopy<ColorTool>(ColorTool)
+  nameWithType: Extensions.JsonCopy<ColorTool>(ColorTool)
+  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Tools.ColorTool>(TinyLife.Tools.ColorTool)
+  nameWithType.vb: Extensions.JsonCopy(Of ColorTool)(ColorTool)
+  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Tools.ColorTool)(TinyLife.Tools.ColorTool)
+  name.vb: JsonCopy(Of ColorTool)(ColorTool)
   spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Tools.WallpaperTool)
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Tools.ColorTool)
     name: JsonCopy
     href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
   - name: <
-  - uid: TinyLife.Tools.WallpaperTool
-    name: WallpaperTool
-    href: TinyLife.Tools.WallpaperTool.html
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
   - name: '>'
   - name: (
-  - uid: TinyLife.Tools.WallpaperTool
-    name: WallpaperTool
-    href: TinyLife.Tools.WallpaperTool.html
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Tools.WallpaperTool)
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Tools.ColorTool)
     name: JsonCopy
     href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Tools.WallpaperTool
-    name: WallpaperTool
-    href: TinyLife.Tools.WallpaperTool.html
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
   - name: )
   - name: (
-  - uid: TinyLife.Tools.WallpaperTool
-    name: WallpaperTool
-    href: TinyLife.Tools.WallpaperTool.html
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
   - name: )
 - uid: System
   commentId: N:System
@@ -1371,92 +1445,210 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: System.Action{TinyLife.World.Wallpaper,MLEM.Ui.Elements.Button}
-  commentId: T:System.Action{TinyLife.World.Wallpaper,MLEM.Ui.Elements.Button}
-  parent: System
-  definition: System.Action`2
-  href: https://learn.microsoft.com/dotnet/api/system.action-2
-  name: Action<Wallpaper, Button>
-  nameWithType: Action<Wallpaper, Button>
-  fullName: System.Action<TinyLife.World.Wallpaper, MLEM.Ui.Elements.Button>
-  nameWithType.vb: Action(Of Wallpaper, Button)
-  fullName.vb: System.Action(Of TinyLife.World.Wallpaper, MLEM.Ui.Elements.Button)
-  name.vb: Action(Of Wallpaper, Button)
-  spec.csharp:
-  - uid: System.Action`2
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-2
-  - name: <
-  - uid: TinyLife.World.Wallpaper
-    name: Wallpaper
-    href: TinyLife.World.Wallpaper.html
-  - name: ','
-  - name: " "
-  - uid: MLEM.Ui.Elements.Button
-    name: Button
-    isExternal: true
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`2
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.World.Wallpaper
-    name: Wallpaper
-    href: TinyLife.World.Wallpaper.html
-  - name: ','
-  - name: " "
-  - uid: MLEM.Ui.Elements.Button
-    name: Button
-    isExternal: true
-  - name: )
-- uid: System.Action`2
-  commentId: T:System.Action`2
+- uid: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+  commentId: M:TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-2
-  name: Action<T1, T2>
-  nameWithType: Action<T1, T2>
-  fullName: System.Action<T1, T2>
-  nameWithType.vb: Action(Of T1, T2)
-  fullName.vb: System.Action(Of T1, T2)
-  name.vb: Action(Of T1, T2)
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
+  name: Update(GameTime, bool)
+  nameWithType: ColorTool.Update(GameTime, bool)
+  fullName: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime, bool)
+  nameWithType.vb: ColorTool.Update(GameTime, Boolean)
+  fullName.vb: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime, Boolean)
+  name.vb: Update(GameTime, Boolean)
   spec.csharp:
-  - uid: System.Action`2
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-2
-  - name: <
-  - name: T1
-  - name: ','
-  - name: " "
-  - name: T2
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`2
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - uid: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+    name: Update
+    href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   - name: (
-  - name: Of
-  - name: " "
-  - name: T1
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
   - name: ','
   - name: " "
-  - name: T2
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Tools.WallpaperTool.#ctor*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.#ctor
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool__ctor
-  name: WallpaperTool
-  nameWithType: WallpaperTool.WallpaperTool
-  fullName: TinyLife.Tools.WallpaperTool.WallpaperTool
-  nameWithType.vb: WallpaperTool.New
-  fullName.vb: TinyLife.Tools.WallpaperTool.New
+  spec.vb:
+  - uid: TinyLife.Tools.ColorTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
+    name: Update
+    href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Tools.ColorTool.SelectObject(System.Object)
+  commentId: M:TinyLife.Tools.ColorTool.SelectObject(System.Object)
+  isExternal: true
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_SelectObject_System_Object_
+  name: SelectObject(object)
+  nameWithType: ColorTool.SelectObject(object)
+  fullName: TinyLife.Tools.ColorTool.SelectObject(object)
+  nameWithType.vb: ColorTool.SelectObject(Object)
+  fullName.vb: TinyLife.Tools.ColorTool.SelectObject(Object)
+  name.vb: SelectObject(Object)
+  spec.csharp:
+  - uid: TinyLife.Tools.ColorTool.SelectObject(System.Object)
+    name: SelectObject
+    href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_SelectObject_System_Object_
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.ColorTool.SelectObject(System.Object)
+    name: SelectObject
+    href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_SelectObject_System_Object_
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: )
+- uid: TinyLife.Tools.ColorTool.SelectObjectDelegate
+  commentId: T:TinyLife.Tools.ColorTool.SelectObjectDelegate
+  parent: TinyLife.Tools
+  href: TinyLife.Tools.ColorTool.html
+  name: ColorTool.SelectObjectDelegate
+  nameWithType: ColorTool.SelectObjectDelegate
+  fullName: TinyLife.Tools.ColorTool.SelectObjectDelegate
+  spec.csharp:
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
+  - name: .
+  - uid: TinyLife.Tools.ColorTool.SelectObjectDelegate
+    name: SelectObjectDelegate
+    href: TinyLife.Tools.ColorTool.SelectObjectDelegate.html
+  spec.vb:
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
+  - name: .
+  - uid: TinyLife.Tools.ColorTool.SelectObjectDelegate
+    name: SelectObjectDelegate
+    href: TinyLife.Tools.ColorTool.SelectObjectDelegate.html
+- uid: TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+  commentId: T:TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+  parent: TinyLife.Tools
+  href: TinyLife.Tools.ColorTool.html
+  name: ColorTool.ObjectSelectedDelegate
+  nameWithType: ColorTool.ObjectSelectedDelegate
+  fullName: TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+  spec.csharp:
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
+  - name: .
+  - uid: TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+    name: ObjectSelectedDelegate
+    href: TinyLife.Tools.ColorTool.ObjectSelectedDelegate.html
+  spec.vb:
+  - uid: TinyLife.Tools.ColorTool
+    name: ColorTool
+    href: TinyLife.Tools.ColorTool.html
+  - name: .
+  - uid: TinyLife.Tools.ColorTool.ObjectSelectedDelegate
+    name: ObjectSelectedDelegate
+    href: TinyLife.Tools.ColorTool.ObjectSelectedDelegate.html
+- uid: TinyLife.Tools.ColorTool.#ctor*
+  commentId: Overload:TinyLife.Tools.ColorTool.#ctor
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool__ctor
+  name: ColorTool
+  nameWithType: ColorTool.ColorTool
+  fullName: TinyLife.Tools.ColorTool.ColorTool
+  nameWithType.vb: ColorTool.New
+  fullName.vb: TinyLife.Tools.ColorTool.New
   name.vb: New
+- uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+  commentId: M:TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+  parent: TinyLife.Tools.Tool
+  isExternal: true
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
+  name: InitBuildModeUi(Panel, Panel)
+  nameWithType: Tool.InitBuildModeUi(Panel, Panel)
+  fullName: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel, MLEM.Ui.Elements.Panel)
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+    name: InitBuildModeUi
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
+  - name: (
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
+    name: InitBuildModeUi
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
+  - name: (
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: MLEM.Ui.Elements.Panel
+    name: Panel
+    isExternal: true
+  - name: )
+- uid: TinyLife.Tools.ColorTool.InitBuildModeUi*
+  commentId: Overload:TinyLife.Tools.ColorTool.InitBuildModeUi
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
+  name: InitBuildModeUi
+  nameWithType: ColorTool.InitBuildModeUi
+  fullName: TinyLife.Tools.ColorTool.InitBuildModeUi
+- uid: MLEM.Ui.Elements.Panel
+  commentId: T:MLEM.Ui.Elements.Panel
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Panel
+  nameWithType: Panel
+  fullName: MLEM.Ui.Elements.Panel
+- uid: MLEM.Ui.Elements
+  commentId: N:MLEM.Ui.Elements
+  isExternal: true
+  name: MLEM.Ui.Elements
+  nameWithType: MLEM.Ui.Elements
+  fullName: MLEM.Ui.Elements
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
 - uid: TinyLife.GameImpl.CurrentTool
   commentId: P:TinyLife.GameImpl.CurrentTool
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentTool
@@ -1510,12 +1702,12 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Tools.WallpaperTool.Update*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.Update
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
+- uid: TinyLife.Tools.ColorTool.Update*
+  commentId: Overload:TinyLife.Tools.ColorTool.Update
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_Update_Microsoft_Xna_Framework_GameTime_System_Boolean_
   name: Update
-  nameWithType: WallpaperTool.Update
-  fullName: TinyLife.Tools.WallpaperTool.Update
+  nameWithType: ColorTool.Update
+  fullName: TinyLife.Tools.ColorTool.Update
 - uid: Microsoft.Xna.Framework.GameTime
   commentId: T:Microsoft.Xna.Framework.GameTime
   parent: Microsoft.Xna.Framework
@@ -1564,187 +1756,6 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
-- uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  commentId: M:TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-  parent: TinyLife.Tools.Tool
-  isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
-  name: Draw(GameTime, SpriteBatch, bool)
-  nameWithType: Tool.Draw(GameTime, SpriteBatch, bool)
-  fullName: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, bool)
-  nameWithType.vb: Tool.Draw(GameTime, SpriteBatch, Boolean)
-  fullName.vb: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Boolean)
-  name.vb: Draw(GameTime, SpriteBatch, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-    name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Tools.Tool.Draw(Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,System.Boolean)
-    name: Draw
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-- uid: TinyLife.Tools.WallpaperTool.Draw*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.Draw
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_
-  name: Draw
-  nameWithType: WallpaperTool.Draw
-  fullName: TinyLife.Tools.WallpaperTool.Draw
-- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
-  parent: Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: SpriteBatch
-  nameWithType: SpriteBatch
-  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
-  spec.csharp:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
-  spec.vb:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
-- uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  commentId: M:TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-  parent: TinyLife.Tools.Tool
-  isExternal: true
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
-  name: InitBuildModeUi(Panel, Panel)
-  nameWithType: Tool.InitBuildModeUi(Panel, Panel)
-  fullName: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel, MLEM.Ui.Elements.Panel)
-  spec.csharp:
-  - uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-    name: InitBuildModeUi
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
-  - name: (
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    isExternal: true
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
-    name: InitBuildModeUi
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
-  - name: (
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: MLEM.Ui.Elements.Panel
-    name: Panel
-    isExternal: true
-  - name: )
-- uid: TinyLife.Tools.WallpaperTool.InitBuildModeUi*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.InitBuildModeUi
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_InitBuildModeUi_MLEM_Ui_Elements_Panel_MLEM_Ui_Elements_Panel_
-  name: InitBuildModeUi
-  nameWithType: WallpaperTool.InitBuildModeUi
-  fullName: TinyLife.Tools.WallpaperTool.InitBuildModeUi
-- uid: MLEM.Ui.Elements.Panel
-  commentId: T:MLEM.Ui.Elements.Panel
-  parent: MLEM.Ui.Elements
-  isExternal: true
-  name: Panel
-  nameWithType: Panel
-  fullName: MLEM.Ui.Elements.Panel
-- uid: MLEM.Ui.Elements
-  commentId: N:MLEM.Ui.Elements
-  isExternal: true
-  name: MLEM.Ui.Elements
-  nameWithType: MLEM.Ui.Elements
-  fullName: MLEM.Ui.Elements
-  spec.csharp:
-  - uid: MLEM
-    name: MLEM
-    isExternal: true
-  - name: .
-  - uid: MLEM.Ui
-    name: Ui
-    isExternal: true
-  - name: .
-  - uid: MLEM.Ui.Elements
-    name: Elements
-    isExternal: true
-  spec.vb:
-  - uid: MLEM
-    name: MLEM
-    isExternal: true
-  - name: .
-  - uid: MLEM.Ui
-    name: Ui
-    isExternal: true
-  - name: .
-  - uid: MLEM.Ui.Elements
-    name: Elements
-    isExternal: true
 - uid: TinyLife.Uis.CursorType
   commentId: T:TinyLife.Uis.CursorType
   parent: TinyLife.Uis
@@ -1777,12 +1788,12 @@ references:
     href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_GetMouseCursor
   - name: (
   - name: )
-- uid: TinyLife.Tools.WallpaperTool.GetMouseCursor*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.GetMouseCursor
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_GetMouseCursor
+- uid: TinyLife.Tools.ColorTool.GetMouseCursor*
+  commentId: Overload:TinyLife.Tools.ColorTool.GetMouseCursor
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_GetMouseCursor
   name: GetMouseCursor
-  nameWithType: WallpaperTool.GetMouseCursor
-  fullName: TinyLife.Tools.WallpaperTool.GetMouseCursor
+  nameWithType: ColorTool.GetMouseCursor
+  fullName: TinyLife.Tools.ColorTool.GetMouseCursor
 - uid: TinyLife.Uis
   commentId: N:TinyLife.Uis
   href: TinyLife.html
@@ -1805,38 +1816,6 @@ references:
   - uid: TinyLife.Uis
     name: Uis
     href: TinyLife.Uis.html
-- uid: TinyLife.Tools.CanPlaceResult
-  commentId: T:TinyLife.Tools.CanPlaceResult
-  parent: TinyLife.Tools
-  href: TinyLife.Tools.CanPlaceResult.html
-  name: CanPlaceResult
-  nameWithType: CanPlaceResult
-  fullName: TinyLife.Tools.CanPlaceResult
-- uid: TinyLife.Tools.Tool.CanPlaceForTooltip
-  commentId: M:TinyLife.Tools.Tool.CanPlaceForTooltip
-  parent: TinyLife.Tools.Tool
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
-  name: CanPlaceForTooltip()
-  nameWithType: Tool.CanPlaceForTooltip()
-  fullName: TinyLife.Tools.Tool.CanPlaceForTooltip()
-  spec.csharp:
-  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
-    name: CanPlaceForTooltip
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Tools.Tool.CanPlaceForTooltip
-    name: CanPlaceForTooltip
-    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_CanPlaceForTooltip
-  - name: (
-  - name: )
-- uid: TinyLife.Tools.WallpaperTool.CanPlaceForTooltip*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.CanPlaceForTooltip
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_CanPlaceForTooltip
-  name: CanPlaceForTooltip
-  nameWithType: WallpaperTool.CanPlaceForTooltip
-  fullName: TinyLife.Tools.WallpaperTool.CanPlaceForTooltip
 - uid: TinyLife.GameImpl.IsCursorOnUi
   commentId: M:TinyLife.GameImpl.IsCursorOnUi
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_IsCursorOnUi
@@ -1914,12 +1893,12 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.object
   - name: )
-- uid: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject*
-  commentId: Overload:TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject
-  href: TinyLife.Tools.WallpaperTool.html#TinyLife_Tools_WallpaperTool_ShouldHighlightSelectedObject_System_Object_
+- uid: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject*
+  commentId: Overload:TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_ShouldHighlightSelectedObject_System_Object_
   name: ShouldHighlightSelectedObject
-  nameWithType: WallpaperTool.ShouldHighlightSelectedObject
-  fullName: TinyLife.Tools.WallpaperTool.ShouldHighlightSelectedObject
+  nameWithType: ColorTool.ShouldHighlightSelectedObject
+  fullName: TinyLife.Tools.ColorTool.ShouldHighlightSelectedObject
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
   href: TinyLife.html
@@ -1964,3 +1943,67 @@ references:
   - uid: TinyLife.World
     name: World
     href: TinyLife.World.html
+- uid: TinyLife.Objects.Furniture
+  commentId: T:TinyLife.Objects.Furniture
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.Furniture.html
+  name: Furniture
+  nameWithType: Furniture
+  fullName: TinyLife.Objects.Furniture
+- uid: TinyLife.World.Wall
+  commentId: T:TinyLife.World.Wall
+  parent: TinyLife.World
+  href: TinyLife.World.Wall.html
+  name: Wall
+  nameWithType: Wall
+  fullName: TinyLife.World.Wall
+- uid: TinyLife.Tools.ColorTool.OnSelectObject
+  commentId: E:TinyLife.Tools.ColorTool.OnSelectObject
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_OnSelectObject
+  name: OnSelectObject
+  nameWithType: ColorTool.OnSelectObject
+  fullName: TinyLife.Tools.ColorTool.OnSelectObject
+- uid: TinyLife.Tools.ColorTool.OnObjectSelected
+  commentId: E:TinyLife.Tools.ColorTool.OnObjectSelected
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_OnObjectSelected
+  name: OnObjectSelected
+  nameWithType: ColorTool.OnObjectSelected
+  fullName: TinyLife.Tools.ColorTool.OnObjectSelected
+- uid: System.ArgumentOutOfRangeException
+  commentId: T:System.ArgumentOutOfRangeException
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.argumentoutofrangeexception
+  name: ArgumentOutOfRangeException
+  nameWithType: ArgumentOutOfRangeException
+  fullName: System.ArgumentOutOfRangeException
+- uid: TinyLife.Tools.ColorTool.SelectObject*
+  commentId: Overload:TinyLife.Tools.ColorTool.SelectObject
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_SelectObject_System_Object_
+  name: SelectObject
+  nameWithType: ColorTool.SelectObject
+  fullName: TinyLife.Tools.ColorTool.SelectObject
+- uid: TinyLife.Tools.Tool.Closed
+  commentId: M:TinyLife.Tools.Tool.Closed
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  name: Closed()
+  nameWithType: Tool.Closed()
+  fullName: TinyLife.Tools.Tool.Closed()
+  spec.csharp:
+  - uid: TinyLife.Tools.Tool.Closed
+    name: Closed
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Tools.Tool.Closed
+    name: Closed
+    href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_Closed
+  - name: (
+  - name: )
+- uid: TinyLife.Tools.ColorTool.Closed*
+  commentId: Overload:TinyLife.Tools.ColorTool.Closed
+  href: TinyLife.Tools.ColorTool.html#TinyLife_Tools_ColorTool_Closed
+  name: Closed
+  nameWithType: ColorTool.Closed
+  fullName: TinyLife.Tools.ColorTool.Closed

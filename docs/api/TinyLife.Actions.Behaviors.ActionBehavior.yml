@@ -5,15 +5,16 @@ items:
   id: ActionBehavior
   parent: TinyLife.Actions.Behaviors
   children:
-  - TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
-  - TinyLife.Actions.Behaviors.ActionBehavior.Action
+  - TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
   - TinyLife.Actions.Behaviors.ActionBehavior.CanMultitask(TinyLife.Actions.Action)
+  - TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
   - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
   - TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   - TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   - TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   - TinyLife.Actions.Behaviors.ActionBehavior.GetNextAction(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
   - TinyLife.Actions.Behaviors.ActionBehavior.Initialize
   - TinyLife.Actions.Behaviors.ActionBehavior.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Behaviors.ActionBehavior.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -55,16 +56,16 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Actions.Behaviors.ActionBehavior.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.Action
-  commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.Action
-  id: Action
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
+  commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
+  id: ContainingAction
   parent: TinyLife.Actions.Behaviors.ActionBehavior
   langs:
   - csharp
   - vb
-  name: Action
-  nameWithType: ActionBehavior.Action
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.Action
+  name: ContainingAction
+  nameWithType: ActionBehavior.ContainingAction
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
   type: Field
   assemblies:
   - Tiny Life
@@ -72,10 +73,36 @@ items:
   summary: The action that this behavior is acting upon
   example: []
   syntax:
-    content: protected readonly Action Action
+    content: protected readonly BehaviorAction ContainingAction
     return:
-      type: TinyLife.Actions.Action
-    content.vb: Protected ReadOnly Action As Action
+      type: TinyLife.Actions.BehaviorAction
+    content.vb: Protected ReadOnly ContainingAction As BehaviorAction
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  commentId: P:TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  id: InProgressTime
+  parent: TinyLife.Actions.Behaviors.ActionBehavior
+  langs:
+  - csharp
+  - vb
+  name: InProgressTime
+  nameWithType: ActionBehavior.InProgressTime
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions.Behaviors
+  summary: >-
+    The amount of time that this action behavior is in progress.
+
+    By default, this is the same as the <xref href="TinyLife.Actions.BehaviorAction.BaseInProgressTime" data-throw-if-not-resolved="false"></xref>, which is the time that the underlying action is in progress.
+  example: []
+  syntax:
+    content: public virtual TimeSpan InProgressTime { get; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+    content.vb: Public Overridable ReadOnly Property InProgressTime As TimeSpan
+  overload: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime*
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   commentId: P:TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   id: FullyInProgress
@@ -91,9 +118,9 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Returns whether this action behavior is fully in progress.
+    Whether this action behavior is fully in progress.
 
-    This is the action behavior version of <xref href="TinyLife.Actions.Action.FullyInProgress" data-throw-if-not-resolved="false"></xref>.
+    By default, this is the same as <xref href="TinyLife.Actions.BehaviorAction.BaseFullyInProgress" data-throw-if-not-resolved="false"></xref>, which is the fully in progress state of the underlying action.
   example: []
   syntax:
     content: public virtual bool FullyInProgress { get; }
@@ -102,16 +129,16 @@ items:
       type: System.Boolean
     content.vb: Public Overridable ReadOnly Property FullyInProgress As Boolean
   overload: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress*
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
-  id: '#ctor(TinyLife.Actions.Action)'
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
+  id: '#ctor(TinyLife.Actions.BehaviorAction)'
   parent: TinyLife.Actions.Behaviors.ActionBehavior
   langs:
   - csharp
   - vb
-  name: ActionBehavior(Action)
-  nameWithType: ActionBehavior.ActionBehavior(Action)
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ActionBehavior(TinyLife.Actions.Action)
+  name: ActionBehavior(BehaviorAction)
+  nameWithType: ActionBehavior.ActionBehavior(BehaviorAction)
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ActionBehavior(TinyLife.Actions.BehaviorAction)
   type: Constructor
   assemblies:
   - Tiny Life
@@ -122,16 +149,16 @@ items:
     To create an action behavior of a given type automatically, use <xref href="TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type%2cTinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: protected ActionBehavior(Action action)
+    content: protected ActionBehavior(BehaviorAction containingAction)
     parameters:
-    - id: action
-      type: TinyLife.Actions.Action
+    - id: containingAction
+      type: TinyLife.Actions.BehaviorAction
       description: The action that this behavior is acting upon
-    content.vb: Protected Sub New(action As Action)
+    content.vb: Protected Sub New(containingAction As BehaviorAction)
   overload: TinyLife.Actions.Behaviors.ActionBehavior.#ctor*
-  nameWithType.vb: ActionBehavior.New(Action)
-  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.New(TinyLife.Actions.Action)
-  name.vb: New(Action)
+  nameWithType.vb: ActionBehavior.New(BehaviorAction)
+  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.New(TinyLife.Actions.BehaviorAction)
+  name.vb: New(BehaviorAction)
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateFirstActions
   id: CreateFirstActions
@@ -147,7 +174,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Creates a set of actions that should be executed before the main <xref href="TinyLife.Actions.Behaviors.ActionBehavior.Action" data-throw-if-not-resolved="false"></xref> starts.
+    Creates a set of actions that should be executed before the main <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref> starts.
 
     This method is automatically called when using <xref href="TinyLife.Actions.BehaviorAction" data-throw-if-not-resolved="false"></xref> in <xref href="TinyLife.Actions.BehaviorAction.CreateFirstActions" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -173,7 +200,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Creates a set of actions that should be executed after the main <xref href="TinyLife.Actions.Behaviors.ActionBehavior.Action" data-throw-if-not-resolved="false"></xref> finished.
+    Creates a set of actions that should be executed after the main <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref> finished.
 
     This method is automatically called when using <xref href="TinyLife.Actions.BehaviorAction" data-throw-if-not-resolved="false"></xref> in <xref href="TinyLife.Actions.BehaviorAction.CreateLastActions" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -286,7 +313,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Return true on this method if this action can be multi-tasked along with the passed <xref href="TinyLife.Actions.Behaviors.ActionBehavior.Action" data-throw-if-not-resolved="false"></xref>.
+    Return true on this method if this action can be multi-tasked along with the passed <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref>.
 
     A multi-tasking is an action that is currently active along with another action.
 
@@ -345,7 +372,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Returns the action that should be executed after this action behavior's underlying <xref href="TinyLife.Actions.Behaviors.ActionBehavior.Action" data-throw-if-not-resolved="false"></xref> completes.
+    Returns the action that should be executed after this action behavior's underlying <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref> completes.
 
     This method is automatically called when using <xref href="TinyLife.Actions.BehaviorAction" data-throw-if-not-resolved="false"></xref> in <xref href="TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -375,7 +402,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Creates a default instance of the type <code class="paramref">type</code>, using the default constructor <xref href="TinyLife.Actions.Behaviors.ActionBehavior.%23ctor(TinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref>.
+    Creates a default instance of the type <code class="paramref">type</code>, using the default constructor <xref href="TinyLife.Actions.Behaviors.ActionBehavior.%23ctor(TinyLife.Actions.BehaviorAction)" data-throw-if-not-resolved="false"></xref>.
 
     If the type used doesn't have a default constructor, this method throws an <xref href="System.InvalidOperationException" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -906,20 +933,30 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.Actions.Action
-  commentId: T:TinyLife.Actions.Action
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.Action.html
-  name: Action
-  nameWithType: Action
-  fullName: TinyLife.Actions.Action
-- uid: TinyLife.Actions.Action.FullyInProgress
-  commentId: P:TinyLife.Actions.Action.FullyInProgress
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
-  name: FullyInProgress
-  nameWithType: Action.FullyInProgress
-  fullName: TinyLife.Actions.Action.FullyInProgress
+- uid: TinyLife.Actions.BehaviorAction.BaseInProgressTime
+  commentId: P:TinyLife.Actions.BehaviorAction.BaseInProgressTime
+  name: BaseInProgressTime
+  nameWithType: BehaviorAction.BaseInProgressTime
+  fullName: TinyLife.Actions.BehaviorAction.BaseInProgressTime
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime*
+  commentId: Overload:TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_InProgressTime
+  name: InProgressTime
+  nameWithType: ActionBehavior.InProgressTime
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: TinyLife.Actions.BehaviorAction.BaseFullyInProgress
+  commentId: P:TinyLife.Actions.BehaviorAction.BaseFullyInProgress
+  name: BaseFullyInProgress
+  nameWithType: BehaviorAction.BaseFullyInProgress
+  fullName: TinyLife.Actions.BehaviorAction.BaseFullyInProgress
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress*
   commentId: Overload:TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_FullyInProgress
@@ -977,7 +1014,7 @@ references:
   - name: )
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor*
   commentId: Overload:TinyLife.Actions.Behaviors.ActionBehavior.#ctor
-  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_Action_
+  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_BehaviorAction_
   name: ActionBehavior
   nameWithType: ActionBehavior.ActionBehavior
   fullName: TinyLife.Actions.Behaviors.ActionBehavior.ActionBehavior
@@ -991,13 +1028,13 @@ references:
   name: ActionBehavior
   nameWithType: ActionBehavior
   fullName: TinyLife.Actions.Behaviors.ActionBehavior
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.Action
-  commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.Action
-  parent: TinyLife.Actions.Behaviors.ActionBehavior
-  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_Action
+- uid: TinyLife.Actions.Action
+  commentId: T:TinyLife.Actions.Action
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.Action.html
   name: Action
-  nameWithType: ActionBehavior.Action
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.Action
+  nameWithType: Action
+  fullName: TinyLife.Actions.Action
 - uid: TinyLife.Actions.BehaviorAction.CreateFirstActions
   commentId: M:TinyLife.Actions.BehaviorAction.CreateFirstActions
   parent: TinyLife.Actions.BehaviorAction
@@ -1243,14 +1280,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.TimeSpan
-  commentId: T:System.TimeSpan
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.timespan
-  name: TimeSpan
-  nameWithType: TimeSpan
-  fullName: System.TimeSpan
 - uid: System.Single
   commentId: T:System.Single
   parent: System
@@ -1444,30 +1473,30 @@ references:
   name: GetNextAction
   nameWithType: ActionBehavior.GetNextAction
   fullName: TinyLife.Actions.Behaviors.ActionBehavior.GetNextAction
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
-  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_Action_
-  name: ActionBehavior(Action)
-  nameWithType: ActionBehavior.ActionBehavior(Action)
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ActionBehavior(TinyLife.Actions.Action)
-  nameWithType.vb: ActionBehavior.New(Action)
-  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.New(TinyLife.Actions.Action)
-  name.vb: New(Action)
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
+  commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
+  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_BehaviorAction_
+  name: ActionBehavior(BehaviorAction)
+  nameWithType: ActionBehavior.ActionBehavior(BehaviorAction)
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ActionBehavior(TinyLife.Actions.BehaviorAction)
+  nameWithType.vb: ActionBehavior.New(BehaviorAction)
+  fullName.vb: TinyLife.Actions.Behaviors.ActionBehavior.New(TinyLife.Actions.BehaviorAction)
+  name.vb: New(BehaviorAction)
   spec.csharp:
-  - uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.Action)
+  - uid: TinyLife.Actions.Behaviors.ActionBehavior.#ctor(TinyLife.Actions.BehaviorAction)
     name: ActionBehavior
-    href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_Action_
+    href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior__ctor_TinyLife_Actions_BehaviorAction_
   - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
+  - uid: TinyLife.Actions.BehaviorAction
+    name: BehaviorAction
+    href: TinyLife.Actions.BehaviorAction.html
   - name: )
   spec.vb:
   - name: New
   - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
+  - uid: TinyLife.Actions.BehaviorAction
+    name: BehaviorAction
+    href: TinyLife.Actions.BehaviorAction.html
   - name: )
 - uid: System.InvalidOperationException
   commentId: T:System.InvalidOperationException

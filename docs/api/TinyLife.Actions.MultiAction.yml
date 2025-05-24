@@ -16,6 +16,7 @@ items:
   - TinyLife.Actions.MultiAction.CreateFirstActions
   - TinyLife.Actions.MultiAction.CreateLastActions
   - TinyLife.Actions.MultiAction.CurrentStage
+  - TinyLife.Actions.MultiAction.FullyInProgress
   - TinyLife.Actions.MultiAction.Handler
   - TinyLife.Actions.MultiAction.InProgressTime
   - TinyLife.Actions.MultiAction.Initialize
@@ -68,7 +69,6 @@ items:
   - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
-  - TinyLife.Actions.Action.FullyInProgress
   - TinyLife.Actions.Action.Type
   - TinyLife.Actions.Action.Info
   - TinyLife.Actions.Action.Id
@@ -214,7 +214,7 @@ items:
   summary: >-
     Represents the amount of time that this action has "properly" been in progress for.
 
-    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.
+    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns a time greater than <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref> only once the first actions are completed or the conversation has started, respectively.
 
     By default, <xref href="TinyLife.Actions.Action.ElapsedTime" data-throw-if-not-resolved="false"></xref> is returned.
   example: []
@@ -227,6 +227,36 @@ items:
     content.vb: Public Overrides ReadOnly Property InProgressTime As TimeSpan
   overridden: TinyLife.Actions.Action.InProgressTime
   overload: TinyLife.Actions.MultiAction.InProgressTime*
+- uid: TinyLife.Actions.MultiAction.FullyInProgress
+  commentId: P:TinyLife.Actions.MultiAction.FullyInProgress
+  id: FullyInProgress
+  parent: TinyLife.Actions.MultiAction
+  langs:
+  - csharp
+  - vb
+  name: FullyInProgress
+  nameWithType: MultiAction.FullyInProgress
+  fullName: TinyLife.Actions.MultiAction.FullyInProgress
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: >-
+    Returns whether this action is currently "properly" in progress.
+
+    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.
+
+    By default, this property always returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, since regular actions immediately start their main part.
+  example: []
+  syntax:
+    content: public override bool FullyInProgress { get; }
+    parameters: []
+    return:
+      type: System.Boolean
+      description: Whether this action is fully in progress
+    content.vb: Public Overrides ReadOnly Property FullyInProgress As Boolean
+  overridden: TinyLife.Actions.Action.FullyInProgress
+  overload: TinyLife.Actions.MultiAction.FullyInProgress*
 - uid: TinyLife.Actions.MultiAction.CurrentStage
   commentId: P:TinyLife.Actions.MultiAction.CurrentStage
   id: CurrentStage
@@ -904,13 +934,6 @@ references:
   name: OnActionTypeConstructed
   nameWithType: Action.OnActionTypeConstructed
   fullName: TinyLife.Actions.Action.OnActionTypeConstructed
-- uid: TinyLife.Actions.Action.FullyInProgress
-  commentId: P:TinyLife.Actions.Action.FullyInProgress
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
-  name: FullyInProgress
-  nameWithType: Action.FullyInProgress
-  fullName: TinyLife.Actions.Action.FullyInProgress
 - uid: TinyLife.Actions.Action.Type
   commentId: F:TinyLife.Actions.Action.Type
   parent: TinyLife.Actions.Action
@@ -4649,6 +4672,13 @@ references:
   name: SocialAction
   nameWithType: SocialAction
   fullName: TinyLife.Actions.SocialAction
+- uid: System.TimeSpan.Zero
+  commentId: F:System.TimeSpan.Zero
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan.zero
+  name: Zero
+  nameWithType: TimeSpan.Zero
+  fullName: System.TimeSpan.Zero
 - uid: TinyLife.Actions.Action.InProgressTime
   commentId: P:TinyLife.Actions.Action.InProgressTime
   parent: TinyLife.Actions.Action
@@ -4662,6 +4692,30 @@ references:
   name: InProgressTime
   nameWithType: MultiAction.InProgressTime
   fullName: TinyLife.Actions.MultiAction.InProgressTime
+- uid: TinyLife.Actions.Action.FullyInProgress
+  commentId: P:TinyLife.Actions.Action.FullyInProgress
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
+  name: FullyInProgress
+  nameWithType: Action.FullyInProgress
+  fullName: TinyLife.Actions.Action.FullyInProgress
+- uid: TinyLife.Actions.MultiAction.FullyInProgress*
+  commentId: Overload:TinyLife.Actions.MultiAction.FullyInProgress
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FullyInProgress
+  name: FullyInProgress
+  nameWithType: MultiAction.FullyInProgress
+  fullName: TinyLife.Actions.MultiAction.FullyInProgress
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
 - uid: TinyLife.Actions.MultiAction.Stage
   commentId: T:TinyLife.Actions.MultiAction.Stage
   parent: TinyLife.Actions
@@ -5466,17 +5520,6 @@ references:
   name: AppliedMigrations
   nameWithType: AppliedMigrations
   fullName: TinyLife.Utilities.AppliedMigrations
-- uid: System.Boolean
-  commentId: T:System.Boolean
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.boolean
-  name: bool
-  nameWithType: bool
-  fullName: bool
-  nameWithType.vb: Boolean
-  fullName.vb: Boolean
-  name.vb: Boolean
 - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action

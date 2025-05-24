@@ -5,7 +5,7 @@ items:
   id: ReadBehavior
   parent: TinyLife.Actions.Behaviors
   children:
-  - TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.Action,System.Func{TinyLife.Objects.FurnitureType},System.Int32[],System.Func{TinyLife.Objects.Furniture,System.Boolean})
+  - TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.BehaviorAction,System.Func{TinyLife.Objects.FurnitureType},System.Func{System.Int32[]},System.Func{TinyLife.Objects.Furniture,System.Boolean})
   - TinyLife.Actions.Behaviors.ReadBehavior.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Behaviors.ReadBehavior.FullyInProgress
   - TinyLife.Actions.Behaviors.ReadBehavior.Initialize
@@ -36,7 +36,8 @@ items:
   inheritedMembers:
   - TinyLife.Actions.Behaviors.PickUpOrSpawnBehavior.CreateFirstActions
   - TinyLife.Actions.Behaviors.PickUpOrSpawnBehavior.GetNextAction(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.Behaviors.ActionBehavior.Action
+  - TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
+  - TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
   - TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   - TinyLife.Actions.Behaviors.ActionBehavior.GetIconObject
   - TinyLife.Actions.Behaviors.ActionBehavior.CreateDefaultInstance(System.Type,TinyLife.Actions.Action)
@@ -64,9 +65,9 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Returns whether this action behavior is fully in progress.
+    Whether this action behavior is fully in progress.
 
-    This is the action behavior version of <xref href="TinyLife.Actions.Action.FullyInProgress" data-throw-if-not-resolved="false"></xref>.
+    By default, this is the same as <xref href="TinyLife.Actions.BehaviorAction.BaseFullyInProgress" data-throw-if-not-resolved="false"></xref>, which is the fully in progress state of the underlying action.
   example: []
   syntax:
     content: public override bool FullyInProgress { get; }
@@ -76,16 +77,16 @@ items:
     content.vb: Public Overrides ReadOnly Property FullyInProgress As Boolean
   overridden: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   overload: TinyLife.Actions.Behaviors.ReadBehavior.FullyInProgress*
-- uid: TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.Action,System.Func{TinyLife.Objects.FurnitureType},System.Int32[],System.Func{TinyLife.Objects.Furniture,System.Boolean})
-  commentId: M:TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.Action,System.Func{TinyLife.Objects.FurnitureType},System.Int32[],System.Func{TinyLife.Objects.Furniture,System.Boolean})
-  id: '#ctor(TinyLife.Actions.Action,System.Func{TinyLife.Objects.FurnitureType},System.Int32[],System.Func{TinyLife.Objects.Furniture,System.Boolean})'
+- uid: TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.BehaviorAction,System.Func{TinyLife.Objects.FurnitureType},System.Func{System.Int32[]},System.Func{TinyLife.Objects.Furniture,System.Boolean})
+  commentId: M:TinyLife.Actions.Behaviors.ReadBehavior.#ctor(TinyLife.Actions.BehaviorAction,System.Func{TinyLife.Objects.FurnitureType},System.Func{System.Int32[]},System.Func{TinyLife.Objects.Furniture,System.Boolean})
+  id: '#ctor(TinyLife.Actions.BehaviorAction,System.Func{TinyLife.Objects.FurnitureType},System.Func{System.Int32[]},System.Func{TinyLife.Objects.Furniture,System.Boolean})'
   parent: TinyLife.Actions.Behaviors.ReadBehavior
   langs:
   - csharp
   - vb
-  name: ReadBehavior(Action, Func<FurnitureType>, int[], Func<Furniture, bool>)
-  nameWithType: ReadBehavior.ReadBehavior(Action, Func<FurnitureType>, int[], Func<Furniture, bool>)
-  fullName: TinyLife.Actions.Behaviors.ReadBehavior.ReadBehavior(TinyLife.Actions.Action, System.Func<TinyLife.Objects.FurnitureType>, int[], System.Func<TinyLife.Objects.Furniture, bool>)
+  name: ReadBehavior(BehaviorAction, Func<FurnitureType>, Func<int[]>, Func<Furniture, bool>)
+  nameWithType: ReadBehavior.ReadBehavior(BehaviorAction, Func<FurnitureType>, Func<int[]>, Func<Furniture, bool>)
+  fullName: TinyLife.Actions.Behaviors.ReadBehavior.ReadBehavior(TinyLife.Actions.BehaviorAction, System.Func<TinyLife.Objects.FurnitureType>, System.Func<int[]>, System.Func<TinyLife.Objects.Furniture, bool>)
   type: Constructor
   assemblies:
   - Tiny Life
@@ -93,29 +94,29 @@ items:
   summary: Creates a new pick up or spawn behavior with the given settings.
   example: []
   syntax:
-    content: public ReadBehavior(Action action, Func<FurnitureType> itemToSpawn, int[] colorsToSpawn = null, Func<Furniture, bool> isValid = null)
+    content: public ReadBehavior(BehaviorAction action, Func<FurnitureType> itemToSpawn, Func<int[]> colorsToSpawn = null, Func<Furniture, bool> isValid = null)
     parameters:
     - id: action
-      type: TinyLife.Actions.Action
+      type: TinyLife.Actions.BehaviorAction
       description: The action.
     - id: itemToSpawn
       type: System.Func{TinyLife.Objects.FurnitureType}
       description: The item to spawn, or pick up.
     - id: colorsToSpawn
-      type: System.Int32[]
+      type: System.Func{System.Int32[]}
       description: The colors to spawn.
     - id: isValid
       type: System.Func{TinyLife.Objects.Furniture,System.Boolean}
       description: Whether the item that we're trying to pick up is valid. If this is null, the item is checked against the <code class="paramref">itemToSpawn</code>.
-    content.vb: Public Sub New(action As Action, itemToSpawn As Func(Of FurnitureType), colorsToSpawn As Integer() = Nothing, isValid As Func(Of Furniture, Boolean) = Nothing)
+    content.vb: Public Sub New(action As BehaviorAction, itemToSpawn As Func(Of FurnitureType), colorsToSpawn As Func(Of Integer()) = Nothing, isValid As Func(Of Furniture, Boolean) = Nothing)
   overload: TinyLife.Actions.Behaviors.ReadBehavior.#ctor*
   exceptions:
   - type: System.ArgumentNullException
     commentId: T:System.ArgumentNullException
     description: Thrown if the <code class="paramref">itemToSpawn</code> is null.
-  nameWithType.vb: ReadBehavior.New(Action, Func(Of FurnitureType), Integer(), Func(Of Furniture, Boolean))
-  fullName.vb: TinyLife.Actions.Behaviors.ReadBehavior.New(TinyLife.Actions.Action, System.Func(Of TinyLife.Objects.FurnitureType), Integer(), System.Func(Of TinyLife.Objects.Furniture, Boolean))
-  name.vb: New(Action, Func(Of FurnitureType), Integer(), Func(Of Furniture, Boolean))
+  nameWithType.vb: ReadBehavior.New(BehaviorAction, Func(Of FurnitureType), Func(Of Integer()), Func(Of Furniture, Boolean))
+  fullName.vb: TinyLife.Actions.Behaviors.ReadBehavior.New(TinyLife.Actions.BehaviorAction, System.Func(Of TinyLife.Objects.FurnitureType), System.Func(Of Integer()), System.Func(Of TinyLife.Objects.Furniture, Boolean))
+  name.vb: New(BehaviorAction, Func(Of FurnitureType), Func(Of Integer()), Func(Of Furniture, Boolean))
 - uid: TinyLife.Actions.Behaviors.ReadBehavior.Initialize
   commentId: M:TinyLife.Actions.Behaviors.ReadBehavior.Initialize
   id: Initialize
@@ -192,7 +193,7 @@ items:
   - Tiny Life
   namespace: TinyLife.Actions.Behaviors
   summary: >-
-    Return true on this method if this action can be multi-tasked along with the passed <xref href="TinyLife.Actions.Behaviors.ActionBehavior.Action" data-throw-if-not-resolved="false"></xref>.
+    Return true on this method if this action can be multi-tasked along with the passed <xref href="TinyLife.Actions.Action" data-throw-if-not-resolved="false"></xref>.
 
     A multi-tasking is an action that is currently active along with another action.
 
@@ -370,13 +371,20 @@ references:
     name: CompletionType
     href: TinyLife.Actions.CompletionType.html
   - name: )
-- uid: TinyLife.Actions.Behaviors.ActionBehavior.Action
-  commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.Action
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
+  commentId: F:TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
   parent: TinyLife.Actions.Behaviors.ActionBehavior
-  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_Action
-  name: Action
-  nameWithType: ActionBehavior.Action
-  fullName: TinyLife.Actions.Behaviors.ActionBehavior.Action
+  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_ContainingAction
+  name: ContainingAction
+  nameWithType: ActionBehavior.ContainingAction
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.ContainingAction
+- uid: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  commentId: P:TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
+  parent: TinyLife.Actions.Behaviors.ActionBehavior
+  href: TinyLife.Actions.Behaviors.ActionBehavior.html#TinyLife_Actions_Behaviors_ActionBehavior_InProgressTime
+  name: InProgressTime
+  nameWithType: ActionBehavior.InProgressTime
+  fullName: TinyLife.Actions.Behaviors.ActionBehavior.InProgressTime
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CreateLastActions
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -802,13 +810,11 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.Actions.Action.FullyInProgress
-  commentId: P:TinyLife.Actions.Action.FullyInProgress
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
-  name: FullyInProgress
-  nameWithType: Action.FullyInProgress
-  fullName: TinyLife.Actions.Action.FullyInProgress
+- uid: TinyLife.Actions.BehaviorAction.BaseFullyInProgress
+  commentId: P:TinyLife.Actions.BehaviorAction.BaseFullyInProgress
+  name: BaseFullyInProgress
+  nameWithType: BehaviorAction.BaseFullyInProgress
+  fullName: TinyLife.Actions.BehaviorAction.BaseFullyInProgress
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   commentId: P:TinyLife.Actions.Behaviors.ActionBehavior.FullyInProgress
   parent: TinyLife.Actions.Behaviors.ActionBehavior
@@ -833,35 +839,6 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
-- uid: TinyLife.Actions.Action
-  commentId: T:TinyLife.Actions.Action
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.Action.html
-  name: Action
-  nameWithType: Action
-  fullName: TinyLife.Actions.Action
-- uid: TinyLife.Actions
-  commentId: N:TinyLife.Actions
-  href: TinyLife.html
-  name: TinyLife.Actions
-  nameWithType: TinyLife.Actions
-  fullName: TinyLife.Actions
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
 - uid: System.ArgumentNullException
   commentId: T:System.ArgumentNullException
   isExternal: true
@@ -871,13 +848,20 @@ references:
   fullName: System.ArgumentNullException
 - uid: TinyLife.Actions.Behaviors.ReadBehavior.#ctor*
   commentId: Overload:TinyLife.Actions.Behaviors.ReadBehavior.#ctor
-  href: TinyLife.Actions.Behaviors.ReadBehavior.html#TinyLife_Actions_Behaviors_ReadBehavior__ctor_TinyLife_Actions_Action_System_Func_TinyLife_Objects_FurnitureType__System_Int32___System_Func_TinyLife_Objects_Furniture_System_Boolean__
+  href: TinyLife.Actions.Behaviors.ReadBehavior.html#TinyLife_Actions_Behaviors_ReadBehavior__ctor_TinyLife_Actions_BehaviorAction_System_Func_TinyLife_Objects_FurnitureType__System_Func_System_Int32____System_Func_TinyLife_Objects_Furniture_System_Boolean__
   name: ReadBehavior
   nameWithType: ReadBehavior.ReadBehavior
   fullName: TinyLife.Actions.Behaviors.ReadBehavior.ReadBehavior
   nameWithType.vb: ReadBehavior.New
   fullName.vb: TinyLife.Actions.Behaviors.ReadBehavior.New
   name.vb: New
+- uid: TinyLife.Actions.BehaviorAction
+  commentId: T:TinyLife.Actions.BehaviorAction
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.BehaviorAction.html
+  name: BehaviorAction
+  nameWithType: BehaviorAction
+  fullName: TinyLife.Actions.BehaviorAction
 - uid: System.Func{TinyLife.Objects.FurnitureType}
   commentId: T:System.Func{TinyLife.Objects.FurnitureType}
   parent: System
@@ -911,28 +895,44 @@ references:
     name: FurnitureType
     href: TinyLife.Objects.FurnitureType.html
   - name: )
-- uid: System.Int32[]
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.int32
-  name: int[]
-  nameWithType: int[]
-  fullName: int[]
-  nameWithType.vb: Integer()
-  fullName.vb: Integer()
-  name.vb: Integer()
+- uid: System.Func{System.Int32[]}
+  commentId: T:System.Func{System.Int32[]}
+  parent: System
+  definition: System.Func`1
+  href: https://learn.microsoft.com/dotnet/api/system.func-1
+  name: Func<int[]>
+  nameWithType: Func<int[]>
+  fullName: System.Func<int[]>
+  nameWithType.vb: Func(Of Integer())
+  fullName.vb: System.Func(Of Integer())
+  name.vb: Func(Of Integer())
   spec.csharp:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: <
   - uid: System.Int32
     name: int
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: '['
   - name: ']'
+  - name: '>'
   spec.vb:
+  - uid: System.Func`1
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-1
+  - name: (
+  - name: Of
+  - name: " "
   - uid: System.Int32
     name: Integer
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: (
+  - name: )
   - name: )
 - uid: System.Func{TinyLife.Objects.Furniture,System.Boolean}
   commentId: T:System.Func{TinyLife.Objects.Furniture,System.Boolean}
@@ -979,6 +979,28 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  href: TinyLife.html
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
 - uid: System.Func`1
   commentId: T:System.Func`1
   isExternal: true
@@ -1041,13 +1063,6 @@ references:
   - name: " "
   - name: TResult
   - name: )
-- uid: TinyLife.Actions.BehaviorAction
-  commentId: T:TinyLife.Actions.BehaviorAction
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.BehaviorAction.html
-  name: BehaviorAction
-  nameWithType: BehaviorAction
-  fullName: TinyLife.Actions.BehaviorAction
 - uid: TinyLife.Actions.MultiAction.AndThenInitialize
   commentId: M:TinyLife.Actions.MultiAction.AndThenInitialize
   parent: TinyLife.Actions.MultiAction
@@ -1273,6 +1288,13 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
+- uid: TinyLife.Actions.Action
+  commentId: T:TinyLife.Actions.Action
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.Action.html
+  name: Action
+  nameWithType: Action
+  fullName: TinyLife.Actions.Action
 - uid: TinyLife.Actions.Behaviors.ActionBehavior.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Behaviors.ActionBehavior.CanMultitask(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Behaviors.ActionBehavior

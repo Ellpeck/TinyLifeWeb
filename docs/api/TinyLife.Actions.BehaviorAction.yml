@@ -17,6 +17,7 @@ items:
   - TinyLife.Actions.BehaviorAction.FullyInProgress
   - TinyLife.Actions.BehaviorAction.GetIconObject
   - TinyLife.Actions.BehaviorAction.GetNextAction(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.BehaviorAction.InProgressTime
   langs:
   - csharp
   - vb
@@ -49,7 +50,6 @@ items:
   inheritedMembers:
   - TinyLife.Actions.MultiAction.Handler
   - TinyLife.Actions.MultiAction.MainElapsedTime
-  - TinyLife.Actions.MultiAction.InProgressTime
   - TinyLife.Actions.MultiAction.CurrentStage
   - TinyLife.Actions.MultiAction.AndThenIsCompleted
   - TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -127,6 +127,36 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Actions.BehaviorAction.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Actions.BehaviorAction.InProgressTime
+  commentId: P:TinyLife.Actions.BehaviorAction.InProgressTime
+  id: InProgressTime
+  parent: TinyLife.Actions.BehaviorAction
+  langs:
+  - csharp
+  - vb
+  name: InProgressTime
+  nameWithType: BehaviorAction.InProgressTime
+  fullName: TinyLife.Actions.BehaviorAction.InProgressTime
+  type: Property
+  assemblies:
+  - Tiny Life
+  namespace: TinyLife.Actions
+  summary: >-
+    Represents the amount of time that this action has "properly" been in progress for.
+
+    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns a time greater than <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref> only once the first actions are completed or the conversation has started, respectively.
+
+    By default, <xref href="TinyLife.Actions.Action.ElapsedTime" data-throw-if-not-resolved="false"></xref> is returned.
+  example: []
+  syntax:
+    content: public override TimeSpan InProgressTime { get; }
+    parameters: []
+    return:
+      type: System.TimeSpan
+      description: The amount of time that this action has properly been in progress for
+    content.vb: Public Overrides ReadOnly Property InProgressTime As TimeSpan
+  overridden: TinyLife.Actions.MultiAction.InProgressTime
+  overload: TinyLife.Actions.BehaviorAction.InProgressTime*
 - uid: TinyLife.Actions.BehaviorAction.FullyInProgress
   commentId: P:TinyLife.Actions.BehaviorAction.FullyInProgress
   id: FullyInProgress
@@ -146,7 +176,7 @@ items:
 
     This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.
 
-    By default, this property is true if <xref href="TinyLife.Actions.Action.InProgressTime" data-throw-if-not-resolved="false"></xref> is greater than <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref>.
+    By default, this property always returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, since regular actions immediately start their main part.
   example: []
   syntax:
     content: public override bool FullyInProgress { get; }
@@ -155,7 +185,7 @@ items:
       type: System.Boolean
       description: Whether this action is fully in progress
     content.vb: Public Overrides ReadOnly Property FullyInProgress As Boolean
-  overridden: TinyLife.Actions.Action.FullyInProgress
+  overridden: TinyLife.Actions.MultiAction.FullyInProgress
   overload: TinyLife.Actions.BehaviorAction.FullyInProgress*
 - uid: TinyLife.Actions.BehaviorAction.Behavior
   commentId: P:TinyLife.Actions.BehaviorAction.Behavior
@@ -596,13 +626,6 @@ references:
   name: MainElapsedTime
   nameWithType: MultiAction.MainElapsedTime
   fullName: TinyLife.Actions.MultiAction.MainElapsedTime
-- uid: TinyLife.Actions.MultiAction.InProgressTime
-  commentId: P:TinyLife.Actions.MultiAction.InProgressTime
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_InProgressTime
-  name: InProgressTime
-  nameWithType: MultiAction.InProgressTime
-  fullName: TinyLife.Actions.MultiAction.InProgressTime
 - uid: TinyLife.Actions.MultiAction.CurrentStage
   commentId: P:TinyLife.Actions.MultiAction.CurrentStage
   parent: TinyLife.Actions.MultiAction
@@ -4588,13 +4611,6 @@ references:
   name: SocialAction
   nameWithType: SocialAction
   fullName: TinyLife.Actions.SocialAction
-- uid: TinyLife.Actions.Action.InProgressTime
-  commentId: P:TinyLife.Actions.Action.InProgressTime
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_InProgressTime
-  name: InProgressTime
-  nameWithType: Action.InProgressTime
-  fullName: TinyLife.Actions.Action.InProgressTime
 - uid: System.TimeSpan.Zero
   commentId: F:System.TimeSpan.Zero
   isExternal: true
@@ -4602,13 +4618,34 @@ references:
   name: Zero
   nameWithType: TimeSpan.Zero
   fullName: System.TimeSpan.Zero
-- uid: TinyLife.Actions.Action.FullyInProgress
-  commentId: P:TinyLife.Actions.Action.FullyInProgress
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
+- uid: TinyLife.Actions.MultiAction.InProgressTime
+  commentId: P:TinyLife.Actions.MultiAction.InProgressTime
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_InProgressTime
+  name: InProgressTime
+  nameWithType: MultiAction.InProgressTime
+  fullName: TinyLife.Actions.MultiAction.InProgressTime
+- uid: TinyLife.Actions.BehaviorAction.InProgressTime*
+  commentId: Overload:TinyLife.Actions.BehaviorAction.InProgressTime
+  href: TinyLife.Actions.BehaviorAction.html#TinyLife_Actions_BehaviorAction_InProgressTime
+  name: InProgressTime
+  nameWithType: BehaviorAction.InProgressTime
+  fullName: TinyLife.Actions.BehaviorAction.InProgressTime
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: TinyLife.Actions.MultiAction.FullyInProgress
+  commentId: P:TinyLife.Actions.MultiAction.FullyInProgress
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FullyInProgress
   name: FullyInProgress
-  nameWithType: Action.FullyInProgress
-  fullName: TinyLife.Actions.Action.FullyInProgress
+  nameWithType: MultiAction.FullyInProgress
+  fullName: TinyLife.Actions.MultiAction.FullyInProgress
 - uid: TinyLife.Actions.BehaviorAction.FullyInProgress*
   commentId: Overload:TinyLife.Actions.BehaviorAction.FullyInProgress
   href: TinyLife.Actions.BehaviorAction.html#TinyLife_Actions_BehaviorAction_FullyInProgress
@@ -4908,14 +4945,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: System.TimeSpan
-  commentId: T:System.TimeSpan
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.timespan
-  name: TimeSpan
-  nameWithType: TimeSpan
-  fullName: System.TimeSpan
 - uid: System.Single
   commentId: T:System.Single
   parent: System

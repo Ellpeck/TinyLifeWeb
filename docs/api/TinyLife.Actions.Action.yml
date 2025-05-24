@@ -223,7 +223,7 @@ items:
   summary: >-
     Represents the amount of time that this action has "properly" been in progress for.
 
-    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.
+    This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns a time greater than <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref> only once the first actions are completed or the conversation has started, respectively.
 
     By default, <xref href="TinyLife.Actions.Action.ElapsedTime" data-throw-if-not-resolved="false"></xref> is returned.
   example: []
@@ -254,7 +254,7 @@ items:
 
     This is used by <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Actions.SocialAction" data-throw-if-not-resolved="false"></xref> and returns true only once the first actions are completed or the conversation has started, respectively.
 
-    By default, this property is true if <xref href="TinyLife.Actions.Action.InProgressTime" data-throw-if-not-resolved="false"></xref> is greater than <xref href="System.TimeSpan.Zero" data-throw-if-not-resolved="false"></xref>.
+    By default, this property always returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, since regular actions immediately start their main part.
   example: []
   syntax:
     content: public virtual bool FullyInProgress { get; }
@@ -1802,6 +1802,7 @@ items:
       description: Whether the <code class="paramref">expectedItem</code> should be put down. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the person will only go to the goal location, but not put the item down on it.
     - id: radius
       type: System.Nullable{System.Int32}
+      description: The radius that should be searched for applicable destinations in, or 32 by default
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
       description: The actions to execute to cause this behavior.
@@ -1846,6 +1847,7 @@ items:
       description: Whether the holdable item should be put down. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the person will only go to the goal location, but not put the item down on it.
     - id: radius
       type: System.Nullable{System.Int32}
+      description: The radius that should be searched for applicable destinations in, or 32 by default
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
       description: The actions to execute to cause this behavior.
@@ -2150,7 +2152,7 @@ items:
   summary: A helper method to find a set of all positions on the ground that are currently valid for interaction
   example: []
   syntax:
-    content: public static IEnumerable<(Point Pos, int Floor, Tile Tile)> FindAllFreeGround(PersonLike person, Map map = null, Vector2? position = null, float? floor = null, float? radius = null, bool ignoreVisibility = false, bool allowOffLot = false)
+    content: public static IEnumerable<TileInstance> FindAllFreeGround(PersonLike person, Map map = null, Vector2? position = null, float? floor = null, float? radius = null, bool ignoreVisibility = false, bool allowOffLot = false)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
@@ -2174,9 +2176,9 @@ items:
       type: System.Boolean
       description: Whether objects that aren't on a lot should be considered for inclusion in the returned collection. If <code class="paramref">ignoreVisibility</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, this parameter is ignored, and objects that aren't on a lot are included.
     return:
-      type: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}}
+      type: System.Collections.Generic.IEnumerable{TinyLife.World.TileInstance}
       description: A set of valid locations
-    content.vb: Public Shared Function FindAllFreeGround(person As PersonLike, map As Map = Nothing, position As Vector2? = Nothing, floor As Single? = Nothing, radius As Single? = Nothing, ignoreVisibility As Boolean = False, allowOffLot As Boolean = False) As IEnumerable(Of (Pos As Point, Floor As Integer, Tile As Tile))
+    content.vb: Public Shared Function FindAllFreeGround(person As PersonLike, map As Map = Nothing, position As Vector2? = Nothing, floor As Single? = Nothing, radius As Single? = Nothing, ignoreVisibility As Boolean = False, allowOffLot As Boolean = False) As IEnumerable(Of TileInstance)
   overload: TinyLife.Actions.Action.FindAllFreeGround*
   nameWithType.vb: Action.FindAllFreeGround(PersonLike, Map, Vector2?, Single?, Single?, Boolean, Boolean)
   fullName.vb: TinyLife.Actions.Action.FindAllFreeGround(TinyLife.Objects.PersonLike, TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?, Single?, Boolean, Boolean)
@@ -2325,6 +2327,7 @@ items:
       description: Whether invalid objects should also be returned.
     - id: checkRecentlyFailed
       type: System.Boolean
+      description: Whether potential action objects at which the given <code class="paramref">type</code> has recently failed should be checked for and ignored (causing them to be skipped as part of the returned set of action infos)
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionInfo}
       description: A set of action infos that the given action can be started with.
@@ -2537,6 +2540,7 @@ items:
       description: An additional position that should be query if <code class="paramref">lot</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the <code class="paramref">person</code>'s <xref href="TinyLife.Objects.MapObject.Position" data-throw-if-not-resolved="false"></xref> is used instead.
     - id: allowOffLot
       type: System.Boolean
+      description: Whether objects that aren't on a lot should be considered visible.
     return:
       type: System.Boolean
       description: Whether the lot content on the <code class="paramref">lot</code> or at the <code class="paramref">position</code> is visible.
@@ -3398,6 +3402,13 @@ references:
   name: SocialAction
   nameWithType: SocialAction
   fullName: TinyLife.Actions.SocialAction
+- uid: System.TimeSpan.Zero
+  commentId: F:System.TimeSpan.Zero
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan.zero
+  name: Zero
+  nameWithType: TimeSpan.Zero
+  fullName: System.TimeSpan.Zero
 - uid: TinyLife.Actions.Action.ElapsedTime
   commentId: P:TinyLife.Actions.Action.ElapsedTime
   parent: TinyLife.Actions.Action
@@ -3419,20 +3430,6 @@ references:
   name: TimeSpan
   nameWithType: TimeSpan
   fullName: System.TimeSpan
-- uid: TinyLife.Actions.Action.InProgressTime
-  commentId: P:TinyLife.Actions.Action.InProgressTime
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_InProgressTime
-  name: InProgressTime
-  nameWithType: Action.InProgressTime
-  fullName: TinyLife.Actions.Action.InProgressTime
-- uid: System.TimeSpan.Zero
-  commentId: F:System.TimeSpan.Zero
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.timespan.zero
-  name: Zero
-  nameWithType: TimeSpan.Zero
-  fullName: System.TimeSpan.Zero
 - uid: TinyLife.Actions.Action.FullyInProgress*
   commentId: Overload:TinyLife.Actions.Action.FullyInProgress
   href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
@@ -7067,51 +7064,26 @@ references:
   name: FindAllFreeGround
   nameWithType: Action.FindAllFreeGround
   fullName: TinyLife.Actions.Action.FindAllFreeGround
-- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}}
-  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}}
+- uid: System.Collections.Generic.IEnumerable{TinyLife.World.TileInstance}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.World.TileInstance}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<(Point Pos, int Floor, Tile Tile)>
-  nameWithType: IEnumerable<(Point Pos, int Floor, Tile Tile)>
-  fullName: System.Collections.Generic.IEnumerable<(Microsoft.Xna.Framework.Point Pos, int Floor, TinyLife.World.Tile Tile)>
-  nameWithType.vb: IEnumerable(Of (Pos As Point, Floor As Integer, Tile As Tile))
-  fullName.vb: System.Collections.Generic.IEnumerable(Of (Pos As Microsoft.Xna.Framework.Point, Floor As Integer, Tile As TinyLife.World.Tile))
-  name.vb: IEnumerable(Of (Pos As Point, Floor As Integer, Tile As Tile))
+  name: IEnumerable<TileInstance>
+  nameWithType: IEnumerable<TileInstance>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.World.TileInstance>
+  nameWithType.vb: IEnumerable(Of TileInstance)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.World.TileInstance)
+  name.vb: IEnumerable(Of TileInstance)
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
   - name: <
-  - name: (
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Pos
-    name: Pos
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.pos
-  - name: ','
-  - name: " "
-  - uid: System.Int32
-    name: int
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Floor
-    name: Floor
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.floor
-  - name: ','
-  - name: " "
-  - uid: TinyLife.World.Tile
-    name: Tile
-    href: TinyLife.World.Tile.html
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Tile
-    name: Tile
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.tile
-  - name: )
+  - uid: TinyLife.World.TileInstance
+    name: TileInstance
+    href: TinyLife.World.TileInstance.html
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.IEnumerable`1
@@ -7121,40 +7093,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - name: (
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Pos
-    name: Pos
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.pos
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Point
-    name: Point
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Floor
-    name: Floor
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.floor
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: System.Int32
-    name: Integer
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.int32
-  - name: ','
-  - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32,TinyLife.World.Tile}.Tile
-    name: Tile
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,system.int32,tinylife.world.tile-.tile
-  - name: " "
-  - name: As
-  - name: " "
-  - uid: TinyLife.World.Tile
-    name: Tile
-    href: TinyLife.World.Tile.html
-  - name: )
+  - uid: TinyLife.World.TileInstance
+    name: TileInstance
+    href: TinyLife.World.TileInstance.html
   - name: )
 - uid: TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Nullable{System.Single},System.Boolean,System.Boolean,System.Boolean,System.Func{TinyLife.Objects.Furniture,System.Boolean})
   commentId: M:TinyLife.Actions.Action.FindAllFreeFurniture(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory,TinyLife.Objects.FurnitureType,System.Boolean,TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single},System.Nullable{System.Single},System.Boolean,System.Boolean,System.Boolean,System.Func{TinyLife.Objects.Furniture,System.Boolean})
