@@ -1,3 +1,12 @@
+# 0.47.6
+*May 25, 2025*
+
+Improvements
+- Improved load speed of old maps that don't use the tile instance system yet
+
+Fixes
+- Fixed a crash when using the EditPerson cheat
+
 # 0.47.5
 *May 24, 2025*
 
