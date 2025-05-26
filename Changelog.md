@@ -1,3 +1,14 @@
+# 0.47.7
+*May 26, 2025*
+
+Improvements
+- Cache tile variation textures to improve rendering performance
+- Use a monospaced font for all debug information
+
+Fixes
+- Fixed an exception when removing invalid people from the map
+- Fixed a crash when deserializing a save with old memories in it
+
 # 0.47.6
 *May 25, 2025*
 
