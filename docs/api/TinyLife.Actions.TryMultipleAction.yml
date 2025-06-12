@@ -1,63 +1,49 @@
 ### YamlMime:ManagedReference
 items:
-- uid: TinyLife.Actions.SellAction
-  commentId: T:TinyLife.Actions.SellAction
-  id: SellAction
+- uid: TinyLife.Actions.TryMultipleAction
+  commentId: T:TinyLife.Actions.TryMultipleAction
+  id: TryMultipleAction
   parent: TinyLife.Actions
   children:
-  - TinyLife.Actions.SellAction.AndThenInitialize
-  - TinyLife.Actions.SellAction.AndThenIsCompleted
-  - TinyLife.Actions.SellAction.CreateFirstActions
-  - TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  - TinyLife.Actions.SellAction.Items
+  - TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionInfo)
+  - TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
+  - TinyLife.Actions.TryMultipleAction.GetNextActionToTry
+  - TinyLife.Actions.TryMultipleAction.Initialize
+  - TinyLife.Actions.TryMultipleAction.OnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  - TinyLife.Actions.TryMultipleAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
-  name: SellAction
-  nameWithType: SellAction
-  fullName: TinyLife.Actions.SellAction
+  name: TryMultipleAction
+  nameWithType: TryMultipleAction
+  fullName: TinyLife.Actions.TryMultipleAction
   type: Class
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
   summary: >-
-    The <xref href="TinyLife.Actions.ActionType.Sell" data-throw-if-not-resolved="false"></xref> action is an action that includes <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> of the action picking up the item (if they're not already holding it), and then carrying it to a mailbox and selling it there.
+    An action type that can be extended to try multiple underlying actions until there are no more actions to try, or until one of them succeeds.
 
-    To add new sellable items for this action type to support, you can add them to the <xref href="TinyLife.Actions.SellAction.Items" data-throw-if-not-resolved="false"></xref> collection.
+    This action is the underlying class used by <xref href="TinyLife.Actions.TryGoHereAction" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: 'public class SellAction : MultiAction, IGenericDataHolder'
-    content.vb: Public Class SellAction Inherits MultiAction Implements IGenericDataHolder
+    content: 'public abstract class TryMultipleAction : Action, IGenericDataHolder'
+    content.vb: Public MustInherit Class TryMultipleAction Inherits Action Implements IGenericDataHolder
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Actions.Action
-  - TinyLife.Actions.MultiAction
+  derivedClasses:
+  - TinyLife.Actions.TryGoHereAction
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
-  - TinyLife.Actions.MultiAction.Handler
-  - TinyLife.Actions.MultiAction.MainElapsedTime
-  - TinyLife.Actions.MultiAction.InProgressTime
-  - TinyLife.Actions.MultiAction.FullyInProgress
-  - TinyLife.Actions.MultiAction.CurrentStage
-  - TinyLife.Actions.MultiAction.CreateLastActions
-  - TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.MultiAction.PreInitialize
-  - TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.MultiAction.Initialize
-  - TinyLife.Actions.MultiAction.IsCompleted
-  - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-  - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-  - TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  - TinyLife.Actions.MultiAction.CanStartNow
   - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
+  - TinyLife.Actions.Action.InProgressTime
+  - TinyLife.Actions.Action.FullyInProgress
   - TinyLife.Actions.Action.Type
   - TinyLife.Actions.Action.Info
   - TinyLife.Actions.Action.Id
@@ -67,8 +53,11 @@ items:
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
   - TinyLife.Actions.Action.ForceResult
+  - TinyLife.Actions.Action.IsCompleted
   - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
+  - TinyLife.Actions.Action.CanStartNow
+  - TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -121,171 +110,224 @@ items:
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
   extensionMethods:
-  - TinyLife.Actions.SellAction.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Actions.SellAction.Items
-  commentId: F:TinyLife.Actions.SellAction.Items
-  id: Items
-  parent: TinyLife.Actions.SellAction
+  - TinyLife.Actions.TryMultipleAction.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionInfo)
+  id: '#ctor(TinyLife.Actions.ActionInfo)'
+  parent: TinyLife.Actions.TryMultipleAction
   langs:
   - csharp
   - vb
-  name: Items
-  nameWithType: SellAction.Items
-  fullName: TinyLife.Actions.SellAction.Items
-  type: Field
+  name: TryMultipleAction(ActionInfo)
+  nameWithType: TryMultipleAction.TryMultipleAction(ActionInfo)
+  fullName: TinyLife.Actions.TryMultipleAction.TryMultipleAction(TinyLife.Actions.ActionInfo)
+  type: Constructor
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
-  summary: >-
-    A dictionary that maps <xref href="TinyLife.Objects.FurnitureType" data-throw-if-not-resolved="false"></xref> instances to a condition that allows them to be sold.
-
-    When the furniture item or a mailbox is clicked on, and the <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref> matches, the item can be sold using the <xref href="TinyLife.Actions.ActionType.Sell" data-throw-if-not-resolved="false"></xref> action.
-
-    Note that, to receive the item that is to be sold, <xref href="TinyLife.Actions.SellAction.GetSoldObject%60%601(TinyLife.Actions.ActionInfo)" data-throw-if-not-resolved="false"></xref> should be used.
+  summary: Creates a new typeless action with the given action information.
   example: []
   syntax:
-    content: public static readonly Dictionary<FurnitureType, ActionType.CanExecuteDelegate> Items
-    return:
-      type: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
-    content.vb: Public Shared ReadOnly Items As Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
-- uid: TinyLife.Actions.SellAction.CreateFirstActions
-  commentId: M:TinyLife.Actions.SellAction.CreateFirstActions
-  id: CreateFirstActions
-  parent: TinyLife.Actions.SellAction
-  langs:
-  - csharp
-  - vb
-  name: CreateFirstActions()
-  nameWithType: SellAction.CreateFirstActions()
-  fullName: TinyLife.Actions.SellAction.CreateFirstActions()
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.Actions
-  summary: >-
-    Return a set of actions that should be executed before this action.
-
-    Even if the yield statement is used, all actions will be collected into a list at the start of this action's invocation.
-
-    If no action gets returned in this function, this action fails.
-
-    If the returned set only contains <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> items, no first actions will be executed.
-  example: []
-  syntax:
-    content: protected override IEnumerable<Action> CreateFirstActions()
-    return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-      description: A set of actions that should run before this action
-    content.vb: Protected Overrides Function CreateFirstActions() As IEnumerable(Of Action)
-  overridden: TinyLife.Actions.MultiAction.CreateFirstActions
-  overload: TinyLife.Actions.SellAction.CreateFirstActions*
-- uid: TinyLife.Actions.SellAction.AndThenInitialize
-  commentId: M:TinyLife.Actions.SellAction.AndThenInitialize
-  id: AndThenInitialize
-  parent: TinyLife.Actions.SellAction
-  langs:
-  - csharp
-  - vb
-  name: AndThenInitialize()
-  nameWithType: SellAction.AndThenInitialize()
-  fullName: TinyLife.Actions.SellAction.AndThenInitialize()
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.Actions
-  summary: >-
-    Initializes the main action.
-
-    This method is called after <xref href="TinyLife.Actions.MultiAction.Handler" data-throw-if-not-resolved="false"></xref> has all completed.
-  example: []
-  syntax:
-    content: protected override void AndThenInitialize()
-    content.vb: Protected Overrides Sub AndThenInitialize()
-  overridden: TinyLife.Actions.MultiAction.AndThenInitialize
-  overload: TinyLife.Actions.SellAction.AndThenInitialize*
-- uid: TinyLife.Actions.SellAction.AndThenIsCompleted
-  commentId: M:TinyLife.Actions.SellAction.AndThenIsCompleted
-  id: AndThenIsCompleted
-  parent: TinyLife.Actions.SellAction
-  langs:
-  - csharp
-  - vb
-  name: AndThenIsCompleted()
-  nameWithType: SellAction.AndThenIsCompleted()
-  fullName: TinyLife.Actions.SellAction.AndThenIsCompleted()
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.Actions
-  summary: >-
-    MultiAction version of <xref href="TinyLife.Actions.MultiAction.IsCompleted" data-throw-if-not-resolved="false"></xref>.
-
-    This method returns whether or not the main action is completed.
-  example: []
-  syntax:
-    content: protected override CompletionType AndThenIsCompleted()
-    return:
-      type: TinyLife.Actions.CompletionType
-      description: Whether the main action is completed
-    content.vb: Protected Overrides Function AndThenIsCompleted() As CompletionType
-  overridden: TinyLife.Actions.MultiAction.AndThenIsCompleted
-  overload: TinyLife.Actions.SellAction.AndThenIsCompleted*
-- uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  id: GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  parent: TinyLife.Actions.SellAction
-  langs:
-  - csharp
-  - vb
-  name: GetSoldObject<T>(ActionInfo)
-  nameWithType: SellAction.GetSoldObject<T>(ActionInfo)
-  fullName: TinyLife.Actions.SellAction.GetSoldObject<T>(TinyLife.Actions.ActionInfo)
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.Actions
-  summary: >-
-    A helper method that returns the object that is being sold.
-
-    This method returns the action object or the person's held object.
-  example: []
-  syntax:
-    content: 'public static T GetSoldObject<T>(ActionInfo info) where T : Furniture'
+    content: public TryMultipleAction(ActionInfo info)
     parameters:
     - id: info
       type: TinyLife.Actions.ActionInfo
-      description: The action info
-    typeParameters:
-    - id: T
-      description: The type that the object is expected to be
+      description: The information for this action.
+    content.vb: Public Sub New(info As ActionInfo)
+  overload: TinyLife.Actions.TryMultipleAction.#ctor*
+  nameWithType.vb: TryMultipleAction.New(ActionInfo)
+  fullName.vb: TinyLife.Actions.TryMultipleAction.New(TinyLife.Actions.ActionInfo)
+  name.vb: New(ActionInfo)
+- uid: TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
+  commentId: M:TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
+  id: '#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)'
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: TryMultipleAction(ActionType, ActionInfo)
+  nameWithType: TryMultipleAction.TryMultipleAction(ActionType, ActionInfo)
+  fullName: TinyLife.Actions.TryMultipleAction.TryMultipleAction(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
+  type: Constructor
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: Creates a new action with the given action information.
+  example: []
+  syntax:
+    content: public TryMultipleAction(ActionType type, ActionInfo info)
+    parameters:
+    - id: type
+      type: TinyLife.Actions.ActionType
+      description: The type for this action.
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The information for this action.
+    content.vb: Public Sub New(type As ActionType, info As ActionInfo)
+  overload: TinyLife.Actions.TryMultipleAction.#ctor*
+  nameWithType.vb: TryMultipleAction.New(ActionType, ActionInfo)
+  fullName.vb: TinyLife.Actions.TryMultipleAction.New(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo)
+  name.vb: New(ActionType, ActionInfo)
+- uid: TinyLife.Actions.TryMultipleAction.GetNextActionToTry
+  commentId: M:TinyLife.Actions.TryMultipleAction.GetNextActionToTry
+  id: GetNextActionToTry
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: GetNextActionToTry()
+  nameWithType: TryMultipleAction.GetNextActionToTry()
+  fullName: TinyLife.Actions.TryMultipleAction.GetNextActionToTry()
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    Create and return an instance of the next action to try. If this action completes successfully, this action also completes successfully.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, it causes this action to fail.
+  example: []
+  syntax:
+    content: public abstract Action GetNextActionToTry()
     return:
-      type: '{T}'
-      description: The object, or null if there is none or it doesn't match the type
-    content.vb: Public Shared Function GetSoldObject(Of T As Furniture)(info As ActionInfo) As T
-  overload: TinyLife.Actions.SellAction.GetSoldObject*
-  nameWithType.vb: SellAction.GetSoldObject(Of T)(ActionInfo)
-  fullName.vb: TinyLife.Actions.SellAction.GetSoldObject(Of T)(TinyLife.Actions.ActionInfo)
-  name.vb: GetSoldObject(Of T)(ActionInfo)
+      type: TinyLife.Actions.Action
+      description: The next action to try, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to give up.
+    content.vb: Public MustOverride Function GetNextActionToTry() As Action
+  overload: TinyLife.Actions.TryMultipleAction.GetNextActionToTry*
+- uid: TinyLife.Actions.TryMultipleAction.Initialize
+  commentId: M:TinyLife.Actions.TryMultipleAction.Initialize
+  id: Initialize
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: Initialize()
+  nameWithType: TryMultipleAction.Initialize()
+  fullName: TinyLife.Actions.TryMultipleAction.Initialize()
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    This method is called when the action is first started by a <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>.
+
+    Note that it is not called when the action gets added to the <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref>, but when it is moved to <xref href="TinyLife.Objects.PersonLike.CurrentActions" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public override void Initialize()
+    content.vb: Public Overrides Sub Initialize()
+  overridden: TinyLife.Actions.Action.Initialize
+  overload: TinyLife.Actions.TryMultipleAction.Initialize*
+- uid: TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: TryMultipleAction.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    This method is called every update frame if this action is currently active.
+
+    By default, only the <xref href="TinyLife.Actions.Action.ElapsedTime" data-throw-if-not-resolved="false"></xref> is modified in this method and <xref href="TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action%2cMicrosoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> is called.
+  example: []
+  syntax:
+    content: public override void Update(GameTime time, TimeSpan passedInGame, float speedMultiplier)
+    parameters:
+    - id: time
+      type: Microsoft.Xna.Framework.GameTime
+      description: The current game time
+    - id: passedInGame
+      type: System.TimeSpan
+      description: The amount of time that has passed, in game time
+    - id: speedMultiplier
+      type: System.Single
+      description: The game speed multiplier, which represents how fast things should happen, which is usually determined by <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref>
+    content.vb: Public Overrides Sub Update(time As GameTime, passedInGame As TimeSpan, speedMultiplier As Single)
+  overridden: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  overload: TinyLife.Actions.TryMultipleAction.Update*
+  nameWithType.vb: TryMultipleAction.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
+- uid: TinyLife.Actions.TryMultipleAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Actions.TryMultipleAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: Validate(PersonLike, AppliedMigrations)
+  nameWithType: TryMultipleAction.Validate(PersonLike, AppliedMigrations)
+  fullName: TinyLife.Actions.TryMultipleAction.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    Validates this action's data.
+
+    This is called when a map is loaded from disk.
+
+    When returning false on this method, the action is removed from the <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public override bool Validate(PersonLike person, AppliedMigrations appliedMigrations)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person that this action belongs to
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+      description: The migrations that have been applied so far
+    return:
+      type: System.Boolean
+      description: Whether or not the action is still valid (or if it has invalid data)
+    content.vb: Public Overrides Function Validate(person As PersonLike, appliedMigrations As AppliedMigrations) As Boolean
+  overridden: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  overload: TinyLife.Actions.TryMultipleAction.Validate*
+- uid: TinyLife.Actions.TryMultipleAction.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.TryMultipleAction.OnCompleted(TinyLife.Actions.CompletionType)
+  id: OnCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: OnCompleted(CompletionType)
+  nameWithType: TryMultipleAction.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.TryMultipleAction.OnCompleted(TinyLife.Actions.CompletionType)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    This method is called when this action <xref href="TinyLife.Actions.Action.IsCompleted" data-throw-if-not-resolved="false"></xref>, or if it is canceled from an outside source.
+
+    Note that, if this method is called as a result of <xref href="TinyLife.Actions.Action.IsCompleted" data-throw-if-not-resolved="false"></xref>, the <xref href="TinyLife.Actions.CompletionType" data-throw-if-not-resolved="false"></xref> passed will be the same.
+
+    By default, only <xref href="TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> is called.
+  example: []
+  syntax:
+    content: public override void OnCompleted(CompletionType type)
+    parameters:
+    - id: type
+      type: TinyLife.Actions.CompletionType
+      description: The type that this action completed with
+    content.vb: Public Overrides Sub OnCompleted(type As CompletionType)
+  overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  overload: TinyLife.Actions.TryMultipleAction.OnCompleted*
 references:
-- uid: TinyLife.Actions.ActionType.Sell
-  commentId: F:TinyLife.Actions.ActionType.Sell
-  href: TinyLife.Actions.ActionType.html#TinyLife_Actions_ActionType_Sell
-  name: Sell
-  nameWithType: ActionType.Sell
-  fullName: TinyLife.Actions.ActionType.Sell
-- uid: TinyLife.Objects.PersonLike
-  commentId: T:TinyLife.Objects.PersonLike
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.PersonLike.html
-  name: PersonLike
-  nameWithType: PersonLike
-  fullName: TinyLife.Objects.PersonLike
-- uid: TinyLife.Actions.SellAction.Items
-  commentId: F:TinyLife.Actions.SellAction.Items
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_Items
-  name: Items
-  nameWithType: SellAction.Items
-  fullName: TinyLife.Actions.SellAction.Items
+- uid: TinyLife.Actions.TryGoHereAction
+  commentId: T:TinyLife.Actions.TryGoHereAction
+  href: TinyLife.Actions.TryGoHereAction.html
+  name: TryGoHereAction
+  nameWithType: TryGoHereAction
+  fullName: TinyLife.Actions.TryGoHereAction
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
   href: TinyLife.html
@@ -333,13 +375,6 @@ references:
   name: Action
   nameWithType: Action
   fullName: TinyLife.Actions.Action
-- uid: TinyLife.Actions.MultiAction
-  commentId: T:TinyLife.Actions.MultiAction
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.MultiAction.html
-  name: MultiAction
-  nameWithType: MultiAction
-  fullName: TinyLife.Actions.MultiAction
 - uid: MLEM.Misc.IGenericDataHolder
   commentId: T:MLEM.Misc.IGenericDataHolder
   parent: MLEM.Misc
@@ -347,483 +382,6 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
-- uid: TinyLife.Actions.MultiAction.Handler
-  commentId: F:TinyLife.Actions.MultiAction.Handler
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Handler
-  name: Handler
-  nameWithType: MultiAction.Handler
-  fullName: TinyLife.Actions.MultiAction.Handler
-- uid: TinyLife.Actions.MultiAction.MainElapsedTime
-  commentId: P:TinyLife.Actions.MultiAction.MainElapsedTime
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_MainElapsedTime
-  name: MainElapsedTime
-  nameWithType: MultiAction.MainElapsedTime
-  fullName: TinyLife.Actions.MultiAction.MainElapsedTime
-- uid: TinyLife.Actions.MultiAction.InProgressTime
-  commentId: P:TinyLife.Actions.MultiAction.InProgressTime
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_InProgressTime
-  name: InProgressTime
-  nameWithType: MultiAction.InProgressTime
-  fullName: TinyLife.Actions.MultiAction.InProgressTime
-- uid: TinyLife.Actions.MultiAction.FullyInProgress
-  commentId: P:TinyLife.Actions.MultiAction.FullyInProgress
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FullyInProgress
-  name: FullyInProgress
-  nameWithType: MultiAction.FullyInProgress
-  fullName: TinyLife.Actions.MultiAction.FullyInProgress
-- uid: TinyLife.Actions.MultiAction.CurrentStage
-  commentId: P:TinyLife.Actions.MultiAction.CurrentStage
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CurrentStage
-  name: CurrentStage
-  nameWithType: MultiAction.CurrentStage
-  fullName: TinyLife.Actions.MultiAction.CurrentStage
-- uid: TinyLife.Actions.MultiAction.CreateLastActions
-  commentId: M:TinyLife.Actions.MultiAction.CreateLastActions
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
-  name: CreateLastActions()
-  nameWithType: MultiAction.CreateLastActions()
-  fullName: TinyLife.Actions.MultiAction.CreateLastActions()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CreateLastActions
-    name: CreateLastActions
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CreateLastActions
-    name: CreateLastActions
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.MultiAction
-  isExternal: true
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  name: AndThenUpdate(GameTime, TimeSpan, float)
-  nameWithType: MultiAction.AndThenUpdate(GameTime, TimeSpan, float)
-  fullName: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
-  nameWithType.vb: MultiAction.AndThenUpdate(GameTime, TimeSpan, Single)
-  fullName.vb: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
-  name.vb: AndThenUpdate(GameTime, TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: AndThenUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: AndThenUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-- uid: TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.MultiAction
-  isExternal: true
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnFirstUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  name: OnFirstUpdate(GameTime, TimeSpan, float)
-  nameWithType: MultiAction.OnFirstUpdate(GameTime, TimeSpan, float)
-  fullName: TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
-  nameWithType.vb: MultiAction.OnFirstUpdate(GameTime, TimeSpan, Single)
-  fullName.vb: TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
-  name.vb: OnFirstUpdate(GameTime, TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: OnFirstUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnFirstUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: OnFirstUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnFirstUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-- uid: TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.MultiAction
-  isExternal: true
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnLastUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  name: OnLastUpdate(GameTime, TimeSpan, float)
-  nameWithType: MultiAction.OnLastUpdate(GameTime, TimeSpan, float)
-  fullName: TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
-  nameWithType.vb: MultiAction.OnLastUpdate(GameTime, TimeSpan, Single)
-  fullName.vb: TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
-  name.vb: OnLastUpdate(GameTime, TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: OnLastUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnLastUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: OnLastUpdate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnLastUpdate_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-- uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenOnCompleted_TinyLife_Actions_CompletionType_
-  name: AndThenOnCompleted(CompletionType)
-  nameWithType: MultiAction.AndThenOnCompleted(CompletionType)
-  fullName: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-    name: AndThenOnCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenOnCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
-    name: AndThenOnCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenOnCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-- uid: TinyLife.Actions.MultiAction.PreInitialize
-  commentId: M:TinyLife.Actions.MultiAction.PreInitialize
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreInitialize
-  name: PreInitialize()
-  nameWithType: MultiAction.PreInitialize()
-  fullName: TinyLife.Actions.MultiAction.PreInitialize()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.PreInitialize
-    name: PreInitialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreInitialize
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.PreInitialize
-    name: PreInitialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreInitialize
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreCompleted_TinyLife_Actions_CompletionType_
-  name: PreCompleted(CompletionType)
-  nameWithType: MultiAction.PreCompleted(CompletionType)
-  fullName: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-    name: PreCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
-    name: PreCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_PreCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-- uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.MultiAction
-  isExternal: true
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  name: Update(GameTime, TimeSpan, float)
-  nameWithType: MultiAction.Update(GameTime, TimeSpan, float)
-  fullName: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
-  nameWithType.vb: MultiAction.Update(GameTime, TimeSpan, Single)
-  fullName.vb: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
-  name.vb: Update(GameTime, TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-- uid: TinyLife.Actions.MultiAction.Initialize
-  commentId: M:TinyLife.Actions.MultiAction.Initialize
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Initialize
-  name: Initialize()
-  nameWithType: MultiAction.Initialize()
-  fullName: TinyLife.Actions.MultiAction.Initialize()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.Initialize
-    name: Initialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Initialize
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.Initialize
-    name: Initialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Initialize
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.MultiAction.IsCompleted
-  commentId: M:TinyLife.Actions.MultiAction.IsCompleted
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  name: IsCompleted()
-  nameWithType: MultiAction.IsCompleted()
-  fullName: TinyLife.Actions.MultiAction.IsCompleted()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnCompleted_TinyLife_Actions_CompletionType_
-  name: OnCompleted(CompletionType)
-  nameWithType: MultiAction.OnCompleted(CompletionType)
-  fullName: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-    name: OnCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
-    name: OnCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_OnCompleted_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-- uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-  commentId: M:TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
-  name: Validate(PersonLike, AppliedMigrations)
-  nameWithType: MultiAction.Validate(PersonLike, AppliedMigrations)
-  fullName: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-    name: Validate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
-  - name: (
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Utilities.AppliedMigrations
-    name: AppliedMigrations
-    href: TinyLife.Utilities.AppliedMigrations.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-    name: Validate
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
-  - name: (
-  - uid: TinyLife.Objects.PersonLike
-    name: PersonLike
-    href: TinyLife.Objects.PersonLike.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Utilities.AppliedMigrations
-    name: AppliedMigrations
-    href: TinyLife.Utilities.AppliedMigrations.html
-  - name: )
-- uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel(Action)
-  nameWithType: MultiAction.CanCancel(Action)
-  fullName: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: )
-- uid: TinyLife.Actions.MultiAction.CanStartNow
-  commentId: M:TinyLife.Actions.MultiAction.CanStartNow
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanStartNow
-  name: CanStartNow()
-  nameWithType: MultiAction.CanStartNow()
-  fullName: TinyLife.Actions.MultiAction.CanStartNow()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CanStartNow
-    name: CanStartNow
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanStartNow
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CanStartNow
-    name: CanStartNow
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanStartNow
-  - name: (
-  - name: )
 - uid: TinyLife.Actions.Action.Random
   commentId: F:TinyLife.Actions.Action.Random
   parent: TinyLife.Actions.Action
@@ -845,6 +403,20 @@ references:
   name: OnActionTypeConstructed
   nameWithType: Action.OnActionTypeConstructed
   fullName: TinyLife.Actions.Action.OnActionTypeConstructed
+- uid: TinyLife.Actions.Action.InProgressTime
+  commentId: P:TinyLife.Actions.Action.InProgressTime
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_InProgressTime
+  name: InProgressTime
+  nameWithType: Action.InProgressTime
+  fullName: TinyLife.Actions.Action.InProgressTime
+- uid: TinyLife.Actions.Action.FullyInProgress
+  commentId: P:TinyLife.Actions.Action.FullyInProgress
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_FullyInProgress
+  name: FullyInProgress
+  nameWithType: Action.FullyInProgress
+  fullName: TinyLife.Actions.Action.FullyInProgress
 - uid: TinyLife.Actions.Action.Type
   commentId: F:TinyLife.Actions.Action.Type
   parent: TinyLife.Actions.Action
@@ -908,6 +480,25 @@ references:
   name: ForceResult
   nameWithType: Action.ForceResult
   fullName: TinyLife.Actions.Action.ForceResult
+- uid: TinyLife.Actions.Action.IsCompleted
+  commentId: M:TinyLife.Actions.Action.IsCompleted
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  name: IsCompleted()
+  nameWithType: Action.IsCompleted()
+  fullName: TinyLife.Actions.Action.IsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  - name: (
+  - name: )
 - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   parent: TinyLife.Actions.Action
@@ -975,6 +566,50 @@ references:
   - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
     name: CanMultitask
     href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanMultitask_TinyLife_Actions_Action_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+- uid: TinyLife.Actions.Action.CanStartNow
+  commentId: M:TinyLife.Actions.Action.CanStartNow
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanStartNow
+  name: CanStartNow()
+  nameWithType: Action.CanStartNow()
+  fullName: TinyLife.Actions.Action.CanStartNow()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanStartNow
+    name: CanStartNow
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanStartNow
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanStartNow
+    name: CanStartNow
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanStartNow
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  name: CanCancel(Action)
+  nameWithType: Action.CanCancel(Action)
+  fullName: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+    name: CanCancel
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+    name: CanCancel
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
@@ -4266,69 +3901,47 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   - name: (
   - name: )
-- uid: TinyLife.Actions.SellAction.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Actions.TryMultipleAction.TinyLife.Utilities.Extensions.JsonCopy``1
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   parent: TinyLife.Utilities.Extensions
   definition: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
-  name: JsonCopy<SellAction>(SellAction)
-  nameWithType: Extensions.JsonCopy<SellAction>(SellAction)
-  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Actions.SellAction>(TinyLife.Actions.SellAction)
-  nameWithType.vb: Extensions.JsonCopy(Of SellAction)(SellAction)
-  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Actions.SellAction)(TinyLife.Actions.SellAction)
-  name.vb: JsonCopy(Of SellAction)(SellAction)
+  name: JsonCopy<TryMultipleAction>(TryMultipleAction)
+  nameWithType: Extensions.JsonCopy<TryMultipleAction>(TryMultipleAction)
+  fullName: TinyLife.Utilities.Extensions.JsonCopy<TinyLife.Actions.TryMultipleAction>(TinyLife.Actions.TryMultipleAction)
+  nameWithType.vb: Extensions.JsonCopy(Of TryMultipleAction)(TryMultipleAction)
+  fullName.vb: TinyLife.Utilities.Extensions.JsonCopy(Of TinyLife.Actions.TryMultipleAction)(TinyLife.Actions.TryMultipleAction)
+  name.vb: JsonCopy(Of TryMultipleAction)(TryMultipleAction)
   spec.csharp:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Actions.SellAction)
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Actions.TryMultipleAction)
     name: JsonCopy
     href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
   - name: <
-  - uid: TinyLife.Actions.SellAction
-    name: SellAction
-    href: TinyLife.Actions.SellAction.html
+  - uid: TinyLife.Actions.TryMultipleAction
+    name: TryMultipleAction
+    href: TinyLife.Actions.TryMultipleAction.html
   - name: '>'
   - name: (
-  - uid: TinyLife.Actions.SellAction
-    name: SellAction
-    href: TinyLife.Actions.SellAction.html
+  - uid: TinyLife.Actions.TryMultipleAction
+    name: TryMultipleAction
+    href: TinyLife.Actions.TryMultipleAction.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Actions.SellAction)
+  - uid: TinyLife.Utilities.Extensions.JsonCopy``1(TinyLife.Actions.TryMultipleAction)
     name: JsonCopy
     href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Actions.SellAction
-    name: SellAction
-    href: TinyLife.Actions.SellAction.html
+  - uid: TinyLife.Actions.TryMultipleAction
+    name: TryMultipleAction
+    href: TinyLife.Actions.TryMultipleAction.html
   - name: )
   - name: (
-  - uid: TinyLife.Actions.SellAction
-    name: SellAction
-    href: TinyLife.Actions.SellAction.html
+  - uid: TinyLife.Actions.TryMultipleAction
+    name: TryMultipleAction
+    href: TinyLife.Actions.TryMultipleAction.html
   - name: )
-- uid: TinyLife.Objects
-  commentId: N:TinyLife.Objects
-  href: TinyLife.html
-  name: TinyLife.Objects
-  nameWithType: TinyLife.Objects
-  fullName: TinyLife.Objects
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Objects
-    name: Objects
-    href: TinyLife.Objects.html
 - uid: System
   commentId: N:System
   isExternal: true
@@ -4492,342 +4105,15 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
-- uid: TinyLife.Objects.FurnitureType
-  commentId: T:TinyLife.Objects.FurnitureType
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.FurnitureType.html
-  name: FurnitureType
-  nameWithType: FurnitureType
-  fullName: TinyLife.Objects.FurnitureType
-- uid: TinyLife.Actions.ActionType.CanExecuteDelegate
-  commentId: T:TinyLife.Actions.ActionType.CanExecuteDelegate
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.ActionType.html
-  name: ActionType.CanExecuteDelegate
-  nameWithType: ActionType.CanExecuteDelegate
-  fullName: TinyLife.Actions.ActionType.CanExecuteDelegate
-  spec.csharp:
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
-    name: CanExecuteDelegate
-    href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
-  spec.vb:
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
-    name: CanExecuteDelegate
-    href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
-- uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  commentId: M:TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_GetSoldObject__1_TinyLife_Actions_ActionInfo_
-  name: GetSoldObject<T>(ActionInfo)
-  nameWithType: SellAction.GetSoldObject<T>(ActionInfo)
-  fullName: TinyLife.Actions.SellAction.GetSoldObject<T>(TinyLife.Actions.ActionInfo)
-  nameWithType.vb: SellAction.GetSoldObject(Of T)(ActionInfo)
-  fullName.vb: TinyLife.Actions.SellAction.GetSoldObject(Of T)(TinyLife.Actions.ActionInfo)
-  name.vb: GetSoldObject(Of T)(ActionInfo)
-  spec.csharp:
-  - uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-    name: GetSoldObject
-    href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_GetSoldObject__1_TinyLife_Actions_ActionInfo_
-  - name: <
-  - name: T
-  - name: '>'
-  - name: (
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.SellAction.GetSoldObject``1(TinyLife.Actions.ActionInfo)
-    name: GetSoldObject
-    href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_GetSoldObject__1_TinyLife_Actions_ActionInfo_
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-  - name: (
-  - uid: TinyLife.Actions.ActionInfo
-    name: ActionInfo
-    href: TinyLife.Actions.ActionInfo.html
-  - name: )
-- uid: System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
-  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Objects.FurnitureType,TinyLife.Actions.ActionType.CanExecuteDelegate}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.Dictionary`2
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<FurnitureType, ActionType.CanExecuteDelegate>
-  nameWithType: Dictionary<FurnitureType, ActionType.CanExecuteDelegate>
-  fullName: System.Collections.Generic.Dictionary<TinyLife.Objects.FurnitureType, TinyLife.Actions.ActionType.CanExecuteDelegate>
-  nameWithType.vb: Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Objects.FurnitureType, TinyLife.Actions.ActionType.CanExecuteDelegate)
-  name.vb: Dictionary(Of FurnitureType, ActionType.CanExecuteDelegate)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    href: TinyLife.Objects.FurnitureType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
-    name: CanExecuteDelegate
-    href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.Objects.FurnitureType
-    name: FurnitureType
-    href: TinyLife.Objects.FurnitureType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.ActionType
-    name: ActionType
-    href: TinyLife.Actions.ActionType.html
-  - name: .
-  - uid: TinyLife.Actions.ActionType.CanExecuteDelegate
-    name: CanExecuteDelegate
-    href: TinyLife.Actions.ActionType.CanExecuteDelegate.html
-  - name: )
-- uid: System.Collections.Generic.Dictionary`2
-  commentId: T:System.Collections.Generic.Dictionary`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  name: Dictionary<TKey, TValue>
-  nameWithType: Dictionary<TKey, TValue>
-  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
-  nameWithType.vb: Dictionary(Of TKey, TValue)
-  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
-  name.vb: Dictionary(Of TKey, TValue)
-  spec.csharp:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: <
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.Dictionary`2
-    name: Dictionary
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: TKey
-  - name: ','
-  - name: " "
-  - name: TValue
-  - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: TinyLife.Actions.MultiAction.CreateFirstActions
-  commentId: M:TinyLife.Actions.MultiAction.CreateFirstActions
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
-  name: CreateFirstActions()
-  nameWithType: MultiAction.CreateFirstActions()
-  fullName: TinyLife.Actions.MultiAction.CreateFirstActions()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
-    name: CreateFirstActions
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CreateFirstActions
-    name: CreateFirstActions
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFirstActions
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.SellAction.CreateFirstActions*
-  commentId: Overload:TinyLife.Actions.SellAction.CreateFirstActions
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_CreateFirstActions
-  name: CreateFirstActions
-  nameWithType: SellAction.CreateFirstActions
-  fullName: TinyLife.Actions.SellAction.CreateFirstActions
-- uid: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
-  parent: System.Collections.Generic
-  definition: System.Collections.Generic.IEnumerable`1
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<Action>
-  nameWithType: IEnumerable<Action>
-  fullName: System.Collections.Generic.IEnumerable<TinyLife.Actions.Action>
-  nameWithType.vb: IEnumerable(Of Action)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Actions.Action)
-  name.vb: IEnumerable(Of Action)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: <
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: )
-- uid: System.Collections.Generic.IEnumerable`1
-  commentId: T:System.Collections.Generic.IEnumerable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<T>
-  nameWithType: IEnumerable<T>
-  fullName: System.Collections.Generic.IEnumerable<T>
-  nameWithType.vb: IEnumerable(Of T)
-  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
-  name.vb: IEnumerable(Of T)
-  spec.csharp:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Collections.Generic.IEnumerable`1
-    name: IEnumerable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: TinyLife.Actions.MultiAction.AndThenInitialize
-  commentId: M:TinyLife.Actions.MultiAction.AndThenInitialize
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenInitialize
-  name: AndThenInitialize()
-  nameWithType: MultiAction.AndThenInitialize()
-  fullName: TinyLife.Actions.MultiAction.AndThenInitialize()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.AndThenInitialize
-    name: AndThenInitialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenInitialize
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.AndThenInitialize
-    name: AndThenInitialize
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenInitialize
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.SellAction.AndThenInitialize*
-  commentId: Overload:TinyLife.Actions.SellAction.AndThenInitialize
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_AndThenInitialize
-  name: AndThenInitialize
-  nameWithType: SellAction.AndThenInitialize
-  fullName: TinyLife.Actions.SellAction.AndThenInitialize
-- uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
-  commentId: M:TinyLife.Actions.MultiAction.AndThenIsCompleted
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenIsCompleted
-  name: AndThenIsCompleted()
-  nameWithType: MultiAction.AndThenIsCompleted()
-  fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
-    name: AndThenIsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenIsCompleted
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.AndThenIsCompleted
-    name: AndThenIsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenIsCompleted
-  - name: (
-  - name: )
-- uid: TinyLife.Actions.SellAction.AndThenIsCompleted*
-  commentId: Overload:TinyLife.Actions.SellAction.AndThenIsCompleted
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_AndThenIsCompleted
-  name: AndThenIsCompleted
-  nameWithType: SellAction.AndThenIsCompleted
-  fullName: TinyLife.Actions.SellAction.AndThenIsCompleted
-- uid: TinyLife.Actions.CompletionType
-  commentId: T:TinyLife.Actions.CompletionType
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.CompletionType.html
-  name: CompletionType
-  nameWithType: CompletionType
-  fullName: TinyLife.Actions.CompletionType
-- uid: TinyLife.Actions.SellAction.GetSoldObject*
-  commentId: Overload:TinyLife.Actions.SellAction.GetSoldObject
-  href: TinyLife.Actions.SellAction.html#TinyLife_Actions_SellAction_GetSoldObject__1_TinyLife_Actions_ActionInfo_
-  name: GetSoldObject
-  nameWithType: SellAction.GetSoldObject
-  fullName: TinyLife.Actions.SellAction.GetSoldObject
+- uid: TinyLife.Actions.TryMultipleAction.#ctor*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.#ctor
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction__ctor_TinyLife_Actions_ActionInfo_
+  name: TryMultipleAction
+  nameWithType: TryMultipleAction.TryMultipleAction
+  fullName: TinyLife.Actions.TryMultipleAction.TryMultipleAction
+  nameWithType.vb: TryMultipleAction.New
+  fullName.vb: TinyLife.Actions.TryMultipleAction.New
+  name.vb: New
 - uid: TinyLife.Actions.ActionInfo
   commentId: T:TinyLife.Actions.ActionInfo
   parent: TinyLife.Actions
@@ -4835,13 +4121,435 @@ references:
   name: ActionInfo
   nameWithType: ActionInfo
   fullName: TinyLife.Actions.ActionInfo
-- uid: '{T}'
-  commentId: '!:T'
-  definition: T
-  name: T
-  nameWithType: T
-  fullName: T
-- uid: T
-  name: T
-  nameWithType: T
-  fullName: T
+- uid: TinyLife.Actions.ActionType
+  commentId: T:TinyLife.Actions.ActionType
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.ActionType.html
+  name: ActionType
+  nameWithType: ActionType
+  fullName: TinyLife.Actions.ActionType
+- uid: TinyLife.Actions.TryMultipleAction.GetNextActionToTry*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.GetNextActionToTry
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_GetNextActionToTry
+  name: GetNextActionToTry
+  nameWithType: TryMultipleAction.GetNextActionToTry
+  fullName: TinyLife.Actions.TryMultipleAction.GetNextActionToTry
+- uid: TinyLife.Objects.PersonLike.ActionQueue
+  commentId: F:TinyLife.Objects.PersonLike.ActionQueue
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionQueue
+  name: ActionQueue
+  nameWithType: PersonLike.ActionQueue
+  fullName: TinyLife.Objects.PersonLike.ActionQueue
+- uid: TinyLife.Objects.PersonLike.CurrentActions
+  commentId: F:TinyLife.Objects.PersonLike.CurrentActions
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CurrentActions
+  name: CurrentActions
+  nameWithType: PersonLike.CurrentActions
+  fullName: TinyLife.Objects.PersonLike.CurrentActions
+- uid: TinyLife.Actions.Action.Initialize
+  commentId: M:TinyLife.Actions.Action.Initialize
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Initialize
+  name: Initialize()
+  nameWithType: Action.Initialize()
+  fullName: TinyLife.Actions.Action.Initialize()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Initialize
+    name: Initialize
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Initialize
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Initialize
+    name: Initialize
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Initialize
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.TryMultipleAction.Initialize*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.Initialize
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_Initialize
+  name: Initialize
+  nameWithType: TryMultipleAction.Initialize
+  fullName: TinyLife.Actions.TryMultipleAction.Initialize
+- uid: TinyLife.Objects.PersonLike
+  commentId: T:TinyLife.Objects.PersonLike
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonLike.html
+  name: PersonLike
+  nameWithType: PersonLike
+  fullName: TinyLife.Objects.PersonLike
+- uid: TinyLife.Objects
+  commentId: N:TinyLife.Objects
+  href: TinyLife.html
+  name: TinyLife.Objects
+  nameWithType: TinyLife.Objects
+  fullName: TinyLife.Objects
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Objects
+    name: Objects
+    href: TinyLife.Objects.html
+- uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  name: ActionUpdate(Action, GameTime, TimeSpan, float, bool)
+  nameWithType: MapObject.ActionUpdate(Action, GameTime, TimeSpan, float, bool)
+  fullName: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, float, bool)
+  nameWithType.vb: MapObject.ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
+  fullName.vb: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action, Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single, Boolean)
+  name.vb: ActionUpdate(Action, GameTime, TimeSpan, Single, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+    name: ActionUpdate
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
+    name: ActionUpdate
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ActionUpdate_TinyLife_Actions_Action_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.GameImpl.Speed
+  commentId: P:TinyLife.GameImpl.Speed
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_Speed
+  name: Speed
+  nameWithType: GameImpl.Speed
+  fullName: TinyLife.GameImpl.Speed
+- uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.Action
+  isExternal: true
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: Action.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
+  nameWithType.vb: Action.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: TinyLife.Actions.TryMultipleAction.Update*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.Update
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  name: Update
+  nameWithType: TryMultipleAction.Update
+  fullName: TinyLife.Actions.TryMultipleAction.Update
+- uid: Microsoft.Xna.Framework.GameTime
+  commentId: T:Microsoft.Xna.Framework.GameTime
+  parent: Microsoft.Xna.Framework
+  isExternal: true
+  name: GameTime
+  nameWithType: GameTime
+  fullName: Microsoft.Xna.Framework.GameTime
+- uid: System.TimeSpan
+  commentId: T:System.TimeSpan
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.timespan
+  name: TimeSpan
+  nameWithType: TimeSpan
+  fullName: System.TimeSpan
+- uid: System.Single
+  commentId: T:System.Single
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float
+  nameWithType: float
+  fullName: float
+  nameWithType.vb: Single
+  fullName.vb: Single
+  name.vb: Single
+- uid: TinyLife.Objects.MapObject
+  commentId: T:TinyLife.Objects.MapObject
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.MapObject.html
+  name: MapObject
+  nameWithType: MapObject
+  fullName: TinyLife.Objects.MapObject
+- uid: Microsoft.Xna.Framework
+  commentId: N:Microsoft.Xna.Framework
+  isExternal: true
+  name: Microsoft.Xna.Framework
+  nameWithType: Microsoft.Xna.Framework
+  fullName: Microsoft.Xna.Framework
+  spec.csharp:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+  spec.vb:
+  - uid: Microsoft
+    name: Microsoft
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna
+    name: Xna
+    isExternal: true
+  - name: .
+  - uid: Microsoft.Xna.Framework
+    name: Framework
+    isExternal: true
+- uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
+  name: Validate(PersonLike, AppliedMigrations)
+  nameWithType: Action.Validate(PersonLike, AppliedMigrations)
+  fullName: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike, TinyLife.Utilities.AppliedMigrations)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+    name: Validate
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+    name: Validate
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
+- uid: TinyLife.Actions.TryMultipleAction.Validate*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.Validate
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_Validate_TinyLife_Objects_PersonLike_TinyLife_Utilities_AppliedMigrations_
+  name: Validate
+  nameWithType: TryMultipleAction.Validate
+  fullName: TinyLife.Actions.TryMultipleAction.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
+- uid: System.Boolean
+  commentId: T:System.Boolean
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.boolean
+  name: bool
+  nameWithType: bool
+  fullName: bool
+  nameWithType.vb: Boolean
+  fullName.vb: Boolean
+  name.vb: Boolean
+- uid: TinyLife.Actions.CompletionType
+  commentId: T:TinyLife.Actions.CompletionType
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.CompletionType.html
+  name: CompletionType
+  nameWithType: CompletionType
+  fullName: TinyLife.Actions.CompletionType
+- uid: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  commentId: M:TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnActionCompleted_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  name: OnActionCompleted(Action, CompletionType, bool)
+  nameWithType: MapObject.OnActionCompleted(Action, CompletionType, bool)
+  fullName: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action, TinyLife.Actions.CompletionType, bool)
+  nameWithType.vb: MapObject.OnActionCompleted(Action, CompletionType, Boolean)
+  fullName.vb: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action, TinyLife.Actions.CompletionType, Boolean)
+  name.vb: OnActionCompleted(Action, CompletionType, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: OnActionCompleted
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnActionCompleted_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: OnActionCompleted
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnActionCompleted_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OnCompleted_TinyLife_Actions_CompletionType_
+  name: OnCompleted(CompletionType)
+  nameWithType: Action.OnCompleted(CompletionType)
+  fullName: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+    name: OnCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OnCompleted_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+    name: OnCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OnCompleted_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+- uid: TinyLife.Actions.TryMultipleAction.OnCompleted*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.OnCompleted
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_OnCompleted_TinyLife_Actions_CompletionType_
+  name: OnCompleted
+  nameWithType: TryMultipleAction.OnCompleted
+  fullName: TinyLife.Actions.TryMultipleAction.OnCompleted

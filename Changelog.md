@@ -1,3 +1,28 @@
+# 0.47.8
+*June 12, 2025*
+
+Additions
+- Added the ability to sell crafted items in the household storage by selecting the mailbox
+
+Improvements
+- Increased the chance that people visit lots the longer they haven't
+- Made talk actions very unlikely in the library
+- People will now clean their plates after eating with level 2 cleaning skill
+- Cleaning out spoiled or empty plates from the fridge is now considered a cleaning action for the purpose of Clean Everything
+- Made elders restore energy a bit faster when sleeping
+
+Fixes
+- Fixed a crash when closing out of the color tool through the menu
+- Fixed hidden achievements being sorted by their hidden name
+- Fixed flirty joke being listed when children age up in humor
+- Fixed occasionally being unable to see tooltips for objects
+- Fixed a crash when loading the game while the debug menu is open
+- Fixed people doing the walking animation while not having found a path yet
+- Fixed people getting stuck on a different lot when switching away from the current household
+
+API
+- Changed the game's assembly name from Tiny Life to TinyLife for portability. This likely breaks all existing mod builds, but rebuilding for the new version shouldn't require any code changes.
+
 # 0.47.7
 *May 26, 2025*
 
