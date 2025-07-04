@@ -1,3 +1,37 @@
+# 0.47.9
+*July 4, 2025*
+
+Ell had some surgery on Monday and so unfortunately, progress is even slower than it already was. That being said, we're still hard at work on the Out & About Set, and we're hoping to get it to you soon. In the meantime, here's a small update with some bugfixes and improvements from the last few weeks!
+
+Additions
+- Added the Classic Park Bench furniture item
+- Added two more orange hair color variations
+- Added an accessibility option to change the order of color selection previews
+- Added an audio option to specify how often music should play in Play mode
+
+Improvements
+- Allow elder-only households to be generated when populating empty lots
+- Tinies now display an animation when changing their outfits before and after actions, canceling which will cause the Tiny to stay in their action-specific clothes
+- Tinies now clean or throw away empty dishes when auto-discarding them before an action
+- In-game news on the main menu now allow switching between entries with buttons
+
+Fixes
+- Fixed wall-hanging objects sometimes clipping walls using Alt placement
+- Fixed a rare build mode object rotation hang
+- Fixed the lot type dropdown rendering below the build mode toggles
+- Fixed aromantic Tinies showing the romance setting in the character creator
+- Fixed the potty not being able to get dirty correctly
+- Fixed objects that cannot get dirty erroneously having their Dirty flags set to true by some actions
+- Fixed adults changing into protective wear when driving a car
+- Fixed custom maps import menu not updating when a zipped map changes in the folder
+- Fixed deleting custom content items in quick succession causing exceptions if the import menu is open
+- Fixed an exception when pregnant Tinies that live out of town have a baby
+- Fixed music ducking having incorrect timing for some sound volume options
+
+API
+- Leg accessories are now drawn below pants by default
+- Cleaned up startup logging, and added a --trace-load option for extended startup logging
+
 # 0.47.8
 *June 12, 2025*
 
