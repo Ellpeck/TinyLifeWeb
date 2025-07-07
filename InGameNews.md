@@ -11,3 +11,11 @@ Thanks! ❤️
 ![](media/news/OutAndAboutPreview2.png)
 
 The new set we're currently working on already has over 30 clothing items in-game, and there are just as many more with pixelart already created! Find out more [on Bluesky](https://bsky.app/profile/tinylifegame.bsky.social/post/3lsjsya6jik27).
+
+---
+
+![](media/news/Challenges.png)
+
+**Up for a Challenge?**
+
+Some players enjoy challenging themselves by starting the game [without any money](https://docs.tinylifegame.com/articles/cheats.html) in a Rags to Riches, or by living without their own house in a Squatter challenge! Maybe killing your spouses is a viable way to make money, too...
