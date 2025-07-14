@@ -53,8 +53,9 @@ items:
   - TinyLife.Actions.MultiAction.IsCompleted
   - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
-  - TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
   - TinyLife.Actions.MultiAction.CanStartNow
+  - TinyLife.Actions.MultiAction.GetExtraIcon
   - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
@@ -66,8 +67,9 @@ items:
   - TinyLife.Actions.Action.Person
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
-  - TinyLife.Actions.Action.ForceResult
-  - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
+  - TinyLife.Actions.Action.CanPlayerInterrupt
+  - TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  - TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -301,15 +303,15 @@ items:
     By default, multi-tasking is disallowed for any action.
   example: []
   syntax:
-    content: public override bool CanMultitask(Action other)
+    content: public override Action.CanMultitaskResult CanMultitask(Action other)
     parameters:
     - id: other
       type: TinyLife.Actions.Action
       description: The action to multi-task with
     return:
-      type: System.Boolean
+      type: TinyLife.Actions.Action.CanMultitaskResult
       description: Whether this action can be multi-tasked
-    content.vb: Public Overrides Function CanMultitask(other As Action) As Boolean
+    content.vb: Public Overrides Function CanMultitask(other As Action) As Action.CanMultitaskResult
   overridden: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   overload: TinyLife.Actions.WatchTvAction.CanMultitask*
 - uid: TinyLife.Actions.WatchTvAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
@@ -776,26 +778,26 @@ references:
     name: AppliedMigrations
     href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
-- uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
   parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel(Action)
-  nameWithType: MultiAction.CanCancel(Action)
-  fullName: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt(Action)
+  nameWithType: MultiAction.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
@@ -818,6 +820,25 @@ references:
   - uid: TinyLife.Actions.MultiAction.CanStartNow
     name: CanStartNow
     href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanStartNow
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.MultiAction.GetExtraIcon
+  commentId: M:TinyLife.Actions.MultiAction.GetExtraIcon
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
+  name: GetExtraIcon()
+  nameWithType: MultiAction.GetExtraIcon()
+  fullName: TinyLife.Actions.MultiAction.GetExtraIcon()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
   - name: (
   - name: )
 - uid: TinyLife.Actions.Action.Random
@@ -897,59 +918,84 @@ references:
   name: PlayerPromptOpen
   nameWithType: Action.PlayerPromptOpen
   fullName: TinyLife.Actions.Action.PlayerPromptOpen
-- uid: TinyLife.Actions.Action.ForceResult
-  commentId: F:TinyLife.Actions.Action.ForceResult
+- uid: TinyLife.Actions.Action.CanPlayerInterrupt
+  commentId: M:TinyLife.Actions.Action.CanPlayerInterrupt
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ForceResult
-  name: ForceResult
-  nameWithType: Action.ForceResult
-  fullName: TinyLife.Actions.Action.ForceResult
-- uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  name: TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  nameWithType: Action.TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  fullName: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType, TinyLife.Actions.CanExecuteResult?, TinyLife.Objects.MapObject)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  name: CanPlayerInterrupt()
+  nameWithType: Action.CanPlayerInterrupt()
+  fullName: TinyLife.Actions.Action.CanPlayerInterrupt()
   spec.csharp:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
   - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
   - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
+  - name: )
+- uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  commentId: M:TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  name: CanObjectInterrupt(MapObject, CanExecuteResult)
+  nameWithType: Action.CanObjectInterrupt(MapObject, CanExecuteResult)
+  fullName: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject, TinyLife.Actions.CanExecuteResult)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
   - name: ','
   - name: " "
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
     href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
   - uid: TinyLife.Objects.MapObject
     name: MapObject
     href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
+- uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: Action.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
   - name: )
 - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
@@ -4847,6 +4893,29 @@ references:
   name: CanMultitask
   nameWithType: WatchTvAction.CanMultitask
   fullName: TinyLife.Actions.WatchTvAction.CanMultitask
+- uid: TinyLife.Actions.Action.CanMultitaskResult
+  commentId: T:TinyLife.Actions.Action.CanMultitaskResult
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.Action.html
+  name: Action.CanMultitaskResult
+  nameWithType: Action.CanMultitaskResult
+  fullName: TinyLife.Actions.Action.CanMultitaskResult
+  spec.csharp:
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: .
+  - uid: TinyLife.Actions.Action.CanMultitaskResult
+    name: CanMultitaskResult
+    href: TinyLife.Actions.Action.CanMultitaskResult.html
+  spec.vb:
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: .
+  - uid: TinyLife.Actions.Action.CanMultitaskResult
+    name: CanMultitaskResult
+    href: TinyLife.Actions.Action.CanMultitaskResult.html
 - uid: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.MultiAction

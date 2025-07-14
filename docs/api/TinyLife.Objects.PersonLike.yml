@@ -4650,7 +4650,7 @@ items:
   summary: Enqueues the given action into <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref> to be executed later.
   example: []
   syntax:
-    content: 'public virtual T EnqueueAction<T>(ActionType type, ActionInfo info, bool automatic, bool priority = false, bool force = false, params ActionArgument[] chosenArguments) where T : Action'
+    content: 'public virtual T EnqueueAction<T>(ActionType type, ActionInfo info, bool automatic, bool forcePriority = false, bool force = false, params ActionArgument[] chosenArguments) where T : Action'
     parameters:
     - id: type
       type: TinyLife.Actions.ActionType
@@ -4661,9 +4661,9 @@ items:
     - id: automatic
       type: System.Boolean
       description: Whether this action is considered to have started automatically (or invoked by a player)
-    - id: priority
+    - id: forcePriority
       type: System.Boolean
-      description: Whether to add this action to the start of the action queue rather than the end
+      description: Whether to add this action to the start of the action queue rather than the end, regardless of the return value of <xref href="TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority" data-throw-if-not-resolved="false"></xref>.
     - id: force
       type: System.Boolean
       description: Whether to start the action even if <xref href="TinyLife.Actions.ActionType.TypeSettings.CanExecute" data-throw-if-not-resolved="false"></xref> returns false
@@ -4675,7 +4675,7 @@ items:
     return:
       type: '{T}'
       description: The created action, or null if the action cannot be executed or the maximum amount of entries in the <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref> is reached.
-    content.vb: Public Overridable Function EnqueueAction(Of T As Action)(type As ActionType, info As ActionInfo, automatic As Boolean, priority As Boolean = False, force As Boolean = False, ParamArray chosenArguments As ActionArgument()) As T
+    content.vb: Public Overridable Function EnqueueAction(Of T As Action)(type As ActionType, info As ActionInfo, automatic As Boolean, forcePriority As Boolean = False, force As Boolean = False, ParamArray chosenArguments As ActionArgument()) As T
   overload: TinyLife.Objects.PersonLike.EnqueueAction*
   nameWithType.vb: PersonLike.EnqueueAction(Of T)(ActionType, ActionInfo, Boolean, Boolean, Boolean, ParamArray ActionArgument())
   fullName.vb: TinyLife.Objects.PersonLike.EnqueueAction(Of T)(TinyLife.Actions.ActionType, TinyLife.Actions.ActionInfo, Boolean, Boolean, Boolean, ParamArray TinyLife.Actions.ActionArgument())
@@ -4710,7 +4710,7 @@ items:
       description: The action that is responsible for this cancelation, or null by default
     - id: force
       type: System.Boolean
-      description: Whether to cancel the action even if <xref href="TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref> returns false
+      description: Whether to cancel the action even if <xref href="TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Actions.Action.CanPlayerInterrupt" data-throw-if-not-resolved="false"></xref> returns false
     return:
       type: System.Boolean
       description: Whether the action could be canceled successfully
@@ -16724,6 +16724,12 @@ references:
   name: HasPersonality
   nameWithType: PersonLike.HasPersonality
   fullName: TinyLife.Objects.PersonLike.HasPersonality
+- uid: TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
+  commentId: F:TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
+  href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_EnqueuePriority
+  name: EnqueuePriority
+  nameWithType: ActionType.TypeSettings.EnqueuePriority
+  fullName: TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
 - uid: TinyLife.Actions.ActionType.TypeSettings.CanExecute
   commentId: F:TinyLife.Actions.ActionType.TypeSettings.CanExecute
   href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_CanExecute
@@ -16767,30 +16773,49 @@ references:
   name: T
   nameWithType: T
   fullName: T
-- uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel(Action)
-  nameWithType: Action.CanCancel(Action)
-  fullName: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt(Action)
+  nameWithType: Action.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
+  - name: )
+- uid: TinyLife.Actions.Action.CanPlayerInterrupt
+  commentId: M:TinyLife.Actions.Action.CanPlayerInterrupt
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  name: CanPlayerInterrupt()
+  nameWithType: Action.CanPlayerInterrupt()
+  fullName: TinyLife.Actions.Action.CanPlayerInterrupt()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
   - name: )
 - uid: TinyLife.Objects.PersonLike.CancelAction*
   commentId: Overload:TinyLife.Objects.PersonLike.CancelAction

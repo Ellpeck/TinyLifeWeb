@@ -8,6 +8,7 @@ items:
   - TinyLife.Actions.PathfindAction.#ctor(TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.PathfindAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.PathfindAction.FindPath(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}[])
+  - TinyLife.Actions.PathfindAction.GetExtraIcon
   - TinyLife.Actions.PathfindAction.GetSpeed
   - TinyLife.Actions.PathfindAction.Initialize
   - TinyLife.Actions.PathfindAction.IsCompleted
@@ -59,11 +60,12 @@ items:
   - TinyLife.Actions.Action.Person
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
-  - TinyLife.Actions.Action.ForceResult
-  - TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CanStartNow
-  - TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  - TinyLife.Actions.Action.CanPlayerInterrupt
+  - TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  - TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -413,7 +415,7 @@ items:
 
     If this returns a result other than <xref href="TinyLife.Actions.CompletionType.Completed" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> will be called and the action is stopped.
 
-    By default, only <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> modifies the completion type, otherwise <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> is returned.
+    By default, only the default behavior of <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> modifies the completion type, otherwise <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> is returned.
   example: []
   syntax:
     content: public override CompletionType IsCompleted()
@@ -489,6 +491,28 @@ items:
     content.vb: Public Overrides Function Validate(person As PersonLike, appliedMigrations As AppliedMigrations) As Boolean
   overridden: TinyLife.Actions.Action.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   overload: TinyLife.Actions.PathfindAction.Validate*
+- uid: TinyLife.Actions.PathfindAction.GetExtraIcon
+  commentId: M:TinyLife.Actions.PathfindAction.GetExtraIcon
+  id: GetExtraIcon
+  parent: TinyLife.Actions.PathfindAction
+  langs:
+  - csharp
+  - vb
+  name: GetExtraIcon()
+  nameWithType: PathfindAction.GetExtraIcon()
+  fullName: TinyLife.Actions.PathfindAction.GetExtraIcon()
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  example: []
+  syntax:
+    content: public override TextureRegion GetExtraIcon()
+    return:
+      type: MLEM.Textures.TextureRegion
+    content.vb: Public Overrides Function GetExtraIcon() As TextureRegion
+  overridden: TinyLife.Actions.Action.GetExtraIcon
+  overload: TinyLife.Actions.PathfindAction.GetExtraIcon*
 references:
 - uid: MLEM.Pathfinding.AStar2
   commentId: T:MLEM.Pathfinding.AStar2
@@ -641,60 +665,6 @@ references:
   name: PlayerPromptOpen
   nameWithType: Action.PlayerPromptOpen
   fullName: TinyLife.Actions.Action.PlayerPromptOpen
-- uid: TinyLife.Actions.Action.ForceResult
-  commentId: F:TinyLife.Actions.Action.ForceResult
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ForceResult
-  name: ForceResult
-  nameWithType: Action.ForceResult
-  fullName: TinyLife.Actions.Action.ForceResult
-- uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  name: TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  nameWithType: Action.TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  fullName: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType, TinyLife.Actions.CanExecuteResult?, TinyLife.Objects.MapObject)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
-  - name: )
 - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -739,30 +709,109 @@ references:
     href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanStartNow
   - name: (
   - name: )
-- uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel(Action)
-  nameWithType: Action.CanCancel(Action)
-  fullName: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt(Action)
+  nameWithType: Action.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
+  - name: )
+- uid: TinyLife.Actions.Action.CanPlayerInterrupt
+  commentId: M:TinyLife.Actions.Action.CanPlayerInterrupt
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  name: CanPlayerInterrupt()
+  nameWithType: Action.CanPlayerInterrupt()
+  fullName: TinyLife.Actions.Action.CanPlayerInterrupt()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  commentId: M:TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  name: CanObjectInterrupt(MapObject, CanExecuteResult)
+  nameWithType: Action.CanObjectInterrupt(MapObject, CanExecuteResult)
+  fullName: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject, TinyLife.Actions.CanExecuteResult)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
+- uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: Action.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
   - name: )
 - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
@@ -5180,3 +5229,57 @@ references:
   name: AppliedMigrations
   nameWithType: AppliedMigrations
   fullName: TinyLife.Utilities.AppliedMigrations
+- uid: TinyLife.Actions.Action.GetExtraIcon
+  commentId: M:TinyLife.Actions.Action.GetExtraIcon
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetExtraIcon
+  name: GetExtraIcon()
+  nameWithType: Action.GetExtraIcon()
+  fullName: TinyLife.Actions.Action.GetExtraIcon()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetExtraIcon
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetExtraIcon
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.PathfindAction.GetExtraIcon*
+  commentId: Overload:TinyLife.Actions.PathfindAction.GetExtraIcon
+  href: TinyLife.Actions.PathfindAction.html#TinyLife_Actions_PathfindAction_GetExtraIcon
+  name: GetExtraIcon
+  nameWithType: PathfindAction.GetExtraIcon
+  fullName: TinyLife.Actions.PathfindAction.GetExtraIcon
+- uid: MLEM.Textures.TextureRegion
+  commentId: T:MLEM.Textures.TextureRegion
+  parent: MLEM.Textures
+  isExternal: true
+  name: TextureRegion
+  nameWithType: TextureRegion
+  fullName: MLEM.Textures.TextureRegion
+- uid: MLEM.Textures
+  commentId: N:MLEM.Textures
+  isExternal: true
+  name: MLEM.Textures
+  nameWithType: MLEM.Textures
+  fullName: MLEM.Textures
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Textures
+    name: Textures
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Textures
+    name: Textures
+    isExternal: true

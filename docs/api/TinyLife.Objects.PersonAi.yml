@@ -5,6 +5,7 @@ items:
   id: PersonAi
   parent: TinyLife.Objects
   children:
+  - TinyLife.Objects.PersonAi.OnUpdate
   - TinyLife.Objects.PersonAi.StartAutomatically(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionType,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
   langs:
   - csharp
@@ -22,11 +23,17 @@ items:
     The AI automatically selects actions based on their <xref href="TinyLife.Actions.ActionType.AiSettings" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public class PersonAi
-    content.vb: Public Class PersonAi
+    content: 'public class PersonAi : GenericDataHolder, IGenericDataHolder'
+    content.vb: Public Class PersonAi Inherits GenericDataHolder Implements IGenericDataHolder
   inheritance:
   - System.Object
+  - MLEM.Misc.GenericDataHolder
+  implements:
+  - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
+  - MLEM.Misc.GenericDataHolder.SetData``1(System.String,{T})
+  - MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+  - MLEM.Misc.GenericDataHolder.GetDataKeys
   - System.Object.Equals(System.Object)
   - System.Object.Equals(System.Object,System.Object)
   - System.Object.GetHashCode
@@ -36,6 +43,25 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Objects.PersonAi.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Objects.PersonAi.OnUpdate
+  commentId: E:TinyLife.Objects.PersonAi.OnUpdate
+  id: OnUpdate
+  parent: TinyLife.Objects.PersonAi
+  langs:
+  - csharp
+  - vb
+  name: OnUpdate
+  nameWithType: PersonAi.OnUpdate
+  fullName: TinyLife.Objects.PersonAi.OnUpdate
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  syntax:
+    content: public static event PersonAi.UpdateDelegate OnUpdate
+    return:
+      type: TinyLife.Objects.PersonAi.UpdateDelegate
+    content.vb: Public Shared Event OnUpdate As PersonAi.UpdateDelegate
 - uid: TinyLife.Objects.PersonAi.StartAutomatically(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionType,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
   commentId: M:TinyLife.Objects.PersonAi.StartAutomatically(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionType,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
   id: StartAutomatically(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionType,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
@@ -53,7 +79,7 @@ items:
   summary: Causes a person to start the given action automatically with the same behavior that it would have if started by the <xref href="TinyLife.Objects.PersonAi" data-throw-if-not-resolved="false"></xref>
   example: []
   syntax:
-    content: public static bool StartAutomatically(PersonLike person, ActionType type, bool priority = false, bool force = false, params ActionArgument[] chosenArguments)
+    content: public static bool StartAutomatically(PersonLike person, ActionType type, bool forcePriority = false, bool force = false, params ActionArgument[] chosenArguments)
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
@@ -61,9 +87,9 @@ items:
     - id: type
       type: TinyLife.Actions.ActionType
       description: The action to start
-    - id: priority
+    - id: forcePriority
       type: System.Boolean
-      description: Whether to add this action to the start of the action queue rather than the end. This is passed to <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref>.
+      description: Whether to add this action to the start of the action queue rather than the end, regardless of the return value of <xref href="TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority" data-throw-if-not-resolved="false"></xref>.
     - id: force
       type: System.Boolean
       description: Whether to force-start the action. This is passed to <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref>.
@@ -73,7 +99,7 @@ items:
     return:
       type: System.Boolean
       description: Whether the action was successfully started
-    content.vb: Public Shared Function StartAutomatically(person As PersonLike, type As ActionType, priority As Boolean = False, force As Boolean = False, ParamArray chosenArguments As ActionArgument()) As Boolean
+    content.vb: Public Shared Function StartAutomatically(person As PersonLike, type As ActionType, forcePriority As Boolean = False, force As Boolean = False, ParamArray chosenArguments As ActionArgument()) As Boolean
   overload: TinyLife.Objects.PersonAi.StartAutomatically*
   nameWithType.vb: PersonAi.StartAutomatically(PersonLike, ActionType, Boolean, Boolean, ParamArray ActionArgument())
   fullName.vb: TinyLife.Objects.PersonAi.StartAutomatically(TinyLife.Objects.PersonLike, TinyLife.Actions.ActionType, Boolean, Boolean, ParamArray TinyLife.Actions.ActionArgument())
@@ -142,6 +168,123 @@ references:
   nameWithType.vb: Object
   fullName.vb: Object
   name.vb: Object
+- uid: MLEM.Misc.GenericDataHolder
+  commentId: T:MLEM.Misc.GenericDataHolder
+  parent: MLEM.Misc
+  isExternal: true
+  name: GenericDataHolder
+  nameWithType: GenericDataHolder
+  fullName: MLEM.Misc.GenericDataHolder
+- uid: MLEM.Misc.IGenericDataHolder
+  commentId: T:MLEM.Misc.IGenericDataHolder
+  parent: MLEM.Misc
+  isExternal: true
+  name: IGenericDataHolder
+  nameWithType: IGenericDataHolder
+  fullName: MLEM.Misc.IGenericDataHolder
+- uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,{T})
+  commentId: M:MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+  parent: MLEM.Misc.GenericDataHolder
+  definition: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: SetData<T>(string, T)
+  nameWithType: GenericDataHolder.SetData<T>(string, T)
+  fullName: MLEM.Misc.GenericDataHolder.SetData<T>(string, T)
+  nameWithType.vb: GenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Misc.GenericDataHolder.SetData(Of T)(String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+    name: SetData
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+    name: SetData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+- uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+  commentId: M:MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+  parent: MLEM.Misc.GenericDataHolder
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: GetData<T>(string)
+  nameWithType: GenericDataHolder.GetData<T>(string)
+  fullName: MLEM.Misc.GenericDataHolder.GetData<T>(string)
+  nameWithType.vb: GenericDataHolder.GetData(Of T)(String)
+  fullName.vb: MLEM.Misc.GenericDataHolder.GetData(Of T)(String)
+  name.vb: GetData(Of T)(String)
+  spec.csharp:
+  - uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+    name: GetData
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+  spec.vb:
+  - uid: MLEM.Misc.GenericDataHolder.GetData``1(System.String)
+    name: GetData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: )
+- uid: MLEM.Misc.GenericDataHolder.GetDataKeys
+  commentId: M:MLEM.Misc.GenericDataHolder.GetDataKeys
+  parent: MLEM.Misc.GenericDataHolder
+  isExternal: true
+  name: GetDataKeys()
+  nameWithType: GenericDataHolder.GetDataKeys()
+  fullName: MLEM.Misc.GenericDataHolder.GetDataKeys()
+  spec.csharp:
+  - uid: MLEM.Misc.GenericDataHolder.GetDataKeys
+    name: GetDataKeys
+    isExternal: true
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: MLEM.Misc.GenericDataHolder.GetDataKeys
+    name: GetDataKeys
+    isExternal: true
+  - name: (
+  - name: )
 - uid: System.Object.Equals(System.Object)
   commentId: M:System.Object.Equals(System.Object)
   parent: System.Object
@@ -431,6 +574,72 @@ references:
   name: System
   nameWithType: System
   fullName: System
+- uid: MLEM.Misc
+  commentId: N:MLEM.Misc
+  isExternal: true
+  name: MLEM.Misc
+  nameWithType: MLEM.Misc
+  fullName: MLEM.Misc
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Misc
+    name: Misc
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Misc
+    name: Misc
+    isExternal: true
+- uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+  commentId: M:MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.string
+  name: SetData<T>(string, T)
+  nameWithType: GenericDataHolder.SetData<T>(string, T)
+  fullName: MLEM.Misc.GenericDataHolder.SetData<T>(string, T)
+  nameWithType.vb: GenericDataHolder.SetData(Of T)(String, T)
+  fullName.vb: MLEM.Misc.GenericDataHolder.SetData(Of T)(String, T)
+  name.vb: SetData(Of T)(String, T)
+  spec.csharp:
+  - uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+    name: SetData
+    isExternal: true
+  - name: <
+  - name: T
+  - name: '>'
+  - name: (
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: MLEM.Misc.GenericDataHolder.SetData``1(System.String,``0)
+    name: SetData
+    isExternal: true
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+  - name: (
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
@@ -491,12 +700,42 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Objects.PersonAi.UpdateDelegate
+  commentId: T:TinyLife.Objects.PersonAi.UpdateDelegate
+  parent: TinyLife.Objects
+  href: TinyLife.Objects.PersonAi.html
+  name: PersonAi.UpdateDelegate
+  nameWithType: PersonAi.UpdateDelegate
+  fullName: TinyLife.Objects.PersonAi.UpdateDelegate
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonAi
+    name: PersonAi
+    href: TinyLife.Objects.PersonAi.html
+  - name: .
+  - uid: TinyLife.Objects.PersonAi.UpdateDelegate
+    name: UpdateDelegate
+    href: TinyLife.Objects.PersonAi.UpdateDelegate.html
+  spec.vb:
+  - uid: TinyLife.Objects.PersonAi
+    name: PersonAi
+    href: TinyLife.Objects.PersonAi.html
+  - name: .
+  - uid: TinyLife.Objects.PersonAi.UpdateDelegate
+    name: UpdateDelegate
+    href: TinyLife.Objects.PersonAi.UpdateDelegate.html
 - uid: TinyLife.Objects.PersonAi
   commentId: T:TinyLife.Objects.PersonAi
+  parent: TinyLife.Objects
   href: TinyLife.Objects.PersonAi.html
   name: PersonAi
   nameWithType: PersonAi
   fullName: TinyLife.Objects.PersonAi
+- uid: TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
+  commentId: F:TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
+  href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_EnqueuePriority
+  name: EnqueuePriority
+  nameWithType: ActionType.TypeSettings.EnqueuePriority
+  fullName: TinyLife.Actions.ActionType.TypeSettings.EnqueuePriority
 - uid: TinyLife.Objects.PersonLike.EnqueueAction``1(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
   commentId: M:TinyLife.Objects.PersonLike.EnqueueAction``1(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean,System.Boolean,TinyLife.Actions.ActionArgument[])
   parent: TinyLife.Objects.PersonLike

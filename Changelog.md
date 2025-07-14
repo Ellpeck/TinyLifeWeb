@@ -1,3 +1,26 @@
+# 0.47.10
+*July 14, 2025*
+
+Improvements
+- Oder personality types by category and name
+- Made the Mitis song also play in build mode
+- Actions now display a little icon in the action queue when they're currently busy pathfinding
+- People now wait a bit longer for others to leave the room for private actions
+- Display how many servings a platter has left in its tooltip
+
+Fixes
+- Fixed adding a map with a lot employee who already exists causing a duplicated person
+- Fixed a rare eat action exception when the parent object is removed
+- Fixed unfinished woodworks rendering with the wrong color
+- Fixed being able to sell crafted items anywhere, not just at the mailbox
+- Fixed some actions not counting as fully in progress after being completed, causing various emotions and memories not to be applied correctly
+- Fixed actions added by mods never being enqueued by the AI
+
+API
+- Cleaned up action interuption by combining cancellation and result forcing methods
+- Actions can now force being multi-taskable regardless of other actions
+- Added the ability for clothes to be incompatible with a whole layer (including ones that usually cannot be taken off)
+
 # 0.47.9
 *July 4, 2025*
 

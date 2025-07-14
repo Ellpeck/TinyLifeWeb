@@ -12,7 +12,7 @@ items:
   - TinyLife.Actions.SocialAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.SocialAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.SocialAction.AndThenUpdateBoth(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  - TinyLife.Actions.SocialAction.CanCancel(TinyLife.Actions.Action)
+  - TinyLife.Actions.SocialAction.CanActionInterrupt(TinyLife.Actions.Action)
   - TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.SocialAction.CanStartNow
   - TinyLife.Actions.SocialAction.ConversationTime
@@ -27,6 +27,7 @@ items:
   - TinyLife.Actions.SocialAction.GetRecipientAction(System.Boolean)
   - TinyLife.Actions.SocialAction.InProgressTime
   - TinyLife.Actions.SocialAction.InitializeConversation
+  - TinyLife.Actions.SocialAction.Interrupt(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.SocialAction.InvokeForBoth(System.Action{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike})
   - TinyLife.Actions.SocialAction.IsConversationCompleted
   - TinyLife.Actions.SocialAction.IsHelper(System.Boolean)
@@ -35,7 +36,6 @@ items:
   - TinyLife.Actions.SocialAction.OnBothCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.SocialAction.Partner
   - TinyLife.Actions.SocialAction.PartnerAction
-  - TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
   - TinyLife.Actions.SocialAction.UpdateConversation(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   langs:
   - csharp
@@ -83,6 +83,7 @@ items:
   - TinyLife.Actions.MultiAction.IsCompleted
   - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
+  - TinyLife.Actions.MultiAction.GetExtraIcon
   - TinyLife.Actions.Action.Random
   - TinyLife.Actions.Action.Migrations
   - TinyLife.Actions.Action.OnActionTypeConstructed
@@ -94,7 +95,8 @@ items:
   - TinyLife.Actions.Action.Person
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
-  - TinyLife.Actions.Action.ForceResult
+  - TinyLife.Actions.Action.CanPlayerInterrupt
+  - TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -796,39 +798,31 @@ items:
     content.vb: Protected Overrides Sub AndThenOnCompleted(type As CompletionType)
   overridden: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.SocialAction.AndThenOnCompleted*
-- uid: TinyLife.Actions.SocialAction.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.SocialAction.CanCancel(TinyLife.Actions.Action)
-  id: CanCancel(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.SocialAction.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.SocialAction.CanActionInterrupt(TinyLife.Actions.Action)
+  id: CanActionInterrupt(TinyLife.Actions.Action)
   parent: TinyLife.Actions.SocialAction
   langs:
   - csharp
   - vb
-  name: CanCancel(Action)
-  nameWithType: SocialAction.CanCancel(Action)
-  fullName: TinyLife.Actions.SocialAction.CanCancel(TinyLife.Actions.Action)
+  name: CanActionInterrupt(Action)
+  nameWithType: SocialAction.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.SocialAction.CanActionInterrupt(TinyLife.Actions.Action)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
-  summary: >-
-    Returns whether or not this action can be canceled by the given outside source.
-
-    Note that the outside source can be null, and if it is, it means that the player canceled the action manually.
-
-    By default, actions can only be canceled if the <code class="paramref">cancelSource</code> is null.
   example: []
   syntax:
-    content: public override bool CanCancel(Action cancelSource)
+    content: public override bool CanActionInterrupt(Action action)
     parameters:
-    - id: cancelSource
+    - id: action
       type: TinyLife.Actions.Action
-      description: The source of the cancelation, or null if the player canceled it
     return:
       type: System.Boolean
-      description: true if the action can be canceled
-    content.vb: Public Overrides Function CanCancel(cancelSource As Action) As Boolean
-  overridden: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  overload: TinyLife.Actions.SocialAction.CanCancel*
+    content.vb: Public Overrides Function CanActionInterrupt(action As Action) As Boolean
+  overridden: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+  overload: TinyLife.Actions.SocialAction.CanActionInterrupt*
 - uid: TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.SocialAction.CanMultitask(TinyLife.Actions.Action)
   id: CanMultitask(TinyLife.Actions.Action)
@@ -853,15 +847,15 @@ items:
     By default, multi-tasking is disallowed for any action.
   example: []
   syntax:
-    content: public override bool CanMultitask(Action other)
+    content: public override Action.CanMultitaskResult CanMultitask(Action other)
     parameters:
     - id: other
       type: TinyLife.Actions.Action
       description: The action to multi-task with
     return:
-      type: System.Boolean
+      type: TinyLife.Actions.Action.CanMultitaskResult
       description: Whether this action can be multi-tasked
-    content.vb: Public Overrides Function CanMultitask(other As Action) As Boolean
+    content.vb: Public Overrides Function CanMultitask(other As Action) As Action.CanMultitaskResult
   overridden: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   overload: TinyLife.Actions.SocialAction.CanMultitask*
 - uid: TinyLife.Actions.SocialAction.CanStartNow
@@ -919,45 +913,29 @@ items:
     content.vb: Public Overrides Function GetDisplayName() As String
   overridden: TinyLife.Actions.Action.GetDisplayName
   overload: TinyLife.Actions.SocialAction.GetDisplayName*
-- uid: TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  commentId: M:TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  id: TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
+- uid: TinyLife.Actions.SocialAction.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.SocialAction.Interrupt(TinyLife.Actions.CompletionType)
+  id: Interrupt(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.SocialAction
   langs:
   - csharp
   - vb
-  name: TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  nameWithType: SocialAction.TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  fullName: TinyLife.Actions.SocialAction.TryForceResult(TinyLife.Actions.CompletionType, TinyLife.Actions.CanExecuteResult?, TinyLife.Objects.MapObject)
+  name: Interrupt(CompletionType)
+  nameWithType: SocialAction.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.SocialAction.Interrupt(TinyLife.Actions.CompletionType)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
-  summary: >-
-    This is an external version of <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> which can be called from outside sources, like an <xref href="TinyLife.Objects.IBreakableObject" data-throw-if-not-resolved="false"></xref> object.
-
-    A reason is provided that can be used to decide whether the external object can cause this action to fail.
-
-    By default, this action sets <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> to true and returns true if <xref href="TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions" data-throw-if-not-resolved="false"></xref> doesn't return true.
   example: []
   syntax:
-    content: public override bool TryForceResult(CompletionType result, CanExecuteResult? reason = null, MapObject source = null)
+    content: public override void Interrupt(CompletionType completion)
     parameters:
-    - id: result
+    - id: completion
       type: TinyLife.Actions.CompletionType
-      description: The result to force.
-    - id: reason
-      type: System.Nullable{TinyLife.Actions.CanExecuteResult}
-      description: The reason for this action to fail. Can be null.
-    - id: source
-      type: TinyLife.Objects.MapObject
-      description: The object that is trying to force this action to fail. Can be null.
-    return:
-      type: System.Boolean
-      description: Whether this action was successfully forced to fail (if returning true, <xref href="TinyLife.Actions.Action.ForceResult" data-throw-if-not-resolved="false"></xref> should also be set to true).
-    content.vb: Public Overrides Function TryForceResult(result As CompletionType, reason As CanExecuteResult? = Nothing, source As MapObject = Nothing) As Boolean
-  overridden: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  overload: TinyLife.Actions.SocialAction.TryForceResult*
+    content.vb: Public Overrides Sub Interrupt(completion As CompletionType)
+  overridden: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  overload: TinyLife.Actions.SocialAction.Interrupt*
 - uid: TinyLife.Actions.SocialAction.InvokeForBoth(System.Action{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike})
   commentId: M:TinyLife.Actions.SocialAction.InvokeForBoth(System.Action{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike})
   id: InvokeForBoth(System.Action{TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike})
@@ -1557,6 +1535,25 @@ references:
     name: AppliedMigrations
     href: TinyLife.Utilities.AppliedMigrations.html
   - name: )
+- uid: TinyLife.Actions.MultiAction.GetExtraIcon
+  commentId: M:TinyLife.Actions.MultiAction.GetExtraIcon
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
+  name: GetExtraIcon()
+  nameWithType: MultiAction.GetExtraIcon()
+  fullName: TinyLife.Actions.MultiAction.GetExtraIcon()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.GetExtraIcon
+    name: GetExtraIcon
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_GetExtraIcon
+  - name: (
+  - name: )
 - uid: TinyLife.Actions.Action.Random
   commentId: F:TinyLife.Actions.Action.Random
   parent: TinyLife.Actions.Action
@@ -1634,13 +1631,60 @@ references:
   name: PlayerPromptOpen
   nameWithType: Action.PlayerPromptOpen
   fullName: TinyLife.Actions.Action.PlayerPromptOpen
-- uid: TinyLife.Actions.Action.ForceResult
-  commentId: F:TinyLife.Actions.Action.ForceResult
+- uid: TinyLife.Actions.Action.CanPlayerInterrupt
+  commentId: M:TinyLife.Actions.Action.CanPlayerInterrupt
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ForceResult
-  name: ForceResult
-  nameWithType: Action.ForceResult
-  fullName: TinyLife.Actions.Action.ForceResult
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  name: CanPlayerInterrupt()
+  nameWithType: Action.CanPlayerInterrupt()
+  fullName: TinyLife.Actions.Action.CanPlayerInterrupt()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
+    name: CanPlayerInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  commentId: M:TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  name: CanObjectInterrupt(MapObject, CanExecuteResult)
+  nameWithType: Action.CanObjectInterrupt(MapObject, CanExecuteResult)
+  fullName: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject, TinyLife.Actions.CanExecuteResult)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
+    name: CanObjectInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
 - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.Action
@@ -6132,37 +6176,37 @@ references:
   name: AndThenOnCompleted
   nameWithType: SocialAction.AndThenOnCompleted
   fullName: TinyLife.Actions.SocialAction.AndThenOnCompleted
-- uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-  commentId: M:TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+- uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
   parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel(Action)
-  nameWithType: MultiAction.CanCancel(Action)
-  fullName: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt(Action)
+  nameWithType: MultiAction.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
   spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.MultiAction.CanCancel(TinyLife.Actions.Action)
-    name: CanCancel
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanCancel_TinyLife_Actions_Action_
+  - uid: TinyLife.Actions.MultiAction.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanActionInterrupt_TinyLife_Actions_Action_
   - name: (
   - uid: TinyLife.Actions.Action
     name: Action
     href: TinyLife.Actions.Action.html
   - name: )
-- uid: TinyLife.Actions.SocialAction.CanCancel*
-  commentId: Overload:TinyLife.Actions.SocialAction.CanCancel
-  href: TinyLife.Actions.SocialAction.html#TinyLife_Actions_SocialAction_CanCancel_TinyLife_Actions_Action_
-  name: CanCancel
-  nameWithType: SocialAction.CanCancel
-  fullName: TinyLife.Actions.SocialAction.CanCancel
+- uid: TinyLife.Actions.SocialAction.CanActionInterrupt*
+  commentId: Overload:TinyLife.Actions.SocialAction.CanActionInterrupt
+  href: TinyLife.Actions.SocialAction.html#TinyLife_Actions_SocialAction_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt
+  nameWithType: SocialAction.CanActionInterrupt
+  fullName: TinyLife.Actions.SocialAction.CanActionInterrupt
 - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -6194,6 +6238,29 @@ references:
   name: CanMultitask
   nameWithType: SocialAction.CanMultitask
   fullName: TinyLife.Actions.SocialAction.CanMultitask
+- uid: TinyLife.Actions.Action.CanMultitaskResult
+  commentId: T:TinyLife.Actions.Action.CanMultitaskResult
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.Action.html
+  name: Action.CanMultitaskResult
+  nameWithType: Action.CanMultitaskResult
+  fullName: TinyLife.Actions.Action.CanMultitaskResult
+  spec.csharp:
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: .
+  - uid: TinyLife.Actions.Action.CanMultitaskResult
+    name: CanMultitaskResult
+    href: TinyLife.Actions.Action.CanMultitaskResult.html
+  spec.vb:
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: .
+  - uid: TinyLife.Actions.Action.CanMultitaskResult
+    name: CanMultitaskResult
+    href: TinyLife.Actions.Action.CanMultitaskResult.html
 - uid: TinyLife.Objects.PersonLike.ActionQueue
   commentId: F:TinyLife.Objects.PersonLike.ActionQueue
   parent: TinyLife.Objects.PersonLike
@@ -6309,125 +6376,37 @@ references:
   nameWithType.vb: String
   fullName.vb: String
   name.vb: String
-- uid: TinyLife.Objects.IBreakableObject
-  commentId: T:TinyLife.Objects.IBreakableObject
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.IBreakableObject.html
-  name: IBreakableObject
-  nameWithType: IBreakableObject
-  fullName: TinyLife.Objects.IBreakableObject
-- uid: TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
-  commentId: F:TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
-  href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_IgnoreObjectConditions
-  name: IgnoreObjectConditions
-  nameWithType: ActionType.TypeSettings.IgnoreObjectConditions
-  fullName: TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
-- uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-  commentId: M:TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
+- uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
   parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  name: TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  nameWithType: Action.TryForceResult(CompletionType, CanExecuteResult?, MapObject)
-  fullName: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType, TinyLife.Actions.CanExecuteResult?, TinyLife.Objects.MapObject)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: Action.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
   - name: (
   - uid: TinyLife.Actions.CompletionType
     name: CompletionType
     href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.TryForceResult(TinyLife.Actions.CompletionType,System.Nullable{TinyLife.Actions.CanExecuteResult},TinyLife.Objects.MapObject)
-    name: TryForceResult
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
   - name: (
   - uid: TinyLife.Actions.CompletionType
     name: CompletionType
     href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Objects.MapObject
-    name: MapObject
-    href: TinyLife.Objects.MapObject.html
   - name: )
-- uid: TinyLife.Actions.SocialAction.TryForceResult*
-  commentId: Overload:TinyLife.Actions.SocialAction.TryForceResult
-  href: TinyLife.Actions.SocialAction.html#TinyLife_Actions_SocialAction_TryForceResult_TinyLife_Actions_CompletionType_System_Nullable_TinyLife_Actions_CanExecuteResult__TinyLife_Objects_MapObject_
-  name: TryForceResult
-  nameWithType: SocialAction.TryForceResult
-  fullName: TinyLife.Actions.SocialAction.TryForceResult
-- uid: System.Nullable{TinyLife.Actions.CanExecuteResult}
-  commentId: T:System.Nullable{TinyLife.Actions.CanExecuteResult}
-  parent: System
-  definition: System.Nullable`1
-  href: TinyLife.Actions.CanExecuteResult.html
-  name: CanExecuteResult?
-  nameWithType: CanExecuteResult?
-  fullName: TinyLife.Actions.CanExecuteResult?
-  spec.csharp:
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-  spec.vb:
-  - uid: TinyLife.Actions.CanExecuteResult
-    name: CanExecuteResult
-    href: TinyLife.Actions.CanExecuteResult.html
-  - name: '?'
-- uid: TinyLife.Objects.MapObject
-  commentId: T:TinyLife.Objects.MapObject
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.MapObject.html
-  name: MapObject
-  nameWithType: MapObject
-  fullName: TinyLife.Objects.MapObject
-- uid: System.Nullable`1
-  commentId: T:System.Nullable`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  name: Nullable<T>
-  nameWithType: Nullable<T>
-  fullName: System.Nullable<T>
-  nameWithType.vb: Nullable(Of T)
-  fullName.vb: System.Nullable(Of T)
-  name.vb: Nullable(Of T)
-  spec.csharp:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Nullable`1
-    name: Nullable
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
+- uid: TinyLife.Actions.SocialAction.Interrupt*
+  commentId: Overload:TinyLife.Actions.SocialAction.Interrupt
+  href: TinyLife.Actions.SocialAction.html#TinyLife_Actions_SocialAction_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt
+  nameWithType: SocialAction.Interrupt
+  fullName: TinyLife.Actions.SocialAction.Interrupt
 - uid: TinyLife.Actions.SocialAction.InvokeForBoth*
   commentId: Overload:TinyLife.Actions.SocialAction.InvokeForBoth
   href: TinyLife.Actions.SocialAction.html#TinyLife_Actions_SocialAction_InvokeForBoth_System_Action_TinyLife_Objects_PersonLike_TinyLife_Objects_PersonLike__
@@ -6790,6 +6769,24 @@ references:
     name: AiSettings
     href: TinyLife.Actions.ActionType.AiSettings.html
   - name: '?'
+- uid: System.Nullable{TinyLife.Actions.CanExecuteResult}
+  commentId: T:System.Nullable{TinyLife.Actions.CanExecuteResult}
+  parent: System
+  definition: System.Nullable`1
+  href: TinyLife.Actions.CanExecuteResult.html
+  name: CanExecuteResult?
+  nameWithType: CanExecuteResult?
+  fullName: TinyLife.Actions.CanExecuteResult?
+  spec.csharp:
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: '?'
+  spec.vb:
+  - uid: TinyLife.Actions.CanExecuteResult
+    name: CanExecuteResult
+    href: TinyLife.Actions.CanExecuteResult.html
+  - name: '?'
 - uid: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionType.TypeSettings}
   commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionType.TypeSettings}
   parent: System.Collections.Generic
@@ -6830,4 +6827,32 @@ references:
   - uid: TinyLife.Actions.ActionType.TypeSettings
     name: TypeSettings
     href: TinyLife.Actions.ActionType.TypeSettings.html
+  - name: )
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
   - name: )
