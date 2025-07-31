@@ -23,7 +23,7 @@ When creating textures, either for custom mods or to change the game's default t
   - Hair, facial hair, accessories, head accessories, face accessories and makeup only use the four walking frames as well as the laying pose. Starting with Tiny Life 0.45.2, they only use the first walking frame and the laying pose.
   - Tops and arm accessories only use the four walking frames, the laying pose, the two working frames, and the four walking with arms out frames. Tops for babies additionally include a frame for sitting. Starting with Tiny Life 0.45.2, the four walking with arms out frames are no longer used.
   - Pants and shoes only use the four walking frames, the sitting pose, and the sitting on ground pose. Pants and shoes for babies additionally include frames for sleeping and standing.
-  - Babies don't use the walking with arms out frames at all. 
+  - Babies don't use the walking with arms out frames at all.
 
 ![](../media/person.png)
 
@@ -31,5 +31,7 @@ When creating textures, either for custom mods or to change the game's default t
 - A color scheme is essentially a set of colors, one of which can be chosen by the player to be assigned to a grayscale layer.
 - The game stores all of its color schemes in a texture where each row is a set of colors, one pixel for each color, which can be selected for an object or layer.
 - The most up-to-date version of the game's color schemes can be found in the [ColorScheme class](xref:TinyLife.Utilities.ColorScheme).
+
+The following image contains all color schemes available in the game as of version 0.47.10 in their original layout:
 
 ![](../media/color_schemes.png)
