@@ -1,3 +1,26 @@
+# 0.47.11
+*August 6, 2025*
+
+Additions
+- Added the Mellow voice style with samples contributed by [Ani Meida](https://ani-meida.carrd.co/)
+- Added several new emotes as well as an alert-style emote bubble for some actions
+- Added the ability for actions to continue executing after being cancelled to finish important tasks, like putting on clothes after showering. If this causes any actions to malfunction or behave unexpectedly compared to before this update, please let us know through [the feedback form](https://tinylifegame.com/bugreport)!
+- Added an experimental nudity censoring effect to Tinies
+- Added a teddy bear decoration, as well as a toy duck that children will sometimes hold instead of the toy car
+
+Improvements
+- The voice pitch slider now uses named instead of vague numbers
+- People now get embarrassed when someone is not wearing clothes outside
+
+Fixes
+- Fixed the chef life goal still including grandparent food when it shouldn't
+- Fixed Tinies displaying the outfit change animation when they don't have an appropriate outfit to change into
+- Fixed people sometimes not turning towards their action spot
+- Fixed an exception when importing existing visitors onto a lot
+- Fixed babies sometimes using the potty while still holding an item
+- Fixed a rare crash when loading a save
+- Fixed some issues related to multi-floor homes when trying to find empty tiles for some actions
+
 # 0.47.10
 *July 14, 2025*
 

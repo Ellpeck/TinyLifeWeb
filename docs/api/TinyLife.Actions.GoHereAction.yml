@@ -9,7 +9,7 @@ items:
   - TinyLife.Actions.GoHereAction.AndThenIsCompleted
   - TinyLife.Actions.GoHereAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.GoHereAction.CanActionInterrupt(TinyLife.Actions.Action)
-  - TinyLife.Actions.GoHereAction.CanPlayerInterrupt
+  - TinyLife.Actions.GoHereAction.CanGenericInterrupt(System.Boolean)
   - TinyLife.Actions.GoHereAction.CreateFirstActions
   - TinyLife.Actions.GoHereAction.DriveSpeedMultiplier
   - TinyLife.Actions.GoHereAction.WalkSpeedMultiplier
@@ -44,7 +44,9 @@ items:
   - TinyLife.Actions.MultiAction.InProgressTime
   - TinyLife.Actions.MultiAction.FullyInProgress
   - TinyLife.Actions.MultiAction.CurrentStage
+  - TinyLife.Actions.MultiAction.FailureOrInterruption
   - TinyLife.Actions.MultiAction.CreateLastActions
+  - TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.AndThenInitialize
   - TinyLife.Actions.MultiAction.AndThenUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.MultiAction.OnFirstUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -55,6 +57,7 @@ items:
   - TinyLife.Actions.MultiAction.Initialize
   - TinyLife.Actions.MultiAction.IsCompleted
   - TinyLife.Actions.MultiAction.OnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Actions.MultiAction.CanStartNow
   - TinyLife.Actions.MultiAction.GetExtraIcon
@@ -71,7 +74,6 @@ items:
   - TinyLife.Actions.Action.PlayerPromptOpen
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CanObjectInterrupt(TinyLife.Objects.MapObject,TinyLife.Actions.CanExecuteResult)
-  - TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetIconObject
   - TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -83,9 +85,9 @@ items:
   - TinyLife.Actions.Action.OpenYesNoPrompt(System.String,System.Action,System.Action,MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   - TinyLife.Actions.Action.OpenTextPrompt(System.String,System.Action{System.String},System.Predicate{System.String},MLEM.Ui.Elements.TextField.Rule,System.String,System.Boolean,System.Nullable{System.Int32},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel})
   - TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
-  - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  - TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
-  - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType})
+  - TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Nullable{TinyLife.Actions.EmoteBubbleType})
+  - TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType},System.Nullable{TinyLife.Actions.EmoteBubbleType})
   - TinyLife.Actions.Action.ResetSpeech
   - TinyLife.Actions.Action.CompleteIfNeedFull(TinyLife.NeedType,TinyLife.Objects.PersonLike)
   - TinyLife.Actions.Action.CompleteIfTimeUp(System.TimeSpan,System.Boolean,TinyLife.Skills.SkillType,System.Single,System.Boolean)
@@ -309,28 +311,34 @@ items:
     content.vb: Protected Overrides Sub AndThenOnCompleted(type As CompletionType)
   overridden: TinyLife.Actions.MultiAction.AndThenOnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.GoHereAction.AndThenOnCompleted*
-- uid: TinyLife.Actions.GoHereAction.CanPlayerInterrupt
-  commentId: M:TinyLife.Actions.GoHereAction.CanPlayerInterrupt
-  id: CanPlayerInterrupt
+- uid: TinyLife.Actions.GoHereAction.CanGenericInterrupt(System.Boolean)
+  commentId: M:TinyLife.Actions.GoHereAction.CanGenericInterrupt(System.Boolean)
+  id: CanGenericInterrupt(System.Boolean)
   parent: TinyLife.Actions.GoHereAction
   langs:
   - csharp
   - vb
-  name: CanPlayerInterrupt()
-  nameWithType: GoHereAction.CanPlayerInterrupt()
-  fullName: TinyLife.Actions.GoHereAction.CanPlayerInterrupt()
+  name: CanGenericInterrupt(bool)
+  nameWithType: GoHereAction.CanGenericInterrupt(bool)
+  fullName: TinyLife.Actions.GoHereAction.CanGenericInterrupt(bool)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
   example: []
   syntax:
-    content: public override bool CanPlayerInterrupt()
+    content: public override bool CanGenericInterrupt(bool isPlayer)
+    parameters:
+    - id: isPlayer
+      type: System.Boolean
     return:
       type: System.Boolean
-    content.vb: Public Overrides Function CanPlayerInterrupt() As Boolean
-  overridden: TinyLife.Actions.Action.CanPlayerInterrupt
-  overload: TinyLife.Actions.GoHereAction.CanPlayerInterrupt*
+    content.vb: Public Overrides Function CanGenericInterrupt(isPlayer As Boolean) As Boolean
+  overridden: TinyLife.Actions.MultiAction.CanGenericInterrupt(System.Boolean)
+  overload: TinyLife.Actions.GoHereAction.CanGenericInterrupt*
+  nameWithType.vb: GoHereAction.CanGenericInterrupt(Boolean)
+  fullName.vb: TinyLife.Actions.GoHereAction.CanGenericInterrupt(Boolean)
+  name.vb: CanGenericInterrupt(Boolean)
 - uid: TinyLife.Actions.GoHereAction.CanActionInterrupt(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.GoHereAction.CanActionInterrupt(TinyLife.Actions.Action)
   id: CanActionInterrupt(TinyLife.Actions.Action)
@@ -459,6 +467,13 @@ references:
   name: CurrentStage
   nameWithType: MultiAction.CurrentStage
   fullName: TinyLife.Actions.MultiAction.CurrentStage
+- uid: TinyLife.Actions.MultiAction.FailureOrInterruption
+  commentId: P:TinyLife.Actions.MultiAction.FailureOrInterruption
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FailureOrInterruption
+  name: FailureOrInterruption
+  nameWithType: MultiAction.FailureOrInterruption
+  fullName: TinyLife.Actions.MultiAction.FailureOrInterruption
 - uid: TinyLife.Actions.MultiAction.CreateLastActions
   commentId: M:TinyLife.Actions.MultiAction.CreateLastActions
   parent: TinyLife.Actions.MultiAction
@@ -477,6 +492,31 @@ references:
     name: CreateLastActions
     href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateLastActions
   - name: (
+  - name: )
+- uid: TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFailureInterruptionActions_TinyLife_Actions_CompletionType_
+  name: CreateFailureInterruptionActions(CompletionType)
+  nameWithType: MultiAction.CreateFailureInterruptionActions(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
+    name: CreateFailureInterruptionActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFailureInterruptionActions_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.CreateFailureInterruptionActions(TinyLife.Actions.CompletionType)
+    name: CreateFailureInterruptionActions
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CreateFailureInterruptionActions_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
   - name: )
 - uid: TinyLife.Actions.MultiAction.AndThenInitialize
   commentId: M:TinyLife.Actions.MultiAction.AndThenInitialize
@@ -816,6 +856,31 @@ references:
     name: CompletionType
     href: TinyLife.Actions.CompletionType.html
   - name: )
+- uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: MultiAction.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
 - uid: TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   commentId: M:TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.Actions.MultiAction
@@ -1025,31 +1090,6 @@ references:
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
     href: TinyLife.Actions.CanExecuteResult.html
-  - name: )
-- uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
-  commentId: M:TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
-  name: Interrupt(CompletionType)
-  nameWithType: Action.Interrupt(CompletionType)
-  fullName: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
-    name: Interrupt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
-    name: Interrupt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
-  - name: (
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
   - name: )
 - uid: TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   commentId: M:TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
@@ -1684,21 +1724,21 @@ references:
     name: ChoicePromptInfo
     href: TinyLife.Actions.ChoicePromptInfo.html
   - name: )
-- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType})
+  commentId: M:TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType})
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
-  name: SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
-  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, int, float, float, float, float)
-  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single)
-  name.vb: SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__
+  name: SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float, EmoteBubbleType?)
+  nameWithType: Action.SpeakAlone(GameTime, float, EmoteChoices?, SpeakStyle, int, float, float, float, float, EmoteBubbleType?)
+  fullName: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, int, float, float, float, float, TinyLife.Actions.EmoteBubbleType?)
+  nameWithType.vb: Action.SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single, EmoteBubbleType?)
+  fullName.vb: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, Integer, Single, Single, Single, Single, TinyLife.Actions.EmoteBubbleType?)
+  name.vb: SpeakAlone(GameTime, Single, EmoteChoices?, SpeakStyle, Integer, Single, Single, Single, Single, EmoteBubbleType?)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: SpeakAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1750,11 +1790,17 @@ references:
     name: float
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakAlone(Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: SpeakAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakAlone_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1806,22 +1852,28 @@ references:
     name: Single
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
-- uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
-  commentId: M:TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
+- uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Nullable{TinyLife.Actions.EmoteBubbleType})
+  commentId: M:TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Nullable{TinyLife.Actions.EmoteBubbleType})
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_
-  name: ThinkAlone(GameTime, float, EmoteChoices, float, float, float, float, int)
-  nameWithType: Action.ThinkAlone(GameTime, float, EmoteChoices, float, float, float, float, int)
-  fullName: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, float, float, float, float, int)
-  nameWithType.vb: Action.ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer)
-  fullName.vb: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, Single, Single, Single, Single, Integer)
-  name.vb: ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_System_Nullable_TinyLife_Actions_EmoteBubbleType__
+  name: ThinkAlone(GameTime, float, EmoteChoices, float, float, float, float, int, EmoteBubbleType?)
+  nameWithType: Action.ThinkAlone(GameTime, float, EmoteChoices, float, float, float, float, int, EmoteBubbleType?)
+  fullName: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices, float, float, float, float, int, TinyLife.Actions.EmoteBubbleType?)
+  nameWithType.vb: Action.ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer, EmoteBubbleType?)
+  fullName.vb: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices, Single, Single, Single, Single, Integer, TinyLife.Actions.EmoteBubbleType?)
+  name.vb: ThinkAlone(GameTime, Single, EmoteChoices, Single, Single, Single, Single, Integer, EmoteBubbleType?)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
+  - uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: ThinkAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1867,11 +1919,17 @@ references:
     name: int
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32)
+  - uid: TinyLife.Actions.Action.ThinkAlone(Microsoft.Xna.Framework.GameTime,System.Single,TinyLife.Actions.EmoteChoices,System.Single,System.Single,System.Single,System.Single,System.Int32,System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: ThinkAlone
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_ThinkAlone_Microsoft_Xna_Framework_GameTime_System_Single_TinyLife_Actions_EmoteChoices_System_Single_System_Single_System_Single_System_Single_System_Int32_System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: Microsoft.Xna.Framework.GameTime
     name: GameTime
@@ -1917,22 +1975,28 @@ references:
     name: Integer
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
-- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
-  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+- uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType},System.Nullable{TinyLife.Actions.EmoteBubbleType})
+  commentId: M:TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType},System.Nullable{TinyLife.Actions.EmoteBubbleType})
   parent: TinyLife.Actions.Action
   isExternal: true
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
-  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float)
-  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float)
-  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
-  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single)
-  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single)
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__System_Nullable_TinyLife_Actions_EmoteBubbleType__
+  name: SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float, EmoteBubbleType?, EmoteBubbleType?)
+  nameWithType: Action.SpeakInConversation(PersonLike, GameTime, float, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, int, float, float, float, float, EmoteBubbleType?, EmoteBubbleType?)
+  fullName: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, float, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, int, float, float, float, float, TinyLife.Actions.EmoteBubbleType?, TinyLife.Actions.EmoteBubbleType?)
+  nameWithType.vb: Action.SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single, EmoteBubbleType?, EmoteBubbleType?)
+  fullName.vb: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike, Microsoft.Xna.Framework.GameTime, Single, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle, TinyLife.Actions.EmoteChoices?, TinyLife.Objects.SpeakStyle?, Integer, Single, Single, Single, Single, TinyLife.Actions.EmoteBubbleType?, TinyLife.Actions.EmoteBubbleType?)
+  name.vb: SpeakInConversation(PersonLike, GameTime, Single, EmoteChoices?, SpeakStyle, EmoteChoices?, SpeakStyle?, Integer, Single, Single, Single, Single, EmoteBubbleType?, EmoteBubbleType?)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType},System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: SpeakInConversation
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -2001,11 +2065,23 @@ references:
     name: float
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single)
+  - uid: TinyLife.Actions.Action.SpeakInConversation(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.GameTime,System.Single,System.Nullable{TinyLife.Actions.EmoteChoices},TinyLife.Objects.SpeakStyle,System.Nullable{TinyLife.Actions.EmoteChoices},System.Nullable{TinyLife.Objects.SpeakStyle},System.Int32,System.Single,System.Single,System.Single,System.Single,System.Nullable{TinyLife.Actions.EmoteBubbleType},System.Nullable{TinyLife.Actions.EmoteBubbleType})
     name: SpeakInConversation
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_SpeakInConversation_TinyLife_Objects_PersonLike_Microsoft_Xna_Framework_GameTime_System_Single_System_Nullable_TinyLife_Actions_EmoteChoices__TinyLife_Objects_SpeakStyle_System_Nullable_TinyLife_Actions_EmoteChoices__System_Nullable_TinyLife_Objects_SpeakStyle__System_Int32_System_Single_System_Single_System_Single_System_Single_System_Nullable_TinyLife_Actions_EmoteBubbleType__System_Nullable_TinyLife_Actions_EmoteBubbleType__
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -2074,6 +2150,18 @@ references:
     name: Single
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.EmoteBubbleType
+    name: EmoteBubbleType
+    href: TinyLife.Actions.EmoteBubbleType.html
+  - name: '?'
   - name: )
 - uid: TinyLife.Actions.Action.ResetSpeech
   commentId: M:TinyLife.Actions.Action.ResetSpeech
@@ -4787,31 +4875,43 @@ references:
   name: AndThenOnCompleted
   nameWithType: GoHereAction.AndThenOnCompleted
   fullName: TinyLife.Actions.GoHereAction.AndThenOnCompleted
-- uid: TinyLife.Actions.Action.CanPlayerInterrupt
-  commentId: M:TinyLife.Actions.Action.CanPlayerInterrupt
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
-  name: CanPlayerInterrupt()
-  nameWithType: Action.CanPlayerInterrupt()
-  fullName: TinyLife.Actions.Action.CanPlayerInterrupt()
+- uid: TinyLife.Actions.MultiAction.CanGenericInterrupt(System.Boolean)
+  commentId: M:TinyLife.Actions.MultiAction.CanGenericInterrupt(System.Boolean)
+  parent: TinyLife.Actions.MultiAction
+  isExternal: true
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanGenericInterrupt_System_Boolean_
+  name: CanGenericInterrupt(bool)
+  nameWithType: MultiAction.CanGenericInterrupt(bool)
+  fullName: TinyLife.Actions.MultiAction.CanGenericInterrupt(bool)
+  nameWithType.vb: MultiAction.CanGenericInterrupt(Boolean)
+  fullName.vb: TinyLife.Actions.MultiAction.CanGenericInterrupt(Boolean)
+  name.vb: CanGenericInterrupt(Boolean)
   spec.csharp:
-  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
-    name: CanPlayerInterrupt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - uid: TinyLife.Actions.MultiAction.CanGenericInterrupt(System.Boolean)
+    name: CanGenericInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanGenericInterrupt_System_Boolean_
   - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   spec.vb:
-  - uid: TinyLife.Actions.Action.CanPlayerInterrupt
-    name: CanPlayerInterrupt
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanPlayerInterrupt
+  - uid: TinyLife.Actions.MultiAction.CanGenericInterrupt(System.Boolean)
+    name: CanGenericInterrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CanGenericInterrupt_System_Boolean_
   - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Actions.GoHereAction.CanPlayerInterrupt*
-  commentId: Overload:TinyLife.Actions.GoHereAction.CanPlayerInterrupt
-  href: TinyLife.Actions.GoHereAction.html#TinyLife_Actions_GoHereAction_CanPlayerInterrupt
-  name: CanPlayerInterrupt
-  nameWithType: GoHereAction.CanPlayerInterrupt
-  fullName: TinyLife.Actions.GoHereAction.CanPlayerInterrupt
+- uid: TinyLife.Actions.GoHereAction.CanGenericInterrupt*
+  commentId: Overload:TinyLife.Actions.GoHereAction.CanGenericInterrupt
+  href: TinyLife.Actions.GoHereAction.html#TinyLife_Actions_GoHereAction_CanGenericInterrupt_System_Boolean_
+  name: CanGenericInterrupt
+  nameWithType: GoHereAction.CanGenericInterrupt
+  fullName: TinyLife.Actions.GoHereAction.CanGenericInterrupt
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
