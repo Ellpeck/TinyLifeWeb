@@ -14,8 +14,8 @@ The new set we're currently working on already has over 30 clothing items in-gam
 
 ---
 
-![](media/news/Challenges.png)
+![](media/news/Streams.png)
 
-**Up for a Challenge?**
+Want to see what Tiny Life development looks like? Join Ell **every Tuesday** at **6 PM CEST** for a **Tiny Life Tuesdays** livestream!
 
-Some players enjoy challenging themselves by starting the game [without any money](https://docs.tinylifegame.com/articles/cheats.html) in a Rags to Riches, or by living without their own house in a Squatter challenge! Maybe killing your spouses is a viable way to make money, too...
+You can follow and watch [on Twitch](https://twitch.tv/ellpeck) or [on YouTube](https://www.youtube.com/@Ellpeck).
