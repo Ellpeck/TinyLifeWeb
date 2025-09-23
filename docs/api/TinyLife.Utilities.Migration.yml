@@ -5,7 +5,7 @@ items:
   id: Migration
   parent: TinyLife.Utilities
   children:
-  - TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult})
+  - TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult})
   - TinyLife.Utilities.Migration.Apply
   - TinyLife.Utilities.Migration.Migrations
   - TinyLife.Utilities.Migration.Name
@@ -133,10 +133,10 @@ items:
     The passed JSON extension data is additional data that is loaded from disk, but didn't have an appropriate property or field to store it in. This can be useful for migrating objects whose property or field names changed, at which point relevant entries in this dictionary should be removed as part of this function.
   example: []
   syntax:
-    content: public readonly Func<object, IDictionary<string, JToken>, MigrationResult> Apply
+    content: public readonly Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult> Apply
     return:
-      type: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult}
-    content.vb: Public ReadOnly Apply As Func(Of Object, IDictionary(Of String, JToken), MigrationResult)
+      type: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult}
+    content.vb: Public ReadOnly Apply As Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult)
 - uid: TinyLife.Utilities.Migration.Priority
   commentId: P:TinyLife.Utilities.Migration.Priority
   id: Priority
@@ -186,16 +186,16 @@ items:
       type: System.Boolean
     content.vb: Public Property Silent As Boolean
   overload: TinyLife.Utilities.Migration.Silent*
-- uid: TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult})
-  commentId: M:TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult})
-  id: '#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult})'
+- uid: TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult})
+  commentId: M:TinyLife.Utilities.Migration.#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult})
+  id: '#ctor(System.String,TinyLife.Utilities.MigrationPhase,System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult})'
   parent: TinyLife.Utilities.Migration
   langs:
   - csharp
   - vb
-  name: Migration(string, MigrationPhase, Func<object, IDictionary<string, JToken>, MigrationResult>)
-  nameWithType: Migration.Migration(string, MigrationPhase, Func<object, IDictionary<string, JToken>, MigrationResult>)
-  fullName: TinyLife.Utilities.Migration.Migration(string, TinyLife.Utilities.MigrationPhase, System.Func<object, System.Collections.Generic.IDictionary<string, Newtonsoft.Json.Linq.JToken>, TinyLife.Utilities.MigrationResult>)
+  name: Migration(string, MigrationPhase, Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult>)
+  nameWithType: Migration.Migration(string, MigrationPhase, Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult>)
+  fullName: TinyLife.Utilities.Migration.Migration(string, TinyLife.Utilities.MigrationPhase, System.Func<object, System.Collections.Generic.IDictionary<string, Newtonsoft.Json.Linq.JToken>, Newtonsoft.Json.JsonSerializer, TinyLife.Utilities.MigrationResult>)
   type: Constructor
   assemblies:
   - TinyLife
@@ -206,7 +206,7 @@ items:
     To create a migration instance, use <xref href="TinyLife.Utilities.Migration%601" data-throw-if-not-resolved="false"></xref> instead.
   example: []
   syntax:
-    content: protected Migration(string name, MigrationPhase phase, Func<object, IDictionary<string, JToken>, MigrationResult> apply)
+    content: protected Migration(string name, MigrationPhase phase, Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult> apply)
     parameters:
     - id: name
       type: System.String
@@ -215,13 +215,13 @@ items:
       type: TinyLife.Utilities.MigrationPhase
       description: The <xref href="TinyLife.Utilities.MigrationPhase" data-throw-if-not-resolved="false"></xref> that this migration should be applied on. Note that some object types only support the <xref href="TinyLife.Utilities.MigrationPhase.Single" data-throw-if-not-resolved="false"></xref> phase.
     - id: apply
-      type: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult}
+      type: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult}
       description: A function that applies this migration on an object. The passed JSON extension data is additional data that is loaded from disk, but didn't have an appropriate property or field to store it in. This can be useful for migrating objects whose property or field names changed.
-    content.vb: Protected Sub New(name As String, phase As MigrationPhase, apply As Func(Of Object, IDictionary(Of String, JToken), MigrationResult))
+    content.vb: Protected Sub New(name As String, phase As MigrationPhase, apply As Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult))
   overload: TinyLife.Utilities.Migration.#ctor*
-  nameWithType.vb: Migration.New(String, MigrationPhase, Func(Of Object, IDictionary(Of String, JToken), MigrationResult))
-  fullName.vb: TinyLife.Utilities.Migration.New(String, TinyLife.Utilities.MigrationPhase, System.Func(Of Object, System.Collections.Generic.IDictionary(Of String, Newtonsoft.Json.Linq.JToken), TinyLife.Utilities.MigrationResult))
-  name.vb: New(String, MigrationPhase, Func(Of Object, IDictionary(Of String, JToken), MigrationResult))
+  nameWithType.vb: Migration.New(String, MigrationPhase, Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult))
+  fullName.vb: TinyLife.Utilities.Migration.New(String, TinyLife.Utilities.MigrationPhase, System.Func(Of Object, System.Collections.Generic.IDictionary(Of String, Newtonsoft.Json.Linq.JToken), Newtonsoft.Json.JsonSerializer, TinyLife.Utilities.MigrationResult))
+  name.vb: New(String, MigrationPhase, Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult))
 - uid: TinyLife.Utilities.Migration.Register``1(System.Collections.Generic.IEnumerable{TinyLife.Utilities.Migration{``0}})
   commentId: M:TinyLife.Utilities.Migration.Register``1(System.Collections.Generic.IEnumerable{TinyLife.Utilities.Migration{``0}})
   id: Register``1(System.Collections.Generic.IEnumerable{TinyLife.Utilities.Migration{``0}})
@@ -891,22 +891,22 @@ references:
   name: Single
   nameWithType: MigrationPhase.Single
   fullName: TinyLife.Utilities.MigrationPhase.Single
-- uid: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult}
-  commentId: T:System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},TinyLife.Utilities.MigrationResult}
+- uid: System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult}
+  commentId: T:System.Func{System.Object,System.Collections.Generic.IDictionary{System.String,Newtonsoft.Json.Linq.JToken},Newtonsoft.Json.JsonSerializer,TinyLife.Utilities.MigrationResult}
   parent: System
-  definition: System.Func`3
-  href: https://learn.microsoft.com/dotnet/api/system.func-3
-  name: Func<object, IDictionary<string, JToken>, MigrationResult>
-  nameWithType: Func<object, IDictionary<string, JToken>, MigrationResult>
-  fullName: System.Func<object, System.Collections.Generic.IDictionary<string, Newtonsoft.Json.Linq.JToken>, TinyLife.Utilities.MigrationResult>
-  nameWithType.vb: Func(Of Object, IDictionary(Of String, JToken), MigrationResult)
-  fullName.vb: System.Func(Of Object, System.Collections.Generic.IDictionary(Of String, Newtonsoft.Json.Linq.JToken), TinyLife.Utilities.MigrationResult)
-  name.vb: Func(Of Object, IDictionary(Of String, JToken), MigrationResult)
+  definition: System.Func`4
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult>
+  nameWithType: Func<object, IDictionary<string, JToken>, JsonSerializer, MigrationResult>
+  fullName: System.Func<object, System.Collections.Generic.IDictionary<string, Newtonsoft.Json.Linq.JToken>, Newtonsoft.Json.JsonSerializer, TinyLife.Utilities.MigrationResult>
+  nameWithType.vb: Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult)
+  fullName.vb: System.Func(Of Object, System.Collections.Generic.IDictionary(Of String, Newtonsoft.Json.Linq.JToken), Newtonsoft.Json.JsonSerializer, TinyLife.Utilities.MigrationResult)
+  name.vb: Func(Of Object, IDictionary(Of String, JToken), JsonSerializer, MigrationResult)
   spec.csharp:
-  - uid: System.Func`3
+  - uid: System.Func`4
     name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-3
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
   - name: <
   - uid: System.Object
     name: object
@@ -931,15 +931,20 @@ references:
   - name: '>'
   - name: ','
   - name: " "
+  - uid: Newtonsoft.Json.JsonSerializer
+    name: JsonSerializer
+    isExternal: true
+  - name: ','
+  - name: " "
   - uid: TinyLife.Utilities.MigrationResult
     name: MigrationResult
     href: TinyLife.Utilities.MigrationResult.html
   - name: '>'
   spec.vb:
-  - uid: System.Func`3
+  - uid: System.Func`4
     name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-3
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
   - name: (
   - name: Of
   - name: " "
@@ -968,25 +973,30 @@ references:
   - name: )
   - name: ','
   - name: " "
+  - uid: Newtonsoft.Json.JsonSerializer
+    name: JsonSerializer
+    isExternal: true
+  - name: ','
+  - name: " "
   - uid: TinyLife.Utilities.MigrationResult
     name: MigrationResult
     href: TinyLife.Utilities.MigrationResult.html
   - name: )
-- uid: System.Func`3
-  commentId: T:System.Func`3
+- uid: System.Func`4
+  commentId: T:System.Func`4
   isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.func-3
-  name: Func<T1, T2, TResult>
-  nameWithType: Func<T1, T2, TResult>
-  fullName: System.Func<T1, T2, TResult>
-  nameWithType.vb: Func(Of T1, T2, TResult)
-  fullName.vb: System.Func(Of T1, T2, TResult)
-  name.vb: Func(Of T1, T2, TResult)
+  href: https://learn.microsoft.com/dotnet/api/system.func-4
+  name: Func<T1, T2, T3, TResult>
+  nameWithType: Func<T1, T2, T3, TResult>
+  fullName: System.Func<T1, T2, T3, TResult>
+  nameWithType.vb: Func(Of T1, T2, T3, TResult)
+  fullName.vb: System.Func(Of T1, T2, T3, TResult)
+  name.vb: Func(Of T1, T2, T3, TResult)
   spec.csharp:
-  - uid: System.Func`3
+  - uid: System.Func`4
     name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-3
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
   - name: <
   - name: T1
   - name: ','
@@ -994,13 +1004,16 @@ references:
   - name: T2
   - name: ','
   - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
   - name: TResult
   - name: '>'
   spec.vb:
-  - uid: System.Func`3
+  - uid: System.Func`4
     name: Func
     isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-3
+    href: https://learn.microsoft.com/dotnet/api/system.func-4
   - name: (
   - name: Of
   - name: " "
@@ -1008,6 +1021,9 @@ references:
   - name: ','
   - name: " "
   - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
   - name: ','
   - name: " "
   - name: TResult
@@ -1080,7 +1096,7 @@ references:
   - name: )
 - uid: TinyLife.Utilities.Migration.#ctor*
   commentId: Overload:TinyLife.Utilities.Migration.#ctor
-  href: TinyLife.Utilities.Migration.html#TinyLife_Utilities_Migration__ctor_System_String_TinyLife_Utilities_MigrationPhase_System_Func_System_Object_System_Collections_Generic_IDictionary_System_String_Newtonsoft_Json_Linq_JToken__TinyLife_Utilities_MigrationResult__
+  href: TinyLife.Utilities.Migration.html#TinyLife_Utilities_Migration__ctor_System_String_TinyLife_Utilities_MigrationPhase_System_Func_System_Object_System_Collections_Generic_IDictionary_System_String_Newtonsoft_Json_Linq_JToken__Newtonsoft_Json_JsonSerializer_TinyLife_Utilities_MigrationResult__
   name: Migration
   nameWithType: Migration.Migration
   fullName: TinyLife.Utilities.Migration.Migration

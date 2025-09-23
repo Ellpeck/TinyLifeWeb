@@ -189,6 +189,7 @@ items:
   - TinyLife.Objects.PersonLike.Relationships
   - TinyLife.Objects.PersonLike.RemoveEmotion(TinyLife.Emotions.EmotionModifier)
   - TinyLife.Objects.PersonLike.RemoveHeldObject``1
+  - TinyLife.Objects.PersonLike.RemoveMemories``1(System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType},System.Int32,System.Func{``0,System.Boolean})
   - TinyLife.Objects.PersonLike.RemoveMemory``1(TinyLife.Goals.MemoryType,System.Int32,System.Func{``0,System.Boolean})
   - TinyLife.Objects.PersonLike.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.PersonLike.ResetVisuals
@@ -490,7 +491,7 @@ items:
   summary: >-
     The actions that are currently being executed by this person.
 
-    Use <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref> and CancelAction to modify this list.
+    Use <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action%2cSystem.Boolean%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> to modify this list.
   example: []
   syntax:
     content: >-
@@ -526,7 +527,7 @@ items:
 
     Each entry is the action that is enqueued along with a boolean value that represents whether this action should be force-started (true) or whether it should do the necessary checks (false).
 
-    Use <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref> and CancelAction to modify this list.
+    Use <xref href="TinyLife.Objects.PersonLike.EnqueueAction%60%601(TinyLife.Actions.ActionType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Boolean%2cTinyLife.Actions.ActionArgument%5b%5d)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action%2cSystem.Boolean%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> to modify this list.
   example: []
   syntax:
     content: >-
@@ -4042,7 +4043,7 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
-  summary: Causes this person to display a <xref href="TinyLife.Actions.Emote" data-throw-if-not-resolved="false"></xref> over its head for 1 to 3 seconds
+  summary: Causes this person to display a <xref href="TinyLife.Actions.Emote" data-throw-if-not-resolved="false"></xref> over its head for 1 to 3 seconds by default.
   example: []
   syntax:
     content: public virtual bool DisplayEmote(EmoteChoices choices, EmoteBubbleType type, float minimumSeconds = 1, float maximumSeconds = 3)
@@ -4052,6 +4053,7 @@ items:
       description: The emotes to choose from
     - id: type
       type: TinyLife.Actions.EmoteBubbleType
+      description: The type that the emote bubble should have.
     - id: minimumSeconds
       type: System.Single
       description: The minimum amount of real-time seconds that the emote should be displayed for, or 1 by default
@@ -4174,6 +4176,7 @@ items:
       description: The maximum amount of time, in seconds, to speak and display the emote for
     - id: type
       type: System.Nullable{TinyLife.Actions.EmoteBubbleType}
+      description: The type of the emote bubble to display. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the emote bubble type is based on whether <code class="paramref">speakStyles</code> is set.
     content.vb: Public Overridable Sub DisplayEmoteAndSpeak(emoteChoices As EmoteChoices?, speakStyles As SpeakStyle?, minimumSeconds As Single = 1, maximumSeconds As Single = 3, type As EmoteBubbleType? = Nothing)
   overload: TinyLife.Objects.PersonLike.DisplayEmoteAndSpeak*
   nameWithType.vb: PersonLike.DisplayEmoteAndSpeak(EmoteChoices?, SpeakStyle?, Single, Single, EmoteBubbleType?)
@@ -4841,19 +4844,26 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Causes the given action to be interrupted. For actions that are already active (<xref href="TinyLife.Objects.PersonLike.CurrentActions" data-throw-if-not-resolved="false"></xref>), their <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> method is called, while for actions in the <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref>, they are force-canceled and removed from the queue immediately.
+  example: []
   syntax:
     content: public virtual bool GenericInterruptAction(Action action, bool isPlayer = false, CompletionType completion = CompletionType.Canceled, bool force = false)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action to interrupt.
     - id: isPlayer
       type: System.Boolean
+      description: Whether the generic interruption source is the player.
     - id: completion
       type: TinyLife.Actions.CompletionType
+      description: The completion type to pass as the interruption.
     - id: force
       type: System.Boolean
+      description: Whether the interruption should be forced. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, <xref href="TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)" data-throw-if-not-resolved="false"></xref> is queried before the action is interrupted.
     return:
       type: System.Boolean
+      description: Whether the action could be successfully interrupted. <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned if <code class="paramref">force</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> and <xref href="TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)" data-throw-if-not-resolved="false"></xref> returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, or if the action is not contained in this person's <xref href="TinyLife.Objects.PersonLike.AllActions" data-throw-if-not-resolved="false"></xref> collection.
     content.vb: Public Overridable Function GenericInterruptAction(action As Action, isPlayer As Boolean = False, completion As CompletionType = CompletionType.Canceled, force As Boolean = False) As Boolean
   overload: TinyLife.Objects.PersonLike.GenericInterruptAction*
   nameWithType.vb: PersonLike.GenericInterruptAction(Action, Boolean, CompletionType, Boolean)
@@ -4873,19 +4883,26 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Causes the given action to be interrupted by the given <code class="paramref">cancelSource</code> action. For actions that are already active (<xref href="TinyLife.Objects.PersonLike.CurrentActions" data-throw-if-not-resolved="false"></xref>), their <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> method is called, while for actions in the <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref>, they are force-canceled and removed from the queue immediately.
+  example: []
   syntax:
     content: public virtual bool ActionInterruptAction(Action action, Action cancelSource, CompletionType completion = CompletionType.Canceled, bool force = false)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action to interrupt.
     - id: cancelSource
       type: TinyLife.Actions.Action
+      description: The action trying to interrupt the action.
     - id: completion
       type: TinyLife.Actions.CompletionType
+      description: The completion type to pass as the interruption.
     - id: force
       type: System.Boolean
+      description: Whether the interruption should be forced. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, <xref href="TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref> is queried before the action is interrupted.
     return:
       type: System.Boolean
+      description: Whether the action could be successfully interrupted. <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned if <code class="paramref">force</code> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> and <xref href="TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)" data-throw-if-not-resolved="false"></xref> returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, or if the action is not contained in this person's <xref href="TinyLife.Objects.PersonLike.AllActions" data-throw-if-not-resolved="false"></xref> collection.
     content.vb: Public Overridable Function ActionInterruptAction(action As Action, cancelSource As Action, completion As CompletionType = CompletionType.Canceled, force As Boolean = False) As Boolean
   overload: TinyLife.Objects.PersonLike.ActionInterruptAction*
   nameWithType.vb: PersonLike.ActionInterruptAction(Action, Action, CompletionType, Boolean)
@@ -5988,6 +6005,38 @@ items:
   nameWithType.vb: PersonLike.RemoveMemory(Of T)(MemoryType, Integer, Func(Of T, Boolean))
   fullName.vb: TinyLife.Objects.PersonLike.RemoveMemory(Of T)(TinyLife.Goals.MemoryType, Integer, System.Func(Of T, Boolean))
   name.vb: RemoveMemory(Of T)(MemoryType, Integer, Func(Of T, Boolean))
+- uid: TinyLife.Objects.PersonLike.RemoveMemories``1(System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType},System.Int32,System.Func{``0,System.Boolean})
+  commentId: M:TinyLife.Objects.PersonLike.RemoveMemories``1(System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType},System.Int32,System.Func{``0,System.Boolean})
+  id: RemoveMemories``1(System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType},System.Int32,System.Func{``0,System.Boolean})
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: RemoveMemories<T>(IEnumerable<MemoryType>, int, Func<T, bool>)
+  nameWithType: PersonLike.RemoveMemories<T>(IEnumerable<MemoryType>, int, Func<T, bool>)
+  fullName: TinyLife.Objects.PersonLike.RemoveMemories<T>(System.Collections.Generic.IEnumerable<TinyLife.Goals.MemoryType>, int, System.Func<T, bool>)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  syntax:
+    content: 'public virtual int RemoveMemories<T>(IEnumerable<MemoryType> types, int toKeep, Func<T, bool> condition = null) where T : Memory'
+    parameters:
+    - id: types
+      type: System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType}
+    - id: toKeep
+      type: System.Int32
+    - id: condition
+      type: System.Func{{T},System.Boolean}
+    typeParameters:
+    - id: T
+    return:
+      type: System.Int32
+    content.vb: Public Overridable Function RemoveMemories(Of T As Memory)(types As IEnumerable(Of MemoryType), toKeep As Integer, condition As Func(Of T, Boolean) = Nothing) As Integer
+  overload: TinyLife.Objects.PersonLike.RemoveMemories*
+  nameWithType.vb: PersonLike.RemoveMemories(Of T)(IEnumerable(Of MemoryType), Integer, Func(Of T, Boolean))
+  fullName.vb: TinyLife.Objects.PersonLike.RemoveMemories(Of T)(System.Collections.Generic.IEnumerable(Of TinyLife.Goals.MemoryType), Integer, System.Func(Of T, Boolean))
+  name.vb: RemoveMemories(Of T)(IEnumerable(Of MemoryType), Integer, Func(Of T, Boolean))
 - uid: TinyLife.Objects.PersonLike.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
   commentId: M:TinyLife.Objects.PersonLike.GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
   id: GetTimeSinceMemory``1(TinyLife.Goals.MemoryType,System.Func{``0,System.Boolean})
@@ -6448,7 +6497,10 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
-  summary: Returns whether the given <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> can be taken off in the character creator.
+  summary: >-
+    Returns whether the given <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> can be taken off in the character creator.
+
+    If an outfit is already assembled, it is preferred to use <xref href="TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike%2cTinyLife.Objects.ClothesLayer)" data-throw-if-not-resolved="false"></xref>, which also takes multi-layer clothing items into account.
   example: []
   syntax:
     content: public virtual bool CanTakeOff(ClothesLayer layer)
@@ -6475,13 +6527,17 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Returns the weight that a layer that this person <xref href="TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)" data-throw-if-not-resolved="false"></xref> should have for the likelihood of an outfit generating without an item on that layer. By default, this method returns a weight of 1 for hair and shoes, a weight of 5 for make-up, and a weight of 10 for all other layers.
+  example: []
   syntax:
     content: public virtual int GetNoneWeight(ClothesLayer layer)
     parameters:
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The layer to take off.
     return:
       type: System.Int32
+      description: The weight with which the given layer will not have a clothing item chosen for it.
     content.vb: Public Overridable Function GetNoneWeight(layer As ClothesLayer) As Integer
   overload: TinyLife.Objects.PersonLike.GetNoneWeight*
 - uid: TinyLife.Objects.PersonLike.GetPassiveNeedReduction(TinyLife.NeedType)
@@ -6591,6 +6647,7 @@ items:
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time.
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
       description: The sprite batch to use for drawing.
@@ -6641,6 +6698,7 @@ items:
     parameters:
     - id: time
       type: Microsoft.Xna.Framework.GameTime
+      description: The current game time.
     - id: batch
       type: Microsoft.Xna.Framework.Graphics.SpriteBatch
       description: The sprite batch to use for drawing.
@@ -6670,6 +6728,7 @@ items:
       description: This person's parent info.
     - id: overrideColor
       type: System.Nullable{Microsoft.Xna.Framework.Color}
+      description: A color that should optionally be used for drawing instead of the default.
     - id: layerColor
       type: Microsoft.Xna.Framework.Color
       description: The color to draw with.
@@ -7062,7 +7121,7 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
-  summary: A method invoked at the very start of <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> that resets this person's non-persistent visuals, like their <xref href="TinyLife.Objects.PersonLike.CurrentPose" data-throw-if-not-resolved="false"></xref> and WornLayers, to their default state.
+  summary: A method invoked at the very start of <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> that resets this person's non-persistent visuals, like their <xref href="TinyLife.Objects.PersonLike.CurrentPose" data-throw-if-not-resolved="false"></xref> value and <xref href="TinyLife.Objects.PersonLike.EyesClosed" data-throw-if-not-resolved="false"></xref> flag, to their default state.
   example: []
   syntax:
     content: protected virtual void ResetVisuals()
@@ -7219,15 +7278,20 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Forces the given <code class="paramref">action</code> to be interrupted. For actions that are already active (<xref href="TinyLife.Objects.PersonLike.CurrentActions" data-throw-if-not-resolved="false"></xref>), their <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> method is called, while for actions in the <xref href="TinyLife.Objects.PersonLike.ActionQueue" data-throw-if-not-resolved="false"></xref>, they are force-canceled and removed from the queue immediately.
+  example: []
   syntax:
     content: protected virtual bool ForceInterruptAction(Action action, CompletionType completion)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action to interrupt.
     - id: completion
       type: TinyLife.Actions.CompletionType
+      description: The completion type to pass as the interruption.
     return:
       type: System.Boolean
+      description: Whether the action was successfully interrupted. <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if the action is not contained in this person's <xref href="TinyLife.Objects.PersonLike.AllActions" data-throw-if-not-resolved="false"></xref> collection.
     content.vb: Protected Overridable Function ForceInterruptAction(action As Action, completion As CompletionType) As Boolean
   overload: TinyLife.Objects.PersonLike.ForceInterruptAction*
 - uid: TinyLife.Objects.PersonLike.GetRandomSpeakSound(TinyLife.Objects.VoiceStyle,TinyLife.Objects.SpeakStyle,System.Collections.Generic.List{Microsoft.Xna.Framework.Audio.SoundEffect},System.Nullable{System.TimeSpan})
@@ -9796,6 +9860,165 @@ references:
     href: TinyLife.Actions.ActionArgument.html
   - name: (
   - name: )
+  - name: )
+- uid: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenericInterruptAction_TinyLife_Actions_Action_System_Boolean_TinyLife_Actions_CompletionType_System_Boolean_
+  name: GenericInterruptAction(Action, bool, CompletionType, bool)
+  nameWithType: PersonLike.GenericInterruptAction(Action, bool, CompletionType, bool)
+  fullName: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action, bool, TinyLife.Actions.CompletionType, bool)
+  nameWithType.vb: PersonLike.GenericInterruptAction(Action, Boolean, CompletionType, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action, Boolean, TinyLife.Actions.CompletionType, Boolean)
+  name.vb: GenericInterruptAction(Action, Boolean, CompletionType, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
+    name: GenericInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenericInterruptAction_TinyLife_Actions_Action_System_Boolean_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
+    name: GenericInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenericInterruptAction_TinyLife_Actions_Action_System_Boolean_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  name: ActionInterruptAction(Action, Action, CompletionType, bool)
+  nameWithType: PersonLike.ActionInterruptAction(Action, Action, CompletionType, bool)
+  fullName: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, bool)
+  nameWithType.vb: PersonLike.ActionInterruptAction(Action, Action, CompletionType, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, Boolean)
+  name.vb: ActionInterruptAction(Action, Action, CompletionType, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: ActionInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: ActionInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ForceInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_
+  name: ForceInterruptAction(Action, CompletionType)
+  nameWithType: PersonLike.ForceInterruptAction(Action, CompletionType)
+  fullName: TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
+    name: ForceInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ForceInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.ForceInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.CompletionType)
+    name: ForceInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ForceInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
   - name: )
 - uid: System.Collections.Generic.List{TinyLife.Actions.Action}
   commentId: T:System.Collections.Generic.List{TinyLife.Actions.Action}
@@ -17081,12 +17304,100 @@ references:
   name: T
   nameWithType: T
   fullName: T
+- uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: Action.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+- uid: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
+  commentId: M:TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
+  parent: TinyLife.Actions.Action
+  isExternal: true
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanGenericInterrupt_System_Boolean_
+  name: CanGenericInterrupt(bool)
+  nameWithType: Action.CanGenericInterrupt(bool)
+  fullName: TinyLife.Actions.Action.CanGenericInterrupt(bool)
+  nameWithType.vb: Action.CanGenericInterrupt(Boolean)
+  fullName.vb: TinyLife.Actions.Action.CanGenericInterrupt(Boolean)
+  name.vb: CanGenericInterrupt(Boolean)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
+    name: CanGenericInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanGenericInterrupt_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
+    name: CanGenericInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanGenericInterrupt_System_Boolean_
+  - name: (
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.Objects.PersonLike.AllActions
+  commentId: P:TinyLife.Objects.PersonLike.AllActions
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AllActions
+  name: AllActions
+  nameWithType: PersonLike.AllActions
+  fullName: TinyLife.Objects.PersonLike.AllActions
 - uid: TinyLife.Objects.PersonLike.GenericInterruptAction*
   commentId: Overload:TinyLife.Objects.PersonLike.GenericInterruptAction
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GenericInterruptAction_TinyLife_Actions_Action_System_Boolean_TinyLife_Actions_CompletionType_System_Boolean_
   name: GenericInterruptAction
   nameWithType: PersonLike.GenericInterruptAction
   fullName: TinyLife.Objects.PersonLike.GenericInterruptAction
+- uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  commentId: M:TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
+  name: CanActionInterrupt(Action)
+  nameWithType: Action.CanActionInterrupt(Action)
+  fullName: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
+    name: CanActionInterrupt
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: )
 - uid: TinyLife.Objects.PersonLike.ActionInterruptAction*
   commentId: Overload:TinyLife.Objects.PersonLike.ActionInterruptAction
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
@@ -18217,6 +18528,45 @@ references:
   - name: " "
   - name: TResult
   - name: )
+- uid: TinyLife.Objects.PersonLike.RemoveMemories*
+  commentId: Overload:TinyLife.Objects.PersonLike.RemoveMemories
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_RemoveMemories__1_System_Collections_Generic_IEnumerable_TinyLife_Goals_MemoryType__System_Int32_System_Func___0_System_Boolean__
+  name: RemoveMemories
+  nameWithType: PersonLike.RemoveMemories
+  fullName: TinyLife.Objects.PersonLike.RemoveMemories
+- uid: System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Goals.MemoryType}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<MemoryType>
+  nameWithType: IEnumerable<MemoryType>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.Goals.MemoryType>
+  nameWithType.vb: IEnumerable(Of MemoryType)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Goals.MemoryType)
+  name.vb: IEnumerable(Of MemoryType)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: TinyLife.Goals.MemoryType
+    name: MemoryType
+    href: TinyLife.Goals.MemoryType.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Goals.MemoryType
+    name: MemoryType
+    href: TinyLife.Goals.MemoryType.html
+  - name: )
 - uid: TinyLife.Objects.PersonLike.GetTimeSinceMemory*
   commentId: Overload:TinyLife.Objects.PersonLike.GetTimeSinceMemory
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetTimeSinceMemory__1_TinyLife_Goals_MemoryType_System_Func___0_System_Boolean__
@@ -18275,13 +18625,6 @@ references:
   name: GoToExitRoad
   nameWithType: PersonLike.GoToExitRoad
   fullName: TinyLife.Objects.PersonLike.GoToExitRoad
-- uid: TinyLife.Objects.PersonLike.AllActions
-  commentId: P:TinyLife.Objects.PersonLike.AllActions
-  parent: TinyLife.Objects.PersonLike
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_AllActions
-  name: AllActions
-  nameWithType: PersonLike.AllActions
-  fullName: TinyLife.Objects.PersonLike.AllActions
 - uid: TinyLife.Actions.Action.Id
   commentId: F:TinyLife.Actions.Action.Id
   parent: TinyLife.Actions.Action
@@ -18594,12 +18937,71 @@ references:
   name: HasRecentlyFailed
   nameWithType: PersonLike.HasRecentlyFailed
   fullName: TinyLife.Objects.PersonLike.HasRecentlyFailed
+- uid: TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike,TinyLife.Objects.ClothesLayer)
+  commentId: M:TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike,TinyLife.Objects.ClothesLayer)
+  href: TinyLife.Objects.Outfit.html#TinyLife_Objects_Outfit_CanTakeOff_TinyLife_Objects_PersonLike_TinyLife_Objects_ClothesLayer_
+  name: CanTakeOff(PersonLike, ClothesLayer)
+  nameWithType: Outfit.CanTakeOff(PersonLike, ClothesLayer)
+  fullName: TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike, TinyLife.Objects.ClothesLayer)
+  spec.csharp:
+  - uid: TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike,TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.Outfit.html#TinyLife_Objects_Outfit_CanTakeOff_TinyLife_Objects_PersonLike_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Outfit.CanTakeOff(TinyLife.Objects.PersonLike,TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.Outfit.html#TinyLife_Objects_Outfit_CanTakeOff_TinyLife_Objects_PersonLike_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
 - uid: TinyLife.Objects.PersonLike.CanTakeOff*
   commentId: Overload:TinyLife.Objects.PersonLike.CanTakeOff
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
   name: CanTakeOff
   nameWithType: PersonLike.CanTakeOff
   fullName: TinyLife.Objects.PersonLike.CanTakeOff
+- uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  commentId: M:TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  name: CanTakeOff(ClothesLayer)
+  nameWithType: PersonLike.CanTakeOff(ClothesLayer)
+  fullName: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
 - uid: TinyLife.Objects.PersonLike.GetNoneWeight*
   commentId: Overload:TinyLife.Objects.PersonLike.GetNoneWeight
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_GetNoneWeight_TinyLife_Objects_ClothesLayer_

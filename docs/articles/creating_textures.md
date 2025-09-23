@@ -35,3 +35,19 @@ When creating textures, either for custom mods or to change the game's default t
 The following image contains all color schemes available in the game as of version 0.47.10 in their original layout:
 
 ![](../media/color_schemes.png)
+
+## Using Aseprite
+The layout that Tiny Life textures use was originally chosen to work well with the sprite editor [Aseprite](https://www.aseprite.org/) (which can be compiled manually from their [GitHub](https://github.com/aseprite/aseprite/) for free as well). While not required, using Aseprite makes exporting textures with multiple layers very easy.
+
+Let's imagine you create a mod that adds a set of new single beds. To make editing easy, you can use Aseprite's **layers** to differentiate between colorable regions of the beds. To create multiple distinct beds on the same sprite sheet, you can then use one **frame** (which are usually intended for animations) for each bed, while laying out the four rotations **vertically**. If you add five single beds, your layout may look something like this:
+
+![](../media/aseprite_layers.png)
+
+Now, you can use Aseprite's **Export Sprite Sheet** dialog to export this set of beds into a file that has the correct layout for the game, as outlined in the [general notes](#general-notes) above. Specifically, the options you should select are
+- the Sheet Type **By Columns**,
+- the **Visible Layers** option (which is especially useful if you have reference layers or a layer for tile outlines),
+- and the **Split Layers** option.
+
+This combination will generate a sprite sheet where all layers for each bed are laid out horizontally, and all beds (our frames) are laid out vertically. 
+
+![](../media/aseprite_export.png)

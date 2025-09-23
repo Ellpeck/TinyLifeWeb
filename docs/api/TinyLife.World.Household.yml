@@ -18,10 +18,10 @@ items:
   - TinyLife.World.Household.DisallowStrangersVisiting
   - TinyLife.World.Household.Export(System.Boolean,System.Boolean,System.Boolean)
   - TinyLife.World.Household.FurnitureStorage
-  - TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  - TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
   - TinyLife.World.Household.GetAgeGroups(System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike})
   - TinyLife.World.Household.GetExportedHouseholds
-  - TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  - TinyLife.World.Household.GetMatchingConstellations(System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson})
   - TinyLife.World.Household.GetWeeklyBills
   - TinyLife.World.Household.HasAdultPerson(System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike})
   - TinyLife.World.Household.HasBeenPlayed
@@ -29,6 +29,7 @@ items:
   - TinyLife.World.Household.Import(TinyLife.World.ExportedHousehold,System.Boolean,System.Boolean)
   - TinyLife.World.Household.IsCurrent
   - TinyLife.World.Household.Lot
+  - TinyLife.World.Household.MaxMoney
   - TinyLife.World.Household.Members
   - TinyLife.World.Household.Money
   - TinyLife.World.Household.Name
@@ -107,6 +108,30 @@ items:
     return:
       type: System.Single
     content.vb: Public Const DefaultMoney As Single = 30000
+- uid: TinyLife.World.Household.MaxMoney
+  commentId: F:TinyLife.World.Household.MaxMoney
+  id: MaxMoney
+  parent: TinyLife.World.Household
+  langs:
+  - csharp
+  - vb
+  name: MaxMoney
+  nameWithType: Household.MaxMoney
+  fullName: TinyLife.World.Household.MaxMoney
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  summary: >-
+    The maximum amount of money that a household can have.
+
+    This value is set to 10 million, as any amounts much higher cause significant rounding errors in average prices used by the game.
+  example: []
+  syntax:
+    content: public const float MaxMoney = 10000000
+    return:
+      type: System.Single
+    content.vb: Public Const MaxMoney As Single = 10000000
 - uid: TinyLife.World.Household.RandomConstellations
   commentId: F:TinyLife.World.Household.RandomConstellations
   id: RandomConstellations
@@ -122,7 +147,7 @@ items:
   - TinyLife
   namespace: TinyLife.World
   summary: >-
-    A set of random constellations that will be used when new households are randomly generated in <xref href="TinyLife.World.Household.Generate(TinyLife.World.Map%2cSystem.Random%2cSystem.Collections.Generic.List%7bTinyLife.Objects.AgeGroup%7d%2cSystem.Collections.Generic.Dictionary%7bSystem.ValueTuple%7bSystem.Int32%2cSystem.Int32%7d%2cTinyLife.World.Household.Relation%7d)" data-throw-if-not-resolved="false"></xref>.
+    A set of random constellations that will be used when new households are randomly generated in <xref href="TinyLife.World.Household.Generate(TinyLife.World.Map%2cSystem.Random%2cSystem.Collections.Generic.List%7bTinyLife.World.Household.RandomPerson%7d%2cSystem.Collections.Generic.Dictionary%7bSystem.ValueTuple%7bSystem.Int32%2cSystem.Int32%7d%2cTinyLife.World.Household.Relation%7d)" data-throw-if-not-resolved="false"></xref>.
 
     Add additional items to this list to create additional constellation options.
   example: []
@@ -1015,16 +1040,16 @@ items:
   nameWithType.vb: Household.HasAdultPerson(IEnumerable(Of PersonLike))
   fullName.vb: TinyLife.World.Household.HasAdultPerson(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.PersonLike))
   name.vb: HasAdultPerson(IEnumerable(Of PersonLike))
-- uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
-  commentId: M:TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
-  id: Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+- uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  commentId: M:TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  id: Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
   parent: TinyLife.World.Household
   langs:
   - csharp
   - vb
-  name: Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Relation>)
-  nameWithType: Household.Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Household.Relation>)
-  fullName: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List<TinyLife.Objects.AgeGroup>, System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>)
+  name: Generate(Map, Random, List<RandomPerson>, Dictionary<(int Person, int Other), Relation>)
+  nameWithType: Household.Generate(Map, Random, List<Household.RandomPerson>, Dictionary<(int Person, int Other), Household.Relation>)
+  fullName: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List<TinyLife.World.Household.RandomPerson>, System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>)
   type: Method
   assemblies:
   - TinyLife
@@ -1035,7 +1060,7 @@ items:
     Data for invoking this method can be generated using <xref href="TinyLife.World.Household.RandomConstellation.Generate(System.Random)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public static IEnumerable<PersonLike> Generate(Map map, Random random, List<AgeGroup> ages, Dictionary<(int Person, int Other), Household.Relation> relations)
+    content: public static IEnumerable<PersonLike> Generate(Map map, Random random, List<Household.RandomPerson> people, Dictionary<(int Person, int Other), Household.Relation> relations)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -1043,47 +1068,50 @@ items:
     - id: random
       type: System.Random
       description: The random instance to use for generation.
-    - id: ages
-      type: System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
+    - id: people
+      type: System.Collections.Generic.List{TinyLife.World.Household.RandomPerson}
       description: The ages of the people that should be included in the household. The length of the list also determines the amount of people in the household.
     - id: relations
       type: System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
-      description: A set of familiar relations that should be applied to the generated people. The indices in the dictionary refer to the <code class="paramref">ages</code> of the household members.
+      description: A set of familiar relations that should be applied to the generated people. The indices in the dictionary refer to the <code class="paramref">people</code> of the household members.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.PersonLike}
       description: The generated household's members.
-    content.vb: Public Shared Function Generate(map As Map, random As Random, ages As List(Of AgeGroup), relations As Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)) As IEnumerable(Of PersonLike)
+    content.vb: Public Shared Function Generate(map As Map, random As Random, people As List(Of Household.RandomPerson), relations As Dictionary(Of (Person As Integer, Other As Integer), Household.Relation)) As IEnumerable(Of PersonLike)
   overload: TinyLife.World.Household.Generate*
-  nameWithType.vb: Household.Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation))
-  fullName.vb: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation))
-  name.vb: Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Relation))
-- uid: TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
-  commentId: M:TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
-  id: GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  nameWithType.vb: Household.Generate(Map, Random, List(Of Household.RandomPerson), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation))
+  fullName.vb: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List(Of TinyLife.World.Household.RandomPerson), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation))
+  name.vb: Generate(Map, Random, List(Of RandomPerson), Dictionary(Of (Person As Integer, Other As Integer), Relation))
+- uid: TinyLife.World.Household.GetMatchingConstellations(System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson})
+  commentId: M:TinyLife.World.Household.GetMatchingConstellations(System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson})
+  id: GetMatchingConstellations(System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson})
   parent: TinyLife.World.Household
   langs:
   - csharp
   - vb
-  name: GetMatchingConstellations(AgeGroup)
-  nameWithType: Household.GetMatchingConstellations(AgeGroup)
-  fullName: TinyLife.World.Household.GetMatchingConstellations(TinyLife.Objects.AgeGroup)
+  name: GetMatchingConstellations(ICollection<RandomPerson>)
+  nameWithType: Household.GetMatchingConstellations(ICollection<Household.RandomPerson>)
+  fullName: TinyLife.World.Household.GetMatchingConstellations(System.Collections.Generic.ICollection<TinyLife.World.Household.RandomPerson>)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.World
-  summary: Returns a set of constellations that match the given combined flag of <xref href="TinyLife.Objects.AgeGroup" data-throw-if-not-resolved="false"></xref> values.
+  summary: Returns a set of constellations that match the given set of valid occupant types for a lot.
   example: []
   syntax:
-    content: public static IEnumerable<(Household.RandomConstellation Constellation, float MatchPercentage)> GetMatchingConstellations(AgeGroup ages)
+    content: public static IEnumerable<(Household.RandomConstellation Constellation, float MatchPercentage)> GetMatchingConstellations(ICollection<Household.RandomPerson> valid)
     parameters:
-    - id: ages
-      type: TinyLife.Objects.AgeGroup
-      description: The ages.
+    - id: valid
+      type: System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson}
+      description: The valid occupants for a lot, ususally gathered through <xref href="TinyLife.World.Lot.GetValidOccupants" data-throw-if-not-resolved="false"></xref>.
     return:
       type: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
       description: Matching constellations, as well as a percentage that determines how well they match.
-    content.vb: Public Shared Function GetMatchingConstellations(ages As AgeGroup) As IEnumerable(Of (Constellation As Household.RandomConstellation, MatchPercentage As Single))
+    content.vb: Public Shared Function GetMatchingConstellations(valid As ICollection(Of Household.RandomPerson)) As IEnumerable(Of (Constellation As Household.RandomConstellation, MatchPercentage As Single))
   overload: TinyLife.World.Household.GetMatchingConstellations*
+  nameWithType.vb: Household.GetMatchingConstellations(ICollection(Of Household.RandomPerson))
+  fullName.vb: TinyLife.World.Household.GetMatchingConstellations(System.Collections.Generic.ICollection(Of TinyLife.World.Household.RandomPerson))
+  name.vb: GetMatchingConstellations(ICollection(Of RandomPerson))
 - uid: TinyLife.World.Household.GetExportedHouseholds
   commentId: M:TinyLife.World.Household.GetExportedHouseholds
   id: GetExportedHouseholds
@@ -1781,20 +1809,20 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
-- uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
-  commentId: M:TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+- uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  commentId: M:TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
   isExternal: true
-  href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_Objects_AgeGroup__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
-  name: Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Relation>)
-  nameWithType: Household.Generate(Map, Random, List<AgeGroup>, Dictionary<(int Person, int Other), Household.Relation>)
-  fullName: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List<TinyLife.Objects.AgeGroup>, System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>)
-  nameWithType.vb: Household.Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation))
-  fullName.vb: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation))
-  name.vb: Generate(Map, Random, List(Of AgeGroup), Dictionary(Of (Person As Integer, Other As Integer), Relation))
+  href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_World_Household_RandomPerson__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
+  name: Generate(Map, Random, List<RandomPerson>, Dictionary<(int Person, int Other), Relation>)
+  nameWithType: Household.Generate(Map, Random, List<Household.RandomPerson>, Dictionary<(int Person, int Other), Household.Relation>)
+  fullName: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List<TinyLife.World.Household.RandomPerson>, System.Collections.Generic.Dictionary<(int Person, int Other), TinyLife.World.Household.Relation>)
+  nameWithType.vb: Household.Generate(Map, Random, List(Of Household.RandomPerson), Dictionary(Of (Person As Integer, Other As Integer), Household.Relation))
+  fullName.vb: TinyLife.World.Household.Generate(TinyLife.World.Map, System.Random, System.Collections.Generic.List(Of TinyLife.World.Household.RandomPerson), System.Collections.Generic.Dictionary(Of (Person As Integer, Other As Integer), TinyLife.World.Household.Relation))
+  name.vb: Generate(Map, Random, List(Of RandomPerson), Dictionary(Of (Person As Integer, Other As Integer), Relation))
   spec.csharp:
-  - uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  - uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
     name: Generate
-    href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_Objects_AgeGroup__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
+    href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_World_Household_RandomPerson__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1812,9 +1840,9 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
   - name: <
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
   - name: '>'
   - name: ','
   - name: " "
@@ -1851,9 +1879,9 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.Objects.AgeGroup},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
+  - uid: TinyLife.World.Household.Generate(TinyLife.World.Map,System.Random,System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation})
     name: Generate
-    href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_Objects_AgeGroup__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
+    href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_World_Household_RandomPerson__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1873,9 +1901,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
   - name: )
   - name: ','
   - name: " "
@@ -3241,7 +3269,7 @@ references:
   - name: )
 - uid: TinyLife.World.Household.Generate*
   commentId: Overload:TinyLife.World.Household.Generate
-  href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_Objects_AgeGroup__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
+  href: TinyLife.World.Household.html#TinyLife_World_Household_Generate_TinyLife_World_Map_System_Random_System_Collections_Generic_List_TinyLife_World_Household_RandomPerson__System_Collections_Generic_Dictionary_System_ValueTuple_System_Int32_System_Int32__TinyLife_World_Household_Relation__
   name: Generate
   nameWithType: Household.Generate
   fullName: TinyLife.World.Household.Generate
@@ -3253,26 +3281,30 @@ references:
   name: Random
   nameWithType: Random
   fullName: System.Random
-- uid: System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
-  commentId: T:System.Collections.Generic.List{TinyLife.Objects.AgeGroup}
+- uid: System.Collections.Generic.List{TinyLife.World.Household.RandomPerson}
+  commentId: T:System.Collections.Generic.List{TinyLife.World.Household.RandomPerson}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.List`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
-  name: List<AgeGroup>
-  nameWithType: List<AgeGroup>
-  fullName: System.Collections.Generic.List<TinyLife.Objects.AgeGroup>
-  nameWithType.vb: List(Of AgeGroup)
-  fullName.vb: System.Collections.Generic.List(Of TinyLife.Objects.AgeGroup)
-  name.vb: List(Of AgeGroup)
+  name: List<Household.RandomPerson>
+  nameWithType: List<Household.RandomPerson>
+  fullName: System.Collections.Generic.List<TinyLife.World.Household.RandomPerson>
+  nameWithType.vb: List(Of Household.RandomPerson)
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.World.Household.RandomPerson)
+  name.vb: List(Of Household.RandomPerson)
   spec.csharp:
   - uid: System.Collections.Generic.List`1
     name: List
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
   - name: <
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.List`1
@@ -3282,9 +3314,13 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.AgeGroup
-    name: AgeGroup
-    href: TinyLife.Objects.AgeGroup.html
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
   - name: )
 - uid: System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
   commentId: T:System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}
@@ -3375,12 +3411,71 @@ references:
     name: Relation
     href: TinyLife.World.Household.Relation.html
   - name: )
+- uid: TinyLife.World.Lot.GetValidOccupants
+  commentId: M:TinyLife.World.Lot.GetValidOccupants
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetValidOccupants
+  name: GetValidOccupants()
+  nameWithType: Lot.GetValidOccupants()
+  fullName: TinyLife.World.Lot.GetValidOccupants()
+  spec.csharp:
+  - uid: TinyLife.World.Lot.GetValidOccupants
+    name: GetValidOccupants
+    href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetValidOccupants
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Lot.GetValidOccupants
+    name: GetValidOccupants
+    href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetValidOccupants
+  - name: (
+  - name: )
 - uid: TinyLife.World.Household.GetMatchingConstellations*
   commentId: Overload:TinyLife.World.Household.GetMatchingConstellations
-  href: TinyLife.World.Household.html#TinyLife_World_Household_GetMatchingConstellations_TinyLife_Objects_AgeGroup_
+  href: TinyLife.World.Household.html#TinyLife_World_Household_GetMatchingConstellations_System_Collections_Generic_ICollection_TinyLife_World_Household_RandomPerson__
   name: GetMatchingConstellations
   nameWithType: Household.GetMatchingConstellations
   fullName: TinyLife.World.Household.GetMatchingConstellations
+- uid: System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson}
+  commentId: T:System.Collections.Generic.ICollection{TinyLife.World.Household.RandomPerson}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.ICollection`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<Household.RandomPerson>
+  nameWithType: ICollection<Household.RandomPerson>
+  fullName: System.Collections.Generic.ICollection<TinyLife.World.Household.RandomPerson>
+  nameWithType.vb: ICollection(Of Household.RandomPerson)
+  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.World.Household.RandomPerson)
+  name.vb: ICollection(Of Household.RandomPerson)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.Household
+    name: Household
+    href: TinyLife.World.Household.html
+  - name: .
+  - uid: TinyLife.World.Household.RandomPerson
+    name: RandomPerson
+    href: TinyLife.World.Household.RandomPerson.html
+  - name: )
 - uid: System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
   commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{TinyLife.World.Household.RandomConstellation,System.Single}}
   parent: System.Collections.Generic
@@ -3457,6 +3552,34 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
+  - name: )
+- uid: System.Collections.Generic.ICollection`1
+  commentId: T:System.Collections.Generic.ICollection`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  name: ICollection<T>
+  nameWithType: ICollection<T>
+  fullName: System.Collections.Generic.ICollection<T>
+  nameWithType.vb: ICollection(Of T)
+  fullName.vb: System.Collections.Generic.ICollection(Of T)
+  name.vb: ICollection(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.ICollection`1
+    name: ICollection
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
   - name: )
 - uid: TinyLife.World.Household.GetExportedHouseholds*
   commentId: Overload:TinyLife.World.Household.GetExportedHouseholds

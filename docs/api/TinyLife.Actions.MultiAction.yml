@@ -32,6 +32,7 @@ items:
   - TinyLife.Actions.MultiAction.OnLastUpdate(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.MultiAction.PreCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.MultiAction.PreInitialize
+  - TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
   - TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.MultiAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
   langs:
@@ -274,7 +275,10 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
-  summary: The <xref href="TinyLife.Actions.MultiAction.Stage" data-throw-if-not-resolved="false"></xref> that this multi action is currently in.
+  summary: >-
+    The <xref href="TinyLife.Actions.MultiAction.Stage" data-throw-if-not-resolved="false"></xref> that this multi action is currently in.
+
+    If this stage is <xref href="TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted" data-throw-if-not-resolved="false"></xref>, then <xref href="TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption" data-throw-if-not-resolved="false"></xref> holds the stage that failed or was interrupted.
   example: []
   syntax:
     content: >-
@@ -293,6 +297,46 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  commentId: P:TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  id: StageBeforeFailureOrInterruption
+  parent: TinyLife.Actions.MultiAction
+  langs:
+  - csharp
+  - vb
+  name: StageBeforeFailureOrInterruption
+  nameWithType: MultiAction.StageBeforeFailureOrInterruption
+  fullName: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  type: Property
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    The <xref href="TinyLife.Actions.MultiAction.Stage" data-throw-if-not-resolved="false"></xref> that this multi action was in before it failed or was interrupted.
+
+    If <xref href="TinyLife.Actions.MultiAction.CurrentStage" data-throw-if-not-resolved="false"></xref> is not <xref href="TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted" data-throw-if-not-resolved="false"></xref>, this property returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>.
+  example: []
+  syntax:
+    content: >-
+      [DataMember(EmitDefaultValue = false)]
+
+      protected MultiAction.Stage? StageBeforeFailureOrInterruption { get; }
+    parameters: []
+    return:
+      type: System.Nullable{TinyLife.Actions.MultiAction.Stage}
+    content.vb: >-
+      <DataMember(EmitDefaultValue:=False)>
+
+      Protected Property StageBeforeFailureOrInterruption As MultiAction.Stage?
+  overload: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption*
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+    namedArguments:
+    - name: EmitDefaultValue
+      type: System.Boolean
+      value: false
 - uid: TinyLife.Actions.MultiAction.FailureOrInterruption
   commentId: P:TinyLife.Actions.MultiAction.FailureOrInterruption
   id: FailureOrInterruption
@@ -307,6 +351,11 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    The reason that interrupted this action or caused it to fail.
+
+    In the <xref href="TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref> call after this property is set (which occurs in <xref href="TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.Actions.MultiAction.IsCompleted" data-throw-if-not-resolved="false"></xref>), <xref href="TinyLife.Actions.MultiAction.CurrentStage" data-throw-if-not-resolved="false"></xref> will be set to <xref href="TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: >-
       [DataMember(EmitDefaultValue = false)]
@@ -459,13 +508,22 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Returns a set of actions that should be executed after this multi-action is interrupted or has failed. This behavior can be used, for example, to ensure that a person always puts on clothes after an action that involves nudity, even if the action is canceled prematurely.
+
+    Even if the yield statement is used, all actions will be collected into a list.
+
+    If the returned set only contains <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> items, no failure/interruption actions will be executed, which is also this method's default behavior.
+  example: []
   syntax:
     content: protected virtual IEnumerable<Action> CreateFailureInterruptionActions(CompletionType failureOrInterruption)
     parameters:
     - id: failureOrInterruption
       type: TinyLife.Actions.CompletionType
+      description: The reason for this action's failure or interruption.
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.Action}
+      description: A set of actions that should run after this action fails or is interrupted
     content.vb: Protected Overridable Function CreateFailureInterruptionActions(failureOrInterruption As CompletionType) As IEnumerable(Of Action)
   overload: TinyLife.Actions.MultiAction.CreateFailureInterruptionActions*
 - uid: TinyLife.Actions.MultiAction.AndThenInitialize
@@ -897,14 +955,22 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Determines whether the given <code class="paramref">action</code> can interrupt this action.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, it is usually followed by a call to <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>. To call this method effectively, use <xref href="TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+
+    This method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> by default, and <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> only if the main action has not yet started.
   example: []
   syntax:
     content: public override bool CanActionInterrupt(Action action)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action trying to interrupt this action.
     return:
       type: System.Boolean
+      description: Whether the action can interrupt this action.
     content.vb: Public Overrides Function CanActionInterrupt(action As Action) As Boolean
   overridden: TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
   overload: TinyLife.Actions.MultiAction.CanActionInterrupt*
@@ -922,14 +988,22 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Determines whether this action can be interrupted by a generic interruption source.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, it is usually followed by a call to <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>. To call this method effectively, use <xref href="TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action%2cSystem.Boolean%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+
+    This method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> by default.
   example: []
   syntax:
     content: public override bool CanGenericInterrupt(bool isPlayer)
     parameters:
     - id: isPlayer
       type: System.Boolean
+      description: Whether the generic interruption source is the player.
     return:
       type: System.Boolean
+      description: Whether a generic interruption source can interrupt this action.
     content.vb: Public Overrides Function CanGenericInterrupt(isPlayer As Boolean) As Boolean
   overridden: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
   overload: TinyLife.Actions.MultiAction.CanGenericInterrupt*
@@ -978,11 +1052,16 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Returns an extra icon in the form of a <xref href="MLEM.Textures.TextureRegion" data-throw-if-not-resolved="false"></xref>, which, if non-<a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, will be displayed in the top-right corner of the action in the action queue.
+
+    By default, this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, and <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> returns an interrupted icon if it has been interrupted and is still executing.
   example: []
   syntax:
     content: public override TextureRegion GetExtraIcon()
     return:
       type: MLEM.Textures.TextureRegion
+      description: The extra icon to display in the action queue.
     content.vb: Public Overrides Function GetExtraIcon() As TextureRegion
   overridden: TinyLife.Actions.Action.GetExtraIcon
   overload: TinyLife.Actions.MultiAction.GetExtraIcon*
@@ -4903,35 +4982,63 @@ references:
   - uid: TinyLife.Actions.MultiAction.Stage
     name: Stage
     href: TinyLife.Actions.MultiAction.Stage.html
+- uid: TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted
+  commentId: F:TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted
+  href: TinyLife.Actions.MultiAction.Stage.html#TinyLife_Actions_MultiAction_Stage_FailedOrInterrupted
+  name: FailedOrInterrupted
+  nameWithType: MultiAction.Stage.FailedOrInterrupted
+  fullName: TinyLife.Actions.MultiAction.Stage.FailedOrInterrupted
+- uid: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  commentId: P:TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_StageBeforeFailureOrInterruption
+  name: StageBeforeFailureOrInterruption
+  nameWithType: MultiAction.StageBeforeFailureOrInterruption
+  fullName: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
 - uid: TinyLife.Actions.MultiAction.CurrentStage*
   commentId: Overload:TinyLife.Actions.MultiAction.CurrentStage
   href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CurrentStage
   name: CurrentStage
   nameWithType: MultiAction.CurrentStage
   fullName: TinyLife.Actions.MultiAction.CurrentStage
-- uid: TinyLife.Actions.MultiAction.FailureOrInterruption*
-  commentId: Overload:TinyLife.Actions.MultiAction.FailureOrInterruption
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FailureOrInterruption
-  name: FailureOrInterruption
-  nameWithType: MultiAction.FailureOrInterruption
-  fullName: TinyLife.Actions.MultiAction.FailureOrInterruption
-- uid: System.Nullable{TinyLife.Actions.CompletionType}
-  commentId: T:System.Nullable{TinyLife.Actions.CompletionType}
+- uid: TinyLife.Actions.MultiAction.CurrentStage
+  commentId: P:TinyLife.Actions.MultiAction.CurrentStage
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_CurrentStage
+  name: CurrentStage
+  nameWithType: MultiAction.CurrentStage
+  fullName: TinyLife.Actions.MultiAction.CurrentStage
+- uid: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption*
+  commentId: Overload:TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_StageBeforeFailureOrInterruption
+  name: StageBeforeFailureOrInterruption
+  nameWithType: MultiAction.StageBeforeFailureOrInterruption
+  fullName: TinyLife.Actions.MultiAction.StageBeforeFailureOrInterruption
+- uid: System.Nullable{TinyLife.Actions.MultiAction.Stage}
+  commentId: T:System.Nullable{TinyLife.Actions.MultiAction.Stage}
   parent: System
   definition: System.Nullable`1
-  href: TinyLife.Actions.CompletionType.html
-  name: CompletionType?
-  nameWithType: CompletionType?
-  fullName: TinyLife.Actions.CompletionType?
+  href: TinyLife.Actions.MultiAction.html
+  name: MultiAction.Stage?
+  nameWithType: MultiAction.Stage?
+  fullName: TinyLife.Actions.MultiAction.Stage?
   spec.csharp:
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
+  - uid: TinyLife.Actions.MultiAction
+    name: MultiAction
+    href: TinyLife.Actions.MultiAction.html
+  - name: .
+  - uid: TinyLife.Actions.MultiAction.Stage
+    name: Stage
+    href: TinyLife.Actions.MultiAction.Stage.html
   - name: '?'
   spec.vb:
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
+  - uid: TinyLife.Actions.MultiAction
+    name: MultiAction
+    href: TinyLife.Actions.MultiAction.html
+  - name: .
+  - uid: TinyLife.Actions.MultiAction.Stage
+    name: Stage
+    href: TinyLife.Actions.MultiAction.Stage.html
   - name: '?'
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
@@ -4961,6 +5068,127 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+  parent: TinyLife.Actions.MultiAction
+  isExternal: true
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  name: Update(GameTime, TimeSpan, float)
+  nameWithType: MultiAction.Update(GameTime, TimeSpan, float)
+  fullName: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
+  nameWithType.vb: MultiAction.Update(GameTime, TimeSpan, Single)
+  fullName.vb: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
+  name.vb: Update(GameTime, TimeSpan, Single)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
+    name: Update
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
+  - name: (
+  - uid: Microsoft.Xna.Framework.GameTime
+    name: GameTime
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.TimeSpan
+    name: TimeSpan
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.timespan
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  commentId: M:TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  name: Interrupt(CompletionType)
+  nameWithType: MultiAction.Interrupt(CompletionType)
+  fullName: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.Interrupt(TinyLife.Actions.CompletionType)
+    name: Interrupt
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Interrupt_TinyLife_Actions_CompletionType_
+  - name: (
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: )
+- uid: TinyLife.Actions.MultiAction.IsCompleted
+  commentId: M:TinyLife.Actions.MultiAction.IsCompleted
+  parent: TinyLife.Actions.MultiAction
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
+  name: IsCompleted()
+  nameWithType: MultiAction.IsCompleted()
+  fullName: TinyLife.Actions.MultiAction.IsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.MultiAction.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.MultiAction.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
+  - name: (
+  - name: )
+- uid: TinyLife.Actions.MultiAction.FailureOrInterruption*
+  commentId: Overload:TinyLife.Actions.MultiAction.FailureOrInterruption
+  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_FailureOrInterruption
+  name: FailureOrInterruption
+  nameWithType: MultiAction.FailureOrInterruption
+  fullName: TinyLife.Actions.MultiAction.FailureOrInterruption
+- uid: System.Nullable{TinyLife.Actions.CompletionType}
+  commentId: T:System.Nullable{TinyLife.Actions.CompletionType}
+  parent: System
+  definition: System.Nullable`1
+  href: TinyLife.Actions.CompletionType.html
+  name: CompletionType?
+  nameWithType: CompletionType?
+  fullName: TinyLife.Actions.CompletionType?
+  spec.csharp:
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: '?'
+  spec.vb:
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: '?'
 - uid: TinyLife.Actions.MultiAction.#ctor*
   commentId: Overload:TinyLife.Actions.MultiAction.#ctor
   href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction__ctor_TinyLife_Actions_ActionInfo_
@@ -5113,84 +5341,12 @@ references:
   name: AndThenInitialize
   nameWithType: MultiAction.AndThenInitialize
   fullName: TinyLife.Actions.MultiAction.AndThenInitialize
-- uid: TinyLife.Actions.MultiAction.IsCompleted
-  commentId: M:TinyLife.Actions.MultiAction.IsCompleted
-  parent: TinyLife.Actions.MultiAction
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  name: IsCompleted()
-  nameWithType: MultiAction.IsCompleted()
-  fullName: TinyLife.Actions.MultiAction.IsCompleted()
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_IsCompleted
-  - name: (
-  - name: )
 - uid: TinyLife.Actions.MultiAction.AndThenIsCompleted*
   commentId: Overload:TinyLife.Actions.MultiAction.AndThenIsCompleted
   href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_AndThenIsCompleted
   name: AndThenIsCompleted
   nameWithType: MultiAction.AndThenIsCompleted
   fullName: TinyLife.Actions.MultiAction.AndThenIsCompleted
-- uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  commentId: M:TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-  parent: TinyLife.Actions.MultiAction
-  isExternal: true
-  href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  name: Update(GameTime, TimeSpan, float)
-  nameWithType: MultiAction.Update(GameTime, TimeSpan, float)
-  fullName: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, float)
-  nameWithType.vb: MultiAction.Update(GameTime, TimeSpan, Single)
-  fullName.vb: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime, System.TimeSpan, Single)
-  name.vb: Update(GameTime, TimeSpan, Single)
-  spec.csharp:
-  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.MultiAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
-    name: Update
-    href: TinyLife.Actions.MultiAction.html#TinyLife_Actions_MultiAction_Update_Microsoft_Xna_Framework_GameTime_System_TimeSpan_System_Single_
-  - name: (
-  - uid: Microsoft.Xna.Framework.GameTime
-    name: GameTime
-    isExternal: true
-  - name: ','
-  - name: " "
-  - uid: System.TimeSpan
-    name: TimeSpan
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.timespan
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: )
 - uid: TinyLife.Actions.MultiAction.MainElapsedTime
   commentId: P:TinyLife.Actions.MultiAction.MainElapsedTime
   parent: TinyLife.Actions.MultiAction
@@ -5990,6 +6146,13 @@ references:
   name: CanStartNow
   nameWithType: MultiAction.CanStartNow
   fullName: TinyLife.Actions.MultiAction.CanStartNow
+- uid: MLEM.Textures.TextureRegion
+  commentId: T:MLEM.Textures.TextureRegion
+  parent: MLEM.Textures
+  isExternal: true
+  name: TextureRegion
+  nameWithType: TextureRegion
+  fullName: MLEM.Textures.TextureRegion
 - uid: TinyLife.Actions.Action.GetExtraIcon
   commentId: M:TinyLife.Actions.Action.GetExtraIcon
   parent: TinyLife.Actions.Action
@@ -6015,13 +6178,6 @@ references:
   name: GetExtraIcon
   nameWithType: MultiAction.GetExtraIcon
   fullName: TinyLife.Actions.MultiAction.GetExtraIcon
-- uid: MLEM.Textures.TextureRegion
-  commentId: T:MLEM.Textures.TextureRegion
-  parent: MLEM.Textures
-  isExternal: true
-  name: TextureRegion
-  nameWithType: TextureRegion
-  fullName: MLEM.Textures.TextureRegion
 - uid: MLEM.Textures
   commentId: N:MLEM.Textures
   isExternal: true

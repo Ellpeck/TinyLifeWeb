@@ -788,13 +788,22 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Determines whether the given <code class="paramref">action</code> can interrupt this action.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, it is usually followed by a call to <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>. To call this method effectively, use <xref href="TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action%2cTinyLife.Actions.Action%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+
+    This method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> by default, and <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> only if the main action has not yet started.
+  example: []
   syntax:
     content: public virtual bool CanActionInterrupt(Action action)
     parameters:
     - id: action
       type: TinyLife.Actions.Action
+      description: The action trying to interrupt this action.
     return:
       type: System.Boolean
+      description: Whether the action can interrupt this action.
     content.vb: Public Overridable Function CanActionInterrupt(action As Action) As Boolean
   overload: TinyLife.Actions.Action.CanActionInterrupt*
 - uid: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
@@ -811,13 +820,22 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Determines whether this action can be interrupted by a generic interruption source.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, it is usually followed by a call to <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>. To call this method effectively, use <xref href="TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action%2cSystem.Boolean%2cTinyLife.Actions.CompletionType%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
+
+    This method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> by default.
+  example: []
   syntax:
     content: public virtual bool CanGenericInterrupt(bool isPlayer)
     parameters:
     - id: isPlayer
       type: System.Boolean
+      description: Whether the generic interruption source is the player.
     return:
       type: System.Boolean
+      description: Whether a generic interruption source can interrupt this action.
     content.vb: Public Overridable Function CanGenericInterrupt(isPlayer As Boolean) As Boolean
   overload: TinyLife.Actions.Action.CanGenericInterrupt*
   nameWithType.vb: Action.CanGenericInterrupt(Boolean)
@@ -837,15 +855,25 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Determines whether the given <code class="paramref">source</code> object can interrupt this action.
+
+    If this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, it is usually followed by a call to <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref>.
+
+    This method queries its <xref href="TinyLife.Actions.Action.Type" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions" data-throw-if-not-resolved="false"></xref> by default, and returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> otherwise.
+  example: []
   syntax:
     content: public virtual bool CanObjectInterrupt(MapObject source, CanExecuteResult reason)
     parameters:
     - id: source
       type: TinyLife.Objects.MapObject
+      description: The object trying to interrupt this action.
     - id: reason
       type: TinyLife.Actions.CanExecuteResult
+      description: The reason the object is trying to interrupt this action for.
     return:
       type: System.Boolean
+      description: Whether the object can interrupt this action.
     content.vb: Public Overridable Function CanObjectInterrupt(source As MapObject, reason As CanExecuteResult) As Boolean
   overload: TinyLife.Actions.Action.CanObjectInterrupt*
 - uid: TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)
@@ -953,10 +981,16 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
+  summary: >-
+    Returns an extra icon in the form of a <xref href="MLEM.Textures.TextureRegion" data-throw-if-not-resolved="false"></xref>, which, if non-<a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, will be displayed in the top-right corner of the action in the action queue.
+
+    By default, this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, and <xref href="TinyLife.Actions.MultiAction" data-throw-if-not-resolved="false"></xref> returns an interrupted icon if it has been interrupted and is still executing.
+  example: []
   syntax:
     content: public virtual TextureRegion GetExtraIcon()
     return:
       type: MLEM.Textures.TextureRegion
+      description: The extra icon to display in the action queue.
     content.vb: Public Overridable Function GetExtraIcon() As TextureRegion
   overload: TinyLife.Actions.Action.GetExtraIcon*
 - uid: TinyLife.Actions.Action.CausesExtremelyFastSpeed
@@ -1348,6 +1382,7 @@ items:
       description: The maximum amount of seconds of break to take between speech segments.
     - id: type
       type: System.Nullable{TinyLife.Actions.EmoteBubbleType}
+      description: The emote bubble type to use. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the bubble is a speech bubble if <code class="paramref">speakStyles</code> is supplied, and a thought bubble otherwise.
     return:
       type: System.Boolean
       description: Whether all emotes were successfully displayed. This method only returns true if <code class="paramref">totalAmount</code> is less than the default value
@@ -1404,6 +1439,7 @@ items:
       description: The total amount of emotes to display, defaults to an infinite amount (<xref href="System.Int32.MaxValue" data-throw-if-not-resolved="false"></xref>)
     - id: type
       type: System.Nullable{TinyLife.Actions.EmoteBubbleType}
+      description: The emote bubble type to use. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the bubble is a thought bubble.
     return:
       type: System.Boolean
       description: Whether all emotes were successfully displayed. This method only returns true if <code class="paramref">totalAmount</code> is less than the default value
@@ -1472,8 +1508,10 @@ items:
       description: The maximum amount of seconds of break to take between speech segments.
     - id: type
       type: System.Nullable{TinyLife.Actions.EmoteBubbleType}
+      description: The emote bubble type to use. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the bubble is a speech bubble if <code class="paramref">speakStyles</code> is supplied, and a thought bubble otherwise.
     - id: partnerType
       type: System.Nullable{TinyLife.Actions.EmoteBubbleType}
+      description: The emote bubble type to use for the <code class="paramref">partner</code>. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a>, the bubble is a speech bubble if <code class="paramref">partnerSpeakStyles</code> is supplied, and a thought bubble otherwise.
     return:
       type: System.Boolean
       description: If <code class="paramref">totalAmount</code> is set, true is returned if the emote back-and-forth is completed
@@ -4282,31 +4320,73 @@ references:
   name: CanStartNow
   nameWithType: Action.CanStartNow
   fullName: TinyLife.Actions.Action.CanStartNow
+- uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  commentId: M:TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+  parent: TinyLife.Objects.PersonLike
+  isExternal: true
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  name: ActionInterruptAction(Action, Action, CompletionType, bool)
+  nameWithType: PersonLike.ActionInterruptAction(Action, Action, CompletionType, bool)
+  fullName: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, bool)
+  nameWithType.vb: PersonLike.ActionInterruptAction(Action, Action, CompletionType, Boolean)
+  fullName.vb: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, Boolean)
+  name.vb: ActionInterruptAction(Action, Action, CompletionType, Boolean)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: ActionInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
+    name: ActionInterruptAction
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
+  - name: (
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.Action
+    name: Action
+    href: TinyLife.Actions.Action.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.CompletionType
+    name: CompletionType
+    href: TinyLife.Actions.CompletionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
 - uid: TinyLife.Actions.Action.CanActionInterrupt*
   commentId: Overload:TinyLife.Actions.Action.CanActionInterrupt
   href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanActionInterrupt_TinyLife_Actions_Action_
   name: CanActionInterrupt
   nameWithType: Action.CanActionInterrupt
   fullName: TinyLife.Actions.Action.CanActionInterrupt
-- uid: TinyLife.Actions.Action.CanGenericInterrupt*
-  commentId: Overload:TinyLife.Actions.Action.CanGenericInterrupt
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanGenericInterrupt_System_Boolean_
-  name: CanGenericInterrupt
-  nameWithType: Action.CanGenericInterrupt
-  fullName: TinyLife.Actions.Action.CanGenericInterrupt
-- uid: TinyLife.Actions.Action.CanObjectInterrupt*
-  commentId: Overload:TinyLife.Actions.Action.CanObjectInterrupt
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
-  name: CanObjectInterrupt
-  nameWithType: Action.CanObjectInterrupt
-  fullName: TinyLife.Actions.Action.CanObjectInterrupt
-- uid: TinyLife.Actions.CanExecuteResult
-  commentId: T:TinyLife.Actions.CanExecuteResult
-  parent: TinyLife.Actions
-  href: TinyLife.Actions.CanExecuteResult.html
-  name: CanExecuteResult
-  nameWithType: CanExecuteResult
-  fullName: TinyLife.Actions.CanExecuteResult
 - uid: TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
   commentId: M:TinyLife.Objects.PersonLike.GenericInterruptAction(TinyLife.Actions.Action,System.Boolean,TinyLife.Actions.CompletionType,System.Boolean)
   parent: TinyLife.Objects.PersonLike
@@ -4370,67 +4450,38 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
-- uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-  commentId: M:TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-  parent: TinyLife.Objects.PersonLike
-  isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
-  name: ActionInterruptAction(Action, Action, CompletionType, bool)
-  nameWithType: PersonLike.ActionInterruptAction(Action, Action, CompletionType, bool)
-  fullName: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, bool)
-  nameWithType.vb: PersonLike.ActionInterruptAction(Action, Action, CompletionType, Boolean)
-  fullName.vb: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action, TinyLife.Actions.Action, TinyLife.Actions.CompletionType, Boolean)
-  name.vb: ActionInterruptAction(Action, Action, CompletionType, Boolean)
-  spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-    name: ActionInterruptAction
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: bool
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.PersonLike.ActionInterruptAction(TinyLife.Actions.Action,TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
-    name: ActionInterruptAction
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_ActionInterruptAction_TinyLife_Actions_Action_TinyLife_Actions_Action_TinyLife_Actions_CompletionType_System_Boolean_
-  - name: (
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.Action
-    name: Action
-    href: TinyLife.Actions.Action.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.Actions.CompletionType
-    name: CompletionType
-    href: TinyLife.Actions.CompletionType.html
-  - name: ','
-  - name: " "
-  - uid: System.Boolean
-    name: Boolean
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
+- uid: TinyLife.Actions.Action.CanGenericInterrupt*
+  commentId: Overload:TinyLife.Actions.Action.CanGenericInterrupt
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanGenericInterrupt_System_Boolean_
+  name: CanGenericInterrupt
+  nameWithType: Action.CanGenericInterrupt
+  fullName: TinyLife.Actions.Action.CanGenericInterrupt
+- uid: TinyLife.Actions.Action.Type
+  commentId: F:TinyLife.Actions.Action.Type
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_Type
+  name: Type
+  nameWithType: Action.Type
+  fullName: TinyLife.Actions.Action.Type
+- uid: TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
+  commentId: F:TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
+  href: TinyLife.Actions.ActionType.TypeSettings.html#TinyLife_Actions_ActionType_TypeSettings_IgnoreObjectConditions
+  name: IgnoreObjectConditions
+  nameWithType: ActionType.TypeSettings.IgnoreObjectConditions
+  fullName: TinyLife.Actions.ActionType.TypeSettings.IgnoreObjectConditions
+- uid: TinyLife.Actions.Action.CanObjectInterrupt*
+  commentId: Overload:TinyLife.Actions.Action.CanObjectInterrupt
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_CanObjectInterrupt_TinyLife_Objects_MapObject_TinyLife_Actions_CanExecuteResult_
+  name: CanObjectInterrupt
+  nameWithType: Action.CanObjectInterrupt
+  fullName: TinyLife.Actions.Action.CanObjectInterrupt
+- uid: TinyLife.Actions.CanExecuteResult
+  commentId: T:TinyLife.Actions.CanExecuteResult
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.CanExecuteResult.html
+  name: CanExecuteResult
+  nameWithType: CanExecuteResult
+  fullName: TinyLife.Actions.CanExecuteResult
 - uid: TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
   commentId: M:TinyLife.Actions.Action.CanGenericInterrupt(System.Boolean)
   parent: TinyLife.Actions.Action
@@ -4630,12 +4681,6 @@ references:
   name: GetIconObject
   nameWithType: Action.GetIconObject
   fullName: TinyLife.Actions.Action.GetIconObject
-- uid: TinyLife.Actions.Action.GetExtraIcon*
-  commentId: Overload:TinyLife.Actions.Action.GetExtraIcon
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetExtraIcon
-  name: GetExtraIcon
-  nameWithType: Action.GetExtraIcon
-  fullName: TinyLife.Actions.Action.GetExtraIcon
 - uid: MLEM.Textures.TextureRegion
   commentId: T:MLEM.Textures.TextureRegion
   parent: MLEM.Textures
@@ -4643,6 +4688,12 @@ references:
   name: TextureRegion
   nameWithType: TextureRegion
   fullName: MLEM.Textures.TextureRegion
+- uid: TinyLife.Actions.Action.GetExtraIcon*
+  commentId: Overload:TinyLife.Actions.Action.GetExtraIcon
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetExtraIcon
+  name: GetExtraIcon
+  nameWithType: Action.GetExtraIcon
+  fullName: TinyLife.Actions.Action.GetExtraIcon
 - uid: MLEM.Textures
   commentId: N:MLEM.Textures
   isExternal: true

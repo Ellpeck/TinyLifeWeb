@@ -9,12 +9,12 @@ items:
   - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point,System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Objects.StylePreference,TinyLife.Utilities.ColorSettings)
   - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.ValueTuple{System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point},System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Objects.StylePreference,TinyLife.Utilities.ColorScheme[])
   - TinyLife.Objects.Clothes.#ctor(System.String,TinyLife.Objects.ClothesLayer,System.ValueTuple{System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point},System.Single,TinyLife.Objects.ClothesIntention,TinyLife.Objects.StylePreference,TinyLife.Utilities.ColorSettings)
-  - TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer)
+  - TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer,System.Single)
   - TinyLife.Objects.Clothes.Ages
   - TinyLife.Objects.Clothes.AlienSkinColors
   - TinyLife.Objects.Clothes.AllIntentions
   - TinyLife.Objects.Clothes.AreCompatible(TinyLife.Objects.Clothes,TinyLife.Objects.Clothes)
-  - TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer)
+  - TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer,System.Single)
   - TinyLife.Objects.Clothes.Colors
   - TinyLife.Objects.Clothes.DefaultDepths
   - TinyLife.Objects.Clothes.DepthFunction
@@ -615,7 +615,7 @@ items:
 
     The higher the weight is, the more likely it is for this item to be chosen for an outfit.
 
-    The default weight for a clothing item is 3 if any of the outfit's <xref href="TinyLife.Objects.Outfit.Intentions" data-throw-if-not-resolved="false"></xref> match the clothing item's <xref href="TinyLife.Objects.Clothes.Intentions" data-throw-if-not-resolved="false"></xref>, and 1 otherwise.
+    The default weight for a clothing item is 10 if any of the outfit's <xref href="TinyLife.Objects.Outfit.Intentions" data-throw-if-not-resolved="false"></xref> match the clothing item's <xref href="TinyLife.Objects.Clothes.Intentions" data-throw-if-not-resolved="false"></xref>, and 1 otherwise.
   example: []
   syntax:
     content: public Func<AgeGroup, Clothes, Outfit, float> RandomWeight { get; init; }
@@ -688,7 +688,7 @@ items:
   - TinyLife
   namespace: TinyLife.Objects
   summary: >-
-    A set of <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> flags that represent layers which are incompatible with this clothing item. If this is set, clothing items on any of these layers are removed when this item gets added, regardless of the return value of Person.CanTakeOff for those layers.
+    A set of <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> flags that represent layers which are incompatible with this clothing item. If this is set, clothing items on any of these layers are removed when this item gets added, regardless of the return value of <xref href="TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)" data-throw-if-not-resolved="false"></xref> for those layers.
 
     This is useful for full-body clothes like dresses or jumpsuits, which are usually set to the <xref href="TinyLife.Objects.ClothesLayer.Shirt" data-throw-if-not-resolved="false"></xref> layer, but cause <xref href="TinyLife.Objects.ClothesLayer.Pants" data-throw-if-not-resolved="false"></xref> to be removed.
   example: []
@@ -810,23 +810,32 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Creates a new clothes item with the given data, producing a texture layout according to the rules described in https://docs.tinylifegame.com/articles/creating_textures.html.
+  example: []
   syntax:
     content: public Clothes(string name, ClothesLayer layer, (IReadOnlyDictionary<Point, TextureRegion> Textures, Point Region) texture, float price, ClothesIntention intentions, StylePreference stylePreference, params ColorScheme[] colors)
     parameters:
     - id: name
       type: System.String
+      description: The name of this clothes item
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> that this clothes item should render on
     - id: texture
       type: System.ValueTuple{System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point}
+      description: The texture atlas to use for this clothing item, along with the top left (standing frame 1) <xref href="TinyLife.Objects.Clothes.TextureRegion" data-throw-if-not-resolved="false"></xref> that this clothes item uses in the world.
     - id: price
       type: System.Single
+      description: The price of this piece of clothing
     - id: intentions
       type: TinyLife.Objects.ClothesIntention
+      description: A set of <xref href="TinyLife.Objects.ClothesIntention" data-throw-if-not-resolved="false"></xref> flags that determine what this clothes item can be used for
     - id: stylePreference
       type: TinyLife.Objects.StylePreference
+      description: The style preference that this clothing item falls into. A clothing item's style preference slightly influences whether it will be chosen in <xref href="TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random%2cTinyLife.Objects.PersonLike%2cTinyLife.Objects.ClothesLayer%2cTinyLife.Objects.ClothesIntention%2cSystem.Nullable%7bTinyLife.Objects.StylePreference%7d%2cSystem.Boolean%2cSystem.Int32%2cSystem.Func%7bTinyLife.Objects.Clothes%2cSystem.Boolean%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
     - id: colors
       type: TinyLife.Utilities.ColorScheme[]
+      description: The set of <xref href="TinyLife.Utilities.ColorScheme" data-throw-if-not-resolved="false"></xref>s that this clothes item can have its colors selected from, where each entry corresponds to a texture layer.
     content.vb: Public Sub New(name As String, layer As ClothesLayer, texture As (Textures As IReadOnlyDictionary(Of Point, TextureRegion), Region As Point), price As Single, intentions As ClothesIntention, stylePreference As StylePreference, ParamArray colors As ColorScheme())
   overload: TinyLife.Objects.Clothes.#ctor*
   nameWithType.vb: Clothes.New(String, ClothesLayer, (Textures As IReadOnlyDictionary(Of Point, TextureRegion), Region As Point), Single, ClothesIntention, StylePreference, ParamArray ColorScheme())
@@ -894,23 +903,32 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: Creates a new clothes item with the given data, producing a texture layout according to the rules described in https://docs.tinylifegame.com/articles/creating_textures.html.
+  example: []
   syntax:
     content: public Clothes(string name, ClothesLayer layer, (IReadOnlyDictionary<Point, TextureRegion> Textures, Point Region) texture, float price, ClothesIntention intentions, StylePreference stylePreference, ColorSettings colors)
     parameters:
     - id: name
       type: System.String
+      description: The name of this clothes item
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The <xref href="TinyLife.Objects.ClothesLayer" data-throw-if-not-resolved="false"></xref> that this clothes item should render on
     - id: texture
       type: System.ValueTuple{System.Collections.Generic.IReadOnlyDictionary{Microsoft.Xna.Framework.Point,MLEM.Textures.TextureRegion},Microsoft.Xna.Framework.Point}
+      description: The texture atlas to use for this clothing item, along with the top left (standing frame 1) <xref href="TinyLife.Objects.Clothes.TextureRegion" data-throw-if-not-resolved="false"></xref> that this clothes item uses in the world.
     - id: price
       type: System.Single
+      description: The price of this piece of clothing
     - id: intentions
       type: TinyLife.Objects.ClothesIntention
+      description: A set of <xref href="TinyLife.Objects.ClothesIntention" data-throw-if-not-resolved="false"></xref> flags that determine what this clothes item can be used for
     - id: stylePreference
       type: TinyLife.Objects.StylePreference
+      description: The style preference that this clothing item falls into. A clothing item's style preference slightly influences whether it will be chosen in <xref href="TinyLife.Objects.Outfit.SetRandomClothesItem(System.Random%2cTinyLife.Objects.PersonLike%2cTinyLife.Objects.ClothesLayer%2cTinyLife.Objects.ClothesIntention%2cSystem.Nullable%7bTinyLife.Objects.StylePreference%7d%2cSystem.Boolean%2cSystem.Int32%2cSystem.Func%7bTinyLife.Objects.Clothes%2cSystem.Boolean%7d%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
     - id: colors
       type: TinyLife.Utilities.ColorSettings
+      description: The set of <xref href="TinyLife.Utilities.ColorScheme" data-throw-if-not-resolved="false"></xref>s that this clothes item can have its colors selected from, where each entry corresponds to a texture layer.
     content.vb: Public Sub New(name As String, layer As ClothesLayer, texture As (Textures As IReadOnlyDictionary(Of Point, TextureRegion), Region As Point), price As Single, intentions As ClothesIntention, stylePreference As StylePreference, colors As ColorSettings)
   overload: TinyLife.Objects.Clothes.#ctor*
   nameWithType.vb: Clothes.New(String, ClothesLayer, (Textures As IReadOnlyDictionary(Of Point, TextureRegion), Region As Point), Single, ClothesIntention, StylePreference, ColorSettings)
@@ -1065,68 +1083,94 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: A helper method that returns whether a color from the given <code class="paramref">scheme</code> is a special color, based on the collection of special colors passed. This method can be used with collections like <xref href="TinyLife.Objects.Clothes.GrayHairColors" data-throw-if-not-resolved="false"></xref>.
+  example: []
   syntax:
     content: public static bool IsSpecialColor(Dictionary<ColorScheme, HashSet<int>> special, ColorScheme scheme, int index)
     parameters:
     - id: special
       type: System.Collections.Generic.Dictionary{TinyLife.Utilities.ColorScheme,System.Collections.Generic.HashSet{System.Int32}}
+      description: The set of special colors to query.
     - id: scheme
       type: TinyLife.Utilities.ColorScheme
+      description: The color scheme that the color is from.
     - id: index
       type: System.Int32
+      description: The color from the <code class="paramref">scheme</code> to query.
     return:
       type: System.Boolean
+      description: Whether the given <code class="paramref">index</code> is a special color in the given <code class="paramref">scheme</code>.
     content.vb: Public Shared Function IsSpecialColor(special As Dictionary(Of ColorScheme, HashSet(Of Integer)), scheme As ColorScheme, index As Integer) As Boolean
   overload: TinyLife.Objects.Clothes.IsSpecialColor*
   nameWithType.vb: Clothes.IsSpecialColor(Dictionary(Of ColorScheme, HashSet(Of Integer)), ColorScheme, Integer)
   fullName.vb: TinyLife.Objects.Clothes.IsSpecialColor(System.Collections.Generic.Dictionary(Of TinyLife.Utilities.ColorScheme, System.Collections.Generic.HashSet(Of Integer)), TinyLife.Utilities.ColorScheme, Integer)
   name.vb: IsSpecialColor(Dictionary(Of ColorScheme, HashSet(Of Integer)), ColorScheme, Integer)
-- uid: TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer)
-  commentId: M:TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer)
-  id: BelowDepth(TinyLife.Objects.ClothesLayer)
+- uid: TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer,System.Single)
+  commentId: M:TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer,System.Single)
+  id: BelowDepth(TinyLife.Objects.ClothesLayer,System.Single)
   parent: TinyLife.Objects.Clothes
   langs:
   - csharp
   - vb
-  name: BelowDepth(ClothesLayer)
-  nameWithType: Clothes.BelowDepth(ClothesLayer)
-  fullName: TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer)
+  name: BelowDepth(ClothesLayer, float)
+  nameWithType: Clothes.BelowDepth(ClothesLayer, float)
+  fullName: TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer, float)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: A helper method to use with <xref href="TinyLife.Objects.Clothes.DepthFunction" data-throw-if-not-resolved="false"></xref> that returns a depth slightly below the given <code class="paramref">layer</code>.
+  example: []
   syntax:
-    content: public static Func<(WornClothes WornClothes, Outfit Outfit, Pose Pose, Direction2 Rotation, int Layer), float> BelowDepth(ClothesLayer layer)
+    content: public static Func<(WornClothes WornClothes, Outfit Outfit, Pose Pose, Direction2 Rotation, int Layer), float> BelowDepth(ClothesLayer layer, float amount = 0.5)
     parameters:
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The layer to render below.
+    - id: amount
+      type: System.Single
+      description: The amount to render below the layer by. Defaults to 0.5.
     return:
       type: System.Func{System.ValueTuple{TinyLife.Objects.WornClothes,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,MLEM.Maths.Direction2,System.Int32},System.Single}
-    content.vb: Public Shared Function BelowDepth(layer As ClothesLayer) As Func(Of (WornClothes As WornClothes, Outfit As Outfit, Pose As Pose, Rotation As Direction2, Layer As Integer), Single)
+      description: The resulting depth function.
+    content.vb: Public Shared Function BelowDepth(layer As ClothesLayer, amount As Single = 0.5) As Func(Of (WornClothes As WornClothes, Outfit As Outfit, Pose As Pose, Rotation As Direction2, Layer As Integer), Single)
   overload: TinyLife.Objects.Clothes.BelowDepth*
-- uid: TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer)
-  commentId: M:TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer)
-  id: AboveDepth(TinyLife.Objects.ClothesLayer)
+  nameWithType.vb: Clothes.BelowDepth(ClothesLayer, Single)
+  fullName.vb: TinyLife.Objects.Clothes.BelowDepth(TinyLife.Objects.ClothesLayer, Single)
+  name.vb: BelowDepth(ClothesLayer, Single)
+- uid: TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer,System.Single)
+  commentId: M:TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer,System.Single)
+  id: AboveDepth(TinyLife.Objects.ClothesLayer,System.Single)
   parent: TinyLife.Objects.Clothes
   langs:
   - csharp
   - vb
-  name: AboveDepth(ClothesLayer)
-  nameWithType: Clothes.AboveDepth(ClothesLayer)
-  fullName: TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer)
+  name: AboveDepth(ClothesLayer, float)
+  nameWithType: Clothes.AboveDepth(ClothesLayer, float)
+  fullName: TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer, float)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
+  summary: A helper method to use with <xref href="TinyLife.Objects.Clothes.DepthFunction" data-throw-if-not-resolved="false"></xref> that returns a depth slightly above the given <code class="paramref">layer</code>.
+  example: []
   syntax:
-    content: public static Func<(WornClothes WornClothes, Outfit Outfit, Pose Pose, Direction2 Rotation, int Layer), float> AboveDepth(ClothesLayer layer)
+    content: public static Func<(WornClothes WornClothes, Outfit Outfit, Pose Pose, Direction2 Rotation, int Layer), float> AboveDepth(ClothesLayer layer, float amount = 0.5)
     parameters:
     - id: layer
       type: TinyLife.Objects.ClothesLayer
+      description: The layer to render above.
+    - id: amount
+      type: System.Single
+      description: The amount to render above the layer by. Defaults to 0.5.
     return:
       type: System.Func{System.ValueTuple{TinyLife.Objects.WornClothes,TinyLife.Objects.Outfit,TinyLife.Objects.Pose,MLEM.Maths.Direction2,System.Int32},System.Single}
-    content.vb: Public Shared Function AboveDepth(layer As ClothesLayer) As Func(Of (WornClothes As WornClothes, Outfit As Outfit, Pose As Pose, Rotation As Direction2, Layer As Integer), Single)
+      description: The resulting depth function.
+    content.vb: Public Shared Function AboveDepth(layer As ClothesLayer, amount As Single = 0.5) As Func(Of (WornClothes As WornClothes, Outfit As Outfit, Pose As Pose, Rotation As Direction2, Layer As Integer), Single)
   overload: TinyLife.Objects.Clothes.AboveDepth*
+  nameWithType.vb: Clothes.AboveDepth(ClothesLayer, Single)
+  fullName.vb: TinyLife.Objects.Clothes.AboveDepth(TinyLife.Objects.ClothesLayer, Single)
+  name.vb: AboveDepth(ClothesLayer, Single)
 - uid: TinyLife.Objects.Clothes.GrayHairColors
   commentId: F:TinyLife.Objects.Clothes.GrayHairColors
   id: GrayHairColors
@@ -3063,6 +3107,31 @@ references:
   - name: " "
   - name: TResult
   - name: )
+- uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  commentId: M:TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  name: CanTakeOff(ClothesLayer)
+  nameWithType: PersonLike.CanTakeOff(ClothesLayer)
+  fullName: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+  spec.csharp:
+  - uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.PersonLike.CanTakeOff(TinyLife.Objects.ClothesLayer)
+    name: CanTakeOff
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_CanTakeOff_TinyLife_Objects_ClothesLayer_
+  - name: (
+  - uid: TinyLife.Objects.ClothesLayer
+    name: ClothesLayer
+    href: TinyLife.Objects.ClothesLayer.html
+  - name: )
 - uid: TinyLife.Objects.ClothesLayer.Shirt
   commentId: F:TinyLife.Objects.ClothesLayer.Shirt
   href: TinyLife.Objects.ClothesLayer.html#TinyLife_Objects_ClothesLayer_Shirt
@@ -3549,21 +3618,33 @@ references:
   name: Register
   nameWithType: Clothes.Register
   fullName: TinyLife.Objects.Clothes.Register
+- uid: TinyLife.Objects.Clothes.GrayHairColors
+  commentId: F:TinyLife.Objects.Clothes.GrayHairColors
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_GrayHairColors
+  name: GrayHairColors
+  nameWithType: Clothes.GrayHairColors
+  fullName: TinyLife.Objects.Clothes.GrayHairColors
 - uid: TinyLife.Objects.Clothes.IsSpecialColor*
   commentId: Overload:TinyLife.Objects.Clothes.IsSpecialColor
   href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_IsSpecialColor_System_Collections_Generic_Dictionary_TinyLife_Utilities_ColorScheme_System_Collections_Generic_HashSet_System_Int32___TinyLife_Utilities_ColorScheme_System_Int32_
   name: IsSpecialColor
   nameWithType: Clothes.IsSpecialColor
   fullName: TinyLife.Objects.Clothes.IsSpecialColor
+- uid: TinyLife.Objects.Clothes.DepthFunction
+  commentId: P:TinyLife.Objects.Clothes.DepthFunction
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_DepthFunction
+  name: DepthFunction
+  nameWithType: Clothes.DepthFunction
+  fullName: TinyLife.Objects.Clothes.DepthFunction
 - uid: TinyLife.Objects.Clothes.BelowDepth*
   commentId: Overload:TinyLife.Objects.Clothes.BelowDepth
-  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_BelowDepth_TinyLife_Objects_ClothesLayer_
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_BelowDepth_TinyLife_Objects_ClothesLayer_System_Single_
   name: BelowDepth
   nameWithType: Clothes.BelowDepth
   fullName: TinyLife.Objects.Clothes.BelowDepth
 - uid: TinyLife.Objects.Clothes.AboveDepth*
   commentId: Overload:TinyLife.Objects.Clothes.AboveDepth
-  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_AboveDepth_TinyLife_Objects_ClothesLayer_
+  href: TinyLife.Objects.Clothes.html#TinyLife_Objects_Clothes_AboveDepth_TinyLife_Objects_ClothesLayer_System_Single_
   name: AboveDepth
   nameWithType: Clothes.AboveDepth
   fullName: TinyLife.Objects.Clothes.AboveDepth
