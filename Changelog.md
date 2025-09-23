@@ -1,3 +1,57 @@
+# 0.48.0
+*September 23, 2025*
+
+![](media/changelog/0.48.0.png)
+
+> The Biggest Set Yet (By Far)
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.48.0/).**
+
+Additions
+- Added the Out & About Set with art by [Snail](https://bsky.app/profile/sleepysnail6.bsky.social), which includes 59 accessories, 9 full-body items, 23 hairstyles, 8 pants, 10 shoes, and 16 tops, including items for all age groups
+- Added the outfit preset system, as well as several outfit presets using items from the base game and sets
+- Added 10 new paintings that can be painted using the easel
+- Added 4 kitchen-themed print decorations
+- Added the ability to buy paintings from museum curators
+- Added the potty professional personality, which is awarded when growing up to a child with level 5 potty skill
+
+Improvements
+- Improve the visuals of the nudity censor effect
+- Allow recoloring painting frames using the color tool
+- Paintings now have display names
+- The focused emotion now has a particle effect
+- Improve the selection of matching households for household generation to make large houses be more likely to have large families inhabit them
+- Improved the character creator's tab icons
+- Display brief tooltips in the person selection and character creator when using gamepad or keybind navigation
+- Fix particle textures sometimes bleeding into adjacent texture regions
+- Made tooltips slightly less transparent
+- Made it a lot likelier for random outfits to be generated using items that match the outfit's intended category
+- Various food scraps are now displayed when a tiny uses a cutting board
+- Food items are now categorized by time of day, and the AI will choose fitting food items with higher likelihood
+- The maximum money amount per household has been reduced to 10 million to avoid excessive rounding errors at higher amounts
+- An additional icon is now displayed on an action when a tiny is currently traveling to a different map
+
+Fixes
+- Fixed a crash when loading into the game before the news finish downloading
+- Fixed a rare crash when using gamepad navigation from within the character creator
+- Fixed the world button in the demo hanging off the edge of the in-game ui
+- Fixed a rare issue where household imports and exports would cause relationships to be duplicated
+- Fixed tinies washing their hands when canceling the toilet action before it starts
+- Fixed tinies changing out of their non-everyday wear if bathing/showering is canceled before taking their clothes off
+- Fixed tinies spamming park lots with grilled food if there is already a lot there
+- Fixed various migration issues when importing lots that were exported in older versions
+
+API
+- Object icons now use the mod's icon by default, so icons don't need to be set manually by modders anymore
+- All objects that are part of sets are now named according to mod item naming rules, with item names prefixed by the set name and a dot. Saves are automatically migrated using the migration system, and the owning set of an item can be queried through the GetOwningSet method in GameImpl.
+- Random household generation now supports non-Person people
+- Person-related cheats can now be used in the character creator
+- The build tools panel now allows scrolling if there are more than 9 registered build tools
+- Mods can now register woodworking recipes for items that don't belong to them
+- Localization files can now additionally use a flat layout (separating category names from entries using a dot), or a deeper layout (using objects for modded items where previously a dot was required at the start of each key, similar to categories)
+- Mods now require prefixing their custom object categories with the mod id
+- The game now ensures a sufficient execution stack for error reporting in locations where indefinite recursion may become an issue, meaning stack overflow exceptions will also be caught and reported accordingly
+
 # 0.47.11
 *August 6, 2025*
 
