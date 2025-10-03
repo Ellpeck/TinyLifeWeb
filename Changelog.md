@@ -1,3 +1,21 @@
+# 0.48.1
+*October 3, 2025*
+
+Additions
+- Added Twinkle's Galactic Tour poster
+- Added two types of short socks each for children and adults
+- Added some decorative pumpkin furniture items
+
+Improvements
+- An object's decorative rating is now displayed in its tooltip
+- Players can now set the amount of regular visitors immediately when creating a new save
+- Some important actions (like inviting someone in) are now always on the first page
+
+Fixes
+- Fixed local app data directory not being created if it doesn't exist yet, causing game data to be put into the current folder
+- Fixed a rendering issue with the layered polo from the Out & About set
+- Fixed an exception when switching game modes while certain tooltips are visible
+
 # 0.48.0
 *September 23, 2025*
 
