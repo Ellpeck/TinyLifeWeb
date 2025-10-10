@@ -1,3 +1,20 @@
+# 0.48.2
+*October 10, 2025*
+
+This update fixes a couple of sort-of-major bugs that could, to everyone who has never played Tiny Life during the beta and alpha days, be considered new features. Oops!
+
+Additions
+- Added a big maple tree to build mode
+
+Improvements
+- The game now stores the 50 most recent log files, rather than just 10
+- Re-added the regular visitors performance disclaimer that has been missing since the 0.48.0 update
+- Improved the way logging information is encoded in the feedback form link accessible from within the game to allow for more useful data to be sent
+
+Fixes
+- Fixed writing, woodworking and repairing only having a tiny chance to enter the failure state, making it almost impossible for Tinies to get writer's block, splinters, or electrocuted (this bug has existed since *before the early access release*, so this sort of introduces the electrocution feature that has been unavailable for years)
+- Fixed the likelihood of objects breaking or getting dirty before the maximum timer runs out being far too low, which caused objects to break only in predetermined intervals
+
 # 0.48.1
 *October 3, 2025*
 
