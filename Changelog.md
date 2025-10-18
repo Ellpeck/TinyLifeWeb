@@ -1,3 +1,26 @@
+# 0.48.3
+*October 18, 2025*
+
+Additions
+- Added a mossy ground tile and a flower covering ground tile
+- Added a patch of taller grass
+- Added some social actions that become available after donating to charity using the computer
+
+Improvements
+- Allow interaction with the game ui while the cheat menu is open when using a gamepad
+- There is now a cute animation when a Tiny changes their outfit or undresses
+- The title screen now links to the [new overhauled subreddit](https://link.tinylifegame.com/tlreddit)
+
+Fixes
+- Fixed the long puddle texture bleeding into the back of the penguin painting
+- Fixed a recursive ui update exception in the emotion panel
+- Fixed panels with progress errors occasionally causing recursive ui update exceptions
+
+API
+- Added minor and active parameters to Map.OnUpdate event
+- Added the IContainerObject interface for objects that store other objects
+- Improved the OnSwitchGameMode event with additional parameters
+
 # 0.48.2
 *October 10, 2025*
 

@@ -6,8 +6,11 @@ items:
   parent: TinyLife.Objects
   children:
   - TinyLife.Objects.Fridge.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
+  - TinyLife.Objects.Fridge.AddContent(TinyLife.Objects.Furniture)
+  - TinyLife.Objects.Fridge.Content
   - TinyLife.Objects.Fridge.Items
   - TinyLife.Objects.Fridge.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  - TinyLife.Objects.Fridge.RemoveContent(TinyLife.Objects.Furniture)
   - TinyLife.Objects.Fridge.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.Fridge.Validate(TinyLife.Utilities.AppliedMigrations)
   langs:
@@ -26,8 +29,8 @@ items:
     For any <xref href="TinyLife.Objects.Fridge.Items" data-throw-if-not-resolved="false"></xref> that are food, their <xref href="TinyLife.Objects.FoodTypedItem.ExpirationTime" data-throw-if-not-resolved="false"></xref> is increased while in a fridge.
   example: []
   syntax:
-    content: 'public class Fridge : Furniture, IGenericDataHolder, IUpdatingObject'
-    content.vb: Public Class Fridge Inherits Furniture Implements IGenericDataHolder, IUpdatingObject
+    content: 'public class Fridge : Furniture, IGenericDataHolder, IUpdatingObject, IContainerObject<Furniture>'
+    content.vb: Public Class Fridge Inherits Furniture Implements IGenericDataHolder, IUpdatingObject, IContainerObject(Of Furniture)
   inheritance:
   - System.Object
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
@@ -36,6 +39,7 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   - TinyLife.Objects.IUpdatingObject
+  - TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
   inheritedMembers:
   - TinyLife.Objects.Furniture.Migrations
   - TinyLife.Objects.Furniture.Random
@@ -195,6 +199,30 @@ items:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
     arguments: []
+- uid: TinyLife.Objects.Fridge.Content
+  commentId: P:TinyLife.Objects.Fridge.Content
+  id: Content
+  parent: TinyLife.Objects.Fridge
+  langs:
+  - csharp
+  - vb
+  name: Content
+  nameWithType: Fridge.Content
+  fullName: TinyLife.Objects.Fridge.Content
+  type: Property
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: public IEnumerable<Furniture> Content { get; }
+    parameters: []
+    return:
+      type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
+    content.vb: Public ReadOnly Property Content As IEnumerable(Of Furniture)
+  overload: TinyLife.Objects.Fridge.Content*
+  implements:
+  - TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.Content
 - uid: TinyLife.Objects.Fridge.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   commentId: M:TinyLife.Objects.Fridge.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   id: '#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)'
@@ -351,6 +379,58 @@ items:
     content.vb: Public Overrides Function Validate(appliedMigrations As AppliedMigrations) As Boolean
   overridden: TinyLife.Objects.Furniture.Validate(TinyLife.Utilities.AppliedMigrations)
   overload: TinyLife.Objects.Fridge.Validate*
+- uid: TinyLife.Objects.Fridge.AddContent(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Objects.Fridge.AddContent(TinyLife.Objects.Furniture)
+  id: AddContent(TinyLife.Objects.Furniture)
+  parent: TinyLife.Objects.Fridge
+  langs:
+  - csharp
+  - vb
+  name: AddContent(Furniture)
+  nameWithType: Fridge.AddContent(Furniture)
+  fullName: TinyLife.Objects.Fridge.AddContent(TinyLife.Objects.Furniture)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: public bool AddContent(Furniture content)
+    parameters:
+    - id: content
+      type: TinyLife.Objects.Furniture
+    return:
+      type: System.Boolean
+    content.vb: Public Function AddContent(content As Furniture) As Boolean
+  overload: TinyLife.Objects.Fridge.AddContent*
+  implements:
+  - TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.AddContent(TinyLife.Objects.Furniture)
+- uid: TinyLife.Objects.Fridge.RemoveContent(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Objects.Fridge.RemoveContent(TinyLife.Objects.Furniture)
+  id: RemoveContent(TinyLife.Objects.Furniture)
+  parent: TinyLife.Objects.Fridge
+  langs:
+  - csharp
+  - vb
+  name: RemoveContent(Furniture)
+  nameWithType: Fridge.RemoveContent(Furniture)
+  fullName: TinyLife.Objects.Fridge.RemoveContent(TinyLife.Objects.Furniture)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  example: []
+  syntax:
+    content: public bool RemoveContent(Furniture content)
+    parameters:
+    - id: content
+      type: TinyLife.Objects.Furniture
+    return:
+      type: System.Boolean
+    content.vb: Public Function RemoveContent(content As Furniture) As Boolean
+  overload: TinyLife.Objects.Fridge.RemoveContent*
+  implements:
+  - TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.RemoveContent(TinyLife.Objects.Furniture)
 references:
 - uid: TinyLife.Objects.Furniture
   commentId: T:TinyLife.Objects.Furniture
@@ -440,6 +520,37 @@ references:
   name: IUpdatingObject
   nameWithType: IUpdatingObject
   fullName: TinyLife.Objects.IUpdatingObject
+- uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
+  commentId: T:TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
+  parent: TinyLife.Objects
+  definition: TinyLife.Objects.IContainerObject`1
+  href: TinyLife.Objects.IContainerObject-1.html
+  name: IContainerObject<Furniture>
+  nameWithType: IContainerObject<Furniture>
+  fullName: TinyLife.Objects.IContainerObject<TinyLife.Objects.Furniture>
+  nameWithType.vb: IContainerObject(Of Furniture)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of TinyLife.Objects.Furniture)
+  name.vb: IContainerObject(Of Furniture)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject`1
+    name: IContainerObject
+    href: TinyLife.Objects.IContainerObject-1.html
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject`1
+    name: IContainerObject
+    href: TinyLife.Objects.IContainerObject-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
 - uid: TinyLife.Objects.Furniture.Migrations
   commentId: F:TinyLife.Objects.Furniture.Migrations
   parent: TinyLife.Objects.Furniture
@@ -4464,6 +4575,31 @@ references:
   - uid: MLEM.Misc
     name: Misc
     isExternal: true
+- uid: TinyLife.Objects.IContainerObject`1
+  commentId: T:TinyLife.Objects.IContainerObject`1
+  href: TinyLife.Objects.IContainerObject-1.html
+  name: IContainerObject<T>
+  nameWithType: IContainerObject<T>
+  fullName: TinyLife.Objects.IContainerObject<T>
+  nameWithType.vb: IContainerObject(Of T)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of T)
+  name.vb: IContainerObject(Of T)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject`1
+    name: IContainerObject
+    href: TinyLife.Objects.IContainerObject-1.html
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject`1
+    name: IContainerObject
+    href: TinyLife.Objects.IContainerObject-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
   commentId: M:MLEM.Data.Json.JsonTypeSafeGenericDataHolder.SetData``1(System.String,``0)
   isExternal: true
@@ -4666,6 +4802,91 @@ references:
     name: Generic
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.Objects.Fridge.Content*
+  commentId: Overload:TinyLife.Objects.Fridge.Content
+  href: TinyLife.Objects.Fridge.html#TinyLife_Objects_Fridge_Content
+  name: Content
+  nameWithType: Fridge.Content
+  fullName: TinyLife.Objects.Fridge.Content
+- uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.Content
+  commentId: P:TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.Content
+  parent: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
+  definition: TinyLife.Objects.IContainerObject`1.Content
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_Content
+  name: Content
+  nameWithType: IContainerObject<Furniture>.Content
+  fullName: TinyLife.Objects.IContainerObject<TinyLife.Objects.Furniture>.Content
+  nameWithType.vb: IContainerObject(Of Furniture).Content
+  fullName.vb: TinyLife.Objects.IContainerObject(Of TinyLife.Objects.Furniture).Content
+- uid: System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<Furniture>
+  nameWithType: IEnumerable<Furniture>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>
+  nameWithType.vb: IEnumerable(Of Furniture)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture)
+  name.vb: IEnumerable(Of Furniture)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+- uid: TinyLife.Objects.IContainerObject`1.Content
+  commentId: P:TinyLife.Objects.IContainerObject`1.Content
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_Content
+  name: Content
+  nameWithType: IContainerObject<T>.Content
+  fullName: TinyLife.Objects.IContainerObject<T>.Content
+  nameWithType.vb: IContainerObject(Of T).Content
+  fullName.vb: TinyLife.Objects.IContainerObject(Of T).Content
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   commentId: M:TinyLife.Objects.FurnitureType.Construct``1(System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single,System.Nullable{System.Guid})
   isExternal: true
@@ -5190,3 +5411,115 @@ references:
   name: AppliedMigrations
   nameWithType: AppliedMigrations
   fullName: TinyLife.Utilities.AppliedMigrations
+- uid: TinyLife.Objects.Fridge.AddContent*
+  commentId: Overload:TinyLife.Objects.Fridge.AddContent
+  href: TinyLife.Objects.Fridge.html#TinyLife_Objects_Fridge_AddContent_TinyLife_Objects_Furniture_
+  name: AddContent
+  nameWithType: Fridge.AddContent
+  fullName: TinyLife.Objects.Fridge.AddContent
+- uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.AddContent(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.AddContent(TinyLife.Objects.Furniture)
+  parent: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
+  definition: TinyLife.Objects.IContainerObject`1.AddContent(`0)
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  name: AddContent(Furniture)
+  nameWithType: IContainerObject<Furniture>.AddContent(Furniture)
+  fullName: TinyLife.Objects.IContainerObject<TinyLife.Objects.Furniture>.AddContent(TinyLife.Objects.Furniture)
+  nameWithType.vb: IContainerObject(Of Furniture).AddContent(Furniture)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of TinyLife.Objects.Furniture).AddContent(TinyLife.Objects.Furniture)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.AddContent(TinyLife.Objects.Furniture)
+    name: AddContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  - name: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.AddContent(TinyLife.Objects.Furniture)
+    name: AddContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  - name: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+- uid: TinyLife.Objects.IContainerObject`1.AddContent(`0)
+  commentId: M:TinyLife.Objects.IContainerObject`1.AddContent(`0)
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  name: AddContent(T)
+  nameWithType: IContainerObject<T>.AddContent(T)
+  fullName: TinyLife.Objects.IContainerObject<T>.AddContent(T)
+  nameWithType.vb: IContainerObject(Of T).AddContent(T)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of T).AddContent(T)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject`1.AddContent(`0)
+    name: AddContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject`1.AddContent(`0)
+    name: AddContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_AddContent__0_
+  - name: (
+  - name: T
+  - name: )
+- uid: TinyLife.Objects.Fridge.RemoveContent*
+  commentId: Overload:TinyLife.Objects.Fridge.RemoveContent
+  href: TinyLife.Objects.Fridge.html#TinyLife_Objects_Fridge_RemoveContent_TinyLife_Objects_Furniture_
+  name: RemoveContent
+  nameWithType: Fridge.RemoveContent
+  fullName: TinyLife.Objects.Fridge.RemoveContent
+- uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.RemoveContent(TinyLife.Objects.Furniture)
+  commentId: M:TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.RemoveContent(TinyLife.Objects.Furniture)
+  parent: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}
+  definition: TinyLife.Objects.IContainerObject`1.RemoveContent(`0)
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  name: RemoveContent(Furniture)
+  nameWithType: IContainerObject<Furniture>.RemoveContent(Furniture)
+  fullName: TinyLife.Objects.IContainerObject<TinyLife.Objects.Furniture>.RemoveContent(TinyLife.Objects.Furniture)
+  nameWithType.vb: IContainerObject(Of Furniture).RemoveContent(Furniture)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of TinyLife.Objects.Furniture).RemoveContent(TinyLife.Objects.Furniture)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.RemoveContent(TinyLife.Objects.Furniture)
+    name: RemoveContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  - name: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject{TinyLife.Objects.Furniture}.RemoveContent(TinyLife.Objects.Furniture)
+    name: RemoveContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  - name: (
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+- uid: TinyLife.Objects.IContainerObject`1.RemoveContent(`0)
+  commentId: M:TinyLife.Objects.IContainerObject`1.RemoveContent(`0)
+  href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  name: RemoveContent(T)
+  nameWithType: IContainerObject<T>.RemoveContent(T)
+  fullName: TinyLife.Objects.IContainerObject<T>.RemoveContent(T)
+  nameWithType.vb: IContainerObject(Of T).RemoveContent(T)
+  fullName.vb: TinyLife.Objects.IContainerObject(Of T).RemoveContent(T)
+  spec.csharp:
+  - uid: TinyLife.Objects.IContainerObject`1.RemoveContent(`0)
+    name: RemoveContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  - name: (
+  - name: T
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.IContainerObject`1.RemoveContent(`0)
+    name: RemoveContent
+    href: TinyLife.Objects.IContainerObject-1.html#TinyLife_Objects_IContainerObject_1_RemoveContent__0_
+  - name: (
+  - name: T
+  - name: )
