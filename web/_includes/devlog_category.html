@@ -3,11 +3,12 @@
     <h2 id="{{ slug }}">{{ include.emoji }} {{ include.tag }}</h2>
     <p>{{ include.description }}</p>
 
+    {% assign max = 4 %}
     {% assign total = 0 %}
     {% for post in site.posts %}
         {%- if post.tags contains include.tag -%}
             {%- assign total = total | plus: 1 -%}
-            <div class="devlog devlog-{{ slug }}" {% if total > 4 %}hidden{% endif %}>
+            <div class="devlog devlog-{{ slug }}" {% if total > max %}hidden{% endif %}>
                 {%- if post.image -%}
                     {%- assign start = post.image | slice: 0, 4 -%}
                     {%- if start == "http" -%}
@@ -35,8 +36,8 @@
         {%- endif -%}
     {% endfor %}
 
-    {% if total > 6 %}
-        <button type="button" class="btn btn-link devlog-more" id="devlog-more-{{ slug }}"><strong>Show more {{ include.tag }} posts</strong></button>
+    {% if total > max %}
+        <button type="button" class="btn btn-link devlog-more" id="devlog-more-{{ slug }}"><strong>Show all {{ include.tag }} posts</strong></button>
         <script>
             let devlog = $(".devlog-{{ slug }}");
             let more = $("#devlog-more-{{ slug }}");
