@@ -1,3 +1,15 @@
+# 0.48.4
+*October 23, 2025*
+
+This is a small update to improve error reporting for some UI-related crashes players have been getting since 0.48.0. Please remember to report any crashes you get through the popup that should appear when launching the game after a crash.
+
+Improvements
+- Allow all age groups to fill their needs elsewhere autonomously if the lot doesn't provide basic amenities
+- Improved error reporting for recursive ui layouting exceptions
+
+Fixes
+- Fixed some log lines being cut off when sending issue reports to the feedback form
+
 # 0.48.3
 *October 18, 2025*
 
