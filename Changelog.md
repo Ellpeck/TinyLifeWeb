@@ -1,3 +1,17 @@
+# 0.48.5
+*October 28, 2025*
+
+Additions
+- Added the ability to disable individual mods in the options
+- Added keybinds for all build mode tools (which are unbound by default, but can be configured in the options)
+
+Improvements
+- Recommend to players what hint settings to choose when starting a new game
+
+Fixes
+- Fixed loading screen hints with keybinds in them displaying incorrectly on the initial game loading screen
+- Fixed some additional recursive ui layouting exceptions
+
 # 0.48.4
 *October 23, 2025*
 

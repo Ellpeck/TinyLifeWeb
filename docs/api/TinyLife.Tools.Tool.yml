@@ -5,7 +5,7 @@ items:
   id: Tool
   parent: TinyLife.Tools
   children:
-  - TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean)
+  - TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.Options,MLEM.Input.Keybind})
   - TinyLife.Tools.Tool.BuildModeButton(System.String,System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,MLEM.Textures.TextureRegion,System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   - TinyLife.Tools.Tool.BuildModeButton(System.String,System.String,MLEM.Ui.Elements.Element.GenericCallback,MLEM.Ui.Elements.Element.DrawCallback,System.Single,System.Collections.Generic.IEnumerable{MLEM.Textures.TextureRegion},System.String,System.Collections.Generic.IEnumerable{System.String},System.Nullable{System.Single})
   - TinyLife.Tools.Tool.BuildTools
@@ -26,6 +26,7 @@ items:
   - TinyLife.Tools.Tool.IsOnLot(Microsoft.Xna.Framework.Point)
   - TinyLife.Tools.Tool.IsRotateCcwPressed
   - TinyLife.Tools.Tool.IsRotateCwPressed
+  - TinyLife.Tools.Tool.Keybind
   - TinyLife.Tools.Tool.Map
   - TinyLife.Tools.Tool.Money
   - TinyLife.Tools.Tool.MousePos
@@ -646,6 +647,25 @@ items:
     return:
       type: System.Boolean
     content.vb: Public ReadOnly DisplayAsTab As Boolean
+- uid: TinyLife.Tools.Tool.Keybind
+  commentId: F:TinyLife.Tools.Tool.Keybind
+  id: Keybind
+  parent: TinyLife.Tools.Tool
+  langs:
+  - csharp
+  - vb
+  name: Keybind
+  nameWithType: Tool.Keybind
+  fullName: TinyLife.Tools.Tool.Keybind
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Tools
+  syntax:
+    content: public readonly Func<Options, Keybind> Keybind
+    return:
+      type: System.Func{TinyLife.Options,MLEM.Input.Keybind}
+    content.vb: Public ReadOnly Keybind As Func(Of Options, Keybind)
 - uid: TinyLife.Tools.Tool.MousePos
   commentId: F:TinyLife.Tools.Tool.MousePos
   id: MousePos
@@ -670,16 +690,16 @@ items:
     return:
       type: Microsoft.Xna.Framework.Vector2
     content.vb: Protected MousePos As Vector2
-- uid: TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean)
-  commentId: M:TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean)
-  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean)'
+- uid: TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.Options,MLEM.Input.Keybind})
+  commentId: M:TinyLife.Tools.Tool.#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.Options,MLEM.Input.Keybind})
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Boolean,System.Func{TinyLife.Options,MLEM.Input.Keybind})'
   parent: TinyLife.Tools.Tool
   langs:
   - csharp
   - vb
-  name: Tool(string, TextureRegion, bool)
-  nameWithType: Tool.Tool(string, TextureRegion, bool)
-  fullName: TinyLife.Tools.Tool.Tool(string, MLEM.Textures.TextureRegion, bool)
+  name: Tool(string, TextureRegion, bool, Func<Options, Keybind>)
+  nameWithType: Tool.Tool(string, TextureRegion, bool, Func<Options, Keybind>)
+  fullName: TinyLife.Tools.Tool.Tool(string, MLEM.Textures.TextureRegion, bool, System.Func<TinyLife.Options, MLEM.Input.Keybind>)
   type: Constructor
   assemblies:
   - TinyLife
@@ -687,7 +707,7 @@ items:
   summary: Creates a new tool with the given settings
   example: []
   syntax:
-    content: public Tool(string name, TextureRegion texture, bool displayAsTab = false)
+    content: public Tool(string name, TextureRegion texture, bool displayAsTab = false, Func<Options, Keybind> keybind = null)
     parameters:
     - id: name
       type: System.String
@@ -698,11 +718,13 @@ items:
     - id: displayAsTab
       type: System.Boolean
       description: Wheteher or not this tool should display as a tab. Defaults to false.
-    content.vb: Public Sub New(name As String, texture As TextureRegion, displayAsTab As Boolean = False)
+    - id: keybind
+      type: System.Func{TinyLife.Options,MLEM.Input.Keybind}
+    content.vb: Public Sub New(name As String, texture As TextureRegion, displayAsTab As Boolean = False, keybind As Func(Of Options, Keybind) = Nothing)
   overload: TinyLife.Tools.Tool.#ctor*
-  nameWithType.vb: Tool.New(String, TextureRegion, Boolean)
-  fullName.vb: TinyLife.Tools.Tool.New(String, MLEM.Textures.TextureRegion, Boolean)
-  name.vb: New(String, TextureRegion, Boolean)
+  nameWithType.vb: Tool.New(String, TextureRegion, Boolean, Func(Of Options, Keybind))
+  fullName.vb: TinyLife.Tools.Tool.New(String, MLEM.Textures.TextureRegion, Boolean, System.Func(Of TinyLife.Options, MLEM.Input.Keybind))
+  name.vb: New(String, TextureRegion, Boolean, Func(Of Options, Keybind))
 - uid: TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   commentId: M:TinyLife.Tools.Tool.InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
   id: InitBuildModeUi(MLEM.Ui.Elements.Panel,MLEM.Ui.Elements.Panel)
@@ -2587,6 +2609,83 @@ references:
   - uid: MLEM.Textures
     name: Textures
     isExternal: true
+- uid: System.Func{TinyLife.Options,MLEM.Input.Keybind}
+  commentId: T:System.Func{TinyLife.Options,MLEM.Input.Keybind}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<Options, Keybind>
+  nameWithType: Func<Options, Keybind>
+  fullName: System.Func<TinyLife.Options, MLEM.Input.Keybind>
+  nameWithType.vb: Func(Of Options, Keybind)
+  fullName.vb: System.Func(Of TinyLife.Options, MLEM.Input.Keybind)
+  name.vb: Func(Of Options, Keybind)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - uid: TinyLife.Options
+    name: Options
+    href: TinyLife.Options.html
+  - name: ','
+  - name: " "
+  - uid: MLEM.Input.Keybind
+    name: Keybind
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Options
+    name: Options
+    href: TinyLife.Options.html
+  - name: ','
+  - name: " "
+  - uid: MLEM.Input.Keybind
+    name: Keybind
+    isExternal: true
+  - name: )
+- uid: System.Func`2
+  commentId: T:System.Func`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<T, TResult>
+  nameWithType: Func<T, TResult>
+  fullName: System.Func<T, TResult>
+  nameWithType.vb: Func(Of T, TResult)
+  fullName.vb: System.Func(Of T, TResult)
+  name.vb: Func(Of T, TResult)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: ','
+  - name: " "
+  - name: TResult
+  - name: )
 - uid: Microsoft.Xna.Framework.Vector2
   commentId: T:Microsoft.Xna.Framework.Vector2
   parent: Microsoft.Xna.Framework
@@ -2626,7 +2725,7 @@ references:
     isExternal: true
 - uid: TinyLife.Tools.Tool.#ctor*
   commentId: Overload:TinyLife.Tools.Tool.#ctor
-  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool__ctor_System_String_MLEM_Textures_TextureRegion_System_Boolean_
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool__ctor_System_String_MLEM_Textures_TextureRegion_System_Boolean_System_Func_TinyLife_Options_MLEM_Input_Keybind__
   name: Tool
   nameWithType: Tool.Tool
   fullName: TinyLife.Tools.Tool.Tool
@@ -3548,40 +3647,6 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-- uid: System.Func`2
-  commentId: T:System.Func`2
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.func-2
-  name: Func<T, TResult>
-  nameWithType: Func<T, TResult>
-  fullName: System.Func<T, TResult>
-  nameWithType.vb: Func(Of T, TResult)
-  fullName.vb: System.Func(Of T, TResult)
-  name.vb: Func(Of T, TResult)
-  spec.csharp:
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: <
-  - name: T
-  - name: ','
-  - name: " "
-  - name: TResult
-  - name: '>'
-  spec.vb:
-  - uid: System.Func`2
-    name: Func
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.func-2
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: ','
-  - name: " "
-  - name: TResult
   - name: )
 - uid: TinyLife.Options.SeenObjects
   commentId: F:TinyLife.Options.SeenObjects
