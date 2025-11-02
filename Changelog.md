@@ -1,3 +1,20 @@
+# 0.48.6
+*November 2, 2025*
+
+Additions
+- Added an (unbound by default) keybind to toggle build mode
+
+Improvements
+- Shorten some keyboard key names to make the controls hint less wide
+- Made homebodies much less likely to visit other lots
+- Made it much less likely for visitors to check on babies
+
+Fixes
+- Fixed very high likelihood of items breaking or getting dirty
+- Fixed having to cook a ham and cheese sandwich
+- Fixed counters getting dirty while puzzling or using a coloring book on them
+- Fixed objects being able to break while cleaning them
+
 # 0.48.5
 *October 28, 2025*
 
