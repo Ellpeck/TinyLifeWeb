@@ -1,3 +1,19 @@
+# 0.48.7
+*November 8, 2025*
+
+Improvements
+- Tinies in the active household will not visit other lots autonomously anymore, unless the new corresponding gameplay option is enabled for the save
+- Made it much less likely to get electrocuted while repairing when focused
+- Made house guests always get food when called to meal, regardless of their hunger need
+- Avocado toast can now be bought at the café
+
+Fixes
+- Fixed erroring mods not displaying their error info correctly on startup
+- Fixed the creative child life goal only requiring 3 meals to be made instead of 5
+- Fixed grandparents giving babies food they can't eat when sneaking them a treat
+- Fixed putting an item down on the standing desk giving you standing desk-related emotions
+- Fixed the character creator showing a frame of black in the menu when switching clothes
+
 # 0.48.6
 *November 2, 2025*
 
