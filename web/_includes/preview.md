@@ -14,6 +14,14 @@ To select the preview branch on Steam for the demo or the Early Access version, 
 The preview branch will always have the most up-to-date version of the game, including full releases. This means that you can stay on this branch permanently if you always want to play with preview versions.
 
 # Previews on itch
-Preview versions are available as normal Tiny Life builds on itch.
+Preview versions are available as normal Tiny Life builds on itch, meaning **the most recently released version may be a preview build**.
 
-For managing what version you want to use when playing, we recommend installing the [itch app](https://itch.io/app), which allows selecting a game version to use.
+For managing what version you want to use when playing, we recommend installing the [itch app](https://itch.io/app), which allows selecting a game version to use. Versions with `-pre.` followed by a number at the end are preview versions.
+
+![](../media/previews_itch_1.png)
+
+![](../media/previews_itch_2.png)
+
+![](../media/previews_itch_3.png)
+
+Keep in mind that manually selecting a version in this way causes automatic updates to be disabled.
