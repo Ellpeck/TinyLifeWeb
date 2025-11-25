@@ -1,3 +1,25 @@
+# 0.48.8
+*November 25, 2025*
+
+Additions
+- Added the ability to increase the AI activation cooldown for selected Tinies in the accessibility settings
+- Added the ability to change a baby's outfit for them
+
+Improvements
+- Improved visual feedback of the wall and fence tools during placement
+- Display a tooltip informing the player while the Done button on the New Game menu is grayed out
+- Reintroduce the feature where Tinies leave the room when seeing someone inappropriately (which was inadvertently removed in an earlier update)
+- Tinies who aren't part of the active household will now fill their needs elsewhere automatically when repeatedly failing to do so on their home lot (which hopefully reduces reported cases of starvation!)
+- Actions like cleaning up dishes and putting down items will now attempt to find a different suitable location when the last selected one caused the action to fail
+- The modern color scheme now includes some nice shades of brown
+
+Fixes
+- Fixed various UI exceptions and crashes, and notably a common one in the emotions tab
+- Fixed Tinies going home immediately after manually enqueueing the Visit World action
+- Fixed an exception when a trash collector tries to collect a trash item that has since been deleted
+- Fixed bathing babies not restoring nearly enough hygiene
+- Fixed money being deducted incorrectly when changing clothing items as a result of changing a Tiny's age in the character creator
+
 # 0.48.7
 *November 8, 2025*
 
