@@ -1,3 +1,10 @@
+# 0.48.9
+*November 30, 2025*
+
+Fixes
+- Fixed incorrect locations of the new wall tool visuals in some camera rotations
+- Fixed a race condition that caused the game to freeze when locking doors for non-household members
+
 # 0.48.8
 *November 25, 2025*
 
