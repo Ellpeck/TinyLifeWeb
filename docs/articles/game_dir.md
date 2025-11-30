@@ -11,6 +11,10 @@ There are several ways of locating this folder, and its location differs based o
 ## From Within the Game
 You can open the data folder easily from within the game by going to the options menu and opening the rightmost tab ("Custom Content"). The tab contains a button to quickly open the data folder.
 
+![](../media/game_dir_1.png)
+
+![](../media/game_dir_2.png)
+
 ## From Your Computer
 ### Windows
 On Windows, you can simply open a file explorer window and paste the following text into its location field:
