@@ -5,7 +5,7 @@
 
 If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the game's community!
 
-If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](https://link.tinylifegame.com/discordweb), or in the `#tinylife` channel. If you don't have access to Discord, you can email [ell@tinylifegame.com](mailto:ell@tinylifegame.com?subject=Tiny%20Life%20Localization%20Contribution) instead. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
+If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](https://link.tinylifegame.com/discordweb), or in the `#tiny-life-general` channel. If you don't have access to Discord, you can email [ell@tinylifegame.com](mailto:ell@tinylifegame.com?subject=Tiny%20Life%20Localization%20Contribution) instead. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
 
 ## Notes on Translating
 First of all: Please don't feel obligated to finish the translation for the language you're working on! Since you're doing this for free, I don't expect you to, either. An incomplete translation means that some in-game text will still be translated, and it also means that anyone who comes along after you will have less work to do!
@@ -47,6 +47,10 @@ There are several localization strings that have to have special formatting, mos
 - Tiny names, which end with `FirstLast`, should be the first and last name of the Tiny, separated by a comma. They should be in first, last order even when the language displays last names first.
 
 ## Notes for Specific Languages
+The following notes for some specific languages generally "override" anything mentioned in the general notes above, meaning that, if any of these notes conflict with information listed above, the notes should take priority.
+
+If you'd like to have language-specific notes added for a language you work on, feel free to submit a pull request or reach out.
+
 ### Dutch
 - The singular and plural for Tinies is "Tiny" and "Tiny's", respectively.
 
