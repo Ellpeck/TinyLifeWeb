@@ -15,3 +15,11 @@ Visit the [Patreon](https://link.tinylifegame.com/news-patreon) or [Ko-fi](https
 **[Leave a Review](https://link.tinylifegame.com/news-review)**
 
 Thanks! ❤️
+
+---
+
+![](media/news/TinyLouvre.png)
+
+There's a new Community Showcase post with writing by [blur](https://blur.gay), who is showcasing their mod Tiny Louvre.
+
+[Go check it out and give the mod a try!](https://tinylifegame.com/posts/making-tiny-louvre/)
