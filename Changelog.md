@@ -1,3 +1,44 @@
+# 0.49.0
+*January 7, 2026*
+
+![](media/changelog/0.49.0.png)
+
+> Some Needed Personality
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.49.0/).**
+
+Additions
+- Added the charismatic, romantic and neat personalities
+- Added three new important event stings by Jamal Green
+- Added mismatched socks for adults
+- Added an accessibility option to pause the game automatically when zoomed out into map view
+- Added the ability to increase the game's speed increase factors from 2x/3x to 3x/5x, respectively
+
+Improvements
+- Completely overhauled Maple Plains City's plains areas and added two new lots to it
+- Slightly increase the default AI activation cooldown
+- Allow pressing on the current emotion to open the emotions tab
+- Camera movement speed using the keyboard is now increased when holding shift
+- Better organization for general and accessibility options tabs
+- Undo and redo in build mode can now also be invoked using new UI buttons
+- Made the AI only ever enqueue one need-solving action at a time
+
+Fixes
+- Fixed lot employees being able to carry babies into restricted areas
+- Fixed grabbing a serving and getting water succeeding even when there's no valid path
+- Fixed an exception when an action involving player interaction is enqueued before switching to a different household
+- Fixed Tinies grabbing a serving automatically on food with a candle on it
+- Fixed genealogies automatically being able to change for people who are in a romantic relationship
+- Fixed baby names not being updated correctly in play mode when having a baby
+- Fixed an exception when trying to change a baby's outfit
+- Fixed people still thinking other adults are in primary school if they knew them as kids
+- Fixed a rare exception when trying to prepare invalid food items
+- Fixed a rare crash when trying to render a Tiny whose animations have not been initialized yet
+
+API
+- Fixed mods being instructed to registr custom json type safe generic data holders
+- Added an event for when a Tiny dies
+
 # 0.48.9
 *November 30, 2025*
 
