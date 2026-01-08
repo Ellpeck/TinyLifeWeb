@@ -8,7 +8,7 @@ steam: "https://store.steampowered.com/news/app/1651490/view/538873641933212397"
 
 **ell:**
 
-Hi everyone! It's been a hot minute since the last [Tiny Life Community Showcase](https://tinylifegame.com/#community-showcase) post, but I've been wanting to revive the category for *years* now. The opportunity presented itself to me when long-time friend of mine and modder of Tiny Life [blur](https://blur.gay) created the Tiny Louvre mod and an accompanying video and blog post on his website.
+Hi everyone! It's been a hot minute since the last [Tiny Life Community Showcase](https://tinylifegame.com/#community-showcase) post, but I've been wanting to revive the category for *years* now. The opportunity presented itself to me when long-time friend of mine and modder of Tiny Life [blur](https://blur.gay) created the Tiny Louvre mod and an accompanying video and blog post on their website.
 
 The following post is a version of [the original post](https://blur.gay/blog/tinylife/Making-Tiny-Louvre.html) modified by them to appear on the Tiny Life blog and accompanying platforms. It goes into detail about what Tiny Louvre is, how it was created, and gets technical about some implementation details here and there. In that way, it's also sort of a light version of a [Tiny Technicalities](https://tinylifegame.com/#tiny-technicalities) post.
 
