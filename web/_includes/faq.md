@@ -22,6 +22,16 @@ As a team, we're largely against paid DLC, as a lot of the time, it doesn't end 
 
 If the reason you'd like to buy DLC for the game is supporting Tiny Life's development, we recommend you check out the Ellpeck Games [Patreon](https://www.patreon.com/c/ellpeck) or [Ko-fi](https://ko-fi.com/ellpeck/tiers) pages. On there, you can find multiple paid monthly (or one-off) tiers that give you early access to sneak peeks for the game as well as early access to playable builds of future updates.
 
+# 🎮 Will Tiny Life release for consoles?
+Yes, it will! Here's an excerpt from our [public roadmap](/#roadmap):
+
+> Once Tiny Life leaves Early Access, its full release will also be available on consoles, including Nintendo Switch, PlayStation, Xbox, and possibly more. You'll also be able to buy it on additional stores like GOG and the Epic Games Store.
+
+Unfortunately, we don't know when Tiny Life will be ready to leave Early Access yet. You can find more info about the timeline and other Early Access-related questions on [the Steam page](https://store.steampowered.com/app/1651490/Tiny_Life/) by opening the box in the "Early Access Game" section below the trailer.
+
+# 📱 Will Tiny Life release for mobile devices?
+Unfortunately, there are no plans for Tiny Life to release to mobile platforms like Android and iOS. In our opinion, Tiny Life's gameplay and control scheme don't lend themselves well to small screens and touch controls. Additionally, the mobile games market is very different from the desktop and console market, and we're generally opposed to filling our games with advertisements or microtransactions. While not making the game free on mobile is an alternative, it has proven itself unsustainable for many games, as mobile players don't tend to expect having to purchase a game.
+
 # 🧠 Does Tiny Life use Generative Artificial Intelligence (GenAI)?
 No. We are strictly against using GenAI for games, especially when it comes to paid products and especially when it comes to game art. All pixelart in Tiny Life is hand-drawn by Ell and [set contributors](/credits), and all code for the game is written by hand.
 
