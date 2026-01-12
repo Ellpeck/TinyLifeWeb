@@ -10,9 +10,10 @@ Depending on the country you're buying Tiny Life in, it may be rated as appropri
 
 Notable references are:
 - Veiled nudity when Tinies shower, use the toilet, or fool around. Nudity is covered by a pixelated censor effect, below which the basic body shape is visible. There is no visible or censored genitalia.
-- Alcohol and sex using the terms "brew" and "fooling around." Tinies can die from having too much brew, and adults can fool around consensually with other adults.
-- Death. When a Tiny dies (which may occur through starvation, having too much brew, exhaustion, and more), they fade out and a gravestone will appear. There is never a display of blood or gore.
+- Alcohol, using the term "brew," which can be consumed by adults.
+- Sex, using the term "fooling around." Adults can fool around consensually with other adults, which is also how to get pregnant.
 - Abortion. Tinies can have an abortion, which is referred to as "ending pregnancy" in the game. Tinies may experience mood swings after ending their pregnancy, but their decisions will not be displayed negatively or condemned by the game or other Tinies.
+- Death. When a Tiny dies (which may occur through starvation, having too much brew, exhaustion, and more), they fade out and a gravestone will appear. There is never a display of blood or gore.
 - Mental health issues. While never explicitly addressed with clinical terms such as depression or anxiety, Tinies may start feeling very sad from major life events like the death of a loved one or an abortion.
 
 # 💸 Will there be paid DLC for the game?
@@ -62,7 +63,7 @@ Uniqueness in game design, to us, is a whole kettle of fish. For one, games don'
 > i personally think that dismissing games inspired by other games is an incredibly shallow perspective that discounts many of the greatest indie games ever made. stardew valley, for example, could be called a "knockoff of story of seasons" in a similar way, which very unfairly puts down a beautifully crafted masterpiece that revitalized an entire indie subgenre.
 
 That being said, there are a bunch of things that make Tiny Life *unique*, though it's really up to you to decide whether these things are relevant to your enjoyment of the game. Here are some of them:
-- There's a fully-simulated open world, which no Sims game features as of now. You may think of The Sims 3, but other Sims in that game, once they leave the "visible area", so to speak, are not fully simulated. Tiny Life's Tinies live full lives, even when you don't currently see them because you're not visiting their homes!
+- There's a fully-simulated open world, which no Sims game features as of now. You may think of The Sims 3, but other Sims in that game, once they leave the "visible area," so to speak, are not fully simulated. Tiny Life's Tinies live full lives, even when you don't currently see them because you're not visiting their homes!
 - Personalities are split up into major and minor categories, which allows personality types like "hates children," as well as dietary choices like pescetarian or vegan, to affect Tinies' lives without taking up a vital slot in their list of major personality types. Tiny Life's personality gameplay also differs drastically from that of The Sims, and many personalities are unique to Tiny Life.
 - Skill gameplay is largely different for many skills, and skills like Tinkering and the accompanying upgrade system, as well as the Cleaning skill, are very different from The Sims, where, in many instances, they don't feature at all.
 - Tiny Life is an indie game created by a queer developer. To many players, the ways indie games respond to player feedback, represent diversity, and engage in charitable causes feels less disingenuous than those of a large company.
