@@ -10,11 +10,11 @@ Depending on the country you're buying Tiny Life in, it may be rated as appropri
 
 Notable references are:
 - Veiled nudity when Tinies shower, use the toilet, or fool around. Nudity is covered by a pixelated censor effect, below which the basic body shape is visible. There is no visible or censored genitalia.
-- Alcohol, using the term "brew," which can be consumed by adults.
-- Sex, using the term "fooling around." Adults can fool around consensually with other adults, which is also how to get pregnant.
+- Minor references to alcohol, using the term "brew," which can be consumed by adults.
+- Intercourse, using the term "fooling around." Adults can fool around consensually with other adults, which is also how to get pregnant.
 - Abortion. Tinies can have an abortion, which is referred to as "ending pregnancy" in the game. Tinies may experience mood swings after ending their pregnancy, but their decisions will not be displayed negatively or condemned by the game or other Tinies.
 - Death. When a Tiny dies (which may occur through starvation, having too much brew, exhaustion, and more), they fade out and a gravestone will appear. There is never a display of blood or gore.
-- Mental health issues. While never explicitly addressed with clinical terms such as depression or anxiety, Tinies may start feeling very sad from major life events like the death of a loved one or an abortion.
+- Mental health issues. While never explicitly addressed using clinical terms such as depression or anxiety, Tinies may start feeling very sad from major life events like the death of a loved one or an abortion.
 
 # 💸 Will there be paid DLC for the game?
 This largely depends on how Tiny Life sales perform over the next few years.
