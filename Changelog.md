@@ -1,3 +1,26 @@
+# 0.49.1
+*January 28, 2026*
+
+Improvements
+- Users are now warned more heavily when there are incomplete lots on the map, as they can cause issues for gameplay
+- Generalized the maps options tab and added stats about tinies in the save
+- Death messages are now only displayed for Tinies that are known to the current household
+- Passive map update frequency is now increased for smoother performance with multiple maps
+- Allow changing game speed while the interaction menu is open
+- The clothes changing animation is now displayed when fooling around, as well as when cleaning or bathing a baby
+- Improved the required amenities system for residential lots to avoid people starving when no counters are avaiable
+
+Fixes
+- Fixed object rotation hint not displaying in the stairs tool
+- Fixed Steam Cloud downloading saves with different casing on Linux
+- Fixed the Clean Everything action not including the Clean action if important AI actions are disabled in the gameplay options
+
+API
+- The Find cheat can now also find gravestones of dead people by typing their names
+- The debug menu now doesn't show people and updating object stats by default, requiring a cheat to enable them
+- Added events for SetNewId
+- Added a linked child action system for social actions, as well as a related wait action
+
 # 0.49.0
 *January 7, 2026*
 

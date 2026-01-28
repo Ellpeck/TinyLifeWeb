@@ -37,6 +37,7 @@ items:
   - TinyLife.World.Lot.MinFloor
   - TinyLife.World.Lot.Name
   - TinyLife.World.Lot.OnGetExportedLots
+  - TinyLife.World.Lot.RequiredAmenities
   - TinyLife.World.Lot.Type
   - TinyLife.World.Lot.Validate(TinyLife.World.Map)
   langs:
@@ -87,6 +88,25 @@ items:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.Lot.RequiredAmenities
+  commentId: F:TinyLife.World.Lot.RequiredAmenities
+  id: RequiredAmenities
+  parent: TinyLife.World.Lot
+  langs:
+  - csharp
+  - vb
+  name: RequiredAmenities
+  nameWithType: Lot.RequiredAmenities
+  fullName: TinyLife.World.Lot.RequiredAmenities
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly List<(ObjectCategory Category, bool Indoors, Func<Furniture, PersonLike, bool> AdditionalCondition)> RequiredAmenities
+    return:
+      type: System.Collections.Generic.List{System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}}
+    content.vb: Public Shared ReadOnly RequiredAmenities As List(Of (Category As ObjectCategory, Indoors As Boolean, AdditionalCondition As Func(Of Furniture, PersonLike, Boolean)))
 - uid: TinyLife.World.Lot.OnGetExportedLots
   commentId: E:TinyLife.World.Lot.OnGetExportedLots
   id: OnGetExportedLots
@@ -423,7 +443,7 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.World
-  summary: Returns a set of all of the <xref href="TinyLife.Objects.WallLike" data-throw-if-not-resolved="false"></xref> instances on this lot's map that are contained in this lot's <xref href="TinyLife.World.Lot.Area" data-throw-if-not-resolved="false"></xref>
+  summary: Returns a set of all of the <xref href="TinyLife.World.WallLike" data-throw-if-not-resolved="false"></xref> instances on this lot's map that are contained in this lot's <xref href="TinyLife.World.Lot.Area" data-throw-if-not-resolved="false"></xref>
   example: []
   syntax:
     content: 'public IEnumerable<T> GetWalls<T>() where T : WallLike'
@@ -672,7 +692,7 @@ items:
   - TinyLife
   namespace: TinyLife.World
   summary: >-
-    Exports this lot's data, including all of its <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.WallLike" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.Roof" data-throw-if-not-resolved="false"></xref> obejects and its <xref href="TinyLife.World.Tile" data-throw-if-not-resolved="false"></xref> ground.
+    Exports this lot's data, including all of its <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.World.WallLike" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.Roof" data-throw-if-not-resolved="false"></xref> obejects and its <xref href="TinyLife.World.Tile" data-throw-if-not-resolved="false"></xref> ground.
 
     Note that this does not change the lot itself, as it doesn't remove or add anything to it.
   example: []
@@ -836,7 +856,7 @@ items:
     parameters:
     - id: person
       type: TinyLife.Objects.PersonLike
-      description: A person for whom to check whether relevant need-filling actions with the required amenities has recently failed, in which case <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> will be returned.
+      description: A person for whom to check whether relevant need-filling actions with the required amenities has recently failed or whether they do not have a valid action spot, in which case <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> will be returned.
     return:
       type: System.Boolean
       description: Whether this lot has basic amenities.
@@ -1608,6 +1628,196 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: System.Collections.Generic.List{System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}}
+  commentId: T:System.Collections.Generic.List{System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<(ObjectCategory Category, bool Indoors, Func<Furniture, PersonLike, bool> AdditionalCondition)>
+  nameWithType: List<(ObjectCategory Category, bool Indoors, Func<Furniture, PersonLike, bool> AdditionalCondition)>
+  fullName: System.Collections.Generic.List<(TinyLife.Objects.ObjectCategory Category, bool Indoors, System.Func<TinyLife.Objects.Furniture, TinyLife.Objects.PersonLike, bool> AdditionalCondition)>
+  nameWithType.vb: List(Of (Category As ObjectCategory, Indoors As Boolean, AdditionalCondition As Func(Of Furniture, PersonLike, Boolean)))
+  fullName.vb: System.Collections.Generic.List(Of (Category As TinyLife.Objects.ObjectCategory, Indoors As Boolean, AdditionalCondition As System.Func(Of TinyLife.Objects.Furniture, TinyLife.Objects.PersonLike, Boolean)))
+  name.vb: List(Of (Category As ObjectCategory, Indoors As Boolean, AdditionalCondition As Func(Of Furniture, PersonLike, Boolean)))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: (
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    href: TinyLife.Objects.ObjectCategory.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.Category
+    name: Category
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.category
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.Indoors
+    name: Indoors
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.indoors
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.AdditionalCondition
+    name: AdditionalCondition
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.additionalcondition
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.Category
+    name: Category
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.category
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.ObjectCategory
+    name: ObjectCategory
+    href: TinyLife.Objects.ObjectCategory.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.Indoors
+    name: Indoors
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.indoors
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.ObjectCategory,System.Boolean,System.Func{TinyLife.Objects.Furniture,TinyLife.Objects.PersonLike,System.Boolean}}.AdditionalCondition
+    name: AdditionalCondition
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.objectcategory,system.boolean,system.func-tinylife.objects.furniture,tinylife.objects.personlike,system.boolean--.additionalcondition
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.World.Lot.GetExportedLots
   commentId: M:TinyLife.World.Lot.GetExportedLots
   href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetExportedLots
@@ -2039,50 +2249,13 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-- uid: TinyLife.Objects.WallLike
-  commentId: T:TinyLife.Objects.WallLike
-  parent: TinyLife.Objects
-  href: TinyLife.Objects.WallLike.html
+- uid: TinyLife.World.WallLike
+  commentId: T:TinyLife.World.WallLike
+  parent: TinyLife.World
+  href: TinyLife.World.WallLike.html
   name: WallLike
   nameWithType: WallLike
-  fullName: TinyLife.Objects.WallLike
+  fullName: TinyLife.World.WallLike
 - uid: TinyLife.World.Lot.GetWalls*
   commentId: Overload:TinyLife.World.Lot.GetWalls
   href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetWalls__1

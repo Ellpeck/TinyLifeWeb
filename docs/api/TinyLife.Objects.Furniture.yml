@@ -49,7 +49,7 @@ items:
   - TinyLife.Objects.Furniture.GetPrice
   - TinyLife.Objects.Furniture.GetRestoreNeedModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
   - TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
-  - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
+  - TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.WallLike})
   - TinyLife.Objects.Furniture.HasFullUpgrade(TinyLife.Objects.Upgrade)
   - TinyLife.Objects.Furniture.HideFromDraw
   - TinyLife.Objects.Furniture.Intersects(MLEM.Maths.RectangleF)
@@ -73,6 +73,7 @@ items:
   - TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
   - TinyLife.Objects.Furniture.OnRemoved
   - TinyLife.Objects.Furniture.OnSetCreator
+  - TinyLife.Objects.Furniture.OnSetNewId
   - TinyLife.Objects.Furniture.ParentFurniture
   - TinyLife.Objects.Furniture.ParentFurnitureId
   - TinyLife.Objects.Furniture.ParentInfo
@@ -245,6 +246,30 @@ items:
     return:
       type: TinyLife.Objects.Furniture.FurnitureTypeConstructedDelegate
     content.vb: Public Shared Event OnFurnitureTypeConstructed As Furniture.FurnitureTypeConstructedDelegate
+- uid: TinyLife.Objects.Furniture.OnSetNewId
+  commentId: E:TinyLife.Objects.Furniture.OnSetNewId
+  id: OnSetNewId
+  parent: TinyLife.Objects.Furniture
+  langs:
+  - csharp
+  - vb
+  name: OnSetNewId
+  nameWithType: Furniture.OnSetNewId
+  fullName: TinyLife.Objects.Furniture.OnSetNewId
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  summary: >-
+    An event that is invoked in <xref href="TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable%7bTinyLife.Objects.Furniture%7d)" data-throw-if-not-resolved="false"></xref> when this furniture item gets assigned a new randomly generated <xref href="System.Guid" data-throw-if-not-resolved="false"></xref>. Mods can use this event to update any references to the furniture item to the new <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref>.
+
+    Note that both the <xref href="TinyLife.Mods.EventPhase.Pre" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Mods.EventPhase.Post" data-throw-if-not-resolved="false"></xref> events are invoked before the <xref href="TinyLife.Objects.MapObject.Id" data-throw-if-not-resolved="false"></xref> is overwritten, so the first and second <xref href="System.Guid" data-throw-if-not-resolved="false"></xref> arguments to this event (the old and new ID, respectively), should always be used for comparisons.
+  example: []
+  syntax:
+    content: public static event Action<Furniture, Guid, Guid, EventPhase> OnSetNewId
+    return:
+      type: System.Action{TinyLife.Objects.Furniture,System.Guid,System.Guid,TinyLife.Mods.EventPhase}
+    content.vb: Public Shared Event OnSetNewId As Action(Of Furniture, Guid, Guid, EventPhase)
 - uid: TinyLife.Objects.Furniture.OnGetDescription
   commentId: E:TinyLife.Objects.Furniture.OnGetDescription
   id: OnGetDescription
@@ -2240,16 +2265,16 @@ items:
   nameWithType.vb: Furniture.OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
   fullName.vb: TinyLife.Objects.Furniture.OnPlacedInBuildMode(TinyLife.Tools.FurniturePlacer, Boolean, TinyLife.Tools.UndoableAction)
   name.vb: OnPlacedInBuildMode(FurniturePlacer, Boolean, UndoableAction)
-- uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
-  commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
-  id: GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.Objects.WallLike})
+- uid: TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.WallLike})
+  commentId: M:TinyLife.Objects.Furniture.GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.WallLike})
+  id: GetWallsInTheWay``1(Microsoft.Xna.Framework.Vector2,System.Single,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.WallLike})
   parent: TinyLife.Objects.Furniture
   langs:
   - csharp
   - vb
   name: GetWallsInTheWay<T>(Vector2, float, Direction2, float, ICollection<WallLike>)
   nameWithType: Furniture.GetWallsInTheWay<T>(Vector2, float, Direction2, float, ICollection<WallLike>)
-  fullName: TinyLife.Objects.Furniture.GetWallsInTheWay<T>(Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, float, System.Collections.Generic.ICollection<TinyLife.Objects.WallLike>)
+  fullName: TinyLife.Objects.Furniture.GetWallsInTheWay<T>(Microsoft.Xna.Framework.Vector2, float, MLEM.Maths.Direction2, float, System.Collections.Generic.ICollection<TinyLife.World.WallLike>)
   type: Method
   assemblies:
   - TinyLife
@@ -2272,7 +2297,7 @@ items:
       type: System.Single
       description: The maximum distance from obstructions.
     - id: possibleAdditionalWalls
-      type: System.Collections.Generic.ICollection{TinyLife.Objects.WallLike}
+      type: System.Collections.Generic.ICollection{TinyLife.World.WallLike}
       description: A set of walls that have not been placed yet, but might also be in the way.
     typeParameters:
     - id: T
@@ -2282,7 +2307,7 @@ items:
     content.vb: Public Overridable Function GetWallsInTheWay(Of T As WallLike)(pos As Vector2, floor As Single, rotation As Direction2, distanceFromObstructions As Single = 0, possibleAdditionalWalls As ICollection(Of WallLike) = Nothing) As IEnumerable(Of T)
   overload: TinyLife.Objects.Furniture.GetWallsInTheWay*
   nameWithType.vb: Furniture.GetWallsInTheWay(Of T)(Vector2, Single, Direction2, Single, ICollection(Of WallLike))
-  fullName.vb: TinyLife.Objects.Furniture.GetWallsInTheWay(Of T)(Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, Single, System.Collections.Generic.ICollection(Of TinyLife.Objects.WallLike))
+  fullName.vb: TinyLife.Objects.Furniture.GetWallsInTheWay(Of T)(Microsoft.Xna.Framework.Vector2, Single, MLEM.Maths.Direction2, Single, System.Collections.Generic.ICollection(Of TinyLife.World.WallLike))
   name.vb: GetWallsInTheWay(Of T)(Vector2, Single, Direction2, Single, ICollection(Of WallLike))
 - uid: TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
   commentId: M:TinyLife.Objects.Furniture.GetRoofingInTheWay(Microsoft.Xna.Framework.Vector2,System.Int32,MLEM.Maths.Direction2,System.Single,System.Collections.Generic.ICollection{TinyLife.World.Roof})
@@ -4593,6 +4618,182 @@ references:
   - uid: TinyLife.Objects.Furniture.FurnitureTypeConstructedDelegate
     name: FurnitureTypeConstructedDelegate
     href: TinyLife.Objects.Furniture.FurnitureTypeConstructedDelegate.html
+- uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  commentId: M:TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetNewId_System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  name: SetNewId(IEnumerable<Furniture>)
+  nameWithType: Furniture.SetNewId(IEnumerable<Furniture>)
+  fullName: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>)
+  nameWithType.vb: Furniture.SetNewId(IEnumerable(Of Furniture))
+  fullName.vb: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture))
+  name.vb: SetNewId(IEnumerable(Of Furniture))
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+    name: SetNewId
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetNewId_System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.SetNewId(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture})
+    name: SetNewId
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_SetNewId_System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__
+  - name: (
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+  - name: )
+- uid: System.Guid
+  commentId: T:System.Guid
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.guid
+  name: Guid
+  nameWithType: Guid
+  fullName: System.Guid
+- uid: TinyLife.Mods.EventPhase.Pre
+  commentId: F:TinyLife.Mods.EventPhase.Pre
+  href: TinyLife.Mods.EventPhase.html#TinyLife_Mods_EventPhase_Pre
+  name: Pre
+  nameWithType: EventPhase.Pre
+  fullName: TinyLife.Mods.EventPhase.Pre
+- uid: TinyLife.Mods.EventPhase.Post
+  commentId: F:TinyLife.Mods.EventPhase.Post
+  href: TinyLife.Mods.EventPhase.html#TinyLife_Mods_EventPhase_Post
+  name: Post
+  nameWithType: EventPhase.Post
+  fullName: TinyLife.Mods.EventPhase.Post
+- uid: System.Action{TinyLife.Objects.Furniture,System.Guid,System.Guid,TinyLife.Mods.EventPhase}
+  commentId: T:System.Action{TinyLife.Objects.Furniture,System.Guid,System.Guid,TinyLife.Mods.EventPhase}
+  parent: System
+  definition: System.Action`4
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<Furniture, Guid, Guid, EventPhase>
+  nameWithType: Action<Furniture, Guid, Guid, EventPhase>
+  fullName: System.Action<TinyLife.Objects.Furniture, System.Guid, System.Guid, TinyLife.Mods.EventPhase>
+  nameWithType.vb: Action(Of Furniture, Guid, Guid, EventPhase)
+  fullName.vb: System.Action(Of TinyLife.Objects.Furniture, System.Guid, System.Guid, TinyLife.Mods.EventPhase)
+  name.vb: Action(Of Furniture, Guid, Guid, EventPhase)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: ','
+  - name: " "
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Mods.EventPhase
+    name: EventPhase
+    href: TinyLife.Mods.EventPhase.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: ','
+  - name: " "
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: ','
+  - name: " "
+  - uid: System.Guid
+    name: Guid
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.guid
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Mods.EventPhase
+    name: EventPhase
+    href: TinyLife.Mods.EventPhase.html
+  - name: )
+- uid: System.Action`4
+  commentId: T:System.Action`4
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-4
+  name: Action<T1, T2, T3, T4>
+  nameWithType: Action<T1, T2, T3, T4>
+  fullName: System.Action<T1, T2, T3, T4>
+  nameWithType.vb: Action(Of T1, T2, T3, T4)
+  fullName.vb: System.Action(Of T1, T2, T3, T4)
+  name.vb: Action(Of T1, T2, T3, T4)
+  spec.csharp:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`4
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-4
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: ','
+  - name: " "
+  - name: T3
+  - name: ','
+  - name: " "
+  - name: T4
+  - name: )
 - uid: TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
   commentId: M:TinyLife.Objects.Furniture.GetDescription(System.Collections.Generic.List{System.String},System.Boolean)
   parent: TinyLife.Objects.Furniture
@@ -5597,14 +5798,6 @@ references:
   name: AreUtilitiesDisabled
   nameWithType: Furniture.AreUtilitiesDisabled
   fullName: TinyLife.Objects.Furniture.AreUtilitiesDisabled
-- uid: System.Guid
-  commentId: T:System.Guid
-  parent: System
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.guid
-  name: Guid
-  nameWithType: Guid
-  fullName: System.Guid
 - uid: System.Guid.Empty
   commentId: F:System.Guid.Empty
   isExternal: true
@@ -8688,20 +8881,20 @@ references:
     href: TinyLife.Tools.html
 - uid: TinyLife.Objects.Furniture.GetWallsInTheWay*
   commentId: Overload:TinyLife.Objects.Furniture.GetWallsInTheWay
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetWallsInTheWay__1_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_System_Single_System_Collections_Generic_ICollection_TinyLife_Objects_WallLike__
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_GetWallsInTheWay__1_Microsoft_Xna_Framework_Vector2_System_Single_MLEM_Maths_Direction2_System_Single_System_Collections_Generic_ICollection_TinyLife_World_WallLike__
   name: GetWallsInTheWay
   nameWithType: Furniture.GetWallsInTheWay
   fullName: TinyLife.Objects.Furniture.GetWallsInTheWay
-- uid: System.Collections.Generic.ICollection{TinyLife.Objects.WallLike}
-  commentId: T:System.Collections.Generic.ICollection{TinyLife.Objects.WallLike}
+- uid: System.Collections.Generic.ICollection{TinyLife.World.WallLike}
+  commentId: T:System.Collections.Generic.ICollection{TinyLife.World.WallLike}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.ICollection`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
   name: ICollection<WallLike>
   nameWithType: ICollection<WallLike>
-  fullName: System.Collections.Generic.ICollection<TinyLife.Objects.WallLike>
+  fullName: System.Collections.Generic.ICollection<TinyLife.World.WallLike>
   nameWithType.vb: ICollection(Of WallLike)
-  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.Objects.WallLike)
+  fullName.vb: System.Collections.Generic.ICollection(Of TinyLife.World.WallLike)
   name.vb: ICollection(Of WallLike)
   spec.csharp:
   - uid: System.Collections.Generic.ICollection`1
@@ -8709,9 +8902,9 @@ references:
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.collections.generic.icollection-1
   - name: <
-  - uid: TinyLife.Objects.WallLike
+  - uid: TinyLife.World.WallLike
     name: WallLike
-    href: TinyLife.Objects.WallLike.html
+    href: TinyLife.World.WallLike.html
   - name: '>'
   spec.vb:
   - uid: System.Collections.Generic.ICollection`1
@@ -8721,9 +8914,9 @@ references:
   - name: (
   - name: Of
   - name: " "
-  - uid: TinyLife.Objects.WallLike
+  - uid: TinyLife.World.WallLike
     name: WallLike
-    href: TinyLife.Objects.WallLike.html
+    href: TinyLife.World.WallLike.html
   - name: )
 - uid: System.Collections.Generic.IEnumerable{{T}}
   commentId: T:System.Collections.Generic.IEnumerable{``0}
