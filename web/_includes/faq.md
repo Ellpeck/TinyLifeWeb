@@ -6,7 +6,7 @@ If you're having an issue with the game, like it crashing or being unable to sta
 # 👶 How old do I have to be to play Tiny Life? Can I let my children play?
 Tiny Life is a game intended for all audiences, young and old!
 
-Depending on the country you're buying Tiny Life in, it may be rated as appropriate for people ages 6 and up, or ages 12 and up. This is due to a variety of references in the game that governments may deem inappropriate for children. In our opinion, it's important that you know about these references, but that you decide for yourself if your child is ready to be exposed to them.
+Depending on the country you're buying Tiny Life in, it may be rated as appropriate for people ages 6 and up, or ages 12 and up. This is due to a variety of references in the game that governments may deem inappropriate for children of differing ages. In our opinion, it's important that you know about these references, but that you decide for yourself if your child is ready to be exposed to them.
 
 Notable references are:
 - Veiled nudity when Tinies shower, use the toilet, or fool around. Nudity is covered by a pixelated censor effect, below which the basic body shape is visible. There is no visible or censored genitalia.
@@ -15,6 +15,16 @@ Notable references are:
 - Abortion. Tinies can have an abortion, which is referred to as "ending pregnancy" in the game. Tinies may experience mood swings after ending their pregnancy, but their decisions will not be displayed negatively or condemned by the game or other Tinies.
 - Death. When a Tiny dies (which may occur through starvation, having too much brew, exhaustion, and more), they fade out and a gravestone will appear. There is never a display of blood or gore.
 - Mental health issues. While never explicitly addressed using clinical terms such as depression or anxiety, Tinies may start feeling very sad from major life events like the death of a loved one or an abortion.
+
+# 🏳️‍🌈 How diverse or inclusive is Tiny Life?
+Diversity representation and inclusivity are extremely important to us! Tiny Life is created by a queer developer with a lot of influence from queer communities and people of color, as well as an interest in exploring representation of non-western cultures more thoroughly. When hiring freelance artists for Tiny Life's themed Sets, we take care to create overlap between the freelancer's cultural background and identity and the items they create.
+
+All of this makes Tiny Life a game intended for everyone. While we think these features should be a given in all games that have customization options, here are some things that still make Tiny Life stand out:
+- A large variety of skin tones for your Tinies.
+- The ability to select a Tiny's gender identity, voice, reproductive abilities and clothing style independently of each other, as well as the ability to make Tinies asexual, aromantic or both.
+- An ever-growing array of hairs and clothing items for everyone, including many afro-textured hairstyles, as well as items like durags and headscarves. 
+
+If you have any feedback to share, especially requests for clothing items from your culture, please don't hesitate to reach out via [the feedback form](https://tinylifegame.com/feedback).
 
 # 💸 Will there be paid DLC for the game?
 This largely depends on how Tiny Life sales perform over the next few years.
