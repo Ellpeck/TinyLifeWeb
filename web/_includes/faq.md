@@ -19,7 +19,7 @@ Notable references are:
 # 🏳️‍🌈 How diverse or inclusive is Tiny Life?
 Diversity representation and inclusivity are extremely important to us! Tiny Life is created by a queer developer with a lot of influence from queer communities and people of color, as well as an interest in exploring representation of non-western cultures more thoroughly. When hiring freelance artists for Tiny Life's themed Sets, we take care to create overlap between the freelancer's cultural background and identity and the items they create.
 
-All of this makes Tiny Life a game intended for everyone. While we think these features should be a given in all games that have customization options, here are some things that still make Tiny Life stand out:
+All of this makes Tiny Life a game intended for everyone. While we think these features should be a given in all games that have character customization options, here are some things that still make Tiny Life stand out:
 - A large variety of skin tones for your Tinies.
 - The ability to select a Tiny's gender identity, voice, reproductive abilities and clothing style independently of each other, as well as the ability to make Tinies asexual, aromantic or both.
 - An ever-growing array of hairs and clothing items for everyone, including many afro-textured hairstyles, as well as items like durags and headscarves. 
