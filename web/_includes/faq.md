@@ -26,10 +26,31 @@ All of this makes Tiny Life a game intended for everyone. While we think these f
 
 If you have any feedback to share, especially requests for clothing items from your culture, please don't hesitate to reach out via [the feedback form](https://tinylifegame.com/feedback).
 
+# 📊 How does the game's full version differ from the demo?
+While playing the Tiny Life demo, you may notice informational boxes in various places around the game's UI that are meant to give a general overview of the content that is unavailable in the demo. These boxes are a good way to see what features are waiting for you in the full game while playing the demo.
+
+Alongside various smaller things like miscellaneous actions being unavailable in the demo, here is a list of major features that are only available in the game's full version:
+- A much larger variety of clothing, as well as furniture and other build mode items, including all items from [Sets](#-what-are-sets-do-i-have-to-pay-for-them). 
+- Baby and elder life stages and all of the gameplay associated with them, including pregnancy.
+- Gameplay features like Life Goals and various skills, including Woodworking, Drink Mixing and Tinkering, the latter of which also enables object upgrades.
+- The ability select multiple worlds per save, as well as a variety of prebuilt worlds including the large Maple Plains City.
+- The ability to export or import custom content, including households, lots and custom worlds, as well as the ability to create or install content mods.
+
+Please note that saves you create in the demo carry over to the full game, meaning you can get started in the demo and then, after buying the full game, continue with your household or households and even add additional worlds to your existing save.
+
+# 🎁 What are Sets? Do I have to pay for them?
+As the game's second-to-rightmost options tab (which is also where you can find a list of all Sets) explains:
+
+> Sets are groups of game content themed around a certain topic. Most Sets feature designs and art created by an artist from the community. You can spot an item from a Set through the Set's icon, which is displayed next to the item.
+
+While the demo does not contain any Sets, the full version of the game ships with all existing Sets pre-installed, and all Sets released after you buy the game will automatically be included in free updates. 
+
+You can find a full list of the artists who contributed to Sets in the [credits](/credits). If you're interested in contributing your own art as a freelance commission, please reach out on [the Discord server](https://link.tinylifegame.com/discordweb).
+
 # 💸 Will there be paid DLC for the game?
 This largely depends on how Tiny Life sales perform over the next few years.
 
-As a team, we're largely against paid DLC, as a lot of the time, it doesn't end up feeling "worth it" to players. That being said, depending on the financial situation, we may have to start selling small DLC (such as cosmetics, akin to what Sets currently serve as in the game), but we vow to never gate major gameplay features and/or inclusivity features behind a paywall.
+As a team, we're largely against paid DLC, as a lot of the time, it doesn't end up feeling "worth it" to players. That being said, depending on the financial situation, we may have to start selling small DLC (such as cosmetics, akin to what [Sets](#-what-are-sets-do-i-have-to-pay-for-them) currently serve as in the game), but we vow to never gate major gameplay features and/or inclusivity features behind a paywall.
 
 If the reason you'd like to buy DLC for the game is supporting Tiny Life's development, we recommend you check out the Ellpeck Games [Patreon](https://www.patreon.com/c/ellpeck) or [Ko-fi](https://ko-fi.com/ellpeck/tiers) pages. On there, you can find multiple paid monthly (or one-off) tiers that give you early access to sneak peeks for the game as well as early access to playable builds of future updates.
 
@@ -58,7 +79,7 @@ If you have questions about future updates and what Ell is currently working on,
 # 🥼 How do I add custom content to the game?
 If you'd like to add custom clothing, furniture, actions, personalitities or other gameplay features, you should check out the game's [C# modding API](https://docs.tinylifegame.com/articles/mod_basics.html). Several mods have already been made and published for the game, and members of [the Discord server](https://link.tinylifegame.com/discordweb) are always eager and ready to help you get started if you're struggling with your first mod.
 
-If you'd like to publish custom households, lots, maps or mods for the game, we recommend doing so through the game's various export features as well as [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/) if you own the game on Steam. To get custom content that other players made, see the [getting custom content guide](https://docs.tinylifegame.com/articles/getting.html) on the documentation site.
+If you'd like to publish custom households, lots, worlds or mods for the game, we recommend doing so through the game's various export features as well as [the Steam workshop](https://steamcommunity.com/app/1651490/workshop/) if you own the game on Steam. To get custom content that other players made, see the [getting custom content guide](https://docs.tinylifegame.com/articles/getting.html) on the documentation site.
 
 # 💎 Is Tiny Life inspired by The Sims?
 The short answer is: yes, very much so!
