@@ -61,7 +61,7 @@ Yes, it will! Here's an excerpt from our [public roadmap](/#roadmap):
 
 Unfortunately, we don't know when Tiny Life will be ready to leave Early Access yet. You can find more info about the timeline and other Early Access-related questions on [the Steam page](https://store.steampowered.com/app/1651490/Tiny_Life/) by opening the box in the "Early Access Game" section below the trailer.
 
-# 📱 Will Tiny Life release for mobile devices?
+# 📱 Will Tiny Life release for mobile devices like Android or iOS?
 Unfortunately, there are no plans for Tiny Life to release to mobile platforms like Android and iOS. In our opinion, Tiny Life's gameplay and control scheme don't lend themselves well to small screens and touch controls. Additionally, the mobile games market is very different from the desktop and console market, and we're generally opposed to filling our games with advertisements or microtransactions. While not making the game free on mobile is an alternative, it has proven itself unsustainable for many games, as mobile players don't tend to expect having to purchase a game.
 
 # 🧠 Does Tiny Life use Generative Artificial Intelligence (GenAI)?
