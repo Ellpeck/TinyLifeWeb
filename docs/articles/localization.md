@@ -1,8 +1,5 @@
 # Contributing Localizations
 
-![](https://translate.ellpeck.de/da5ba3ec-ab26-4ff2-a1ff-24b817c2f7f6/translations_badge.svg)
-![](https://translate.ellpeck.de/da5ba3ec-ab26-4ff2-a1ff-24b817c2f7f6/percentage_reviewed_badge.svg)
-
 If you're interested in contributing new languages to Tiny Life's localization or editing the text of existing translations, it is greatly appreciated! Sadly, I don't have the ability to pay translators right now, so any work you do will be volunteer-based. That being said, you will, of course, be credited in the game's Credits Menu with a link to a social media profile of your choice, and you will greatly contribute to the game's community!
 
 If you want to join the team of translators, the first step is to message Ellpeck, either privately after joining [the Discord server](https://link.tinylifegame.com/discordweb), or in the `#tiny-life-general` channel. If you don't have access to Discord, you can email [ell@tinylifegame.com](mailto:ell@tinylifegame.com?subject=Tiny%20Life%20Localization%20Contribution) instead. You'll also need an account on [the translation site](https://translate.ellpeck.de/), where you can log in directly with a GitHub or Discord account.
