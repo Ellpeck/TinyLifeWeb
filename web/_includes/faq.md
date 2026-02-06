@@ -88,6 +88,13 @@ A lot of people seem to relate Tiny Life as a whole to The Sims (1), likely due 
 
 However, Tiny Life's gameplay was very largely inspired by The Sims 4, which is the game in the series that Ell, Tiny Life's creator, has played by far the most. You can see this inspiration in the way that Tiny Life's emotions, skills, personalities and action multi-tasking work.
 
+# 👾 Is Tiny Life a demake of The Sims?
+A surprising amount of people, when describing the game, will say that Tiny Life is a demake of The Sims. Now, there's a large variety of possible interpretations of that term, but to us, a demake has to be two things:
+
+To us, a demake has to be created as if it were made for an older machine or an older generation of consoles, both in terms of visual style, and in terms of technical capabilities. While Tiny Life does have pixel graphics, it does not adhere to a limited color palette or maximum amount of colors on screen as machines of the 8-bit era would have done. Additionally, Tiny Life has a rather complex Tiny AI that machines from the time would not be able to simulate.
+
+Additionally, demakes usually take very heavy inspiration from the games they're "demaking," so much so that they could arguably be called "the same game." While it's not our intention to put down the effort, passion and artistry that goes into the creation of demakes, we believe that Tiny Life deserves to stand on its own as a game.
+
 # 🏡 What makes Tiny Life different from The Sims? What makes it unique?
 Uniqueness in game design, to us, is a whole kettle of fish. For one, games don't have to necessarily be *unique* in some super-meaningful way to be good, or fun. This is the way Ell put the issue he has with this discussion a while back:
 
