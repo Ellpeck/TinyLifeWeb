@@ -21,6 +21,7 @@ items:
   - TinyLife.World.Map.ApplyCameraRotation(Microsoft.Xna.Framework.Vector2,System.Boolean,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.ApplyInverseCameraRotation(Microsoft.Xna.Framework.Vector2,System.Nullable{MLEM.Maths.Direction2})
   - TinyLife.World.Map.CanWalkBetween(TinyLife.Objects.PersonLike,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
+  - TinyLife.World.Map.ClampSectionPos(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.CollectPossiblePathNeighbors(System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32},System.Collections.Generic.ISet{System.ValueTuple{Microsoft.Xna.Framework.Point,System.Int32}})
   - TinyLife.World.Map.DepthStencilCheck
   - TinyLife.World.Map.DepthStencilReplace
@@ -52,6 +53,7 @@ items:
   - TinyLife.World.Map.GetRoom(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetRooms(MLEM.Maths.RectangleF)
   - TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
+  - TinyLife.World.Map.GetSectionPos(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.GetSections(MLEM.Maths.RectangleF,System.Int32)
   - TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetStairs(MLEM.Maths.RectangleF,System.Boolean)
@@ -92,6 +94,7 @@ items:
   - TinyLife.World.Map.OnObjectAdded
   - TinyLife.World.Map.OnObjectRemoved
   - TinyLife.World.Map.OnPathfindingNodeConstruct
+  - TinyLife.World.Map.OnPrepareForPermanentRemoval
   - TinyLife.World.Map.OnUpdate
   - TinyLife.World.Map.OnUpdateExternalPeople
   - TinyLife.World.Map.OutlineEffect
@@ -635,6 +638,25 @@ items:
     return:
       type: TinyLife.World.Map.VisitPriorityDelegate
     content.vb: Public Event OnGetVisitPriority As Map.VisitPriorityDelegate
+- uid: TinyLife.World.Map.OnPrepareForPermanentRemoval
+  commentId: E:TinyLife.World.Map.OnPrepareForPermanentRemoval
+  id: OnPrepareForPermanentRemoval
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnPrepareForPermanentRemoval
+  nameWithType: Map.OnPrepareForPermanentRemoval
+  fullName: TinyLife.World.Map.OnPrepareForPermanentRemoval
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public event Action<EventPhase> OnPrepareForPermanentRemoval
+    return:
+      type: System.Action{TinyLife.Mods.EventPhase}
+    content.vb: Public Event OnPrepareForPermanentRemoval As Action(Of EventPhase)
 - uid: TinyLife.World.Map.MailToSend
   commentId: F:TinyLife.World.Map.MailToSend
   id: MailToSend
@@ -3509,6 +3531,29 @@ items:
       description: The summoned person, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> if no person with the given id exists on this map or any of its <xref href="TinyLife.World.Map.Neighborhood" data-throw-if-not-resolved="false"></xref> maps, and no person with the given id exists in the set of exported households.
     content.vb: Public Function SummonSpecialVisitor(personId As Guid, lotToVisit As Lot = Nothing) As PersonLike
   overload: TinyLife.World.Map.SummonSpecialVisitor*
+- uid: TinyLife.World.Map.ClampSectionPos(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.World.Map.ClampSectionPos(Microsoft.Xna.Framework.Point)
+  id: ClampSectionPos(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: ClampSectionPos(Point)
+  nameWithType: Map.ClampSectionPos(Point)
+  fullName: TinyLife.World.Map.ClampSectionPos(Microsoft.Xna.Framework.Point)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public Point ClampSectionPos(Point pos)
+    parameters:
+    - id: pos
+      type: Microsoft.Xna.Framework.Point
+    return:
+      type: Microsoft.Xna.Framework.Point
+    content.vb: Public Function ClampSectionPos(pos As Point) As Point
+  overload: TinyLife.World.Map.ClampSectionPos*
 - uid: TinyLife.World.Map.PrepareForPermanentRemoval
   commentId: M:TinyLife.World.Map.PrepareForPermanentRemoval
   id: PrepareForPermanentRemoval
@@ -3708,6 +3753,29 @@ items:
       description: Information about all static maps that can be loaded by the game.
     content.vb: Public Shared Function GetStaticMaps() As IEnumerable(Of (Path As String, Description As String, Icon As Texture2D, Custom As Boolean, Hidden As Boolean))
   overload: TinyLife.World.Map.GetStaticMaps*
+- uid: TinyLife.World.Map.GetSectionPos(Microsoft.Xna.Framework.Point)
+  commentId: M:TinyLife.World.Map.GetSectionPos(Microsoft.Xna.Framework.Point)
+  id: GetSectionPos(Microsoft.Xna.Framework.Point)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: GetSectionPos(Point)
+  nameWithType: Map.GetSectionPos(Point)
+  fullName: TinyLife.World.Map.GetSectionPos(Microsoft.Xna.Framework.Point)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public static Point GetSectionPos(Point pos)
+    parameters:
+    - id: pos
+      type: Microsoft.Xna.Framework.Point
+    return:
+      type: Microsoft.Xna.Framework.Point
+    content.vb: Public Shared Function GetSectionPos(pos As Point) As Point
+  overload: TinyLife.World.Map.GetSectionPos*
 references:
 - uid: TinyLife.World.MapSection
   commentId: T:TinyLife.World.MapSection
@@ -5326,6 +5394,39 @@ references:
   - uid: TinyLife.World.Map.VisitPriorityDelegate
     name: VisitPriorityDelegate
     href: TinyLife.World.Map.VisitPriorityDelegate.html
+- uid: System.Action{TinyLife.Mods.EventPhase}
+  commentId: T:System.Action{TinyLife.Mods.EventPhase}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<EventPhase>
+  nameWithType: Action<EventPhase>
+  fullName: System.Action<TinyLife.Mods.EventPhase>
+  nameWithType.vb: Action(Of EventPhase)
+  fullName.vb: System.Action(Of TinyLife.Mods.EventPhase)
+  name.vb: Action(Of EventPhase)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: TinyLife.Mods.EventPhase
+    name: EventPhase
+    href: TinyLife.Mods.EventPhase.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Mods.EventPhase
+    name: EventPhase
+    href: TinyLife.Mods.EventPhase.html
+  - name: )
 - uid: TinyLife.World.Mail
   commentId: T:TinyLife.World.Mail
   parent: TinyLife.World
@@ -8305,6 +8406,12 @@ references:
   name: SummonSpecialVisitor
   nameWithType: Map.SummonSpecialVisitor
   fullName: TinyLife.World.Map.SummonSpecialVisitor
+- uid: TinyLife.World.Map.ClampSectionPos*
+  commentId: Overload:TinyLife.World.Map.ClampSectionPos
+  href: TinyLife.World.Map.html#TinyLife_World_Map_ClampSectionPos_Microsoft_Xna_Framework_Point_
+  name: ClampSectionPos
+  nameWithType: Map.ClampSectionPos
+  fullName: TinyLife.World.Map.ClampSectionPos
 - uid: TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   commentId: M:TinyLife.Objects.PersonLike.PrepareForPermanentRemoval
   parent: TinyLife.Objects.PersonLike
@@ -8654,3 +8761,9 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.boolean
   - name: )
   - name: )
+- uid: TinyLife.World.Map.GetSectionPos*
+  commentId: Overload:TinyLife.World.Map.GetSectionPos
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetSectionPos_Microsoft_Xna_Framework_Point_
+  name: GetSectionPos
+  nameWithType: Map.GetSectionPos
+  fullName: TinyLife.World.Map.GetSectionPos

@@ -1,3 +1,21 @@
+# 0.49.2
+*February 16, 2026*
+
+Additions
+- Added two new outdoor-style wall-attached lights
+- Added two types of outdoor stepping stone objects
+
+Improvements
+- Tinies now avoid placing non-food items on counters when discarding them to avoid being unable to cook food on them
+- Tinies can now execute cooking steps while still holding an item, which they will autonomously put down
+- Tinies now automatically grab a serving of a food platter they just made if hungry enough
+- Tinies can now adopt a child as parent even when not in the same household, as long as their relationship is good enough
+
+Fixes
+- Fixed the graphics for the pride hoodie and tshirt being swapped for children
+- Fixed various issues with section position clamping, causing resetting locations for people who live on smaller maps to cause exceptions
+- Fixed a rare exception when selecting from a small set of available AI tasks
+
 # 0.49.1
 *January 28, 2026*
 
