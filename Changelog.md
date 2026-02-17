@@ -1,3 +1,10 @@
+# 0.49.3
+*February 17, 2026*
+
+Fixes
+- Fixed a stack overflow crash when holding an item while other discardable items are around
+- Fixed Discord rich presence integration crashing if the game is closed early
+
 # 0.49.2
 *February 16, 2026*
 
