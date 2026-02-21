@@ -5,6 +5,11 @@ If you'd like for more examples of specific content pieces to be added to this l
 
 Feel free to copy these examples into your own mods and modify them as needed. Please note that this is not allowed for parts of the game's code that aren't listed here, as they are protected by the game's license.
 
+## Example Mod
+The example mod contains a basic custom multi-step action, custom clothing items, custom map object events, custom emotion modifiers, and various simple custom build mode items.
+
+If you've already deleted the example mod code from your mod, you can find it [on the repository](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/ExampleMod.cs).
+
 ## Furniture
 
 ### Custom Object Categories
