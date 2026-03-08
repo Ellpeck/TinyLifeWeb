@@ -1,3 +1,21 @@
+# 0.49.4
+*March 8, 2026*
+
+Hi everyone! Currently I'm very busy with university exams, but here's a small update to tide you over. Development on major features should be able to continue in April!
+
+Additions
+- Added the ability for babies and children to play in puddles
+
+Improvements
+- Drastically improved pathfinding pre-generation speed when loading a save
+- Slightly improved performance when drawing static map objects, especially after rotating the camera while zoomed out
+- The prices of all doors and windows are now halved
+
+Fixes
+- Various fixes to issues with the household split panel, which resulted in incorrect amounts of money when moving
+- Fixed being unable to import lots when the lot would fit if rotated 90 degrees
+- Fixed being unable to import a lot when the current lot's conditions are unmet
+
 # 0.49.3
 *February 17, 2026*
 

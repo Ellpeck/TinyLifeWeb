@@ -9,7 +9,6 @@ The following is a list of the most important launch arguments.
 - `--ansi` causes ansi colors to be used for the log, which makes log files less readable, but printing the content of log files to the console more readable.
 - `--verbose` or `-v` causes the game to output verbose logging information to the log files.
 - `--skip-splash` causes the game's splash screen logos to be skipped for faster startup when testing mods.
-- `--skip-preloads` causes some time-intensive preloading to be skipped when loading saves, at the expense of performance while playing. This can be useful when testing mods, as you have to wait less long for a save to finish loading.
 - `--debug-saves` causes a JSON representation of save data to be output to a save's directory when saving the game. Note that data is never loaded back into the game from this file, so editing it has no effect.
 - `--trace-load` causes additional logging to occur when the game loads, printing out load times of individual game components. This only has an effect if `--verbose` or `-v` is also specified.
 - `--reflective-bind-to-type` causes pre-0.48 reflective type binding to be used. This may be necessary to debug loading or saving issues with the new, non-reflective type resolving system.
