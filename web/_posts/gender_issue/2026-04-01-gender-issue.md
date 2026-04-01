@@ -1,5 +1,5 @@
 ﻿---
-title: "Finally Addressing Tiny Life's Gender Issue"
+title: "[APRIL FOOLS] Finally Addressing Tiny Life's Gender Issue"
 tags: [Devlogs]
 image: "TinyLife_NsrTHY4IRZ.png"
 itch: "https://ellpeck.itch.io/tiny-life/devlog/1476580/finally-addressing-tiny-lifes-gender-issue"
