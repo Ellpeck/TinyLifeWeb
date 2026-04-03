@@ -8,12 +8,13 @@ items:
   - TinyLife.World.Lot.#ctor(TinyLife.World.Map,Microsoft.Xna.Framework.Rectangle)
   - TinyLife.World.Lot.AreRequirementsMet
   - TinyLife.World.Lot.Area
-  - TinyLife.World.Lot.CanImport(TinyLife.World.ExportedLot)
+  - TinyLife.World.Lot.CanImport(MLEM.Maths.RectangleF,System.Single)
   - TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IEnumerable{TinyLife.World.Household.RandomPerson},System.Func{System.Int32,System.Int32,System.Boolean})
   - TinyLife.World.Lot.CanOccupy(System.Collections.Generic.IList{TinyLife.Objects.PersonLike})
   - TinyLife.World.Lot.CanOccupy(System.ValueTuple{System.Collections.Generic.List{TinyLife.World.Household.RandomPerson},System.Collections.Generic.Dictionary{System.ValueTuple{System.Int32,System.Int32},TinyLife.World.Household.Relation}})
   - TinyLife.World.Lot.CanVisitRightNow(TinyLife.Objects.PersonLike)
   - TinyLife.World.Lot.Clear(System.Boolean,System.Boolean)
+  - TinyLife.World.Lot.Description
   - TinyLife.World.Lot.Export
   - TinyLife.World.Lot.GetCoveredArea
   - TinyLife.World.Lot.GetDefaultTile
@@ -274,6 +275,35 @@ items:
       <DataMember>
 
       Public Name As String
+  attributes:
+  - type: System.Runtime.Serialization.DataMemberAttribute
+    ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
+    arguments: []
+- uid: TinyLife.World.Lot.Description
+  commentId: F:TinyLife.World.Lot.Description
+  id: Description
+  parent: TinyLife.World.Lot
+  langs:
+  - csharp
+  - vb
+  name: Description
+  nameWithType: Lot.Description
+  fullName: TinyLife.World.Lot.Description
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: >-
+      [DataMember]
+
+      public string Description
+    return:
+      type: System.String
+    content.vb: >-
+      <DataMember>
+
+      Public Description As String
   attributes:
   - type: System.Runtime.Serialization.DataMemberAttribute
     ctor: System.Runtime.Serialization.DataMemberAttribute.#ctor
@@ -746,38 +776,44 @@ items:
   nameWithType.vb: Lot.Import(ExportedLot, AppliedMigrations, String, Boolean, Boolean)
   fullName.vb: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot, TinyLife.Utilities.AppliedMigrations, String, Boolean, Boolean)
   name.vb: Import(ExportedLot, AppliedMigrations, String, Boolean, Boolean)
-- uid: TinyLife.World.Lot.CanImport(TinyLife.World.ExportedLot)
-  commentId: M:TinyLife.World.Lot.CanImport(TinyLife.World.ExportedLot)
-  id: CanImport(TinyLife.World.ExportedLot)
+- uid: TinyLife.World.Lot.CanImport(MLEM.Maths.RectangleF,System.Single)
+  commentId: M:TinyLife.World.Lot.CanImport(MLEM.Maths.RectangleF,System.Single)
+  id: CanImport(MLEM.Maths.RectangleF,System.Single)
   parent: TinyLife.World.Lot
   langs:
   - csharp
   - vb
-  name: CanImport(ExportedLot)
-  nameWithType: Lot.CanImport(ExportedLot)
-  fullName: TinyLife.World.Lot.CanImport(TinyLife.World.ExportedLot)
+  name: CanImport(RectangleF, float)
+  nameWithType: Lot.CanImport(RectangleF, float)
+  fullName: TinyLife.World.Lot.CanImport(MLEM.Maths.RectangleF, float)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.World
   summary: >-
-    A method that calculates whether the given <xref href="TinyLife.World.ExportedLot" data-throw-if-not-resolved="false"></xref> can be imported.
+    A method that calculates whether an <xref href="TinyLife.World.ExportedLot" data-throw-if-not-resolved="false"></xref> with the given size and price can be imported.
 
     A lot can be imported if the <xref href="TinyLife.World.Lot.Household" data-throw-if-not-resolved="false"></xref> has enough money, and if this lot's <xref href="TinyLife.World.Lot.Area" data-throw-if-not-resolved="false"></xref> is greater than or equal to the exported lot's area.
 
-    Note that a lot that may be able to be imported with a 90 degree rotation will still return <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> here, unless it was previously rotated using <xref href="TinyLife.Tools.MoveLotTool.Rotate(TinyLife.World.ExportedLot%2cMicrosoft.Xna.Framework.Point)" data-throw-if-not-resolved="false"></xref>.
+    Note that a lot that may be able to be imported with a 90 degree rotation will still return <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> here, unless its width and height are swapped in a call to this method and it is rotated using <xref href="TinyLife.Tools.MoveLotTool.Rotate(TinyLife.World.ExportedLot%2cMicrosoft.Xna.Framework.Point)" data-throw-if-not-resolved="false"></xref> before calling <xref href="TinyLife.World.Lot.Import(TinyLife.World.ExportedLot%2cTinyLife.Utilities.AppliedMigrations%2cSystem.String%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public bool CanImport(ExportedLot import)
+    content: public bool CanImport(RectangleF area, float price)
     parameters:
-    - id: import
-      type: TinyLife.World.ExportedLot
-      description: The lot to import
+    - id: area
+      type: MLEM.Maths.RectangleF
+      description: The covered area of the lot to import, usually gathered using <xref href="TinyLife.World.ExportedLot.GetCoveredArea" data-throw-if-not-resolved="false"></xref>.
+    - id: price
+      type: System.Single
+      description: The price of the lot to import, usually gathered using <xref href="TinyLife.World.ExportedLot.GetPrice" data-throw-if-not-resolved="false"></xref>.
     return:
       type: System.Boolean
       description: true if the lot can be imported, false otherwise
-    content.vb: Public Function CanImport(import As ExportedLot) As Boolean
+    content.vb: Public Function CanImport(area As RectangleF, price As Single) As Boolean
   overload: TinyLife.World.Lot.CanImport*
+  nameWithType.vb: Lot.CanImport(RectangleF, Single)
+  fullName.vb: TinyLife.World.Lot.CanImport(MLEM.Maths.RectangleF, Single)
+  name.vb: CanImport(RectangleF, Single)
 - uid: TinyLife.World.Lot.GetCoveredArea
   commentId: M:TinyLife.World.Lot.GetCoveredArea
   id: GetCoveredArea
@@ -2672,9 +2708,119 @@ references:
     name: Point
     isExternal: true
   - name: )
+- uid: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot,TinyLife.Utilities.AppliedMigrations,System.String,System.Boolean,System.Boolean)
+  commentId: M:TinyLife.World.Lot.Import(TinyLife.World.ExportedLot,TinyLife.Utilities.AppliedMigrations,System.String,System.Boolean,System.Boolean)
+  isExternal: true
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_Import_TinyLife_World_ExportedLot_TinyLife_Utilities_AppliedMigrations_System_String_System_Boolean_System_Boolean_
+  name: Import(ExportedLot, AppliedMigrations, string, bool, bool)
+  nameWithType: Lot.Import(ExportedLot, AppliedMigrations, string, bool, bool)
+  fullName: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot, TinyLife.Utilities.AppliedMigrations, string, bool, bool)
+  nameWithType.vb: Lot.Import(ExportedLot, AppliedMigrations, String, Boolean, Boolean)
+  fullName.vb: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot, TinyLife.Utilities.AppliedMigrations, String, Boolean, Boolean)
+  name.vb: Import(ExportedLot, AppliedMigrations, String, Boolean, Boolean)
+  spec.csharp:
+  - uid: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot,TinyLife.Utilities.AppliedMigrations,System.String,System.Boolean,System.Boolean)
+    name: Import
+    href: TinyLife.World.Lot.html#TinyLife_World_Lot_Import_TinyLife_World_ExportedLot_TinyLife_Utilities_AppliedMigrations_System_String_System_Boolean_System_Boolean_
+  - name: (
+  - uid: TinyLife.World.ExportedLot
+    name: ExportedLot
+    href: TinyLife.World.ExportedLot.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: string
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Lot.Import(TinyLife.World.ExportedLot,TinyLife.Utilities.AppliedMigrations,System.String,System.Boolean,System.Boolean)
+    name: Import
+    href: TinyLife.World.Lot.html#TinyLife_World_Lot_Import_TinyLife_World_ExportedLot_TinyLife_Utilities_AppliedMigrations_System_String_System_Boolean_System_Boolean_
+  - name: (
+  - uid: TinyLife.World.ExportedLot
+    name: ExportedLot
+    href: TinyLife.World.ExportedLot.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: ','
+  - name: " "
+  - uid: System.String
+    name: String
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.string
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.World.ExportedLot.GetCoveredArea
+  commentId: M:TinyLife.World.ExportedLot.GetCoveredArea
+  href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetCoveredArea
+  name: GetCoveredArea()
+  nameWithType: ExportedLot.GetCoveredArea()
+  fullName: TinyLife.World.ExportedLot.GetCoveredArea()
+  spec.csharp:
+  - uid: TinyLife.World.ExportedLot.GetCoveredArea
+    name: GetCoveredArea
+    href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetCoveredArea
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.ExportedLot.GetCoveredArea
+    name: GetCoveredArea
+    href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetCoveredArea
+  - name: (
+  - name: )
+- uid: TinyLife.World.ExportedLot.GetPrice
+  commentId: M:TinyLife.World.ExportedLot.GetPrice
+  href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetPrice
+  name: GetPrice()
+  nameWithType: ExportedLot.GetPrice()
+  fullName: TinyLife.World.ExportedLot.GetPrice()
+  spec.csharp:
+  - uid: TinyLife.World.ExportedLot.GetPrice
+    name: GetPrice
+    href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetPrice
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.ExportedLot.GetPrice
+    name: GetPrice
+    href: TinyLife.World.ExportedLot.html#TinyLife_World_ExportedLot_GetPrice
+  - name: (
+  - name: )
 - uid: TinyLife.World.Lot.CanImport*
   commentId: Overload:TinyLife.World.Lot.CanImport
-  href: TinyLife.World.Lot.html#TinyLife_World_Lot_CanImport_TinyLife_World_ExportedLot_
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_CanImport_MLEM_Maths_RectangleF_System_Single_
   name: CanImport
   nameWithType: Lot.CanImport
   fullName: TinyLife.World.Lot.CanImport
@@ -2685,12 +2831,6 @@ references:
   name: RectangleF
   nameWithType: RectangleF
   fullName: MLEM.Maths.RectangleF
-- uid: TinyLife.World.Lot.GetCoveredArea*
-  commentId: Overload:TinyLife.World.Lot.GetCoveredArea
-  href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetCoveredArea
-  name: GetCoveredArea
-  nameWithType: Lot.GetCoveredArea
-  fullName: TinyLife.World.Lot.GetCoveredArea
 - uid: MLEM.Maths
   commentId: N:MLEM.Maths
   isExternal: true
@@ -2713,6 +2853,12 @@ references:
   - uid: MLEM.Maths
     name: Maths
     isExternal: true
+- uid: TinyLife.World.Lot.GetCoveredArea*
+  commentId: Overload:TinyLife.World.Lot.GetCoveredArea
+  href: TinyLife.World.Lot.html#TinyLife_World_Lot_GetCoveredArea
+  name: GetCoveredArea
+  nameWithType: Lot.GetCoveredArea
+  fullName: TinyLife.World.Lot.GetCoveredArea
 - uid: TinyLife.World.Household.DisallowFriendsVisiting
   commentId: F:TinyLife.World.Household.DisallowFriendsVisiting
   href: TinyLife.World.Household.html#TinyLife_World_Household_DisallowFriendsVisiting

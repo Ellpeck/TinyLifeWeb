@@ -9,6 +9,7 @@ items:
   - TinyLife.Tools.PlayModeTool.CanUndoRedo(System.Boolean)
   - TinyLife.Tools.PlayModeTool.CloseInteraction(System.Boolean,System.Boolean)
   - TinyLife.Tools.PlayModeTool.Closed
+  - TinyLife.Tools.PlayModeTool.IsTabValidForPerson(TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab)
   - TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
   - TinyLife.Tools.PlayModeTool.OnUpdateStatsView
   - TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
@@ -17,9 +18,10 @@ items:
   - TinyLife.Tools.PlayModeTool.PlayEventSting(TinyLife.Utilities.DefaultEventSting)
   - TinyLife.Tools.PlayModeTool.Reload
   - TinyLife.Tools.PlayModeTool.SelectedPerson
-  - TinyLife.Tools.PlayModeTool.SelectedStat
+  - TinyLife.Tools.PlayModeTool.SelectedTab
   - TinyLife.Tools.PlayModeTool.SetSelectedPerson(TinyLife.Objects.PersonLike)
   - TinyLife.Tools.PlayModeTool.ShouldHighlightSelectedObject(System.Object)
+  - TinyLife.Tools.PlayModeTool.Tabs
   - TinyLife.Tools.PlayModeTool.Update(Microsoft.Xna.Framework.GameTime,System.Boolean)
   - TinyLife.Tools.PlayModeTool.UpdateStatsView(TinyLife.Objects.PersonLike)
   langs:
@@ -91,6 +93,25 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Tools.PlayModeTool.TinyLife.Utilities.Extensions.JsonCopy``1
+- uid: TinyLife.Tools.PlayModeTool.Tabs
+  commentId: F:TinyLife.Tools.PlayModeTool.Tabs
+  id: Tabs
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: Tabs
+  nameWithType: PlayModeTool.Tabs
+  fullName: TinyLife.Tools.PlayModeTool.Tabs
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Tools
+  syntax:
+    content: public static readonly List<PlayModeTool.Tab> Tabs
+    return:
+      type: System.Collections.Generic.List{TinyLife.Tools.PlayModeTool.Tab}
+    content.vb: Public Shared ReadOnly Tabs As List(Of PlayModeTool.Tab)
 - uid: TinyLife.Tools.PlayModeTool.OnUpdateStatsView
   commentId: E:TinyLife.Tools.PlayModeTool.OnUpdateStatsView
   id: OnUpdateStatsView
@@ -106,15 +127,15 @@ items:
   - TinyLife
   namespace: TinyLife.Tools
   summary: >-
-    An event that is invoked when the play mode tool's stats <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> is updated. This occurs when a <xref href="TinyLife.Tools.PlayModeTool.StatType" data-throw-if-not-resolved="false"></xref> tab is opened, or when a corresponding stat's information changes in a way that forces the panel to be refreshed.
+    An event that is invoked when the play mode tool's stats <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> is updated. This occurs when a <xref href="TinyLife.Tools.PlayModeTool.Tab" data-throw-if-not-resolved="false"></xref> is opened, or when a corresponding stat's information changes in a way that forces the panel to be refreshed.
 
-    During this even't <xref href="TinyLife.Mods.EventPhase.Pre" data-throw-if-not-resolved="false"></xref> phase, the previous content has not been removed from the <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> yet.
+    During this event's <xref href="TinyLife.Mods.EventPhase.Pre" data-throw-if-not-resolved="false"></xref> phase, the previous content has not been removed from the <xref href="MLEM.Ui.Elements.Panel" data-throw-if-not-resolved="false"></xref> yet.
   example: []
   syntax:
-    content: public static event Action<(PersonLike Person, PlayModeTool.StatType Stat, Panel Panel, EventPhase Phase)> OnUpdateStatsView
+    content: public static event Action<(PersonLike Person, PlayModeTool.Tab Tab, Panel Panel, EventPhase Phase)> OnUpdateStatsView
     return:
-      type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
-    content.vb: Public Shared Event OnUpdateStatsView As Action(Of (Person As PersonLike, Stat As PlayModeTool.StatType, Panel As Panel, Phase As EventPhase))
+      type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
+    content.vb: Public Shared Event OnUpdateStatsView As Action(Of (Person As PersonLike, Tab As PlayModeTool.Tab, Panel As Panel, Phase As EventPhase))
 - uid: TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
   commentId: E:TinyLife.Tools.PlayModeTool.OnSelectedPersonChanged
   id: OnSelectedPersonChanged
@@ -159,29 +180,29 @@ items:
       type: TinyLife.Objects.PersonLike
     content.vb: Public Property SelectedPerson As PersonLike
   overload: TinyLife.Tools.PlayModeTool.SelectedPerson*
-- uid: TinyLife.Tools.PlayModeTool.SelectedStat
-  commentId: P:TinyLife.Tools.PlayModeTool.SelectedStat
-  id: SelectedStat
+- uid: TinyLife.Tools.PlayModeTool.SelectedTab
+  commentId: P:TinyLife.Tools.PlayModeTool.SelectedTab
+  id: SelectedTab
   parent: TinyLife.Tools.PlayModeTool
   langs:
   - csharp
   - vb
-  name: SelectedStat
-  nameWithType: PlayModeTool.SelectedStat
-  fullName: TinyLife.Tools.PlayModeTool.SelectedStat
+  name: SelectedTab
+  nameWithType: PlayModeTool.SelectedTab
+  fullName: TinyLife.Tools.PlayModeTool.SelectedTab
   type: Property
   assemblies:
   - TinyLife
   namespace: TinyLife.Tools
-  summary: The <xref href="TinyLife.Tools.PlayModeTool.StatType" data-throw-if-not-resolved="false"></xref> that is currently se
+  summary: The <xref href="TinyLife.Tools.PlayModeTool.Tab" data-throw-if-not-resolved="false"></xref> that is currently selected
   example: []
   syntax:
-    content: public PlayModeTool.StatType SelectedStat { get; }
+    content: public PlayModeTool.Tab SelectedTab { get; }
     parameters: []
     return:
-      type: TinyLife.Tools.PlayModeTool.StatType
-    content.vb: Public Property SelectedStat As PlayModeTool.StatType
-  overload: TinyLife.Tools.PlayModeTool.SelectedStat*
+      type: TinyLife.Tools.PlayModeTool.Tab
+    content.vb: Public Property SelectedTab As PlayModeTool.Tab
+  overload: TinyLife.Tools.PlayModeTool.SelectedTab*
 - uid: TinyLife.Tools.PlayModeTool.#ctor
   commentId: M:TinyLife.Tools.PlayModeTool.#ctor
   id: '#ctor'
@@ -550,6 +571,31 @@ items:
       description: Whether the sting was successfully played. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the <xref href="TinyLife.Options.EventStingVolume" data-throw-if-not-resolved="false"></xref> was not high enough to play a sting.
     content.vb: Public Shared Function PlayEventSting(sting As DefaultEventSting) As Boolean
   overload: TinyLife.Tools.PlayModeTool.PlayEventSting*
+- uid: TinyLife.Tools.PlayModeTool.IsTabValidForPerson(TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab)
+  commentId: M:TinyLife.Tools.PlayModeTool.IsTabValidForPerson(TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab)
+  id: IsTabValidForPerson(TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab)
+  parent: TinyLife.Tools.PlayModeTool
+  langs:
+  - csharp
+  - vb
+  name: IsTabValidForPerson(PersonLike, Tab)
+  nameWithType: PlayModeTool.IsTabValidForPerson(PersonLike, PlayModeTool.Tab)
+  fullName: TinyLife.Tools.PlayModeTool.IsTabValidForPerson(TinyLife.Objects.PersonLike, TinyLife.Tools.PlayModeTool.Tab)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Tools
+  syntax:
+    content: public static bool IsTabValidForPerson(PersonLike person, PlayModeTool.Tab tab)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+    - id: tab
+      type: TinyLife.Tools.PlayModeTool.Tab
+    return:
+      type: System.Boolean
+    content.vb: Public Shared Function IsTabValidForPerson(person As PersonLike, tab As PlayModeTool.Tab) As Boolean
+  overload: TinyLife.Tools.PlayModeTool.IsTabValidForPerson*
 references:
 - uid: TinyLife.Tools.Tool.PlayModeTool
   commentId: F:TinyLife.Tools.Tool.PlayModeTool
@@ -1845,6 +1891,112 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: System.Collections.Generic.List{TinyLife.Tools.PlayModeTool.Tab}
+  commentId: T:System.Collections.Generic.List{TinyLife.Tools.PlayModeTool.Tab}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<PlayModeTool.Tab>
+  nameWithType: List<PlayModeTool.Tab>
+  fullName: System.Collections.Generic.List<TinyLife.Tools.PlayModeTool.Tab>
+  nameWithType.vb: List(Of PlayModeTool.Tab)
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Tools.PlayModeTool.Tab)
+  name.vb: List(Of PlayModeTool.Tab)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Tools.PlayModeTool
+    name: PlayModeTool
+    href: TinyLife.Tools.PlayModeTool.html
+  - name: .
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Tools.PlayModeTool
+    name: PlayModeTool
+    href: TinyLife.Tools.PlayModeTool.html
+  - name: .
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: MLEM.Ui.Elements.Panel
   commentId: T:MLEM.Ui.Elements.Panel
   parent: MLEM.Ui.Elements
@@ -1852,46 +2004,46 @@ references:
   name: Panel
   nameWithType: Panel
   fullName: MLEM.Ui.Elements.Panel
-- uid: TinyLife.Tools.PlayModeTool.StatType
-  commentId: T:TinyLife.Tools.PlayModeTool.StatType
+- uid: TinyLife.Tools.PlayModeTool.Tab
+  commentId: T:TinyLife.Tools.PlayModeTool.Tab
   parent: TinyLife.Tools
   href: TinyLife.Tools.PlayModeTool.html
-  name: PlayModeTool.StatType
-  nameWithType: PlayModeTool.StatType
-  fullName: TinyLife.Tools.PlayModeTool.StatType
+  name: PlayModeTool.Tab
+  nameWithType: PlayModeTool.Tab
+  fullName: TinyLife.Tools.PlayModeTool.Tab
   spec.csharp:
   - uid: TinyLife.Tools.PlayModeTool
     name: PlayModeTool
     href: TinyLife.Tools.PlayModeTool.html
   - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
   spec.vb:
   - uid: TinyLife.Tools.PlayModeTool
     name: PlayModeTool
     href: TinyLife.Tools.PlayModeTool.html
   - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
 - uid: TinyLife.Mods.EventPhase.Pre
   commentId: F:TinyLife.Mods.EventPhase.Pre
   href: TinyLife.Mods.EventPhase.html#TinyLife_Mods_EventPhase_Pre
   name: Pre
   nameWithType: EventPhase.Pre
   fullName: TinyLife.Mods.EventPhase.Pre
-- uid: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
-  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}}
   parent: System
   definition: System.Action`1
   href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<(PersonLike Person, PlayModeTool.StatType Stat, Panel Panel, EventPhase Phase)>
-  nameWithType: Action<(PersonLike Person, PlayModeTool.StatType Stat, Panel Panel, EventPhase Phase)>
-  fullName: System.Action<(TinyLife.Objects.PersonLike Person, TinyLife.Tools.PlayModeTool.StatType Stat, MLEM.Ui.Elements.Panel Panel, TinyLife.Mods.EventPhase Phase)>
-  nameWithType.vb: Action(Of (Person As PersonLike, Stat As PlayModeTool.StatType, Panel As Panel, Phase As EventPhase))
-  fullName.vb: System.Action(Of (Person As TinyLife.Objects.PersonLike, Stat As TinyLife.Tools.PlayModeTool.StatType, Panel As MLEM.Ui.Elements.Panel, Phase As TinyLife.Mods.EventPhase))
-  name.vb: Action(Of (Person As PersonLike, Stat As PlayModeTool.StatType, Panel As Panel, Phase As EventPhase))
+  name: Action<(PersonLike Person, PlayModeTool.Tab Tab, Panel Panel, EventPhase Phase)>
+  nameWithType: Action<(PersonLike Person, PlayModeTool.Tab Tab, Panel Panel, EventPhase Phase)>
+  fullName: System.Action<(TinyLife.Objects.PersonLike Person, TinyLife.Tools.PlayModeTool.Tab Tab, MLEM.Ui.Elements.Panel Panel, TinyLife.Mods.EventPhase Phase)>
+  nameWithType.vb: Action(Of (Person As PersonLike, Tab As PlayModeTool.Tab, Panel As Panel, Phase As EventPhase))
+  fullName.vb: System.Action(Of (Person As TinyLife.Objects.PersonLike, Tab As TinyLife.Tools.PlayModeTool.Tab, Panel As MLEM.Ui.Elements.Panel, Phase As TinyLife.Mods.EventPhase))
+  name.vb: Action(Of (Person As PersonLike, Tab As PlayModeTool.Tab, Panel As Panel, Phase As EventPhase))
   spec.csharp:
   - uid: System.Action`1
     name: Action
@@ -1903,40 +2055,40 @@ references:
     name: PersonLike
     href: TinyLife.Objects.PersonLike.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Person
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Person
     name: Person
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.person
   - name: ','
   - name: " "
   - uid: TinyLife.Tools.PlayModeTool
     name: PlayModeTool
     href: TinyLife.Tools.PlayModeTool.html
   - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Stat
-    name: Stat
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.stat
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Tab
+    name: Tab
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.tab
   - name: ','
   - name: " "
   - uid: MLEM.Ui.Elements.Panel
     name: Panel
     isExternal: true
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Panel
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Panel
     name: Panel
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.panel
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.panel
   - name: ','
   - name: " "
   - uid: TinyLife.Mods.EventPhase
     name: EventPhase
     href: TinyLife.Mods.EventPhase.html
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Phase
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Phase
     name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.phase
   - name: )
   - name: '>'
   spec.vb:
@@ -1948,9 +2100,9 @@ references:
   - name: Of
   - name: " "
   - name: (
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Person
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Person
     name: Person
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.person
   - name: " "
   - name: As
   - name: " "
@@ -1959,9 +2111,9 @@ references:
     href: TinyLife.Objects.PersonLike.html
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Stat
-    name: Stat
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.stat
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Tab
+    name: Tab
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.tab
   - name: " "
   - name: As
   - name: " "
@@ -1969,14 +2121,14 @@ references:
     name: PlayModeTool
     href: TinyLife.Tools.PlayModeTool.html
   - name: .
-  - uid: TinyLife.Tools.PlayModeTool.StatType
-    name: StatType
-    href: TinyLife.Tools.PlayModeTool.StatType.html
+  - uid: TinyLife.Tools.PlayModeTool.Tab
+    name: Tab
+    href: TinyLife.Tools.PlayModeTool.Tab.html
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Panel
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Panel
     name: Panel
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.panel
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.panel
   - name: " "
   - name: As
   - name: " "
@@ -1985,9 +2137,9 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.StatType,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Phase
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Tools.PlayModeTool.Tab,MLEM.Ui.Elements.Panel,TinyLife.Mods.EventPhase}.Phase
     name: Phase
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.stattype,mlem.ui.elements.panel,tinylife.mods.eventphase-.phase
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.tools.playmodetool.tab,mlem.ui.elements.panel,tinylife.mods.eventphase-.phase
   - name: " "
   - name: As
   - name: " "
@@ -2156,12 +2308,12 @@ references:
   - uid: TinyLife.Objects
     name: Objects
     href: TinyLife.Objects.html
-- uid: TinyLife.Tools.PlayModeTool.SelectedStat*
-  commentId: Overload:TinyLife.Tools.PlayModeTool.SelectedStat
-  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedStat
-  name: SelectedStat
-  nameWithType: PlayModeTool.SelectedStat
-  fullName: TinyLife.Tools.PlayModeTool.SelectedStat
+- uid: TinyLife.Tools.PlayModeTool.SelectedTab*
+  commentId: Overload:TinyLife.Tools.PlayModeTool.SelectedTab
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_SelectedTab
+  name: SelectedTab
+  nameWithType: PlayModeTool.SelectedTab
+  fullName: TinyLife.Tools.PlayModeTool.SelectedTab
 - uid: TinyLife.Tools.PlayModeTool.#ctor*
   commentId: Overload:TinyLife.Tools.PlayModeTool.#ctor
   href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool__ctor
@@ -2710,43 +2862,6 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: System.Collections.Generic
-  commentId: N:System.Collections.Generic
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system
-  name: System.Collections.Generic
-  nameWithType: System.Collections.Generic
-  fullName: System.Collections.Generic
-  spec.csharp:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
-  spec.vb:
-  - uid: System
-    name: System
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system
-  - name: .
-  - uid: System.Collections
-    name: Collections
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections
-  - name: .
-  - uid: System.Collections.Generic
-    name: Generic
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
   commentId: M:TinyLife.Tools.PlayModeTool.OpenInteraction(System.Collections.Generic.IReadOnlyCollection{TinyLife.Actions.ActionType},TinyLife.Actions.ActionInfo,Microsoft.Xna.Framework.Vector2,System.String[],System.Int32[])
   isExternal: true
@@ -2917,3 +3032,9 @@ references:
   name: DefaultEventSting
   nameWithType: DefaultEventSting
   fullName: TinyLife.Utilities.DefaultEventSting
+- uid: TinyLife.Tools.PlayModeTool.IsTabValidForPerson*
+  commentId: Overload:TinyLife.Tools.PlayModeTool.IsTabValidForPerson
+  href: TinyLife.Tools.PlayModeTool.html#TinyLife_Tools_PlayModeTool_IsTabValidForPerson_TinyLife_Objects_PersonLike_TinyLife_Tools_PlayModeTool_Tab_
+  name: IsTabValidForPerson
+  nameWithType: PlayModeTool.IsTabValidForPerson
+  fullName: TinyLife.Tools.PlayModeTool.IsTabValidForPerson

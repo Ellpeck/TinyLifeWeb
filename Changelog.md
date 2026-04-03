@@ -1,3 +1,29 @@
+# 0.49.5
+*April 3, 2026*
+
+Additions
+- Added the ability to give lots and exported lots descriptions, and added accompanying descriptions to lots on default maps
+- Added the pronoun removal joke feature from the [April Fools post](https://tinylifegame.com/posts/gender-issue/) as a commandline switch. For more info, see [the launch arguments article](https://docs.tinylifegame.com/articles/launch_args.html).
+- Added a gravel tile, which objects that require dirt, grass or sandy ground can be placed on
+- Added a variety of invisible colorable lights as [non-buyable objects](https://docs.tinylifegame.com/articles/cheats.html), which can be used to spruce up lighting in various places
+
+Improvements
+- Overhauled culling, increasing rendering performance especially on lower-end devices. Please [let us know](https://tinylifegame.com/bugreport) if you notice objects popping in and out near the borders of the screen after the update.
+- The green dots for new objects can new be disabled in the hints settings
+- Tinies can now walk over lawn edging
+- Default Tinies now also have random default age days, causing them not to all age up and die at the same time
+- Slightly improved lot import menu loading performance
+
+Fixes
+- Fixed a crash when loading a save with missing tiles
+- Fixed Tinies being able to age up twice when blowing out a candle close to midnight
+- Fixed being able to place openings in fences
+- Fixed lot previews of taller lots being cut off at the top
+
+API
+- Rooms that are off-lot are now always treated as "set dressing," meaning their contents will never show, their walls will never go down, and their doors will be inaccessible
+- Mods can now add custom play mode tool tabs
+
 # 0.49.4
 *March 8, 2026*
 

@@ -1069,7 +1069,7 @@ items:
       description: The light map to draw lighting data onto, or null to use the default light map
     - id: ignoreObjectVisibility
       type: System.Boolean
-      description: Whether object visibility (<xref href="TinyLife.Objects.MapObject.Visibility" data-throw-if-not-resolved="false"></xref>) should be ignored
+      description: Whether object visibility should be ignored
     content.vb: Public Sub Draw(time As GameTime, batch As SpriteBatch, selectionMode As Boolean, visibleArea As RectangleF? = Nothing, visibleMatrix As Matrix? = Nothing, lightmap As RenderTarget2D = Nothing, ignoreObjectVisibility As Boolean = False)
   overload: TinyLife.World.Map.Draw*
   nameWithType.vb: Map.Draw(GameTime, SpriteBatch, Boolean, RectangleF?, Matrix?, RenderTarget2D, Boolean)
@@ -2054,7 +2054,10 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.World
-  summary: Returns the roofs that intersect the given <code class="paramref">area</code>.
+  summary: >-
+    Returns the roofs that intersect the given <code class="paramref">area</code>.
+
+    Note that this method performs rather badly on a large scale, and its usage should be avoided if <xref href="TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point%2cSystem.Int32)" data-throw-if-not-resolved="false"></xref> is more convenient.
   example: []
   syntax:
     content: public IEnumerable<Roof> GetRoofs(RectangleF area)
@@ -3626,17 +3629,17 @@ items:
 
     Note that the result of this method will be different from <xref href="TinyLife.GameImpl.IsLotVisible(TinyLife.World.Lot)" data-throw-if-not-resolved="false"></xref>, since this method also checks for the ShowAllLots cheat.
 
-    For ease of use, this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if <code class="paramref">lot</code> is null.
+    For ease of use, this method returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> if <code class="paramref">lot</code> is null, in which case walls and roofs generally stay up for buildings that act as "set dressing".
+
+    If <xref href="TinyLife.Debug.ShowAllLots" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, this method always returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>.
   example: []
   syntax:
     content: public static bool IsLotHidden(Lot lot)
     parameters:
     - id: lot
       type: TinyLife.World.Lot
-      description: ''
     return:
       type: System.Boolean
-      description: ''
     content.vb: Public Shared Function IsLotHidden(lot As Lot) As Boolean
   overload: TinyLife.World.Map.IsLotHidden*
 - uid: TinyLife.World.Map.GetMapSampler
@@ -5888,13 +5891,6 @@ references:
     isExternal: true
   - name: (
   - name: )
-- uid: TinyLife.Objects.MapObject.Visibility
-  commentId: P:TinyLife.Objects.MapObject.Visibility
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Visibility
-  name: Visibility
-  nameWithType: MapObject.Visibility
-  fullName: TinyLife.Objects.MapObject.Visibility
 - uid: TinyLife.World.Map.Draw*
   commentId: Overload:TinyLife.World.Map.Draw
   href: TinyLife.World.Map.html#TinyLife_World_Map_Draw_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_System_Boolean_System_Nullable_MLEM_Maths_RectangleF__System_Nullable_Microsoft_Xna_Framework_Matrix__Microsoft_Xna_Framework_Graphics_RenderTarget2D_System_Boolean_
@@ -6895,6 +6891,46 @@ references:
   name: GetRoof
   nameWithType: Map.GetRoof
   fullName: TinyLife.World.Map.GetRoof
+- uid: TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point,System.Int32)
+  commentId: M:TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point,System.Int32)
+  isExternal: true
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetRoof_Microsoft_Xna_Framework_Point_System_Int32_
+  name: GetRoof(Point, int)
+  nameWithType: Map.GetRoof(Point, int)
+  fullName: TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point, int)
+  nameWithType.vb: Map.GetRoof(Point, Integer)
+  fullName.vb: TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point, Integer)
+  name.vb: GetRoof(Point, Integer)
+  spec.csharp:
+  - uid: TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point,System.Int32)
+    name: GetRoof
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetRoof_Microsoft_Xna_Framework_Point_System_Int32_
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.GetRoof(Microsoft.Xna.Framework.Point,System.Int32)
+    name: GetRoof
+    href: TinyLife.World.Map.html#TinyLife_World_Map_GetRoof_Microsoft_Xna_Framework_Point_System_Int32_
+  - name: (
+  - uid: Microsoft.Xna.Framework.Point
+    name: Point
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
 - uid: TinyLife.World.Map.GetRoofs*
   commentId: Overload:TinyLife.World.Map.GetRoofs
   href: TinyLife.World.Map.html#TinyLife_World_Map_GetRoofs_MLEM_Maths_RectangleF_
@@ -8528,6 +8564,11 @@ references:
     name: Lot
     href: TinyLife.World.Lot.html
   - name: )
+- uid: TinyLife.Debug.ShowAllLots
+  commentId: F:TinyLife.Debug.ShowAllLots
+  name: ShowAllLots
+  nameWithType: Debug.ShowAllLots
+  fullName: TinyLife.Debug.ShowAllLots
 - uid: TinyLife.World.Map.IsLotHidden*
   commentId: Overload:TinyLife.World.Map.IsLotHidden
   href: TinyLife.World.Map.html#TinyLife_World_Map_IsLotHidden_TinyLife_World_Lot_

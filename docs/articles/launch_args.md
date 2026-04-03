@@ -15,3 +15,4 @@ The following is a list of the most important launch arguments.
 - `--cheats` or `-c`, followed by a space-separated list of [cheats](cheats.md), causes those cheats to be executed after the game has started. This works best for cheats that toggle a property, like whether non-buyable items are shown.
 - `--save` or `--load`, followed by the name of an existing save file, causes the game to load into that save file immediately upon startup.
 - `--lot` or `--build`, followed by the name of a lot, causes the game to load into that lot immediately upon startup. This only has an effect if `--save` or `--load` is also specified.
+- `--hide-all-pronouns-april-fools` to enable the pronoun removal joke feature from the [2026 April Fools post](https://tinylifegame.com/posts/gender-issue/). This only has an effect on English text.
