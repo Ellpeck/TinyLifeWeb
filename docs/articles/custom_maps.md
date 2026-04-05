@@ -3,7 +3,7 @@
 Tiny Life features the ability to create custom maps that you can share with the community. This includes setting down custom lots, households, and environment decorations. Creating custom maps in this way is a lot more involved than creating custom households or lots, so this tutorial explains everything you need to know.
 
 ## Getting Started
-To get started, there's a set of required [cheats](cheats.md) that you have to enable to be able to create custom maps. You can open the cheat menu with the `F1` key.
+To get started, there's a set of required [cheats](cheats.md) that you have to enable to be able to create custom maps.
 - `EditWorld` allows you to place build mode items outside the current lot.
 - `ShowNonBuyable` allows you to access hidden build mode items, like decorative power poles, road tiles, and more.
 - `IgnorePlacementRules` to allow placing some hidden items like power lines in the proper place.
@@ -14,17 +14,17 @@ Next, simply create a new save file that'll serve as the basis for your new map.
 There are a few engine details that you'll have to pay attention to when creating custom maps. Currently, these aren't enforced in the game, so ignoring them might lead to unexpected results.
 - Some objects in the game (notably lot staff) save a reference to the map's name. Because of this, it's recommended to [export your map](#exporting-your-map) once, name it with its final name, and create a new save file with it before assigning lot staff and residents, and then re-exporting the map.
 - Exporting a custom map from a save that has multiple maps loaded may lead to issues, so it's recommended to have only one map in your save.
-- Roads have to be made of the hidden road tiles, and they have to be 5 tiles across to be registered as driveable area. Lane markings are optional.
-- Every map needs to have at least one road that exits the map's border; otherwise people will not be able to go out of town, which might lead to crashes during gameplay.
+- Roads have to be made of the hidden road tiles, and they have to be 5 tiles across to be registered as driveable area. Lane markings are optional. Roads are only regenerated when the save is reloaded, and you can see where roads are using the `ShowRoads` cheat.
+- Every map needs to have at least one road or pathway that exits the map's border; otherwise people will not be able to go out of town, which might lead to crashes during gameplay. You can see where valid exit points are using the `ShowExitPoints` cheat.
 - Newly placed lots should have a name assigned to them before exporting, as otherwise they will be marked as incomplete, causing them to behave unexpectedly.
-- Some build mode features behave unexpectedly outside of lots and especially close to the borders of the map, so take care when placing walls and roofs there.
+- When placing rooms (spaces enclosed entirely by walls) outside of a lot, they act as "set dressing," meaning they will never show their contents during regular gameplay, their walls will never display as "down," and doors into them will be inaccessible.
 - Lots should not intersect each other.
 - You can only delete lots if they don't currently have a household occupying them, and you're not currently building on them, so you'll have to export or delete existing households first and choose another lot to start building from. To delete a lot, select its full area with the Remove tool as if you were placing the lot.
 
 ## Useful Cheats
 There are a few cheats not listed in the [cheats article](cheats.md) that are useful exclusively for editing custom maps.
 - `ResizeMap [width in sections] [height in sections]` allows you to change the size of the map. A section's width and height is 8 tiles. Note that, if you input a smaller width and height than the map's current size, anything beyond the borders will be deleted.
-- `MoveMap [x section amount] [y section amount]` moves the map and all of its contents by a given number of sections. This is useful if you want to add content beyond the top or left borders of the map where resizing doesn't add any additional space.
+- `MoveMap [x tile amount] [y tile amount]` moves the map and all of its contents by a given number of tiles. This is useful if you want to add content beyond the top or left borders of the map where resizing doesn't add any additional space.
 
 ## Exporting Your Map
 To export your custom map, simply execute the `ExportCustomMap` cheat. This will reset some of the map's properties to default values, which includes normalization the skill level progress and relationships of everyone on the map. You can find your exported map in the [game folder's](game_dir.md) `Custom Maps` folder.
