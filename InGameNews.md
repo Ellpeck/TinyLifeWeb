@@ -15,3 +15,11 @@ Visit the [Patreon](https://link.tinylifegame.com/news-patreon) or [Ko-fi](https
 **[Leave a Review](https://link.tinylifegame.com/news-review)**
 
 Thanks! ❤️
+
+---
+
+Did you know there's an official **Tiny Life Wiki**?
+
+![](media/news/Wiki.png)
+
+It's still work in progress, but if you're interested in contributing to the wiki, you can find all the info you need on the [Contributing page](https://wiki.tinylifegame.com/wiki/Contributing)!
