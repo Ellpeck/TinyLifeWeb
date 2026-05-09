@@ -1,3 +1,25 @@
+# 0.49.6
+*May 9, 2026*
+
+Additions
+- Added an "until action is completed" variation of the very fast and extremely fast speed options, similar to The Sims 3
+- Added the Pyramid of Prediction
+- Added a keybind (bound to M by default, for "map") that zooms all the way out and, if pressed again, zooms back in
+
+Improvements
+- Display the current week number in the top-right panel
+- Made the silly goggles much less likely to be worn randomly by generated Tinies
+
+Fixes
+- Fixed the lot description button being part of the wrong UI category, causing gamepad-based controls in build mode to break
+- Fixed typing a space in the cheat text box unpausing the game
+- Fixed replacing clothes that force other layers to have items added causing incorrect amounts of money to be deducted
+- Fixed being unable to clean, pick up or throw away items that are broken
+- Fixed being unable to interact with objects that have broken items on them
+- Fixed a crash when previewing a lot with missing tiles
+- Fixed tooltips sticking around for an additional frame when their text is cleared
+- Fixed the color tool crashing when quick-removing the object that it has selected
+
 # 0.49.5
 *April 3, 2026*
 

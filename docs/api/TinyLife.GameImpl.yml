@@ -6,6 +6,8 @@ items:
   parent: TinyLife
   children:
   - TinyLife.GameImpl.Achievements
+  - TinyLife.GameImpl.ActualCurrentTool
+  - TinyLife.GameImpl.ActualSpeed
   - TinyLife.GameImpl.AddMapToSave(TinyLife.MapInfo,System.Action)
   - TinyLife.GameImpl.BuildModeTimeOverride
   - TinyLife.GameImpl.Camera
@@ -48,7 +50,7 @@ items:
   - TinyLife.GameImpl.SwitchMap(TinyLife.World.Map,System.Action,System.Action)
   - TinyLife.GameImpl.TakeScreenshot(Microsoft.Xna.Framework.Point,System.Nullable{MLEM.Maths.RectangleF},System.Nullable{Microsoft.Xna.Framework.Matrix},Microsoft.Xna.Framework.Graphics.RenderTarget2D)
   - TinyLife.GameImpl.Version
-  - TinyLife.GameImpl.ZoomCamera(System.Int32)
+  - TinyLife.GameImpl.ZoomCamera(System.Single)
   langs:
   - csharp
   - vb
@@ -282,7 +284,12 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife
-  summary: The <xref href="TinyLife.Tools.Tool" data-throw-if-not-resolved="false"></xref> that is currently selected. Should always be set to either <xref href="TinyLife.Tools.Tool.PlayModeTool" data-throw-if-not-resolved="false"></xref> or any of <xref href="TinyLife.Tools.Tool.BuildTools" data-throw-if-not-resolved="false"></xref>.
+  summary: >-
+    Returns the <xref href="TinyLife.Tools.Tool" data-throw-if-not-resolved="false"></xref> that is currently being displayed.
+
+    Should always be set to either <xref href="TinyLife.Tools.Tool.PlayModeTool" data-throw-if-not-resolved="false"></xref> or any of <xref href="TinyLife.Tools.Tool.BuildTools" data-throw-if-not-resolved="false"></xref>.
+
+    Note that, if the player is holding CTRL while in build mode, the <xref href="TinyLife.Tools.Tool.RemoveTool" data-throw-if-not-resolved="false"></xref> will be returned instead of the tool that is really opened, in which case the latter can still be queried by using <xref href="TinyLife.GameImpl.ActualCurrentTool" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
     content: public Tool CurrentTool { get; set; }
@@ -291,6 +298,32 @@ items:
       type: TinyLife.Tools.Tool
     content.vb: Public Property CurrentTool As Tool
   overload: TinyLife.GameImpl.CurrentTool*
+- uid: TinyLife.GameImpl.ActualCurrentTool
+  commentId: P:TinyLife.GameImpl.ActualCurrentTool
+  id: ActualCurrentTool
+  parent: TinyLife.GameImpl
+  langs:
+  - csharp
+  - vb
+  name: ActualCurrentTool
+  nameWithType: GameImpl.ActualCurrentTool
+  fullName: TinyLife.GameImpl.ActualCurrentTool
+  type: Property
+  assemblies:
+  - TinyLife
+  namespace: TinyLife
+  summary: >-
+    Returns the underlying tool that is actually opened, even if <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref> currently returns <xref href="TinyLife.Tools.Tool.RemoveTool" data-throw-if-not-resolved="false"></xref>.
+
+    In most situations, querying <xref href="TinyLife.GameImpl.CurrentTool" data-throw-if-not-resolved="false"></xref> is preferred, as it represents the tool that is currently being displayed to the player.
+  example: []
+  syntax:
+    content: public Tool ActualCurrentTool { get; }
+    parameters: []
+    return:
+      type: TinyLife.Tools.Tool
+    content.vb: Public Property ActualCurrentTool As Tool
+  overload: TinyLife.GameImpl.ActualCurrentTool*
 - uid: TinyLife.GameImpl.CurrentHousehold
   commentId: P:TinyLife.GameImpl.CurrentHousehold
   id: CurrentHousehold
@@ -377,7 +410,7 @@ items:
   summary: >-
     The current <xref href="TinyLife.GameSpeed" data-throw-if-not-resolved="false"></xref>.
 
-    Note that, if the current speed is <xref href="TinyLife.GameSpeed.VeryFast" data-throw-if-not-resolved="false"></xref> and the game <xref href="TinyLife.GameImpl.CanBeExtremelyFast" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.GameSpeed.ExtremelyFast" data-throw-if-not-resolved="false"></xref> is returned.
+    Note that, if the current speed is <xref href="TinyLife.GameSpeed.VeryFast" data-throw-if-not-resolved="false"></xref> (or <xref href="TinyLife.GameSpeed.VeryFastLimited" data-throw-if-not-resolved="false"></xref>) and the game <xref href="TinyLife.GameImpl.CanBeExtremelyFast" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.GameSpeed.ExtremelyFast" data-throw-if-not-resolved="false"></xref> (or <xref href="TinyLife.GameSpeed.ExtremelyFastLimited" data-throw-if-not-resolved="false"></xref>) is returned.
 
     You can cause any ui <xref href="MLEM.Ui.RootElement" data-throw-if-not-resolved="false"></xref> instances to pause the game by using <xref href="TinyLife.Utilities.Extensions.SetPauseGame(MLEM.Ui.RootElement%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref>.
   example: []
@@ -388,6 +421,27 @@ items:
       type: TinyLife.GameSpeed
     content.vb: Public Property Speed As GameSpeed
   overload: TinyLife.GameImpl.Speed*
+- uid: TinyLife.GameImpl.ActualSpeed
+  commentId: P:TinyLife.GameImpl.ActualSpeed
+  id: ActualSpeed
+  parent: TinyLife.GameImpl
+  langs:
+  - csharp
+  - vb
+  name: ActualSpeed
+  nameWithType: GameImpl.ActualSpeed
+  fullName: TinyLife.GameImpl.ActualSpeed
+  type: Property
+  assemblies:
+  - TinyLife
+  namespace: TinyLife
+  syntax:
+    content: public GameSpeed ActualSpeed { get; }
+    parameters: []
+    return:
+      type: TinyLife.GameSpeed
+    content.vb: Public Property ActualSpeed As GameSpeed
+  overload: TinyLife.GameImpl.ActualSpeed*
 - uid: TinyLife.GameImpl.FollowingPerson
   commentId: P:TinyLife.GameImpl.FollowingPerson
   id: FollowingPerson
@@ -829,16 +883,16 @@ items:
   nameWithType.vb: GameImpl.RotateCamera(Boolean)
   fullName.vb: TinyLife.GameImpl.RotateCamera(Boolean)
   name.vb: RotateCamera(Boolean)
-- uid: TinyLife.GameImpl.ZoomCamera(System.Int32)
-  commentId: M:TinyLife.GameImpl.ZoomCamera(System.Int32)
-  id: ZoomCamera(System.Int32)
+- uid: TinyLife.GameImpl.ZoomCamera(System.Single)
+  commentId: M:TinyLife.GameImpl.ZoomCamera(System.Single)
+  id: ZoomCamera(System.Single)
   parent: TinyLife.GameImpl
   langs:
   - csharp
   - vb
-  name: ZoomCamera(int)
-  nameWithType: GameImpl.ZoomCamera(int)
-  fullName: TinyLife.GameImpl.ZoomCamera(int)
+  name: ZoomCamera(float)
+  nameWithType: GameImpl.ZoomCamera(float)
+  fullName: TinyLife.GameImpl.ZoomCamera(float)
   type: Method
   assemblies:
   - TinyLife
@@ -846,16 +900,16 @@ items:
   summary: Zooms the camera by the given <code class="paramref">delta</code>, either towards the center of the camera's viewport, or toward the <xref href="TinyLife.GameImpl.CursorPosition" data-throw-if-not-resolved="false"></xref> if it is not on the UI.
   example: []
   syntax:
-    content: public void ZoomCamera(int delta)
+    content: public void ZoomCamera(float delta)
     parameters:
     - id: delta
-      type: System.Int32
+      type: System.Single
       description: The delta to zoom by.
-    content.vb: Public Sub ZoomCamera(delta As Integer)
+    content.vb: Public Sub ZoomCamera(delta As Single)
   overload: TinyLife.GameImpl.ZoomCamera*
-  nameWithType.vb: GameImpl.ZoomCamera(Integer)
-  fullName.vb: TinyLife.GameImpl.ZoomCamera(Integer)
-  name.vb: ZoomCamera(Integer)
+  nameWithType.vb: GameImpl.ZoomCamera(Single)
+  fullName.vb: TinyLife.GameImpl.ZoomCamera(Single)
+  name.vb: ZoomCamera(Single)
 - uid: TinyLife.GameImpl.IsCursorOnUi
   commentId: M:TinyLife.GameImpl.IsCursorOnUi
   id: IsCursorOnUi
@@ -923,7 +977,7 @@ items:
   summary: >-
     Returns whether the game allows changing the speed to <xref href="TinyLife.GameSpeed.ExtremelyFast" data-throw-if-not-resolved="false"></xref> at the current time.
 
-    If this returns true, and <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref> is set to <xref href="TinyLife.GameSpeed.VeryFast" data-throw-if-not-resolved="false"></xref>, the <xref href="TinyLife.GameSpeed.ExtremelyFast" data-throw-if-not-resolved="false"></xref> speed is automatically engaged.
+    If this returns true, and <xref href="TinyLife.GameImpl.Speed" data-throw-if-not-resolved="false"></xref> is set to <xref href="TinyLife.GameSpeed.VeryFast" data-throw-if-not-resolved="false"></xref> (or <xref href="TinyLife.GameSpeed.VeryFastLimited" data-throw-if-not-resolved="false"></xref>), the <xref href="TinyLife.GameSpeed.ExtremelyFast" data-throw-if-not-resolved="false"></xref> (or <xref href="TinyLife.GameSpeed.ExtremelyFastLimited" data-throw-if-not-resolved="false"></xref>) speed is automatically engaged.
   example: []
   syntax:
     content: public bool CanBeExtremelyFast()
@@ -2823,6 +2877,19 @@ references:
   name: BuildTools
   nameWithType: Tool.BuildTools
   fullName: TinyLife.Tools.Tool.BuildTools
+- uid: TinyLife.Tools.Tool.RemoveTool
+  commentId: F:TinyLife.Tools.Tool.RemoveTool
+  parent: TinyLife.Tools.Tool
+  href: TinyLife.Tools.Tool.html#TinyLife_Tools_Tool_RemoveTool
+  name: RemoveTool
+  nameWithType: Tool.RemoveTool
+  fullName: TinyLife.Tools.Tool.RemoveTool
+- uid: TinyLife.GameImpl.ActualCurrentTool
+  commentId: P:TinyLife.GameImpl.ActualCurrentTool
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_ActualCurrentTool
+  name: ActualCurrentTool
+  nameWithType: GameImpl.ActualCurrentTool
+  fullName: TinyLife.GameImpl.ActualCurrentTool
 - uid: TinyLife.GameImpl.CurrentTool*
   commentId: Overload:TinyLife.GameImpl.CurrentTool
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentTool
@@ -2851,6 +2918,18 @@ references:
   - uid: TinyLife.Tools
     name: Tools
     href: TinyLife.Tools.html
+- uid: TinyLife.GameImpl.CurrentTool
+  commentId: P:TinyLife.GameImpl.CurrentTool
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentTool
+  name: CurrentTool
+  nameWithType: GameImpl.CurrentTool
+  fullName: TinyLife.GameImpl.CurrentTool
+- uid: TinyLife.GameImpl.ActualCurrentTool*
+  commentId: Overload:TinyLife.GameImpl.ActualCurrentTool
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_ActualCurrentTool
+  name: ActualCurrentTool
+  nameWithType: GameImpl.ActualCurrentTool
+  fullName: TinyLife.GameImpl.ActualCurrentTool
 - uid: TinyLife.GameImpl.CurrentHousehold*
   commentId: Overload:TinyLife.GameImpl.CurrentHousehold
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentHousehold
@@ -2944,6 +3023,12 @@ references:
   name: VeryFast
   nameWithType: GameSpeed.VeryFast
   fullName: TinyLife.GameSpeed.VeryFast
+- uid: TinyLife.GameSpeed.VeryFastLimited
+  commentId: F:TinyLife.GameSpeed.VeryFastLimited
+  href: TinyLife.GameSpeed.html#TinyLife_GameSpeed_VeryFastLimited
+  name: VeryFastLimited
+  nameWithType: GameSpeed.VeryFastLimited
+  fullName: TinyLife.GameSpeed.VeryFastLimited
 - uid: TinyLife.GameImpl.CanBeExtremelyFast
   commentId: M:TinyLife.GameImpl.CanBeExtremelyFast
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_CanBeExtremelyFast
@@ -2968,6 +3053,12 @@ references:
   name: ExtremelyFast
   nameWithType: GameSpeed.ExtremelyFast
   fullName: TinyLife.GameSpeed.ExtremelyFast
+- uid: TinyLife.GameSpeed.ExtremelyFastLimited
+  commentId: F:TinyLife.GameSpeed.ExtremelyFastLimited
+  href: TinyLife.GameSpeed.html#TinyLife_GameSpeed_ExtremelyFastLimited
+  name: ExtremelyFastLimited
+  nameWithType: GameSpeed.ExtremelyFastLimited
+  fullName: TinyLife.GameSpeed.ExtremelyFastLimited
 - uid: MLEM.Ui.RootElement
   commentId: T:MLEM.Ui.RootElement
   parent: MLEM.Ui
@@ -3043,6 +3134,12 @@ references:
   - uid: MLEM.Ui
     name: Ui
     isExternal: true
+- uid: TinyLife.GameImpl.ActualSpeed*
+  commentId: Overload:TinyLife.GameImpl.ActualSpeed
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_ActualSpeed
+  name: ActualSpeed
+  nameWithType: GameImpl.ActualSpeed
+  fullName: TinyLife.GameImpl.ActualSpeed
 - uid: TinyLife.Objects.PersonLike
   commentId: T:TinyLife.Objects.PersonLike
   parent: TinyLife.Objects
@@ -3692,7 +3789,7 @@ references:
   fullName: TinyLife.GameImpl.CursorPosition
 - uid: TinyLife.GameImpl.ZoomCamera*
   commentId: Overload:TinyLife.GameImpl.ZoomCamera
-  href: TinyLife.GameImpl.html#TinyLife_GameImpl_ZoomCamera_System_Int32_
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_ZoomCamera_System_Single_
   name: ZoomCamera
   nameWithType: GameImpl.ZoomCamera
   fullName: TinyLife.GameImpl.ZoomCamera
@@ -3734,12 +3831,6 @@ references:
   name: CharacterCreator
   nameWithType: CharacterCreator
   fullName: TinyLife.Uis.CharacterCreator
-- uid: TinyLife.GameImpl.CurrentTool
-  commentId: P:TinyLife.GameImpl.CurrentTool
-  href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentTool
-  name: CurrentTool
-  nameWithType: GameImpl.CurrentTool
-  fullName: TinyLife.GameImpl.CurrentTool
 - uid: TinyLife.GameImpl.CurrentLot
   commentId: P:TinyLife.GameImpl.CurrentLot
   href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentLot
