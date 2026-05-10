@@ -1,13 +1,3 @@
-![](media/news/Support.png)
-
-Got money to spare? 💰🪙
-
-You can support Tiny Life's development on **Patreon** or **Ko-fi** and get special rewards, including **exclusive sneak peeks** and **playable preview versions** for upcoming features!
-
-Visit the [Patreon](https://link.tinylifegame.com/news-patreon) or [Ko-fi](https://link.tinylifegame.com/news-kofi) pages for more info. Thanks so much! ❤️
-
----
-
 ![](media/news/PostReview.png)
 
 **Love the game?** Please consider leaving a review on Steam if you haven't already! Reviews help out a lot, as they allow for more people to discover the game through Steam's algorithm.
