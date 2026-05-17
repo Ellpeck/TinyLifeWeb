@@ -41,6 +41,11 @@ This can have multiple reasons:
 - If the game briefly starts up but crashes during the loading screen, there may be issues with your **graphics or audio drivers**. Please make sure that all of your graphics and audio drivers are on the latest stable versions and that you do not have any extraneous device drivers installed. 
   - A specific device driver that seems to be causing problems for a small set of players is "Asus utility" under the "Sound, video and game controllers" section in Windows' Device Manager, disabling which should fix this issue.
 
+# 🎞️ The game's framerate is very low or it is slowing down my computer
+A few players have reported an issue that involves the game having extremely low FPS even with a very good PC, or the game causing their entire computer to slow down. If you are experiencing a similar issue in borderless or fullscreen mode, try one of these solutions:
+- If you have an NVIDIA graphics card, head into NVIDIA Control Panel, Manage 3D settings, Global Settings (or select Tiny Life in Program Settings to avoid potentially causing issues with other installed game), and change the "Vulkan/OpenGL present method" entry from "Auto" to "Prefer layered on DXGI Swapchain."
+- Another potential fix on Windows that is unconfirmed to work with Tiny Life is to head into your Settings, go to System, Display, Graphics, and then add a custom setting for Tiny Life where you disable (or potentially enable) "Optimizations for windowed games."
+
 # 🧾 There's no log file to attach to my bug report
 If the game is crashing when you try to launch it, but there's no log file in [the logs folder](https://docs.tinylifegame.com/articles/game_dir.html), the game might be crashing too early or it might be unable to create a log file due to permission issues.
 
