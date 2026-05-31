@@ -18,7 +18,7 @@ There are a few engine details that you'll have to pay attention to when creatin
 - Every map needs to have at least one road or pathway that exits the map's border; otherwise people will not be able to go out of town, which might lead to crashes during gameplay. You can see where valid exit points are using the `ShowExitPoints` cheat.
 - Newly placed lots should have a name assigned to them before exporting, as otherwise they will be marked as incomplete, causing them to behave unexpectedly.
 - When placing rooms (spaces enclosed entirely by walls) outside of a lot, they act as "set dressing," meaning they will never show their contents during regular gameplay, their walls will never display as "down," and doors into them will be inaccessible.
-- Lots should not intersect each other.
+- Lots should not intersect each other. Starting with Tiny Life 0.50.0, lots can share a border, and placing and editing walls on the border is supported when playing on either lot. This allows for the creation of rowhouses.
 - You can only delete lots if they don't currently have a household occupying them, and you're not currently building on them, so you'll have to export or delete existing households first and choose another lot to start building from. To delete a lot, select its full area with the Remove tool as if you were placing the lot.
 
 ## Useful Cheats
