@@ -16,7 +16,7 @@ Notable references are:
 - Death. When a Tiny dies (which may occur through starvation, having too much brew, exhaustion, and more), they fade out and a gravestone will appear. There is never a display of blood or gore.
 - Mental health issues. While never explicitly addressed using clinical terms such as depression or anxiety, Tinies may start feeling very sad from major life events like the death of a loved one or an abortion.
 
-# 🏳️‍🌈 How diverse or inclusive is Tiny Life?
+# 🌈 How diverse or inclusive is Tiny Life?
 Diversity representation and inclusivity are extremely important to us! Tiny Life is created by a queer developer with a lot of influence from queer communities and people of color, as well as an interest in exploring representation of non-western cultures more thoroughly. When hiring freelance artists for Tiny Life's themed Sets, we take care to create overlap between the freelancer's cultural background and identity and the items they create.
 
 All of this makes Tiny Life a game intended for everyone. While we think these features should be a given in all games that have character customization options, here are some things that still make Tiny Life stand out:
@@ -24,7 +24,7 @@ All of this makes Tiny Life a game intended for everyone. While we think these f
 - The ability to select a Tiny's gender identity, voice, reproductive abilities and clothing style independently of each other, as well as the ability to make Tinies asexual, aromantic or both.
 - An ever-growing array of hairs and clothing items for everyone, including many afro-textured hairstyles, as well as items like durags and headscarves.
 
-Unfortunately, Tiny Life only supports a single body type (or body shape) for each age group at the moment. For a pixelart game like Tiny Life to look consistent, each clothing item has to support each frame of each animation for each body type. For [a very small team](#%EF%B8%8F-when-is-the-next-update-coming-out), this workload does not scale well. Because of this, we made the conscious decision to favor diverse and unique clothing items over diverse body types. In the future, we may offer the ability to select from a small variety of different body types, but this is not on our roadmap at the moment.
+Unfortunately, Tiny Life only supports a single body type (or body shape) for each age group at the moment. For a pixelart game like Tiny Life to look consistent, each clothing item has to support each frame of each animation for each body type. For [a very small team](#-when-is-the-next-update-coming-out), this workload does not scale well. Because of this, we made the conscious decision to favor diverse and unique clothing items over diverse body types. In the future, we may offer the ability to select from a small variety of different body types, but this is not on our roadmap at the moment.
 
 If you have any feedback to share, especially requests for clothing and build mode items from your culture, please don't hesitate to reach out via [the feedback form](https://tinylifegame.com/feedback).
 
@@ -71,7 +71,7 @@ No. We are strictly against using GenAI for games, especially when it comes to p
 
 As localizations for the game are [community-sourced](https://docs.tinylifegame.com/articles/localization.html), unfinished versions of localizations to some languages may contain machine translation or AI-generated translation. While we generally discourage this practice, community members are free to use machine translation as a basis for creating first drafts of their translations.
 
-# ⏱️ When is the next update coming out?
+# ⌛ When is the next update coming out?
 Unfortunately, we don't really know! Tiny Life is developed by a solo developer, [Ell](https://ellpeck.de), who is currently unable to work on Tiny Life full-time.
 
 However, we try to be as open as we can about our development process and progress made for new features. Tiny Life's [devlogs](/#devlogs) regularly feature information and updates about current development, as well as how much time Ell currently has to work on new features.
