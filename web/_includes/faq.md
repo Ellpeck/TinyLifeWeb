@@ -71,7 +71,7 @@ No. We are strictly against using GenAI for games, especially when it comes to p
 
 As localizations for the game are [community-sourced](https://docs.tinylifegame.com/articles/localization.html), unfinished versions of localizations to some languages may contain machine translation or AI-generated translation. While we generally discourage this practice, community members are free to use machine translation as a basis for creating first drafts of their translations.
 
-# ⌛ When is the next update coming out?
+# 🕑 When is the next update coming out?
 Unfortunately, we don't really know! Tiny Life is developed by a solo developer, [Ell](https://ellpeck.de), who is currently unable to work on Tiny Life full-time.
 
 However, we try to be as open as we can about our development process and progress made for new features. Tiny Life's [devlogs](/#devlogs) regularly feature information and updates about current development, as well as how much time Ell currently has to work on new features.
