@@ -22,9 +22,11 @@ Diversity representation and inclusivity are extremely important to us! Tiny Lif
 All of this makes Tiny Life a game intended for everyone. While we think these features should be a given in all games that have character customization options, here are some things that still make Tiny Life stand out:
 - A large variety of skin tones for your Tinies.
 - The ability to select a Tiny's gender identity, voice, reproductive abilities and clothing style independently of each other, as well as the ability to make Tinies asexual, aromantic or both.
-- An ever-growing array of hairs and clothing items for everyone, including many afro-textured hairstyles, as well as items like durags and headscarves. 
+- An ever-growing array of hairs and clothing items for everyone, including many afro-textured hairstyles, as well as items like durags and headscarves.
 
-If you have any feedback to share, especially requests for clothing items from your culture, please don't hesitate to reach out via [the feedback form](https://tinylifegame.com/feedback).
+Unfortunately, Tiny Life only supports a single body type (or body shape) for each age group at the moment. For a pixelart game like Tiny Life to look consistent, each clothing item has to support each frame of each animation for each body type. For [a very small team](#-when-is-the-next-update-coming-out), this workload does not scale well. Because of this, we made the conscious decision to favor diverse and unique clothing items over diverse body types. In the future, we may offer the ability to select from a small variety of different body types, but this is not on our roadmap at the moment.
+
+If you have any feedback to share, especially requests for clothing and build mode items from your culture, please don't hesitate to reach out via [the feedback form](https://tinylifegame.com/feedback).
 
 # 📊 How does the game's full version differ from the demo?
 While playing the Tiny Life demo, you may notice informational boxes in various places around the game's UI that are meant to give a general overview of the content that is unavailable in the demo. These boxes are a good way to see what features are waiting for you in the full game while playing the demo.
