@@ -1337,7 +1337,7 @@ Additions
 - Added the ability to hire a one-off babysitter using the phone
 - Added a museum lot type, along with a museum curator lot staff, and the ability to view art pieces
 - Added a new voice type, the soft voice, by [Jason Hall](https://linktr.ee/jason11818)
-- Added event sting sound effects for various important events by [Jamal Green](https://www.jamalgreenmusic.com/)
+- Added event sting sound effects for various important events by [Jamal Green](https://jamalgreen.bandcamp.com)
 - Added the ability to adopt someone as a parent
 - Added the ability to set a height offset for roofs, allowing more advanced roof layouts
 - Added cute little ambient bee particles around flowers and flower bushes
@@ -3429,7 +3429,7 @@ Additions
   - 2 roof styles
   - 8 character creator items
 - Added a large new forested area with dirt footpaths to the eastern part of town, along with some new houses and empty lots
-- Added emotion sting sound effects by the lovely [Jamal Green](https://jamalgreenmusic.com)
+- Added emotion sting sound effects by the lovely [Jamal Green](https://jamalgreen.bandcamp.com)
 - Added a regular visitors system that allows for people from exported households to visit and interact with the town without living there
 - Added a few households that are exported by default to populate the visitors system
 - Added the ability for furniture to get dirty and having to be cleaned
