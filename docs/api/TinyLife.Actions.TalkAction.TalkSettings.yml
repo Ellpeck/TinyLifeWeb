@@ -21,6 +21,7 @@ items:
   - TinyLife.Actions.TalkAction.TalkSettings.OnFailure
   - TinyLife.Actions.TalkAction.TalkSettings.OnSuccess
   - TinyLife.Actions.TalkAction.TalkSettings.PartnerEmoteCategory
+  - TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
   - TinyLife.Actions.TalkAction.TalkSettings.PartnerSpeakStyle
   - TinyLife.Actions.TalkAction.TalkSettings.RestoredNeed
   - TinyLife.Actions.TalkAction.TalkSettings.Settings
@@ -271,13 +272,40 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Actions
-  summary: The skill that is gained if this conversation goes well. Higher levels in this skill also reduce the chance of the conversation going badly.
+  summary: >-
+    The skill that is gained if this conversation goes well. Higher levels in this skill also reduce the chance of the conversation going badly.
+
+    If <xref href="TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, this skill is gained when the conversation goes poorly instead.
   example: []
   syntax:
     content: public (SkillType Type, int Amount) GainedSkill
     return:
       type: System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}
     content.vb: Public GainedSkill As (Type As SkillType, Amount As Integer)
+- uid: TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
+  id: PartnerGainedSkill
+  parent: TinyLife.Actions.TalkAction.TalkSettings
+  langs:
+  - csharp
+  - vb
+  name: PartnerGainedSkill
+  nameWithType: TalkAction.TalkSettings.PartnerGainedSkill
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    The skill that is gained by the conversation's partner if this conversation goes well. This only has an effect if the action was not <xref href="TinyLife.Actions.Action.StartedAutomatically" data-throw-if-not-resolved="false"></xref>, or if <xref href="TinyLife.PerSaveOptions.AiSkillBuilding" data-throw-if-not-resolved="false"></xref> is enabled.
+
+    If <xref href="TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure" data-throw-if-not-resolved="false"></xref> is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a>, this skill is gained when the conversation goes poorly instead.
+  example: []
+  syntax:
+    content: public (SkillType Type, int Amount) PartnerGainedSkill
+    return:
+      type: System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}
+    content.vb: Public PartnerGainedSkill As (Type As SkillType, Amount As Integer)
 - uid: TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
   commentId: F:TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
   id: GainSkillOnFailure
@@ -293,7 +321,7 @@ items:
   - TinyLife
   namespace: TinyLife.Actions
   summary: >-
-    Whether the <xref href="TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure" data-throw-if-not-resolved="false"></xref> should be gained on failure rather than success.
+    Whether the <xref href="TinyLife.Actions.TalkAction.TalkSettings.GainedSkill" data-throw-if-not-resolved="false"></xref> and the <xref href="TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill" data-throw-if-not-resolved="false"></xref> should be gained on failure rather than success.
 
     This is useful for skills that are considered "mean", where the gained skill is mischievious etc.
   example: []
@@ -598,7 +626,7 @@ items:
     parameters:
     - id: action
       type: TinyLife.Actions.Action
-      description: The action.
+      description: The action executed by the main conversation partner.
     - id: partner
       type: TinyLife.Objects.PersonLike
       description: The action partner.
@@ -1585,6 +1613,12 @@ references:
     name: SpeakStyle
     href: TinyLife.Objects.SpeakStyle.html
   - name: '?'
+- uid: TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
+  href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_GainSkillOnFailure
+  name: GainSkillOnFailure
+  nameWithType: TalkAction.TalkSettings.GainSkillOnFailure
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
 - uid: System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}
   commentId: T:System.ValueTuple{TinyLife.Skills.SkillType,System.Int32}
   parent: System
@@ -1659,12 +1693,31 @@ references:
   - name: " "
   - name: T2
   - name: )
-- uid: TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
-  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
-  href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_GainSkillOnFailure
-  name: GainSkillOnFailure
-  nameWithType: TalkAction.TalkSettings.GainSkillOnFailure
-  fullName: TinyLife.Actions.TalkAction.TalkSettings.GainSkillOnFailure
+- uid: TinyLife.Actions.Action.StartedAutomatically
+  commentId: P:TinyLife.Actions.Action.StartedAutomatically
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_StartedAutomatically
+  name: StartedAutomatically
+  nameWithType: Action.StartedAutomatically
+  fullName: TinyLife.Actions.Action.StartedAutomatically
+- uid: TinyLife.PerSaveOptions.AiSkillBuilding
+  commentId: F:TinyLife.PerSaveOptions.AiSkillBuilding
+  href: TinyLife.PerSaveOptions.html#TinyLife_PerSaveOptions_AiSkillBuilding
+  name: AiSkillBuilding
+  nameWithType: PerSaveOptions.AiSkillBuilding
+  fullName: TinyLife.PerSaveOptions.AiSkillBuilding
+- uid: TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
+  href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_GainedSkill
+  name: GainedSkill
+  nameWithType: TalkAction.TalkSettings.GainedSkill
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
+- uid: TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
+  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
+  href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_PartnerGainedSkill
+  name: PartnerGainedSkill
+  nameWithType: TalkAction.TalkSettings.PartnerGainedSkill
+  fullName: TinyLife.Actions.TalkAction.TalkSettings.PartnerGainedSkill
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
@@ -2486,12 +2539,6 @@ references:
   name: Relationship
   nameWithType: Relationship
   fullName: TinyLife.Relationship
-- uid: TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
-  commentId: F:TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
-  href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_GainedSkill
-  name: GainedSkill
-  nameWithType: TalkAction.TalkSettings.GainedSkill
-  fullName: TinyLife.Actions.TalkAction.TalkSettings.GainedSkill
 - uid: TinyLife.Actions.TalkAction.TalkSettings.EvaluateSimple*
   commentId: Overload:TinyLife.Actions.TalkAction.TalkSettings.EvaluateSimple
   href: TinyLife.Actions.TalkAction.TalkSettings.html#TinyLife_Actions_TalkAction_TalkSettings_EvaluateSimple_TinyLife_Actions_Action_TinyLife_Objects_PersonLike_System_Single_System_Single_

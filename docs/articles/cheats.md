@@ -36,6 +36,8 @@ Here is a list of some of the more useful cheats for mod development and testing
 - `GoHome [name without spaces]` will clear the action queue of the given person and enqueue the appropriate type of "Go Home" action, causing them to make their way home immediately. This cheat is also available as a debug action (`ShowDebugActions`).
 - `ResetLocation [name without spaces]` will clear the action queue of the given person and teleport them to their default location. For Tinies who live on a map, this is a location around their home. For lot staff or regular visitors, this is the closest exit road. This cheat is also available as a debug action (`ShowDebugActions`).
 - `Find [name without spaces]` causes the camera to focus on the person with the given name.
+- `PlaceNonColliding` to cause objects placed in build mode while the cheat is activated to have no collisions
+- `ForceGridlessPlacement` to permanently enable the ALT placement mode, which is especially useful when using a gamepad
 
 ## Modding and Debug Cheats
 - `EditWorld` allows you to place things outside of lots and adds the ability to add new lots to the world. You can find out more about editing the world in the [custom maps tutorial](custom_maps.md).

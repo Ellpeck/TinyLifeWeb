@@ -1,3 +1,50 @@
+# 0.50.0
+*June 21, 2026*
+
+![](media/changelog/0.50.0.png)
+
+> Gardening, Plants and Many Improvements
+
+**Read the devlog [on the website](https://tinylifegame.com/devlogs/0.50.0/).**
+
+Additions
+- Added the gardening skill with 7* plants to take care of
+- Added wild plant spawners to all worlds except Demoville (since gardening is unavailable in the demo)
+- Added the community garden lot type, where visitors will autonomously garden
+- Added a gardening life goal and the gardener job
+- Added the ability to nap on benches and sofas
+- Added sounds for changing game speed as well as a notification popping up
+- Added keybinds for focusing the camera on the home lot and the active Tiny
+- Added a decorative hydrangea plant
+- Added the ability to disable autonomous outfit changes in the gameplay options
+- Added various small, "decorative" trash items
+
+Improvements
+- Made actions like sleeping and sitting try multiple locations on the goal object, not just the closest one
+- When closing an in-game hint, a notification now displays that allows re-opening it
+- Stopped using "AI" wording in favor of "autonomy" in the game to avoid confusion with generative AI software (which Tiny Life does not use)
+- Tinies now don't autonomously get a job in unplayed households if they already have enough money
+- Custom content items that were manually installed or exported can now be deleted from the import menu
+- When opening the Steam workshop from within the game, it will now go to the correct filter immediately
+- The mods whose items are used for an exported lot or household are now listed in the Steam description when uploading
+- Walls on lot borders are now handled more consistently, including the ability to place walls right on the border
+- Made radio buttons have a visually distinct style from checkboxes
+- Increased the chance of items randomly appearing in the trash
+- Changed the default wallpaper style to a more European-style bare brick, and improved the texture of drywall
+
+Fixes
+- Fixed controls hints being visible for one frame if disabled
+- Fixed the menu jumping around when typing into the search field for in-game hints
+- Fixed children not using the running animation when running
+- Fixed children being able to have dirty diapers if the Use Diaper action was enqueued before they grew up
+- Fixed the relationship tab not updating correctly while open when relationship data changed
+- Fixed job task changes not being reflected in the job tab while open
+- Fixed completed life goals sticking around sometimes, causing crashes
+
+API
+- Added doors that act as certain destinations, which allow map makers to place faux-destination buildings that Tinies will actually visit when traveling out of town
+- Household money is now stored as a double rather than a float to increase precision at high money amounts
+
 # 0.49.6
 *May 9, 2026*
 

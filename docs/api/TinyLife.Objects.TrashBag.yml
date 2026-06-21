@@ -8,6 +8,7 @@ items:
   - TinyLife.Objects.TrashBag.#ctor(System.Guid,TinyLife.Objects.FurnitureType,System.Int32[],TinyLife.World.Map,Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.TrashBag.AddContent(TinyLife.Objects.Furniture)
   - TinyLife.Objects.TrashBag.Content
+  - TinyLife.Objects.TrashBag.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   - TinyLife.Objects.TrashBag.RemoveContent(TinyLife.Objects.Furniture)
   - TinyLife.Objects.TrashBag.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Objects.TrashBag.Validate(TinyLife.Utilities.AppliedMigrations)
@@ -62,6 +63,7 @@ items:
   - TinyLife.Objects.Furniture.DevaluedThroughUse
   - TinyLife.Objects.Furniture.AreUtilitiesDisabled
   - TinyLife.Objects.Furniture.IsStatic
+  - TinyLife.Objects.Furniture.ForceNonColliding
   - TinyLife.Objects.Furniture.CreatorId
   - TinyLife.Objects.Furniture.Quality
   - TinyLife.Objects.Furniture.CanBeDirty
@@ -87,12 +89,11 @@ items:
   - TinyLife.Objects.Furniture.GetDebugLines(TinyLife.GameImpl,System.Collections.Generic.List{System.String})
   - TinyLife.Objects.Furniture.GetEfficiencyModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.Furniture.GetRestoreNeedModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.NeedType)
-  - TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  - TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
   - TinyLife.Objects.Furniture.IsFreeSpot(Microsoft.Xna.Framework.Point)
   - TinyLife.Objects.Furniture.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.Furniture.ModifyActionCategories(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Collections.Generic.List{System.String})
   - TinyLife.Objects.Furniture.DrawIcon(MLEM.Ui.Elements.Element,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch)
-  - TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
   - TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   - TinyLife.Objects.Furniture.Draw(Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Single,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},MLEM.Maths.Direction2,System.Int32[],System.Single,System.Boolean,TinyLife.Objects.ParentInfo,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.Furniture.GetPrice
@@ -143,6 +144,7 @@ items:
   - TinyLife.Objects.MapObject.CurrentRoom
   - TinyLife.Objects.MapObject.IsInWorld
   - TinyLife.Objects.MapObject.HoldingPerson
+  - TinyLife.Objects.MapObject.SpawnerId
   - TinyLife.Objects.MapObject.ValidateEarly
   - TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   - TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
@@ -274,6 +276,46 @@ items:
     content.vb: Public Overrides Function Validate(appliedMigrations As AppliedMigrations) As Boolean
   overridden: TinyLife.Objects.Furniture.Validate(TinyLife.Utilities.AppliedMigrations)
   overload: TinyLife.Objects.TrashBag.Validate*
+- uid: TinyLife.Objects.TrashBag.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  commentId: M:TinyLife.Objects.TrashBag.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  id: MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  parent: TinyLife.Objects.TrashBag
+  langs:
+  - csharp
+  - vb
+  name: MoveToMap(Map, Vector2?, float?)
+  nameWithType: TrashBag.MoveToMap(Map, Vector2?, float?)
+  fullName: TinyLife.Objects.TrashBag.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, float?)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  summary: >-
+    Moves this object to the given <code class="paramref">map</code>, changing the current <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> in the process.
+
+    If the object is currently on its <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> (<xref href="TinyLife.Objects.MapObject.IsInWorld" data-throw-if-not-resolved="false"></xref>), then it is removed from it using <xref href="TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref> and added to the new <code class="paramref">map</code> using <xref href="TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)" data-throw-if-not-resolved="false"></xref>. If the object is not currently on its <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref>, then its map is changed without subsequently adding it to the new <code class="paramref">map</code>.
+  example: []
+  syntax:
+    content: public override bool MoveToMap(Map map, Vector2? position = null, float? floor = null)
+    parameters:
+    - id: map
+      type: TinyLife.World.Map
+      description: The map to move to.
+    - id: position
+      type: System.Nullable{Microsoft.Xna.Framework.Vector2}
+      description: The position on the new map to move to, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to keep it the same.
+    - id: floor
+      type: System.Nullable{System.Single}
+      description: The floor to move to, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to keep it the same.
+    return:
+      type: System.Boolean
+      description: Whether moving to the map was successful, which is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> if this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> is already the given <code class="paramref">map</code>. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> is returned, its <xref href="TinyLife.Objects.MapObject.IsInWorld" data-throw-if-not-resolved="false"></xref> state is additionally guaranteed to be the same as it was before this method was called. If <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned, no action was performed.
+    content.vb: Public Overrides Function MoveToMap(map As Map, position As Vector2? = Nothing, floor As Single? = Nothing) As Boolean
+  overridden: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  overload: TinyLife.Objects.TrashBag.MoveToMap*
+  nameWithType.vb: TrashBag.MoveToMap(Map, Vector2?, Single?)
+  fullName.vb: TinyLife.Objects.TrashBag.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?)
+  name.vb: MoveToMap(Map, Vector2?, Single?)
 - uid: TinyLife.Objects.TrashBag.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   commentId: M:TinyLife.Objects.TrashBag.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   id: Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
@@ -663,6 +705,13 @@ references:
   name: IsStatic
   nameWithType: Furniture.IsStatic
   fullName: TinyLife.Objects.Furniture.IsStatic
+- uid: TinyLife.Objects.Furniture.ForceNonColliding
+  commentId: F:TinyLife.Objects.Furniture.ForceNonColliding
+  parent: TinyLife.Objects.Furniture
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_ForceNonColliding
+  name: ForceNonColliding
+  nameWithType: Furniture.ForceNonColliding
+  fullName: TinyLife.Objects.Furniture.ForceNonColliding
 - uid: TinyLife.Objects.Furniture.CreatorId
   commentId: P:TinyLife.Objects.Furniture.CreatorId
   parent: TinyLife.Objects.Furniture
@@ -1390,21 +1439,21 @@ references:
     name: NeedType
     href: TinyLife.NeedType.html
   - name: )
-- uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
-  commentId: M:TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+- uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  commentId: M:TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
   parent: TinyLife.Objects.Furniture
   isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
-  name: OnRandomQuality(PersonLike, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
-  nameWithType: Furniture.OnRandomQuality(PersonLike, ActionInfo, bool, SkillType, Random, bool, Dictionary<Quality, float>)
-  fullName: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike, TinyLife.Actions.ActionInfo, bool, TinyLife.Skills.SkillType, System.Random, bool, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>)
-  nameWithType.vb: Furniture.OnRandomQuality(PersonLike, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
-  fullName.vb: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Skills.SkillType, System.Random, Boolean, System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
-  name.vb: OnRandomQuality(PersonLike, ActionInfo, Boolean, SkillType, Random, Boolean, Dictionary(Of Quality, Single))
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  name: OnRandomQuality(PersonLike, ActionInfo, bool, SkillType, bool, Dictionary<Quality, float>)
+  nameWithType: Furniture.OnRandomQuality(PersonLike, ActionInfo, bool, SkillType, bool, Dictionary<Quality, float>)
+  fullName: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike, TinyLife.Actions.ActionInfo, bool, TinyLife.Skills.SkillType, bool, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>)
+  nameWithType.vb: Furniture.OnRandomQuality(PersonLike, ActionInfo, Boolean, SkillType, Boolean, Dictionary(Of Quality, Single))
+  fullName.vb: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Skills.SkillType, Boolean, System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: OnRandomQuality(PersonLike, ActionInfo, Boolean, SkillType, Boolean, Dictionary(Of Quality, Single))
   spec.csharp:
-  - uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  - uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
     name: OnRandomQuality
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -1425,12 +1474,6 @@ references:
   - uid: TinyLife.Skills.SkillType
     name: SkillType
     href: TinyLife.Skills.SkillType.html
-  - name: ','
-  - name: " "
-  - uid: System.Random
-    name: Random
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.random
   - name: ','
   - name: " "
   - uid: System.Boolean
@@ -1456,9 +1499,9 @@ references:
   - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Random,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  - uid: TinyLife.Objects.Furniture.OnRandomQuality(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Boolean,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
     name: OnRandomQuality
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Random_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_OnRandomQuality_TinyLife_Objects_PersonLike_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Boolean_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
   - name: (
   - uid: TinyLife.Objects.PersonLike
     name: PersonLike
@@ -1479,12 +1522,6 @@ references:
   - uid: TinyLife.Skills.SkillType
     name: SkillType
     href: TinyLife.Skills.SkillType.html
-  - name: ','
-  - name: " "
-  - uid: System.Random
-    name: Random
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.random
   - name: ','
   - name: " "
   - uid: System.Boolean
@@ -1702,61 +1739,6 @@ references:
   - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
     name: SpriteBatch
     isExternal: true
-  - name: )
-- uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-  commentId: M:TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-  parent: TinyLife.Objects.Furniture
-  isExternal: true
-  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  name: MoveToMap(Map, Vector2?, float?)
-  nameWithType: Furniture.MoveToMap(Map, Vector2?, float?)
-  fullName: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, float?)
-  nameWithType.vb: Furniture.MoveToMap(Map, Vector2?, Single?)
-  fullName.vb: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?)
-  name.vb: MoveToMap(Map, Vector2?, Single?)
-  spec.csharp:
-  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-    name: MoveToMap
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: '?'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-    name: MoveToMap
-    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: '?'
   - name: )
 - uid: TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
   commentId: M:TinyLife.Objects.Furniture.OnPositionChanged(Microsoft.Xna.Framework.Vector2,System.Single)
@@ -3603,6 +3585,13 @@ references:
   name: HoldingPerson
   nameWithType: MapObject.HoldingPerson
   fullName: TinyLife.Objects.MapObject.HoldingPerson
+- uid: TinyLife.Objects.MapObject.SpawnerId
+  commentId: P:TinyLife.Objects.MapObject.SpawnerId
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_SpawnerId
+  name: SpawnerId
+  nameWithType: MapObject.SpawnerId
+  fullName: TinyLife.Objects.MapObject.SpawnerId
 - uid: TinyLife.Objects.MapObject.ValidateEarly
   commentId: M:TinyLife.Objects.MapObject.ValidateEarly
   parent: TinyLife.Objects.MapObject
@@ -5062,6 +5051,183 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  commentId: M:TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  name: RemoveObject(MapObject)
+  nameWithType: Map.RemoveObject(MapObject)
+  fullName: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+  spec.csharp:
+  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+    name: RemoveObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.RemoveObject(TinyLife.Objects.MapObject)
+    name: RemoveObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_RemoveObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
+- uid: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
+  commentId: M:TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
+  href: TinyLife.World.Map.html#TinyLife_World_Map_AddObject_TinyLife_Objects_MapObject_
+  name: AddObject(MapObject)
+  nameWithType: Map.AddObject(MapObject)
+  fullName: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
+  spec.csharp:
+  - uid: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
+    name: AddObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_AddObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.Map.AddObject(TinyLife.Objects.MapObject)
+    name: AddObject
+    href: TinyLife.World.Map.html#TinyLife_World_Map_AddObject_TinyLife_Objects_MapObject_
+  - name: (
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: )
+- uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  commentId: M:TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  parent: TinyLife.Objects.Furniture
+  isExternal: true
+  href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  name: MoveToMap(Map, Vector2?, float?)
+  nameWithType: Furniture.MoveToMap(Map, Vector2?, float?)
+  fullName: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, float?)
+  nameWithType.vb: Furniture.MoveToMap(Map, Vector2?, Single?)
+  fullName.vb: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?)
+  name.vb: MoveToMap(Map, Vector2?, Single?)
+  spec.csharp:
+  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+    name: MoveToMap
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.Furniture.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+    name: MoveToMap
+    href: TinyLife.Objects.Furniture.html#TinyLife_Objects_Furniture_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+- uid: TinyLife.Objects.TrashBag.MoveToMap*
+  commentId: Overload:TinyLife.Objects.TrashBag.MoveToMap
+  href: TinyLife.Objects.TrashBag.html#TinyLife_Objects_TrashBag_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  name: MoveToMap
+  nameWithType: TrashBag.MoveToMap
+  fullName: TinyLife.Objects.TrashBag.MoveToMap
+- uid: System.Nullable{Microsoft.Xna.Framework.Vector2}
+  commentId: T:System.Nullable{Microsoft.Xna.Framework.Vector2}
+  parent: System
+  definition: System.Nullable`1
+  name: Vector2?
+  nameWithType: Vector2?
+  fullName: Microsoft.Xna.Framework.Vector2?
+  spec.csharp:
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+  spec.vb:
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+- uid: System.Nullable{System.Single}
+  commentId: T:System.Nullable{System.Single}
+  parent: System
+  definition: System.Nullable`1
+  href: https://learn.microsoft.com/dotnet/api/system.single
+  name: float?
+  nameWithType: float?
+  fullName: float?
+  nameWithType.vb: Single?
+  fullName.vb: Single?
+  name.vb: Single?
+  spec.csharp:
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  spec.vb:
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+- uid: System.Nullable`1
+  commentId: T:System.Nullable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  name: Nullable<T>
+  nameWithType: Nullable<T>
+  fullName: System.Nullable<T>
+  nameWithType.vb: Nullable(Of T)
+  fullName.vb: System.Nullable(Of T)
+  name.vb: Nullable(Of T)
+  spec.csharp:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Nullable`1
+    name: Nullable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.nullable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.World.Household.FurnitureStorage
   commentId: F:TinyLife.World.Household.FurnitureStorage
   href: TinyLife.World.Household.html#TinyLife_World_Household_FurnitureStorage

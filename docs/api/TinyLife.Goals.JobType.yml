@@ -5,7 +5,7 @@ items:
   id: JobType
   parent: TinyLife.Goals
   children:
-  - TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
+  - TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,TinyLife.Actions.OutOfTownIntention,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
   - TinyLife.Goals.JobType.Businessperson
   - TinyLife.Goals.JobType.CanGetRaise
   - TinyLife.Goals.JobType.CanQuitOrBeFired
@@ -15,12 +15,14 @@ items:
   - TinyLife.Goals.JobType.DailyTasks
   - TinyLife.Goals.JobType.Doctor
   - TinyLife.Goals.JobType.Firefighter
+  - TinyLife.Goals.JobType.Gardener
   - TinyLife.Goals.JobType.GetDefaultHourlyPay(TinyLife.Objects.Person)
   - TinyLife.Goals.JobType.GetDisplayName(System.Nullable{System.Int32})
   - TinyLife.Goals.JobType.GetRequiredPromotionSkills(TinyLife.Goals.Job)
   - TinyLife.Goals.JobType.HasSpecialLocalization
   - TinyLife.Goals.JobType.HourlyPay
   - TinyLife.Goals.JobType.Icon
+  - TinyLife.Goals.JobType.Intention
   - TinyLife.Goals.JobType.IsTimeToWork(System.TimeSpan)
   - TinyLife.Goals.JobType.MaxLevel
   - TinyLife.Goals.JobType.Migrations
@@ -266,6 +268,25 @@ items:
     return:
       type: TinyLife.Goals.JobType
     content.vb: Public Shared ReadOnly Scientist As JobType
+- uid: TinyLife.Goals.JobType.Gardener
+  commentId: F:TinyLife.Goals.JobType.Gardener
+  id: Gardener
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: Gardener
+  nameWithType: JobType.Gardener
+  fullName: TinyLife.Goals.JobType.Gardener
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Goals
+  syntax:
+    content: public static readonly JobType Gardener
+    return:
+      type: TinyLife.Goals.JobType
+    content.vb: Public Shared ReadOnly Gardener As JobType
 - uid: TinyLife.Goals.JobType.Name
   commentId: F:TinyLife.Goals.JobType.Name
   id: Name
@@ -332,6 +353,25 @@ items:
     return:
       type: System.Single
     content.vb: Public ReadOnly HourlyPay As Single
+- uid: TinyLife.Goals.JobType.Intention
+  commentId: F:TinyLife.Goals.JobType.Intention
+  id: Intention
+  parent: TinyLife.Goals.JobType
+  langs:
+  - csharp
+  - vb
+  name: Intention
+  nameWithType: JobType.Intention
+  fullName: TinyLife.Goals.JobType.Intention
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Goals
+  syntax:
+    content: public readonly OutOfTownIntention Intention
+    return:
+      type: TinyLife.Actions.OutOfTownIntention
+    content.vb: Public ReadOnly Intention As OutOfTownIntention
 - uid: TinyLife.Goals.JobType.WorkHours
   commentId: F:TinyLife.Goals.JobType.WorkHours
   id: WorkHours
@@ -656,16 +696,16 @@ items:
   overload: TinyLife.Goals.JobType.SourceString*
   implements:
   - TinyLife.Emotions.IEmotionSource.SourceString
-- uid: TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
-  commentId: M:TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
-  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])'
+- uid: TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,TinyLife.Actions.OutOfTownIntention,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
+  commentId: M:TinyLife.Goals.JobType.#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,TinyLife.Actions.OutOfTownIntention,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])
+  id: '#ctor(System.String,MLEM.Textures.TextureRegion,System.Single,TinyLife.Actions.OutOfTownIntention,System.ValueTuple{System.Int32,System.Int32},System.DayOfWeek[])'
   parent: TinyLife.Goals.JobType
   langs:
   - csharp
   - vb
-  name: JobType(string, TextureRegion, float, (int Start, int End), params DayOfWeek[])
-  nameWithType: JobType.JobType(string, TextureRegion, float, (int Start, int End), params DayOfWeek[])
-  fullName: TinyLife.Goals.JobType.JobType(string, MLEM.Textures.TextureRegion, float, (int Start, int End), params System.DayOfWeek[])
+  name: JobType(string, TextureRegion, float, OutOfTownIntention, (int Start, int End), params DayOfWeek[])
+  nameWithType: JobType.JobType(string, TextureRegion, float, OutOfTownIntention, (int Start, int End), params DayOfWeek[])
+  fullName: TinyLife.Goals.JobType.JobType(string, MLEM.Textures.TextureRegion, float, TinyLife.Actions.OutOfTownIntention, (int Start, int End), params System.DayOfWeek[])
   type: Constructor
   assemblies:
   - TinyLife
@@ -673,7 +713,7 @@ items:
   summary: Creates a new job type with the given settings
   example: []
   syntax:
-    content: public JobType(string name, TextureRegion icon, float hourlyPay, (int Start, int End) workHours, params DayOfWeek[] offWorkDays)
+    content: public JobType(string name, TextureRegion icon, float hourlyPay, OutOfTownIntention intention, (int Start, int End) workHours, params DayOfWeek[] offWorkDays)
     parameters:
     - id: name
       type: System.String
@@ -684,17 +724,19 @@ items:
     - id: hourlyPay
       type: System.Single
       description: The hourly wage that this job yields
+    - id: intention
+      type: TinyLife.Actions.OutOfTownIntention
     - id: workHours
       type: System.ValueTuple{System.Int32,System.Int32}
       description: A range of hours to work each day
     - id: offWorkDays
       type: System.DayOfWeek[]
       description: The days of the week that are off work
-    content.vb: Public Sub New(name As String, icon As TextureRegion, hourlyPay As Single, workHours As (Start As Integer, [End] As Integer), ParamArray offWorkDays As DayOfWeek())
+    content.vb: Public Sub New(name As String, icon As TextureRegion, hourlyPay As Single, intention As OutOfTownIntention, workHours As (Start As Integer, [End] As Integer), ParamArray offWorkDays As DayOfWeek())
   overload: TinyLife.Goals.JobType.#ctor*
-  nameWithType.vb: JobType.New(String, TextureRegion, Single, (Start As Integer, End As Integer), ParamArray DayOfWeek())
-  fullName.vb: TinyLife.Goals.JobType.New(String, MLEM.Textures.TextureRegion, Single, (Start As Integer, End As Integer), ParamArray System.DayOfWeek())
-  name.vb: New(String, TextureRegion, Single, (Start As Integer, End As Integer), ParamArray DayOfWeek())
+  nameWithType.vb: JobType.New(String, TextureRegion, Single, OutOfTownIntention, (Start As Integer, End As Integer), ParamArray DayOfWeek())
+  fullName.vb: TinyLife.Goals.JobType.New(String, MLEM.Textures.TextureRegion, Single, TinyLife.Actions.OutOfTownIntention, (Start As Integer, End As Integer), ParamArray System.DayOfWeek())
+  name.vb: New(String, TextureRegion, Single, OutOfTownIntention, (Start As Integer, End As Integer), ParamArray DayOfWeek())
 - uid: TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
   commentId: M:TinyLife.Goals.JobType.Construct(TinyLife.Objects.Person,System.Int32)
   id: Construct(TinyLife.Objects.Person,System.Int32)
@@ -1922,6 +1964,35 @@ references:
   nameWithType.vb: Single
   fullName.vb: Single
   name.vb: Single
+- uid: TinyLife.Actions.OutOfTownIntention
+  commentId: T:TinyLife.Actions.OutOfTownIntention
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.OutOfTownIntention.html
+  name: OutOfTownIntention
+  nameWithType: OutOfTownIntention
+  fullName: TinyLife.Actions.OutOfTownIntention
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  href: TinyLife.html
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
 - uid: System.Range
   commentId: T:System.Range
   isExternal: true
@@ -2259,28 +2330,6 @@ references:
     href: TinyLife.Actions.ChoicePromptInfo.html
   - name: (
   - name: )
-- uid: TinyLife.Actions
-  commentId: N:TinyLife.Actions
-  href: TinyLife.html
-  name: TinyLife.Actions
-  nameWithType: TinyLife.Actions
-  fullName: TinyLife.Actions
-  spec.csharp:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
-  spec.vb:
-  - uid: TinyLife
-    name: TinyLife
-    href: TinyLife.html
-  - name: .
-  - uid: TinyLife.Actions
-    name: Actions
-    href: TinyLife.Actions.html
 - uid: TinyLife.Goals.JobType.Migrations*
   commentId: Overload:TinyLife.Goals.JobType.Migrations
   href: TinyLife.Goals.JobType.html#TinyLife_Goals_JobType_Migrations
@@ -2419,7 +2468,7 @@ references:
   fullName: TinyLife.Emotions.IEmotionSource.SourceString
 - uid: TinyLife.Goals.JobType.#ctor*
   commentId: Overload:TinyLife.Goals.JobType.#ctor
-  href: TinyLife.Goals.JobType.html#TinyLife_Goals_JobType__ctor_System_String_MLEM_Textures_TextureRegion_System_Single_System_ValueTuple_System_Int32_System_Int32__System_DayOfWeek___
+  href: TinyLife.Goals.JobType.html#TinyLife_Goals_JobType__ctor_System_String_MLEM_Textures_TextureRegion_System_Single_TinyLife_Actions_OutOfTownIntention_System_ValueTuple_System_Int32_System_Int32__System_DayOfWeek___
   name: JobType
   nameWithType: JobType.JobType
   fullName: TinyLife.Goals.JobType.JobType

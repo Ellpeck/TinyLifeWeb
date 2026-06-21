@@ -29,7 +29,7 @@ items:
   - TinyLife.World.Map.GetAllLotEmployments
   - TinyLife.World.Map.GetAllPeople
   - TinyLife.World.Map.GetClosestEmptyTile(Microsoft.Xna.Framework.Vector2,System.Single,System.Int32,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Predicate{Microsoft.Xna.Framework.Point})
-  - TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
+  - TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2,TinyLife.Actions.OutOfTownIntention)
   - TinyLife.World.Map.GetClosestRoads(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetClosestRoadsidePosition(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Vector2)
   - TinyLife.World.Map.GetDepth(Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Boolean,System.Boolean,System.Boolean)
@@ -2941,32 +2941,37 @@ items:
   nameWithType.vb: Map.PlaySound(DefaultSound, MapAudioEmitter, Single, Single, Boolean, Boolean)
   fullName.vb: TinyLife.World.Map.PlaySound(TinyLife.Utilities.DefaultSound, TinyLife.World.MapAudioEmitter, Single, Single, Boolean, Boolean)
   name.vb: PlaySound(DefaultSound, MapAudioEmitter, Single, Single, Boolean, Boolean)
-- uid: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
-  commentId: M:TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
-  id: GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
+- uid: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2,TinyLife.Actions.OutOfTownIntention)
+  commentId: M:TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2,TinyLife.Actions.OutOfTownIntention)
+  id: GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2,TinyLife.Actions.OutOfTownIntention)
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: GetClosestFreeExitPoint(Vector2)
-  nameWithType: Map.GetClosestFreeExitPoint(Vector2)
-  fullName: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2)
+  name: GetClosestFreeExitPoint(Vector2, OutOfTownIntention)
+  nameWithType: Map.GetClosestFreeExitPoint(Vector2, OutOfTownIntention)
+  fullName: TinyLife.World.Map.GetClosestFreeExitPoint(Microsoft.Xna.Framework.Vector2, TinyLife.Actions.OutOfTownIntention)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.World
-  summary: Returns the closest exit point on the map to the given <code class="paramref">position</code>, out of all of the points returned by <xref href="TinyLife.World.Map.GetExitPoints" data-throw-if-not-resolved="false"></xref>.
+  summary: >-
+    Returns the closest exit point on the map to the given <code class="paramref">position</code>, out of all of the points returned by <xref href="TinyLife.World.Map.GetExitPoints" data-throw-if-not-resolved="false"></xref>.
+
+    Note that an <xref href="TinyLife.World.OutOfTownDoor" data-throw-if-not-resolved="false"></xref> with the matching <code class="paramref">intention</code> will always be preferred over an exit point on the map border. If there is no matching door, an exit point on the map border will always be returned, regardless of the passed <code class="paramref">intention</code>.
   example: []
   syntax:
-    content: public Point GetClosestFreeExitPoint(Vector2 position)
+    content: public Point GetClosestFreeExitPoint(Vector2 position, OutOfTownIntention intention)
     parameters:
     - id: position
       type: Microsoft.Xna.Framework.Vector2
       description: The position that the exit point should be close to.
+    - id: intention
+      type: TinyLife.Actions.OutOfTownIntention
     return:
       type: Microsoft.Xna.Framework.Point
       description: The closest exit point to the given position.
-    content.vb: Public Function GetClosestFreeExitPoint(position As Vector2) As Point
+    content.vb: Public Function GetClosestFreeExitPoint(position As Vector2, intention As OutOfTownIntention) As Point
   overload: TinyLife.World.Map.GetClosestFreeExitPoint*
 - uid: TinyLife.World.Map.GetExitPoints
   commentId: M:TinyLife.World.Map.GetExitPoints
@@ -2982,14 +2987,14 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.World
-  summary: Returns a set of all exit points on the map, which are locations on the map's border that Tinies can exit from either on foot or using their car.
+  summary: Returns a set of all exit points on the map, which are locations on the map's border that Tinies can exit from either on foot or using their car, as well as any <xref href="TinyLife.World.OutOfTownDoor" data-throw-if-not-resolved="false"></xref> doors on the map.
   example: []
   syntax:
-    content: public IEnumerable<(Point Position, Direction2 Dir)> GetExitPoints()
+    content: public IEnumerable<(Point Position, OutOfTownIntention Intention)> GetExitPoints()
     return:
-      type: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}}
+      type: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}}
       description: All exit points on this map.
-    content.vb: Public Function GetExitPoints() As IEnumerable(Of (Position As Point, Dir As Direction2))
+    content.vb: Public Function GetExitPoints() As IEnumerable(Of (Position As Point, Intention As OutOfTownIntention))
   overload: TinyLife.World.Map.GetExitPoints*
 - uid: TinyLife.World.Map.GetWalls``1(MLEM.Maths.RectangleF)
   commentId: M:TinyLife.World.Map.GetWalls``1(MLEM.Maths.RectangleF)
@@ -8079,29 +8084,64 @@ references:
     href: TinyLife.World.Map.html#TinyLife_World_Map_GetExitPoints
   - name: (
   - name: )
+- uid: TinyLife.World.OutOfTownDoor
+  commentId: T:TinyLife.World.OutOfTownDoor
+  href: TinyLife.World.OutOfTownDoor.html
+  name: OutOfTownDoor
+  nameWithType: OutOfTownDoor
+  fullName: TinyLife.World.OutOfTownDoor
 - uid: TinyLife.World.Map.GetClosestFreeExitPoint*
   commentId: Overload:TinyLife.World.Map.GetClosestFreeExitPoint
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetClosestFreeExitPoint_Microsoft_Xna_Framework_Vector2_
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetClosestFreeExitPoint_Microsoft_Xna_Framework_Vector2_TinyLife_Actions_OutOfTownIntention_
   name: GetClosestFreeExitPoint
   nameWithType: Map.GetClosestFreeExitPoint
   fullName: TinyLife.World.Map.GetClosestFreeExitPoint
+- uid: TinyLife.Actions.OutOfTownIntention
+  commentId: T:TinyLife.Actions.OutOfTownIntention
+  parent: TinyLife.Actions
+  href: TinyLife.Actions.OutOfTownIntention.html
+  name: OutOfTownIntention
+  nameWithType: OutOfTownIntention
+  fullName: TinyLife.Actions.OutOfTownIntention
+- uid: TinyLife.Actions
+  commentId: N:TinyLife.Actions
+  href: TinyLife.html
+  name: TinyLife.Actions
+  nameWithType: TinyLife.Actions
+  fullName: TinyLife.Actions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Actions
+    name: Actions
+    href: TinyLife.Actions.html
 - uid: TinyLife.World.Map.GetExitPoints*
   commentId: Overload:TinyLife.World.Map.GetExitPoints
   href: TinyLife.World.Map.html#TinyLife_World_Map_GetExitPoints
   name: GetExitPoints
   nameWithType: Map.GetExitPoints
   fullName: TinyLife.World.Map.GetExitPoints
-- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}}
-  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}}
+- uid: System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}}
+  commentId: T:System.Collections.Generic.IEnumerable{System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}}
   parent: System.Collections.Generic
   definition: System.Collections.Generic.IEnumerable`1
   href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
-  name: IEnumerable<(Point Position, Direction2 Dir)>
-  nameWithType: IEnumerable<(Point Position, Direction2 Dir)>
-  fullName: System.Collections.Generic.IEnumerable<(Microsoft.Xna.Framework.Point Position, MLEM.Maths.Direction2 Dir)>
-  nameWithType.vb: IEnumerable(Of (Position As Point, Dir As Direction2))
-  fullName.vb: System.Collections.Generic.IEnumerable(Of (Position As Microsoft.Xna.Framework.Point, Dir As MLEM.Maths.Direction2))
-  name.vb: IEnumerable(Of (Position As Point, Dir As Direction2))
+  name: IEnumerable<(Point Position, OutOfTownIntention Intention)>
+  nameWithType: IEnumerable<(Point Position, OutOfTownIntention Intention)>
+  fullName: System.Collections.Generic.IEnumerable<(Microsoft.Xna.Framework.Point Position, TinyLife.Actions.OutOfTownIntention Intention)>
+  nameWithType.vb: IEnumerable(Of (Position As Point, Intention As OutOfTownIntention))
+  fullName.vb: System.Collections.Generic.IEnumerable(Of (Position As Microsoft.Xna.Framework.Point, Intention As TinyLife.Actions.OutOfTownIntention))
+  name.vb: IEnumerable(Of (Position As Point, Intention As OutOfTownIntention))
   spec.csharp:
   - uid: System.Collections.Generic.IEnumerable`1
     name: IEnumerable
@@ -8113,18 +8153,18 @@ references:
     name: Point
     isExternal: true
   - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}.Position
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}.Position
     name: Position
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,mlem.maths.direction2-.position
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,tinylife.actions.outoftownintention-.position
   - name: ','
   - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
+  - uid: TinyLife.Actions.OutOfTownIntention
+    name: OutOfTownIntention
+    href: TinyLife.Actions.OutOfTownIntention.html
   - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}.Dir
-    name: Dir
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,mlem.maths.direction2-.dir
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}.Intention
+    name: Intention
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,tinylife.actions.outoftownintention-.intention
   - name: )
   - name: '>'
   spec.vb:
@@ -8136,9 +8176,9 @@ references:
   - name: Of
   - name: " "
   - name: (
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}.Position
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}.Position
     name: Position
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,mlem.maths.direction2-.position
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,tinylife.actions.outoftownintention-.position
   - name: " "
   - name: As
   - name: " "
@@ -8147,15 +8187,15 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,MLEM.Maths.Direction2}.Dir
-    name: Dir
-    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,mlem.maths.direction2-.dir
+  - uid: System.ValueTuple{Microsoft.Xna.Framework.Point,TinyLife.Actions.OutOfTownIntention}.Intention
+    name: Intention
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-microsoft.xna.framework.point,tinylife.actions.outoftownintention-.intention
   - name: " "
   - name: As
   - name: " "
-  - uid: MLEM.Maths.Direction2
-    name: Direction2
-    isExternal: true
+  - uid: TinyLife.Actions.OutOfTownIntention
+    name: OutOfTownIntention
+    href: TinyLife.Actions.OutOfTownIntention.html
   - name: )
   - name: )
 - uid: TinyLife.World.Map.GetWalls*

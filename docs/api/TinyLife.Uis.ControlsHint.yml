@@ -6,10 +6,11 @@ items:
   parent: TinyLife.Uis
   children:
   - TinyLife.Uis.ControlsHint.#ctor(System.String,System.Func{TinyLife.Options,System.Boolean,System.Object},System.Func{TinyLife.GameImpl,System.Boolean})
-  - TinyLife.Uis.ControlsHint.Hints
+  - TinyLife.Uis.ControlsHint.CreatePanel(MLEM.Ui.Anchor,System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint})
+  - TinyLife.Uis.ControlsHint.GlobalHints
   - TinyLife.Uis.ControlsHint.Keybind
   - TinyLife.Uis.ControlsHint.Name
-  - TinyLife.Uis.ControlsHint.Register(TinyLife.Uis.ControlsHint)
+  - TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
   - TinyLife.Uis.ControlsHint.ShouldDisplay
   langs:
   - csharp
@@ -41,27 +42,30 @@ items:
   - System.Object.ToString
   extensionMethods:
   - TinyLife.Uis.ControlsHint.TinyLife.Utilities.Extensions.JsonCopy``1
-- uid: TinyLife.Uis.ControlsHint.Hints
-  commentId: F:TinyLife.Uis.ControlsHint.Hints
-  id: Hints
+- uid: TinyLife.Uis.ControlsHint.GlobalHints
+  commentId: F:TinyLife.Uis.ControlsHint.GlobalHints
+  id: GlobalHints
   parent: TinyLife.Uis.ControlsHint
   langs:
   - csharp
   - vb
-  name: Hints
-  nameWithType: ControlsHint.Hints
-  fullName: TinyLife.Uis.ControlsHint.Hints
+  name: GlobalHints
+  nameWithType: ControlsHint.GlobalHints
+  fullName: TinyLife.Uis.ControlsHint.GlobalHints
   type: Field
   assemblies:
   - TinyLife
   namespace: TinyLife.Uis
-  summary: A set of registered hints, both by mods and by the game itself.
+  summary: >-
+    A set of hints that are registered to be displayed in the bottom-right corner of the game window automatically.
+
+    Register new hints using <xref href="TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public static readonly ReadOnlyCollection<ControlsHint> Hints
+    content: public static readonly ReadOnlyCollection<ControlsHint> GlobalHints
     return:
       type: System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.Uis.ControlsHint}
-    content.vb: Public Shared ReadOnly Hints As ReadOnlyCollection(Of ControlsHint)
+    content.vb: Public Shared ReadOnly GlobalHints As ReadOnlyCollection(Of ControlsHint)
 - uid: TinyLife.Uis.ControlsHint.Name
   commentId: F:TinyLife.Uis.ControlsHint.Name
   id: Name
@@ -145,7 +149,7 @@ items:
   summary: Creates a new controls hint with the given settings.
   example: []
   syntax:
-    content: public ControlsHint(string name, Func<Options, bool, object> keybind, Func<GameImpl, bool> shouldDisplay)
+    content: public ControlsHint(string name, Func<Options, bool, object> keybind, Func<GameImpl, bool> shouldDisplay = null)
     parameters:
     - id: name
       type: System.String
@@ -156,29 +160,29 @@ items:
     - id: shouldDisplay
       type: System.Func{TinyLife.GameImpl,System.Boolean}
       description: Whether this controls hint should currently be displayed, based on the current <xref href="TinyLife.Options" data-throw-if-not-resolved="false"></xref> instance.
-    content.vb: Public Sub New(name As String, keybind As Func(Of Options, Boolean, Object), shouldDisplay As Func(Of GameImpl, Boolean))
+    content.vb: Public Sub New(name As String, keybind As Func(Of Options, Boolean, Object), shouldDisplay As Func(Of GameImpl, Boolean) = Nothing)
   overload: TinyLife.Uis.ControlsHint.#ctor*
   nameWithType.vb: ControlsHint.New(String, Func(Of Options, Boolean, Object), Func(Of GameImpl, Boolean))
   fullName.vb: TinyLife.Uis.ControlsHint.New(String, System.Func(Of TinyLife.Options, Boolean, Object), System.Func(Of TinyLife.GameImpl, Boolean))
   name.vb: New(String, Func(Of Options, Boolean, Object), Func(Of GameImpl, Boolean))
-- uid: TinyLife.Uis.ControlsHint.Register(TinyLife.Uis.ControlsHint)
-  commentId: M:TinyLife.Uis.ControlsHint.Register(TinyLife.Uis.ControlsHint)
-  id: Register(TinyLife.Uis.ControlsHint)
+- uid: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+  commentId: M:TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+  id: RegisterGlobal(TinyLife.Uis.ControlsHint)
   parent: TinyLife.Uis.ControlsHint
   langs:
   - csharp
   - vb
-  name: Register(ControlsHint)
-  nameWithType: ControlsHint.Register(ControlsHint)
-  fullName: TinyLife.Uis.ControlsHint.Register(TinyLife.Uis.ControlsHint)
+  name: RegisterGlobal(ControlsHint)
+  nameWithType: ControlsHint.RegisterGlobal(ControlsHint)
+  fullName: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
   type: Method
   assemblies:
   - TinyLife
   namespace: TinyLife.Uis
-  summary: Registers the given controls hint to the <xref href="TinyLife.Uis.ControlsHint.Hints" data-throw-if-not-resolved="false"></xref> registry.
+  summary: Registers the given controls hint to the <xref href="TinyLife.Uis.ControlsHint.GlobalHints" data-throw-if-not-resolved="false"></xref> registry, which causes the hint to be displayed in the bottom-right corner of the game window automatically.
   example: []
   syntax:
-    content: public static ControlsHint Register(ControlsHint hint)
+    content: public static ControlsHint RegisterGlobal(ControlsHint hint)
     parameters:
     - id: hint
       type: TinyLife.Uis.ControlsHint
@@ -186,8 +190,36 @@ items:
     return:
       type: TinyLife.Uis.ControlsHint
       description: The passed <code class="paramref">hint</code>, for chaining.
-    content.vb: Public Shared Function Register(hint As ControlsHint) As ControlsHint
-  overload: TinyLife.Uis.ControlsHint.Register*
+    content.vb: Public Shared Function RegisterGlobal(hint As ControlsHint) As ControlsHint
+  overload: TinyLife.Uis.ControlsHint.RegisterGlobal*
+- uid: TinyLife.Uis.ControlsHint.CreatePanel(MLEM.Ui.Anchor,System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint})
+  commentId: M:TinyLife.Uis.ControlsHint.CreatePanel(MLEM.Ui.Anchor,System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint})
+  id: CreatePanel(MLEM.Ui.Anchor,System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint})
+  parent: TinyLife.Uis.ControlsHint
+  langs:
+  - csharp
+  - vb
+  name: CreatePanel(Anchor, IEnumerable<ControlsHint>)
+  nameWithType: ControlsHint.CreatePanel(Anchor, IEnumerable<ControlsHint>)
+  fullName: TinyLife.Uis.ControlsHint.CreatePanel(MLEM.Ui.Anchor, System.Collections.Generic.IEnumerable<TinyLife.Uis.ControlsHint>)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Uis
+  syntax:
+    content: public static Panel CreatePanel(Anchor anchor, IEnumerable<ControlsHint> hints)
+    parameters:
+    - id: anchor
+      type: MLEM.Ui.Anchor
+    - id: hints
+      type: System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint}
+    return:
+      type: MLEM.Ui.Elements.Panel
+    content.vb: Public Shared Function CreatePanel(anchor As Anchor, hints As IEnumerable(Of ControlsHint)) As Panel
+  overload: TinyLife.Uis.ControlsHint.CreatePanel*
+  nameWithType.vb: ControlsHint.CreatePanel(Anchor, IEnumerable(Of ControlsHint))
+  fullName.vb: TinyLife.Uis.ControlsHint.CreatePanel(MLEM.Ui.Anchor, System.Collections.Generic.IEnumerable(Of TinyLife.Uis.ControlsHint))
+  name.vb: CreatePanel(Anchor, IEnumerable(Of ControlsHint))
 references:
 - uid: TinyLife.Uis
   commentId: N:TinyLife.Uis
@@ -549,6 +581,30 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+  commentId: M:TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_RegisterGlobal_TinyLife_Uis_ControlsHint_
+  name: RegisterGlobal(ControlsHint)
+  nameWithType: ControlsHint.RegisterGlobal(ControlsHint)
+  fullName: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+  spec.csharp:
+  - uid: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+    name: RegisterGlobal
+    href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_RegisterGlobal_TinyLife_Uis_ControlsHint_
+  - name: (
+  - uid: TinyLife.Uis.ControlsHint
+    name: ControlsHint
+    href: TinyLife.Uis.ControlsHint.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Uis.ControlsHint.RegisterGlobal(TinyLife.Uis.ControlsHint)
+    name: RegisterGlobal
+    href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_RegisterGlobal_TinyLife_Uis_ControlsHint_
+  - name: (
+  - uid: TinyLife.Uis.ControlsHint
+    name: ControlsHint
+    href: TinyLife.Uis.ControlsHint.html
+  - name: )
 - uid: System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.Uis.ControlsHint}
   commentId: T:System.Collections.ObjectModel.ReadOnlyCollection{TinyLife.Uis.ControlsHint}
   parent: System.Collections.ObjectModel
@@ -960,18 +1016,18 @@ references:
   nameWithType.vb: ControlsHint.New
   fullName.vb: TinyLife.Uis.ControlsHint.New
   name.vb: New
-- uid: TinyLife.Uis.ControlsHint.Hints
-  commentId: F:TinyLife.Uis.ControlsHint.Hints
-  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_Hints
-  name: Hints
-  nameWithType: ControlsHint.Hints
-  fullName: TinyLife.Uis.ControlsHint.Hints
-- uid: TinyLife.Uis.ControlsHint.Register*
-  commentId: Overload:TinyLife.Uis.ControlsHint.Register
-  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_Register_TinyLife_Uis_ControlsHint_
-  name: Register
-  nameWithType: ControlsHint.Register
-  fullName: TinyLife.Uis.ControlsHint.Register
+- uid: TinyLife.Uis.ControlsHint.GlobalHints
+  commentId: F:TinyLife.Uis.ControlsHint.GlobalHints
+  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_GlobalHints
+  name: GlobalHints
+  nameWithType: ControlsHint.GlobalHints
+  fullName: TinyLife.Uis.ControlsHint.GlobalHints
+- uid: TinyLife.Uis.ControlsHint.RegisterGlobal*
+  commentId: Overload:TinyLife.Uis.ControlsHint.RegisterGlobal
+  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_RegisterGlobal_TinyLife_Uis_ControlsHint_
+  name: RegisterGlobal
+  nameWithType: ControlsHint.RegisterGlobal
+  fullName: TinyLife.Uis.ControlsHint.RegisterGlobal
 - uid: TinyLife.Uis.ControlsHint
   commentId: T:TinyLife.Uis.ControlsHint
   parent: TinyLife.Uis
@@ -979,3 +1035,173 @@ references:
   name: ControlsHint
   nameWithType: ControlsHint
   fullName: TinyLife.Uis.ControlsHint
+- uid: TinyLife.Uis.ControlsHint.CreatePanel*
+  commentId: Overload:TinyLife.Uis.ControlsHint.CreatePanel
+  href: TinyLife.Uis.ControlsHint.html#TinyLife_Uis_ControlsHint_CreatePanel_MLEM_Ui_Anchor_System_Collections_Generic_IEnumerable_TinyLife_Uis_ControlsHint__
+  name: CreatePanel
+  nameWithType: ControlsHint.CreatePanel
+  fullName: TinyLife.Uis.ControlsHint.CreatePanel
+- uid: MLEM.Ui.Anchor
+  commentId: T:MLEM.Ui.Anchor
+  parent: MLEM.Ui
+  isExternal: true
+  name: Anchor
+  nameWithType: Anchor
+  fullName: MLEM.Ui.Anchor
+- uid: System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint}
+  commentId: T:System.Collections.Generic.IEnumerable{TinyLife.Uis.ControlsHint}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.IEnumerable`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<ControlsHint>
+  nameWithType: IEnumerable<ControlsHint>
+  fullName: System.Collections.Generic.IEnumerable<TinyLife.Uis.ControlsHint>
+  nameWithType.vb: IEnumerable(Of ControlsHint)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of TinyLife.Uis.ControlsHint)
+  name.vb: IEnumerable(Of ControlsHint)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - uid: TinyLife.Uis.ControlsHint
+    name: ControlsHint
+    href: TinyLife.Uis.ControlsHint.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Uis.ControlsHint
+    name: ControlsHint
+    href: TinyLife.Uis.ControlsHint.html
+  - name: )
+- uid: MLEM.Ui.Elements.Panel
+  commentId: T:MLEM.Ui.Elements.Panel
+  parent: MLEM.Ui.Elements
+  isExternal: true
+  name: Panel
+  nameWithType: Panel
+  fullName: MLEM.Ui.Elements.Panel
+- uid: MLEM.Ui
+  commentId: N:MLEM.Ui
+  isExternal: true
+  name: MLEM.Ui
+  nameWithType: MLEM.Ui
+  fullName: MLEM.Ui
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+- uid: System.Collections.Generic.IEnumerable`1
+  commentId: T:System.Collections.Generic.IEnumerable`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  name: IEnumerable<T>
+  nameWithType: IEnumerable<T>
+  fullName: System.Collections.Generic.IEnumerable<T>
+  nameWithType.vb: IEnumerable(Of T)
+  fullName.vb: System.Collections.Generic.IEnumerable(Of T)
+  name.vb: IEnumerable(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.IEnumerable`1
+    name: IEnumerable
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.ienumerable-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: MLEM.Ui.Elements
+  commentId: N:MLEM.Ui.Elements
+  isExternal: true
+  name: MLEM.Ui.Elements
+  nameWithType: MLEM.Ui.Elements
+  fullName: MLEM.Ui.Elements
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui
+    name: Ui
+    isExternal: true
+  - name: .
+  - uid: MLEM.Ui.Elements
+    name: Elements
+    isExternal: true
