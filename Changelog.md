@@ -1,3 +1,11 @@
+# 0.50.1
+*June 24, 2026*
+
+Fixes
+- Fixed a crash in the demo when opening build mode
+- Fixed the second stage of the gardener life goal not saving to disk correctly
+- Fixed existing notifications being displayed after a loading screen playing the notification sound again
+
 # 0.50.0
 *June 21, 2026*
 
