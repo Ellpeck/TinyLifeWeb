@@ -1,3 +1,38 @@
+# 0.50.2
+*July 26, 2026*
+
+Hi everyone! This is a medium-sized update that includes a new lot type, various gardening improvements and fixes, and a few new decorative and clutter items.
+
+Additions
+- Added two decorative medicine cabinets, a rounded in-counter sink, a towel rack and a toilet paper roll decoration, as well as two tech decor items
+- Added the cemetery lot type and associated burial plot marker objects
+- Added the ability to move gravestones to a cemetery if there are empty plots available
+- Added the "special lot types" furniture tab
+
+Improvements
+- Made it much less likely for people to visit other lots while they have visitors over
+- Display an X when an action is currently in the canceled state, but the game is paused
+- Allow planting seeds from seed bags you don't own
+- Increased the length of the adult life stage from 28 to 35 days
+- Enqueue Go to Work action more aggressively
+
+Fixes
+- Fixed custom content not being refreshed when a whole directory is added or removed
+- Fixed deleting custom maps from within the game not deleting all relevant files
+- Fixed various food types having wrong dietary categorizations
+- Fixed an exception when people with no home lots try to sell harvestables
+- Fixed household storage being deleted when moving someone out
+- Fixed erroneously being able to sell a harvest basket or seed bag from storage
+- Fixed lot border walls ignoring the wall display mode
+- Fixed dropdown content staying selected when closing a dropdown using a controller
+- Fixed the food-related achievement requiring unobtainable items to complete
+- Fixed counters automatically connecting to other counters on different floors
+- Fixed being unable to place plants in planters that are on non-natural ground
+
+API
+- Added AllowNonMovable and AllowNonSellable cheats which allow moving and selling objects which normally cannot be moved or sold
+- Added the ability to specify custom placement rules for furniture in FurniturePlacer
+
 # 0.50.1
 *June 24, 2026*
 
