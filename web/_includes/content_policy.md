@@ -1,4 +1,4 @@
-*Please read this document carefully before posting or sharing comments, opinions, videos, livestreams, mods, custom maps, households, or lots. By sharing content on any of the officially supported platforms, you also agree that you have read all the information below.*
+*Please read this document carefully before posting or sharing content related to Tiny Life. By sharing content on any of the officially supported platforms, you also agree that you have read all the information below.*
 
 As part of the goal of Tiny Life's design, we want to foster a community of players that are accepting, kind and have the ability to **express their creativity**, **explore their identity**, and **share their feedback**. As such, the following rules are very permissive of custom content and community interaction of any kind, with restrictions that aim to minimize unease or harm in the community.
 
