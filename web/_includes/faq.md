@@ -66,8 +66,10 @@ Unfortunately, we don't know when Tiny Life will be ready to leave Early Access 
 # 📱 Will Tiny Life release for mobile devices like Android or iOS?
 Unfortunately, there are no plans for Tiny Life to release to mobile platforms like Android and iOS. In our opinion, Tiny Life's gameplay and control scheme don't lend themselves well to small screens and touch controls. Additionally, the mobile games market is very different from the desktop and console market, and we're generally opposed to filling our games with advertisements or microtransactions. While not making the game free on mobile is an alternative, it has proven itself unsustainable for many games, as mobile players don't tend to expect having to purchase a game.
 
-# 🧠 Does Tiny Life use Generative Artificial Intelligence (GenAI)?
-No. We are strictly against using GenAI for games, especially when it comes to paid products and especially when it comes to game art. All pixelart in Tiny Life is hand-drawn by Ell and [set contributors](/credits), and all code for the game is written by hand.
+# 🧠 Does Tiny Life use AI-Generated Content?
+Tiny Life does not contain any content created with generative artificial intelligence (GenAI) or large language models (LLMs). 
+
+At Ellpeck Games, we are strictly against using AI-generated content for games, especially when it comes to paid products and especially when it comes to game art. All pixelart in Tiny Life is hand-drawn by Ell and [set contributors](/credits), and all code for the game is written by hand.
 
 As localizations for the game are [community-sourced](https://docs.tinylifegame.com/articles/localization.html), unfinished versions of localizations to some languages may contain machine translation or AI-generated translation. While we generally discourage this practice, community members are free to use machine translation as a basis for creating first drafts of their translations.
 
