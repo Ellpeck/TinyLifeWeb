@@ -1,4 +1,4 @@
-*Please read this document carefully before posting or sharing comments, opinions, videos, livestreams, mods, custom maps, households, or lots. By sharing content on any of the officially supported platforms, you also agree that you have read all the information below.*
+*Please read this document carefully before posting or sharing comments, videos, livestreams, mods, custom maps, households, or lots. By sharing content on any of the officially supported platforms, you also agree that you have read all the information below.*
 
 As part of the goal of Tiny Life's design, we want to foster a community of players that are accepting, kind and have the ability to **express their creativity**, **explore their identity**, and **share their feedback**. As such, the following rules are very permissive of custom content and community interaction of any kind, with restrictions that aim to minimize unease or harm in the community.
 
@@ -17,6 +17,10 @@ Tiny Life's official platforms include [the wiki](https://wiki.tinylifegame.com)
 - ❌ You are not allowed to post messages or share mods or other types of custom content that promote or engage in **criminal activity**, including but not limited to illegal drug use and abuse of minors or adults.
 - ❌ Due to the game's age rating and target audience, you are not allowed to share mods or other types of custom content that depict activities and situations **not suitable for all ages**. This includes **explicit sexual activity**, **excessive nudity**, **abuse of drugs or alcohol**, as well as possibly **triggering topics** like references to intense emotional trauma.
 
-# About this Policy
+# Reporting Violations
+As a small team, we're unable to keep an eye out for policy violations on all platforms at all times. If you see content that does not follow these rules, please report it through [the report form](https://link.tinylifegame.com/report).
 
+*Please do not use the form to report hateful Steam reviews.*
+
+# About this Policy
 This policy may be updated from time to time. Its change history can be found on the [GitHub repository](https://github.com/Ellpeck/TinyLifeWeb/commits/main/web/_includes/content_policy.md). If you have any questions about this policy, please don't hesitate to ask on [the Discord server](https://link.tinylifegame.com/discordweb).
