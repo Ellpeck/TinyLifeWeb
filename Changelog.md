@@ -1,3 +1,19 @@
+# 0.50.3
+*July 30, 2026*
+
+Improvements
+- Overhauled in-game hints: new hints now always display a notification, and players can select whether they also open their popup in the hints tab of the options menu (or when the first hint is displayed in a new save)
+- Display a link to the custom content installation tutorial in import menus
+- Made people much likelier to take appropriate food from the fridge when being asked to by a baby
+
+Fixes
+- Fixed opening the hint menu from a notification not pausing the game
+- Fixed being unable to upload lots with fences to the Steam workshop
+
+API
+- Fixed mods being unable to load custom songs through the content manager
+- Fixed a crash when opening the non-buyable objects tab after disabling the cheat
+
 # 0.50.2
 *July 26, 2026*
 

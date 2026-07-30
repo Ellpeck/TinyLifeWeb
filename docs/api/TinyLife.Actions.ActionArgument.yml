@@ -23,7 +23,7 @@ items:
   - TinyLife.Actions.ActionArgument.PassivePriority
   - TinyLife.Actions.ActionArgument.PortraitLayout(TinyLife.Objects.PersonLike,TinyLife.Objects.PersonLike,System.Boolean)
   - TinyLife.Actions.ActionArgument.SortKey
-  - TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
+  - TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single})
   langs:
   - csharp
   - vb
@@ -495,16 +495,16 @@ items:
   nameWithType.vb: ActionArgument.FreePeople(ActionInfo, Func(Of (Info As ActionInfo, Other As PersonLike, Automatic As Boolean), CanExecuteResult), Boolean)
   fullName.vb: TinyLife.Actions.ActionArgument.FreePeople(TinyLife.Actions.ActionInfo, System.Func(Of (Info As TinyLife.Actions.ActionInfo, Other As TinyLife.Objects.PersonLike, Automatic As Boolean), TinyLife.Actions.CanExecuteResult), Boolean)
   name.vb: FreePeople(ActionInfo, Func(Of (Info As ActionInfo, Other As PersonLike, Automatic As Boolean), CanExecuteResult), Boolean)
-- uid: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
-  commentId: M:TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
-  id: StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult})
+- uid: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single})
+  commentId: M:TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single})
+  id: StoredFurniture(System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture},System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult},System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single})
   parent: TinyLife.Actions.ActionArgument
   langs:
   - csharp
   - vb
-  name: StoredFurniture(IEnumerable<Furniture>, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult>)
-  nameWithType: ActionArgument.StoredFurniture(IEnumerable<Furniture>, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult>)
-  fullName: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>, System.Func<(TinyLife.Actions.ActionInfo Info, TinyLife.Objects.Furniture Furniture, bool Automatic), TinyLife.Actions.CanExecuteResult>)
+  name: StoredFurniture(IEnumerable<Furniture>, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult>, Func<(PersonLike Person, Furniture Furniture), float>)
+  nameWithType: ActionArgument.StoredFurniture(IEnumerable<Furniture>, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult>, Func<(PersonLike Person, Furniture Furniture), float>)
+  fullName: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable<TinyLife.Objects.Furniture>, System.Func<(TinyLife.Actions.ActionInfo Info, TinyLife.Objects.Furniture Furniture, bool Automatic), TinyLife.Actions.CanExecuteResult>, System.Func<(TinyLife.Objects.PersonLike Person, TinyLife.Objects.Furniture Furniture), float>)
   type: Method
   assemblies:
   - TinyLife
@@ -515,7 +515,7 @@ items:
     Each action variety contains passes the <xref href="TinyLife.Objects.Furniture" data-throw-if-not-resolved="false"></xref> instance in question as an <xref href="TinyLife.Actions.ActionArgument.AddedConstructorArguments" data-throw-if-not-resolved="false"></xref> rather than passing itself.
   example: []
   syntax:
-    content: public static IEnumerable<ActionArgument> StoredFurniture(IEnumerable<Furniture> furniture, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult> canExecute = null)
+    content: public static IEnumerable<ActionArgument> StoredFurniture(IEnumerable<Furniture> furniture, Func<(ActionInfo Info, Furniture Furniture, bool Automatic), CanExecuteResult> canExecute = null, Func<(PersonLike Person, Furniture Furniture), float> passivePriority = null)
     parameters:
     - id: furniture
       type: System.Collections.Generic.IEnumerable{TinyLife.Objects.Furniture}
@@ -523,14 +523,16 @@ items:
     - id: canExecute
       type: System.Func{System.ValueTuple{TinyLife.Actions.ActionInfo,TinyLife.Objects.Furniture,System.Boolean},TinyLife.Actions.CanExecuteResult}
       description: A <xref href="TinyLife.Actions.ActionType.CanExecuteDelegate" data-throw-if-not-resolved="false"></xref>-esque function that determines whether a furniture item should be included.
+    - id: passivePriority
+      type: System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single}
     return:
       type: System.Collections.Generic.IEnumerable{TinyLife.Actions.ActionArgument}
       description: A set of action varieties that represents the furniture stored in an object.
-    content.vb: Public Shared Function StoredFurniture(furniture As IEnumerable(Of Furniture), canExecute As Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult) = Nothing) As IEnumerable(Of ActionArgument)
+    content.vb: Public Shared Function StoredFurniture(furniture As IEnumerable(Of Furniture), canExecute As Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult) = Nothing, passivePriority As Func(Of (Person As PersonLike, Furniture As Furniture), Single) = Nothing) As IEnumerable(Of ActionArgument)
   overload: TinyLife.Actions.ActionArgument.StoredFurniture*
-  nameWithType.vb: ActionArgument.StoredFurniture(IEnumerable(Of Furniture), Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult))
-  fullName.vb: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture), System.Func(Of (Info As TinyLife.Actions.ActionInfo, Furniture As TinyLife.Objects.Furniture, Automatic As Boolean), TinyLife.Actions.CanExecuteResult))
-  name.vb: StoredFurniture(IEnumerable(Of Furniture), Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult))
+  nameWithType.vb: ActionArgument.StoredFurniture(IEnumerable(Of Furniture), Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult), Func(Of (Person As PersonLike, Furniture As Furniture), Single))
+  fullName.vb: TinyLife.Actions.ActionArgument.StoredFurniture(System.Collections.Generic.IEnumerable(Of TinyLife.Objects.Furniture), System.Func(Of (Info As TinyLife.Actions.ActionInfo, Furniture As TinyLife.Objects.Furniture, Automatic As Boolean), TinyLife.Actions.CanExecuteResult), System.Func(Of (Person As TinyLife.Objects.PersonLike, Furniture As TinyLife.Objects.Furniture), Single))
+  name.vb: StoredFurniture(IEnumerable(Of Furniture), Func(Of (Info As ActionInfo, Furniture As Furniture, Automatic As Boolean), CanExecuteResult), Func(Of (Person As PersonLike, Furniture As Furniture), Single))
 - uid: TinyLife.Actions.ActionArgument.ImageLayout(System.Single,MLEM.Ui.Elements.Element.DrawCallback,MLEM.Maths.Padding)
   commentId: M:TinyLife.Actions.ActionArgument.ImageLayout(System.Single,MLEM.Ui.Elements.Element.DrawCallback,MLEM.Maths.Padding)
   id: ImageLayout(System.Single,MLEM.Ui.Elements.Element.DrawCallback,MLEM.Maths.Padding)
@@ -2486,7 +2488,7 @@ references:
   - name: )
 - uid: TinyLife.Actions.ActionArgument.StoredFurniture*
   commentId: Overload:TinyLife.Actions.ActionArgument.StoredFurniture
-  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_StoredFurniture_System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__System_Func_System_ValueTuple_TinyLife_Actions_ActionInfo_TinyLife_Objects_Furniture_System_Boolean__TinyLife_Actions_CanExecuteResult__
+  href: TinyLife.Actions.ActionArgument.html#TinyLife_Actions_ActionArgument_StoredFurniture_System_Collections_Generic_IEnumerable_TinyLife_Objects_Furniture__System_Func_System_ValueTuple_TinyLife_Actions_ActionInfo_TinyLife_Objects_Furniture_System_Boolean__TinyLife_Actions_CanExecuteResult__System_Func_System_ValueTuple_TinyLife_Objects_PersonLike_TinyLife_Objects_Furniture__System_Single__
   name: StoredFurniture
   nameWithType: ActionArgument.StoredFurniture
   fullName: TinyLife.Actions.ActionArgument.StoredFurniture
@@ -2621,6 +2623,85 @@ references:
   - uid: TinyLife.Actions.CanExecuteResult
     name: CanExecuteResult
     href: TinyLife.Actions.CanExecuteResult.html
+  - name: )
+- uid: System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single}
+  commentId: T:System.Func{System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture},System.Single}
+  parent: System
+  definition: System.Func`2
+  href: https://learn.microsoft.com/dotnet/api/system.func-2
+  name: Func<(PersonLike Person, Furniture Furniture), float>
+  nameWithType: Func<(PersonLike Person, Furniture Furniture), float>
+  fullName: System.Func<(TinyLife.Objects.PersonLike Person, TinyLife.Objects.Furniture Furniture), float>
+  nameWithType.vb: Func(Of (Person As PersonLike, Furniture As Furniture), Single)
+  fullName.vb: System.Func(Of (Person As TinyLife.Objects.PersonLike, Furniture As TinyLife.Objects.Furniture), Single)
+  name.vb: Func(Of (Person As PersonLike, Furniture As Furniture), Single)
+  spec.csharp:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: <
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.person
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Furniture
+    name: Furniture
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.furniture
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Func`2
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.person
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture}.Furniture
+    name: Furniture
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,tinylife.objects.furniture-.furniture
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.Furniture
+    name: Furniture
+    href: TinyLife.Objects.Furniture.html
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
   - name: )
 - uid: TinyLife.Actions.ActionArgument.CustomLayout
   commentId: F:TinyLife.Actions.ActionArgument.CustomLayout
