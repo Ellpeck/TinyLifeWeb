@@ -71,7 +71,7 @@ Tiny Life does not contain any content created with generative artificial intell
 
 At Ellpeck Games, we are strictly against using AI-generated content for games, especially when it comes to paid products and especially when it comes to game art. All pixelart in Tiny Life is hand-drawn by Ell and [set contributors](/credits), and all code for the game is written by hand.
 
-As localizations for the game are [community-sourced](https://docs.tinylifegame.com/articles/localization.html), unfinished versions of localizations to some languages may contain machine translation or AI-generated translation. While we generally discourage this practice, community members are free to use machine translation as a basis for creating first drafts of their translations.
+Additionally, the game's [community-sourced localization](https://docs.tinylifegame.com/articles/localization.html) and any mods published on Tiny Life's [official platforms](/content_policy/#tiny-life-content-on-official-platforms) are not allowed to contain substantially AI-generated content.
 
 # 🕑 When is the next update coming out?
 Unfortunately, we don't really know! Tiny Life is developed by a solo developer, [Ell](https://ellpeck.de), who is currently unable to work on Tiny Life full-time.
