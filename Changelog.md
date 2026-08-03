@@ -1,3 +1,17 @@
+# 0.50.4
+*August 3, 2026*
+
+Additions
+- Added the No Visitors lot type, which Tinies will not autonomously visit, and avoid doing activities on
+
+Improvements
+- Tinies now prefer putting down seed bags and harvest baskets on the ground rather than a surface
+- Tinies gardening autonomously will now use seed bags and harvest baskets from household storage and return them there
+- Made some of the sillier clothes be less likely to be picked for randomly generated outfits
+
+Fixes
+- Fixed clothes hiding hair even when they're not currently visible
+
 # 0.50.3
 *July 30, 2026*
 
