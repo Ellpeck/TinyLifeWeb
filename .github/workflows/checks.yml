@@ -5,6 +5,8 @@ on:
 jobs:
   check-links:
     runs-on: ubuntu-latest
+    env:
+      LYCHEE_ARGS: --host-concurrency 1 --host-request-interval 10s -r 10
     steps:
       - name: Clone Repository
         uses: actions/checkout@v4
@@ -12,19 +14,19 @@ jobs:
         if: always()
         uses: lycheeverse/lychee-action@v2
         with:
-          args: -r 10 docs/articles/**/*.md docs/articles/**/*.yml
+          args: $LYCHEE_ARGS docs/articles/**/*.md docs/articles/**/*.yml
       - name: Check Blog Links
         uses: lycheeverse/lychee-action@v2
         if: always()
         with:
-          args: -r 10 web/_posts/**/*.md
+          args: $LYCHEE_ARGS web/_posts/**/*.md
       - name: Check Web Data Links
         uses: lycheeverse/lychee-action@v2
         if: always()
         with:
-          args: -r 10 web/_data/**/*.json
+          args: $LYCHEE_ARGS web/_data/**/*.json
       - name: Check Changelog Links
         uses: lycheeverse/lychee-action@v2
         if: always()
         with:
-          args: -r 10 Changelog.md
+          args: $LYCHEE_ARGS Changelog.md
