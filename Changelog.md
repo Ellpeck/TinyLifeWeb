@@ -1,3 +1,45 @@
+# 0.50.5
+*September 6, 2026*
+
+*This build is unavailable on the default branch on Steam until September 7 due to an internal change. To get it today, please [switch to the preview branch](https://tinylifegame.com/preview/). itch builds are not affected by this issue.*
+
+Additions
+- Added some decorative gardening supplies, as well as two new small pot plants
+- Added a new European-style roof greenery tile
+- Added a gameplay option that allows configuring automatic babysitter hiring behavior
+- Aded a total real-world play time counter to the save load menu. Please note that, as this was previously not counted, the play time for existing saves starts at 0.
+- Added the ability for babies to ask to be carried home, and for adults to do so automatically when checking up on babies with low needs
+
+Improvements
+- The fool around action is now not enqueued automatically anymore if the partner is an elder who is tired of a workout
+- The deadly emotion in-game hint is now also displayed when fooling around with an elder who isn't part of the active household
+- Improved the texture of some wallpapers to connect more smoothly between floors
+- Bathtubs can now be accessed from both tiles rather than just the center
+- Made gravel auto-tile
+- Massively speed up unsubscribed Steam workshop item removal checks on startup, especially when there are a lot of subscribed items
+- Water is now drawn with the borders in the tile tool ui to make it easier to recognize as water
+- Tinies now try multiple actions when discarding the held item, causing it to work more reliably
+- Made it more likely for trash cans to contain actual trash when rummaging through them
+- Increased startup performance when having a lot of disabled mods installed
+- Unloaded mods that aren't from Steam workshop can now be deleted from within the game
+
+Fixes
+- Fixed the child stove not properly deducting the price
+- Fixed various incorrect behaviors related to walls on lot borders
+- Fixed fences not being affected by indoor lighting
+- Fixed tiles not immediately updating the roofed state of rooms below them
+- Fixed an exception when the work action is still enqueued after quitting the job
+- Fixed being unable to place hanging objects above water
+- Fixed some actions, like throwing away and cleaning dishes, not properly recognizing available destination objects
+- Fixed being able to clean dishes on broken sinks, causing them to disappear without an animation
+- Fixed an oversight that caused people to get stuck when cleaning dishes or doing food-related tasks
+- Fixed cheats not working on people with spaces in their first or last names
+- Fixed playing in the sandbox having a high likelihood of failing since not all possible positions were tried
+- Fixed various instances of objects being put down on the wrong floor when fast-forwarding, causing them to get stuck in the air forever
+
+Removals
+- Removed the gray tile that is displayed on the "down" version of roofs, which players can replace with real tiles if they want a ceiling on the room below
+
 # 0.50.4
 *August 3, 2026*
 

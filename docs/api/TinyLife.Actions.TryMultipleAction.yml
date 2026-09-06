@@ -9,6 +9,7 @@ items:
   - TinyLife.Actions.TryMultipleAction.#ctor(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo)
   - TinyLife.Actions.TryMultipleAction.GetNextActionToTry
   - TinyLife.Actions.TryMultipleAction.Initialize
+  - TinyLife.Actions.TryMultipleAction.IsCompleted
   - TinyLife.Actions.TryMultipleAction.OnCompleted(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.TryMultipleAction.Update(Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single)
   - TinyLife.Actions.TryMultipleAction.Validate(TinyLife.Objects.PersonLike,TinyLife.Utilities.AppliedMigrations)
@@ -35,6 +36,7 @@ items:
   - MLEM.Data.Json.JsonTypeSafeGenericDataHolder
   - TinyLife.Actions.Action
   derivedClasses:
+  - TinyLife.Actions.DiscardHeldItemAction
   - TinyLife.Actions.GoHereIshAction
   implements:
   - MLEM.Misc.IGenericDataHolder
@@ -52,7 +54,6 @@ items:
   - TinyLife.Actions.Action.Person
   - TinyLife.Actions.Action.ElapsedTime
   - TinyLife.Actions.Action.PlayerPromptOpen
-  - TinyLife.Actions.Action.IsCompleted
   - TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   - TinyLife.Actions.Action.CanStartNow
   - TinyLife.Actions.Action.CanActionInterrupt(TinyLife.Actions.Action)
@@ -324,6 +325,35 @@ items:
     content.vb: Public Overrides Sub OnCompleted(type As CompletionType)
   overridden: TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
   overload: TinyLife.Actions.TryMultipleAction.OnCompleted*
+- uid: TinyLife.Actions.TryMultipleAction.IsCompleted
+  commentId: M:TinyLife.Actions.TryMultipleAction.IsCompleted
+  id: IsCompleted
+  parent: TinyLife.Actions.TryMultipleAction
+  langs:
+  - csharp
+  - vb
+  name: IsCompleted()
+  nameWithType: TryMultipleAction.IsCompleted()
+  fullName: TinyLife.Actions.TryMultipleAction.IsCompleted()
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    This method is called every update frame by a <xref href="TinyLife.Actions.Action.Person" data-throw-if-not-resolved="false"></xref> if this action is currently active to check if it should be stopped.
+
+    If this returns a result other than <xref href="TinyLife.Actions.CompletionType.Completed" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> will be called and the action is stopped.
+
+    By default, only the default behavior of <xref href="TinyLife.Actions.Action.Interrupt(TinyLife.Actions.CompletionType)" data-throw-if-not-resolved="false"></xref> modifies the completion type, otherwise <xref href="TinyLife.Actions.CompletionType.Active" data-throw-if-not-resolved="false"></xref> is returned.
+  example: []
+  syntax:
+    content: public override CompletionType IsCompleted()
+    return:
+      type: TinyLife.Actions.CompletionType
+      description: The current completion type of this action
+    content.vb: Public Overrides Function IsCompleted() As CompletionType
+  overridden: TinyLife.Actions.Action.IsCompleted
+  overload: TinyLife.Actions.TryMultipleAction.IsCompleted*
 references:
 - uid: TinyLife.Actions.GoHereIshAction
   commentId: T:TinyLife.Actions.GoHereIshAction
@@ -476,25 +506,6 @@ references:
   name: PlayerPromptOpen
   nameWithType: Action.PlayerPromptOpen
   fullName: TinyLife.Actions.Action.PlayerPromptOpen
-- uid: TinyLife.Actions.Action.IsCompleted
-  commentId: M:TinyLife.Actions.Action.IsCompleted
-  parent: TinyLife.Actions.Action
-  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
-  name: IsCompleted()
-  nameWithType: Action.IsCompleted()
-  fullName: TinyLife.Actions.Action.IsCompleted()
-  spec.csharp:
-  - uid: TinyLife.Actions.Action.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Actions.Action.IsCompleted
-    name: IsCompleted
-    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
-  - name: (
-  - name: )
 - uid: TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   commentId: M:TinyLife.Actions.Action.CanMultitask(TinyLife.Actions.Action)
   parent: TinyLife.Actions.Action
@@ -5435,6 +5446,25 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: TinyLife.Actions.Action.IsCompleted
+  commentId: M:TinyLife.Actions.Action.IsCompleted
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  name: IsCompleted()
+  nameWithType: Action.IsCompleted()
+  fullName: TinyLife.Actions.Action.IsCompleted()
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  - name: (
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.IsCompleted
+    name: IsCompleted
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_IsCompleted
+  - name: (
+  - name: )
 - uid: TinyLife.Actions.CompletionType
   commentId: T:TinyLife.Actions.CompletionType
   parent: TinyLife.Actions
@@ -5524,3 +5554,21 @@ references:
   name: OnCompleted
   nameWithType: TryMultipleAction.OnCompleted
   fullName: TinyLife.Actions.TryMultipleAction.OnCompleted
+- uid: TinyLife.Actions.CompletionType.Completed
+  commentId: F:TinyLife.Actions.CompletionType.Completed
+  href: TinyLife.Actions.CompletionType.html#TinyLife_Actions_CompletionType_Completed
+  name: Completed
+  nameWithType: CompletionType.Completed
+  fullName: TinyLife.Actions.CompletionType.Completed
+- uid: TinyLife.Actions.CompletionType.Active
+  commentId: F:TinyLife.Actions.CompletionType.Active
+  href: TinyLife.Actions.CompletionType.html#TinyLife_Actions_CompletionType_Active
+  name: Active
+  nameWithType: CompletionType.Active
+  fullName: TinyLife.Actions.CompletionType.Active
+- uid: TinyLife.Actions.TryMultipleAction.IsCompleted*
+  commentId: Overload:TinyLife.Actions.TryMultipleAction.IsCompleted
+  href: TinyLife.Actions.TryMultipleAction.html#TinyLife_Actions_TryMultipleAction_IsCompleted
+  name: IsCompleted
+  nameWithType: TryMultipleAction.IsCompleted
+  fullName: TinyLife.Actions.TryMultipleAction.IsCompleted
