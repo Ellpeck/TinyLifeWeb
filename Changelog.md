@@ -1,8 +1,6 @@
 # 0.50.5
 *September 6, 2026*
 
-*This build is unavailable on the default branch on Steam until September 7 due to an internal change. To get it today, please [switch to the preview branch](https://tinylifegame.com/preview/). itch builds are not affected by this issue.*
-
 Additions
 - Added some decorative gardening supplies, as well as two new small pot plants
 - Added a new European-style roof greenery tile
