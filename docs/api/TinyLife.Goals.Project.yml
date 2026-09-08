@@ -23,6 +23,7 @@ items:
   - TinyLife.Goals.Project.Quality
   - TinyLife.Goals.Project.Remove
   - TinyLife.Goals.Project.SetDailyPay(System.Single,System.Single,System.Boolean)
+  - TinyLife.Goals.Project.SetRandomQuality(System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
   - TinyLife.Goals.Project.Type
   - TinyLife.Goals.Project.Validate(TinyLife.Objects.Person)
   langs:
@@ -436,7 +437,7 @@ items:
   summary: Makes progress on the project, updating the <xref href="TinyLife.Goals.Project.Progress" data-throw-if-not-resolved="false"></xref> value based on the <xref href="TinyLife.Goals.Project.Person" data-throw-if-not-resolved="false"></xref>'s <xref href="TinyLife.Skills.Skill" data-throw-if-not-resolved="false"></xref> and general efficiency modifier
   example: []
   syntax:
-    content: public virtual void MakeProgress(float amount, float speedMultiplier, ActionInfo info = null, SkillType skill = null, float levelModifier = 0.1)
+    content: public virtual float MakeProgress(float amount, float speedMultiplier, ActionInfo info = null, SkillType skill = null, float levelModifier = 0.1)
     parameters:
     - id: amount
       type: System.Single
@@ -453,7 +454,9 @@ items:
     - id: levelModifier
       type: System.Single
       description: The (optional) amount that each level of the <code class="paramref">skill</code> influences progress gain. Defaults to 0.1.
-    content.vb: Public Overridable Sub MakeProgress(amount As Single, speedMultiplier As Single, info As ActionInfo = Nothing, skill As SkillType = Nothing, levelModifier As Single = 0.1)
+    return:
+      type: System.Single
+    content.vb: Public Overridable Function MakeProgress(amount As Single, speedMultiplier As Single, info As ActionInfo = Nothing, skill As SkillType = Nothing, levelModifier As Single = 0.1) As Single
   overload: TinyLife.Goals.Project.MakeProgress*
   nameWithType.vb: Project.MakeProgress(Single, Single, ActionInfo, SkillType, Single)
   fullName.vb: TinyLife.Goals.Project.MakeProgress(Single, Single, TinyLife.Actions.ActionInfo, TinyLife.Skills.SkillType, Single)
@@ -498,6 +501,42 @@ items:
     content: public virtual void OnNewDay()
     content.vb: Public Overridable Sub OnNewDay()
   overload: TinyLife.Goals.Project.OnNewDay*
+- uid: TinyLife.Goals.Project.SetRandomQuality(System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  commentId: M:TinyLife.Goals.Project.SetRandomQuality(System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  id: SetRandomQuality(System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  parent: TinyLife.Goals.Project
+  langs:
+  - csharp
+  - vb
+  name: SetRandomQuality(Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  nameWithType: Project.SetRandomQuality(Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  fullName: TinyLife.Goals.Project.SetRandomQuality(System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, bool, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Goals
+  syntax:
+    content: public void SetRandomQuality(Random random, SkillType skill, ActionInfo info = null, bool modifyEmotions = true, IEmotionSource source = null, EmotionType emotionInfluence = null, Action<Dictionary<Quality, float>> modifyWeights = null)
+    parameters:
+    - id: random
+      type: System.Random
+    - id: skill
+      type: TinyLife.Skills.SkillType
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+    - id: modifyEmotions
+      type: System.Boolean
+    - id: source
+      type: TinyLife.Emotions.IEmotionSource
+    - id: emotionInfluence
+      type: TinyLife.Emotions.EmotionType
+    - id: modifyWeights
+      type: System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+    content.vb: Public Sub SetRandomQuality(random As Random, skill As SkillType, info As ActionInfo = Nothing, modifyEmotions As Boolean = True, source As IEmotionSource = Nothing, emotionInfluence As EmotionType = Nothing, modifyWeights As Action(Of Dictionary(Of Quality, Single)) = Nothing)
+  overload: TinyLife.Goals.Project.SetRandomQuality*
+  nameWithType.vb: Project.SetRandomQuality(Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+  fullName.vb: TinyLife.Goals.Project.SetRandomQuality(System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)))
+  name.vb: SetRandomQuality(Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
 - uid: TinyLife.Goals.Project.OnCompleted
   commentId: M:TinyLife.Goals.Project.OnCompleted
   id: OnCompleted
@@ -1806,6 +1845,143 @@ references:
   name: OnNewDay
   nameWithType: Project.OnNewDay
   fullName: TinyLife.Goals.Project.OnNewDay
+- uid: TinyLife.Goals.Project.SetRandomQuality*
+  commentId: Overload:TinyLife.Goals.Project.SetRandomQuality
+  href: TinyLife.Goals.Project.html#TinyLife_Goals_Project_SetRandomQuality_System_Random_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Emotions_IEmotionSource_TinyLife_Emotions_EmotionType_System_Action_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single___
+  name: SetRandomQuality
+  nameWithType: Project.SetRandomQuality
+  fullName: TinyLife.Goals.Project.SetRandomQuality
+- uid: System.Random
+  commentId: T:System.Random
+  parent: System
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.random
+  name: Random
+  nameWithType: Random
+  fullName: System.Random
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  href: TinyLife.Emotions.IEmotionSource.html
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
+- uid: TinyLife.Emotions.EmotionType
+  commentId: T:TinyLife.Emotions.EmotionType
+  parent: TinyLife.Emotions
+  href: TinyLife.Emotions.EmotionType.html
+  name: EmotionType
+  nameWithType: EmotionType
+  fullName: TinyLife.Emotions.EmotionType
+- uid: System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+  commentId: T:System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<Dictionary<Quality, float>>
+  nameWithType: Action<Dictionary<Quality, float>>
+  fullName: System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>
+  nameWithType.vb: Action(Of Dictionary(Of Quality, Single))
+  fullName.vb: System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: Action(Of Dictionary(Of Quality, Single))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  href: TinyLife.html
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
+    href: TinyLife.Emotions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
+    href: TinyLife.Emotions.html
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
 - uid: TinyLife.Goals.Project.OnCompleted*
   commentId: Overload:TinyLife.Goals.Project.OnCompleted
   href: TinyLife.Goals.Project.html#TinyLife_Goals_Project_OnCompleted
@@ -2212,34 +2388,6 @@ references:
   - uid: TinyLife.Goals.Project
     name: Project
     href: TinyLife.Goals.Project.html
-  - name: )
-- uid: System.Action`1
-  commentId: T:System.Action`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<T>
-  nameWithType: Action<T>
-  fullName: System.Action<T>
-  nameWithType.vb: Action(Of T)
-  fullName.vb: System.Action(Of T)
-  name.vb: Action(Of T)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
   - name: )
 - uid: TinyLife.Goals.Project.OpenScrapPrompt*
   commentId: Overload:TinyLife.Goals.Project.OpenScrapPrompt

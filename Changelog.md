@@ -1,3 +1,15 @@
+# 0.50.6
+*September 8, 2026*
+
+Improvements
+- Rebalanced the strength of emotional effects on object quality
+- Rebalanced the writing skill's book publishing payout
+- The quality of a book is now displayed before publishing, so high-quality books can deliberately be chosen for publishers
+- Made plants' harvest quality be influenced by emotions and personalities
+
+Fixes
+- Fixed the flower covering tile crashing old saves in 0.50.5
+
 # 0.50.5
 *September 6, 2026*
 

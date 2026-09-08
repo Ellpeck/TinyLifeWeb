@@ -30,6 +30,7 @@ items:
   - TinyLife.Actions.Action.FullyInProgress
   - TinyLife.Actions.Action.GetChild``1(System.Guid,System.Boolean)
   - TinyLife.Actions.Action.GetChildren(System.Boolean)
+  - TinyLife.Actions.Action.GetDefaultRandomQualityWeights(System.Single)
   - TinyLife.Actions.Action.GetDisplayName
   - TinyLife.Actions.Action.GetExtraIcon
   - TinyLife.Actions.Action.GetFreeChair(TinyLife.Objects.PersonLike,TinyLife.Objects.Furniture)
@@ -38,6 +39,9 @@ items:
   - TinyLife.Actions.Action.GetNextAction(TinyLife.Actions.CompletionType)
   - TinyLife.Actions.Action.GetProgress
   - TinyLife.Actions.Action.GetRandomCompletionTime(System.TimeSpan,System.TimeSpan)
+  - TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  - TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  - TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
   - TinyLife.Actions.Action.GetRandomValidArguments(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean)
   - TinyLife.Actions.Action.GetSeatCategory(TinyLife.Objects.PersonLike)
   - TinyLife.Actions.Action.GetTableSpot(TinyLife.Objects.Furniture,TinyLife.Objects.ActionSpot)
@@ -54,6 +58,8 @@ items:
   - TinyLife.Actions.Action.OnActionTypeConstructed
   - TinyLife.Actions.Action.OnChildCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   - TinyLife.Actions.Action.OnCompleted(TinyLife.Actions.CompletionType)
+  - TinyLife.Actions.Action.OnGetRandomQuality
+  - TinyLife.Actions.Action.OnRandomQuality
   - TinyLife.Actions.Action.OpenChoicePrompt(TinyLife.Actions.ChoicePromptInfo)
   - TinyLife.Actions.Action.OpenPlayerPrompt(System.String,System.Predicate{MLEM.Ui.Elements.Panel},System.Action{MLEM.Ui.Elements.Panel},System.Boolean,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel},MLEM.Textures.TextureRegion,System.Single,System.Boolean)
   - TinyLife.Actions.Action.OpenStackableItemSelectionPrompt``1(System.String,System.Collections.Generic.IEnumerable{TinyLife.Objects.Stacked{``0}},System.Predicate{System.Collections.Generic.List{TinyLife.Objects.Stacked{``0}}},System.Action{System.Collections.Generic.List{TinyLife.Objects.Stacked{``0}}},System.Boolean,System.Func{TinyLife.Objects.Stacked{``0},System.String},System.Func{TinyLife.Objects.Stacked{``0},MLEM.Textures.TextureRegion},MLEM.Textures.TextureRegion,System.Action{TinyLife.Uis.CoveringGroup,MLEM.Ui.Elements.Panel,System.Collections.Generic.List{TinyLife.Objects.Stacked{``0}}})
@@ -212,6 +218,48 @@ items:
     return:
       type: TinyLife.Actions.Action.ActionTypeConstructedDelegate
     content.vb: Public Shared Event OnActionTypeConstructed As Action.ActionTypeConstructedDelegate
+- uid: TinyLife.Actions.Action.OnGetRandomQuality
+  commentId: E:TinyLife.Actions.Action.OnGetRandomQuality
+  id: OnGetRandomQuality
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: OnGetRandomQuality
+  nameWithType: Action.OnGetRandomQuality
+  fullName: TinyLife.Actions.Action.OnGetRandomQuality
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: An event that is raised in <xref href="TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike%2cSystem.Single%2cTinyLife.Skills.SkillType%2cTinyLife.Actions.ActionInfo%2cTinyLife.Emotions.EmotionType)" data-throw-if-not-resolved="false"></xref>. For information on the arguments passed, see that method.
+  example: []
+  syntax:
+    content: public static event Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, EmotionType emotionInfluence, Dictionary<Quality, float> Weights)> OnGetRandomQuality
+    return:
+      type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}}
+    content.vb: Public Shared Event OnGetRandomQuality As Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, emotionInfluence As EmotionType, Weights As Dictionary(Of Quality, Single)))
+- uid: TinyLife.Actions.Action.OnRandomQuality
+  commentId: E:TinyLife.Actions.Action.OnRandomQuality
+  id: OnRandomQuality
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: OnRandomQuality
+  nameWithType: Action.OnRandomQuality
+  fullName: TinyLife.Actions.Action.OnRandomQuality
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: An event that is raised in <xref href="TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike%2cSystem.Random%2cTinyLife.Skills.SkillType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cTinyLife.Emotions.IEmotionSource%2cTinyLife.Emotions.EmotionType%2cSystem.Action%7bSystem.Collections.Generic.Dictionary%7bTinyLife.Skills.Quality%2cSystem.Single%7d%7d)" data-throw-if-not-resolved="false"></xref> after a quality is chosen. For information on the arguments passed, see that method.
+  example: []
+  syntax:
+    content: public static event Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, bool ModifyEmotions, IEmotionSource Source, Quality Quality)> OnRandomQuality
+    return:
+      type: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}}
+    content.vb: Public Shared Event OnRandomQuality As Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, ModifyEmotions As Boolean, Source As IEmotionSource, Quality As Quality))
 - uid: TinyLife.Actions.Action.InProgressTime
   commentId: P:TinyLife.Actions.Action.InProgressTime
   id: InProgressTime
@@ -2710,6 +2758,171 @@ items:
   nameWithType.vb: Action.IsLotContentVisible(Lot, PersonLike, Map, Vector2?, Boolean)
   fullName.vb: TinyLife.Actions.Action.IsLotContentVisible(TinyLife.World.Lot, TinyLife.Objects.PersonLike, TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Boolean)
   name.vb: IsLotContentVisible(Lot, PersonLike, Map, Vector2?, Boolean)
+- uid: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  commentId: M:TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  id: GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  nameWithType: Action.GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  fullName: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, bool, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  syntax:
+    content: public static Quality GetRandomQuality(PersonLike person, Random random, SkillType skill, ActionInfo info = null, bool modifyEmotions = true, IEmotionSource source = null, EmotionType emotionInfluence = null, Action<Dictionary<Quality, float>> modifyWeights = null)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+    - id: random
+      type: System.Random
+    - id: skill
+      type: TinyLife.Skills.SkillType
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+    - id: modifyEmotions
+      type: System.Boolean
+    - id: source
+      type: TinyLife.Emotions.IEmotionSource
+    - id: emotionInfluence
+      type: TinyLife.Emotions.EmotionType
+    - id: modifyWeights
+      type: System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+    return:
+      type: TinyLife.Skills.Quality
+    content.vb: Public Shared Function GetRandomQuality(person As PersonLike, random As Random, skill As SkillType, info As ActionInfo = Nothing, modifyEmotions As Boolean = True, source As IEmotionSource = Nothing, emotionInfluence As EmotionType = Nothing, modifyWeights As Action(Of Dictionary(Of Quality, Single)) = Nothing) As Quality
+  overload: TinyLife.Actions.Action.GetRandomQuality*
+  nameWithType.vb: Action.GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+  fullName.vb: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)))
+  name.vb: GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+- uid: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  commentId: M:TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  id: GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: GetRandomQuality(PersonLike, Random, float, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  nameWithType: Action.GetRandomQuality(PersonLike, Random, float, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  fullName: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, float, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, bool, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    Returns a semi-randomly generated <xref href="TinyLife.Skills.Quality" data-throw-if-not-resolved="false"></xref> for the given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> based on their level of this skill.
+
+    The higher the skill level is, the more likely it is for higher qualities to be returned.
+
+    The returned quality is based on the weights determined by <xref href="TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike%2cSystem.Single%2cTinyLife.Skills.SkillType%2cTinyLife.Actions.ActionInfo%2cTinyLife.Emotions.EmotionType)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static Quality GetRandomQuality(PersonLike person, Random random, float qualityPercentage, SkillType skill = null, ActionInfo info = null, bool modifyEmotions = true, IEmotionSource source = null, EmotionType emotionInfluence = null, Action<Dictionary<Quality, float>> modifyWeights = null)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person that has this skill
+    - id: random
+      type: System.Random
+      description: The random that should be used for calculation
+    - id: qualityPercentage
+      type: System.Single
+    - id: skill
+      type: TinyLife.Skills.SkillType
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The action info to use for determining the random quality. If this is set, <xref href="TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cTinyLife.Skills.SkillType%2cSystem.Collections.Generic.Dictionary%7bTinyLife.Skills.Quality%2cSystem.Single%7d)" data-throw-if-not-resolved="false"></xref> will be invoked for all involved objects.
+    - id: modifyEmotions
+      type: System.Boolean
+      description: Whether the given person should receive emotions based on the quality, defaults to true
+    - id: source
+      type: TinyLife.Emotions.IEmotionSource
+      description: The emotion source that modified emotions come from
+    - id: emotionInfluence
+      type: TinyLife.Emotions.EmotionType
+      description: An emotion to use as the emotional influence for the resulting quality. If this is unset, the <code class="paramref">person</code>'s current Person.Emotion is used instead.
+    - id: modifyWeights
+      type: System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+    return:
+      type: TinyLife.Skills.Quality
+      description: A random quality based on the person's skill level
+    content.vb: Public Shared Function GetRandomQuality(person As PersonLike, random As Random, qualityPercentage As Single, skill As SkillType = Nothing, info As ActionInfo = Nothing, modifyEmotions As Boolean = True, source As IEmotionSource = Nothing, emotionInfluence As EmotionType = Nothing, modifyWeights As Action(Of Dictionary(Of Quality, Single)) = Nothing) As Quality
+  overload: TinyLife.Actions.Action.GetRandomQuality*
+  nameWithType.vb: Action.GetRandomQuality(PersonLike, Random, Single, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+  fullName.vb: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, Single, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)))
+  name.vb: GetRandomQuality(PersonLike, Random, Single, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+- uid: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+  commentId: M:TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+  id: GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: GetRandomQualityWeights(PersonLike, float, SkillType, ActionInfo, EmotionType)
+  nameWithType: Action.GetRandomQualityWeights(PersonLike, float, SkillType, ActionInfo, EmotionType)
+  fullName: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike, float, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, TinyLife.Emotions.EmotionType)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  summary: >-
+    Returns a set of <xref href="TinyLife.Skills.Quality" data-throw-if-not-resolved="false"></xref> values and associated weights to be used for determining a random quality for the given <xref href="TinyLife.Objects.PersonLike" data-throw-if-not-resolved="false"></xref> using <xref href="TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike%2cSystem.Random%2cTinyLife.Skills.SkillType%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cTinyLife.Emotions.IEmotionSource%2cTinyLife.Emotions.EmotionType%2cSystem.Action%7bSystem.Collections.Generic.Dictionary%7bTinyLife.Skills.Quality%2cSystem.Single%7d%7d)" data-throw-if-not-resolved="false"></xref>.
+
+    Various factors are taken into account, such as the <code class="paramref">person</code>'s skill level, <xref href="TinyLife.Objects.PersonLike.PersonalityTypes" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.Objects.PersonLike.Emotion" data-throw-if-not-resolved="false"></xref>, the return values of <xref href="TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cTinyLife.Skills.SkillType%2cSystem.Collections.Generic.Dictionary%7bTinyLife.Skills.Quality%2cSystem.Single%7d)" data-throw-if-not-resolved="false"></xref> of all of the <code class="paramref">info</code>'s involved objects, and the <xref href="TinyLife.Actions.Action.OnGetRandomQuality" data-throw-if-not-resolved="false"></xref> event.
+  example: []
+  syntax:
+    content: public static Dictionary<Quality, float> GetRandomQualityWeights(PersonLike person, float qualityPercentage, SkillType skill = null, ActionInfo info = null, EmotionType emotionInfluence = null)
+    parameters:
+    - id: person
+      type: TinyLife.Objects.PersonLike
+      description: The person that has this skill
+    - id: qualityPercentage
+      type: System.Single
+    - id: skill
+      type: TinyLife.Skills.SkillType
+    - id: info
+      type: TinyLife.Actions.ActionInfo
+      description: The action info to use for determining the random quality. If this is set, <xref href="TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike%2cSystem.Single%2cTinyLife.Actions.ActionInfo%2cSystem.Boolean%2cTinyLife.Skills.SkillType%2cSystem.Collections.Generic.Dictionary%7bTinyLife.Skills.Quality%2cSystem.Single%7d)" data-throw-if-not-resolved="false"></xref> will be invoked for all involved objects.
+    - id: emotionInfluence
+      type: TinyLife.Emotions.EmotionType
+      description: An emotion to use as the emotional influence for the resulting quality. If this is unset, the <code class="paramref">person</code>'s current Person.Emotion is used instead.
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+      description: A set of qualities along with weights that represent their likelihood of being chosen.
+    content.vb: Public Shared Function GetRandomQualityWeights(person As PersonLike, qualityPercentage As Single, skill As SkillType = Nothing, info As ActionInfo = Nothing, emotionInfluence As EmotionType = Nothing) As Dictionary(Of Quality, Single)
+  overload: TinyLife.Actions.Action.GetRandomQualityWeights*
+  nameWithType.vb: Action.GetRandomQualityWeights(PersonLike, Single, SkillType, ActionInfo, EmotionType)
+  fullName.vb: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike, Single, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, TinyLife.Emotions.EmotionType)
+  name.vb: GetRandomQualityWeights(PersonLike, Single, SkillType, ActionInfo, EmotionType)
+- uid: TinyLife.Actions.Action.GetDefaultRandomQualityWeights(System.Single)
+  commentId: M:TinyLife.Actions.Action.GetDefaultRandomQualityWeights(System.Single)
+  id: GetDefaultRandomQualityWeights(System.Single)
+  parent: TinyLife.Actions.Action
+  langs:
+  - csharp
+  - vb
+  name: GetDefaultRandomQualityWeights(float)
+  nameWithType: Action.GetDefaultRandomQualityWeights(float)
+  fullName: TinyLife.Actions.Action.GetDefaultRandomQualityWeights(float)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Actions
+  syntax:
+    content: public static Dictionary<Quality, float> GetDefaultRandomQualityWeights(float qualityPercentage)
+    parameters:
+    - id: qualityPercentage
+      type: System.Single
+    return:
+      type: System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+    content.vb: Public Shared Function GetDefaultRandomQualityWeights(qualityPercentage As Single) As Dictionary(Of Quality, Single)
+  overload: TinyLife.Actions.Action.GetDefaultRandomQualityWeights*
+  nameWithType.vb: Action.GetDefaultRandomQualityWeights(Single)
+  fullName.vb: TinyLife.Actions.Action.GetDefaultRandomQualityWeights(Single)
+  name.vb: GetDefaultRandomQualityWeights(Single)
 references:
 - uid: TinyLife.Objects.PersonLike
   commentId: T:TinyLife.Objects.PersonLike
@@ -3556,6 +3769,594 @@ references:
   - uid: TinyLife.Actions.Action.ActionTypeConstructedDelegate
     name: ActionTypeConstructedDelegate
     href: TinyLife.Actions.Action.ActionTypeConstructedDelegate.html
+- uid: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+  commentId: M:TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+  parent: TinyLife.Actions.Action
+  isExternal: true
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQualityWeights_TinyLife_Objects_PersonLike_System_Single_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_TinyLife_Emotions_EmotionType_
+  name: GetRandomQualityWeights(PersonLike, float, SkillType, ActionInfo, EmotionType)
+  nameWithType: Action.GetRandomQualityWeights(PersonLike, float, SkillType, ActionInfo, EmotionType)
+  fullName: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike, float, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, TinyLife.Emotions.EmotionType)
+  nameWithType.vb: Action.GetRandomQualityWeights(PersonLike, Single, SkillType, ActionInfo, EmotionType)
+  fullName.vb: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike, Single, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, TinyLife.Emotions.EmotionType)
+  name.vb: GetRandomQualityWeights(PersonLike, Single, SkillType, ActionInfo, EmotionType)
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+    name: GetRandomQualityWeights
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQualityWeights_TinyLife_Objects_PersonLike_System_Single_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_TinyLife_Emotions_EmotionType_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.GetRandomQualityWeights(TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType)
+    name: GetRandomQualityWeights
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQualityWeights_TinyLife_Objects_PersonLike_System_Single_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_TinyLife_Emotions_EmotionType_
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: )
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, EmotionType emotionInfluence, Dictionary<Quality, float> Weights)>
+  nameWithType: Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, EmotionType emotionInfluence, Dictionary<Quality, float> Weights)>
+  fullName: System.Action<(TinyLife.Objects.PersonLike Person, float QualityPercentage, TinyLife.Skills.SkillType Skill, TinyLife.Actions.ActionInfo Info, TinyLife.Emotions.EmotionType emotionInfluence, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float> Weights)>
+  nameWithType.vb: Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, emotionInfluence As EmotionType, Weights As Dictionary(Of Quality, Single)))
+  fullName.vb: System.Action(Of (Person As TinyLife.Objects.PersonLike, QualityPercentage As Single, Skill As TinyLife.Skills.SkillType, Info As TinyLife.Actions.ActionInfo, emotionInfluence As TinyLife.Emotions.EmotionType, Weights As System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)))
+  name.vb: Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, emotionInfluence As EmotionType, Weights As Dictionary(Of Quality, Single)))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.QualityPercentage
+    name: QualityPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.qualitypercentage
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Skill
+    name: Skill
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.skill
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.info
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.emotionInfluence
+    name: emotionInfluence
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.emotioninfluence
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Weights
+    name: Weights
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.weights
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.person
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.QualityPercentage
+    name: QualityPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.qualitypercentage
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Skill
+    name: Skill
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.skill
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.info
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.emotionInfluence
+    name: emotionInfluence
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.emotioninfluence
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,TinyLife.Emotions.EmotionType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}.Weights
+    name: Weights
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,tinylife.emotions.emotiontype,system.collections.generic.dictionary-tinylife.skills.quality,system.single--.weights
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Action`1
+  commentId: T:System.Action`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<T>
+  nameWithType: Action<T>
+  fullName: System.Action<T>
+  nameWithType.vb: Action(Of T)
+  fullName.vb: System.Action(Of T)
+  name.vb: Action(Of T)
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  commentId: M:TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+  parent: TinyLife.Actions.Action
+  isExternal: true
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQuality_TinyLife_Objects_PersonLike_System_Random_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Emotions_IEmotionSource_TinyLife_Emotions_EmotionType_System_Action_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single___
+  name: GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  nameWithType: Action.GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, bool, IEmotionSource, EmotionType, Action<Dictionary<Quality, float>>)
+  fullName: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, bool, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>)
+  nameWithType.vb: Action.GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+  fullName.vb: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike, System.Random, TinyLife.Skills.SkillType, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Emotions.IEmotionSource, TinyLife.Emotions.EmotionType, System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)))
+  name.vb: GetRandomQuality(PersonLike, Random, SkillType, ActionInfo, Boolean, IEmotionSource, EmotionType, Action(Of Dictionary(Of Quality, Single)))
+  spec.csharp:
+  - uid: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+    name: GetRandomQuality
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQuality_TinyLife_Objects_PersonLike_System_Random_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Emotions_IEmotionSource_TinyLife_Emotions_EmotionType_System_Action_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single___
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Actions.Action.GetRandomQuality(TinyLife.Objects.PersonLike,System.Random,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Emotions.EmotionType,System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}})
+    name: GetRandomQuality
+    href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQuality_TinyLife_Objects_PersonLike_System_Random_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Emotions_IEmotionSource_TinyLife_Emotions_EmotionType_System_Action_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single___
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Random
+    name: Random
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.random
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.EmotionType
+    name: EmotionType
+    href: TinyLife.Emotions.EmotionType.html
+  - name: ','
+  - name: " "
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+  - name: )
+- uid: System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}}
+  commentId: T:System.Action{System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, bool ModifyEmotions, IEmotionSource Source, Quality Quality)>
+  nameWithType: Action<(PersonLike Person, float QualityPercentage, SkillType Skill, ActionInfo Info, bool ModifyEmotions, IEmotionSource Source, Quality Quality)>
+  fullName: System.Action<(TinyLife.Objects.PersonLike Person, float QualityPercentage, TinyLife.Skills.SkillType Skill, TinyLife.Actions.ActionInfo Info, bool ModifyEmotions, TinyLife.Emotions.IEmotionSource Source, TinyLife.Skills.Quality Quality)>
+  nameWithType.vb: Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, ModifyEmotions As Boolean, Source As IEmotionSource, Quality As Quality))
+  fullName.vb: System.Action(Of (Person As TinyLife.Objects.PersonLike, QualityPercentage As Single, Skill As TinyLife.Skills.SkillType, Info As TinyLife.Actions.ActionInfo, ModifyEmotions As Boolean, Source As TinyLife.Emotions.IEmotionSource, Quality As TinyLife.Skills.Quality))
+  name.vb: Action(Of (Person As PersonLike, QualityPercentage As Single, Skill As SkillType, Info As ActionInfo, ModifyEmotions As Boolean, Source As IEmotionSource, Quality As Quality))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.person
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.QualityPercentage
+    name: QualityPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.qualitypercentage
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Skill
+    name: Skill
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.skill
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.info
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.ModifyEmotions
+    name: ModifyEmotions
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.modifyemotions
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Source
+    name: Source
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.source
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Quality
+    name: Quality
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.quality
+  - name: )
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: (
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Person
+    name: Person
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.person
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.QualityPercentage
+    name: QualityPercentage
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.qualitypercentage
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Skill
+    name: Skill
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.skill
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Info
+    name: Info
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.info
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.ModifyEmotions
+    name: ModifyEmotions
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.modifyemotions
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Source
+    name: Source
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.source
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Emotions.IEmotionSource
+    name: IEmotionSource
+    href: TinyLife.Emotions.IEmotionSource.html
+  - name: ','
+  - name: " "
+  - uid: System.ValueTuple{TinyLife.Objects.PersonLike,System.Single,TinyLife.Skills.SkillType,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Emotions.IEmotionSource,TinyLife.Skills.Quality}.Quality
+    name: Quality
+    href: https://learn.microsoft.com/dotnet/api/system.valuetuple-tinylife.objects.personlike,system.single,tinylife.skills.skilltype,tinylife.actions.actioninfo,system.boolean,tinylife.emotions.iemotionsource,tinylife.skills.quality-.quality
+  - name: " "
+  - name: As
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: )
+  - name: )
 - uid: TinyLife.Actions.SocialAction
   commentId: T:TinyLife.Actions.SocialAction
   parent: TinyLife.Actions
@@ -5209,34 +6010,6 @@ references:
     name: Predicate
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.predicate-1
-  - name: (
-  - name: Of
-  - name: " "
-  - name: T
-  - name: )
-- uid: System.Action`1
-  commentId: T:System.Action`1
-  isExternal: true
-  href: https://learn.microsoft.com/dotnet/api/system.action-1
-  name: Action<T>
-  nameWithType: Action<T>
-  fullName: System.Action<T>
-  nameWithType.vb: Action(Of T)
-  fullName.vb: System.Action(Of T)
-  name.vb: Action(Of T)
-  spec.csharp:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
-  - name: <
-  - name: T
-  - name: '>'
-  spec.vb:
-  - uid: System.Action`1
-    name: Action
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.action-1
   - name: (
   - name: Of
   - name: " "
@@ -8345,3 +9118,332 @@ references:
   name: IsLotContentVisible
   nameWithType: Action.IsLotContentVisible
   fullName: TinyLife.Actions.Action.IsLotContentVisible
+- uid: TinyLife.Actions.Action.GetRandomQuality*
+  commentId: Overload:TinyLife.Actions.Action.GetRandomQuality
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQuality_TinyLife_Objects_PersonLike_System_Random_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Emotions_IEmotionSource_TinyLife_Emotions_EmotionType_System_Action_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single___
+  name: GetRandomQuality
+  nameWithType: Action.GetRandomQuality
+  fullName: TinyLife.Actions.Action.GetRandomQuality
+- uid: TinyLife.Emotions.IEmotionSource
+  commentId: T:TinyLife.Emotions.IEmotionSource
+  parent: TinyLife.Emotions
+  href: TinyLife.Emotions.IEmotionSource.html
+  name: IEmotionSource
+  nameWithType: IEmotionSource
+  fullName: TinyLife.Emotions.IEmotionSource
+- uid: TinyLife.Emotions.EmotionType
+  commentId: T:TinyLife.Emotions.EmotionType
+  parent: TinyLife.Emotions
+  href: TinyLife.Emotions.EmotionType.html
+  name: EmotionType
+  nameWithType: EmotionType
+  fullName: TinyLife.Emotions.EmotionType
+- uid: System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+  commentId: T:System.Action{System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}}
+  parent: System
+  definition: System.Action`1
+  href: https://learn.microsoft.com/dotnet/api/system.action-1
+  name: Action<Dictionary<Quality, float>>
+  nameWithType: Action<Dictionary<Quality, float>>
+  fullName: System.Action<System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>>
+  nameWithType.vb: Action(Of Dictionary(Of Quality, Single))
+  fullName.vb: System.Action(Of System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: Action(Of Dictionary(Of Quality, Single))
+  spec.csharp:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: <
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`1
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.Skills.Quality
+  commentId: T:TinyLife.Skills.Quality
+  parent: TinyLife.Skills
+  href: TinyLife.Skills.Quality.html
+  name: Quality
+  nameWithType: Quality
+  fullName: TinyLife.Skills.Quality
+- uid: TinyLife.Emotions
+  commentId: N:TinyLife.Emotions
+  href: TinyLife.html
+  name: TinyLife.Emotions
+  nameWithType: TinyLife.Emotions
+  fullName: TinyLife.Emotions
+  spec.csharp:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
+    href: TinyLife.Emotions.html
+  spec.vb:
+  - uid: TinyLife
+    name: TinyLife
+    href: TinyLife.html
+  - name: .
+  - uid: TinyLife.Emotions
+    name: Emotions
+    href: TinyLife.Emotions.html
+- uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike,System.Single,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  commentId: M:TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike,System.Single,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_PersonLike_System_Single_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  name: OnRandomQuality(PersonLike, float, ActionInfo, bool, SkillType, Dictionary<Quality, float>)
+  nameWithType: MapObject.OnRandomQuality(PersonLike, float, ActionInfo, bool, SkillType, Dictionary<Quality, float>)
+  fullName: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike, float, TinyLife.Actions.ActionInfo, bool, TinyLife.Skills.SkillType, System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>)
+  nameWithType.vb: MapObject.OnRandomQuality(PersonLike, Single, ActionInfo, Boolean, SkillType, Dictionary(Of Quality, Single))
+  fullName.vb: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike, Single, TinyLife.Actions.ActionInfo, Boolean, TinyLife.Skills.SkillType, System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single))
+  name.vb: OnRandomQuality(PersonLike, Single, ActionInfo, Boolean, SkillType, Dictionary(Of Quality, Single))
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike,System.Single,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+    name: OnRandomQuality
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_PersonLike_System_Single_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike,System.Single,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
+    name: OnRandomQuality
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnRandomQuality_TinyLife_Objects_PersonLike_System_Single_TinyLife_Actions_ActionInfo_System_Boolean_TinyLife_Skills_SkillType_System_Collections_Generic_Dictionary_TinyLife_Skills_Quality_System_Single__
+  - name: (
+  - uid: TinyLife.Objects.PersonLike
+    name: PersonLike
+    href: TinyLife.Objects.PersonLike.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Actions.ActionInfo
+    name: ActionInfo
+    href: TinyLife.Actions.ActionInfo.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Skills.SkillType
+    name: SkillType
+    href: TinyLife.Skills.SkillType.html
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: )
+- uid: TinyLife.Objects.PersonLike.PersonalityTypes
+  commentId: F:TinyLife.Objects.PersonLike.PersonalityTypes
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_PersonalityTypes
+  name: PersonalityTypes
+  nameWithType: PersonLike.PersonalityTypes
+  fullName: TinyLife.Objects.PersonLike.PersonalityTypes
+- uid: TinyLife.Objects.PersonLike.Emotion
+  commentId: P:TinyLife.Objects.PersonLike.Emotion
+  parent: TinyLife.Objects.PersonLike
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_Emotion
+  name: Emotion
+  nameWithType: PersonLike.Emotion
+  fullName: TinyLife.Objects.PersonLike.Emotion
+- uid: TinyLife.Actions.Action.OnGetRandomQuality
+  commentId: E:TinyLife.Actions.Action.OnGetRandomQuality
+  parent: TinyLife.Actions.Action
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_OnGetRandomQuality
+  name: OnGetRandomQuality
+  nameWithType: Action.OnGetRandomQuality
+  fullName: TinyLife.Actions.Action.OnGetRandomQuality
+- uid: TinyLife.Actions.Action.GetRandomQualityWeights*
+  commentId: Overload:TinyLife.Actions.Action.GetRandomQualityWeights
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetRandomQualityWeights_TinyLife_Objects_PersonLike_System_Single_TinyLife_Skills_SkillType_TinyLife_Actions_ActionInfo_TinyLife_Emotions_EmotionType_
+  name: GetRandomQualityWeights
+  nameWithType: Action.GetRandomQualityWeights
+  fullName: TinyLife.Actions.Action.GetRandomQualityWeights
+- uid: System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+  commentId: T:System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.Dictionary`2
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<Quality, float>
+  nameWithType: Dictionary<Quality, float>
+  fullName: System.Collections.Generic.Dictionary<TinyLife.Skills.Quality, float>
+  nameWithType.vb: Dictionary(Of Quality, Single)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TinyLife.Skills.Quality, Single)
+  name.vb: Dictionary(Of Quality, Single)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Skills.Quality
+    name: Quality
+    href: TinyLife.Skills.Quality.html
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+- uid: System.Collections.Generic.Dictionary`2
+  commentId: T:System.Collections.Generic.Dictionary`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  name: Dictionary<TKey, TValue>
+  nameWithType: Dictionary<TKey, TValue>
+  fullName: System.Collections.Generic.Dictionary<TKey, TValue>
+  nameWithType.vb: Dictionary(Of TKey, TValue)
+  fullName.vb: System.Collections.Generic.Dictionary(Of TKey, TValue)
+  name.vb: Dictionary(Of TKey, TValue)
+  spec.csharp:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: <
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.Dictionary`2
+    name: Dictionary
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.dictionary-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: TKey
+  - name: ','
+  - name: " "
+  - name: TValue
+  - name: )
+- uid: TinyLife.Actions.Action.GetDefaultRandomQualityWeights*
+  commentId: Overload:TinyLife.Actions.Action.GetDefaultRandomQualityWeights
+  href: TinyLife.Actions.Action.html#TinyLife_Actions_Action_GetDefaultRandomQualityWeights_System_Single_
+  name: GetDefaultRandomQualityWeights
+  nameWithType: Action.GetDefaultRandomQualityWeights
+  fullName: TinyLife.Actions.Action.GetDefaultRandomQualityWeights

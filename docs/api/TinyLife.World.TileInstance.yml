@@ -9,9 +9,10 @@ items:
   - TinyLife.World.TileInstance.Floor
   - TinyLife.World.TileInstance.GetVariationTexture(MLEM.Maths.Direction2)
   - TinyLife.World.TileInstance.Map
+  - TinyLife.World.TileInstance.Migrations
   - TinyLife.World.TileInstance.Position
   - TinyLife.World.TileInstance.Tile
-  - TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32)
+  - TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,TinyLife.Utilities.AppliedMigrations)
   langs:
   - csharp
   - vb
@@ -58,6 +59,25 @@ items:
   - type: System.Runtime.Serialization.DataContractAttribute
     ctor: System.Runtime.Serialization.DataContractAttribute.#ctor
     arguments: []
+- uid: TinyLife.World.TileInstance.Migrations
+  commentId: F:TinyLife.World.TileInstance.Migrations
+  id: Migrations
+  parent: TinyLife.World.TileInstance
+  langs:
+  - csharp
+  - vb
+  name: Migrations
+  nameWithType: TileInstance.Migrations
+  fullName: TinyLife.World.TileInstance.Migrations
+  type: Field
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public static readonly List<Migration<TileInstance>> Migrations
+    return:
+      type: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.TileInstance}}
+    content.vb: Public Shared ReadOnly Migrations As List(Of Migration(Of TileInstance))
 - uid: TinyLife.World.TileInstance.Tile
   commentId: F:TinyLife.World.TileInstance.Tile
   id: Tile
@@ -221,16 +241,16 @@ items:
       description: The variation texture location.
     content.vb: Public Overridable Function GetVariationTexture(direction As Direction2) As Point
   overload: TinyLife.World.TileInstance.GetVariationTexture*
-- uid: TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32)
-  commentId: M:TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32)
-  id: Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32)
+- uid: TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.World.TileInstance.Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,TinyLife.Utilities.AppliedMigrations)
+  id: Validate(TinyLife.World.Map,Microsoft.Xna.Framework.Point,System.Int32,TinyLife.Utilities.AppliedMigrations)
   parent: TinyLife.World.TileInstance
   langs:
   - csharp
   - vb
-  name: Validate(Map, Point, int)
-  nameWithType: TileInstance.Validate(Map, Point, int)
-  fullName: TinyLife.World.TileInstance.Validate(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int)
+  name: Validate(Map, Point, int, AppliedMigrations)
+  nameWithType: TileInstance.Validate(Map, Point, int, AppliedMigrations)
+  fullName: TinyLife.World.TileInstance.Validate(TinyLife.World.Map, Microsoft.Xna.Framework.Point, int, TinyLife.Utilities.AppliedMigrations)
   type: Method
   assemblies:
   - TinyLife
@@ -241,7 +261,7 @@ items:
     By default, this method always returns <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">true</a> after setting the <xref href="TinyLife.World.TileInstance.Map" data-throw-if-not-resolved="false"></xref>, <xref href="TinyLife.World.TileInstance.Position" data-throw-if-not-resolved="false"></xref>, and <xref href="TinyLife.World.TileInstance.Floor" data-throw-if-not-resolved="false"></xref> properties.
   example: []
   syntax:
-    content: public virtual bool Validate(Map map, Point position, int floor)
+    content: public virtual bool Validate(Map map, Point position, int floor, AppliedMigrations appliedMigrations)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -252,14 +272,16 @@ items:
     - id: floor
       type: System.Int32
       description: The floor that this tile instance is on.
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
     return:
       type: System.Boolean
       description: Whether the tile is valid. If this is <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a>, the tile is replaced by a new instance or by a grass tile.
-    content.vb: Public Overridable Function Validate(map As Map, position As Point, floor As Integer) As Boolean
+    content.vb: Public Overridable Function Validate(map As Map, position As Point, floor As Integer, appliedMigrations As AppliedMigrations) As Boolean
   overload: TinyLife.World.TileInstance.Validate*
-  nameWithType.vb: TileInstance.Validate(Map, Point, Integer)
-  fullName.vb: TinyLife.World.TileInstance.Validate(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer)
-  name.vb: Validate(Map, Point, Integer)
+  nameWithType.vb: TileInstance.Validate(Map, Point, Integer, AppliedMigrations)
+  fullName.vb: TinyLife.World.TileInstance.Validate(TinyLife.World.Map, Microsoft.Xna.Framework.Point, Integer, TinyLife.Utilities.AppliedMigrations)
+  name.vb: Validate(Map, Point, Integer, AppliedMigrations)
 references:
 - uid: TinyLife.World.TileInstance.Tile
   commentId: F:TinyLife.World.TileInstance.Tile
@@ -891,6 +913,116 @@ references:
   - uid: TinyLife.Utilities
     name: Utilities
     href: TinyLife.Utilities.html
+- uid: System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.TileInstance}}
+  commentId: T:System.Collections.Generic.List{TinyLife.Utilities.Migration{TinyLife.World.TileInstance}}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<Migration<TileInstance>>
+  nameWithType: List<Migration<TileInstance>>
+  fullName: System.Collections.Generic.List<TinyLife.Utilities.Migration<TinyLife.World.TileInstance>>
+  nameWithType.vb: List(Of Migration(Of TileInstance))
+  fullName.vb: System.Collections.Generic.List(Of TinyLife.Utilities.Migration(Of TinyLife.World.TileInstance))
+  name.vb: List(Of Migration(Of TileInstance))
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: <
+  - uid: TinyLife.World.TileInstance
+    name: TileInstance
+    href: TinyLife.World.TileInstance.html
+  - name: '>'
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Utilities.Migration`1
+    name: Migration
+    href: TinyLife.Utilities.Migration-1.html
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.World.TileInstance
+    name: TileInstance
+    href: TinyLife.World.TileInstance.html
+  - name: )
+  - name: )
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
 - uid: TinyLife.World.Tile
   commentId: T:TinyLife.World.Tile
   parent: TinyLife.World
@@ -1036,10 +1168,17 @@ references:
     isExternal: true
 - uid: TinyLife.World.TileInstance.Validate*
   commentId: Overload:TinyLife.World.TileInstance.Validate
-  href: TinyLife.World.TileInstance.html#TinyLife_World_TileInstance_Validate_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_
+  href: TinyLife.World.TileInstance.html#TinyLife_World_TileInstance_Validate_TinyLife_World_Map_Microsoft_Xna_Framework_Point_System_Int32_TinyLife_Utilities_AppliedMigrations_
   name: Validate
   nameWithType: TileInstance.Validate
   fullName: TinyLife.World.TileInstance.Validate
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: System.Boolean
   commentId: T:System.Boolean
   parent: System
