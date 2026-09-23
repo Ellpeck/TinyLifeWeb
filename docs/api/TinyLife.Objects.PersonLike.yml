@@ -152,9 +152,10 @@ items:
   - TinyLife.Objects.PersonLike.OnAddEmotion
   - TinyLife.Objects.PersonLike.OnAgeChange
   - TinyLife.Objects.PersonLike.OnAgeChanged(TinyLife.Objects.AgeGroup)
-  - TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   - TinyLife.Objects.PersonLike.OnChangeFriendship
   - TinyLife.Objects.PersonLike.OnChangeRomance
+  - TinyLife.Objects.PersonLike.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.Objects.PersonLike.OnDeath
   - TinyLife.Objects.PersonLike.OnDepleteNeed
   - TinyLife.Objects.PersonLike.OnDrawLooks
@@ -273,7 +274,6 @@ items:
   inheritedMembers:
   - TinyLife.Objects.MapObject.OnCreated
   - TinyLife.Objects.MapObject.OnValidated
-  - TinyLife.Objects.MapObject.OnValidatedEarly
   - TinyLife.Objects.MapObject.OnEventsAttachable
   - TinyLife.Objects.MapObject.OnDraw
   - TinyLife.Objects.MapObject.OnUpdate
@@ -289,14 +289,12 @@ items:
   - TinyLife.Objects.MapObject.IsInWorld
   - TinyLife.Objects.MapObject.HoldingPerson
   - TinyLife.Objects.MapObject.SpawnerId
-  - TinyLife.Objects.MapObject.ValidateEarly
   - TinyLife.Objects.MapObject.OnAdded
   - TinyLife.Objects.MapObject.OnRemoved
   - TinyLife.Objects.MapObject.GetAiPriority(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   - TinyLife.Objects.MapObject.CanExecuteAction(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.OnActionCompleted(TinyLife.Actions.Action,TinyLife.Actions.CompletionType,System.Boolean)
   - TinyLife.Objects.MapObject.ActionUpdate(TinyLife.Actions.Action,Microsoft.Xna.Framework.GameTime,System.TimeSpan,System.Single,System.Boolean)
-  - TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.Objects.MapObject.ModifyActionCategories(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Collections.Generic.List{System.String})
   - TinyLife.Objects.MapObject.GetEfficiencyModifier(TinyLife.Objects.PersonLike,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Single)
   - TinyLife.Objects.MapObject.OnRandomQuality(TinyLife.Objects.PersonLike,System.Single,TinyLife.Actions.ActionInfo,System.Boolean,TinyLife.Skills.SkillType,System.Collections.Generic.Dictionary{TinyLife.Skills.Quality,System.Single})
@@ -3782,16 +3780,16 @@ items:
     content.vb: Public Overrides Function GetFreeActionSpotInfos(person As PersonLike, context As ObjectCategory = Nothing) As IEnumerable(Of ActionInfo)
   overridden: TinyLife.Objects.MapObject.GetFreeActionSpotInfos(TinyLife.Objects.PersonLike,TinyLife.Objects.ObjectCategory)
   overload: TinyLife.Objects.PersonLike.GetFreeActionSpotInfos*
-- uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  id: OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+- uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  id: OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   parent: TinyLife.Objects.PersonLike
   langs:
   - csharp
   - vb
-  name: OnCameraRotationChanged(Direction2, Direction2)
-  nameWithType: PersonLike.OnCameraRotationChanged(Direction2, Direction2)
-  fullName: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2, MLEM.Maths.Direction2)
+  name: OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  nameWithType: PersonLike.OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  fullName: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
   type: Method
   assemblies:
   - TinyLife
@@ -3802,17 +3800,50 @@ items:
     Additionally, the old and new rotations are passed.
   example: []
   syntax:
-    content: public override void OnCameraRotationChanged(Direction2 oldRotation, Direction2 newRotation)
+    content: public override void OnCameraRotationChanged(MapSection section, Direction2 oldRotation, Direction2 newRotation)
     parameters:
+    - id: section
+      type: TinyLife.World.MapSection
     - id: oldRotation
       type: MLEM.Maths.Direction2
       description: The old camera rotation
     - id: newRotation
       type: MLEM.Maths.Direction2
       description: The new camera rotation
-    content.vb: Public Overrides Sub OnCameraRotationChanged(oldRotation As Direction2, newRotation As Direction2)
-  overridden: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+    content.vb: Public Overrides Sub OnCameraRotationChanged(section As MapSection, oldRotation As Direction2, newRotation As Direction2)
+  overridden: TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   overload: TinyLife.Objects.PersonLike.OnCameraRotationChanged*
+- uid: TinyLife.Objects.PersonLike.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  commentId: M:TinyLife.Objects.PersonLike.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  id: OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  parent: TinyLife.Objects.PersonLike
+  langs:
+  - csharp
+  - vb
+  name: OnCurrentGameMapChanged(Map, Map)
+  nameWithType: PersonLike.OnCurrentGameMapChanged(Map, Map)
+  fullName: TinyLife.Objects.PersonLike.OnCurrentGameMapChanged(TinyLife.World.Map, TinyLife.World.Map)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  summary: >-
+    This method is invoked when the game's <xref href="TinyLife.GameImpl.CurrentMap" data-throw-if-not-resolved="false"></xref> is changed, ie when the camera is moved to a different map.
+
+    For a method that is invoked when this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> is changed, see <xref href="TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Vector2%7d%2cSystem.Nullable%7bSystem.Single%7d)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public override void OnCurrentGameMapChanged(Map oldMap, Map newMap)
+    parameters:
+    - id: oldMap
+      type: TinyLife.World.Map
+      description: The previous map.
+    - id: newMap
+      type: TinyLife.World.Map
+      description: The new map.
+    content.vb: Public Overrides Sub OnCurrentGameMapChanged(oldMap As Map, newMap As Map)
+  overridden: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  overload: TinyLife.Objects.PersonLike.OnCurrentGameMapChanged*
 - uid: TinyLife.Objects.PersonLike.FocusCameraOnEvent(System.Boolean,System.Boolean)
   commentId: M:TinyLife.Objects.PersonLike.FocusCameraOnEvent(System.Boolean,System.Boolean)
   id: FocusCameraOnEvent(System.Boolean,System.Boolean)
@@ -6963,7 +6994,7 @@ items:
   assemblies:
   - TinyLife
   namespace: TinyLife.Objects
-  summary: A method called in <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, as well as when this person's rotation changes in <xref href="TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2%2cMLEM.Maths.Direction2)" data-throw-if-not-resolved="false"></xref> to update this person's animation data to the proper state for the current update frame.
+  summary: A method called in <xref href="TinyLife.Objects.PersonLike.Update(Microsoft.Xna.Framework.GameTime%2cSystem.TimeSpan%2cSystem.Single)" data-throw-if-not-resolved="false"></xref>, as well as when this person's rotation changes in <xref href="TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection%2cMLEM.Maths.Direction2%2cMLEM.Maths.Direction2)" data-throw-if-not-resolved="false"></xref> to update this person's animation data to the proper state for the current update frame.
   example: []
   syntax:
     content: protected virtual void UpdateAnimations(TimeSpan elapsedAnimationTime)
@@ -7581,13 +7612,6 @@ references:
   name: OnValidated
   nameWithType: MapObject.OnValidated
   fullName: TinyLife.Objects.MapObject.OnValidated
-- uid: TinyLife.Objects.MapObject.OnValidatedEarly
-  commentId: E:TinyLife.Objects.MapObject.OnValidatedEarly
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnValidatedEarly
-  name: OnValidatedEarly
-  nameWithType: MapObject.OnValidatedEarly
-  fullName: TinyLife.Objects.MapObject.OnValidatedEarly
 - uid: TinyLife.Objects.MapObject.OnEventsAttachable
   commentId: E:TinyLife.Objects.MapObject.OnEventsAttachable
   parent: TinyLife.Objects.MapObject
@@ -7693,25 +7717,6 @@ references:
   name: SpawnerId
   nameWithType: MapObject.SpawnerId
   fullName: TinyLife.Objects.MapObject.SpawnerId
-- uid: TinyLife.Objects.MapObject.ValidateEarly
-  commentId: M:TinyLife.Objects.MapObject.ValidateEarly
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly
-  name: ValidateEarly()
-  nameWithType: MapObject.ValidateEarly()
-  fullName: TinyLife.Objects.MapObject.ValidateEarly()
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.ValidateEarly
-    name: ValidateEarly
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly
-  - name: (
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.ValidateEarly
-    name: ValidateEarly
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly
-  - name: (
-  - name: )
 - uid: TinyLife.Objects.MapObject.OnAdded
   commentId: M:TinyLife.Objects.MapObject.OnAdded
   parent: TinyLife.Objects.MapObject
@@ -7973,41 +7978,6 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
-  - name: )
-- uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
-  commentId: M:TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
-  parent: TinyLife.Objects.MapObject
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
-  name: OnCurrentGameMapChanged(Map, Map)
-  nameWithType: MapObject.OnCurrentGameMapChanged(Map, Map)
-  fullName: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map, TinyLife.World.Map)
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
-    name: OnCurrentGameMapChanged
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
-    name: OnCurrentGameMapChanged
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
   - name: )
 - uid: TinyLife.Objects.MapObject.ModifyActionCategories(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Collections.Generic.List{System.String})
   commentId: M:TinyLife.Objects.MapObject.ModifyActionCategories(TinyLife.Actions.ActionType,TinyLife.Actions.ActionInfo,System.Boolean,System.Collections.Generic.List{System.String})
@@ -17012,19 +16982,24 @@ references:
     name: ActionInfo
     href: TinyLife.Actions.ActionInfo.html
   - name: )
-- uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+- uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   parent: TinyLife.Objects.MapObject
   isExternal: true
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
-  name: OnCameraRotationChanged(Direction2, Direction2)
-  nameWithType: MapObject.OnCameraRotationChanged(Direction2, Direction2)
-  fullName: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2, MLEM.Maths.Direction2)
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+  name: OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  nameWithType: MapObject.OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  fullName: TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
   spec.csharp:
-  - uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true
@@ -17035,10 +17010,15 @@ references:
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.MapObject.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true
@@ -17050,10 +17030,119 @@ references:
   - name: )
 - uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged*
   commentId: Overload:TinyLife.Objects.PersonLike.OnCameraRotationChanged
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   name: OnCameraRotationChanged
   nameWithType: PersonLike.OnCameraRotationChanged
   fullName: TinyLife.Objects.PersonLike.OnCameraRotationChanged
+- uid: TinyLife.World.MapSection
+  commentId: T:TinyLife.World.MapSection
+  parent: TinyLife.World
+  href: TinyLife.World.MapSection.html
+  name: MapSection
+  nameWithType: MapSection
+  fullName: TinyLife.World.MapSection
+- uid: TinyLife.GameImpl.CurrentMap
+  commentId: P:TinyLife.GameImpl.CurrentMap
+  href: TinyLife.GameImpl.html#TinyLife_GameImpl_CurrentMap
+  name: CurrentMap
+  nameWithType: GameImpl.CurrentMap
+  fullName: TinyLife.GameImpl.CurrentMap
+- uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  commentId: M:TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+  parent: TinyLife.Objects.MapObject
+  isExternal: true
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  name: MoveToMap(Map, Vector2?, float?)
+  nameWithType: MapObject.MoveToMap(Map, Vector2?, float?)
+  fullName: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, float?)
+  nameWithType.vb: MapObject.MoveToMap(Map, Vector2?, Single?)
+  fullName.vb: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?)
+  name.vb: MoveToMap(Map, Vector2?, Single?)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+    name: MoveToMap
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
+    name: MoveToMap
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: )
+- uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  commentId: M:TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
+  name: OnCurrentGameMapChanged(Map, Map)
+  nameWithType: MapObject.OnCurrentGameMapChanged(Map, Map)
+  fullName: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map, TinyLife.World.Map)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+    name: OnCurrentGameMapChanged
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
+    name: OnCurrentGameMapChanged
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
+  - name: (
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.World.Map
+    name: Map
+    href: TinyLife.World.Map.html
+  - name: )
+- uid: TinyLife.Objects.PersonLike.OnCurrentGameMapChanged*
+  commentId: Overload:TinyLife.Objects.PersonLike.OnCurrentGameMapChanged
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
+  name: OnCurrentGameMapChanged
+  nameWithType: PersonLike.OnCurrentGameMapChanged
+  fullName: TinyLife.Objects.PersonLike.OnCurrentGameMapChanged
 - uid: TinyLife.Objects.PersonLike.FocusCameraOnEvent*
   commentId: Overload:TinyLife.Objects.PersonLike.FocusCameraOnEvent
   href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_FocusCameraOnEvent_System_Boolean_System_Boolean_
@@ -17222,61 +17311,6 @@ references:
   - uid: TinyLife.Objects.MapObject
     name: MapObject
     href: TinyLife.Objects.MapObject.html
-  - name: )
-- uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-  commentId: M:TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-  parent: TinyLife.Objects.MapObject
-  isExternal: true
-  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  name: MoveToMap(Map, Vector2?, float?)
-  nameWithType: MapObject.MoveToMap(Map, Vector2?, float?)
-  fullName: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, float?)
-  nameWithType.vb: MapObject.MoveToMap(Map, Vector2?, Single?)
-  fullName.vb: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map, Microsoft.Xna.Framework.Vector2?, Single?)
-  name.vb: MoveToMap(Map, Vector2?, Single?)
-  spec.csharp:
-  - uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-    name: MoveToMap
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: float
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: '?'
-  - name: )
-  spec.vb:
-  - uid: TinyLife.Objects.MapObject.MoveToMap(TinyLife.World.Map,System.Nullable{Microsoft.Xna.Framework.Vector2},System.Nullable{System.Single})
-    name: MoveToMap
-    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_MoveToMap_TinyLife_World_Map_System_Nullable_Microsoft_Xna_Framework_Vector2__System_Nullable_System_Single__
-  - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
-  - name: ','
-  - name: " "
-  - uid: Microsoft.Xna.Framework.Vector2
-    name: Vector2
-    isExternal: true
-  - name: '?'
-  - name: ','
-  - name: " "
-  - uid: System.Single
-    name: Single
-    isExternal: true
-    href: https://learn.microsoft.com/dotnet/api/system.single
-  - name: '?'
   - name: )
 - uid: TinyLife.Objects.PersonLike.MoveToMap*
   commentId: Overload:TinyLife.Objects.PersonLike.MoveToMap
@@ -19741,19 +19775,24 @@ references:
   name: OnRoomCheck
   nameWithType: PersonLike.OnRoomCheck
   fullName: TinyLife.Objects.PersonLike.OnRoomCheck
-- uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+- uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   parent: TinyLife.Objects.PersonLike
   isExternal: true
-  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
-  name: OnCameraRotationChanged(Direction2, Direction2)
-  nameWithType: PersonLike.OnCameraRotationChanged(Direction2, Direction2)
-  fullName: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2, MLEM.Maths.Direction2)
+  href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+  name: OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  nameWithType: PersonLike.OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  fullName: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
   spec.csharp:
-  - uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true
@@ -19764,10 +19803,15 @@ references:
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.Objects.PersonLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.Objects.PersonLike.html#TinyLife_Objects_PersonLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
   - uid: MLEM.Maths.Direction2
     name: Direction2
     isExternal: true

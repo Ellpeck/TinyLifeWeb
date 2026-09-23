@@ -40,7 +40,6 @@ items:
   - TinyLife.World.Map.GetLot(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.GetLot(System.Guid)
   - TinyLife.World.Map.GetLots
-  - TinyLife.World.Map.GetMapSampler
   - TinyLife.World.Map.GetObject``1(System.Guid)
   - TinyLife.World.Map.GetObjects``1(MLEM.Maths.RectangleF)
   - TinyLife.World.Map.GetPathCost(TinyLife.Objects.MapObject,Microsoft.Xna.Framework.Point,System.Int32,Microsoft.Xna.Framework.Point,System.Int32)
@@ -55,7 +54,6 @@ items:
   - TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point,System.Boolean)
   - TinyLife.World.Map.GetSectionPos(Microsoft.Xna.Framework.Point)
   - TinyLife.World.Map.GetSections(MLEM.Maths.RectangleF,System.Int32)
-  - TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
   - TinyLife.World.Map.GetStairs(MLEM.Maths.RectangleF,System.Boolean)
   - TinyLife.World.Map.GetStaticMaps
   - TinyLife.World.Map.GetStoredDeadPeople
@@ -77,20 +75,25 @@ items:
   - TinyLife.World.Map.LoadStaticMap(TinyLife.MapInfo)
   - TinyLife.World.Map.MailToSend
   - TinyLife.World.Map.MarkDirtyForPathfinding(Microsoft.Xna.Framework.Point,System.Int32)
-  - TinyLife.World.Map.MarkGroundTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Nullable{Microsoft.Xna.Framework.Point})
+  - TinyLife.World.Map.MarkEverythingDirtyForDrawing
   - TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
+  - TinyLife.World.Map.MarkRoofDirtyForDrawing(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Point},System.Boolean)
+  - TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Int32,System.Nullable{Microsoft.Xna.Framework.Point})
+  - TinyLife.World.Map.MarkWallDirtyForDrawing(TinyLife.World.WallLike,TinyLife.World.MapSection,System.Boolean)
   - TinyLife.World.Map.MaxFloor
   - TinyLife.World.Map.MinFloor
   - TinyLife.World.Map.MoveEverything(Microsoft.Xna.Framework.Point,Microsoft.Xna.Framework.Rectangle,System.Boolean,TinyLife.World.Tile)
   - TinyLife.World.Map.Neighborhood
   - TinyLife.World.Map.NoTextureColorsEffect
   - TinyLife.World.Map.OnCameraRotationChanged(MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - TinyLife.World.Map.OnCurrentFloorChanged(System.Int32,System.Int32)
   - TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   - TinyLife.World.Map.OnDraw
   - TinyLife.World.Map.OnEventsAttachable
   - TinyLife.World.Map.OnGetStaticMaps
   - TinyLife.World.Map.OnGetVisitPriority
   - TinyLife.World.Map.OnLoadStaticMap
+  - TinyLife.World.Map.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
   - TinyLife.World.Map.OnObjectAdded
   - TinyLife.World.Map.OnObjectRemoved
   - TinyLife.World.Map.OnPathfindingNodeConstruct
@@ -98,6 +101,7 @@ items:
   - TinyLife.World.Map.OnUpdate
   - TinyLife.World.Map.OnUpdateExternalPeople
   - TinyLife.World.Map.OnUpdateObjects
+  - TinyLife.World.Map.OnWallDisplayChanged(TinyLife.WallDisplay,TinyLife.WallDisplay)
   - TinyLife.World.Map.OutlineEffect
   - TinyLife.World.Map.PathfindingDirtyNeighbors
   - TinyLife.World.Map.PlaySound(Microsoft.Xna.Framework.Audio.SoundEffect,Microsoft.Xna.Framework.Vector2,System.Single,System.Single,System.Single,System.Boolean,System.Boolean)
@@ -2483,39 +2487,6 @@ items:
   nameWithType.vb: Map.GetSection(Point, Boolean)
   fullName.vb: TinyLife.World.Map.GetSection(Microsoft.Xna.Framework.Point, Boolean)
   name.vb: GetSection(Point, Boolean)
-- uid: TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
-  commentId: M:TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point,System.Int32)
-  id: GetSections(Microsoft.Xna.Framework.Point,System.Int32)
-  parent: TinyLife.World.Map
-  langs:
-  - csharp
-  - vb
-  name: GetSections(Point, int)
-  nameWithType: Map.GetSections(Point, int)
-  fullName: TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point, int)
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.World
-  summary: Returns a set of sections that are contained in (or intersect with) the given area
-  example: []
-  syntax:
-    content: public IEnumerable<MapSection> GetSections(Point point, int radiusIncrease = 0)
-    parameters:
-    - id: point
-      type: Microsoft.Xna.Framework.Point
-      description: The position to find the section for, in tile coordinates
-    - id: radiusIncrease
-      type: System.Int32
-      description: The radius, in sections, that the search area should be extended by
-    return:
-      type: System.Collections.Generic.IEnumerable{TinyLife.World.MapSection}
-      description: A set of sections covered by this area
-    content.vb: Public Function GetSections(point As Point, radiusIncrease As Integer = 0) As IEnumerable(Of MapSection)
-  overload: TinyLife.World.Map.GetSections*
-  nameWithType.vb: Map.GetSections(Point, Integer)
-  fullName.vb: TinyLife.World.Map.GetSections(Microsoft.Xna.Framework.Point, Integer)
-  name.vb: GetSections(Point, Integer)
 - uid: TinyLife.World.Map.GetSections(MLEM.Maths.RectangleF,System.Int32)
   commentId: M:TinyLife.World.Map.GetSections(MLEM.Maths.RectangleF,System.Int32)
   id: GetSections(MLEM.Maths.RectangleF,System.Int32)
@@ -3215,6 +3186,81 @@ items:
       description: ''
     content.vb: Public Sub OnCameraRotationChanged(oldRotation As Direction2, newRotation As Direction2)
   overload: TinyLife.World.Map.OnCameraRotationChanged*
+- uid: TinyLife.World.Map.OnCurrentFloorChanged(System.Int32,System.Int32)
+  commentId: M:TinyLife.World.Map.OnCurrentFloorChanged(System.Int32,System.Int32)
+  id: OnCurrentFloorChanged(System.Int32,System.Int32)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnCurrentFloorChanged(int, int)
+  nameWithType: Map.OnCurrentFloorChanged(int, int)
+  fullName: TinyLife.World.Map.OnCurrentFloorChanged(int, int)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void OnCurrentFloorChanged(int oldFloor, int newFloor)
+    parameters:
+    - id: oldFloor
+      type: System.Int32
+    - id: newFloor
+      type: System.Int32
+    content.vb: Public Sub OnCurrentFloorChanged(oldFloor As Integer, newFloor As Integer)
+  overload: TinyLife.World.Map.OnCurrentFloorChanged*
+  nameWithType.vb: Map.OnCurrentFloorChanged(Integer, Integer)
+  fullName.vb: TinyLife.World.Map.OnCurrentFloorChanged(Integer, Integer)
+  name.vb: OnCurrentFloorChanged(Integer, Integer)
+- uid: TinyLife.World.Map.OnWallDisplayChanged(TinyLife.WallDisplay,TinyLife.WallDisplay)
+  commentId: M:TinyLife.World.Map.OnWallDisplayChanged(TinyLife.WallDisplay,TinyLife.WallDisplay)
+  id: OnWallDisplayChanged(TinyLife.WallDisplay,TinyLife.WallDisplay)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnWallDisplayChanged(WallDisplay, WallDisplay)
+  nameWithType: Map.OnWallDisplayChanged(WallDisplay, WallDisplay)
+  fullName: TinyLife.World.Map.OnWallDisplayChanged(TinyLife.WallDisplay, TinyLife.WallDisplay)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void OnWallDisplayChanged(WallDisplay oldMode, WallDisplay newMode)
+    parameters:
+    - id: oldMode
+      type: TinyLife.WallDisplay
+    - id: newMode
+      type: TinyLife.WallDisplay
+    content.vb: Public Sub OnWallDisplayChanged(oldMode As WallDisplay, newMode As WallDisplay)
+  overload: TinyLife.World.Map.OnWallDisplayChanged*
+- uid: TinyLife.World.Map.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  commentId: M:TinyLife.World.Map.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  id: OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: OnLotVisibilityChanged(Lot, bool)
+  nameWithType: Map.OnLotVisibilityChanged(Lot, bool)
+  fullName: TinyLife.World.Map.OnLotVisibilityChanged(TinyLife.World.Lot, bool)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void OnLotVisibilityChanged(Lot lot, bool visible)
+    parameters:
+    - id: lot
+      type: TinyLife.World.Lot
+    - id: visible
+      type: System.Boolean
+    content.vb: Public Sub OnLotVisibilityChanged(lot As Lot, visible As Boolean)
+  overload: TinyLife.World.Map.OnLotVisibilityChanged*
+  nameWithType.vb: Map.OnLotVisibilityChanged(Lot, Boolean)
+  fullName.vb: TinyLife.World.Map.OnLotVisibilityChanged(TinyLife.World.Lot, Boolean)
+  name.vb: OnLotVisibilityChanged(Lot, Boolean)
 - uid: TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   commentId: M:TinyLife.World.Map.OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
   id: OnCurrentGameMapChanged(TinyLife.World.Map,TinyLife.World.Map)
@@ -3417,16 +3463,16 @@ items:
       description: All lot employments on this map
     content.vb: Public Function GetAllLotEmployments() As IEnumerable(Of (Employment As LotEmployment, EmploymentLot As Lot))
   overload: TinyLife.World.Map.GetAllLotEmployments*
-- uid: TinyLife.World.Map.MarkGroundTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Nullable{Microsoft.Xna.Framework.Point})
-  commentId: M:TinyLife.World.Map.MarkGroundTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Nullable{Microsoft.Xna.Framework.Point})
-  id: MarkGroundTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Nullable{Microsoft.Xna.Framework.Point})
+- uid: TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Int32,System.Nullable{Microsoft.Xna.Framework.Point})
+  commentId: M:TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Int32,System.Nullable{Microsoft.Xna.Framework.Point})
+  id: MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point,System.Int32,System.Nullable{Microsoft.Xna.Framework.Point})
   parent: TinyLife.World.Map
   langs:
   - csharp
   - vb
-  name: MarkGroundTileDirtyForDrawing(Point, Point?)
-  nameWithType: Map.MarkGroundTileDirtyForDrawing(Point, Point?)
-  fullName: TinyLife.World.Map.MarkGroundTileDirtyForDrawing(Microsoft.Xna.Framework.Point, Microsoft.Xna.Framework.Point?)
+  name: MarkTileDirtyForDrawing(Point, int, Point?)
+  nameWithType: Map.MarkTileDirtyForDrawing(Point, int, Point?)
+  fullName: TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point, int, Microsoft.Xna.Framework.Point?)
   type: Method
   assemblies:
   - TinyLife
@@ -3437,16 +3483,21 @@ items:
     This method is used automatically by <xref href="TinyLife.World.Map.SetTile(Microsoft.Xna.Framework.Point%2cSystem.Int32%2cTinyLife.World.Tile)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.World.AutoTile" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public void MarkGroundTileDirtyForDrawing(Point pos, Point? sectionPos = null)
+    content: public void MarkTileDirtyForDrawing(Point pos, int floor, Point? sectionPos = null)
     parameters:
     - id: pos
       type: Microsoft.Xna.Framework.Point
       description: The position to mark dirty.
+    - id: floor
+      type: System.Int32
     - id: sectionPos
       type: System.Nullable{Microsoft.Xna.Framework.Point}
       description: The section position that <code class="paramref">pos</code> is expected to be in, or <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/keywords/null">null</a> to determine the section position automatically.
-    content.vb: Public Sub MarkGroundTileDirtyForDrawing(pos As Point, sectionPos As Point? = Nothing)
-  overload: TinyLife.World.Map.MarkGroundTileDirtyForDrawing*
+    content.vb: Public Sub MarkTileDirtyForDrawing(pos As Point, floor As Integer, sectionPos As Point? = Nothing)
+  overload: TinyLife.World.Map.MarkTileDirtyForDrawing*
+  nameWithType.vb: Map.MarkTileDirtyForDrawing(Point, Integer, Point?)
+  fullName.vb: TinyLife.World.Map.MarkTileDirtyForDrawing(Microsoft.Xna.Framework.Point, Integer, Microsoft.Xna.Framework.Point?)
+  name.vb: MarkTileDirtyForDrawing(Point, Integer, Point?)
 - uid: TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
   commentId: M:TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
   id: MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject,TinyLife.World.MapSection,System.Boolean)
@@ -3483,6 +3534,80 @@ items:
   nameWithType.vb: Map.MarkObjectDirtyForDrawing(MapObject, MapSection, Boolean)
   fullName.vb: TinyLife.World.Map.MarkObjectDirtyForDrawing(TinyLife.Objects.MapObject, TinyLife.World.MapSection, Boolean)
   name.vb: MarkObjectDirtyForDrawing(MapObject, MapSection, Boolean)
+- uid: TinyLife.World.Map.MarkWallDirtyForDrawing(TinyLife.World.WallLike,TinyLife.World.MapSection,System.Boolean)
+  commentId: M:TinyLife.World.Map.MarkWallDirtyForDrawing(TinyLife.World.WallLike,TinyLife.World.MapSection,System.Boolean)
+  id: MarkWallDirtyForDrawing(TinyLife.World.WallLike,TinyLife.World.MapSection,System.Boolean)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: MarkWallDirtyForDrawing(WallLike, MapSection, bool)
+  nameWithType: Map.MarkWallDirtyForDrawing(WallLike, MapSection, bool)
+  fullName: TinyLife.World.Map.MarkWallDirtyForDrawing(TinyLife.World.WallLike, TinyLife.World.MapSection, bool)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void MarkWallDirtyForDrawing(WallLike wall, MapSection section = null, bool removedFromSection = false)
+    parameters:
+    - id: wall
+      type: TinyLife.World.WallLike
+    - id: section
+      type: TinyLife.World.MapSection
+    - id: removedFromSection
+      type: System.Boolean
+    content.vb: Public Sub MarkWallDirtyForDrawing(wall As WallLike, section As MapSection = Nothing, removedFromSection As Boolean = False)
+  overload: TinyLife.World.Map.MarkWallDirtyForDrawing*
+  nameWithType.vb: Map.MarkWallDirtyForDrawing(WallLike, MapSection, Boolean)
+  fullName.vb: TinyLife.World.Map.MarkWallDirtyForDrawing(TinyLife.World.WallLike, TinyLife.World.MapSection, Boolean)
+  name.vb: MarkWallDirtyForDrawing(WallLike, MapSection, Boolean)
+- uid: TinyLife.World.Map.MarkRoofDirtyForDrawing(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Point},System.Boolean)
+  commentId: M:TinyLife.World.Map.MarkRoofDirtyForDrawing(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Point},System.Boolean)
+  id: MarkRoofDirtyForDrawing(TinyLife.World.Roof,System.Nullable{Microsoft.Xna.Framework.Point},System.Boolean)
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: MarkRoofDirtyForDrawing(Roof, Point?, bool)
+  nameWithType: Map.MarkRoofDirtyForDrawing(Roof, Point?, bool)
+  fullName: TinyLife.World.Map.MarkRoofDirtyForDrawing(TinyLife.World.Roof, Microsoft.Xna.Framework.Point?, bool)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void MarkRoofDirtyForDrawing(Roof roof, Point? sectionPos = null, bool removedFromSection = false)
+    parameters:
+    - id: roof
+      type: TinyLife.World.Roof
+    - id: sectionPos
+      type: System.Nullable{Microsoft.Xna.Framework.Point}
+    - id: removedFromSection
+      type: System.Boolean
+    content.vb: Public Sub MarkRoofDirtyForDrawing(roof As Roof, sectionPos As Point? = Nothing, removedFromSection As Boolean = False)
+  overload: TinyLife.World.Map.MarkRoofDirtyForDrawing*
+  nameWithType.vb: Map.MarkRoofDirtyForDrawing(Roof, Point?, Boolean)
+  fullName.vb: TinyLife.World.Map.MarkRoofDirtyForDrawing(TinyLife.World.Roof, Microsoft.Xna.Framework.Point?, Boolean)
+  name.vb: MarkRoofDirtyForDrawing(Roof, Point?, Boolean)
+- uid: TinyLife.World.Map.MarkEverythingDirtyForDrawing
+  commentId: M:TinyLife.World.Map.MarkEverythingDirtyForDrawing
+  id: MarkEverythingDirtyForDrawing
+  parent: TinyLife.World.Map
+  langs:
+  - csharp
+  - vb
+  name: MarkEverythingDirtyForDrawing()
+  nameWithType: Map.MarkEverythingDirtyForDrawing()
+  fullName: TinyLife.World.Map.MarkEverythingDirtyForDrawing()
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  syntax:
+    content: public void MarkEverythingDirtyForDrawing()
+    content.vb: Public Sub MarkEverythingDirtyForDrawing()
+  overload: TinyLife.World.Map.MarkEverythingDirtyForDrawing*
 - uid: TinyLife.World.Map.PopulateLots
   commentId: M:TinyLife.World.Map.PopulateLots
   id: PopulateLots
@@ -3671,32 +3796,6 @@ items:
       type: System.Boolean
     content.vb: Public Shared Function IsLotHidden(lot As Lot) As Boolean
   overload: TinyLife.World.Map.IsLotHidden*
-- uid: TinyLife.World.Map.GetMapSampler
-  commentId: M:TinyLife.World.Map.GetMapSampler
-  id: GetMapSampler
-  parent: TinyLife.World.Map
-  langs:
-  - csharp
-  - vb
-  name: GetMapSampler()
-  nameWithType: Map.GetMapSampler()
-  fullName: TinyLife.World.Map.GetMapSampler()
-  type: Method
-  assemblies:
-  - TinyLife
-  namespace: TinyLife.World
-  summary: >-
-    Returns the <xref href="Microsoft.Xna.Framework.Graphics.SamplerState" data-throw-if-not-resolved="false"></xref> to use when rendering the map.
-
-    This value is determined by <xref href="TinyLife.Options.BlurZoomedOut" data-throw-if-not-resolved="false"></xref>, as well as the <xref href="TinyLife.GameImpl.Camera" data-throw-if-not-resolved="false"></xref>'s scale.
-  example: []
-  syntax:
-    content: public static SamplerState GetMapSampler()
-    return:
-      type: Microsoft.Xna.Framework.Graphics.SamplerState
-      description: The sampler state to use when rendering the map.
-    content.vb: Public Shared Function GetMapSampler() As SamplerState
-  overload: TinyLife.World.Map.GetMapSampler*
 - uid: TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   commentId: M:TinyLife.World.Map.UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
   id: UpdateExternalPeople(System.Collections.Generic.ICollection{TinyLife.World.Map},System.Action{System.String},System.Action{System.Single})
@@ -7405,7 +7504,7 @@ references:
   fullName: TinyLife.World.Map.GetSection
 - uid: TinyLife.World.Map.GetSections*
   commentId: Overload:TinyLife.World.Map.GetSections
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetSections_Microsoft_Xna_Framework_Point_System_Int32_
+  href: TinyLife.World.Map.html#TinyLife_World_Map_GetSections_MLEM_Maths_RectangleF_System_Int32_
   name: GetSections
   nameWithType: Map.GetSections
   fullName: TinyLife.World.Map.GetSections
@@ -8334,6 +8433,31 @@ references:
   name: Direction2
   nameWithType: Direction2
   fullName: MLEM.Maths.Direction2
+- uid: TinyLife.World.Map.OnCurrentFloorChanged*
+  commentId: Overload:TinyLife.World.Map.OnCurrentFloorChanged
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnCurrentFloorChanged_System_Int32_System_Int32_
+  name: OnCurrentFloorChanged
+  nameWithType: Map.OnCurrentFloorChanged
+  fullName: TinyLife.World.Map.OnCurrentFloorChanged
+- uid: TinyLife.World.Map.OnWallDisplayChanged*
+  commentId: Overload:TinyLife.World.Map.OnWallDisplayChanged
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnWallDisplayChanged_TinyLife_WallDisplay_TinyLife_WallDisplay_
+  name: OnWallDisplayChanged
+  nameWithType: Map.OnWallDisplayChanged
+  fullName: TinyLife.World.Map.OnWallDisplayChanged
+- uid: TinyLife.WallDisplay
+  commentId: T:TinyLife.WallDisplay
+  parent: TinyLife
+  href: TinyLife.WallDisplay.html
+  name: WallDisplay
+  nameWithType: WallDisplay
+  fullName: TinyLife.WallDisplay
+- uid: TinyLife.World.Map.OnLotVisibilityChanged*
+  commentId: Overload:TinyLife.World.Map.OnLotVisibilityChanged
+  href: TinyLife.World.Map.html#TinyLife_World_Map_OnLotVisibilityChanged_TinyLife_World_Lot_System_Boolean_
+  name: OnLotVisibilityChanged
+  nameWithType: Map.OnLotVisibilityChanged
+  fullName: TinyLife.World.Map.OnLotVisibilityChanged
 - uid: TinyLife.World.Map.OnCurrentGameMapChanged*
   commentId: Overload:TinyLife.World.Map.OnCurrentGameMapChanged
   href: TinyLife.World.Map.html#TinyLife_World_Map_OnCurrentGameMapChanged_TinyLife_World_Map_TinyLife_World_Map_
@@ -8557,12 +8681,12 @@ references:
   name: AutoTile
   nameWithType: AutoTile
   fullName: TinyLife.World.AutoTile
-- uid: TinyLife.World.Map.MarkGroundTileDirtyForDrawing*
-  commentId: Overload:TinyLife.World.Map.MarkGroundTileDirtyForDrawing
-  href: TinyLife.World.Map.html#TinyLife_World_Map_MarkGroundTileDirtyForDrawing_Microsoft_Xna_Framework_Point_System_Nullable_Microsoft_Xna_Framework_Point__
-  name: MarkGroundTileDirtyForDrawing
-  nameWithType: Map.MarkGroundTileDirtyForDrawing
-  fullName: TinyLife.World.Map.MarkGroundTileDirtyForDrawing
+- uid: TinyLife.World.Map.MarkTileDirtyForDrawing*
+  commentId: Overload:TinyLife.World.Map.MarkTileDirtyForDrawing
+  href: TinyLife.World.Map.html#TinyLife_World_Map_MarkTileDirtyForDrawing_Microsoft_Xna_Framework_Point_System_Int32_System_Nullable_Microsoft_Xna_Framework_Point__
+  name: MarkTileDirtyForDrawing
+  nameWithType: Map.MarkTileDirtyForDrawing
+  fullName: TinyLife.World.Map.MarkTileDirtyForDrawing
 - uid: TinyLife.Objects.Visibility.Static
   commentId: F:TinyLife.Objects.Visibility.Static
   href: TinyLife.Objects.Visibility.html#TinyLife_Objects_Visibility_Static
@@ -8582,6 +8706,24 @@ references:
   name: MarkObjectDirtyForDrawing
   nameWithType: Map.MarkObjectDirtyForDrawing
   fullName: TinyLife.World.Map.MarkObjectDirtyForDrawing
+- uid: TinyLife.World.Map.MarkWallDirtyForDrawing*
+  commentId: Overload:TinyLife.World.Map.MarkWallDirtyForDrawing
+  href: TinyLife.World.Map.html#TinyLife_World_Map_MarkWallDirtyForDrawing_TinyLife_World_WallLike_TinyLife_World_MapSection_System_Boolean_
+  name: MarkWallDirtyForDrawing
+  nameWithType: Map.MarkWallDirtyForDrawing
+  fullName: TinyLife.World.Map.MarkWallDirtyForDrawing
+- uid: TinyLife.World.Map.MarkRoofDirtyForDrawing*
+  commentId: Overload:TinyLife.World.Map.MarkRoofDirtyForDrawing
+  href: TinyLife.World.Map.html#TinyLife_World_Map_MarkRoofDirtyForDrawing_TinyLife_World_Roof_System_Nullable_Microsoft_Xna_Framework_Point__System_Boolean_
+  name: MarkRoofDirtyForDrawing
+  nameWithType: Map.MarkRoofDirtyForDrawing
+  fullName: TinyLife.World.Map.MarkRoofDirtyForDrawing
+- uid: TinyLife.World.Map.MarkEverythingDirtyForDrawing*
+  commentId: Overload:TinyLife.World.Map.MarkEverythingDirtyForDrawing
+  href: TinyLife.World.Map.html#TinyLife_World_Map_MarkEverythingDirtyForDrawing
+  name: MarkEverythingDirtyForDrawing
+  nameWithType: Map.MarkEverythingDirtyForDrawing
+  fullName: TinyLife.World.Map.MarkEverythingDirtyForDrawing
 - uid: TinyLife.PerSaveOptions.PopulateLots
   commentId: F:TinyLife.PerSaveOptions.PopulateLots
   href: TinyLife.PerSaveOptions.html#TinyLife_PerSaveOptions_PopulateLots
@@ -8689,31 +8831,6 @@ references:
   name: IsLotHidden
   nameWithType: Map.IsLotHidden
   fullName: TinyLife.World.Map.IsLotHidden
-- uid: Microsoft.Xna.Framework.Graphics.SamplerState
-  commentId: T:Microsoft.Xna.Framework.Graphics.SamplerState
-  parent: Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: SamplerState
-  nameWithType: SamplerState
-  fullName: Microsoft.Xna.Framework.Graphics.SamplerState
-- uid: TinyLife.Options.BlurZoomedOut
-  commentId: F:TinyLife.Options.BlurZoomedOut
-  href: TinyLife.Options.html#TinyLife_Options_BlurZoomedOut
-  name: BlurZoomedOut
-  nameWithType: Options.BlurZoomedOut
-  fullName: TinyLife.Options.BlurZoomedOut
-- uid: TinyLife.GameImpl.Camera
-  commentId: P:TinyLife.GameImpl.Camera
-  href: TinyLife.GameImpl.html#TinyLife_GameImpl_Camera
-  name: Camera
-  nameWithType: GameImpl.Camera
-  fullName: TinyLife.GameImpl.Camera
-- uid: TinyLife.World.Map.GetMapSampler*
-  commentId: Overload:TinyLife.World.Map.GetMapSampler
-  href: TinyLife.World.Map.html#TinyLife_World_Map_GetMapSampler
-  name: GetMapSampler
-  nameWithType: Map.GetMapSampler
-  fullName: TinyLife.World.Map.GetMapSampler
 - uid: TinyLife.PerSaveOptions.MaxRegularVisitors
   commentId: F:TinyLife.PerSaveOptions.MaxRegularVisitors
   href: TinyLife.PerSaveOptions.html#TinyLife_PerSaveOptions_MaxRegularVisitors

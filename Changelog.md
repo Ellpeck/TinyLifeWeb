@@ -1,3 +1,24 @@
+# 0.50.7
+*September 23, 2026*
+
+This update makes a lot of rendering changes to increase performance on lower-end devices, so there may be some new rendering issues as a result. Please report anything you find to the [feedback form](https://tinylifegame.com/bugreport) as always!
+
+Additions
+- Added the ability to configure the detail visibility distance in the options, which modifies how close the camera has to be zoomed in to display animated water, some objects like grass patches, and the inside of rooms on hidden lots
+
+Improvements
+- A variety of additional objects are now drawn in the static batch, including walls, roofs and tiles on higher floors, which should majorly increase rendering performance when zoomed out
+- The inside of rooms with windows is now hidden entirely when sufficiently zoomed out by default
+- The lot tool now explicitly disallows intersecting lots
+
+Fixes
+- Fixed higher floors with open floors causing transparency issues on lower floors
+- Fixed overlap issues with multi-layer wallpapers on roofs
+- Fixed the Clean Everything action causing non-expired food items to be cleaned
+
+Removals
+- Removed the option to blur when zoomed out, as it caused a lot of visual artifacts
+
 # 0.50.6
 *September 8, 2026*
 

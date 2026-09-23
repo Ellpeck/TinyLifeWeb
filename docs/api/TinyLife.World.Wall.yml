@@ -6,13 +6,15 @@ items:
   parent: TinyLife.World
   children:
   - TinyLife.World.Wall.#ctor(System.Int32,Microsoft.Xna.Framework.Point[])
-  - TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+  - TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.World.Wall.GetDisplayMode
   - TinyLife.World.Wall.GetPrice
   - TinyLife.World.Wall.IsDown
   - TinyLife.World.Wall.OnAdded(TinyLife.World.Map)
-  - TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - TinyLife.World.Wall.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
   - TinyLife.World.Wall.OnRoomChanged(TinyLife.World.Map)
+  - TinyLife.World.Wall.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
   - TinyLife.World.Wall.Price
   - TinyLife.World.Wall.Validate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.World.Wall.Wallpapers
@@ -38,12 +40,14 @@ items:
   implements:
   - MLEM.Misc.IGenericDataHolder
   inheritedMembers:
+  - TinyLife.World.WallLike.CanDrawStatic
   - TinyLife.World.WallLike.Positions
   - TinyLife.World.WallLike.Floor
   - TinyLife.World.WallLike.IsStatic
   - TinyLife.World.WallLike.Opening
   - TinyLife.World.WallLike.OnRemoved(TinyLife.World.Map)
   - TinyLife.World.WallLike.HasCollision(TinyLife.World.Map)
+  - TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection,System.Int32,System.Int32)
   - TinyLife.World.WallLike.GetFreeActionSpotInfos(TinyLife.World.Map,TinyLife.Objects.PersonLike)
   - TinyLife.World.WallLike.SetOpening(TinyLife.World.Map,TinyLife.World.Opening)
   - TinyLife.World.WallLike.NotifyNeighbors(TinyLife.World.Map)
@@ -148,16 +152,16 @@ items:
   nameWithType.vb: Wall.New(Integer, ParamArray Point())
   fullName.vb: TinyLife.World.Wall.New(Integer, ParamArray Microsoft.Xna.Framework.Point())
   name.vb: New(Integer, ParamArray Point())
-- uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
-  commentId: M:TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
-  id: Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+- uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  id: Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.World.Wall
   langs:
   - csharp
   - vb
-  name: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  nameWithType: Wall.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  fullName: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool)
+  name: Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<Item>)
+  nameWithType: Wall.Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
   type: Method
   assemblies:
   - TinyLife
@@ -165,7 +169,7 @@ items:
   summary: Draws this wall in the world, along with its <xref href="TinyLife.World.WallLike.Opening" data-throw-if-not-resolved="false"></xref> and potentially <xref href="TinyLife.World.Wall.Wallpapers" data-throw-if-not-resolved="false"></xref> or <xref href="TinyLife.World.FenceWall.Type" data-throw-if-not-resolved="false"></xref>.
   example: []
   syntax:
-    content: public override void Draw(Map map, GameTime time, SpriteBatch batch, Vector2 drawPos, Color? overrideColor = null, bool drawOpening = true, bool isInWorld = true)
+    content: public override void Draw(Map map, GameTime time, object batch, Vector2 drawPos, Color? overrideColor = null, bool drawOpening = true, bool isInWorld = true, List<StaticSpriteBatch.Item> items = null)
     parameters:
     - id: map
       type: TinyLife.World.Map
@@ -174,7 +178,7 @@ items:
       type: Microsoft.Xna.Framework.GameTime
       description: The game time
     - id: batch
-      type: Microsoft.Xna.Framework.Graphics.SpriteBatch
+      type: System.Object
       description: The sprite batch to draw with
     - id: drawPos
       type: Microsoft.Xna.Framework.Vector2
@@ -188,12 +192,14 @@ items:
     - id: isInWorld
       type: System.Boolean
       description: Whether this wall-like object is currently in the world, or just a preview.
-    content.vb: Public Overrides Sub Draw(map As Map, time As GameTime, batch As SpriteBatch, drawPos As Vector2, overrideColor As Color? = Nothing, drawOpening As Boolean = True, isInWorld As Boolean = True)
-  overridden: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+    - id: items
+      type: System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item}
+    content.vb: Public Overrides Sub Draw(map As Map, time As GameTime, batch As Object, drawPos As Vector2, overrideColor As Color? = Nothing, drawOpening As Boolean = True, isInWorld As Boolean = True, items As List(Of StaticSpriteBatch.Item) = Nothing)
+  overridden: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   overload: TinyLife.World.Wall.Draw*
-  nameWithType.vb: Wall.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
-  fullName.vb: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean)
-  name.vb: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
+  nameWithType.vb: Wall.Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of Item))
 - uid: TinyLife.World.Wall.IsDown
   commentId: M:TinyLife.World.Wall.IsDown
   id: IsDown
@@ -211,7 +217,7 @@ items:
   summary: >-
     Returns whether this wall should be rendered with a lower height than its actual height.
 
-    If this value returns true, <xref href="TinyLife.World.Wall.Draw(TinyLife.World.Map%2cMicrosoft.Xna.Framework.GameTime%2cMicrosoft.Xna.Framework.Graphics.SpriteBatch%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Color%7d%2cSystem.Boolean%2cSystem.Boolean)" data-throw-if-not-resolved="false"></xref> only draws the first 5 or so pixels of the wall to allow for a simple view of what is behind the wall.
+    If this value returns true, <xref href="TinyLife.World.Wall.Draw(TinyLife.World.Map%2cMicrosoft.Xna.Framework.GameTime%2cSystem.Object%2cMicrosoft.Xna.Framework.Vector2%2cSystem.Nullable%7bMicrosoft.Xna.Framework.Color%7d%2cSystem.Boolean%2cSystem.Boolean%2cSystem.Collections.Generic.List%7bMLEM.Graphics.StaticSpriteBatch.Item%7d)" data-throw-if-not-resolved="false"></xref> only draws the first 5 or so pixels of the wall to allow for a simple view of what is behind the wall.
 
     This value is based on the lot visibility, the <xref href="TinyLife.Options.WallMode" data-throw-if-not-resolved="false"></xref> and more.
   example: []
@@ -350,16 +356,16 @@ items:
     content.vb: Public Overrides Sub OnAdded(map As Map)
   overridden: TinyLife.World.WallLike.OnAdded(TinyLife.World.Map)
   overload: TinyLife.World.Wall.OnAdded*
-- uid: TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  id: OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+- uid: TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  id: OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   parent: TinyLife.World.Wall
   langs:
   - csharp
   - vb
-  name: OnCameraRotationChanged(Map, Direction2, Direction2)
-  nameWithType: Wall.OnCameraRotationChanged(Map, Direction2, Direction2)
-  fullName: TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.Map, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
+  name: OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  nameWithType: Wall.OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  fullName: TinyLife.World.Wall.OnCameraRotationChanged(TinyLife.World.MapSection, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
   type: Method
   assemblies:
   - TinyLife
@@ -370,19 +376,74 @@ items:
     Additionally, the old and new rotations are passed.
   example: []
   syntax:
-    content: public override void OnCameraRotationChanged(Map map, Direction2 oldRotation, Direction2 newRotation)
+    content: public override void OnCameraRotationChanged(MapSection section, Direction2 oldRotation, Direction2 newRotation)
     parameters:
-    - id: map
-      type: TinyLife.World.Map
+    - id: section
+      type: TinyLife.World.MapSection
     - id: oldRotation
       type: MLEM.Maths.Direction2
       description: The old camera rotation
     - id: newRotation
       type: MLEM.Maths.Direction2
       description: The new camera rotation
-    content.vb: Public Overrides Sub OnCameraRotationChanged(map As Map, oldRotation As Direction2, newRotation As Direction2)
-  overridden: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+    content.vb: Public Overrides Sub OnCameraRotationChanged(section As MapSection, oldRotation As Direction2, newRotation As Direction2)
+  overridden: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   overload: TinyLife.World.Wall.OnCameraRotationChanged*
+- uid: TinyLife.World.Wall.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  commentId: M:TinyLife.World.Wall.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  id: OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  parent: TinyLife.World.Wall
+  langs:
+  - csharp
+  - vb
+  name: OnWallDisplayChanged(MapSection, WallDisplay, WallDisplay)
+  nameWithType: Wall.OnWallDisplayChanged(MapSection, WallDisplay, WallDisplay)
+  fullName: TinyLife.World.Wall.OnWallDisplayChanged(TinyLife.World.MapSection, TinyLife.WallDisplay, TinyLife.WallDisplay)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  example: []
+  syntax:
+    content: public override void OnWallDisplayChanged(MapSection section, WallDisplay oldMode, WallDisplay newMode)
+    parameters:
+    - id: section
+      type: TinyLife.World.MapSection
+    - id: oldMode
+      type: TinyLife.WallDisplay
+    - id: newMode
+      type: TinyLife.WallDisplay
+    content.vb: Public Overrides Sub OnWallDisplayChanged(section As MapSection, oldMode As WallDisplay, newMode As WallDisplay)
+  overridden: TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  overload: TinyLife.World.Wall.OnWallDisplayChanged*
+- uid: TinyLife.World.Wall.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  commentId: M:TinyLife.World.Wall.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  id: OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  parent: TinyLife.World.Wall
+  langs:
+  - csharp
+  - vb
+  name: OnLotVisibilityChanged(Lot, bool)
+  nameWithType: Wall.OnLotVisibilityChanged(Lot, bool)
+  fullName: TinyLife.World.Wall.OnLotVisibilityChanged(TinyLife.World.Lot, bool)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.World
+  example: []
+  syntax:
+    content: public override void OnLotVisibilityChanged(Lot lot, bool visible)
+    parameters:
+    - id: lot
+      type: TinyLife.World.Lot
+    - id: visible
+      type: System.Boolean
+    content.vb: Public Overrides Sub OnLotVisibilityChanged(lot As Lot, visible As Boolean)
+  overridden: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  overload: TinyLife.World.Wall.OnLotVisibilityChanged*
+  nameWithType.vb: Wall.OnLotVisibilityChanged(Lot, Boolean)
+  fullName.vb: TinyLife.World.Wall.OnLotVisibilityChanged(TinyLife.World.Lot, Boolean)
+  name.vb: OnLotVisibilityChanged(Lot, Boolean)
 references:
 - uid: TinyLife.World.Map
   commentId: T:TinyLife.World.Map
@@ -459,6 +520,13 @@ references:
   name: IGenericDataHolder
   nameWithType: IGenericDataHolder
   fullName: MLEM.Misc.IGenericDataHolder
+- uid: TinyLife.World.WallLike.CanDrawStatic
+  commentId: P:TinyLife.World.WallLike.CanDrawStatic
+  parent: TinyLife.World.WallLike
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_CanDrawStatic
+  name: CanDrawStatic
+  nameWithType: WallLike.CanDrawStatic
+  fullName: TinyLife.World.WallLike.CanDrawStatic
 - uid: TinyLife.World.WallLike.Positions
   commentId: F:TinyLife.World.WallLike.Positions
   parent: TinyLife.World.WallLike
@@ -536,6 +604,59 @@ references:
   - uid: TinyLife.World.Map
     name: Map
     href: TinyLife.World.Map.html
+  - name: )
+- uid: TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection,System.Int32,System.Int32)
+  commentId: M:TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection,System.Int32,System.Int32)
+  parent: TinyLife.World.WallLike
+  isExternal: true
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCurrentFloorChanged_TinyLife_World_MapSection_System_Int32_System_Int32_
+  name: OnCurrentFloorChanged(MapSection, int, int)
+  nameWithType: WallLike.OnCurrentFloorChanged(MapSection, int, int)
+  fullName: TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection, int, int)
+  nameWithType.vb: WallLike.OnCurrentFloorChanged(MapSection, Integer, Integer)
+  fullName.vb: TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection, Integer, Integer)
+  name.vb: OnCurrentFloorChanged(MapSection, Integer, Integer)
+  spec.csharp:
+  - uid: TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection,System.Int32,System.Int32)
+    name: OnCurrentFloorChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCurrentFloorChanged_TinyLife_World_MapSection_System_Int32_System_Int32_
+  - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: int
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.WallLike.OnCurrentFloorChanged(TinyLife.World.MapSection,System.Int32,System.Int32)
+    name: OnCurrentFloorChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCurrentFloorChanged_TinyLife_World_MapSection_System_Int32_System_Int32_
+  - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
+  - name: ','
+  - name: " "
+  - uid: System.Int32
+    name: Integer
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.int32
   - name: )
 - uid: TinyLife.World.WallLike.GetFreeActionSpotInfos(TinyLife.World.Map,TinyLife.Objects.PersonLike)
   commentId: M:TinyLife.World.WallLike.GetFreeActionSpotInfos(TinyLife.World.Map,TinyLife.Objects.PersonLike)
@@ -1521,21 +1642,21 @@ references:
   name: Type
   nameWithType: FenceWall.Type
   fullName: TinyLife.World.FenceWall.Type
-- uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
-  commentId: M:TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+- uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   parent: TinyLife.World.WallLike
   isExternal: true
-  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
-  name: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  nameWithType: WallLike.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  fullName: TinyLife.World.WallLike.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool)
-  nameWithType.vb: WallLike.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
-  fullName.vb: TinyLife.World.WallLike.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean)
-  name.vb: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<Item>)
+  nameWithType: WallLike.Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.World.WallLike.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: WallLike.Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.World.WallLike.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of Item))
   spec.csharp:
-  - uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+  - uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
-    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1547,9 +1668,10 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.Object
+    name: object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1573,11 +1695,22 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+  - uid: TinyLife.World.WallLike.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
-    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1589,9 +1722,10 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.Object
+    name: Object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1615,10 +1749,23 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
   - name: )
 - uid: TinyLife.World.Wall.Draw*
   commentId: Overload:TinyLife.World.Wall.Draw
-  href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
+  href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
   name: Draw
   nameWithType: Wall.Draw
   fullName: TinyLife.World.Wall.Draw
@@ -1629,13 +1776,6 @@ references:
   name: GameTime
   nameWithType: GameTime
   fullName: Microsoft.Xna.Framework.GameTime
-- uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-  commentId: T:Microsoft.Xna.Framework.Graphics.SpriteBatch
-  parent: Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: SpriteBatch
-  nameWithType: SpriteBatch
-  fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
 - uid: Microsoft.Xna.Framework.Vector2
   commentId: T:Microsoft.Xna.Framework.Vector2
   parent: Microsoft.Xna.Framework
@@ -1671,6 +1811,47 @@ references:
   nameWithType.vb: Boolean
   fullName.vb: Boolean
   name.vb: Boolean
+- uid: System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item}
+  commentId: T:System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item}
+  parent: System.Collections.Generic
+  definition: System.Collections.Generic.List`1
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<StaticSpriteBatch.Item>
+  nameWithType: List<StaticSpriteBatch.Item>
+  fullName: System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>
+  nameWithType.vb: List(Of StaticSpriteBatch.Item)
+  fullName.vb: System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item)
+  name.vb: List(Of StaticSpriteBatch.Item)
+  spec.csharp:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch
+    name: StaticSpriteBatch
+    isExternal: true
+  - name: .
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch
+    name: StaticSpriteBatch
+    isExternal: true
+  - name: .
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
 - uid: Microsoft.Xna.Framework
   commentId: N:Microsoft.Xna.Framework
   isExternal: true
@@ -1701,44 +1882,6 @@ references:
   - uid: Microsoft.Xna.Framework
     name: Framework
     isExternal: true
-- uid: Microsoft.Xna.Framework.Graphics
-  commentId: N:Microsoft.Xna.Framework.Graphics
-  isExternal: true
-  name: Microsoft.Xna.Framework.Graphics
-  nameWithType: Microsoft.Xna.Framework.Graphics
-  fullName: Microsoft.Xna.Framework.Graphics
-  spec.csharp:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
-  spec.vb:
-  - uid: Microsoft
-    name: Microsoft
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna
-    name: Xna
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework
-    name: Framework
-    isExternal: true
-  - name: .
-  - uid: Microsoft.Xna.Framework.Graphics
-    name: Graphics
-    isExternal: true
 - uid: System.Nullable`1
   commentId: T:System.Nullable`1
   isExternal: true
@@ -1767,20 +1910,85 @@ references:
   - name: " "
   - name: T
   - name: )
-- uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
-  commentId: M:TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+- uid: System.Collections.Generic.List`1
+  commentId: T:System.Collections.Generic.List`1
   isExternal: true
-  href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
-  name: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  nameWithType: Wall.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, bool, bool)
-  fullName: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool)
-  nameWithType.vb: Wall.Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
-  fullName.vb: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Microsoft.Xna.Framework.Graphics.SpriteBatch, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean)
-  name.vb: Draw(Map, GameTime, SpriteBatch, Vector2, Color?, Boolean, Boolean)
+  href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  name: List<T>
+  nameWithType: List<T>
+  fullName: System.Collections.Generic.List<T>
+  nameWithType.vb: List(Of T)
+  fullName.vb: System.Collections.Generic.List(Of T)
+  name.vb: List(Of T)
   spec.csharp:
-  - uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - name: T
+  - name: '>'
+  spec.vb:
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T
+  - name: )
+- uid: System.Collections.Generic
+  commentId: N:System.Collections.Generic
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system
+  name: System.Collections.Generic
+  nameWithType: System.Collections.Generic
+  fullName: System.Collections.Generic
+  spec.csharp:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+  spec.vb:
+  - uid: System
+    name: System
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system
+  - name: .
+  - uid: System.Collections
+    name: Collections
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections
+  - name: .
+  - uid: System.Collections.Generic
+    name: Generic
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic
+- uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  isExternal: true
+  href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<Item>)
+  nameWithType: Wall.Draw(Map, GameTime, object, Vector2, Color?, bool, bool, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, bool, bool, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Wall.Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.World.Wall.Draw(TinyLife.World.Map, Microsoft.Xna.Framework.GameTime, Object, Microsoft.Xna.Framework.Vector2, Microsoft.Xna.Framework.Color?, Boolean, Boolean, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: Draw(Map, GameTime, Object, Vector2, Color?, Boolean, Boolean, List(Of Item))
+  spec.csharp:
+  - uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
-    href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
+    href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1792,9 +2000,10 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.Object
+    name: object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1818,11 +2027,22 @@ references:
     name: bool
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
   - name: )
   spec.vb:
-  - uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,Microsoft.Xna.Framework.Graphics.SpriteBatch,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean)
+  - uid: TinyLife.World.Wall.Draw(TinyLife.World.Map,Microsoft.Xna.Framework.GameTime,System.Object,Microsoft.Xna.Framework.Vector2,System.Nullable{Microsoft.Xna.Framework.Color},System.Boolean,System.Boolean,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
     name: Draw
-    href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_Microsoft_Xna_Framework_Graphics_SpriteBatch_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_
+    href: TinyLife.World.Wall.html#TinyLife_World_Wall_Draw_TinyLife_World_Map_Microsoft_Xna_Framework_GameTime_System_Object_Microsoft_Xna_Framework_Vector2_System_Nullable_Microsoft_Xna_Framework_Color__System_Boolean_System_Boolean_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
   - name: (
   - uid: TinyLife.World.Map
     name: Map
@@ -1834,9 +2054,10 @@ references:
     isExternal: true
   - name: ','
   - name: " "
-  - uid: Microsoft.Xna.Framework.Graphics.SpriteBatch
-    name: SpriteBatch
+  - uid: System.Object
+    name: Object
     isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
   - name: ','
   - name: " "
   - uid: Microsoft.Xna.Framework.Vector2
@@ -1860,6 +2081,19 @@ references:
     name: Boolean
     isExternal: true
     href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
   - name: )
 - uid: TinyLife.Options.WallMode
   commentId: F:TinyLife.Options.WallMode
@@ -2013,22 +2247,22 @@ references:
   name: OnAdded
   nameWithType: Wall.OnAdded
   fullName: TinyLife.World.Wall.OnAdded
-- uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
-  commentId: M:TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+- uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  commentId: M:TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
   parent: TinyLife.World.WallLike
   isExternal: true
-  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_Map_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
-  name: OnCameraRotationChanged(Map, Direction2, Direction2)
-  nameWithType: WallLike.OnCameraRotationChanged(Map, Direction2, Direction2)
-  fullName: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+  name: OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  nameWithType: WallLike.OnCameraRotationChanged(MapSection, Direction2, Direction2)
+  fullName: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection, MLEM.Maths.Direction2, MLEM.Maths.Direction2)
   spec.csharp:
-  - uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_Map_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
   - name: ','
   - name: " "
   - uid: MLEM.Maths.Direction2
@@ -2041,13 +2275,13 @@ references:
     isExternal: true
   - name: )
   spec.vb:
-  - uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.Map,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
+  - uid: TinyLife.World.WallLike.OnCameraRotationChanged(TinyLife.World.MapSection,MLEM.Maths.Direction2,MLEM.Maths.Direction2)
     name: OnCameraRotationChanged
-    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_Map_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   - name: (
-  - uid: TinyLife.World.Map
-    name: Map
-    href: TinyLife.World.Map.html
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
   - name: ','
   - name: " "
   - uid: MLEM.Maths.Direction2
@@ -2061,10 +2295,17 @@ references:
   - name: )
 - uid: TinyLife.World.Wall.OnCameraRotationChanged*
   commentId: Overload:TinyLife.World.Wall.OnCameraRotationChanged
-  href: TinyLife.World.Wall.html#TinyLife_World_Wall_OnCameraRotationChanged_TinyLife_World_Map_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
+  href: TinyLife.World.Wall.html#TinyLife_World_Wall_OnCameraRotationChanged_TinyLife_World_MapSection_MLEM_Maths_Direction2_MLEM_Maths_Direction2_
   name: OnCameraRotationChanged
   nameWithType: Wall.OnCameraRotationChanged
   fullName: TinyLife.World.Wall.OnCameraRotationChanged
+- uid: TinyLife.World.MapSection
+  commentId: T:TinyLife.World.MapSection
+  parent: TinyLife.World
+  href: TinyLife.World.MapSection.html
+  name: MapSection
+  nameWithType: MapSection
+  fullName: TinyLife.World.MapSection
 - uid: MLEM.Maths.Direction2
   commentId: T:MLEM.Maths.Direction2
   parent: MLEM.Maths
@@ -2094,3 +2335,121 @@ references:
   - uid: MLEM.Maths
     name: Maths
     isExternal: true
+- uid: TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  commentId: M:TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+  parent: TinyLife.World.WallLike
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnWallDisplayChanged_TinyLife_World_MapSection_TinyLife_WallDisplay_TinyLife_WallDisplay_
+  name: OnWallDisplayChanged(MapSection, WallDisplay, WallDisplay)
+  nameWithType: WallLike.OnWallDisplayChanged(MapSection, WallDisplay, WallDisplay)
+  fullName: TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection, TinyLife.WallDisplay, TinyLife.WallDisplay)
+  spec.csharp:
+  - uid: TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+    name: OnWallDisplayChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnWallDisplayChanged_TinyLife_World_MapSection_TinyLife_WallDisplay_TinyLife_WallDisplay_
+  - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.WallDisplay
+    name: WallDisplay
+    href: TinyLife.WallDisplay.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.WallDisplay
+    name: WallDisplay
+    href: TinyLife.WallDisplay.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.WallLike.OnWallDisplayChanged(TinyLife.World.MapSection,TinyLife.WallDisplay,TinyLife.WallDisplay)
+    name: OnWallDisplayChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnWallDisplayChanged_TinyLife_World_MapSection_TinyLife_WallDisplay_TinyLife_WallDisplay_
+  - name: (
+  - uid: TinyLife.World.MapSection
+    name: MapSection
+    href: TinyLife.World.MapSection.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.WallDisplay
+    name: WallDisplay
+    href: TinyLife.WallDisplay.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.WallDisplay
+    name: WallDisplay
+    href: TinyLife.WallDisplay.html
+  - name: )
+- uid: TinyLife.World.Wall.OnWallDisplayChanged*
+  commentId: Overload:TinyLife.World.Wall.OnWallDisplayChanged
+  href: TinyLife.World.Wall.html#TinyLife_World_Wall_OnWallDisplayChanged_TinyLife_World_MapSection_TinyLife_WallDisplay_TinyLife_WallDisplay_
+  name: OnWallDisplayChanged
+  nameWithType: Wall.OnWallDisplayChanged
+  fullName: TinyLife.World.Wall.OnWallDisplayChanged
+- uid: TinyLife.WallDisplay
+  commentId: T:TinyLife.WallDisplay
+  parent: TinyLife
+  href: TinyLife.WallDisplay.html
+  name: WallDisplay
+  nameWithType: WallDisplay
+  fullName: TinyLife.WallDisplay
+- uid: TinyLife
+  commentId: N:TinyLife
+  href: TinyLife.html
+  name: TinyLife
+  nameWithType: TinyLife
+  fullName: TinyLife
+- uid: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  commentId: M:TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+  parent: TinyLife.World.WallLike
+  isExternal: true
+  href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnLotVisibilityChanged_TinyLife_World_Lot_System_Boolean_
+  name: OnLotVisibilityChanged(Lot, bool)
+  nameWithType: WallLike.OnLotVisibilityChanged(Lot, bool)
+  fullName: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot, bool)
+  nameWithType.vb: WallLike.OnLotVisibilityChanged(Lot, Boolean)
+  fullName.vb: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot, Boolean)
+  name.vb: OnLotVisibilityChanged(Lot, Boolean)
+  spec.csharp:
+  - uid: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+    name: OnLotVisibilityChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnLotVisibilityChanged_TinyLife_World_Lot_System_Boolean_
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+    href: TinyLife.World.Lot.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+  spec.vb:
+  - uid: TinyLife.World.WallLike.OnLotVisibilityChanged(TinyLife.World.Lot,System.Boolean)
+    name: OnLotVisibilityChanged
+    href: TinyLife.World.WallLike.html#TinyLife_World_WallLike_OnLotVisibilityChanged_TinyLife_World_Lot_System_Boolean_
+  - name: (
+  - uid: TinyLife.World.Lot
+    name: Lot
+    href: TinyLife.World.Lot.html
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: )
+- uid: TinyLife.World.Wall.OnLotVisibilityChanged*
+  commentId: Overload:TinyLife.World.Wall.OnLotVisibilityChanged
+  href: TinyLife.World.Wall.html#TinyLife_World_Wall_OnLotVisibilityChanged_TinyLife_World_Lot_System_Boolean_
+  name: OnLotVisibilityChanged
+  nameWithType: Wall.OnLotVisibilityChanged
+  fullName: TinyLife.World.Wall.OnLotVisibilityChanged
+- uid: TinyLife.World.Lot
+  commentId: T:TinyLife.World.Lot
+  parent: TinyLife.World
+  href: TinyLife.World.Lot.html
+  name: Lot
+  nameWithType: Lot
+  fullName: TinyLife.World.Lot
