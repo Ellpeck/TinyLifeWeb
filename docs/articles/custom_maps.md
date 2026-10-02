@@ -32,7 +32,7 @@ To export your custom map, simply execute the `ExportCustomMap` cheat. This will
 To complete your map's export, there are some additional files that are required to make the map work in-game. Let's imagine your map export is `MyMapName.json`, which means the additional files should be named as follows:
 - `MyMapName.txt` contains the description of your map which will be displayed when creating a new save file in the game.
 - `MyMapName.png` contains a screenshot of a prominent part of your map (or any other image) which will be displayed when creating a new save file. The game expects this file to have 4:1 aspect ratio, with the default maps' size being 512x128 pixels.
-- Optionally `MyMapNameSteamThumbnail.png`, which will be used as the preview image displayed in the Steam Workshop if you decide to share your map there. The restrictions for this seem somewhat arbitrary, but it's best to keep the file size under 1 MB and the image size around 256x256 pixels.
+- Optionally `MyMapNameSteamThumbnail.png`, which will be used as the preview image displayed in the Steam Workshop if you decide to share your map there. The restrictions for this seem somewhat arbitrary, but it's best to keep the file size under 1 MB and the image size around 384x384 pixels.
 
 Optionally, you can put the three (or four) files into a `zip` archive called `MyMapName.zip` to share, which is required to share your map with the community. The archive can then be put into the game's `Custom Maps` folder as-is, and the map will be available to select in-game.
 
