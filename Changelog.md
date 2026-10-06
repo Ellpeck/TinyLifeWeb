@@ -1,3 +1,19 @@
+# 0.50.8
+*October 6, 2026*
+
+Additions
+- Added a big fountain
+- Added the ability to specify in the options how many autosave backups of a save game are kept. Previously, only one backup was kept, now the default amount is 3. Please keep in mind that keeping more backups means more disk space used per save game.
+
+Improvements
+- Improved the emotions Tinies get when someone dies for various relationship statuses
+- Increase the size of the generated Steam thumbnails for the new workshop design
+
+Fixes
+- Fixed an exception when moving the cursor out of bounds in various build tools
+- Fixed tile visibility on higher floors not updating correctly when loading into a lot
+- Fixed main menu notifications leaking into the history of the next loaded save
+
 # 0.50.7
 *September 23, 2026*
 
