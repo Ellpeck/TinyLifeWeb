@@ -5,3 +5,13 @@
 **[Leave a Review](https://link.tinylifegame.com/news-review)**
 
 Thanks! ❤️
+
+---
+
+![](media/news/Support.png)
+
+Got money to spare? 💰🪙
+
+You can support Tiny Life's development on **Patreon** or **Ko-fi** and get special rewards, including **exclusive sneak peeks** and **playable preview versions** for upcoming features!
+
+Visit the [Patreon](https://link.tinylifegame.com/news-patreon) or [Ko-fi](https://link.tinylifegame.com/news-kofi) pages for more info. Thanks so much! ❤️
