@@ -66,6 +66,8 @@ Unfortunately, we don't know when Tiny Life will be ready to leave Early Access 
 # 📱 Will Tiny Life release for mobile devices like Android or iOS?
 Unfortunately, there are no plans for Tiny Life to release to mobile platforms like Android and iOS. In our opinion, Tiny Life's gameplay and control scheme don't lend themselves well to small screens and touch controls. Additionally, the mobile games market is very different from the desktop and console market, and we're generally opposed to filling our games with advertisements or microtransactions. While not making the game free on mobile is an alternative, it has proven itself unsustainable for many games, as mobile players don't tend to expect having to purchase a game.
 
+For slightly more tech-savvy players, Tiny Life is fully compatible with [GameNative](https://gamenative.app/), allowing it to be run on most Android devices. As Tiny Life isn't optimized for touch input, we recommend using a controller or an Android device with a controller built-in, such as the [AYN Thor](https://www.ayntec.com/products/ayn-thor). We don't offer first-class support for issues encountered when playing Tiny Life through GameNative, but if you're struggling, please still feel free to let us know on [the Discord server](https://link.tinylifegame.com/discordweb).
+
 # 🧠 Does Tiny Life use any AI-generated content?
 Tiny Life does not contain any content created with generative artificial intelligence (GenAI) or large language models (LLMs). 
 
