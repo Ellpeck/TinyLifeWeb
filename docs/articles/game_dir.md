@@ -1,4 +1,4 @@
-﻿# Tiny Life's Data Folder
+# Tiny Life's Data Folder
 Tiny Life's data folder contains several useful folders and files:
 - `Custom Lots`, `Custom Households`, `Custom Maps`, and `Mods` are the folders that you can put [custom content](getting.md), including [custom maps](custom_maps.md), into.
 - `Logs` is the folder where the game's log files are stored. When you experience an issue like a crash, the information about it is stored in the most recently modified log file. If you restart the game, a new log file is created, so the one that contains the information about the issue becomes the second most recently modified file, and so on.

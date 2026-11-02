@@ -1,4 +1,4 @@
-﻿This is a list of commonly faced problems when downloading, installing and playing the game. Please read this list carefully before reporting an issue. 
+This is a list of commonly faced problems when downloading, installing and playing the game. Please read this list carefully before reporting an issue. 
 
 If you're struggling with solving any of these issues yourself, feel free to ask for help in [the Discord server](https://link.tinylifegame.com/discordweb).
 

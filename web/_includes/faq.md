@@ -1,4 +1,4 @@
-﻿This page is dedicated to answering frequently asked questions about Tiny Life. This list will likely grow in the future as more players ask more questions, so don't hesitate to ask through [the feedback form](https://tinylifegame.com/feedback) or on [the Discord server](https://link.tinylifegame.com/discordweb)!
+This page is dedicated to answering frequently asked questions about Tiny Life. This list will likely grow in the future as more players ask more questions, so don't hesitate to ask through [the feedback form](https://tinylifegame.com/feedback) or on [the Discord server](https://link.tinylifegame.com/discordweb)!
 
 # 💥 What should I do if I'm experiencing an issue with the game?
 If you're having an issue with the game, like it crashing or being unable to start up, we recommend you check out the [common issues page](/common_issues) right here on the website! It lists a lot of issues commonly faced by players, as well as details (near the bottom of the page) how to report issues that you can't find solutions to.

@@ -1,4 +1,4 @@
-﻿---
+---
 title: "[APRIL FOOLS] Finally Addressing Tiny Life's Gender Issue"
 tags: [Devlogs]
 image: "TinyLife_NsrTHY4IRZ.png"

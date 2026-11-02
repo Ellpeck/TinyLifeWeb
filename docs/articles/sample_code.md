@@ -1,4 +1,4 @@
-﻿# Sample Code for Modders
+# Sample Code for Modders
 This page collects various sample code snippets intended to help modders get started with more complex pieces of code like furniture that produces light, social actions, and more.
 
 If you'd like for more examples of specific content pieces to be added to this list, don't hesitate to [ask on the Discord](https://link.tinylifegame.com/discordweb) or [open an issue](https://github.com/Ellpeck/TinyLifeWeb/issues) about it.

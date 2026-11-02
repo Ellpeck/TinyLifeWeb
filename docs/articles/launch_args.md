@@ -1,4 +1,4 @@
-﻿# Launch Arguments
+# Launch Arguments
 For some more advanced debugging, the game allows specifying one or more launch options (or **commandline arguments**) when running. These are similar to [cheats](cheats.md), except that they have to be specified before the game runs, and usually alter some type of core component of the game's behavior.
 
 If you're playing Tiny Life on Steam, you can specify launch arguments [in the Properties panel](https://help.steampowered.com/en/faqs/view/7D01-D2DD-D75E-2955). If you're using the [modding template](mod_basics.md), the build script starts you out with a set of [pre-set launch options](https://github.com/Ellpeck/TinyLifeExampleMod/blob/main/build.cake#L46) that make debugging your mods quicker and easier.

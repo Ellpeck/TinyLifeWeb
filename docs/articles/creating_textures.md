@@ -1,4 +1,4 @@
-﻿# Creating Textures
+# Creating Textures
 When creating textures, either for custom mods or to change the game's default textures, there are several things that you will have to look out for. This article provides some guidelines and explanations. Note that this article is not exhaustive, so don't hesitate to [let us know](https://link.tinylifegame.com/discordweb) if there's anything you're confused by. For more info, you can also check out the [community resources section on asset creation](community_resources.md#asset-creation).
 
 ## Composition and Colors
