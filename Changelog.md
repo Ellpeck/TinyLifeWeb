@@ -1,3 +1,37 @@
+# 0.50.9
+*November 19, 2026*
+
+This update includes some additional rendering performance improvements as well as better caching for a variety of things. If you notice any new issues with rendering or caching, please report them to the [feedback form](https://tinylifegame.com/bugreport)!
+
+Additions
+- Added three new decorative outdoor plants: bakset fern, holly bush, and rhododendron bush
+- Added a sentimental toy to the toy box
+
+Improvements
+- The game now defaults to borderless window instead of fullscreen when playing for the first time
+- A variety of additional object types now render to the static batch to improve rendering performance
+- For lots bordering each other directly in custom maps, neighboring lots are now drawn with their walls down to avoid visual obstructions
+- Improve object selection performance by reducing the size of the captured area
+- Room roofedness is now calculated as a percentage, resulting in a room getting progressively darker the more covered tiles it has
+- Improved rendering performance of thick lot outlines when zoomed out
+
+Fixes
+- Fixed static outdoor objects not updating their rendering state when lot visibility changes
+- Fixed fence poles clipping into nearby objects
+- Fixed the treadmill's shadow clipping through walls
+- Fixed lots not properly resetting their visibility state when unloaded
+- Fixed window blockers not being drawn for unroofed rooms when zoomed out
+- Fixed an oversight that caused the occupied status of objects on other maps to be ignored when pathfinding there
+- Fixed babies using the standing animation when putting something down on the ground
+- Fixed the removal of invalid objects sometimes being able to cause a crash
+- Fixed ordering in the emotion tab not updating when the main emotion changes as a result of a modifier running out
+
+API
+- Overhauled ground tile placeability checks for furniture to allow more complex combinations
+- Added static batching events
+- Overhaul some visibility method names to make clear what differentiates them
+- The undo/redo stack is now cleared when moving or resizing the map
+
 # 0.50.8
 *October 6, 2026*
 

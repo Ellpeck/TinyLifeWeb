@@ -48,12 +48,14 @@ items:
   - TinyLife.Objects.MapObject.OnRemoved
   - TinyLife.Objects.MapObject.OnUpdate
   - TinyLife.Objects.MapObject.OnValidated
+  - TinyLife.Objects.MapObject.OnValidatedEarly
   - TinyLife.Objects.MapObject.ParentInfo
   - TinyLife.Objects.MapObject.Position
   - TinyLife.Objects.MapObject.ResetToStatic(System.Boolean,System.Boolean)
   - TinyLife.Objects.MapObject.SetMapAndValidate(TinyLife.World.Map,TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Objects.MapObject.SpawnerId
   - TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
+  - TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
   - TinyLife.Objects.MapObject.Visibility
   langs:
   - csharp
@@ -97,6 +99,8 @@ items:
   - System.Object.ReferenceEquals(System.Object,System.Object)
   - System.Object.ToString
   extensionMethods:
+  - System.Object.TinyLife.Utilities.Extensions.DrawIsoArea(MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  - System.Object.TinyLife.Utilities.Extensions.DrawIsoArea(MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
   - TinyLife.Objects.MapObject.TinyLife.Utilities.Extensions.JsonCopy``1
   attributes:
   - type: System.Runtime.Serialization.DataContractAttribute
@@ -146,10 +150,34 @@ items:
     This event is invoked in <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>, which is usually called after subclass validation.
   example: []
   syntax:
-    content: public static event Action<MapObject> OnValidated
+    content: public static event Action<MapObject, AppliedMigrations> OnValidated
     return:
-      type: System.Action{TinyLife.Objects.MapObject}
-    content.vb: Public Shared Event OnValidated As Action(Of MapObject)
+      type: System.Action{TinyLife.Objects.MapObject,TinyLife.Utilities.AppliedMigrations}
+    content.vb: Public Shared Event OnValidated As Action(Of MapObject, AppliedMigrations)
+- uid: TinyLife.Objects.MapObject.OnValidatedEarly
+  commentId: E:TinyLife.Objects.MapObject.OnValidatedEarly
+  id: OnValidatedEarly
+  parent: TinyLife.Objects.MapObject
+  langs:
+  - csharp
+  - vb
+  name: OnValidatedEarly
+  nameWithType: MapObject.OnValidatedEarly
+  fullName: TinyLife.Objects.MapObject.OnValidatedEarly
+  type: Event
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  summary: >-
+    An event that is invoked when a map object is validated early.
+
+    This event is invoked in <xref href="TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public static event Action<MapObject, AppliedMigrations> OnValidatedEarly
+    return:
+      type: System.Action{TinyLife.Objects.MapObject,TinyLife.Utilities.AppliedMigrations}
+    content.vb: Public Shared Event OnValidatedEarly As Action(Of MapObject, AppliedMigrations)
 - uid: TinyLife.Objects.MapObject.OnEventsAttachable
   commentId: E:TinyLife.Objects.MapObject.OnEventsAttachable
   id: OnEventsAttachable
@@ -548,7 +576,7 @@ items:
     parameters: []
     return:
       type: TinyLife.Objects.PersonLike
-    content.vb: Public ReadOnly Property HoldingPerson As PersonLike
+    content.vb: Public Property HoldingPerson As PersonLike
   overload: TinyLife.Objects.MapObject.HoldingPerson*
 - uid: TinyLife.Objects.MapObject.SpawnerId
   commentId: P:TinyLife.Objects.MapObject.SpawnerId
@@ -693,6 +721,32 @@ items:
       description: true if this object intersects with the given rectangle
     content.vb: Public Overridable Function Intersects(rectangle As RectangleF) As Boolean
   overload: TinyLife.Objects.MapObject.Intersects*
+- uid: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  id: ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  parent: TinyLife.Objects.MapObject
+  langs:
+  - csharp
+  - vb
+  name: ValidateEarly(AppliedMigrations)
+  nameWithType: MapObject.ValidateEarly(AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  type: Method
+  assemblies:
+  - TinyLife
+  namespace: TinyLife.Objects
+  summary: >-
+    This method is called right after this object is loaded from disk, before <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref> is called on this object and all others.
+
+    By default, this method invokes <xref href="TinyLife.Objects.MapObject.OnValidatedEarly" data-throw-if-not-resolved="false"></xref>.
+  example: []
+  syntax:
+    content: public virtual void ValidateEarly(AppliedMigrations appliedMigrations)
+    parameters:
+    - id: appliedMigrations
+      type: TinyLife.Utilities.AppliedMigrations
+    content.vb: Public Overridable Sub ValidateEarly(appliedMigrations As AppliedMigrations)
+  overload: TinyLife.Objects.MapObject.ValidateEarly*
 - uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   commentId: M:TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
   id: Validate(TinyLife.Utilities.AppliedMigrations)
@@ -1549,7 +1603,7 @@ items:
   - TinyLife
   namespace: TinyLife.Objects
   summary: >-
-    Shorthand method for setting this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> and then calling ValidateEarly and <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>.
+    Shorthand method for setting this object's <xref href="TinyLife.Objects.MapObject.Map" data-throw-if-not-resolved="false"></xref> and then calling <xref href="TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref> and <xref href="TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)" data-throw-if-not-resolved="false"></xref>.
 
     If an exception occurs while validating, the exception is caught and <a href="https://learn.microsoft.com/dotnet/csharp/language-reference/builtin-types/bool">false</a> is returned.
 
@@ -1757,26 +1811,21 @@ references:
   fullName: TinyLife.Objects.MapObject.Map
 - uid: TinyLife.Objects
   commentId: N:TinyLife.Objects
-  href: TinyLife.html
   name: TinyLife.Objects
   nameWithType: TinyLife.Objects
   fullName: TinyLife.Objects
   spec.csharp:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Objects
     name: Objects
-    href: TinyLife.Objects.html
   spec.vb:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Objects
     name: Objects
-    href: TinyLife.Objects.html
 - uid: System.Object
   commentId: T:System.Object
   parent: System
@@ -2124,6 +2173,278 @@ references:
     href: https://learn.microsoft.com/dotnet/api/system.object.tostring
   - name: (
   - name: )
+- uid: System.Object.TinyLife.Utilities.Extensions.DrawIsoArea(MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  parent: TinyLife.Utilities.Extensions
+  definition: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: DrawIsoArea(object, RectangleF, float, Color, bool, Func<Vector2, float, float>, float?, List<Item>)
+  nameWithType: Extensions.DrawIsoArea(object, RectangleF, float, Color, bool, Func<Vector2, float, float>, float?, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.Utilities.Extensions.DrawIsoArea(object, MLEM.Maths.RectangleF, float, Microsoft.Xna.Framework.Color, bool, System.Func<Microsoft.Xna.Framework.Vector2, float, float>, float?, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Extensions.DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Func(Of Vector2, Single, Single), Single?, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.Utilities.Extensions.DrawIsoArea(Object, MLEM.Maths.RectangleF, Single, Microsoft.Xna.Framework.Color, Boolean, System.Func(Of Microsoft.Xna.Framework.Vector2, Single, Single), Single?, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Func(Of Vector2, Single, Single), Single?, List(Of Item))
+  spec.csharp:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
+  - name: )
+- uid: System.Object.TinyLife.Utilities.Extensions.DrawIsoArea(MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  parent: TinyLife.Utilities.Extensions
+  definition: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: DrawIsoArea(object, RectangleF, float, Color, bool, float, List<Item>)
+  nameWithType: Extensions.DrawIsoArea(object, RectangleF, float, Color, bool, float, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.Utilities.Extensions.DrawIsoArea(object, MLEM.Maths.RectangleF, float, Microsoft.Xna.Framework.Color, bool, float, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Extensions.DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Single, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.Utilities.Extensions.DrawIsoArea(Object, MLEM.Maths.RectangleF, Single, Microsoft.Xna.Framework.Color, Boolean, Single, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Single, List(Of Item))
+  spec.csharp:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
+  - name: )
 - uid: TinyLife.Objects.MapObject.TinyLife.Utilities.Extensions.JsonCopy``1
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   parent: TinyLife.Utilities.Extensions
@@ -2275,6 +2596,283 @@ references:
   - name: " "
   - name: T
   - name: )
+- uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  isExternal: true
+  href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: DrawIsoArea(object, RectangleF, float, Color, bool, Func<Vector2, float, float>, float?, List<Item>)
+  nameWithType: Extensions.DrawIsoArea(object, RectangleF, float, Color, bool, Func<Vector2, float, float>, float?, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.Utilities.Extensions.DrawIsoArea(object, MLEM.Maths.RectangleF, float, Microsoft.Xna.Framework.Color, bool, System.Func<Microsoft.Xna.Framework.Vector2, float, float>, float?, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Extensions.DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Func(Of Vector2, Single, Single), Single?, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.Utilities.Extensions.DrawIsoArea(Object, MLEM.Maths.RectangleF, Single, Microsoft.Xna.Framework.Color, Boolean, System.Func(Of Microsoft.Xna.Framework.Vector2, Single, Single), Single?, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Func(Of Vector2, Single, Single), Single?, List(Of Item))
+  spec.csharp:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: <
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '>'
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Func{Microsoft.Xna.Framework.Vector2,System.Single,System.Single},System.Nullable{System.Single},System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Func_Microsoft_Xna_Framework_Vector2_System_Single_System_Single__System_Nullable_System_Single__System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Func`3
+    name: Func
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.func-3
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Vector2
+    name: Vector2
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: )
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: '?'
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
+  - name: )
+- uid: TinyLife.Utilities.Extensions
+  commentId: T:TinyLife.Utilities.Extensions
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.Extensions.html
+  name: Extensions
+  nameWithType: Extensions
+  fullName: TinyLife.Utilities.Extensions
+- uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  commentId: M:TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+  isExternal: true
+  href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  name: DrawIsoArea(object, RectangleF, float, Color, bool, float, List<Item>)
+  nameWithType: Extensions.DrawIsoArea(object, RectangleF, float, Color, bool, float, List<StaticSpriteBatch.Item>)
+  fullName: TinyLife.Utilities.Extensions.DrawIsoArea(object, MLEM.Maths.RectangleF, float, Microsoft.Xna.Framework.Color, bool, float, System.Collections.Generic.List<MLEM.Graphics.StaticSpriteBatch.Item>)
+  nameWithType.vb: Extensions.DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Single, List(Of StaticSpriteBatch.Item))
+  fullName.vb: TinyLife.Utilities.Extensions.DrawIsoArea(Object, MLEM.Maths.RectangleF, Single, Microsoft.Xna.Framework.Color, Boolean, Single, System.Collections.Generic.List(Of MLEM.Graphics.StaticSpriteBatch.Item))
+  name.vb: DrawIsoArea(Object, RectangleF, Single, Color, Boolean, Single, List(Of Item))
+  spec.csharp:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: bool
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: float
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: <
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: '>'
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Utilities.Extensions.DrawIsoArea(System.Object,MLEM.Maths.RectangleF,System.Single,Microsoft.Xna.Framework.Color,System.Boolean,System.Single,System.Collections.Generic.List{MLEM.Graphics.StaticSpriteBatch.Item})
+    name: DrawIsoArea
+    href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_DrawIsoArea_System_Object_MLEM_Maths_RectangleF_System_Single_Microsoft_Xna_Framework_Color_System_Boolean_System_Single_System_Collections_Generic_List_MLEM_Graphics_StaticSpriteBatch_Item__
+  - name: (
+  - uid: System.Object
+    name: Object
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.object
+  - name: ','
+  - name: " "
+  - uid: MLEM.Maths.RectangleF
+    name: RectangleF
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: Microsoft.Xna.Framework.Color
+    name: Color
+    isExternal: true
+  - name: ','
+  - name: " "
+  - uid: System.Boolean
+    name: Boolean
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.boolean
+  - name: ','
+  - name: " "
+  - uid: System.Single
+    name: Single
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.single
+  - name: ','
+  - name: " "
+  - uid: System.Collections.Generic.List`1
+    name: List
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.collections.generic.list-1
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: MLEM.Graphics.StaticSpriteBatch.Item
+    name: Item
+    isExternal: true
+  - name: )
+  - name: )
 - uid: TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   commentId: M:TinyLife.Utilities.Extensions.JsonCopy``1(``0)
   href: TinyLife.Utilities.Extensions.html#TinyLife_Utilities_Extensions_JsonCopy__1___0_
@@ -2306,35 +2904,23 @@ references:
   - name: (
   - name: T
   - name: )
-- uid: TinyLife.Utilities.Extensions
-  commentId: T:TinyLife.Utilities.Extensions
-  parent: TinyLife.Utilities
-  href: TinyLife.Utilities.Extensions.html
-  name: Extensions
-  nameWithType: Extensions
-  fullName: TinyLife.Utilities.Extensions
 - uid: TinyLife.Utilities
   commentId: N:TinyLife.Utilities
-  href: TinyLife.html
   name: TinyLife.Utilities
   nameWithType: TinyLife.Utilities
   fullName: TinyLife.Utilities
   spec.csharp:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Utilities
     name: Utilities
-    href: TinyLife.Utilities.html
   spec.vb:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Utilities
     name: Utilities
-    href: TinyLife.Utilities.html
 - uid: System.Action{TinyLife.Objects.MapObject}
   commentId: T:System.Action{TinyLife.Objects.MapObject}
   parent: System
@@ -2416,6 +3002,108 @@ references:
   - uid: TinyLife.Objects.MapObject.Validate(TinyLife.Utilities.AppliedMigrations)
     name: Validate
     href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_Validate_TinyLife_Utilities_AppliedMigrations_
+  - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
+- uid: System.Action{TinyLife.Objects.MapObject,TinyLife.Utilities.AppliedMigrations}
+  commentId: T:System.Action{TinyLife.Objects.MapObject,TinyLife.Utilities.AppliedMigrations}
+  parent: System
+  definition: System.Action`2
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<MapObject, AppliedMigrations>
+  nameWithType: Action<MapObject, AppliedMigrations>
+  fullName: System.Action<TinyLife.Objects.MapObject, TinyLife.Utilities.AppliedMigrations>
+  nameWithType.vb: Action(Of MapObject, AppliedMigrations)
+  fullName.vb: System.Action(Of TinyLife.Objects.MapObject, TinyLife.Utilities.AppliedMigrations)
+  name.vb: Action(Of MapObject, AppliedMigrations)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - uid: TinyLife.Objects.MapObject
+    name: MapObject
+    href: TinyLife.Objects.MapObject.html
+  - name: ','
+  - name: " "
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
+- uid: System.Action`2
+  commentId: T:System.Action`2
+  isExternal: true
+  href: https://learn.microsoft.com/dotnet/api/system.action-2
+  name: Action<T1, T2>
+  nameWithType: Action<T1, T2>
+  fullName: System.Action<T1, T2>
+  nameWithType.vb: Action(Of T1, T2)
+  fullName.vb: System.Action(Of T1, T2)
+  name.vb: Action(Of T1, T2)
+  spec.csharp:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: <
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: '>'
+  spec.vb:
+  - uid: System.Action`2
+    name: Action
+    isExternal: true
+    href: https://learn.microsoft.com/dotnet/api/system.action-2
+  - name: (
+  - name: Of
+  - name: " "
+  - name: T1
+  - name: ','
+  - name: " "
+  - name: T2
+  - name: )
+- uid: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  commentId: M:TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly_TinyLife_Utilities_AppliedMigrations_
+  name: ValidateEarly(AppliedMigrations)
+  nameWithType: MapObject.ValidateEarly(AppliedMigrations)
+  fullName: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+  spec.csharp:
+  - uid: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+    name: ValidateEarly
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly_TinyLife_Utilities_AppliedMigrations_
+  - name: (
+  - uid: TinyLife.Utilities.AppliedMigrations
+    name: AppliedMigrations
+    href: TinyLife.Utilities.AppliedMigrations.html
+  - name: )
+  spec.vb:
+  - uid: TinyLife.Objects.MapObject.ValidateEarly(TinyLife.Utilities.AppliedMigrations)
+    name: ValidateEarly
+    href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly_TinyLife_Utilities_AppliedMigrations_
   - name: (
   - uid: TinyLife.Utilities.AppliedMigrations
     name: AppliedMigrations
@@ -2967,26 +3655,21 @@ references:
   fullName: TinyLife.World.Map
 - uid: TinyLife.World
   commentId: N:TinyLife.World
-  href: TinyLife.html
   name: TinyLife.World
   nameWithType: TinyLife.World
   fullName: TinyLife.World
   spec.csharp:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.World
     name: World
-    href: TinyLife.World.html
   spec.vb:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.World
     name: World
-    href: TinyLife.World.html
 - uid: TinyLife.World.Lot
   commentId: T:TinyLife.World.Lot
   parent: TinyLife.World
@@ -3444,6 +4127,7 @@ references:
   fullName: Microsoft.Xna.Framework.Graphics.SpriteBatch
 - uid: MLEM.Graphics.StaticSpriteBatch
   commentId: T:MLEM.Graphics.StaticSpriteBatch
+  parent: MLEM.Graphics
   isExternal: true
   name: StaticSpriteBatch
   nameWithType: StaticSpriteBatch
@@ -3555,6 +4239,28 @@ references:
     isExternal: true
   - name: .
   - uid: Microsoft.Xna.Framework.Graphics
+    name: Graphics
+    isExternal: true
+- uid: MLEM.Graphics
+  commentId: N:MLEM.Graphics
+  isExternal: true
+  name: MLEM.Graphics
+  nameWithType: MLEM.Graphics
+  fullName: MLEM.Graphics
+  spec.csharp:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Graphics
+    name: Graphics
+    isExternal: true
+  spec.vb:
+  - uid: MLEM
+    name: MLEM
+    isExternal: true
+  - name: .
+  - uid: MLEM.Graphics
     name: Graphics
     isExternal: true
 - uid: System.Nullable`1
@@ -3721,6 +4427,26 @@ references:
   - uid: MLEM.Maths
     name: Maths
     isExternal: true
+- uid: TinyLife.Objects.MapObject.OnValidatedEarly
+  commentId: E:TinyLife.Objects.MapObject.OnValidatedEarly
+  parent: TinyLife.Objects.MapObject
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_OnValidatedEarly
+  name: OnValidatedEarly
+  nameWithType: MapObject.OnValidatedEarly
+  fullName: TinyLife.Objects.MapObject.OnValidatedEarly
+- uid: TinyLife.Objects.MapObject.ValidateEarly*
+  commentId: Overload:TinyLife.Objects.MapObject.ValidateEarly
+  href: TinyLife.Objects.MapObject.html#TinyLife_Objects_MapObject_ValidateEarly_TinyLife_Utilities_AppliedMigrations_
+  name: ValidateEarly
+  nameWithType: MapObject.ValidateEarly
+  fullName: TinyLife.Objects.MapObject.ValidateEarly
+- uid: TinyLife.Utilities.AppliedMigrations
+  commentId: T:TinyLife.Utilities.AppliedMigrations
+  parent: TinyLife.Utilities
+  href: TinyLife.Utilities.AppliedMigrations.html
+  name: AppliedMigrations
+  nameWithType: AppliedMigrations
+  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Objects.MapObject.OnValidated
   commentId: E:TinyLife.Objects.MapObject.OnValidated
   parent: TinyLife.Objects.MapObject
@@ -3734,13 +4460,6 @@ references:
   name: Validate
   nameWithType: MapObject.Validate
   fullName: TinyLife.Objects.MapObject.Validate
-- uid: TinyLife.Utilities.AppliedMigrations
-  commentId: T:TinyLife.Utilities.AppliedMigrations
-  parent: TinyLife.Utilities
-  href: TinyLife.Utilities.AppliedMigrations.html
-  name: AppliedMigrations
-  nameWithType: AppliedMigrations
-  fullName: TinyLife.Utilities.AppliedMigrations
 - uid: TinyLife.Objects.ObjectCategory
   commentId: T:TinyLife.Objects.ObjectCategory
   parent: TinyLife.Objects
@@ -3873,7 +4592,6 @@ references:
   - name: )
 - uid: TinyLife
   commentId: N:TinyLife
-  href: TinyLife.html
   name: TinyLife
   nameWithType: TinyLife
   fullName: TinyLife
@@ -3999,26 +4717,21 @@ references:
   fullName: TinyLife.Objects.IBreakableObject
 - uid: TinyLife.Actions
   commentId: N:TinyLife.Actions
-  href: TinyLife.html
   name: TinyLife.Actions
   nameWithType: TinyLife.Actions
   fullName: TinyLife.Actions
   spec.csharp:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Actions
     name: Actions
-    href: TinyLife.Actions.html
   spec.vb:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Actions
     name: Actions
-    href: TinyLife.Actions.html
 - uid: System.Action
   commentId: T:System.Action
   parent: System
@@ -4418,26 +5131,21 @@ references:
   fullName: TinyLife.Skills.SkillType
 - uid: TinyLife.Skills
   commentId: N:TinyLife.Skills
-  href: TinyLife.html
   name: TinyLife.Skills
   nameWithType: TinyLife.Skills
   fullName: TinyLife.Skills
   spec.csharp:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Skills
     name: Skills
-    href: TinyLife.Skills.html
   spec.vb:
   - uid: TinyLife
     name: TinyLife
-    href: TinyLife.html
   - name: .
   - uid: TinyLife.Skills
     name: Skills
-    href: TinyLife.Skills.html
 - uid: System.Random
   commentId: T:System.Random
   parent: System
